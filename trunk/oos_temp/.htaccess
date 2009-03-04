@@ -1,0 +1,22 @@
+# $Id: .htaccess,v 1.1 2006/09/07 15:47:20 r23 Exp $
+
+<Files *.html.php>
+    deny from all
+</Files>
+
+<Files *.html>
+    deny from all
+</Files>
+
+<Files *.tpl>
+    deny from all
+</Files>
+
+<Files *.log>
+    deny from all
+</Files>
+
+
+<Files *.cache>
+    deny from all
+</Files>
