@@ -1,0 +1,37 @@
+{if $myworld_block eq 'true'}
+<div class="block" id="block_myworld">
+	<h4>
+		{$block_heading_myworld}
+	</h4>
+	<div class="block_content">
+
+		<p>
+			<a href="{html_href_link modul=$modules.user file=$filename.customers_image connection=SSL}" title="{$lang.edit_yourimage}">{customers_image image=$myworld.customers_image}</a>
+		</p>
+		<p>
+			<a href="{html_href_link modul=$modules.user file=$filename.customers_image connection=SSL}" title="{$lang.edit_yourimage}">{$lang.edit_yourimage}</a>
+		</p>
+
+	{if (isset($smarty.session.customer_id)) }
+		<p>
+			{$lang.text_date_account_created} {$account_created}<br />
+			{$lang.entry_city} {$myworld.entry_city} / {$country_name}
+		</p>
+	{/if}
+
+		<ul>
+			<li><a href="{html_href_link modul=$modules.user file=$filename.yourstore connection=SSL}" title="{$lang.text_yourstore}">{$lang.text_yourstore}</a></li>
+			<li><a href="{html_href_link modul=$modules.user file=$filename.account connection=SSL}" title="{$lang.login_block_my_account}">{$lang.login_block_my_account}</a></li>
+			<li><a href="{html_href_link modul=$modules.user file=$filename.account_edit connection=SSL}" title="{$lang.login_block_account_edit}">{$lang.login_block_account_edit}</a></li>
+			<li><a href="{html_href_link modul=$modules.account file=$filename.account_history connection=SSL}" title="{$lang.login_block_account_history}">{$lang.login_block_account_history}</a></li>
+			<li><a href="{html_href_link modul=$modules.account file=$filename.account_order_history connection=SSL}" title="{$lang.login_block_order_history}">{$lang.login_block_order_history}</a></li>
+			<li><a href="{html_href_link modul=$modules.account file=$filename.account_address_book connection=SSL}" title="{$lang.login_block_address_book}">{$lang.login_block_address_book}</a></li>
+	{if $oEvent->installed_plugin('notify')}
+			<li><a href="{html_href_link modul=$modules.user file=$filename.product_notifications connection=SSL}" title="{$lang.login_block_product_notifications}">{$lang.login_block_product_notifications}</a></li>
+	{/if}
+			<li><a href="{html_href_link modul=$modules.user file=$filename.logoff}" title="{$lang.login_block_logoff}">{$lang.login_block_logoff}</a></li>
+		</ul>
+
+	</div>
+</div>
+{/if}

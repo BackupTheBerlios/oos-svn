@@ -1,0 +1,46 @@
+<!--  $Id: shopping_cart.html,v 1.1 2008/01/28 14:05:13 r23 Exp $ -->
+
+{$oosPageHeading}
+
+
+{if $cart_count_contents gt 0 }
+	<form name="cart_quantity" action="{html_href_link modul=$modules.main file=$filename.main_shopping_cart action=update_product}" method="post">
+		{$hidden_field}
+		<table border="0" width="100%" cellspacing="0" cellpadding="2">
+			{$shopping_cart_detail}
+		</table>
+
+		{if $smarty.session.error_cart_msg != ''}
+			<p class="important">{$smarty.session.error_cart_msg}</p>
+		{/if}
+
+		<p class="float_right"><strong>{$lang.sub_title_sub_total} {$oos_cart_total}</strong></p>
+
+
+		{if $any_out_of_stock eq 1 }
+			{if $smarty.const.STOCK_ALLOW_CHECKOUT eq 'true'}
+				<p class="important">{$lang.out_of_stock_can_checkout}</p>
+			{else}
+				<p class="important">{$lang.out_of_stock_cant_checkout}</p>
+			{/if}
+		{/if}
+
+		<div id="break"></div>
+
+		{css_submit_button value=$lang.image_button_update_cart color="btn pink"}
+
+		{if isset($back_link) }
+			<a href="{$back_link}" title="{$lang.image_button_continue_shopping}" class="btnC lime">{$lang.image_button_continue_shopping}</a>
+		{/if}
+
+		{if $smarty.session.member->group.show_price eq 1 }{css_button modul=$modules.checkout file=$filename.checkout_shipping connection=SSL title=$lang.image_button_continue}{/if}
+	</form>
+
+{else}
+	<p class="note">{$lang.text_cart_empty}</p>
+
+	<div id="break"></div>
+
+	{css_button modul=$modules.main file=$filename.main title=$lang.image_button_continue}</a>
+{/if}
+

@@ -1,0 +1,23 @@
+{if $products_history_block eq 'true'}
+<div class="block" id="block_products_history">
+	<h4>
+		{$block_heading_products_history}
+	</h4>
+	<div class="block_content">
+
+	{foreach name=history item=products_history from=$customer_products_history}
+		{if $smarty.const.BLOCK_PRODUCTS_HISTORY_IMAGE eq 'true'}
+			<p>
+				{tooltip products_id=$products_history.products_id products_description=$products_history.products_description image=$products_history.products_image}{$products_history.products_name|truncate:11:"":true|close_tags}</a>
+			</p>
+		{else}
+			<p>
+				<a href="{product_info_link products_id=$products_history.products_id}">{$products_history.products_name|truncate:11:"":true|close_tags}</a>
+			</p>
+		{/if}
+			{if $smarty.session.member->group.show_price eq 1 }<a href="{html_href_link modul=$main_page file=$page_file oos_get=$get_params action=buy_now products_id=$products_history.products_id}">{html_image_button image="cart.gif" alt=$lang.icon_cart}</a>{/if}
+
+	{/foreach}
+	</div>
+</div>
+{/if}

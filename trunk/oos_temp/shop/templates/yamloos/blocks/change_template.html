@@ -1,0 +1,43 @@
+<div class="block" id="block_change_template">
+	<h4>
+		{$block_heading_change_template}
+	</h4>
+	<div class="block_content">
+
+<img src="themes/{$smarty.session.theme}/images/template_thumbnail.gif" name="preview" border="1" width="140" height="90" alt="{$smarty.session.theme}" />
+
+{literal}
+<script language='JavaScript1.2' type='text/javascript'>
+/*<![CDATA[*/
+  function showimage() {
+    document.images.preview.src = 'themes/' + getSelectedValue( 'templateform', 'template' ) + '/images/template_thumbnail.gif';
+  }
+  function getSelectedValue( frmName, srcListName ) {
+    var form = eval( 'document.' + frmName );
+    var srcList = eval( 'form.' + srcListName );
+    i = srcList.selectedIndex;
+    if (i != null && i > -1) {
+      return srcList.options[i].value;
+    } else {
+      return null;
+    }
+}
+-->
+/*]]>*/
+</script>
+{/literal}
+
+<form name="templateform" action="{html_get_link}" method="get">
+	<input type="hidden" name="mp" value="{$main_page}" />
+	<input type="hidden" name="file" value="{$page_file}" />
+	<input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}" />
+	<select name="template" onchange="showimage()">
+{html_options values=$skins selected=$smarty.session.theme output=$skins}
+	</select>
+	<input type="submit" id="template_submit_btn" value="GO" class="btn pink" />
+</form>
+
+	</div>
+</div>
+
+

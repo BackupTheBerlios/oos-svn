@@ -1,0 +1,26 @@
+{if $login_block eq 'true'}
+<div class="block" id="block_login">
+	<h4>
+		<a href="{html_href_link modul=$modules.user file=$filename.login connection=SSL}">{$block_login_heading}</a>
+	</h4>
+	<div class="block_content">
+
+<form name="login" method="post" action="{html_href_link modul=$modules.user file=$filename.login action=process connection=SSL}">
+	<p>{$lang.entry_email_address}
+	<input type="text" name="email_address" maxlength="96" size="20" value="" /></p>
+
+	<p>{$lang.entry_password}
+	<input type="password" name="password" maxlength="40" size="20" value="" /></p>
+
+{if $oEvent->installed_plugin('autologon')}
+	<p><input type="checkbox" name="remember_me" checked="checked" />&nbsp;{$lang.login_entry_remember_me}</p>
+{/if}
+	<p>{html_image_submit image="sign_in.gif" alt=$lang.image_button_login}</p>
+</form>
+		<ul>
+			<li><a href="{html_href_link modul=$modules.user file=$filename.create_account connection=SSL}" title="{$lang.login_block_new_customer}">{$lang.login_block_new_customer}</a></li>
+			<li><a href="{html_href_link modul=$modules.user file=$filename.password_forgotten connection=SSL}" title="{$lang.text_password_info}">{$lang.text_password_info}</a></li>
+		</ul>
+	</div>
+</div>
+{/if}

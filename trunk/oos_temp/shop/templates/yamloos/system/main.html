@@ -1,0 +1,20 @@
+<!--  $Id: main.html,v 1.1 2008/01/04 23:31:37 r23 Exp $ -->
+
+{$oosPageHeading}
+
+
+{if $customer_greeting}
+	<p>{$customer_greeting}</p>
+{/if}
+
+
+<p>
+	{$lang.text_main}
+</p>
+
+
+{if $new_news}{$new_news}{/if}
+{if $new_spezials}{$new_spezials}{/if}
+{if $featured}{$featured}{/if}
+{if $new_products}{$new_products}{/if}
+{if $upcoming_products}{$upcoming_products}{/if}
