@@ -1,0 +1,89 @@
+@charset "UTF-8";
+/**
+ * YAML-based Template for MyOOS
+ *
+ * (en) Vertical list navigation "vlist"
+ * (de) Vertikale Navigationsliste "vlist"
+ *
+ * @copyright       Copyright 2007, r23
+ *                  Based on YAML, Copyright 2005-2007, Dirk Jesse 
+ * @link            http://www.myoos.de
+ * @package         yaml for MyOOS
+ * $Revision: 1.2 $
+ * $Source: /cvsroot/oos/html/shop/themes/yamloos/css/navigation/nav_vlist.css,v $
+ *
+ *            OOS [OSIS Online Shop]
+ *            http://www.oos-shop.de/
+ *            Copyright (c) 2004 - 2007 by the OOS Development Team.
+ *
+ *** $Id: nav_vlist.css,v 1.2 2008/01/02 23:25:51 r23 Exp $ */
+
+@media all
+{
+  #submenu {
+    width: 100%;
+    overflow: hidden;
+    margin: 2.4em 0 1.5em 0;
+    list-style-type: none;
+    border-top: 2px #ddd solid;
+    border-bottom: 2px #ddd solid;
+  }
+
+  #submenu ul { list-style-type: none; margin:0; padding: 0; }
+  #submenu li { float:left; width: 100%; margin:0; padding: 0 }
+
+  #submenu a {
+    display:block;
+    width: 90%;
+    padding: 3px 0px 3px 10%;
+    text-decoration: none;
+    background-color:#fff;
+    color: #444;
+    border-bottom: 1px #eee solid;
+  }
+
+  /* Menu Title */
+  #submenu li#title {
+    width: 90%;
+    padding: 3px 0px 3px 10%;
+    font-weight: bold;
+    color: #444;
+    background-color: #fff;
+    border-bottom: 4px #888 solid;
+  }
+
+  /* 1. Level */
+  #submenu li#active #active_link {
+    font-weight: bold;
+    color: #fff;
+    background-color:#444;
+    border-bottom: 1px #eee solid;
+  }
+
+  #submenu li a { width: 90%; padding-left: 10%; background-color:#fff; color: #333; }
+  #submenu li a:focus,
+  #submenu li a:hover,
+  #submenu li a:active { background-color:#aa1124; color: #fff; text-decoration: none; }
+
+  /* 2. Level */
+  #submenu li ul li a { width: 80%; padding-left: 20%; }
+  #submenu li ul li a { background-color:#f8f8f8; color: #555; }
+  #submenu li ul li a:focus,
+  #submenu li ul li a:hover,
+  #submenu li ul li a:active { background-color:#aa1124; color: #fff; }
+
+  /* 3. Level */
+  #submenu li ul li ul li a { width: 70%; padding-left: 30%; }
+  #submenu li ul li ul li a { background-color:#fcfcfc; color: #777; }
+  #submenu li ul li ul li a:focus,
+  #submenu li ul li ul li a:hover,
+  #submenu li ul li ul li a:active { background-color:#aa1124; color: #fff; }
+
+  /* 4. Level */
+  #submenu li ul li ul li ul li a { width: 60%; padding-left: 40%; }
+  #submenu li ul li ul li ul li a { background-color:#ffffff; color: #999; }
+  #submenu li ul li ul li ul li a:focus,
+  #submenu li ul li ul li ul li a:hover,
+  #submenu li ul li ul li ul li a:active { background-color:#aa1124; color: #fff; }
+
+}

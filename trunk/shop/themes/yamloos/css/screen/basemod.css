@@ -1,0 +1,73 @@
+@charset "UTF-8";
+/**
+ * YAML-based Template for MyOOS
+ *
+ * (en) central stylesheet
+ * (de) zentrales Stylesheets
+ *
+ * @copyright       Copyright 2007, r23
+ *                  Based on YAML, Copyright 2005-2007, Dirk Jesse 
+ * @link            http://www.myoos.de
+ * @package         yaml for MyOOS
+ * $Revision: 1.2 $
+ * $Source: /cvsroot/oos/html/shop/themes/yamloos/css/screen/basemod.css,v $
+ *
+ *            OOS [OSIS Online Shop]
+ *            http://www.oos-shop.de/
+ *            Copyright (c) 2004 - 2007 by the OOS Development Team.
+ *
+ *** $Id: basemod.css,v 1.2 2007/12/28 16:07:02 r23 Exp $ */
+
+@media all
+{
+ /*------------------------------------------------------------------------------------------------------*/
+
+ /**
+  * Design of the Basic Layout | Gestaltung des YAML Basis-Layouts
+  *
+  * @section layout-basics
+  */
+
+  /* Page margins and background | Randbereiche & Seitenhintergrund */
+  body {  }
+
+  /* Layout: Width, Background, Border | Layout: Breite, Hintergrund, Rahmen */
+  #page_margins {  }
+  #page{  }
+
+  /* Design of the Main Layout Elements | Gestaltung der Hauptelemente des Layouts */
+  #header {  }
+  #topnav {  }
+
+  #main {  }
+
+  #footer {  }
+
+ /*------------------------------------------------------------------------------------------------------*/
+
+ /**
+  * Formatting of the Content Area | Formatierung der Inhaltsbereichs
+  *
+  * @section layout-main
+  */
+
+  #col1 {  }
+  #col1_content {  }
+
+  #col2 {  }
+  #col2_content {  }
+
+  #col3 {  }
+  #col3_content {  }
+
+
+ /*------------------------------------------------------------------------------------------------------*/
+
+ /**
+  * Design of Additional Layout Elements | Gestaltung weiterer Layoutelemente
+  *
+  * @section layout-misc
+  */
+
+
+}
