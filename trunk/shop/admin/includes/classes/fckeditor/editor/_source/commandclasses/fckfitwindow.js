@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2007 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2009 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -37,6 +37,21 @@ FCKFitWindow.prototype.Execute = function()
 	var eBodyStyle			= eBody.style ;
 	var eParent ;
 
+	// Save the current selection and scroll position.
+	var oRange, oEditorScrollPos ;
+	if ( FCK.EditMode == FCK_EDITMODE_WYSIWYG )
+	{
+		oRange = new FCKDomRange( FCK.EditorWindow ) ;
+		oRange.MoveToSelection() ;
+		oEditorScrollPos = FCKTools.GetScrollPosition( FCK.EditorWindow ) ;
+	}
+	else
+	{
+		var eTextarea = FCK.EditingArea.Textarea ;
+		oRange = !FCKBrowserInfo.IsIE && [ eTextarea.selectionStart, eTextarea.selectionEnd ] ;
+		oEditorScrollPos = [ eTextarea.scrollLeft, eTextarea.scrollTop ] ;
+	}
+
 	// No original style properties known? Go fullscreen.
 	if ( !this.IsMaximized )
 	{
@@ -55,7 +70,10 @@ FCKFitWindow.prototype.Execute = function()
 		while( (eParent = eParent.parentNode) )
 		{
 			if ( eParent.nodeType == 1 )
+			{
 				eParent._fckSavedStyles = FCKTools.SaveStyles( eParent ) ;
+				eParent.style.zIndex = FCKConfig.FloatingPanelsZIndex - 1 ;
+			}
 		}
 
 		// Hide IE scrollbars (in strict mode).
@@ -80,6 +98,7 @@ FCKFitWindow.prototype.Execute = function()
 		var oViewPaneSize = FCKTools.GetViewPaneSize( eMainWindow ) ;
 
 		eEditorFrameStyle.position	= "absolute";
+		eEditorFrame.offsetLeft ;		// Kludge for Safari 3.1 browser bug, do not remove. See #2066.
 		eEditorFrameStyle.zIndex	= FCKConfig.FloatingPanelsZIndex - 1;
 		eEditorFrameStyle.left		= "0px";
 		eEditorFrameStyle.top		= "0px";
@@ -101,6 +120,13 @@ FCKFitWindow.prototype.Execute = function()
 
 		// Scroll to top left.
 		eMainWindow.scrollTo(0, 0);
+
+		// Is the editor still not on the top left? Let's find out and fix that as well. (Bug #174)
+		var editorPos = FCKTools.GetWindowPosition( eMainWindow, eEditorFrame ) ;
+		if ( editorPos.x != 0 )
+			eEditorFrameStyle.left = ( -1 * editorPos.x ) + "px" ;
+		if ( editorPos.y != 0 )
+			eEditorFrameStyle.top = ( -1 * editorPos.y ) + "px" ;
 
 		this.IsMaximized = true ;
 	}
@@ -145,9 +171,27 @@ FCKFitWindow.prototype.Execute = function()
 	//lost, so we must reset it. Also, the cursor position and selection are
 	//also lost, even if you comment the following line (MakeEditable).
 	// if ( FCKBrowserInfo.IsGecko10 )	// Initially I thought it was a FF 1.0 only problem.
-	FCK.EditingArea.MakeEditable() ;
+	if ( FCK.EditMode == FCK_EDITMODE_WYSIWYG )
+		FCK.EditingArea.MakeEditable() ;
 
 	FCK.Focus() ;
+
+	// Restore the selection and scroll position of inside the document.
+	if ( FCK.EditMode == FCK_EDITMODE_WYSIWYG )
+	{
+		oRange.Select() ;
+		FCK.EditorWindow.scrollTo( oEditorScrollPos.X, oEditorScrollPos.Y ) ;
+	}
+	else
+	{
+		if ( !FCKBrowserInfo.IsIE )
+		{
+			eTextarea.selectionStart = oRange[0] ;
+			eTextarea.selectionEnd = oRange[1] ;
+		}
+		eTextarea.scrollLeft = oEditorScrollPos[0] ;
+		eTextarea.scrollTop = oEditorScrollPos[1] ;
+	}
 }
 
 FCKFitWindow.prototype.GetState = function()
