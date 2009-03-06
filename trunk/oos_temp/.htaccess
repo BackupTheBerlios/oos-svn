@@ -1,4 +1,4 @@
-# $Id: .htaccess,v 1.1 2006/09/07 15:47:20 r23 Exp $
+# $Id$
 
 <Files *.html.php>
     deny from all
