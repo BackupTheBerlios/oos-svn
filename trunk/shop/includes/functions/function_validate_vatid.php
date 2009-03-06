@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: function_validate_vatid.php,v 1.5 2007/04/27 08:26:54 r23 Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

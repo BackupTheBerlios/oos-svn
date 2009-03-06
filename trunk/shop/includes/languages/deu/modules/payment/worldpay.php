@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: worldpay.php,v 1.10 2006/05/07 15:21:18 r23 Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

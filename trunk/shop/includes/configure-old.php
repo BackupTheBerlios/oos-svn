@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: configure-old.php,v 1.5 2007/11/20 17:04:15 r23 Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

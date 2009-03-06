@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: server_info.php,v 1.5 2006/08/26 13:01:31 r23 Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

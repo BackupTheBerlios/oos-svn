@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: class_language.php,v 1.10 2008/08/05 20:19:54 r23 Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

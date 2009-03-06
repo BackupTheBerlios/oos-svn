@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: reviews_product.php,v 1.5 2006/05/18 13:48:24 alf_alive Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

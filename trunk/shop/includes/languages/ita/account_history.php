@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: account_history.php,v 1.3 2006/11/26 14:32:28 thesee Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

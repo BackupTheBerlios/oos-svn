@@ -1,7 +1,7 @@
 <?php
 
 /*
-$Id: class.nusoap_base.php,v 1.2 2009/01/11 13:55:11 r23 Exp $
+$Id$
 
 NuSOAP - Web Services Toolkit for PHP
 
@@ -79,7 +79,7 @@ $GLOBALS['_transient']['static']['nusoap_base']['globalDebugLevel'] = 9;
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 * @author   Scott Nichol <snichol@users.sourceforge.net>
-* @version  $Id: class.nusoap_base.php,v 1.2 2009/01/11 13:55:11 r23 Exp $
+* @version  $Id$
 * @access   public
 */
 class nusoap_base {

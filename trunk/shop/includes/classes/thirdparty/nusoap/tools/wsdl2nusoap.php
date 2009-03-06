@@ -1,6 +1,6 @@
 <?php
 /*
-$Id: wsdl2nusoap.php,v 1.1 2009/01/11 13:55:12 r23 Exp $
+$Id$
 
 This tool is part of NuSOAP - Web Services Toolkit for PHP
 

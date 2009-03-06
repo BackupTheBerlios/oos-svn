@@ -1,6 +1,6 @@
 <?php
 /*
- *	$Id: wsdlclient15.php,v 1.1 2009/01/11 13:55:54 r23 Exp $
+ *	$Id$
  *
  *	UTF-8 client sample that sends and receives data with characters UTF-8 encoded.
  *

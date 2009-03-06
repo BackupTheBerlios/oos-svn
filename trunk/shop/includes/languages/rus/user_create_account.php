@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: user_create_account.php,v 1.5 2006/04/07 01:33:02 alf_alive Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

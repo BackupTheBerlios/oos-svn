@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: search_advanced.php,v 1.5 2006/05/10 12:49:31 alf_alive Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

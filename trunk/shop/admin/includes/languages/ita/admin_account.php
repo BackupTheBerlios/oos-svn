@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: admin_account.php,v 1.4 2006/10/22 15:00:09 thesee Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

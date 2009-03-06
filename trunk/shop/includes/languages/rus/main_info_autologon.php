@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: main_info_autologon.php,v 1.5 2006/05/22 08:16:40 alf_alive Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

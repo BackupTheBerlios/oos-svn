@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: info_down_for_maintenance.php,v 1.6 2006/05/07 23:11:58 alf_alive Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

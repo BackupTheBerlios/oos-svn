@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: products.php,v 1.6 2007/06/19 10:29:03 thesee Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

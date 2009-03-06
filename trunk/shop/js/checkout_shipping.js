@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------
-// $Id: checkout_shipping.js,v 1.2 2005/04/29 02:14:09 r23 Exp $
+// $Id$
 //
 // OOS [OSIS Online Shop]
 // http://www.oos-shop.de/

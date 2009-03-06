@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: manual_loging.php,v 1.3 2007/06/19 10:29:03 thesee Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

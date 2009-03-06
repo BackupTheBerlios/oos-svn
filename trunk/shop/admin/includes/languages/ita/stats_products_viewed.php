@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: stats_products_viewed.php,v 1.4 2006/11/25 17:36:38 thesee Exp $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

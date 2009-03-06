@@ -61,4 +61,4 @@ Installing on Mac OS X requires moving the .ttf files to either
 /Library/Fonts/ or ~/Library/Fonts/ depending on whether they should be
 available to all users on your system or just to yourself.
 
-$Id: INSTALL,v 1.1 2009/02/05 14:57:41 r23 Exp $
+$Id$

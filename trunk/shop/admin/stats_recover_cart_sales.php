@@ -1,6 +1,6 @@
 <?php
 /*
-  $Id: stats_recover_cart_sales.php,v 1.17 2007/05/07 09:16:10 r23 Exp $
+  $Id$
   Recover Cart Sales Report v2.11
 
   Recover Cart Sales contribution: JM Ivler 11/20/03

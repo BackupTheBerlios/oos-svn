@@ -1,6 +1,6 @@
 <?php
 /*
- *	$Id: wsdlclient10.php,v 1.2 2009/01/11 13:55:11 r23 Exp $
+ *	$Id$
  *
  *	WSDL client sample.
  *	Demonstrates de-serialization of a document/literal array (added nusoap.php 1.73).

@@ -18,7 +18,7 @@
 // |          Thomas Schulz <ths@4bconsult.de>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: ArraySmarty.php,v 1.1 2007/01/24 19:15:42 r23 Exp $
+// $Id$
 
 require_once 'HTML/QuickForm/Renderer/Array.php';
 

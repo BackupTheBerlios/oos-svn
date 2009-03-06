@@ -1,6 +1,6 @@
 <?php
 /*
- $Id: recover_cart_sales.php,v 1.43 2007/05/08 16:18:59 r23 Exp $
+ $Id$
 
  Recover Cart Sales Tool v2.11
 

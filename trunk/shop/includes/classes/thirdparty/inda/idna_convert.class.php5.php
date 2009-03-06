@@ -51,7 +51,7 @@
  * @author  Markus Nix <mnix@docuverse.de>
  * @author  Matthias Sommerfeld <mso@phlylabs.de>
  * @package Net
- * @version $Id: idna_convert.class.php5.php,v 1.1 2006/05/17 16:47:06 r23 Exp $
+ * @version $Id$
  */
 
 class Net_IDNA_php5
