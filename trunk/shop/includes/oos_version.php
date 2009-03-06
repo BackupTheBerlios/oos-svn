@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -83,10 +83,7 @@
                              . OOS_VERSION_MICRO
                              . OOS_VERSION_PATCH);
 
- /**
-  * Complete software name string
-  */
-  define('OOS_FULL_NAME', OOS_NAME . ' ' . OOS_VERSION);
+
 
 
 ?>
