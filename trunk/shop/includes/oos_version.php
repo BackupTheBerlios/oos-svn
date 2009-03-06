@@ -88,9 +88,5 @@
   */
   define('OOS_FULL_NAME', OOS_NAME . ' ' . OOS_VERSION);
 
- /**
-  * The URL of the home of this software
-  */
-  define('OOS_HOME', 'http://www.oos-shop.de/');
 
 ?>
