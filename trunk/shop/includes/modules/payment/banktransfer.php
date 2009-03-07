@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -159,8 +159,10 @@
       	                                   ));
 
       if (MODULE_PAYMENT_BANKTRANSFER_FAX_CONFIRMATION =='true'){
+        $sLanguage = oos_var_prep_for_os($_SESSION['language']);
+        $sUrl = OOS_HTTP_SERVER . OOS_SHOP . OOS_MEDIA . $sLanguage . '/' .MODULE_PAYMENT_BANKTRANSFER_URL_NOTE;
         $selection['fields'][] = array('title' => $aLang['module_payment_banktransfer_text_note'],
-      	                               'field' => $aLang['module_payment_banktransfer_text_note2'] . '<a href="' . MODULE_PAYMENT_BANKTRANSFER_URL_NOTE . '" target="_blank"><b>' . $aLang['module_payment_banktransfer_text_note3'] . '</b></a>' . $aLang['module_payment_banktransfer_text_note4']);
+      	                               'field' => $aLang['module_payment_banktransfer_text_note2'] . '<a href="' . $sUrl . '" target="_blank"><b>' . $aLang['module_payment_banktransfer_text_note3'] . '</b></a>' . $aLang['module_payment_banktransfer_text_note4']);
       	$selection['fields'][] = array('title' => $aLang['module_payment_banktransfer_text_bank_fax'],
       	                               'field' => oos_draw_checkbox_field('banktransfer_fax', 'on'));
 
@@ -277,23 +279,23 @@
       $dbconn =& oosDBGetConn();
       $oostable =& oosDBGetTables();
 
-      $dbconn->Execute("INSERT INTO " . $oostable['banktransfer'] . " 
-                  (orders_id, 
-                   banktransfer_blz, 
-                   banktransfer_bankname, 
-                   banktransfer_number, 
-                   banktransfer_owner, 
-                   banktransfer_status, 
-                   banktransfer_prz) VALUES ('" . (int)$insert_id . "', 
-                                             '" . oos_db_input($banktransfer_blz) . "', 
-                                             '" . oos_db_input($banktransfer_bankname) . "', 
-                                             '" . oos_db_input($banktransfer_number) . "', 
-                                             '" . oos_db_input($banktransfer_owner) ."', 
-                                             '" . oos_db_input($banktransfer_status) ."', 
+      $dbconn->Execute("INSERT INTO " . $oostable['banktransfer'] . "
+                  (orders_id,
+                   banktransfer_blz,
+                   banktransfer_bankname,
+                   banktransfer_number,
+                   banktransfer_owner,
+                   banktransfer_status,
+                   banktransfer_prz) VALUES ('" . (int)$insert_id . "',
+                                             '" . oos_db_input($banktransfer_blz) . "',
+                                             '" . oos_db_input($banktransfer_bankname) . "',
+                                             '" . oos_db_input($banktransfer_number) . "',
+                                             '" . oos_db_input($banktransfer_owner) ."',
+                                             '" . oos_db_input($banktransfer_status) ."',
                                              '" . oos_db_input($banktransfer_prz) ."')");
       if ($_POST['banktransfer_fax'])
-        $dbconn->Execute("UPDATE " . $oostable['banktransfer'] . " 
-                      SET banktransfer_fax = '" . oos_db_input($banktransfer_fax) ."' 
+        $dbconn->Execute("UPDATE " . $oostable['banktransfer'] . "
+                      SET banktransfer_fax = '" . oos_db_input($banktransfer_fax) ."'
                       WHERE orders_id = '" . (int)$insert_id . "'");
     }
 
