@@ -2,7 +2,7 @@
 /*~ class.pop3.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
-|   Version: 2.2.1                                                          |
+|   Version: 2.3                                                            |
 |   Contact: via sourceforge.net support pages (also www.codeworxtech.com)  |
 |      Info: http://phpmailer.sourceforge.net                               |
 |   Support: http://sourceforge.net/projects/phpmailer/                     |
@@ -24,9 +24,13 @@
 | - Oursourcing (highly qualified programmers and graphic designers)        |
 '---------------------------------------------------------------------------'
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
+
 /**
  * POP Before SMTP Authentication Class
- * Version 2.1
+ * Version 2.3
  *
  * Author: Richard Davey (rich@corephp.co.uk)
  * Modifications: Andy Prevost
@@ -390,5 +394,4 @@ class POP3 {
 
   //  End of class
 }
-
 ?>

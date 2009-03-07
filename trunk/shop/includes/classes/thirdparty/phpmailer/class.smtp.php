@@ -2,7 +2,7 @@
 /*~ class.smtp.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
-|   Version: 2.2.1                                                          |
+|   Version: 2.3                                                            |
 |   Contact: via sourceforge.net support pages (also www.codeworxtech.com)  |
 |      Info: http://phpmailer.sourceforge.net                               |
 |   Support: http://sourceforge.net/projects/phpmailer/                     |
@@ -23,6 +23,9 @@
 | - Technology Consulting                                                   |
 | - Oursourcing (highly qualified programmers and graphic designers)        |
 '---------------------------------------------------------------------------'
+
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 /**
  * SMTP is rfc 821 compliant and implements all the rfc 821 SMTP
@@ -170,7 +173,7 @@ class SMTP {
       return false;
     }
 
-    fputs($this->smtp_conn,"STARTTLS" . $extra . $this->CRLF);
+    fputs($this->smtp_conn,"STARTTLS" . $this->CRLF);
 
     $rply = $this->get_lines();
     $code = substr($rply,0,3);
@@ -1108,6 +1111,5 @@ class SMTP {
   }
 
 }
-
 
 ?>
