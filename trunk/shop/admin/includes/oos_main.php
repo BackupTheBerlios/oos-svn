@@ -45,6 +45,12 @@
   require '../includes/configure.php';
   require 'includes/oos_define.php';
 
+ /**
+  * Complete software version string
+  */
+  define('OOS_VERSION', '2.1.-dev');
+
+
 // Used in the "Backup Manager" to compress backups
   define('LOCAL_EXE_GZIP', '/usr/bin/gzip');
   define('LOCAL_EXE_GUNZIP', '/usr/bin/gunzip');

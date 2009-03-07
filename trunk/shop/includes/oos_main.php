@@ -49,8 +49,6 @@ if (file_exists('includes/local/configure.php')) include('includes/local/configu
 require 'includes/configure.php';
 require 'includes/oos_define.php';
 
-// Version information
-require 'includes/oos_version.php';
 
 // Load server utilities
 require 'includes/functions/function_server.php';
@@ -121,7 +119,7 @@ require 'includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php';
 require 'includes/classes/thirdparty/adodb/adodb.inc.php';
 require 'includes/functions/function_db.php';
 
-// make a connection to the database... now 
+// make a connection to the database... now
 if (!oosDBInit()) {
     die('Unable to connect to database server!');
 }
@@ -146,7 +144,7 @@ while ($configuration = $configuration_result->fields) {
     $configuration_result->MoveNext();
 }
 
-//for debugging purposes 
+//for debugging purposes
 require 'includes/oos_debug.php';
 
 

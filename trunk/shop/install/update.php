@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: install.php,v 1.91 2002/02/05 11:09:04 jgm 
+   File: install.php,v 1.91 2002/02/05 11:09:04 jgm
    ----------------------------------------------------------------------
    POST-NUKE Content Management System
    Copyright (C) 2001 by the Post-Nuke Development Team.
@@ -40,13 +40,13 @@
 /**
  * PostNuke Install Script.
  *
- * This script will set the database up, and do the basic configurations of the script.  
- * Once this script has run, please delete this file from your root directory.  
+ * This script will set the database up, and do the basic configurations of the script.
+ * Once this script has run, please delete this file from your root directory.
  * There is a security risk if you keep this file around.
  *
  * This module of the PostNuke project was inspired by the myPHPNuke project.
  *
- * The PostNuke project is free software released under the GNU License.  
+ * The PostNuke project is free software released under the GNU License.
  * Please read the credits file for more information on who has made this project possible.
  */
 
@@ -58,15 +58,10 @@
   }
   define('OOS_VALID_MOD', 'yes');
 
-  if (file_exists($file='../includes/oos_version.php')) {
-    @include $file;
-  }
 
   require '../includes/configure.php';
 
-  if (OOS_VERSION_MINOR > 6) {
-    require '../includes/functions/function_global.php';
-  }
+  require '../includes/functions/function_global.php';
   require '../includes/functions/function_kernel.php';
 
   if (OOS_DB_TYPE == '') {
@@ -127,15 +122,15 @@
       print_oosFinish();
       break;
 
-    case "OOS 1.4.0":
-      oosDBInit($dbhost, $dbuname, $dbpass, $dbname, $dbtype);
-      oosDoUpgrade140($dbhost, $dbuname, $dbpass, $dbname, $prefix_table, $dbtype);
-      print_Next();
-    break;
-
     case "OOS 1.6.0":
       oosDBInit($dbhost, $dbuname, $dbpass, $dbname, $dbtype);
       oosDoUpgrade160($dbhost, $dbuname, $dbpass, $dbname, $prefix_table, $dbtype);
+      print_Next();
+    break;
+
+    case "OOS 1.8.0":
+      oosDBInit($dbhost, $dbuname, $dbpass, $dbname, $dbtype);
+      oosDoUpgrade180($dbhost, $dbuname, $dbpass, $dbname, $prefix_table, $dbtype);
       print_Next();
     break;
 
