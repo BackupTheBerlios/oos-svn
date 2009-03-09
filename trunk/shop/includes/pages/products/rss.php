@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -20,7 +20,7 @@
   /** ensure this file is being included by a parent file */
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (DISPLAY_NEWSFEED != 'true') { 
+  if (DISPLAY_NEWSFEED != 'true') {
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
   }
 
@@ -54,7 +54,7 @@
               '<description>' . htmlspecialchars($newsfeed_info['newsfeed_description']) .'</description>' . "\n";
 
     // logo
-    if (file_exists(OOS_IMAGES . $newsfeed_info['newsfeed_image'])) {
+    if (is_readable(OOS_IMAGES . $newsfeed_info['newsfeed_image'])) {
       $imageInfo = @GetImageSize(OOS_IMAGES . $newsfeed_info['newsfeed_image']);
       $schema .= '<image rdf:resource="' . OOS_HTTP_SERVER . OOS_SHOP . OOS_IMAGES . $newsfeed_info['newsfeed_image'] .'">' . "\n" .
                  '      <link>' . OOS_HTTP_SERVER . OOS_SHOP . '</link>' . "\n" .

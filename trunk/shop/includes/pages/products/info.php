@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -99,7 +99,7 @@
         if (oos_is_not_null($product_info['products_image'])){
           $sImage = $product_info['products_image'];
           $sDir = substr($sImage, 0, strrpos($sImage, '.'));
-          if ( file_exists(OOS_IMAGES . 'zoomify/' .  $sDir  . '/ImageProperties.xml') ) {
+          if ( is_readable(OOS_IMAGES . 'zoomify/' .  $sDir  . '/ImageProperties.xml') ) {
             $sImagePath = $sDir;
           }
         }
@@ -107,7 +107,7 @@
         if (!isset($sImagePath)) {
           $sName = $product_info['products_name'];
           $sDir = oos_strip_all($product_info['products_name']);
-          if ( file_exists(OOS_IMAGES . 'zoomify/' .  $sDir  . '/ImageProperties.xml') ) {
+          if ( is_readable(OOS_IMAGES . 'zoomify/' .  $sDir  . '/ImageProperties.xml') ) {
             $sImagePath = $sDir;
           }
         }
@@ -140,11 +140,11 @@
       $oos_meta_keywords = $product_info['products_keywords_meta'];
     }
 
-    $aOption['template_main'] = $sTheme . '/products/product_info.html';
+    $aOption['template_main'] =           $sTheme . '/products/product_info.html';
     $aOption['also_purchased_products'] = $sTheme . '/products/also_purchased_products.html';
-    $aOption['xsell_products'] = $sTheme . '/products/xsell_products.html';
-    $aOption['up_sell_products'] = $sTheme . '/products/up_sell_products.html';
-    $aOption['page_heading'] = $sTheme . '/products/product_heading.html';
+    $aOption['xsell_products'] =          $sTheme . '/products/xsell_products.html';
+    $aOption['up_sell_products'] =        $sTheme . '/products/up_sell_products.html';
+    $aOption['page_heading'] =            $sTheme . '/products/product_heading.html';
 
     if (SOCIAL_BOOKMARKS == 'true') {
       $aOption['social_bookmarks'] = 'default/products/social_bookmarks.html';

@@ -68,7 +68,7 @@
     if (isset($_GET['image']) && is_numeric($_GET['image'])) {
       switch ($_GET['image']) {
         case '0':
-          if (file_exists(OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_image'])) {
+          if (is_readable(OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_image'])) {
             $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_image'];
           } else {
             $picture = OOS_IMAGES . $products_info['products_image'];
@@ -76,7 +76,7 @@
           break;
 
         case '1':
-          if (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage1'])) {
+          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage1'])) {
             $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage1'];
           } else {
             $picture = OOS_IMAGES . $products_info['products_subimage1'];
@@ -84,7 +84,7 @@
           break;
 
         case '2':
-          if (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage2'])) {
+          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage2'])) {
             $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage2'];
           } else {
             $picture = OOS_IMAGES . $products_info['products_subimage2'];
@@ -92,7 +92,7 @@
           break;
 
         case '3':
-          if (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage3'])) {
+          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage3'])) {
             $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage3'];
           } else {
             $picture = OOS_IMAGES . $products_info['products_subimage3'];
@@ -100,7 +100,7 @@
           break;
 
         case '4':
-          if (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage4'])) {
+          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage4'])) {
             $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage4'];
           } else {
             $picture = OOS_IMAGES . $products_info['products_subimage4'];
@@ -108,7 +108,7 @@
           break;
 
         case '5':
-          if (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage5'])) {
+          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage5'])) {
             $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage5'];
           } else {
             $picture = OOS_IMAGES . $products_info['products_subimage5'];
@@ -116,7 +116,7 @@
           break;
 
         case '6':
-           if (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage6'])) {
+           if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage6'])) {
              $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage6'];
            } else {
              $picture = OOS_IMAGES . $products_info['products_subimage6'];

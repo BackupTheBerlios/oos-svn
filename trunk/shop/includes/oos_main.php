@@ -42,7 +42,9 @@ if (function_exists('ini_set')) {
 }
 
 // Set the local configuration parameters - mainly for developers
-if (file_exists('includes/local/configure.php')) include('includes/local/configure.php');
+if (is_readable('includes/local/configure.php')) {
+    include('includes/local/configure.php');
+}
 
 
 // require  server parameters

@@ -58,9 +58,9 @@ function smarty_function_tooltip($params, &$smarty)
     }
 
     if ((empty($image) || ($image == OOS_IMAGES)) && (IMAGE_REQUIRED == 'true')) {
-      if (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif')) {
+      if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif')) {
         $image = OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif';
-      } elseif (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture.gif')) {
+      } elseif (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture.gif')) {
         $image = OOS_IMAGES . 'no_picture.gif';
       } else {
         return  false;
@@ -69,7 +69,7 @@ function smarty_function_tooltip($params, &$smarty)
       $width = $image_size[0];
       $height = $image_size[1];
     } elseif ( (CONFIG_CALCULATE_IMAGE_SIZE == 'true') && (empty($width) || empty($height)) ) {
-      if (file_exists(OOS_ABSOLUTE_PATH . $image)) {
+      if (is_readable(OOS_ABSOLUTE_PATH . $image)) {
         $image_size = @getimagesize($image);
         if (empty($width) && oos_is_not_null($height)) {
           $ratio = $height / $image_size[1];
@@ -82,9 +82,9 @@ function smarty_function_tooltip($params, &$smarty)
           $height = $image_size[1];
         }
       } elseif (IMAGE_REQUIRED == 'true') {
-        if (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif')) {
+        if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif')) {
           $image = OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif';
-        } elseif (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture.gif')) {
+        } elseif (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture.gif')) {
           $image = OOS_IMAGES . 'no_picture.gif';
         } else {
           return false;
@@ -112,7 +112,6 @@ function smarty_function_tooltip($params, &$smarty)
 
     return '<a onmouseover="Tip(\'' . $image .' '. $products_description .'\', WIDTH, 200)" onmouseout="UnTip()" href="' . $link .'" target="_top">';
 
-    # return '<a onmouseover="this.T_WIDTH=200;this.T_SHADOWWIDTH=5;return escape(\'' . $image .' '. $products_description .'\')" href="' . $link .'" target="_top">';
 
 }
 

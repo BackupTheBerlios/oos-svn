@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -75,7 +75,7 @@
       if ($products[$i]['image'] != '') {
         $sProductImage = $products[$i]['image'];
       } else {
-        if (file_exists(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif')) {
+        if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif')) {
           $sProductImage = 'no_picture_' . $sLanguage . '.gif';
         } else {
           $sProductImage = 'no_picture.gif';
@@ -164,7 +164,7 @@
       $shopping_cart_detail .= '    <td align="center" valign="top" class="main">' . number_format($products[$i]['tax'], TAX_DECIMAL_PLACES) . '%</td>' . "\n";
     }
 
-    // Product price 
+    // Product price
     if ($sFile != $aFilename['account_history_info']) {
       $shopping_cart_detail .= '    <td align="right" valign="top" class="main"><b>' . $oCurrencies->display_price($products[$i]['price'], oos_get_tax_rate($products[$i]['tax_class_id']), $products[$i]['quantity']) . '</b>';
     } else {
