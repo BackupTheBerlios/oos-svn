@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -370,53 +370,6 @@ $aLang['gv_send_to_friend'] = 'Spedisci Buono Sconto';
 $aLang['voucher_redeemed'] = 'Sconto Riscattato';
 $aLang['cart_coupon'] = 'Coupon :';
 $aLang['cart_coupon_info'] = 'più informazioni';
-
-$aLang['block_affiliate_info'] = 'Affiliate Information';
-$aLang['block_affiliate_summary'] = 'Affiliate Summary';
-$aLang['block_affiliate_account'] = 'Edit Affiliate Account';
-$aLang['block_affiliate_clickrate'] = 'Clickthrough Report';
-$aLang['block_affiliate_payment'] = 'Payment Report';
-$aLang['block_affiliate_sales'] = 'Sales Report';
-$aLang['block_affiliate_banners'] = 'Affiliate Banners';
-$aLang['block_affiliate_contact'] = 'Contact Us';
-$aLang['block_affiliate_faq'] = 'Affiliate Program FAQ';
-$aLang['block_affiliate_login'] = 'Affiliate Log In';
-$aLang['block_affiliate_logout'] = 'Affiliate Log Out';
-
-$aLang['entry_affiliate_payment_details'] = 'Payable to:';
-$aLang['entry_affiliate_accept_agb'] = 'Check here to indicate that you have read and agree to the <a target="_new" href="' . oos_href_link($aModules['affiliate'], $aFilename['affiliate_terms'], '', 'SSL') . '">Associates Terms & Conditions</a>.';
-$aLang['entry_affiliate_agb_error'] = '&nbsp;<small><font color="#FF0000">You must accept our Associates Terms & Conditions</font></small>';
-$aLang['entry_affiliate_payment_check'] = 'Check Payee Name:';
-$aLang['entry_affiliate_payment_check_text'] = '';
-$aLang['entry_affiliate_payment_check_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_paypal'] = 'PayPal Account Email:';
-$aLang['entry_affiliate_payment_paypal_text'] = '';
-$aLang['entry_affiliate_payment_paypal_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_name'] = 'Bank Name:';
-$aLang['entry_affiliate_payment_bank_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_name_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_account_name'] = 'Account Name:';
-$aLang['entry_affiliate_payment_bank_account_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_name_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_account_number'] = 'Account Number:';
-$aLang['entry_affiliate_payment_bank_account_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_number_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_branch_number'] = 'ABA/BSB number (branch number):';
-$aLang['entry_affiliate_payment_bank_branch_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_branch_number_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_swift_code'] = 'SWIFT Code:';
-$aLang['entry_affiliate_payment_bank_swift_code_text'] = '';
-$aLang['entry_affiliate_payment_bank_swift_code_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_company'] = 'Company';
-$aLang['entry_affiliate_company_text'] = '';
-$aLang['entry_affiliate_company_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_company_taxid'] = 'VAT-Id.:';
-$aLang['entry_affiliate_company_taxid_text'] = '';
-$aLang['entry_affiliate_company_taxid_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_homepage'] = 'Homepage';
-
-$aLang['entry_affiliate_homepage_text'] = '&nbsp;<small><font color="#AABBDD">require_onced (http://)</font></small>';
-$aLang['entry_affiliate_homepage_error'] = '&nbsp;<small><font color="#FF0000">require_onced (http://)</font></small>';
 
 $aLang['category_payment_details'] = 'You get your money by:';
 

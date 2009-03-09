@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: german.php,v 1.116 2003/02/17 11:49:26 hpdl 
+   File: german.php,v 1.116 2003/02/17 11:49:26 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -20,9 +20,9 @@
    ---------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------
-   If you made a translation, please send to 
-      lang@oos-shop.de 
-   the translated file. 
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
    ---------------------------------------------------------------------- */
 
  /**
@@ -136,7 +136,7 @@ $aLang['block_service_newsfeed'] = 'RSS';
 $aLang['block_service_gv'] = 'Tegoedbon feiten';
 $aLang['block_service_sitemap'] = 'Sitemap';
 
-//login 
+//login
 $aLang['entry_email_address'] = 'Emailadres:';
 $aLang['entry_password'] = 'Wachtwoord:';
 $aLang['text_password_info'] = 'Wachtwoord vergeten?';
@@ -358,65 +358,18 @@ $aLang['text_ccval_error_unknown_card'] = 'De eerste 4 cijfers van uw credietkaa
 $aLang['voucher_balance'] = 'Tegoedbon - tegoed';
 $aLang['gv_faq'] = 'Tegoedbon FAQ';
 $aLang['error_redeemed_amount'] = 'Uitstekend: De inwisselwaarde werd op uw rekening bijgeschreven! ';
-$aLang['error_no_redeem_code'] = 'U hebt geen tegoedboncode ingevoerd!';  
-$aLang['error_no_invalid_redeem_gv'] = 'Fout: U hebt geen geldige tegoedboncode ingevoerd!'; 
+$aLang['error_no_redeem_code'] = 'U hebt geen tegoedboncode ingevoerd!';
+$aLang['error_no_invalid_redeem_gv'] = 'Fout: U hebt geen geldige tegoedboncode ingevoerd!';
 $aLang['table_heading_credit'] = 'Tegoed';
 $aLang['gv_has_vouchera'] = 'U hebt een tegoedbon-tegoed op uw rekening. Wilt u een deel van uw <br>
-                         toegoed per';      
-$aLang['gv_has_voucherb'] = 'versturen?'; 
-$aLang['entry_amount_check_error'] = '&nbsp;<small><font color="#FF0000">Helaas geen voldoende dekking op uw klantenrekening!</font></smal>'; 
+                         toegoed per';
+$aLang['gv_has_voucherb'] = 'versturen?';
+$aLang['entry_amount_check_error'] = '&nbsp;<small><font color="#FF0000">Helaas geen voldoende dekking op uw klantenrekening!</font></smal>';
 $aLang['gv_send_to_friend'] = 'Tegoedbon versturen';
 
 $aLang['voucher_redeemed'] = 'Tegoedbon ingewisseld';
 $aLang['cart_coupon'] = 'Tegoedbon :';
 $aLang['cart_coupon_info'] = 'meer info';
-
-$aLang['block_affiliate_info'] = 'Partner informatie';
-$aLang['block_affiliate_summary'] = 'Partnerrekening overzicht';
-$aLang['block_affiliate_account'] = 'Partnerrekening bewerken';
-$aLang['block_affiliate_clickrate'] = 'Overzicht kliks';
-$aLang['block_affiliate_payment'] = 'Provisiebetalingen';
-$aLang['block_affiliate_sales'] = 'Overzicht verkopen';
-$aLang['block_affiliate_banners'] = 'Banner';
-$aLang['block_affiliate_contact'] = 'Contact';
-$aLang['block_affiliate_faq'] = 'FAQ';
-$aLang['block_affiliate_login'] = 'Partner aanmelding';
-$aLang['block_affiliate_logout'] = 'Afmelden';
-
-$aLang['entry_affiliate_payment_details'] = 'Te betalen aan:';
-$aLang['entry_affiliate_accept_agb'] = 'Bevestig a.u.b. dat u met onze <a target="_new" href="' . oos_href_link($aModules['affiliate'], $aFilename['affiliate_terms'], '', 'SSL') . '">algemene leveringsvoorwaarden</a> accoord gaat.';
-$aLang['entry_affiliate_agb_error'] = '&nbsp;<small><font color="#FF0000">U moet met onze algemene leveringsvoorwaarden instemmen.</font></small>';
-$aLang['entry_affiliate_payment_check'] = 'Ontvanger van de cheque:';
-$aLang['entry_affiliate_payment_check_text'] = '';
-$aLang['entry_affiliate_payment_check_error'] = '&nbsp;<small><font color="#FF0000">verplicht</font></small>';
-$aLang['entry_affiliate_payment_paypal'] = 'PayPal rekening email:';
-$aLang['entry_affiliate_payment_paypal_text'] = '';
-$aLang['entry_affiliate_payment_paypal_error'] = '&nbsp;<small><font color="#FF0000">verplicht</font></small>';
-$aLang['entry_affiliate_payment_bank_name'] = 'Credietorganisatie:';
-$aLang['entry_affiliate_payment_bank_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_name_error'] = '&nbsp;<small><font color="#FF0000">verplicht</font></small>';
-$aLang['entry_affiliate_payment_bank_account_name'] = 'Rekeningeigenaar:';
-$aLang['entry_affiliate_payment_bank_account_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_name_error'] = '&nbsp;<small><font color="#FF0000">verplicht</font></small>';
-$aLang['entry_affiliate_payment_bank_account_number'] = 'Rekeningnr.:';
-$aLang['entry_affiliate_payment_bank_account_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_number_error'] = '&nbsp;<small><font color="#FF0000">verplicht</font></small>';
-$aLang['entry_affiliate_payment_bank_branch_number'] = 'IBAN nummer:';
-$aLang['entry_affiliate_payment_bank_branch_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_branch_number_error'] = '&nbsp;<small><font color="#FF0000">verplicht</font></small>';
-$aLang['entry_affiliate_payment_bank_swift_code'] = 'SWIFT Code:';
-$aLang['entry_affiliate_payment_bank_swift_code_text'] = '';
-$aLang['entry_affiliate_payment_bank_swift_code_error'] = '&nbsp;<small><font color="#FF0000">verplicht</font></small>';
-$aLang['entry_affiliate_company'] = 'Firma';
-$aLang['entry_affiliate_company_text'] = '';
-$aLang['entry_affiliate_company_error'] = '&nbsp;<small><font color="#FF0000">verplicht</font></small>';
-$aLang['entry_affiliate_company_taxid'] = 'B.T.W. Nr.:';
-$aLang['entry_affiliate_company_taxid_text'] = '';
-$aLang['entry_affiliate_company_taxid_error'] = '&nbsp;<small><font color="#FF0000">verplicht</font></small>';
-$aLang['entry_affiliate_homepage'] = 'Homepage';
-
-$aLang['entry_affiliate_homepage_text'] = '&nbsp;<small><font color="#000000"> (http://)</font></small>';
-$aLang['entry_affiliate_homepage_error'] = '&nbsp;<small><font color="#FF0000">verplicht (http://)</font></small>';
 
 $aLang['category_payment_details'] = 'Uitbetaling kan volgen via';
 
@@ -477,7 +430,7 @@ $aLang['err404_alllower'] = 'alle namen worden klein geschreven';
 
 $aLang['text_info_csname'] = 'Bent u lid van een ruitersportvereniging : ';
 $aLang['text_info_csdiscount'] = 'U krijgt afhankelijk van het produkt een maximale korting van : ';
-$aLang['text_info_csotdiscount'] = 'U krijgt op uw totale bestelling een korting van : '; 
+$aLang['text_info_csotdiscount'] = 'U krijgt op uw totale bestelling een korting van : ';
 $aLang['text_info_csstaff'] = 'U kan tegen staffelprijzen inkopen.';
 $aLang['text_info_cspay'] = 'Volgende betalingswijze kan u gebruiken : ';
 $aLang['text_info_show_price_no'] = 'U krijgt nog geen prijsinformatie. Meldt u aan';
@@ -487,7 +440,7 @@ $aLang['text_info_receive_mail_mode'] = 'Infos had ik graag in het formaat : ';
 $aLang['entry_receive_mail_text'] = 'Tekst only';
 $aLang['entry_receive_mail_html'] = 'HTML';
 $aLang['entry_receive_mail_pdf'] = 'PDF';
- 
+
 $aLang['table_heading_price_unit'] = 'per st. netto';
 $aLang['table_heading_discount'] = 'Korting';
 $aLang['table_heading_ot_discount'] = 'Staffelkorting';

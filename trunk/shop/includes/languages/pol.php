@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -20,9 +20,9 @@
    ---------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------
-   If you made a translation, please send to 
-      lang@oos-shop.de 
-   the translated file. 
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
    ---------------------------------------------------------------------- */
 
  /**
@@ -367,53 +367,6 @@ $aLang['voucher_redeemed'] = 'Voucher Redeemed';
 $aLang['cart_coupon'] = 'Coupon :';
 $aLang['cart_coupon_info'] = 'more info';
 
-$aLang['block_affiliate_info'] = 'Informationen';
-$aLang['block_affiliate_summary'] = 'Partnerkonto &Uuml;bersicht';
-$aLang['block_affiliate_account'] = 'Partnerkonto bearbeiten';
-$aLang['block_affiliate_clickrate'] = '&Uuml;bersicht Klicks';
-$aLang['block_affiliate_payment'] = 'Provisionszahlungen';
-$aLang['block_affiliate_sales'] = '&Uuml;bersicht Verk&auml;ufe';
-$aLang['block_affiliate_banners'] = 'Banner';
-$aLang['block_affiliate_contact'] = 'Kontakt';
-$aLang['block_affiliate_faq'] = 'FAQ';
-$aLang['block_affiliate_login'] = 'Anmeldung';
-$aLang['block_affiliate_logout'] = 'Abmelden';
-
-$aLang['entry_affiliate_payment_details'] = 'Zahlbar an:';
-$aLang['entry_affiliate_accept_agb'] = 'Bitte best&auml;tigen Sie, dass Sie mit unseren <a target="_new" href="' . oos_href_link($aModules['affiliate'], $aFilename['affiliate_terms'], '', 'SSL') . '">AGB\'s</a> einverstanden sind.';
-$aLang['entry_affiliate_agb_error'] = '&nbsp;<small><font color="#FF0000">Sie m&uuml;ssen sich mit unseren AGB\'s einverstanden erkl&auml;ren.</font></small>';
-$aLang['entry_affiliate_payment_check'] = 'Empf&auml;nger des Schecks:';
-$aLang['entry_affiliate_payment_check_text'] = '';
-$aLang['entry_affiliate_payment_check_error'] = '&nbsp;<small><font color="#FF0000">erforderlich</font></small>';
-$aLang['entry_affiliate_payment_paypal'] = 'PayPal Account eMail:';
-$aLang['entry_affiliate_payment_paypal_text'] = '';
-$aLang['entry_affiliate_payment_paypal_error'] = '&nbsp;<small><font color="#FF0000">erforderlich</font></small>';
-$aLang['entry_affiliate_payment_bank_name'] = 'Kreditinstitut:';
-$aLang['entry_affiliate_payment_bank_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_name_error'] = '&nbsp;<small><font color="#FF0000">erforderlich</font></small>';
-$aLang['entry_affiliate_payment_bank_account_name'] = 'Kontoinhaber:';
-$aLang['entry_affiliate_payment_bank_account_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_name_error'] = '&nbsp;<small><font color="#FF0000">erforderlich</font></small>';
-$aLang['entry_affiliate_payment_bank_account_number'] = 'Konto-Nr.:';
-$aLang['entry_affiliate_payment_bank_account_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_number_error'] = '&nbsp;<small><font color="#FF0000">erforderlich</font></small>';
-$aLang['entry_affiliate_payment_bank_branch_number'] = 'Bankleitzahl:';
-$aLang['entry_affiliate_payment_bank_branch_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_branch_number_error'] = '&nbsp;<small><font color="#FF0000">erforderlich</font></small>';
-$aLang['entry_affiliate_payment_bank_swift_code'] = 'SWIFT Code:';
-$aLang['entry_affiliate_payment_bank_swift_code_text'] = '';
-$aLang['entry_affiliate_payment_bank_swift_code_error'] = '&nbsp;<small><font color="#FF0000">erforderlich</font></small>';
-$aLang['entry_affiliate_company'] = 'Firma';
-$aLang['entry_affiliate_company_text'] = '';
-$aLang['entry_affiliate_company_error'] = '&nbsp;<small><font color="#FF0000">erforderlich</font></small>';
-$aLang['entry_affiliate_company_taxid'] = 'UID-Nr.:';
-$aLang['entry_affiliate_company_taxid_text'] = '';
-$aLang['entry_affiliate_company_taxid_error'] = '&nbsp;<small><font color="#FF0000">erforderlich</font></small>';
-$aLang['entry_affiliate_homepage'] = 'Homepage';
-
-$aLang['entry_affiliate_homepage_text'] = '&nbsp;<small><font color="#000000"> (http://)</font></small>';
-$aLang['entry_affiliate_homepage_error'] = '&nbsp;<small><font color="#FF0000">erforderlich (http://)</font></small>';
-
 $aLang['category_payment_details'] = 'Auszahlung kann erfolgen &uuml;ber';
 
 $aLang['block_ticket_generate'] = 'Support Anfrage';
@@ -434,7 +387,7 @@ $aLang['products_order_qty_min_text_cart_short'] = 'min. M.: ';
 $aLang['products_order_qty_unit_text'] = ' Verpackungseinheit: ';
 $aLang['products_order_qty_unit_text_info'] = 'bei der Verpackungseinheit von: ';
 $aLang['products_order_qty_unit_text_cart'] = 'bei der Verpackungseinheit von: ';
-$aLang['products_order_qty_unit_text_cart_short'] = ' Verpackungseinheit: '; 
+$aLang['products_order_qty_unit_text_cart_short'] = ' Verpackungseinheit: ';
 
 $aLang['error_products_quantity_order_min_text'] = '';
 $aLang['error_products_quantity_invalid'] = 'Fehler: Menge: ';
@@ -474,7 +427,7 @@ $aLang['err404_alllower'] = 'alle Namen werden kleingeschrieben';
 
 $aLang['text_info_csname'] = 'Sie sind Mitglied der Kundengruppe : ';
 $aLang['text_info_csdiscount'] = 'Sie bekommen je nach Produkt einen maximalen Rabatt bis zu : ';
-$aLang['text_info_csotdiscount'] = 'Sie bekommen auf Ihre Gesamtbestellung einen Rabatt von : '; 
+$aLang['text_info_csotdiscount'] = 'Sie bekommen auf Ihre Gesamtbestellung einen Rabatt von : ';
 $aLang['text_info_csstaff'] = 'Sie sind berechtigt zu Staffelpreisen einzukaufen.';
 $aLang['text_info_cspay'] = 'Folgende Zahlungsarten k?nen Sie benutzen : ';
 $aLang['text_info_show_price_no'] = 'Sie erhalten noch keine Preisinformationen. Bitte melden Sie sich an';

@@ -20,9 +20,9 @@
    ---------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------
-   If you made a translation, please send to 
-      lang@oos-shop.de 
-   the translated file. 
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
    ---------------------------------------------------------------------- */
 
  /**
@@ -356,65 +356,18 @@ $aLang['text_ccval_error_unknown_card'] = 'The first four digits of the number e
 $aLang['voucher_balance'] = 'Voucher Balance';
 $aLang['gv_faq'] = 'Gift Voucher FAQ';
 $aLang['error_redeemed_amount'] = 'Congratulations, you have redeemed ';
-$aLang['error_no_redeem_code'] = 'You did not enter a redeem code.';  
-$aLang['error_no_invalid_redeem_gv'] = 'Invalid Gift Voucher Code'; 
+$aLang['error_no_redeem_code'] = 'You did not enter a redeem code.';
+$aLang['error_no_invalid_redeem_gv'] = 'Invalid Gift Voucher Code';
 $aLang['table_heading_credit'] = 'Credits Available';
 $aLang['gv_has_vouchera'] = 'You have funds in your Gift Voucher Account. If you want <br>
-                         you can send those funds by';      
-$aLang['gv_has_voucherb'] = 'to someone'; 
-$aLang['entry_amount_check_error'] = 'You do not have enough funds to send this amount.'; 
+                         you can send those funds by';
+$aLang['gv_has_voucherb'] = 'to someone';
+$aLang['entry_amount_check_error'] = 'You do not have enough funds to send this amount.';
 $aLang['gv_send_to_friend'] = 'Send Gift Voucher';
 
 $aLang['voucher_redeemed'] = 'Voucher Redeemed';
 $aLang['cart_coupon'] = 'Coupon :';
 $aLang['cart_coupon_info'] = 'more info';
-
-$aLang['block_affiliate_info'] = 'Affiliate Information';
-$aLang['block_affiliate_summary'] = 'Affiliate Summary';
-$aLang['block_affiliate_account'] = 'Edit Affiliate Account';
-$aLang['block_affiliate_clickrate'] = 'Clickthrough Report';
-$aLang['block_affiliate_payment'] = 'Payment Report';
-$aLang['block_affiliate_sales'] = 'Sales Report';
-$aLang['block_affiliate_banners'] = 'Affiliate Banners';
-$aLang['block_affiliate_contact'] = 'Contact Us';
-$aLang['block_affiliate_faq'] = 'Affiliate Program FAQ';
-$aLang['block_affiliate_login'] = 'Affiliate Log In';
-$aLang['block_affiliate_logout'] = 'Affiliate Log Out';
-
-$aLang['entry_affiliate_payment_details'] = 'Payable to:';
-$aLang['entry_affiliate_accept_agb'] = 'Check here to indicate that you have read and agree to the <a target="_new" href="' . oos_href_link($aModules['affiliate'], $aFilename['affiliate_terms'], '', 'SSL') . '">Associates Terms & Conditions</a>.';
-$aLang['entry_affiliate_agb_error'] = '&nbsp;<small><font color="#FF0000">You must accept our Associates Terms & Conditions</font></small>';
-$aLang['entry_affiliate_payment_check'] = 'Check Payee Name:';
-$aLang['entry_affiliate_payment_check_text'] = '';
-$aLang['entry_affiliate_payment_check_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_paypal'] = 'PayPal Account Email:';
-$aLang['entry_affiliate_payment_paypal_text'] = '';
-$aLang['entry_affiliate_payment_paypal_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_name'] = 'Bank Name:';
-$aLang['entry_affiliate_payment_bank_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_name_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_account_name'] = 'Account Name:';
-$aLang['entry_affiliate_payment_bank_account_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_name_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_account_number'] = 'Account Number:';
-$aLang['entry_affiliate_payment_bank_account_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_number_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_branch_number'] = 'ABA/BSB number (branch number):';
-$aLang['entry_affiliate_payment_bank_branch_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_branch_number_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_payment_bank_swift_code'] = 'SWIFT Code:';
-$aLang['entry_affiliate_payment_bank_swift_code_text'] = '';
-$aLang['entry_affiliate_payment_bank_swift_code_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_company'] = 'Company';
-$aLang['entry_affiliate_company_text'] = '';
-$aLang['entry_affiliate_company_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_company_taxid'] = 'VAT-Id.:';
-$aLang['entry_affiliate_company_taxid_text'] = '';
-$aLang['entry_affiliate_company_taxid_error'] = '&nbsp;<small><font color="#FF0000">require_onced</font></small>';
-$aLang['entry_affiliate_homepage'] = 'Homepage';
-
-$aLang['entry_affiliate_homepage_text'] = '&nbsp;<small><font color="#AABBDD">require_onced (http://)</font></small>';
-$aLang['entry_affiliate_homepage_error'] = '&nbsp;<small><font color="#FF0000">require_onced (http://)</font></small>';
 
 $aLang['category_payment_details'] = 'You get your money by:';
 

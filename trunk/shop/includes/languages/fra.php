@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2005 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: german.php,v 1.116 2003/02/17 11:49:26 hpdl 
+   File: german.php,v 1.116 2003/02/17 11:49:26 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -20,9 +20,9 @@
    ---------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------
-   If you made a translation, please send to 
-      lang@oos-shop.de 
-   the translated file. 
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
    ---------------------------------------------------------------------- */
 
  /**
@@ -136,7 +136,7 @@ $aLang['block_service_newsfeed'] = 'RDS/RSS Newsfeed';
 $aLang['block_service_gv'] = 'Encaisser le bon';
 $aLang['block_service_sitemap'] = 'Plan du site';
 
-//login 
+//login
 $aLang['entry_email_address'] = 'Adresse e-mail:';
 $aLang['entry_password'] = 'Mot de passe:';
 $aLang['text_password_info'] = 'Avez-vous oublié le mot de passe?';
@@ -351,64 +351,17 @@ $aLang['text_ccval_error_unknown_card'] = 'Les premiers quatre chiffres de votre
 $aLang['voucher_balance'] = 'Bon - Avoir';
 $aLang['gv_faq'] = 'Bon FAQ';
 $aLang['error_redeemed_amount'] = 'Parfait: La valeur d\'encaissement vous a été créditée au compte client! ';
-$aLang['error_no_redeem_code'] = 'Vous n\'avez enregistré aucun code pour le bon!';  
-$aLang['error_no_invalid_redeem_gv'] = 'Erreur: Vous n\'avez enregistré aucun code valable pour le bon!'; 
+$aLang['error_no_redeem_code'] = 'Vous n\'avez enregistré aucun code pour le bon!';
+$aLang['error_no_invalid_redeem_gv'] = 'Erreur: Vous n\'avez enregistré aucun code valable pour le bon!';
 $aLang['table_heading_credit'] = 'Avoir';
 $aLang['gv_has_vouchera'] = 'Vous avez un bon - Avoir sur votre compte client. Souhaitez-vous <br>une partie de votre avoir par';
-$aLang['gv_has_voucherb'] = 'envoyer?'; 
-$aLang['entry_amount_check_error'] = '&nbsp;<small><font color="#FF0000">Il n\'y a malheureusement pas de couverture suffisante sur votre compte client!</font></smal>'; 
+$aLang['gv_has_voucherb'] = 'envoyer?';
+$aLang['entry_amount_check_error'] = '&nbsp;<small><font color="#FF0000">Il n\'y a malheureusement pas de couverture suffisante sur votre compte client!</font></smal>';
 $aLang['gv_send_to_friend'] = 'Envoyer le bon';
 
 $aLang['voucher_redeemed'] = 'Justificatif Redeemed';
 $aLang['cart_coupon'] = 'Coupon :';
 $aLang['cart_coupon_info'] = 'Plus d\'informations';
-
-$aLang['block_affiliate_info'] = 'Informations';
-$aLang['block_affiliate_summary'] = 'Aperçu compte partenaire';
-$aLang['block_affiliate_account'] = 'Modifier compte partenaire';
-$aLang['block_affiliate_clickrate'] = 'Aperçu clics';
-$aLang['block_affiliate_payment'] = 'Versements à provision';
-$aLang['block_affiliate_sales'] = 'Aperçu ventes';
-$aLang['block_affiliate_banners'] = 'Banniére';
-$aLang['block_affiliate_contact'] = 'Contact';
-$aLang['block_affiliate_faq'] = 'FAQ';
-$aLang['block_affiliate_login'] = 'Inscription';
-$aLang['block_affiliate_logout'] = 'Annuler';
-
-$aLang['entry_affiliate_payment_details'] = 'Payable à:';
-$aLang['entry_affiliate_accept_agb'] = 'Veuillez confirmer que vous soyez <a target="_new" href="' . oos_href_link($aModules['affiliate'], $aFilename['affiliate_terms'], '', 'SSL') . '">(avec nos CVG)\'s</a> d\'accord.';
-$aLang['entry_affiliate_agb_error'] = '&nbsp;<small><font color="#FF0000">Vous devez reconnaître nos CGV.</font></small>';
-$aLang['entry_affiliate_payment_check'] = 'Bénéficiaire du chèque:';
-$aLang['entry_affiliate_payment_check_text'] = '';
-$aLang['entry_affiliate_payment_check_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire</font></small>';
-$aLang['entry_affiliate_payment_paypal'] = 'Compte e-mail PayPal:';
-$aLang['entry_affiliate_payment_paypal_text'] = '';
-$aLang['entry_affiliate_payment_paypal_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire</font></small>';
-$aLang['entry_affiliate_payment_bank_name'] = 'Établissement de crédit:';
-$aLang['entry_affiliate_payment_bank_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_name_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire</font></small>';
-$aLang['entry_affiliate_payment_bank_account_name'] = 'Titulaire du compte:';
-$aLang['entry_affiliate_payment_bank_account_name_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_name_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire</font></small>';
-$aLang['entry_affiliate_payment_bank_account_number'] = 'Numéro de compte:';
-$aLang['entry_affiliate_payment_bank_account_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_account_number_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire</font></small>';
-$aLang['entry_affiliate_payment_bank_branch_number'] = 'Code de banque:';
-$aLang['entry_affiliate_payment_bank_branch_number_text'] = '';
-$aLang['entry_affiliate_payment_bank_branch_number_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire</font></small>';
-$aLang['entry_affiliate_payment_bank_swift_code'] = 'SWIFT Code:';
-$aLang['entry_affiliate_payment_bank_swift_code_text'] = '';
-$aLang['entry_affiliate_payment_bank_swift_code_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire</font></small>';
-$aLang['entry_affiliate_company'] = 'Entreprise';
-$aLang['entry_affiliate_company_text'] = '';
-$aLang['entry_affiliate_company_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire</font></small>';
-$aLang['entry_affiliate_company_taxid'] = 'Numéro d\'identification de T.V.A:';
-$aLang['entry_affiliate_company_taxid_text'] = '';
-$aLang['entry_affiliate_company_taxid_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire</font></small>';
-$aLang['entry_affiliate_homepage'] = 'Page d\'accueil';
-
-$aLang['entry_affiliate_homepage_text'] = '&nbsp;<small><font color="#000000"> (http://)</font></small>';
-$aLang['entry_affiliate_homepage_error'] = '&nbsp;<small><font color="#FF0000">Nécessaire(http://)</font></small>';
 
 $aLang['category_payment_details'] = 'Versement peut s\'effectuer par';
 
