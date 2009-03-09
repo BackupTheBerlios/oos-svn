@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: install.php,v 1.91 2002/02/05 11:09:04 jgm 
+   File: install.php,v 1.91 2002/02/05 11:09:04 jgm
    ----------------------------------------------------------------------
    POST-NUKE Content Management System
    Copyright (C) 2001 by the Post-Nuke Development Team.
@@ -61,7 +61,6 @@
   require_once '../includes/functions/function_global.php';
   require_once '../includes/functions/function_kernel.php';
   require_once '../includes/functions/function_password.php';
-  require_once '../includes/oos_version.php';
   require_once '../includes/classes/thirdparty/adodb/adodb.inc.php';
 
   include_once 'modify_configure.php';
@@ -141,7 +140,7 @@
 
     case 'Admin':
        print_Admin();
-       break; 
+       break;
 
     case 'Submit':
       print_Submit();

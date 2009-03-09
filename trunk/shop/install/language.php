@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -42,7 +42,7 @@ function installer_get_language() {
    global $currentlang;
 
    if (!isset($currentlang)) {
-     $currentlang = 'de_DE.iso-8859-15'; 
+     $currentlang = 'de_DE.iso-8859-15';
    }
    if (file_exists($file="locales/$currentlang/global.php")) {
      @include $file;
@@ -90,24 +90,24 @@ function installer_get_language() {
     /*
       $lang['nl_NL.utf-8'] = LANGUAGE_NLD . ' (nl_NL.utf-8)'; // Dutch
       $lang['en_US.utf-8'] = LANGUAGE_ENG . ' (en_US.utf-8)'; // English
-      $lang['de_DE.utf-8'] = LANGUAGE_DEU . ' (de_DE.utf-8)'; // German
     */
       $lang['ru_RU.utf-8'] = LANGUAGE_RUS . ' (ru_RU.utf-8)'; // Russian
 
       $lang['nl_NL.iso-8859-15'] = LANGUAGE_NLD . ' (nl_NL.iso-8859-15)'; // Dutch
       $lang['en_US.iso-8859-15'] = LANGUAGE_ENG . ' (en_US.iso-8859-15)'; // English
+           $lang['de_DE.utf-8'] = LANGUAGE_DEU . ' (de_DE.utf-8)'; // German
       $lang['de_DE.iso-8859-15'] = LANGUAGE_DEU . ' (de_DE.iso-8859-15)'; // German
 
       $lang['ru_RU.CP1251'] = LANGUAGE_RUS . ' (ru_RU.CP1251)'; // Russian
-      
-      
+
+
       $lang['dan'] = LANGUAGE_DAN; // Danish
       $lang['fin'] = LANGUAGE_FIN; // Finnish
       $lang['fra'] = LANGUAGE_FRA; // French
       $lang['ita'] = LANGUAGE_ITA; // Italian
       $lang['nor'] = LANGUAGE_NOR; // Norwegian
       $lang['por'] = LANGUAGE_POR; // Portuguese
-      $lang['pol'] = LANGUAGE_POL; // Polish 
+      $lang['pol'] = LANGUAGE_POL; // Polish
       $lang['slv'] = LANGUAGE_SLV; // Slovenian
       $lang['spa'] = LANGUAGE_SPA; // Spanish
       $lang['swe'] = LANGUAGE_SWE; // Swedish
