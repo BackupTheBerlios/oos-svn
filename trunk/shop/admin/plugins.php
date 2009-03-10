@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -132,7 +132,7 @@
   if (is_dir($sLocaleDir)) {
     if ($dh = opendir($sLocaleDir)) {
       while (($file = readdir($dh)) !== false) {
-        if ($file == '.' || $file == '..' || $file == 'CVS' || $file == 'thirdparty' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
+        if ($file == '.' || $file == '..' || $file == 'CVS' || $file == '.svn' || $file == 'thirdparty' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
         if (filetype(realpath($sLocaleDir . $file)) == 'dir') {
           $aDirectory[] = $file;
         }
@@ -144,7 +144,7 @@
   sort($aDirectory);
 
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -235,7 +235,7 @@
        echo oos_image(OOS_IMAGES . 'icon_status_green.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10);
      }
    } else {
-      echo '<a href="' . oos_href_link_admin($aFilename['plugins'], 'plugin=' . $sInstance . '&action=install') . '">' . oos_image(OOS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>'; 
+      echo '<a href="' . oos_href_link_admin($aFilename['plugins'], 'plugin=' . $sInstance . '&action=install') . '">' . oos_image(OOS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>';
    }
 ?></td>
                 <td class="dataTableContent" align="right"><?php if (isset($pInfo) && is_object($pInfo) && ($sInstance == $pInfo->instance) ) { echo oos_image(OOS_IMAGES . 'icon_arrow_right.gif'); } else { echo '<a href="' . oos_href_link_admin($aFilename['plugins'], 'plugin=' . $sInstance ) . '">' . oos_image(OOS_IMAGES . 'icon_information.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>

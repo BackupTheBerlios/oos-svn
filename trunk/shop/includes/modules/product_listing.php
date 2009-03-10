@@ -287,6 +287,7 @@
                  $lc_text .= '<input type="hidden" name="mp" value="' . $sMp .'">';
                  $lc_text .= '<input type="hidden" name="file" value="' . $sFile .'">';
                  $lc_text .= '<input type="hidden" name="categories" value="' . $categories .'">';
+                 $lc_text .= '<input type="hidden" name="formid" value="' . $formid .'">';
                  $lc_text .= oos_hide_session_id();
                  $lc_text .= oos_get_all_as_hidden_field(array('action'));
                  $lc_text .= $aLang['products_order_qty_text'];

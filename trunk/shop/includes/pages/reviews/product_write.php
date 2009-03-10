@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: product_reviews_write.php,v 1.51 2003/02/13 04:23:23 hpdl 
+   File: product_reviews_write.php,v 1.51 2003/02/13 04:23:23 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -107,7 +107,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'process') {
        if (is_dir($sLocaleDir)) {
           if ($dh = opendir($sLocaleDir)) {
               while (($file = readdir($dh)) !== false) {
-                if ($file == '.' || $file == '..' || $file == 'CVS' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
+                if ($file == '.' || $file == '..' || $file == 'CVS' || $file == '.svn' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
                 if (filetype(realpath($sLocaleDir . $file)) == 'dir') {
                   $aSkins[] = $file;
                 }

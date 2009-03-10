@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -27,7 +27,7 @@
   if (is_dir($sLocaleDir)) {
     if ($dh = opendir($sLocaleDir)) {
       while (($file = readdir($dh)) !== false) {
-        if ($file == '.' || $file == '..' || $file == 'CVS' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
+        if ($file == '.' || $file == '..' || $file == 'CVS'|| $file == '.svn' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
         if (filetype(realpath($sLocaleDir . $file)) == 'dir') {
           $aSkins[] = $file;
         }

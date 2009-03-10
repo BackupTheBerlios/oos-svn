@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -14,14 +14,14 @@
 
    by:
    Mario - mariohm@fibertel.com.ar
-   Mike Peck - www.mikecpeck.com 
+   Mike Peck - www.mikecpeck.com
    Mike Johnson - mike@solanosystems.com
-   Christian Machmeier - www.redsplash.de 
+   Christian Machmeier - www.redsplash.de
    Airtight - www.airtightinteractive.com
 
    DESCRIPTION
    -----------------------
-   This script automatically generates the XML document and thumbnails for SimpleViewer 
+   This script automatically generates the XML document and thumbnails for SimpleViewer
    www.airtightinteractive.com/simpleviewer/
 
    TO USE
@@ -83,7 +83,7 @@
       // Set showDownloadLinks to true if you want to show a 'Download Image' link as the caption to each image.
       $showDownloadLinks = false;
 
-      // set useCopyResized to true if thumbnails are not being created. 
+      // set useCopyResized to true if thumbnails are not being created.
       // This can be due to the imagecopyresampled function being disabled on some servers
       $useCopyResized = false;
 
@@ -128,7 +128,7 @@
       $xml = '<?xml version="1.0" encoding="UTF-8" ?>'.$options;
       $folder = opendir(OOS_GALLERY_PATH ."images");
       while($file = readdir($folder)) {
-        if ($file == '.' || $file == '..' || $file == 'CVS') continue;
+        if ($file == '.' || $file == '..' || $file == 'CVS' || $file == '.svn') continue;
 
         if ($sortImagesByDate){
           $files[$file] = filemtime(OOS_GALLERY_PATH . "images/$file");
@@ -151,7 +151,7 @@
         $xml .= '<filename>'.$key.'</filename>';
 
         //add auto captions: 'Image X'
-        if ($showDownloadLinks){		
+        if ($showDownloadLinks){
           $xml .= '<caption><![CDATA[<A href="images/'.$key.'" target="_blank"><U>Open image in new window</U></A>]]></caption>';
         }
         $xml .= '</image>';
@@ -172,7 +172,7 @@
       $file = OOS_ABSOLUTE_PATH . 'gallery.xml';
       if (!$file_handle = fopen($file,"w")) {
         // print "<br>Cannot open XML document: $file<br>";
-      } elseif (!fwrite($file_handle, $xml)) { 
+      } elseif (!fwrite($file_handle, $xml)) {
         // print "<br>Cannot write to XML document: $file<br>";
       } else {
         // print "<br>Successfully created XML document: $file<br>";
@@ -198,14 +198,14 @@
 //
 // by:
 // Mario - mariohm@fibertel.com.ar
-// Mike Peck - www.mikecpeck.com 
+// Mike Peck - www.mikecpeck.com
 // Mike Johnson - mike@solanosystems.com
-// Christian Machmeier - www.redsplash.de 
+// Christian Machmeier - www.redsplash.de
 // Airtight - www.airtightinteractive.com
 //
 // DESCRIPTION
 // -----------------------
-// This script automatically generates the XML document and thumbnails for SimpleViewer 
+// This script automatically generates the XML document and thumbnails for SimpleViewer
 // www.airtightinteractive.com/simpleviewer/
 //
 // TO USE
@@ -221,7 +221,7 @@
 
 /**
 * Create a squared thumbnail from an existing image.
-* 
+*
 * @param	string		$file		Location and name where the file is stored .
 * @return	boolean
 * @access	public
@@ -229,40 +229,40 @@
 */
 function createThumb($fileName)
 {
-	
+
 	// Get information about the installed GD.
 	$gdVersion = getGDversion();
-	
+
 	if ($gdVersion == false) {
 		return false;
 	}
-	
+
 	$file = OOS_GALLERY_PATH . 'images/'.$fileName;
 	$fileDest = OOS_GALLERY_PATH . 'thumbs/'.$fileName;
-	
+
 	// Get the image dimensions.
 	$dimensions = @getimagesize($file);
 	$width		= $dimensions[0];
-	$height		= $dimensions[1];	
-	
+	$height		= $dimensions[1];
+
 	$outputX  = 65;
 	$outputY  = 65;
 	$quality  = 85;
-	
+
 	// The image is of vertical shape.
 	if ($width < $height) {
 		$deltaX   = 0;
 		$deltaY   = ($height - $width) / 2;
 		$portionX = $width;
 		$portionY = $width;
-		
+
 	// The image is of horizontal shape.
 	} else if ($width > $height) {
 		$deltaX   = ($width - $height) / 2;
 		$deltaY   = 0;
 		$portionX = $height;
 		$portionY = $height;
-		
+
 	// The image is of squared shape.
 	} else {
 		$deltaX   = 0;
@@ -270,49 +270,49 @@ function createThumb($fileName)
 		$portionX = $width;
 		$portionY = $height;
 	}
-	
+
 	$imageSrc  = @imagecreatefromjpeg($file);
-	
+
 	// The thumbnail creation with GD1.x functions does the job.
 	if ($gdVersion < 2 || $useCopyResized) {
-		
+
 		// Create an empty thumbnail image.
 		$imageDest = @imagecreate($outputX, $outputY);
-		
+
 		// Try to create the thumbnail from the source image.
 		if (@imagecopyresized($imageDest, $imageSrc, 0, 0, $deltaX, $deltaY, $outputX, $outputY, $portionX, $portionY)) {
-			
+
 			// save the thumbnail image into a file.
 			@imagejpeg($imageDest, $fileDest, $quality);
-			
+
 			// Delete both image resources.
 			@imagedestroy($imageSrc);
 			@imagedestroy($imageDest);
-			
+
 			return true;
-			
+
 		}
 
 	} else {
 		// The recommended approach is the usage of the GD2.x functions.
-		
+
 		// Create an empty thumbnail image.
 		$imageDest = @imagecreatetruecolor($outputX, $outputY);
-		
+
 		// Try to create the thumbnail from the source image.
 		if (@imagecopyresampled($imageDest, $imageSrc, 0, 0, $deltaX, $deltaY, $outputX, $outputY, $portionX, $portionY)) {
-			
+
 			// save the thumbnail image into a file.
 			@imagejpeg($imageDest, $fileDest, $quality);
-			
+
 			// Delete both image resources.
 			@imagedestroy($imageSrc);
 			@imagedestroy($imageDest);
-			
+
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
