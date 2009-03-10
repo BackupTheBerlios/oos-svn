@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2007 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -519,4 +519,22 @@ $aLang['price'] = 'Preis';
 $aLang['price_info'] = 'Alle Preise pro St&uuml;ck in &euro; inkl. der gesetzlichen Mehrwertsteuer, zzgl. <a href="' . oos_href_link($aModules['info'], $aFilename['information'], 'information_id=1') . '">Versandkostenpauschale</a> von nur 3,95 &euro; pro Bestellung.';
 $aLang['support_info'] = 'Haben Sie noch Fragen? Sie erreichen uns &uuml;ber unser <a href="' . oos_href_link($aModules['ticket'], $aFilename['ticket_create']) . '">Kontaktformular</a>.';
 
+
+/*
+  The following copyright announcement can only be
+  appropriately modified or removed if the layout of
+  the site theme has been modified to distinguish
+  itself from the default osCommerce-copyrighted
+  theme.
+
+  For more information please read the following
+  Frequently Asked Questions entry on the osCommerce
+  support site:
+
+  http://www.oscommerce.com/community.php/faq,26/q,50
+
+  Please leave this comment intact together with the
+  following copyright announcement.
+*/
+define('FOOTER_TEXT_BODY', 'Copyright &copy; 2003 <a href="http://www.oscommerce.com" target="_blank">osCommerce</a><br>Powered by <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>');
 ?>
