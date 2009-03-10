@@ -5,17 +5,17 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  $products_history_block = 'false';
+$products_history_block = 'false';
 
-  if ($_SESSION['products_history']->count_history() > 0) {
+if ($_SESSION['products_history']->count_history() > 0) {
     $products_history_block = 'true';
     $product_ids = $_SESSION['products_history']->get_product_id_list();
 
@@ -32,8 +32,8 @@
                      ORDER BY products_name";
     $oSmarty->assign('customer_products_history', $dbconn->GetAll($products_sql));
     $oSmarty->assign('block_heading_products_history', $block_heading);
-  }
+}
 
-  $oSmarty->assign('products_history_block', $products_history_block);
+$oSmarty->assign('products_history_block', $products_history_block);
 
 ?>

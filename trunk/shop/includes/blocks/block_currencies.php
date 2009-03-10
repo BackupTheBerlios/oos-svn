@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,24 +19,24 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (isset($oCurrencies) && is_object($oCurrencies)) {
+if (isset($oCurrencies) && is_object($oCurrencies)) {
 
     reset($oCurrencies->currencies);
     $aCurrencies = array();
 
     while (list($sKey, $value) = each($oCurrencies->currencies)) {
-      $aCurrencies[] = array('id' => $sKey, 'text' => $value['title']);
+        $aCurrencies[] = array('id' => $sKey, 'text' => $value['title']);
     }
 
     $hidden_get_variables = '';
     reset($_GET);
     while (list($sKey, $value) = each($_GET)) {
-      if ( ($sKey != 'currency') && ($sKey != oos_session_name()) && ($sKey != 'x') && ($sKey != 'y') ) {
-        $hidden_get_variables .= oos_draw_hidden_field($sKey, $value);
-      }
+        if ( ($sKey != 'currency') && ($sKey != oos_session_name()) && ($sKey != 'x') && ($sKey != 'y') ) {
+            $hidden_get_variables .= oos_draw_hidden_field($sKey, $value);
+        }
     }
 
     $oos_pull_down_menu = oos_draw_pull_down_menu('currency', $aCurrencies, $_SESSION['currency'], 'onchange="this.form.submit();" style="width: 100%"') . $hidden_get_variables . oos_hide_session_id();
@@ -47,6 +47,6 @@
             'block_heading_currencies' => $block_heading
         )
     );
-  }
+}
 
 ?>

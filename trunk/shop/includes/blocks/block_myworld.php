@@ -5,20 +5,20 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if ($oEvent->installed_plugin('down_for_maintenance')) return false;
-  if ($sFile == $aFilename['customers_image']) return false;
+if ($oEvent->installed_plugin('down_for_maintenance')) return false;
+if ($sFile == $aFilename['customers_image']) return false;
 
-  $myworld_block = 'false';
+$myworld_block = 'false';
 
-  if (isset($_SESSION['customer_id'])) {
+if (isset($_SESSION['customer_id'])) {
     $myworld_block = 'true';
 
     $customerstable = $oostable['customers'];
@@ -37,9 +37,9 @@
     $myworld = $dbconn->GetRow($sql);
 
     if ($myworld['customers_gender'] == 'm') {
-      $myworld_gender = $aLang['male'];
+        $myworld_gender = $aLang['male'];
     } elseif ($account['customers_gender'] == 'f') {
-      $myworld_gender = $aLang['female'];
+        $myworld_gender = $aLang['female'];
     }
 
     $sCountryName = oos_get_country_name($myworld['entry_country_id']);
@@ -54,9 +54,9 @@
             'account_created' => $sAccountCreated
         )
     );
-  }
+}
 
-  $oSmarty->assign('block_heading_myworld', $block_heading);
-  $oSmarty->assign('myworld_block', $myworld_block);
+$oSmarty->assign('block_heading_myworld', $block_heading);
+$oSmarty->assign('myworld_block', $myworld_block);
 
 ?>

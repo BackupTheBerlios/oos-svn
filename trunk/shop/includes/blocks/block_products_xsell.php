@@ -5,17 +5,17 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  $xsell_block = 'false';
+$xsell_block = 'false';
 
-  if (isset($_GET['products_id'])) {
+if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 
     $productstable = $oostable['products'];
@@ -36,12 +36,13 @@
     $xsell_products_result = $dbconn->SelectLimit($sql, MAX_DISPLAY_XSELL_PRODUCTS);
 
     if ($xsell_products_result->RecordCount()) {
-      $xsell_block = 'true';
-      $oSmarty->assign('block_xsell_products', $xsell_products_result->GetArray());
+        $xsell_block = 'true';
+        $oSmarty->assign('block_xsell_products', $xsell_products_result->GetArray());
     }
-  }
-  $oSmarty->assign('block_heading_xsell', $block_heading);
+}
 
-  $oSmarty->assign('xsell_block', $xsell_block);
+$oSmarty->assign('block_heading_xsell', $block_heading);
+
+$oSmarty->assign('xsell_block', $xsell_block);
 
 ?>

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -20,19 +20,19 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  $informationtable = $oostable['information'];
-  $information_descriptiontable = $oostable['information_description'];
-  $sql = "SELECT id.information_id, id.information_name, i.sort_order
-          FROM $informationtable i,
-               $information_descriptiontable id
-          WHERE id.information_id = i.information_id AND
-                i.status = '1' AND
-                id.information_languages_id = '" . intval($nLanguageID) . "'
-          ORDER BY i.sort_order DESC";
-  $oSmarty->assign('information', $dbconn->GetAll($sql));
-  $oSmarty->assign('block_heading_information', $block_heading);
+$informationtable = $oostable['information'];
+$information_descriptiontable = $oostable['information_description'];
+$sql = "SELECT id.information_id, id.information_name, i.sort_order
+        FROM $informationtable i,
+             $information_descriptiontable id
+        WHERE id.information_id = i.information_id AND
+              i.status = '1' AND
+              id.information_languages_id = '" . intval($nLanguageID) . "'
+        ORDER BY i.sort_order DESC";
+$oSmarty->assign('information', $dbconn->GetAll($sql));
+$oSmarty->assign('block_heading_information', $block_heading);
 
 ?>

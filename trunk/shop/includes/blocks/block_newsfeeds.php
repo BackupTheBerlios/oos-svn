@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -17,25 +17,25 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  $newsfeeds_block = 'false';
+$newsfeeds_block = 'false';
 
-  $newsfeed_managertable = $oostable['newsfeed_manager'];
-  $random_select = "SELECT newsfeed_manager_id, newsfeed_categories_id, newsfeed_manager_name,
-                           newsfeed_manager_link, newsfeed_manager_languages_id, newsfeed_manager_numarticles,
-                           newsfeed_manager_refresh, newsfeed_manager_status
-                    FROM $newsfeed_managertable
-                    WHERE newsfeed_manager_status = '1'
-                      AND newsfeed_manager_languages_id = '" .  intval($nLanguageID) . "'";
-  if (isset($newsfeed_categories_id) && ($newsfeed_categories_id > 0)) {
+$newsfeed_managertable = $oostable['newsfeed_manager'];
+$random_select = "SELECT newsfeed_manager_id, newsfeed_categories_id, newsfeed_manager_name,
+                         newsfeed_manager_link, newsfeed_manager_languages_id, newsfeed_manager_numarticles,
+                         newsfeed_manager_refresh, newsfeed_manager_status
+                  FROM $newsfeed_managertable
+                  WHERE newsfeed_manager_status = '1'
+                    AND newsfeed_manager_languages_id = '" .  intval($nLanguageID) . "'";
+if (isset($newsfeed_categories_id) && ($newsfeed_categories_id > 0)) {
     $random_select .= " AND newsfeed_categories_id = '" . $newsfeed_categories_id . "'";
-  }
-  $random_select .= " ORDER BY newsfeed_manager_id DESC";
-  $random_newsfeed = oos_random_select($random_select, MAX_RANDOM_SELECT_NEWSFEED);
+}
+$random_select .= " ORDER BY newsfeed_manager_id DESC";
+$random_newsfeed = oos_random_select($random_select, MAX_RANDOM_SELECT_NEWSFEED);
 
-  if ($random_newsfeed) {
+if ($random_newsfeed) {
     $newsfeeds_block = 'true';
     $newsfeeds = '<b>' . $random_newsfeed['newsfeed_manager_name'] . '</b><br />' .
                  strftime(DATE_TIME_FORMAT) . '<br />' ;
@@ -64,9 +64,8 @@
             'newsfeeds' => $newsfeeds
         )
     );
- }
- $oSmarty->assign('newsfeeds_block', $newsfeeds_block);
+}
 
-
+$oSmarty->assign('newsfeeds_block', $newsfeeds_block);
 
 ?>

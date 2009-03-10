@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,12 +19,12 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!$oEvent->installed_plugin('reviews')) return false;
+if (!$oEvent->installed_plugin('reviews')) return false;
 
-  if ($sFile != $aFilename['product_reviews_write']) {
+if ($sFile != $aFilename['product_reviews_write']) {
     $reviews_block = 'true';
 
     $reviewstable  = $oostable['reviews'];
@@ -36,7 +36,7 @@
                              p.products_id, p.products_image, pd.products_name
                       FROM $reviewstable r,
                            $reviews_descriptiontable rd,
-                           $productstable p, 
+                           $productstable p,
                            $products_descriptiontable pd
                       WHERE p.products_status >= '1'
                         AND (p.products_access = '0' OR p.products_access = '" . intval($nGroupID) . "')
@@ -46,18 +46,18 @@
                         AND p.products_id = pd.products_id
                         AND pd.products_languages_id = '" . intval($nLanguageID) . "'";
     if (isset($_GET['products_id'])) {
-      if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
-      $random_select .= " AND p.products_id = '" . intval($nProductsId) . "'";
+        if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
+        $random_select .= " AND p.products_id = '" . intval($nProductsId) . "'";
     }
     $random_select .= " ORDER BY r.reviews_id DESC";
     $random_product = oos_random_select($random_select, MAX_RANDOM_SELECT_REVIEWS);
 
     $oSmarty->assign(
-        array(
-            'block_heading_reviews' => $block_heading,
-            'random_product' => $random_product
-        )
+          array(
+              'block_heading_reviews' => $block_heading,
+              'random_product' => $random_product
+          )
      );
-  }
+}
 
 ?>

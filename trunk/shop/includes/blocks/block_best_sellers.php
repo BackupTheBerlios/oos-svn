@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,14 +19,14 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!is_numeric(MAX_DISPLAY_BESTSELLERS)) return false;
+if (!is_numeric(MAX_DISPLAY_BESTSELLERS)) return false;
 
-  $best_sellers_block = 'false';
+$best_sellers_block = 'false';
 
-  if (isset($nCurrentCategoryId) && ($nCurrentCategoryId > 0)) {
+if (isset($nCurrentCategoryId) && ($nCurrentCategoryId > 0)) {
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];
     $products_to_categoriestable = $oostable['products_to_categories'];
@@ -46,7 +46,7 @@
                 AND p2c.categories_id = c.categories_id
                 AND '" . intval($nCurrentCategoryId) . "' IN (c.categories_id, c.parent_id)
               ORDER BY p.products_ordered DESC, pd.products_name";
-  } else {
+} else {
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];
     $query = "SELECT DISTINCT p.products_id, p.products_image, pd.products_name,
@@ -58,15 +58,16 @@
                 AND p.products_id = pd.products_id
                 AND pd.products_languages_id = '" .  intval($nLanguageID) . "'
               ORDER BY p.products_ordered DESC, pd.products_name";
-  }
-  $best_sellers_result = $dbconn->SelectLimit($query, MAX_DISPLAY_BESTSELLERS);
-  if ($best_sellers_result->RecordCount() >= MIN_DISPLAY_BESTSELLERS) {
+}
+
+$best_sellers_result = $dbconn->SelectLimit($query, MAX_DISPLAY_BESTSELLERS);
+if ($best_sellers_result->RecordCount() >= MIN_DISPLAY_BESTSELLERS) {
     $best_sellers_block = 'true';
 
     $oSmarty->assign('best_sellers_list', $best_sellers_result->GetArray());
     $oSmarty->assign('block_heading_best_sellers', $block_heading);
-  }
+}
 
-  $oSmarty->assign('best_sellers_block', $best_sellers_block);
+$oSmarty->assign('best_sellers_block', $best_sellers_block);
 
 ?>

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,14 +19,14 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!is_numeric(MAX_DISPLAY_PRODUCTS_IN_ORDER_HISTORY_BOX)) return false;
+if (!is_numeric(MAX_DISPLAY_PRODUCTS_IN_ORDER_HISTORY_BOX)) return false;
 
-  $order_history_block = 'false';
+$order_history_block = 'false';
 
-  if (isset($_SESSION['customer_id'])) { // retreive the last x products purchased
+if (isset($_SESSION['customer_id'])) { // retreive the last x products purchased
 
     $orderstable = $oostable['orders'];
     $orders_productstable = $oostable['orders_products'];
@@ -46,38 +46,38 @@
 
     if ($orders_result->RecordCount()) {
 
-      $order_history_block = 'true';
-      $product_ids = '';
-      while ($orders = $orders_result->fields) {
-        $product_ids .= $orders['products_id'] . ',';
+        $order_history_block = 'true';
+        $product_ids = '';
+        while ($orders = $orders_result->fields) {
+            $product_ids .= $orders['products_id'] . ',';
 
-        // Move that ADOdb pointer!
-        $orders_result->MoveNext();
-      }
-      // Close result set
-      $orders_result->Close();
+            // Move that ADOdb pointer!
+            $orders_result->MoveNext();
+        }
 
-      $product_ids = substr($product_ids, 0, -1);
 
-      $products_descriptiontable = $oostable['products_description'];
-      $products_sql = "SELECT products_id, products_name
-                       FROM $products_descriptiontable
-                       WHERE products_id IN ($product_ids)
-                         AND products_languages_id = '" .  intval($nLanguageID) . "'
-                       ORDER BY products_name";
-      $oSmarty->assign('order_history', $dbconn->GetAll($products_sql));
+        $product_ids = substr($product_ids, 0, -1);
 
-      if (!isset($block_get_parameters)) {
-        $block_get_parameters = oos_get_all_get_parameters(array('action'));
-        $block_get_parameters = oos_remove_trailing($block_get_parameters);
-        $oSmarty->assign('get_params', $block_get_parameters);
-      }
+        $products_descriptiontable = $oostable['products_description'];
+        $products_sql = "SELECT products_id, products_name
+                         FROM $products_descriptiontable
+                         WHERE products_id IN ($product_ids)
+                           AND products_languages_id = '" .  intval($nLanguageID) . "'
+                         ORDER BY products_name";
+        $oSmarty->assign('order_history', $dbconn->GetAll($products_sql));
 
-      $oSmarty->assign('block_heading_customer_orders', $block_heading);
+        if (!isset($block_get_parameters)) {
+            $block_get_parameters = oos_get_all_get_parameters(array('action'));
+            $block_get_parameters = oos_remove_trailing($block_get_parameters);
+            $oSmarty->assign('get_params', $block_get_parameters);
+        }
+
+        $oSmarty->assign('block_heading_customer_orders', $block_heading);
 
     }
 
-  }
-  $oSmarty->assign('order_history_block', $order_history_block);
+}
+
+$oSmarty->assign('order_history_block', $order_history_block);
 
 ?>

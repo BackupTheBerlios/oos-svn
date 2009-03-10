@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,20 +19,20 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!$oEvent->installed_plugin('manufacturers')) return false;
+if (!$oEvent->installed_plugin('manufacturers')) return false;
 
-  $manufacturer_info_block = 'false';
+$manufacturer_info_block = 'false';
 
-  if (isset($_GET['products_id'])) {
+if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 
     $manufacturerstable = $oostable['manufacturers'];
     $manufacturers_infotable = $oostable['manufacturers_info'];
     $productstable = $oostable['products'];
-    $query = "SELECT m.manufacturers_id, m.manufacturers_name, m.manufacturers_image, mi.manufacturers_url 
+    $query = "SELECT m.manufacturers_id, m.manufacturers_name, m.manufacturers_image, mi.manufacturers_url
               FROM $manufacturerstable m LEFT JOIN
                    $manufacturers_infotable mi
                 ON (m.manufacturers_id = mi.manufacturers_id
@@ -44,17 +44,18 @@
 
     if ($manufacturer_result->RecordCount()) {
 
-      $manufacturer = $manufacturer_result->fields;
-      $manufacturer_info_block = 'true';
+        $manufacturer = $manufacturer_result->fields;
+        $manufacturer_info_block = 'true';
 
-      $oSmarty->assign(
-          array(
-              'manufacturer' => $manufacturer,
-              'block_heading_manufacturer_info' => $block_heading
-          )
-      );
+        $oSmarty->assign(
+            array(
+                'manufacturer' => $manufacturer,
+                'block_heading_manufacturer_info' => $block_heading
+            )
+        );
     }
-  }
-  $oSmarty->assign('manufacturer_info_block', $manufacturer_info_block);
+}
+
+$oSmarty->assign('manufacturer_info_block', $manufacturer_info_block);
 
 ?>

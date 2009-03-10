@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,15 +19,15 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!isset($block_get_parameters)) {
+if (!isset($block_get_parameters)) {
     $block_get_parameters = oos_get_all_get_parameters(array('action'));
     $block_get_parameters = oos_remove_trailing($block_get_parameters);
     $oSmarty->assign('get_params', $block_get_parameters);
-  }
+}
 
-  $oSmarty->assign('block_heading_add_product_id', $block_heading);
+$oSmarty->assign('block_heading_add_product_id', $block_heading);
 
 ?>
