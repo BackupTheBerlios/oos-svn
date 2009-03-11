@@ -227,8 +227,14 @@ $today = date("Y-m-d H:i:s");
 
 // Shopping cart actions
 if ( isset($_GET['action']) || isset($_POST['action']) ) {
-    require 'includes/oos_cart_actions.php';
+    if ( (!empty($_SESSION['formid'])) && (!empty($_POST['formid'])) ) {
+        if ($_SESSION['formid'] == $_POST['formid']) {
+            require 'includes/oos_cart_actions.php';
+    	}
+    }
 }
+
+
 
 // split-page-results
 require 'includes/classes/class_split_page_results.php';

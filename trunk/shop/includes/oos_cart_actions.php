@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -25,20 +25,20 @@
   if (DISPLAY_CART == 'true') {
     $goto_mp = $aModules['main'];
     $goto_file = $aFilename['main_shopping_cart'];
-    $parameters = array('action', 'categories', 'products_id', 'pid');
+    $parameters = array('action', 'categories', 'products_id', 'pid', 'formid');
   } else {
     $goto_mp = $sMp;
     $goto_file = $sFile;
     if ($_GET['action'] == 'buy_now') {
-      $parameters = array('action', 'pid', 'cart_quantity');
+      $parameters = array('action', 'pid', 'cart_quantity', 'formid');
     } elseif ($_POST['action'] == 'buy_now') {
-      $parameters = array('action', 'pid', 'cart_quantity');
+      $parameters = array('action', 'pid', 'cart_quantity', 'formid');
     } elseif ($_GET['action'] == 'buy_slave')  {
-      $parameters = array('action', 'pid', 'slave_id', 'cart_quantity');
+      $parameters = array('action', 'pid', 'slave_id', 'cart_quantity', 'formid');
     } elseif ($_POST['action'] == 'buy_slave')  {
-      $parameters = array('action', 'pid', 'slave_id', 'cart_quantity');
+      $parameters = array('action', 'pid', 'slave_id', 'cart_quantity', 'formid');
     } else {
-      $parameters = array('action', 'pid', 'cart_quantity');
+      $parameters = array('action', 'pid', 'cart_quantity', 'formid');
     }
   }
 

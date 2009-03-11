@@ -69,8 +69,8 @@ if (empty($oos_pagetitle)) $oos_pagetitle = OOS_META_TITLE;
 if (empty($oos_meta_description)) $oos_meta_description = OOS_META_DESCRIPTION;
 if (empty($oos_meta_keywords)) $oos_meta_keywords = OOS_META_KEYWORDS;
 
-$formid = md5(uniqid(rand(), true));
-$_SESSION['formid'] = $formid;
+$sFormid = md5(uniqid(rand(), true));
+$_SESSION['formid'] = $sFormid;
 
 $oSmarty->assign(
       array(
@@ -78,6 +78,8 @@ $oSmarty->assign(
           'modules'           => $aModules,
           'main_page'         => $sMp,
           'page_file'         => $sFile,
+          'formid'            => $sFormid,
+
 
           'request_type'      => $request_type,
 

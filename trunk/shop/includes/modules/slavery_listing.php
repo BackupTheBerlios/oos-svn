@@ -273,6 +273,7 @@
                  $lc_text .= '<input type="hidden" name="slave_id" value="' . $listing['products_id'] .'">';
                  $lc_text .= '<input type="hidden" name="mp" value="' . $sMp .'">';
                  $lc_text .= '<input type="hidden" name="file" value="' . $sFile .'">';
+                 $lc_text .= '<input type="hidden" name="formid" value="' . $sFormid .'">';
                  $lc_text .= '<input type="hidden" name="categories" value="' . $categories .'">';
                  $lc_text .= '<input type="hidden" name="products_id" value="' . $nProductsId .'">';
                  $lc_text .= oos_hide_session_id();

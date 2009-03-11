@@ -15,7 +15,13 @@
 	<table width="100%"  border="0" cellspacing="3" cellpadding="0">
   <tr>
     <td>
-	<form name="quick_add" method="post" action="{html_href_link modul=$main_page file=$page_file oos_get=$get_params action=add_a_quickie}">
+<form name="quick_add" action="{html_get_link}" method="post">
+    <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+    <input type="hidden" name="formid" value="{$formid}">
+    <input type="hidden" name="action" value="add_a_quickie">
+    <input type="hidden" name="mp" value="{$main_page}">
+    <input type="hidden" name="file" value="{$page_file}">
+
 	<input type="text" name="cart_quantity" value="1" maxlength="2" size="2">
 	<input name="quickie" type="text" size="10" maxlength="35">
 	{html_customer_image_submit image="add_quick.gif"  border="0" alt=$block_heading_add_product_id} {$lang.block_add_product_id_text}

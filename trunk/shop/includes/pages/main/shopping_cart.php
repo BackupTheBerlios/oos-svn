@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -25,6 +25,22 @@
   $_SESSION['navigation']->remove_current_page();
 
   require 'includes/languages/' . $sLanguage . '/main_shopping_cart.php';
+
+  // links breadcrumb
+  $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+
+  $aOption['template_main'] = $sTheme . '/system/shopping_cart.html';
+  $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+
+  $nPageType = OOS_PAGE_TYPE_CATALOG;
+
+  require 'includes/oos_system.php';
+  if (!isset($option)) {
+    require 'includes/info_message.php';
+    require 'includes/oos_blocks.php';
+    require 'includes/oos_counter.php';
+  }
+
 
   $hidden_field = '';
   $shopping_cart_detail = '';
@@ -92,7 +108,7 @@
           $products[$i][$option]['options_values_id'] = $value;
           $products[$i][$option]['products_options_values_name'] = $attr_value;
           $products[$i][$option]['options_values_price'] = $attr_price;
-          $products[$i][$option]['price_prefix'] = $attributes_values['price_prefix']; 
+          $products[$i][$option]['price_prefix'] = $attributes_values['price_prefix'];
 
         }
       }
@@ -100,20 +116,6 @@
     require 'includes/modules/order_details.php';
   }
 
-  // links breadcrumb
-  $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
-
-  $aOption['template_main'] = $sTheme . '/system/shopping_cart.html';
-  $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-
-  $nPageType = OOS_PAGE_TYPE_CATALOG;
-
-  require 'includes/oos_system.php';
-  if (!isset($option)) {
-    require 'includes/info_message.php';
-    require 'includes/oos_blocks.php';
-    require 'includes/oos_counter.php';
-  }
 
   // assign Smarty variables;
   $oSmarty->assign(
@@ -140,4 +142,5 @@
 
   // display the template
   require 'includes/oos_display.php';
+
 ?>
