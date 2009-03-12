@@ -31,6 +31,7 @@
 	<input type="hidden" name="mp" value="{$main_page}" />
 	<input type="hidden" name="file" value="{$page_file}" />
 	<input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}" />
+	<input type="hidden" name="formid" value="{$formid}" />
 	<select name="template" onchange="showimage()">
 {html_options values=$skins selected=$smarty.session.theme output=$skins}
 	</select>

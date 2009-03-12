@@ -5,8 +5,14 @@
 	</h4>
 	<div class="block_content">
 
-<form name="login" method="post" action="{html_href_link modul=$modules.user file=$filename.login action=process connection=SSL}">
-	<p>{$lang.entry_email_address}
+<form name="login" action="{html_get_link connection=SSL}" method="post">
+    <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+    <input type="hidden" name="formid" value="{$formid}">
+    <input type="hidden" name="action" value="process">
+    <input type="hidden" name="mp" value="{$modules.user}">
+    <input type="hidden" name="file" value="{$filename.login}">
+
+    <p>{$lang.entry_email_address}
 	<input type="text" name="email_address" maxlength="96" size="20" value="" /></p>
 
 	<p>{$lang.entry_password}

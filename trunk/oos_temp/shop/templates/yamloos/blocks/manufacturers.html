@@ -16,6 +16,7 @@
 			<input type="hidden" name="mp" value="{$modules.main}" />
 			<input type="hidden" name="file" value="{$filename.shop}" />
 			<input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}" />
+			<input type="hidden" name="formid" value="{$formid}" />
 			<select name="manufacturers_id" onchange="this.form.submit();" size="{$smarty.const.MAX_MANUFACTURERS_LIST}" style="width: 100%">{html_options values=$manufacturers_values selected=$select_manufacturers output=$manufacturers_names}</select>
 		</form>
 	{/if}

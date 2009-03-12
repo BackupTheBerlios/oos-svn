@@ -16,7 +16,13 @@
 	<table width="100%"  border="0" cellspacing="3" cellpadding="0">
   <tr>
     <td>
-<form name="login" method="post" action="{html_href_link modul=$modules.user file=$filename.login action=process connection=SSL}">
+<form name="login" action="{html_get_link connection=SSL}" method="post">
+    <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+    <input type="hidden" name="formid" value="{$formid}">
+    <input type="hidden" name="action" value="process">
+    <input type="hidden" name="mp" value="{$modules.user}">
+    <input type="hidden" name="file" value="{$filename.login}">
+
 {$lang.entry_email_address}
 <input type="text" name="email_address" maxlength="96" size="17" value="">
 {$lang.entry_password}

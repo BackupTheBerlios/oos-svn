@@ -15,11 +15,12 @@
 	<table width="100%"  border="0" cellspacing="3" cellpadding="0">
   <tr>
     <td>
-<form name="quick_find" action="{html_href_link modul=$modules.search file=$filename.advanced_search_result}" method="get">
+<form name="quick_find" action="{html_get_link}" method="get">
 <input type="hidden" name="mp" value="{$modules.search}">
 <input type="hidden" name="file" value="{$filename.advanced_search_result}">
 {html_js_inputbox name='keywords' size='10' maxlength='30' value=$lang.text_search}
 <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+<input type="hidden" name="formid" value="{$formid}">
 {html_image_submit image="quick_find.gif" alt=$block_heading_search}
 <br />{$lang.block_search_text}<br />
 <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.search file=$filename.advanced_search}">{$lang.block_search_advanced_search}</a>
