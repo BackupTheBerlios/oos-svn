@@ -94,12 +94,7 @@ require 'includes/functions/function_password.php';
 // require  validation functions (right now only email address)
 require 'includes/functions/function_validations.php';
 
-// Todo remove
-if (isset($_POST)) {
-    foreach ($_POST as $key=>$value) {
-        $$key = oos_prepare_input($value);
-    }
-}
+
 
 require 'includes/classes/class_member.php';
 require 'includes/classes/class_products_history.php';
@@ -223,8 +218,6 @@ if ($_SESSION['member']->group['show_price'] == 1) {
 }
 
 
-$today = date("Y-m-d H:i:s");
-
 // Shopping cart actions
 if ( isset($_GET['action'])
    || ( isset($_POST['action']) && isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ){
@@ -254,5 +247,14 @@ if (USE_DB_CACHE == 'true') {
 
 
 $aOption = array();
+
+/*
+// Todo remove
+if (isset($_POST)) {
+    foreach ($_POST as $key=>$value) {
+        $$key = oos_prepare_input($value);
+    }
+}
+*/
 
 ?>
