@@ -30,13 +30,14 @@
 {else}
 
 	<form name="contact_us" action="{html_href_link modul=$modules.main file=$filename.contact_us action=send}" method="post">
+		<input type="hidden" name="formid" value="{$formid}">
 
 		<fieldset class="">
 			<legend>{$oos_heading_title}</legend>
 
 			<span class="oneField">
 				<label for="entry_name" class="preField">{$lang.entry_name}</label>
-			
+
 				{if isset($smarty.session.customer_id) }
 					<input type="hidden" name="name" value="{$customer.customers_firstname} {$customer.customers_lastname}" />{$customer.customers_firstname} {$customer.customers_lastname}
 				{else}

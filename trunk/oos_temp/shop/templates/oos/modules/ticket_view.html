@@ -9,7 +9,7 @@
 {if !isset($tlid) }
       <tr>
         <td><table border="0" cellspacing="0" cellpadding="2">
-          <form name="ticket_view" action="{html_href_link modul=$modules.ticket file=$filename.ticket_view action=send}" method="get"><input type="hidden" name="mp" value="{$modules.ticket}"><input type="hidden" name="file" value="{$filename.ticket_view}">
+<form name="ticket_view" action="{html_href_link modul=$modules.ticket file=$filename.ticket_view action=send}" method="get"><input type="hidden" name="mp" value="{$modules.ticket}"><input type="hidden" name="file" value="{$filename.ticket_view}">
           <tr>
             <td class="main" align="left">{$lang.text_view_ticket_nr}&nbsp;</td>
             <td class="main" align="left"><input type="text" name="tlid"></td>
@@ -104,11 +104,12 @@
             <td align=left class="ticketSmallText">{$statuses_array[i].ticket_comments|nl2br}</td>
           </tr>
        {if $smarty.section.i.last}
-          <form name="ticket_view" action="{html_href_link modul=$modules.ticket file=$filename.ticket_view action=send}" method="post">
-          <input type="hidden" name="tlid" value="{$tlid}">
-          <input type="hidden" name="status" value="{$statuses_array[i].ticket_status_id}">
-          <input type="hidden" name="department" value="{$statuses_array[i].ticket_department_id}">
-          <input type="hidden" name="priority" value="{$statuses_array[i].ticket_priority_id}">
+<form name="ticket_view" action="{html_href_link modul=$modules.ticket file=$filename.ticket_view action=send}" method="post">
+	<input type="hidden" name="tlid" value="{$tlid}">
+	<input type="hidden" name="status" value="{$statuses_array[i].ticket_status_id}">
+	<input type="hidden" name="department" value="{$statuses_array[i].ticket_department_id}">
+	<input type="hidden" name="priority" value="{$statuses_array[i].ticket_priority_id}">
+	<input type="hidden" name="formid" value="{$formid}">
 
           <tr>
             <td class="ticketSmallText" valign="top">{$lang.text_comment}<br><br><br></td>

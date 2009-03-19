@@ -226,16 +226,9 @@ if ($_SESSION['member']->group['show_price'] == 1) {
 $today = date("Y-m-d H:i:s");
 
 // Shopping cart actions
-if ( isset($_GET['action']) || isset($_POST['action']) ) {
-/* and $_GET?
-
-    if ( (!empty($_SESSION['formid'])) && (!empty($_POST['formid'])) ) {
-        if ($_SESSION['formid'] == $_POST['formid']) {
-            require 'includes/oos_cart_actions.php';
-    	}
-    }
-*/
-    require 'includes/oos_cart_actions.php';
+if ( isset($_GET['action'])
+   || ( isset($_POST['action']) && isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ){
+       require 'includes/oos_cart_actions.php';
 }
 
 
