@@ -34,7 +34,7 @@
     $sql = "SELECT customers_id, customers_gender, customers_firstname, customers_lastname,
                    customers_password, customers_wishlist_link_id, customers_language,
                    customers_vat_id_status, customers_email_address, customers_default_address_id,
-                   customers_shopping_points, customers_max_order
+                   customers_max_order
             FROM $customerstable
             WHERE customers_login = '1'
               AND customers_email_address = '" . oos_db_input($email_address) . "'";
@@ -74,7 +74,6 @@
         $_SESSION['customer_country_id'] = $check_country['entry_country_id'];
         $_SESSION['customer_zone_id'] = $check_country['entry_zone_id'];
         if (ACCOUNT_VAT_ID == 'true') $_SESSION['customers_vat_id_status'] = $check_customer['customers_vat_id_status'];
-        $_SESSION['customer_shopping_points'] = $check_customer['customers_shopping_points'];
 
         $_SESSION['member']->restore_group();
 

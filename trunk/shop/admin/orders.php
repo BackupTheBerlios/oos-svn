@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: orders.php,v 1.107 2003/02/06 17:37:08 thomasamoulton 
+   File: orders.php,v 1.107 2003/02/06 17:37:08 thomasamoulton
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -26,7 +26,7 @@
   * Remove Order
   *
   * @param $order_id
-  * @param $restock 
+  * @param $restock
   */
   function oos_remove_order($order_id, $restock = false) {
 
@@ -170,30 +170,6 @@
             oos_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, nl2br($email), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
             $customer_notified = '1';
           }
-
-          if ((isset($_POST['confirm_points']) && ($_POST['confirm_points'] == 'on')) || (isset($_POST['delete_points']) && ($_POST['delete_points'] == 'on'))) {
-            $comments = ENTRY_CONFIRMED_POINTS  . $comments;
-
-            $customers_points_pendingstable = $oostable['customers_points_pending'];
-            $customer_query = $dbconn->Execute("SELECT customer_id, points_pending from $customers_points_pendingstable WHERE points_status = 1 AND points_type = 'SP' AND orders_id = '" . intval($oID) . "'");
-            $customer_points = $customer_query->fields;
-
-            if ($customer_query->RecordCount()) {
-
-              $customerstable = $oostable['customers'];
-              $dbconn->Execute("UPDATE $customerstable SET customers_shopping_points = customers_shopping_points + '". $customer_points['points_pending'] ."' WHERE customers_id = '". (int)$customer_points['customer_id'] ."'");
-
-              if (isset($_POST['delete_points']) && ($_POST['delete_points'] == 'on')) {
-                $customers_points_pendingstable = $oostable['customers_points_pending'];
-                $dbconn->Execute("DELETE FROM $customers_points_pendingstable WHERE orders_id = '" . intval($oID) . "' AND points_type = 'SP' LIMIT 1");
-              }
-              if (isset($_POST['confirm_points']) && ($_POST['confirm_points'] == 'on')) {
-                $customers_points_pendingstable = $oostable['customers_points_pending'];
-                $dbconn->Execute("UPDATE $customers_points_pendingstable SET points_status = 2 WHERE orders_id = '" . intval($oID) . "' AND points_type = 'SP' LIMIT 1");
-              }
-            }
-          }
-
 
           $orders_status_historytable = $oostable['orders_status_history'];
           $dbconn->Execute("INSERT INTO $orders_status_historytable (orders_id, orders_status_id, date_added, customer_notified, comments) VALUES ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', now(), '" . $customer_notified . "', '" . oos_db_input($comments)  . "')");
@@ -536,8 +512,8 @@ function popupGoogleMap(url) {
         echo '          <tr class="dataTableRow">' . "\n" .
              '            <td class="dataTableContent" colspan="2" valign="top" align="right">Enter Serial #:&nbsp;</td>' . "\n";
 
-        echo '            <td class="dataTableContent" colspan="7" valign="top">' . 
-                          oos_draw_form('serial_form', $aFilename['orders'], 'action=update_serial&oID=' . $oID . '&serial=' . $order->products[$i]['id'], 'post', '') . 
+        echo '            <td class="dataTableContent" colspan="7" valign="top">' .
+                          oos_draw_form('serial_form', $aFilename['orders'], 'action=update_serial&oID=' . $oID . '&serial=' . $order->products[$i]['id'], 'post', '') .
                           oos_draw_input_field('serial_number', $serial_number, '', false, 'text', true) . '&nbsp;&nbsp;' . oos_image_swap_submits('update','update_off.gif', IMAGE_UPDATE) . '</td>' . "\n" .
              '          </tr>' . "\n";
       }
@@ -619,17 +595,6 @@ function popupGoogleMap(url) {
                 <td class="main"><b><?php echo ENTRY_NOTIFY_COMMENTS; ?></b> <?php echo oos_draw_checkbox_field('notify_comments', '', true); ?></td>
               </tr>
 
-<?php
-    $customers_points_pendingstable = $oostable['customers_points_pending'];
-    $p_status_result = $dbconn->Execute("SELECT points_status FROM $customers_points_pendingstable WHERE points_status = 1 AND points_type = 'SP' AND orders_id = '" . intval($oID) . "'");
-    if ($p_status_result->RecordCount()) {
-?>
-              <tr>
-                <td colspan="2" class="main"><b><?php echo ENTRY_NOTIFY_POINTS . '</b>&nbsp;' . ENTRY_QUE_POINTS . oos_draw_checkbox_field('confirm_points', '', false) . '&nbsp;' . ENTRY_QUE_DEL_POINTS . oos_draw_checkbox_field('delete_points', '', false); ?>&nbsp;&nbsp;</td>
-             </tr>
-<?php
-    }
-?>
             </table></td>
             <td valign="top"><?php echo oos_image_swap_submits('update','update_off.gif', IMAGE_UPDATE); ?></td>
           </tr>
@@ -692,7 +657,7 @@ function popupGoogleMap(url) {
       $orderstable = $oostable['orders'];
       $orders_totaltable = $oostable['orders_total'];
       $orders_statustable = $oostable['orders_status'];
-      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.payment_method, o.date_purchased, o.last_modified, 
+      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.payment_method, o.date_purchased, o.last_modified,
                                    o.currency, o.currency_value, s.orders_status_name, ot.text as order_total
                              FROM $orderstable o LEFT JOIN
                                   $orders_totaltable ot
@@ -701,13 +666,13 @@ function popupGoogleMap(url) {
                             WHERE o.orders_status = s.orders_status_id AND
                                   s.orders_languages_id = '" . intval($_SESSION['language_id']) . "' AND
                                   s.orders_status_id = '" . oos_db_input($status) . "' AND
-                                  ot.class = 'ot_total' 
+                                  ot.class = 'ot_total'
                             ORDER BY o.orders_id DESC";
     } else {
       $orderstable = $oostable['orders'];
       $orders_totaltable = $oostable['orders_total'];
       $orders_statustable = $oostable['orders_status'];
-      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.payment_method, o.date_purchased, o.last_modified, 
+      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.payment_method, o.date_purchased, o.last_modified,
                                    o.currency, o.currency_value, s.orders_status_name, ot.text as order_total
                              FROM $orderstable o LEFT JOIN
                                   $orders_totaltable ot

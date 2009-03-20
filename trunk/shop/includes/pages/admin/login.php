@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -17,13 +17,13 @@
    Copyright (c) 2002 - 2003 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
-   ---------------------------------------------------------------------- 
+   ----------------------------------------------------------------------
    P&G Shipping Module Version 0.1 12/03/2002
    osCommerce Shipping Management Module
    Copyright (c) 2002  - Oliver Baelde
    http://www.francecontacts.com
    dev@francecontacts.com
-   - eCommerce Solutions development and integration - 
+   - eCommerce Solutions development and integration -
 
    osCommerce, Open Source E-Commerce Solutions
    Copyright (c) 2002 osCommerce
@@ -32,7 +32,7 @@
    IMPORTANT NOTE:
    This script is not part of the official osCommerce distribution
    but an add-on contributed to the osCommerce community. Please
-   read the README and  INSTALL documents that are provided 
+   read the README and  INSTALL documents that are provided
    with this file for further information and installation notes.
 
    LICENSE:
@@ -100,8 +100,7 @@
     $customerstable = $oostable['customers'];
     $sql = "SELECT customers_id, customers_gender, customers_firstname, customers_lastname,
                    customers_password, customers_wishlist_link_id, customers_vat_id_status,
-                   customers_email_address, customers_default_address_id,
-                   customers_shopping_points, customers_max_order
+                   customers_email_address, customers_default_address_id, customers_max_order
             FROM $customerstable
             WHERE customers_login = '1'
               AND customers_email_address = '" . oos_db_input($email_addressb) . "'";
@@ -133,7 +132,6 @@
       $_SESSION['customer_country_id'] = $check_country['entry_country_id'];
       $_SESSION['customer_zone_id'] = $check_country['entry_zone_id'];
       if (ACCOUNT_VAT_ID == 'true') $_SESSION['customers_vat_id_status'] = $check_customer['customers_vat_id_status'];
-      $_SESSION['customer_shopping_points'] = $check_customer['customers_shopping_points'];
 
       $_SESSION['man_key'] = $keya;
       $_SESSION['member']->restore_group();

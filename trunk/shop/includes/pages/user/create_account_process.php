@@ -5,12 +5,12 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: create_account_process.php,v 1.1.2.4 2003/05/02 22:23:01 wilt 
-   orig: create_account_process.php,v 1.85 2003/02/13 04:23:23 hpdl 
+   File: create_account_process.php,v 1.1.2.4 2003/05/02 22:23:01 wilt
+   orig: create_account_process.php,v 1.85 2003/02/13 04:23:23 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -343,7 +343,6 @@
                             'customers_status' => $customers_status,
                             'customers_login' => $customers_login,
                             'customers_language' => $sLanguage,
-                            'customers_shopping_points' => $customer_shopping_points,
                             'customers_max_order' => $customer_max_order,
                             'customers_password' => oos_encrypt_password($password),
                             'customers_wishlist_link_id' => $wishlist_link_id,
@@ -392,7 +391,7 @@
     $customers_infotable = $oostable['customers_info'];
     $dbconn->Execute("INSERT INTO $customers_infotable
                 (customers_info_id,
-                 customers_info_number_of_logons, 
+                 customers_info_number_of_logons,
                  customers_info_date_account_created) VALUES ('" . intval($customer_id) . "',
                                                               '0',
                                                               now())");
@@ -404,7 +403,7 @@
     $check_mail_customer_result = $dbconn->Execute($sql);
     if ($check_mail_customer_result->RecordCount()) {
       $dbconn->Execute("UPDATE " . $oostable['maillist'] . "
-                    SET customers_newsletter = '0' 
+                    SET customers_newsletter = '0'
                     WHERE customers_email_address = '" . oos_db_input($email_address) . "'");
     }
 
@@ -475,8 +474,8 @@
 
         $email_text .= sprintf($aLang['email_gv_incentive_header'], $oCurrencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
                        sprintf($aLang['email_gv_redeem'], $coupon_code) . "\n\n" .
-                       $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $coupon_code, 'NONSSL', false, false) . 
-                       "\n\n";  
+                       $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $coupon_code, 'NONSSL', false, false) .
+                       "\n\n";
       }
       if (NEW_SIGNUP_DISCOUNT_COUPON != '') {
         $coupon_id = NEW_SIGNUP_DISCOUNT_COUPON;
