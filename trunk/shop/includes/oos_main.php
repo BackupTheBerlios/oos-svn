@@ -32,7 +32,7 @@ define('BP', dirname(dirname(__FILE__)));
 /**
  * Error reporting
  */
-error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(E_ALL);
 //  error_reporting(0);
 
 
@@ -44,11 +44,12 @@ if (function_exists('ini_set')) {
 // Set the local configuration parameters - mainly for developers
 if (is_readable('includes/local/configure.php')) {
     include('includes/local/configure.php');
+} else {
+    require 'includes/configure.php';
 }
 
 
 // require  server parameters
-require 'includes/configure.php';
 require 'includes/oos_define.php';
 
 
@@ -93,7 +94,6 @@ require 'includes/functions/function_password.php';
 
 // require  validation functions (right now only email address)
 require 'includes/functions/function_validations.php';
-
 
 
 require 'includes/classes/class_member.php';
