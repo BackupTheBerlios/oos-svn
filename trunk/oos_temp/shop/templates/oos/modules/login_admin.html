@@ -19,8 +19,15 @@
     <tr>
       <td>
 
-<form name="login" method="post" action="{html_href_link modul=$modules.admin file=$filename.admin_login action=login_process connection=SSL}">
-	<input type="hidden" name="formid" value="{$formid}">
+<form name="login" action="{html_get_link connection=SSL}" method="post">
+    <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+    <input type="hidden" name="formid" value="{$formid}">
+    <input type="hidden" name="action" value="login_process">
+    <input type="hidden" name="mp" value="{$modules.admin}">
+    <input type="hidden" name="file" value="{$filename.admin_login}">
+	<input type="hidden" name="email_addressa" value="{$email_address}">
+	<input type="hidden" name="keya" value="{$verif_key}">
+	<input type="hidden" name="keyb" value="{$newkey2}">
 
 	<table border="0" width="70%" cellspacing="0" cellpadding="2">
          <tr>
@@ -47,9 +54,7 @@
                   <tr>
                     <td class="main"><b>{$lang.entry_key}</b></td>
                     <td class="main">{$newkey2}</td>
-                  </tr><input type="hidden" name="email_addressa" value="{$email_address}">
-                    <input type="hidden" name="keya" value="{$verif_key}">
-                    <input type="hidden" name="keyb" value="{$newkey2}">
+                  </tr>
                   <tr><td colspan="2"><td height="10"></td></tr>
                   <tr><td class="smallText" colspan="2"></td></tr>
                   <tr><td colspan="2"><td height="10"></td></tr>

@@ -1,6 +1,10 @@
 <!--  $Id$ -->
-<form name="checkout_payment" action="{html_href_link modul=$modules.checkout file=$filename.checkout_confirmation connection=SSL}" method="post" onsubmit="return check_form();">
-	<input type="hidden" name="formid" value="{$formid}">
+<form name="checkout_payment" action="{html_get_link connection=SSL}" method="post" onSubmit="return check_form();">
+    <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+    <input type="hidden" name="formid" value="{$formid}">
+    <input type="hidden" name="mp" value="{$modules.checkout}">
+    <input type="hidden" name="file" value="{$filename.checkout_confirmation}">
+
 
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
       <tr>
@@ -102,7 +106,7 @@
                     <td class="main" colspan="3"><b>{$selection[i].module}</b></td>
                     <td class="main" align="right">
     {if sizeof($selection) > 1 }
-      <input type="radio" name="payment" value="{$selection[i].id}" {if $selection[i].id eq $smarty.session.payment}checked{/if} >
+      <input type="radio" name="payment" value="{$selection[i].id}" {if $selection[i].id eq $smarty.session.payment}checked="checked"{/if} >
     {else}
       <input type="hidden" name="payment" value="{$selection[i].id}">
     {/if}

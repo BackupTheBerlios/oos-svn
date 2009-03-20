@@ -51,14 +51,14 @@
    All contributions are gladly accepted though Paypal.
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  require 'includes/languages/' . $sLanguage . '/admin_login.php';
+require 'includes/languages/' . $sLanguage . '/admin_login.php';
 
-  $_SESSION['navigation']->remove_current_page();
+$_SESSION['navigation']->remove_current_page();
 
-  if (isset($_SESSION['customer_id'])) {
+if (isset($_SESSION['customer_id'])) {
     unset($_SESSION['customer_id']);
     unset($_SESSION['customer_wishlist_link_id']);
     unset($_SESSION['customer_default_address_id']);
@@ -76,10 +76,19 @@
     $_SESSION['cart']->reset();
 
     $_SESSION['member']->default_member();
-  }
+}
 
-  if (isset($_GET['action']) && ($_GET['action'] == 'login_process')) {
+if (isset($_POST)) {
+    $email_address = oos_prepare_input($_POST['email_address']);
+    $verif_key = oos_prepare_input($_POST['verif_key']);
+}
+
+
+if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
     $email_addressb = oos_prepare_input($_POST['email_addressa']);
+    $keya = oos_prepare_input($_POST['keya']);
+    $keyb = oos_prepare_input($_POST['keyb']);
+
     $manual_infotable = $oostable['manual_info'];
     $sql = "SELECT man_name, defined
             FROM $manual_infotable
@@ -87,13 +96,14 @@
               AND man_key2 = '" . oos_db_input($keyb) . "'
               AND status = '1'";
     $login_result = $dbconn->Execute($sql);
+
     if (!$login_result->RecordCount()) {
-      $manual_infotable = $oostable['manual_info'];
-      $dbconn->Execute("UPDATE $manual_infotable
-                    SET man_key = '',
-                        man_key2 = ''
-                    WHERE man_info_id = '1'");
-      oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+        $manual_infotable = $oostable['manual_info'];
+        $dbconn->Execute("UPDATE $manual_infotable
+                          SET man_key = '',
+                              man_key2 = ''
+                          WHERE man_info_id = '1'");
+        oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
     }
 
     // Check if email exists
@@ -107,82 +117,85 @@
     $check_customer_result = $dbconn->Execute($sql);
 
     if (!$check_customer_result->RecordCount()) {
-      $_GET['login'] = 'fail';
-      $dbconn->Execute("UPDATE " . $oostable['manual_info'] . "
-                    SET man_key2  = ''
-                    WHERE where man_info_id = '1'");
+        $_GET['login'] = 'fail';
+        $dbconn->Execute("UPDATE " . $oostable['manual_info'] . "
+                          SET man_key2  = ''
+                          WHERE where man_info_id = '1'");
     } else {
-      $check_customer = $check_customer_result->fields;
-      $login_result_values = $login_result->fields;
-      // Check that status is 1 and
-      $address_booktable = $oostable['address_book'];
-      $sql = "SELECT entry_country_id, entry_zone_id
-              FROM $address_booktable
-              WHERE customers_id = '" . $check_customer['customers_id'] . "'
-                AND address_book_id = '1'";
-      $check_country = $dbconn->GetRow($sql);
+        $check_customer = $check_customer_result->fields;
+        $login_result_values = $login_result->fields;
 
-      $_SESSION['customer_wishlist_link_id'] = $check_customer['customers_wishlist_link_id'];
-      $_SESSION['customer_id'] = $check_customer['customers_id'];
-      $_SESSION['customer_default_address_id'] = $check_customer['customers_default_address_id'];
-      if (ACCOUNT_GENDER == 'true') $_SESSION['customer_gender'] = $check_customer['customers_gender'];
-      $_SESSION['customer_first_name'] = $check_customer['customers_firstname'];
-      $_SESSION['customer_lastname'] = $check_customer['customers_lastname'];
-      $_SESSION['customer_max_order'] = $check_customer['customers_max_order'];
-      $_SESSION['customer_country_id'] = $check_country['entry_country_id'];
-      $_SESSION['customer_zone_id'] = $check_country['entry_zone_id'];
-      if (ACCOUNT_VAT_ID == 'true') $_SESSION['customers_vat_id_status'] = $check_customer['customers_vat_id_status'];
+        // Check that status is 1 and
+        $address_booktable = $oostable['address_book'];
+        $sql = "SELECT entry_country_id, entry_zone_id
+                FROM $address_booktable
+                WHERE customers_id = '" . $check_customer['customers_id'] . "'
+                  AND address_book_id = '1'";
+        $check_country = $dbconn->GetRow($sql);
 
-      $_SESSION['man_key'] = $keya;
-      $_SESSION['member']->restore_group();
+        $_SESSION['customer_wishlist_link_id'] = $check_customer['customers_wishlist_link_id'];
+        $_SESSION['customer_id'] = $check_customer['customers_id'];
+        $_SESSION['customer_default_address_id'] = $check_customer['customers_default_address_id'];
+        if (ACCOUNT_GENDER == 'true') $_SESSION['customer_gender'] = $check_customer['customers_gender'];
+        $_SESSION['customer_first_name'] = $check_customer['customers_firstname'];
+        $_SESSION['customer_lastname'] = $check_customer['customers_lastname'];
+        $_SESSION['customer_max_order'] = $check_customer['customers_max_order'];
+        $_SESSION['customer_country_id'] = $check_country['entry_country_id'];
+        $_SESSION['customer_zone_id'] = $check_country['entry_zone_id'];
+        if (ACCOUNT_VAT_ID == 'true') $_SESSION['customers_vat_id_status'] = $check_customer['customers_vat_id_status'];
+
+        $_SESSION['man_key'] = $keya;
+        $_SESSION['member']->restore_group();
 
 // restore cart contents
-      $_SESSION['cart']->restore_contents();
-      oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+        $_SESSION['cart']->restore_contents();
+        oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
 
     }
-  }
+}
 
-  // links breadcrumb
-  $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+// links breadcrumb
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 
-  $info_message = '';
-  if (isset($_GET['login']) && ($_GET['login'] == 'fail')) {
+$info_message = '';
+if (isset($_GET['login']) && ($_GET['login'] == 'fail')) {
     $info_message = $aLang['text_login_error'];
-  } if ($_GET['login'] == 'fail2') {
+} if ($_GET['login'] == 'fail2') {
     $info_message = $aLang['text_login_error2'];
-  } elseif ($_SESSION['cart']->count_contents()) {
+} elseif ($_SESSION['cart']->count_contents()) {
     $info_message = $aLang['text_visitors_cart'];
-  }
+}
 
-  $aOption['template_main'] = $sTheme . '/modules/login_admin.html';
-  $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['template_main'] = $sTheme . '/modules/login_admin.html';
+$aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 
-  $nPageType = OOS_PAGE_TYPE_SERVICE;
+$nPageType = OOS_PAGE_TYPE_SERVICE;
 
-  require 'includes/oos_system.php';
-  if (!isset($option)) {
+require 'includes/oos_system.php';
+if (!isset($option)) {
     require 'includes/info_message.php';
     require 'includes/oos_blocks.php';
     require 'includes/oos_counter.php';
-  }
+}
 
 
 // assign Smarty variables;
-  $oSmarty->assign(
+$oSmarty->assign(
       array('oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
             'oos_heading_title' => $aLang['heading_title'],
             'oos_heading_image' => 'login.gif',
 
             'info_message'      => $info_message
       )
-  );
+);
 
-  // JavaScript
-  $oSmarty->assign('popup_window', 'popup_window.js');
 
-  if (isset($_GET['action']) && ($_GET['action'] == 'login_admin')) {
+// JavaScript
+$oSmarty->assign('popup_window', 'popup_window.js');
+
+if (isset($_GET['action']) && ($_GET['action'] == 'login_admin')) {
     require 'includes/modules/key_generate.php';
+
     $manual_infotable = $oostable['manual_info'];
     $login_query = "SELECT man_key2, man_key3, status FROM $manual_infotable WHERE man_key = '" . oos_db_input($verif_key) . "' AND status = '1'";
     $login_result_values = $dbconn->GetRow($login_query);
@@ -194,11 +207,12 @@
               'login_result_values' => $login_result_values
        )
     );
-  }
+}
 
-  $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
-  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
+$oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
+$oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
-  // display the template
-  require 'includes/oos_display.php';
+// display the template
+require 'includes/oos_display.php';
+
 ?>
