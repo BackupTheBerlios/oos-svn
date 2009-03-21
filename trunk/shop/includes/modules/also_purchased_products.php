@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,12 +19,12 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  $aPurchased = array();
+$aPurchased = array();
 
-  if (isset($_GET['products_id']) && is_numeric(MAX_DISPLAY_ALSO_PURCHASED)) {
+if (isset($_GET['products_id']) && is_numeric(MAX_DISPLAY_ALSO_PURCHASED)) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 
     $orders_productstable = $oostable['orders_products'];
@@ -48,17 +48,15 @@
 
     $num_products_ordered = $orders_result->RecordCount();
     if ($num_products_ordered >= MIN_DISPLAY_ALSO_PURCHASED) {
-      while ($orders = $orders_result->fields) {
-        $aPurchased[] = array('products_name' => oos_get_products_name($orders['products_id']),
-                              'products_id' => $orders['products_id'],
-                              'products_image' => $orders['products_image']);
+        while ($orders = $orders_result->fields) {
+            $aPurchased[] = array('products_name' => oos_get_products_name($orders['products_id']),
+                                  'products_id' => $orders['products_id'],
+                                  'products_image' => $orders['products_image']);
 
-        // Move that ADOdb pointer!
-        $orders_result->MoveNext();
-      }
-      // Close result set
-      $orders_result->Close();
+            // Move that ADOdb pointer!
+            $orders_result->MoveNext();
+        }
     }
-  }
+}
 
 ?>

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -23,12 +23,12 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!is_numeric(MAX_DISPLAY_XSELL_PRODUCTS)) return false;
+if (!is_numeric(MAX_DISPLAY_XSELL_PRODUCTS)) return false;
 
-  if (isset($_GET['products_id'])) {
+if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 
     $productstable = $oostable['products'];
@@ -50,8 +50,8 @@
 
     $nXsellProducts = $xsell_products_result->RecordCount();
     if ($nXsellProducts >=  MIN_DISPLAY_XSELL_PRODUCTS) {
-      $oSmarty->assign('oos_xsell_products_array', $xsell_products_result->GetArray());
+        $oSmarty->assign('oos_xsell_products_array', $xsell_products_result->GetArray());
     }
-  }
+}
 
 ?>

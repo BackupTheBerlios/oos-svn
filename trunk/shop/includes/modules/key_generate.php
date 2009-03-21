@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -15,7 +15,7 @@
    Copyright (c) 2002  - Oliver Baelde
    http://www.francecontacts.com
    dev@francecontacts.com
-   - eCommerce Solutions development and integration - 
+   - eCommerce Solutions development and integration -
 
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -25,10 +25,10 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  function RandomPassword( $passwordLength ) {
+function RandomPassword( $passwordLength ) {
     $newkey2 = "";
     for ($index = 1; $index <= $passwordLength; $index++) {
       // Pick random number between 1 and 62
@@ -42,15 +42,15 @@
         $newkey2 .= Chr($randomNumber + 97 - 36); // [37,62] => [a,z]
     }
     return $newkey2;
-  }
+}
 
-  $passwordLength = 24 ;
-  $newkey2 = RandomPassword($passwordLength);
+$passwordLength = 24 ;
+$newkey2 = RandomPassword($passwordLength);
 
-  $manual_infotable = $oostable['manual_info'];
-  $dbconn->Execute("UPDATE $manual_infotable
-                    SET man_key2  = '" . oos_db_input($newkey2) . "'
-                    WHERE man_info_id = '1'");
+$manual_infotable = $oostable['manual_info'];
+$dbconn->Execute("UPDATE $manual_infotable
+                  SET man_key2  = '" . oos_db_input($newkey2) . "'
+                  WHERE man_info_id = '1'");
 
 
 ?>
