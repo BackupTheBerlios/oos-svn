@@ -25,9 +25,8 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 $aFilename = array();
 $prefix_filename = '';
-  if (!$prefix_filename == '') $prefix_filename =$prefix_filename . '_';
+if (!$prefix_filename == '') $prefix_filename =$prefix_filename . '_';
 
-$aFilename['affiliate_show_banner'] = $prefix_filename . 'show_banner.php';
 $aFilename['conditions_download'] = $prefix_filename . 'conditions.pdf';
 
 //includes/pages/account
@@ -149,7 +148,6 @@ if (!$prefix_modules == '') $prefix_modules =$prefix_modules . '_';
 $aModules = array();
 $aModules['account'] = $prefix_modules . 'account';
 $aModules['admin'] = $prefix_modules . 'admin';
-$aModules['affiliate'] = $prefix_modules . 'affiliate';
 $aModules['checkout'] = $prefix_modules . 'checkout';
 $aModules['info'] = $prefix_modules . 'info';
 $aModules['gv'] = $prefix_modules . 'gv';

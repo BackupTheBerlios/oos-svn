@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: currencies.php,v 1.14 2003/02/11 00:04:51 hpdl 
+   File: currencies.php,v 1.14 2003/02/11 00:04:51 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -90,10 +90,6 @@
            $show_what_price = $aLang['down_for_maintenance_no_prices_display'];
            break;
 
-        case ($_SESSION['member']->group['show_price'] != 1) && (!isset($_SESSION['affiliate_id'])):
-            $show_what_price = $aLang['no_login_no_prices_display'];
-            break;
-
         default:
             $show_what_price = $this->format(oos_add_tax($products_price, $products_tax) * $quantity);
             break;
@@ -101,4 +97,5 @@
       return $show_what_price;
     }
   }
+
 ?>
