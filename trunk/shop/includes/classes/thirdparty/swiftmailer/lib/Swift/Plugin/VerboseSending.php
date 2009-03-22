@@ -9,6 +9,10 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_Events_SendListener");
 Swift_ClassLoader::load("Swift_Plugin_VerboseSending_DefaultView");
@@ -27,7 +31,7 @@ class Swift_Plugin_VerboseSending implements Swift_Events_SendListener
    * @var Swift_Plugin_VerboseSending_AbstractView
    */
   protected $view;
-  
+
   /**
    * Ctor.
    * @param Swift_Plugin_VerboseSending_AbstractView The view object to display the result

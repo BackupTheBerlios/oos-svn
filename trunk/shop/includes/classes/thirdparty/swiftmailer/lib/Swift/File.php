@@ -9,6 +9,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/ClassLoader.php";
 Swift_ClassLoader::load("Swift_FileException");
 
@@ -40,7 +43,7 @@ class Swift_File
    * @var boolean
    */
   protected $magic_quotes = false;
-  
+
   /**
    * Constructor
    * @param string The path the the file
@@ -140,9 +143,9 @@ class Swift_File
       $ret = fgets($this->handle);
     }
     else $ret = false;
-    
+
     set_magic_quotes_runtime($this->magic_quotes);
-    
+
     return $ret;
   }
   /**
@@ -173,9 +176,9 @@ class Swift_File
       $ret = fread($this->handle, $bytes);
     }
     else $ret = false;
-    
+
     if ($unquote) set_magic_quotes_runtime($this->magic_quotes);
-    
+
     return $ret;
   }
   /**

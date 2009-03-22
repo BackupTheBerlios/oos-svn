@@ -9,6 +9,8 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 /**
  * Swift Decorator Plugin Replacements.
@@ -24,7 +26,7 @@ class Swift_Plugin_Decorator_Replacements
    * @var array,array
    */
   protected $replacements;
-  
+
   /**
    * Ctor.
    * @param array The replacements as a 2-d array, optional

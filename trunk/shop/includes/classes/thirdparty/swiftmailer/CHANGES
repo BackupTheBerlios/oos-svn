@@ -1,5 +1,15 @@
 Version 3 is basically a completely new Swift which is (barely) based on the original.
 
+3.3.2 [14th October 2007]
+-------------------------
+
+Bugfix
+ * QP encoding message truncation bug fixed (add a fallback statement to a while loop)
+
+Name changes
+ * Renamed $PopB4Stmp$.php to @PopB4Smtp.php after some complaints the file wouldn't FTP with some hosts.
+
+
 3.3.1 [24th August 2007]
 ------------------------
 

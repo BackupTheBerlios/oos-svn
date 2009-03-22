@@ -9,6 +9,8 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 /**
  * Generated every time Swift connects with a MTA
@@ -22,7 +24,7 @@ class Swift_Events_ConnectEvent extends Swift_Events
    * @var Swift_Connection
    */
   protected $connection = null;
-  
+
   /**
    * Constructor
    * @param Swift_Connection The new connection

@@ -7,7 +7,10 @@
  * @package Swift_Connection
  * @license GNU Lesser General Public License
  */
- 
+
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_ConnectionBase");
 
@@ -34,7 +37,7 @@ class Swift_Connection_Rotator extends Swift_ConnectionBase
    * @var array
    */
   protected $dead = array();
-  
+
   /**
    * Constructor
    */
@@ -69,11 +72,11 @@ class Swift_Connection_Rotator extends Swift_ConnectionBase
     {
       $log->add(" <==> Rotating connection.");
     }
-    
+
     $total = count($this->connections);
     $start = $this->active === null ? 0 : ($this->active + 1);
     if ($start >= $total) $start = 0;
-    
+
     $fail_messages = array();
     for ($id = $start; $id < $total; $id++)
     {
@@ -95,7 +98,7 @@ class Swift_Connection_Rotator extends Swift_ConnectionBase
         $fail_messages[] = $id . ": " . $e->getMessage();
       }
     }
-    
+
     $failure = implode("<br />", $fail_messages);
     throw new Swift_ConnectionException("No connections were started.<br />" . $failure);
   }

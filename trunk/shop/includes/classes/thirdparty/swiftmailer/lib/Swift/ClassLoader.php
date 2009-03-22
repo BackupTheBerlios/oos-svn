@@ -8,6 +8,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 if (!defined("SWIFT_ABS_PATH")) define("SWIFT_ABS_PATH", dirname(__FILE__) . "/..");
 
 /**
@@ -22,7 +25,7 @@ class Swift_ClassLoader
    * @var array
    */
   protected static $located = array();
-  
+
   /**
    * Load a new class into memory
    * @param string The name of the class, case SenSItivE
@@ -31,7 +34,7 @@ class Swift_ClassLoader
   {
     if (in_array($name, self::$located) || class_exists($name, false) || interface_exists($name, false))
       return;
-    
+
     require_once SWIFT_ABS_PATH . "/" . str_replace("_", "/", $name) . ".php";
     self::$located[] = $name;
   }

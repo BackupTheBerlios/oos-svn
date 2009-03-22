@@ -8,6 +8,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_Plugin_BandwidthMonitor");
 Swift_ClassLoader::load("Swift_Events_SendListener");
@@ -40,7 +43,7 @@ class Swift_Plugin_Throttler extends Swift_Plugin_BandwidthMonitor implements Sw
    * @var int
    */
   protected $time = null;
-  
+
   /**
    * Part of the interface which is notified after a command is sent.
    * @param Swift_Events_CommandEvent
@@ -49,7 +52,7 @@ class Swift_Plugin_Throttler extends Swift_Plugin_BandwidthMonitor implements Sw
   {
     parent::commandSent($e);
     if (null === $rate = $this->getBytesPerMinute()) return;
-    
+
     $duration = $this->getTimeLapse();
     $bytes_sent = $this->getBytesOut();
     $bytes_per_sec = $rate / 60;
@@ -68,7 +71,7 @@ class Swift_Plugin_Throttler extends Swift_Plugin_BandwidthMonitor implements Sw
   {
     $this->setSent($this->getSent() + 1);
     if (null === $rate = $this->getEmailsPerMinute()) return;
-    
+
     $duration = $this->getTimeLapse();
     $emails_sent = $this->getSent();
     $emails_per_sec = $rate / 60;

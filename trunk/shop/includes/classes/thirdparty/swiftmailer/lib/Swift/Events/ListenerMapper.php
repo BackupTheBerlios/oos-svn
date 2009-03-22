@@ -9,6 +9,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 /**
  * Maps event listener names to the methods they implement
  * @package Swift_Events
@@ -33,7 +36,7 @@ class Swift_Events_ListenerMapper
     );
     return $map;
   }
-  
+
   /**
    * Get the name of the method which needs running based upon the listener name
    * @return string

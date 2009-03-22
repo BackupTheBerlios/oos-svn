@@ -7,7 +7,10 @@
  * @package Swift_Connection
  * @license GNU Lesser General Public License
  */
- 
+
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_ConnectionBase");
 
@@ -29,7 +32,7 @@ class Swift_Connection_Multi extends Swift_ConnectionBase
    * @var string
    */
   protected $active = null;
-  
+
   /**
    * Constructor
    */

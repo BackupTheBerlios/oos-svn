@@ -8,6 +8,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_Iterator");
 
@@ -39,7 +42,7 @@ class Swift_Iterator_MySQLResult implements Swift_Iterator
    * @var int
    */
   protected $numRows = 0;
-  
+
   /**
    * Ctor.
    * @param resource The resultset iterate over.
@@ -77,7 +80,7 @@ class Swift_Iterator_MySQLResult implements Swift_Iterator
       $this->pos++;
       return true;
     }
-    
+
     return false;
   }
   /**
@@ -95,7 +98,7 @@ class Swift_Iterator_MySQLResult implements Swift_Iterator
       $this->pos = $pos;
       return true;
     }
-    
+
     return false;
   }
   /**

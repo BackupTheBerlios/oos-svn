@@ -9,6 +9,8 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 /**
  * Generated every time a message is sent with Swift
@@ -42,7 +44,7 @@ class Swift_Events_SendEvent extends Swift_Events
    * @var array
    */
   protected $failed = array();
-  
+
   /**
    * Constructor
    * @param Swift_Message The message being sent

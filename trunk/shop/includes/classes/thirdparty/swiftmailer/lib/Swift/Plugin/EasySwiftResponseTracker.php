@@ -9,6 +9,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_Events_ResponseListener");
 
@@ -25,7 +28,7 @@ class Swift_Plugin_EasySwiftResponseTracker implements Swift_Events_ResponseList
    * @var EasySwift
    */
   protected $target = null;
-  
+
   /**
    * Constructor
    * @param EasySwift The instance of EasySwift to run against

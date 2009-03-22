@@ -9,6 +9,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_Log");
 
@@ -24,7 +27,7 @@ class Swift_Log_DefaultLog extends Swift_Log
    * @var array
    */
   protected $entries = array();
-  
+
   /**
    * Add a log entry
    * @param string The text for this entry

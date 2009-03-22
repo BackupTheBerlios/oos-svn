@@ -9,6 +9,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 /**
  * The View layer for the Verbose Sending Plugin
  * @package Swift_Plugin

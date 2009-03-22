@@ -8,6 +8,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 /**
  * The wraps the streaming functionality of the cache
  * @package Swift_Cache
@@ -25,7 +28,7 @@ class Swift_Cache_OutputStream
    * @var Swift_Cache
    */
   protected $cache;
-  
+
   /**
    * Ctor.
    * @param Swift_Cache The cache to read from

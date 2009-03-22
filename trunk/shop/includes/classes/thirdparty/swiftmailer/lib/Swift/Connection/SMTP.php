@@ -8,6 +8,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_ConnectionBase");
 Swift_ClassLoader::load("Swift_Authenticator");
@@ -88,7 +91,7 @@ class Swift_Connection_SMTP extends Swift_ConnectionBase
    * @var string
    */
   protected $errstr;
-  
+
   /**
    * Constructor
    * @param string The remote server to connect to
@@ -287,17 +290,17 @@ class Swift_Connection_SMTP extends Swift_ConnectionBase
         break;
       }
     }
-    
+
     $server = $this->server;
     if ($this->encryption == self::ENC_TLS) $server = "tls://" . $server;
     elseif ($this->encryption == self::ENC_SSL) $server = "ssl://" . $server;
-    
+
     $log = Swift_LogContainer::getLog();
     if ($log->hasLevel(Swift_log::LOG_EVERYTHING))
     {
       $log->add("Trying to connect to SMTP server at '" . $server . ":" . $this->port);
     }
-    
+
     if (!$this->handle = @fsockopen($server, $this->port, $errno, $errstr, $this->timeout))
     {
       $error_msg = "The SMTP connection failed to start [" . $server . ":" . $this->port . "]: fsockopen returned Error Number " . $errno . " and Error String '" . $errstr . "'";
@@ -367,10 +370,10 @@ class Swift_Connection_SMTP extends Swift_ConnectionBase
       }
       closedir($handle);
     }
-    
+
     $tried = 0;
     $looks_supported = true;
-    
+
     //Allow everything we have if the server has the audacity not to help us out.
     if (!$this->hasExtension("AUTH"))
     {
@@ -381,7 +384,7 @@ class Swift_Connection_SMTP extends Swift_ConnectionBase
       $looks_supported = false;
       $this->setExtension("AUTH", array_keys($this->authenticators));
     }
-    
+
     foreach ($this->authenticators as $name => $obj)
     {
       //Server supports this authentication mechanism
@@ -402,11 +405,11 @@ class Swift_Connection_SMTP extends Swift_ConnectionBase
         }
       }
     }
-    
+
     //Server doesn't support authentication
     if (!$looks_supported && $tried == 0)
       throw new Swift_ConnectionException("Authentication is not supported by the server but a username and password was given.");
-    
+
     if ($tried == 0)
       throw new Swift_ConnectionException("No authentication mechanisms were tried since the server did not support any of the ones loaded. " .
       "Loaded authenticators: [" . implode(", ", array_keys($this->authenticators)) . "]");

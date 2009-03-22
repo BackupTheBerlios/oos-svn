@@ -8,6 +8,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../../ClassLoader.php";
 
 /**
@@ -41,7 +44,7 @@ class Swift_Authenticator_PopB4Smtp_Pop3Connection
    * @var resource
    */
   protected $handle = null;
-  
+
   /**
    * Constructor
    * @param string The name of the POP3 server
@@ -123,7 +126,7 @@ class Swift_Authenticator_PopB4Smtp_Pop3Connection
   {
     $url = $this->getServer();
     if ($this->getEncryption() == self::ENC_SSL) $url = "ssl://" . $url;
-    
+
     if ((false === $this->handle = fsockopen($url, $this->getPort(), $errno, $errstr, $timeout)))
     {
       Swift_ClassLoader::load("Swift_ConnectionException");

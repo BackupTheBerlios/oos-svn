@@ -8,6 +8,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_Events_CommandListener");
 Swift_ClassLoader::load("Swift_Events_ResponseListener");
@@ -30,7 +33,7 @@ class Swift_Plugin_BandwidthMonitor implements Swift_Events_CommandListener, Swi
    * @var int
    */
   protected $out = 0;
-  
+
   /**
    * Part of the interface which is notified after a command is sent.
    * @param Swift_Events_CommandEvent

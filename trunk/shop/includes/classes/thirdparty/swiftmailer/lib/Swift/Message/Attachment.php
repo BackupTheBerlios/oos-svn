@@ -9,6 +9,8 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 /**
  * Attachment component for Swift Mailer
@@ -22,7 +24,7 @@ class Swift_Message_Attachment extends Swift_Message_Mime
    * @var int
    */
   protected static $fileId = 0;
-  
+
   /**
    * Constructor
    * @param mixed The data to use in the body
@@ -33,13 +35,13 @@ class Swift_Message_Attachment extends Swift_Message_Mime
   public function __construct($data=null, $name=null, $type="application/octet-stream", $encoding="base64", $disposition="attachment")
   {
     parent::__construct();
-    
+
     $this->setContentType($type);
     $this->setEncoding($encoding);
     $this->setDescription($name);
     $this->setDisposition($disposition);
     $this->setFileName($name);
-    
+
     if ($data !== null) $this->setData($data, ($name === null));
   }
   /**

@@ -9,6 +9,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_File");
 Swift_ClassLoader::load("Swift_Message_MimeException");
@@ -98,7 +101,7 @@ abstract class Swift_Message_Mime
    * @var array
    */
   protected static $usedBoundaries = array();
-  
+
   /**
    * Constructor
    */
@@ -148,7 +151,7 @@ abstract class Swift_Message_Mime
       {
         $this->children[$id]->setLE($le);
       }
-      
+
       return true;
     }
     else return false;
@@ -218,7 +221,7 @@ abstract class Swift_Message_Mime
         $encoding = strtolower($encoding);
         break;
     }
-    
+
     $data = $this->getData();
     Swift_ClassLoader::load("Swift_Message_Encoder");
     if ($non_ascii && is_string($data) && strlen($data) > 0 && !Swift_Message_Encoder::instance()->is7BitAscii($data))
@@ -229,7 +232,7 @@ abstract class Swift_Message_Mime
     {
       $this->headers->set("Content-Transfer-Encoding", $encoding);
     }
-    
+
     if ($recursive)
     {
       foreach ($this->children as $id => $child)
@@ -284,7 +287,7 @@ abstract class Swift_Message_Mime
     {
       if ($this->boundary === null) $this->boundary = self::generateBoundary();
       $this->headers->setAttribute("Content-Type", "boundary", $this->boundary);
-      
+
       $this->cache->clear("append");
       foreach ($this->children as $part)
       {
@@ -294,9 +297,9 @@ abstract class Swift_Message_Mime
       }
       $this->cache->write("append", $this->LE . "--" . $this->boundary . "--" . $this->LE);
     }
-    
+
     $joint_os = new Swift_Cache_JointOutputStream();
-    
+
     //Try using a cached version to save some cycles (at the expense of memory)
     //if ($this->cache !== null) return $this->cache . $append;
     if ($this->cache->has("body"))
@@ -305,7 +308,7 @@ abstract class Swift_Message_Mime
       $joint_os->addStream($this->cache->getOutputStream("append"));
       return $joint_os;
     }
-    
+
     $is_file = ($this->getData() instanceof Swift_File);
     switch ($this->getEncoding())
     {
@@ -402,7 +405,7 @@ abstract class Swift_Message_Mime
     $id = (string) $id;
     if ($after == -1) $this->children = array_merge(array($id => $mime), $this->children);
     else $this->children[$id] = $mime;
-    
+
     return $id;
   }
   /**

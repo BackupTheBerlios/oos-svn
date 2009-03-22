@@ -9,6 +9,10 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
+
 /**
  * Provides core functionality for Swift generated events for plugins
  * @package Swift_Events
@@ -21,7 +25,7 @@ abstract class Swift_Events
    * @var Swift
    */
   protected $swift = null;
-  
+
   /**
    * Provide a reference to te currently running Swift this event was generated from
    * @param Swift

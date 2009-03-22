@@ -9,6 +9,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_Message_Mime");
 
@@ -29,12 +32,12 @@ class Swift_Message_Part extends Swift_Message_Mime
   public function __construct($data=null, $type="text/plain", $encoding=null, $charset=null)
   {
     parent::__construct();
-    
+
     $this->setContentType($type);
     $this->setEncoding($encoding);
     $this->setCharset($charset);
     $this->setFlowed(false);
-    
+
     if ($data !== null)
     {
       $this->setData($data);

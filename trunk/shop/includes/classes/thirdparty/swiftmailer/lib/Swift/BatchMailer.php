@@ -9,6 +9,10 @@
  * @package Swift
  * @license GNU Lesser General Public License
  */
+
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 class Swift_BatchMailer
 {
   /**
@@ -41,7 +45,7 @@ class Swift_BatchMailer
    * @var array
    */
   protected $headers = array();
-  
+
   /**
    * Constructor.
    * @param Swift The current instance of Swift
@@ -189,7 +193,7 @@ class Swift_BatchMailer
   {
     $sent = 0;
     $successive_fails = 0;
-    
+
     $it = $recipients->getIterator("to");
     while ($it->hasNext())
     {
@@ -223,7 +227,7 @@ class Swift_BatchMailer
         }
       }
     }
-    
+
     return $sent;
   }
 }

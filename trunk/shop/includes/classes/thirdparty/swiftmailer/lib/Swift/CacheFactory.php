@@ -8,6 +8,10 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
+
 require_once dirname(__FILE__) . "/ClassLoader.php";
 
 /**
@@ -22,7 +26,7 @@ class Swift_CacheFactory
    * @var string Case SenSITivE
    */
   protected static $className = "Swift_Cache_Memory";
-  
+
   /**
    * Set the name of the class which is supposed to be used
    * This also includes the file

@@ -9,6 +9,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_Events_BeforeSendListener");
 
@@ -94,7 +97,7 @@ class Swift_Plugin_FileEmbedder implements Swift_Events_BeforeSendListener
    * @var array
    */
   protected $registeredFiles = array();
-  
+
   /**
    * Get the MIME type based upon the extension.
    * @param string The extension (sans the dot).
@@ -199,12 +202,12 @@ class Swift_Plugin_FileEmbedder implements Swift_Events_BeforeSendListener
     $tag = strtolower($tag);
     $attributes = (array)$attributes;
     $extensions = (array)$extensions;
-    
+
     if (empty($tag) || empty($attributes) || empty($extensions))
     {
       return null;
     }
-    
+
     $this->definitions[$tag] = array("attributes" => $attributes, "extensions" => $extensions);
     return true;
   }
@@ -319,7 +322,7 @@ class Swift_Plugin_FileEmbedder implements Swift_Events_BeforeSendListener
     $url = preg_replace("~^([^#]+)#.*\$~s", "\$1", $matches[3]);
     $bits = parse_url($url);
     $ext = preg_replace("~^.*?\\.([^\\.]+)\$~s", "\$1", $bits["path"]);
-    
+
     $lower_url = strtolower($url);
     if (array_key_exists($lower_url, $this->registeredFiles))
     {
@@ -364,7 +367,7 @@ class Swift_Plugin_FileEmbedder implements Swift_Events_BeforeSendListener
       return $matches[1] . $matches[3] . $matches[4];
     }
     $ext = preg_replace("~^.*?\\.([^\\.]+)\$~s", "\$1", $path);
-    
+
     $lower_path = strtolower($path);
     if (array_key_exists($lower_path, $this->registeredFiles))
     {
@@ -403,13 +406,13 @@ class Swift_Plugin_FileEmbedder implements Swift_Events_BeforeSendListener
   public function beforeSendPerformed(Swift_Events_SendEvent $e)
   {
     $this->message = $e->getMessage();
-    
+
     foreach ($this->message->listChildren() as $id)
     {
       $part = $this->message->getChild($id);
       $body = $part->getData();
       if (!is_string($body) || substr(strtolower($part->getContentType()), 0, 5) != "text/") continue;
-      
+
       foreach ($this->definitions as $tag_name => $def)
       {
         if ($this->getEmbedRemoteFiles())
@@ -417,14 +420,14 @@ class Swift_Plugin_FileEmbedder implements Swift_Events_BeforeSendListener
           $re = $this->getRemoteFilePattern($tag_name);
           $body = preg_replace_callback($re, array($this, "embedRemoteFile"), $body);
         }
-        
+
         if ($this->getEmbedLocalFiles())
         {
           $re = $this->getLocalFilePattern($tag_name);
           $body = preg_replace_callback($re, array($this, "embedLocalFile"), $body);
         }
       }
-      
+
       $part->setData($body);
     }
   }

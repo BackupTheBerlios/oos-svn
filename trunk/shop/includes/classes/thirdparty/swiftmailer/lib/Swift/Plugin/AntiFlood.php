@@ -8,6 +8,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_Events_SendListener");
 
@@ -34,7 +37,7 @@ class Swift_Plugin_AntiFlood implements Swift_Events_SendListener
    * @var int
    */
   protected $count = 0;
-  
+
   /**
    * Constructor
    * @param int Number of emails to send before re-connecting

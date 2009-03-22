@@ -8,7 +8,10 @@
  * @package Swift_Events
  * @license GNU Lesser General Public License
  */
- 
+
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 /**
  * Used for identity only
  * @package Swift_Events

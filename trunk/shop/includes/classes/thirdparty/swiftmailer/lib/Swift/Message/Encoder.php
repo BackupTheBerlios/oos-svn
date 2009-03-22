@@ -9,6 +9,9 @@
  * @license GNU Lesser General Public License
  */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once dirname(__FILE__) . "/../ClassLoader.php";
 Swift_ClassLoader::load("Swift_File");
 
@@ -60,7 +63,7 @@ class Swift_Message_Encoder
       $input = substr($input, strlen($matches[0]));
     }
     if ($input != "") $ret[($elements++)] = $input; //Whatever is left over
-        
+
     return $ret;
   }
   /**
@@ -80,7 +83,7 @@ class Swift_Message_Encoder
       $input = substr($input, strlen($matches[0]));
     }
     if ($input != "") $ret[($elements++)] = $input; //Whatever is left over
-        
+
     return $ret;
   }
   /**
@@ -97,16 +100,16 @@ class Swift_Message_Encoder
     $ret = "";
     $chunk -= 2;
     $chunk = $this->getHcf($chunk, 4);
-    
+
     if ($init_chunk >= 2)
     {
       $init_chunk -= 2;
       $init_chunk = $this->getHcf($init_chunk, 4);
     }
-    
+
     if ($headers) $data = $this->quoteChunk($data);
     else $data = array($data);
-    
+
     foreach ($data as $key => $string)
     {
       $key = (string) $key;
@@ -124,12 +127,12 @@ class Swift_Message_Encoder
           $string = substr($string, $init_chunk);
         }
         elseif ($init_chunk) $ret .= $le;
-        
+
         $ret .= trim(chunk_split($string, $chunk, $le)) . $le;
       }
       $init_chunk = 0;
     }
-    
+
     return trim($ret);
   }
   /**
@@ -182,7 +185,7 @@ class Swift_Message_Encoder
     $ret = "";
     if ($headers) $data = $this->quoteChunk($data);
     else $data = array($data);
-    
+
     $trailing_spaces = chr(9) . chr(32);
     foreach ($data as $key => $string)
     {
@@ -208,9 +211,10 @@ class Swift_Message_Encoder
           }
         }
         elseif ($init_chunk) $ret .= "=";
-        
+
         while (preg_match('/^.{1,'.($init_chunk-5).'}[^=]{2}(?!=[A-F0-9]{2})/', $string, $matches)
-          || preg_match('/^.{1,'.($chunk-6).'}([^=]{0,3})?/', $string, $matches))
+          || preg_match('/^.{1,'.($chunk-6).'}([^=]{0,3})?/', $string, $matches)
+          || (strlen($string) > 0 && $matches = array($string)))
         {
           $ret .= $this->fixLE($le . $matches[0] . "=", $le); //fixLE added 24/08/07
           $string = substr($string, strlen($matches[0]));
@@ -218,7 +222,7 @@ class Swift_Message_Encoder
       }
       $init_chunk = 0;
     }
-    
+
     if (substr($ret, -1) == "=") return trim(substr($ret, 0, -1));
     else return trim($ret);
   }
