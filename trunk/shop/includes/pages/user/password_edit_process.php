@@ -18,14 +18,23 @@ if (!isset($_SESSION['customer_id'])) {
     oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
-if (!isset($_POST['action']) || ($_POST['action'] != 'process')) {
+if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_SESSION['formid']) && ($_SESSION['formid'] != $_POST['formid'])) ) {
     oos_redirect(oos_href_link($aModules['user'], $aFilename['password_edit'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/user_password_edit_process.php';
 
+if (ACCOUNT_GENDER == 'true') $gender = oos_prepare_input($_POST['gender']);
 $firstname = oos_prepare_input($_POST['firstname']);
 $lastname = oos_prepare_input($_POST['lastname']);
+
+if (ACCOUNT_NUMBER == 'true') $number = oos_prepare_input($_POST['number']);
+$email_address = oos_prepare_input($_POST['email_address']);
+
+$password = oos_prepare_input($_POST['password']);
+$confirmation = oos_prepare_input($_POST['confirmation']);
+
+
 
 $bError = false; // reset error flag
 
