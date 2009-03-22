@@ -19,42 +19,44 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being required by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being required by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!defined('OOS_BASE_PRICE')) {
+if (!defined('OOS_BASE_PRICE')) {
     define('OOS_BASE_PRICE', 'false');
-  }
-  if (isset($_GET['products_id'])) {
+}
+
+if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
-  } else {
+} else {
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
-  }
+}
 
-  require 'includes/languages/' . $sLanguage . '/products_info.php';
+require 'includes/languages/' . $sLanguage . '/products_info.php';
 
-  $productstable = $oostable['products'];
-  $products_descriptiontable = $oostable['products_description'];
-  $product_info_sql = "SELECT p.products_id, pd.products_name, pd.products_description, pd.products_url,
-                              pd.products_description_meta, pd.products_keywords_meta, p.products_model,
-                              p.products_quantity, p.products_image, p.products_subimage1, p.products_subimage2,
-                              p.products_subimage3, p.products_subimage4, p.products_subimage5, p.products_subimage6,
-                              p.products_movie, p.products_zoomify, p.products_discount_allowed, p.products_price,
-                              p.products_base_price, p.products_base_unit, p.products_quantity_order_min, p.products_quantity_order_units,
-                              p.products_discount1, p.products_discount2, p.products_discount3, p.products_discount4,
-                              p.products_discount1_qty, p.products_discount2_qty, p.products_discount3_qty,
-                              p.products_discount4_qty, p.products_tax_class_id, p.products_units_id, p.products_date_added,
-                              p.products_date_available, p.manufacturers_id, p.products_price_list
-                        FROM $productstable p,
-                             $products_descriptiontable pd
-                        WHERE p.products_status >= '1'
-                          AND (p.products_access = '0' OR p.products_access = '" . intval($nGroupID) . "')
-                          AND p.products_id = '" . intval($nProductsId) . "'
-                          AND pd.products_id = p.products_id
-                          AND pd.products_languages_id = '" . intval($nLanguageID) . "'";
-  $product_info_result = $dbconn->Execute($product_info_sql);
+$productstable = $oostable['products'];
+$products_descriptiontable = $oostable['products_description'];
+$product_info_sql = "SELECT p.products_id, pd.products_name, pd.products_description, pd.products_url,
+                            pd.products_description_meta, pd.products_keywords_meta, p.products_model,
+                            p.products_quantity, p.products_image, p.products_subimage1, p.products_subimage2,
+                            p.products_subimage3, p.products_subimage4, p.products_subimage5, p.products_subimage6,
+                            p.products_movie, p.products_zoomify, p.products_discount_allowed, p.products_price,
+                            p.products_base_price, p.products_base_unit, p.products_quantity_order_min, p.products_quantity_order_units,
+                            p.products_discount1, p.products_discount2, p.products_discount3, p.products_discount4,
+                            p.products_discount1_qty, p.products_discount2_qty, p.products_discount3_qty,
+                            p.products_discount4_qty, p.products_tax_class_id, p.products_units_id, p.products_date_added,
+                            p.products_date_available, p.manufacturers_id, p.products_price_list
+                      FROM $productstable p,
+                           $products_descriptiontable pd
+                      WHERE p.products_status >= '1'
+                        AND (p.products_access = '0' OR p.products_access = '" . intval($nGroupID) . "')
+                        AND p.products_id = '" . intval($nProductsId) . "'
+                        AND pd.products_id = p.products_id
+                        AND pd.products_languages_id = '" . intval($nLanguageID) . "'";
+$product_info_result = $dbconn->Execute($product_info_sql);
 
-  if (!$product_info_result->RecordCount()) {
+if (!$product_info_result->RecordCount()) {
+
     // product not found
     $aLang['text_information'] = $aLang['text_product_not_found'];
 
@@ -65,9 +67,9 @@
 
     require 'includes/oos_system.php';
     if (!isset($option)) {
-      require 'includes/info_message.php';
-      require 'includes/oos_blocks.php';
-      require 'includes/oos_counter.php';
+        require 'includes/info_message.php';
+        require 'includes/oos_blocks.php';
+        require 'includes/oos_counter.php';
     }
 
     $oSmarty->assign(
@@ -78,7 +80,7 @@
         )
     );
 
-  } else {
+} else {
 
     $products_descriptiontable = $oostable['products_description'];
     $query = "UPDATE $products_descriptiontable"
@@ -90,38 +92,38 @@
     $product_info = $product_info_result->fields;
 
     if ( (!oos_is_not_null($product_info['products_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
-      $product_description = oos_get_product_description($nProductsId);
-      $product_info = array_merge($product_info, $product_description);
+        $product_description = oos_get_product_description($nProductsId);
+        $product_info = array_merge($product_info, $product_description);
     }
 
     if (is_dir(OOS_IMAGES . 'zoomify/')) {
-      if ($product_info['products_zoomify'] == '') {
-        if (oos_is_not_null($product_info['products_image'])){
-          $sImage = $product_info['products_image'];
-          $sDir = substr($sImage, 0, strrpos($sImage, '.'));
-          if ( is_readable(OOS_IMAGES . 'zoomify/' .  $sDir  . '/ImageProperties.xml') ) {
-            $sImagePath = $sDir;
-          }
-        }
+        if ($product_info['products_zoomify'] == '') {
+            if (oos_is_not_null($product_info['products_image'])){
+                $sImage = $product_info['products_image'];
+                $sDir = substr($sImage, 0, strrpos($sImage, '.'));
+                if ( is_readable(OOS_IMAGES . 'zoomify/' .  $sDir  . '/ImageProperties.xml') ) {
+                    $sImagePath = $sDir;
+                }
+            }
 
-        if (!isset($sImagePath)) {
-          $sName = $product_info['products_name'];
-          $sDir = oos_strip_all($product_info['products_name']);
-          if ( is_readable(OOS_IMAGES . 'zoomify/' .  $sDir  . '/ImageProperties.xml') ) {
-            $sImagePath = $sDir;
-          }
-        }
+            if (!isset($sImagePath)) {
+                $sName = $product_info['products_name'];
+                $sDir = oos_strip_all($product_info['products_name']);
+                if ( is_readable(OOS_IMAGES . 'zoomify/' .  $sDir  . '/ImageProperties.xml') ) {
+                    $sImagePath = $sDir;
+                }
+            }
 
-        if (isset($sImagePath)) {
-          $productstable = $oostable['products'];
-          $query = "UPDATE $productstable"
-              . " SET products_zoomify = ?"
-              . " WHERE products_id = ?";
-          $result =& $dbconn->Execute($query, array((string)$sImagePath, (int)$nProductsId));
+            if (isset($sImagePath)) {
+                $productstable = $oostable['products'];
+                $query = "UPDATE $productstable"
+                       . " SET products_zoomify = ?"
+                       . " WHERE products_id = ?";
+                $result =& $dbconn->Execute($query, array((string)$sImagePath, (int)$nProductsId));
 
-          $product_info['products_zoomify'] = $sImagePath;
+                $product_info['products_zoomify'] = $sImagePath;
+            }
         }
-      }
     }
 
 
@@ -134,10 +136,10 @@
 
     // todo multilanguage support
     if (OOS_META_PRODUKT == "description tag by article description replace") {
-      $oos_meta_description = substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '',$product_info['products_description'])),0 , 250);
+        $oos_meta_description = substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '',$product_info['products_description'])),0 , 250);
     } elseif (OOS_META_PRODUKT == "Meta Tag with article edit") {
-      $oos_meta_description = $product_info['products_description_meta'];
-      $oos_meta_keywords = $product_info['products_keywords_meta'];
+        $oos_meta_description = $product_info['products_description_meta'];
+        $oos_meta_keywords = $product_info['products_keywords_meta'];
     }
 
     $aOption['template_main'] =           $sTheme . '/products/product_info.html';
@@ -147,16 +149,16 @@
     $aOption['page_heading'] =            $sTheme . '/products/product_heading.html';
 
     if (SOCIAL_BOOKMARKS == 'true') {
-      $aOption['social_bookmarks'] = 'default/products/social_bookmarks.html';
+        $aOption['social_bookmarks'] = 'default/products/social_bookmarks.html';
     }
 
     $nPageType = OOS_PAGE_TYPE_PRODUCTS;
 
     require 'includes/oos_system.php';
     if (!isset($option)) {
-      require 'includes/info_message.php';
-      require 'includes/oos_blocks.php';
-      require 'includes/oos_counter.php';
+        require 'includes/info_message.php';
+        require 'includes/oos_blocks.php';
+        require 'includes/oos_counter.php';
     }
 
     // products history
@@ -176,27 +178,26 @@
     $info_product_special_price = '';
 
     if ($_SESSION['member']->group['show_price'] == 1 ) {
-      $info_product_price = $oCurrencies->display_price($product_info['products_price'], oos_get_tax_rate($product_info['products_tax_class_id']));
+        $info_product_price = $oCurrencies->display_price($product_info['products_price'], oos_get_tax_rate($product_info['products_tax_class_id']));
 
-      if ($info_special_price = oos_get_products_special_price($product_info['products_id'])) {
-        $info_product_special_price = $oCurrencies->display_price($info_special_price, oos_get_tax_rate($product_info['products_tax_class_id']));
-      } else {
-        $info_product_discount = min($product_info['products_discount_allowed'], $_SESSION['member']->group['discount']);
+        if ($info_special_price = oos_get_products_special_price($product_info['products_id'])) {
+            $info_product_special_price = $oCurrencies->display_price($info_special_price, oos_get_tax_rate($product_info['products_tax_class_id']));
+        } else {
+            $info_product_discount = min($product_info['products_discount_allowed'], $_SESSION['member']->group['discount']);
 
-        if ($info_product_discount != 0 ) {
-          $info_product_special_price = $product_info['products_price']*(100-$info_product_discount)/100;
-          $info_product_discount_price = $oCurrencies->display_price($info_product_special_price, oos_get_tax_rate($product_info['products_tax_class_id']));
+            if ($info_product_discount != 0 ) {
+                $info_product_special_price = $product_info['products_price']*(100-$info_product_discount)/100;
+               $info_product_discount_price = $oCurrencies->display_price($info_product_special_price, oos_get_tax_rate($product_info['products_tax_class_id']));
+            }
         }
 
-      }
+        if ($product_info['products_base_price'] != 1) {
+            $info_base_product_price = $oCurrencies->display_price($product_info['products_price'] * $product_info['products_base_price'], oos_get_tax_rate($product_info['products_tax_class_id']));
 
-      if ($product_info['products_base_price'] != 1) {
-        $info_base_product_price = $oCurrencies->display_price($product_info['products_price'] * $product_info['products_base_price'], oos_get_tax_rate($product_info['products_tax_class_id']));
-
-        if ($info_product_special_price != '') {
-          $info_base_product_special_price = $oCurrencies->display_price($info_product_special_price * $product_info['products_base_price'], oos_get_tax_rate($product_info['products_tax_class_id']));
+            if ($info_product_special_price != '') {
+                $info_base_product_special_price = $oCurrencies->display_price($info_product_special_price * $product_info['products_base_price'], oos_get_tax_rate($product_info['products_tax_class_id']));
+            }
         }
-      }
     }
 
     // assign Smarty variables;
@@ -213,40 +214,39 @@
     );
 
     if (OOS_BASE_PRICE == 'false') {
-      $info_product_price_list = $oCurrencies->display_price($product_info['products_price_list'], oos_get_tax_rate($product_info['products_tax_class_id']));
-      $oSmarty->assign('info_product_price_list', $info_product_price_list);
+        $info_product_price_list = $oCurrencies->display_price($product_info['products_price_list'], oos_get_tax_rate($product_info['products_tax_class_id']));
+        $oSmarty->assign('info_product_price_list', $info_product_price_list);
     }
 
 
     if ($oEvent->installed_plugin('reviews')) {
-      $reviewstable = $oostable['reviews'];
-      $reviews_sql = "SELECT COUNT(*) AS total FROM $reviewstable WHERE products_id = '" . intval($nProductsId) . "'";
-      $reviews = $dbconn->Execute($reviews_sql);
-      $reviews_total = $reviews->fields['total'];
-      $oSmarty->assign('reviews_total', $reviews_total);
+        $reviewstable = $oostable['reviews'];
+        $reviews_sql = "SELECT COUNT(*) AS total FROM $reviewstable WHERE products_id = '" . intval($nProductsId) . "'";
+        $reviews = $dbconn->Execute($reviews_sql);
+        $reviews_total = $reviews->fields['total'];
+        $oSmarty->assign('reviews_total', $reviews_total);
     }
 
 
     $discounts_price = 'false';
     if ( (oos_empty($info_special_price)) && ( ($product_info['products_discount4_qty'] > 0 || $product_info['products_discount3_qty'] > 0 || $product_info['products_discount2_qty'] > 0 || $product_info['products_discount1_qty'] > 0 )) ){
-      if ( ($_SESSION['member']->group['show_price'] == 1 ) && ($_SESSION['member']->group['qty_discounts'] == 1) ) {
-        $discounts_price = 'true';
-        require 'includes/modules/discounts_price.php';
+        if ( ($_SESSION['member']->group['show_price'] == 1 ) && ($_SESSION['member']->group['qty_discounts'] == 1) ) {
+            $discounts_price = 'true';
+            require 'includes/modules/discounts_price.php';
 
-        if ( $product_info['products_discount4'] > 0 ) {
-          $price_discount = $oCurrencies->display_price($product_info['products_discount4'], oos_get_tax_rate($product_info['products_tax_class_id']));
-        } elseif ( $product_info['products_discount3'] > 0 ) {
-          $price_discount = $oCurrencies->display_price($product_info['products_discount3'], oos_get_tax_rate($product_info['products_tax_class_id']));
-        } elseif ( $product_info['products_discount2'] > 0 ) {
-          $price_discount = $oCurrencies->display_price($product_info['products_discount2'], oos_get_tax_rate($product_info['products_tax_class_id']));
-        } elseif ( $product_info['products_discount1'] > 0 ) {
-          $price_discount = $oCurrencies->display_price($product_info['products_discount1'], oos_get_tax_rate($product_info['products_tax_class_id']));
+            if ( $product_info['products_discount4'] > 0 ) {
+                $price_discount = $oCurrencies->display_price($product_info['products_discount4'], oos_get_tax_rate($product_info['products_tax_class_id']));
+            } elseif ( $product_info['products_discount3'] > 0 ) {
+                $price_discount = $oCurrencies->display_price($product_info['products_discount3'], oos_get_tax_rate($product_info['products_tax_class_id']));
+            } elseif ( $product_info['products_discount2'] > 0 ) {
+                $price_discount = $oCurrencies->display_price($product_info['products_discount2'], oos_get_tax_rate($product_info['products_tax_class_id']));
+            } elseif ( $product_info['products_discount1'] > 0 ) {
+                $price_discount = $oCurrencies->display_price($product_info['products_discount1'], oos_get_tax_rate($product_info['products_tax_class_id']));
+            }
+            if (isset($price_discount)) {
+                $oSmarty->assign('price_discount', $price_discount);
+            }
         }
-        if (isset($price_discount)) {
-          $oSmarty->assign('price_discount', $price_discount);
-        }
-
-      }
     }
 
     require 'includes/modules/products_options.php';
@@ -256,9 +256,9 @@
                            'discounts_price' =>  $discounts_price));
 
     if (!isset($block_get_parameters)) {
-      $block_get_parameters = oos_get_all_get_parameters(array('action'));
-      $block_get_parameters = oos_remove_trailing($block_get_parameters);
-      $oSmarty->assign('get_params', $block_get_parameters);
+        $block_get_parameters = oos_get_all_get_parameters(array('action'));
+        $block_get_parameters = oos_remove_trailing($block_get_parameters);
+        $oSmarty->assign('get_params', $block_get_parameters);
     }
 
     $oSmarty->assign('product_info', $product_info);
@@ -268,45 +268,46 @@
     $oSmarty->assign('oosDate', date('Y-m-d H:i:s'));
 
     if (SOCIAL_BOOKMARKS == 'true') {
-      $oSmarty->caching = true;
-      if (!$oSmarty->is_cached($aOption['social_bookmarks'], $oos_social_bookmarks_cache_id)) {
-        $oSmarty->assign('bookmark', oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . intval($nProductsId), 'NONSSL', false));
-        $oSmarty->assign('bookmarktitle', STORE_NAME . ' - ' . $product_info['products_name']);
-      }
-      $oSmarty->assign('social_bookmarks', $oSmarty->fetch($aOption['social_bookmarks'], $oos_social_bookmarks_cache_id));
+        $oSmarty->caching = true;
+        if (!$oSmarty->is_cached($aOption['social_bookmarks'], $oos_social_bookmarks_cache_id)) {
+            $oSmarty->assign('bookmark', oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . intval($nProductsId), 'NONSSL', false));
+            $oSmarty->assign('bookmarktitle', STORE_NAME . ' - ' . $product_info['products_name']);
+        }
 
-      $oSmarty->caching = false;
+        $oSmarty->assign('social_bookmarks', $oSmarty->fetch($aOption['social_bookmarks'], $oos_social_bookmarks_cache_id));
+        $oSmarty->caching = false;
     }
 
 
 
     if ( (USE_CACHE == 'true') && (!SID) ) {
-      $oSmarty->caching = true;
+        $oSmarty->caching = true;
     }
     if (!$oSmarty->is_cached($aOption['xsell_products'], $oos_products_info_cache_id)) {
-      require 'includes/modules/xsell_products.php';
+        require 'includes/modules/xsell_products.php';
     }
     $oSmarty->assign('xsell_products', $oSmarty->fetch($aOption['xsell_products'], $oos_products_info_cache_id));
 
     if (!$oSmarty->is_cached($aOption['up_sell_products'], $oos_products_info_cache_id)) {
-      require 'includes/modules/up_sell_products.php';
+        require 'includes/modules/up_sell_products.php';
     }
     $oSmarty->assign('up_sell_products', $oSmarty->fetch($aOption['up_sell_products'], $oos_products_info_cache_id));
 
     require 'includes/modules/slavery_products.php';
 
     if (!$oSmarty->is_cached($aOption['also_purchased_products'], $oos_products_info_cache_id)) {
-      require 'includes/modules/also_purchased_products.php';
-      $oSmarty->assign('oos_also_purchased_array', $aPurchased);
+        require 'includes/modules/also_purchased_products.php';
+        $oSmarty->assign('oos_also_purchased_array', $aPurchased);
     }
     $oSmarty->assign('also_purchased_products', $oSmarty->fetch($aOption['also_purchased_products'], $oos_products_info_cache_id));
 
     $oSmarty->caching = false;
-  }
+}
 
-  $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
-  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
+$oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
+$oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
-  // display the template
-  require 'includes/oos_display.php';
+// display the template
+require 'includes/oos_display.php';
+
 ?>

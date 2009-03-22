@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- $Id$
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -29,7 +29,7 @@ $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFil
 
 $snapshot = count($_SESSION['navigation']->snapshot);
 if (isset($_GET['email_address'])) {
-  $email_address = oos_db_prepare_input($_GET['email_address']);
+    $email_address = oos_db_prepare_input($_GET['email_address']);
 }
 $account['entry_country_id'] = STORE_COUNTRY;
 
@@ -40,6 +40,7 @@ ob_end_clean();
 
 $aOption['template_main'] = $sTheme . '/modules/user_create_account.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+
 $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
 require 'includes/oos_system.php';

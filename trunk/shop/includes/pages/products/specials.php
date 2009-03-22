@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,38 +19,38 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!$oEvent->installed_plugin('spezials')) {
+if (!$oEvent->installed_plugin('spezials')) {
     $_SESSION['navigation']->remove_current_page();
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main'], 'history_back=true'));
-  }
+}
 
-  require 'includes/languages/' . $sLanguage . '/products_specials.php';
+require 'includes/languages/' . $sLanguage . '/products_specials.php';
 
-  $aOption['template_main'] = $sTheme . '/products/specials.html';
-  $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-  $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
+$aOption['template_main'] = $sTheme . '/products/specials.html';
+$aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
 
-  $nPageType = OOS_PAGE_TYPE_CATALOG;
-  $sGroup = trim($_SESSION['member']->group['text']);
-  $nPage = isset($_GET[page]) ? $_GET[page]+0 : 1;
-  $contents_cache_id = $sTheme . '|info|' . $sGroup . '|spezials|' . $nPage . '|' . $sLanguage;
+$nPageType = OOS_PAGE_TYPE_CATALOG;
+$sGroup = trim($_SESSION['member']->group['text']);
+$nPage = isset($_GET[page]) ? $_GET[page]+0 : 1;
+$contents_cache_id = $sTheme . '|info|' . $sGroup . '|spezials|' . $nPage . '|' . $sLanguage;
 
-  require 'includes/oos_system.php';
-  if (!isset($option)) {
+require 'includes/oos_system.php';
+if (!isset($option)) {
     require 'includes/info_message.php';
     require 'includes/oos_blocks.php';
     require 'includes/oos_counter.php';
-  }
+}
 
-  if ( (USE_CACHE == 'true') && (!SID) ) {
+if ( (USE_CACHE == 'true') && (!SID) ) {
     $oSmarty->caching = 2;
     $oSmarty->cache_lifetime = 12 * 3600;
-  }
+}
 
-  if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
+if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     $productstable = $oostable['products'];
     $specialstable = $oostable['specials'];
     $products_descriptiontable = $oostable['products_description'];
@@ -74,33 +74,31 @@
     $aSpecials = array();
     while ($specials = $specials_result->fields) {
 
-      $specials_base_product_price = '';
-      $specials_base_product_special_price = '';
+        $specials_base_product_price = '';
+        $specials_base_product_special_price = '';
 
-      $specials_product_price = $oCurrencies->display_price($specials['products_price'], oos_get_tax_rate($specials['products_tax_class_id']));
-      $specials_product_special_price = $oCurrencies->display_price($specials['specials_new_products_price'], oos_get_tax_rate($specials['products_tax_class_id']));
+        $specials_product_price = $oCurrencies->display_price($specials['products_price'], oos_get_tax_rate($specials['products_tax_class_id']));
+        $specials_product_special_price = $oCurrencies->display_price($specials['specials_new_products_price'], oos_get_tax_rate($specials['products_tax_class_id']));
 
-      if ($specials['products_base_price'] != 1) {
-        $specials_base_product_price = $oCurrencies->display_price($specials['products_price'] * $specials['products_base_price'], oos_get_tax_rate($specials['products_tax_class_id']));
-        $specials_base_product_special_price = $oCurrencies->display_price($specials['specials_new_products_price'] * $specials['products_base_price'], oos_get_tax_rate($specials['products_tax_class_id']));
-      }
+        if ($specials['products_base_price'] != 1) {
+            $specials_base_product_price = $oCurrencies->display_price($specials['products_price'] * $specials['products_base_price'], oos_get_tax_rate($specials['products_tax_class_id']));
+            $specials_base_product_special_price = $oCurrencies->display_price($specials['specials_new_products_price'] * $specials['products_base_price'], oos_get_tax_rate($specials['products_tax_class_id']));
+        }
 
-      $aSpecials[] = array(
-                         'products_id'                => $specials['products_id'],
-                         'products_image'             => $specials['products_image'],
-                         'products_name'              => $specials['products_name'],
-                         'products_description'       => $specials['products_description'],
-                         'products_base_unit'         => $specials['products_base_unit'],
-                         'products_base_price'        => $specials['products_base_price'],
-                         'products_price'             => $specials_product_price,
-                         'products_special_price'     => $specials_product_special_price,
-                         'base_product_price'         => $specials_base_product_price,
-                         'base_product_special_price' => $specials_base_product_special_price
-                     );
-      $specials_result->MoveNext();
+        $aSpecials[] = array(
+                           'products_id'                => $specials['products_id'],
+                           'products_image'             => $specials['products_image'],
+                           'products_name'              => $specials['products_name'],
+                           'products_description'       => $specials['products_description'],
+                           'products_base_unit'         => $specials['products_base_unit'],
+                           'products_base_price'        => $specials['products_base_price'],
+                           'products_price'             => $specials_product_price,
+                           'products_special_price'     => $specials_product_special_price,
+                           'base_product_price'         => $specials_base_product_price,
+                           'base_product_special_price' => $specials_base_product_special_price
+                       );
+        $specials_result->MoveNext();
     }
-    // Close result set
-    $specials_result->Close();
 
     // links breadcrumb
     $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['products'], $aFilename['specials']));
@@ -119,12 +117,15 @@
             'oos_specials_array' => $aSpecials
         )
     );
-  }
-  $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation'], $contents_cache_id));
-  $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
-  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
-  $oSmarty->caching = false;
+}
 
-  // display the template
-  require 'includes/oos_display.php';
+$oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation'], $contents_cache_id));
+$oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
+$oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
+$oSmarty->caching = false;
+
+// display the template
+require 'includes/oos_display.php';
+
+
 ?>

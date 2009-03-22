@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,32 +19,32 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  require 'includes/languages/' . $sLanguage . '/info_sitemap.php';
+require 'includes/languages/' . $sLanguage . '/info_sitemap.php';
 
-  $aOption['template_main'] = $sTheme . '/system/sitemap.html';
-  $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['template_main'] = $sTheme . '/system/sitemap.html';
+$aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 
-  $nPageType = OOS_PAGE_TYPE_MAINPAGE;
+$nPageType = OOS_PAGE_TYPE_MAINPAGE;
 
-  $sGroup = trim($_SESSION['member']->group['text']);
-  $contents_cache_id = $sTheme . '|info|' . $sGroup . '|sitemap|' . $sLanguage;
+$sGroup = trim($_SESSION['member']->group['text']);
+$contents_cache_id = $sTheme . '|info|' . $sGroup . '|sitemap|' . $sLanguage;
 
-  require 'includes/oos_system.php';
-  if (!isset($option)) {
+require 'includes/oos_system.php';
+if (!isset($option)) {
     require 'includes/info_message.php';
     require 'includes/oos_blocks.php';
     require 'includes/oos_counter.php';
-  }
+}
 
-  if ( (USE_CACHE == 'true') && (!SID) ) {
+if ( (USE_CACHE == 'true') && (!SID) ) {
     $oSmarty->caching = 2;
     $oSmarty->cache_lifetime = 20 * 24 * 3600;
-  }
+}
 
-  if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
+if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
 
     $oSitemap = new oosCategoryTree;
     $oSitemap->setShowCategoryProductCount(false);
@@ -62,11 +62,13 @@
     );
 
     $oSmarty->assign('sitemap', $oSitemap->buildTree());
-  }
-  $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
-  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
-  $oSmarty->caching = false;
+}
 
-  // display the template
-  require 'includes/oos_display.php';
+$oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
+$oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
+$oSmarty->caching = false;
+
+// display the template
+require 'includes/oos_display.php';
+
 ?>
