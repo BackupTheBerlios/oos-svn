@@ -27,7 +27,12 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 $_SESSION['navigation']->remove_current_page();
 
 require 'includes/languages/' . $sLanguage . '/user_login.php';
-if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
+
+
+if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
+
+    $email_address = oos_prepare_input($_POST['email_address']);
+    $password = oos_prepare_input($_POST['password']);
 
     // Check if email exists
     $customerstable = $oostable['customers'];
