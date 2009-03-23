@@ -29,6 +29,6 @@ $aLang['page_advanced_search'] = 'Advanced Search';
 $aLang['page_products_new'] = 'New Products';
 $aLang['page_specials'] = 'Specials';
 $aLang['page_reviews'] = 'Reviews';
-$aLang['page_affiliate'] = 'Affiliate';
 $aLang['page_service'] = 'Service';
+
 ?>

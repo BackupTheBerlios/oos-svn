@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -15,6 +15,11 @@
    Copyright (c) 2003 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
+   ---------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
    ---------------------------------------------------------------------- */
 
 $aLang['navbar_title'] = 'Sitemap';
@@ -27,6 +32,6 @@ $aLang['page_advanced_search'] = 'Uitgebreid zoeken';
 $aLang['page_products_new'] = 'Nieuwe produkten';
 $aLang['page_specials'] = 'Aanbiedingen';
 $aLang['page_reviews'] = 'Meningen';
-$aLang['page_affiliate'] = 'Affiliate';
 $aLang['page_service'] = 'Service';
+
 ?>

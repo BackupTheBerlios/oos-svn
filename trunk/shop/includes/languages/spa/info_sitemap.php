@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -29,6 +29,5 @@ $aLang['page_advanced_search'] = 'Bsqueda';
 $aLang['page_products_new'] = 'Novedades';
 $aLang['page_specials'] = 'Ofertas';
 $aLang['page_reviews'] = 'Comentarios';
-$aLang['page_affiliate'] = 'Affiliate';
 $aLang['page_service'] = 'Service';
 ?>

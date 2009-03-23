@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,17 +18,22 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
+   ---------------------------------------------------------------------- */
 
-$aLang['navbar_title'] = '������;
-$aLang['heading_title'] = '������;
+$aLang['navbar_title'] = 'Sitemap';
+$aLang['heading_title'] = 'Sitemap';
 
-$aLang['heading_information'] = '�����';
-$aLang['page_shopping_cart'] = '����;
-$aLang['page_checkout_shipping'] = '����� ���';
-$aLang['page_advanced_search'] = '���������;
-$aLang['page_products_new'] = '������';
-$aLang['page_specials'] = '��� � ����;
-$aLang['page_reviews'] = '��������;
-$aLang['page_affiliate'] = 'Affiliate';
+$aLang['heading_information'] = 'Information';
+$aLang['page_shopping_cart'] = 'Cart Contents';
+$aLang['page_checkout_shipping'] = 'Checkout';
+$aLang['page_advanced_search'] = 'Advanced Search';
+$aLang['page_products_new'] = 'New Products';
+$aLang['page_specials'] = 'Specials';
+$aLang['page_reviews'] = 'Reviews';
 $aLang['page_service'] = 'Service';
+
 ?>
