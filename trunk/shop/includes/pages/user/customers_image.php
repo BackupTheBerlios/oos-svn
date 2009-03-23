@@ -44,8 +44,8 @@ if (!isset($_SESSION['customer_id'])) {
     oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
+if ( (isset($_POST['action']) && ($_POST['action'] == 'add_customers_image')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
 
-if ( (isset($_POST['action']))  && ($_POST['action'] == 'add_customers_image') ) {
     if ( ($_POST['remove_image'] == 'yes') && (isset($_SESSION['customer_id'])) ) {
         $customerstable = $oostable['customers'];
         $query = "SELECT customers_image
@@ -104,7 +104,7 @@ $sql = "SELECT c.customers_gender, c.customers_firstname, c.customers_lastname, 
           AND a.customers_id = c.customers_id
           AND ci.customers_info_id = c.customers_id
           AND a.address_book_id = '" . intval($_SESSION['customer_default_address_id']) . "'";
-$customer = $dbconn->GetRow($sql);
+$myworld = $dbconn->GetRow($sql);
 
 if ($myworld['customers_gender'] == 'm') {
   $gender = $aLang['male'];
@@ -138,7 +138,7 @@ $oSmarty->assign(
           'oos_heading_title' => $aLang['heading_title'],
           'oos_heading_image' => 'contact_us.gif',
 
-          'customer'        => $customer,
+          'customer'        => $myworld,
           'gender'          => $gender,
           'country_name'    => $sCountryName,
           'account_created' => $sAccountCreated

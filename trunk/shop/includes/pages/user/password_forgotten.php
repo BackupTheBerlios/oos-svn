@@ -24,7 +24,10 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 require 'includes/languages/' . $sLanguage . '/user_password_forgotten.php';
 
-if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
+if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
+
+    $email_address = oos_prepare_input($_POST['email_address']);
+
     $customerstable = $oostable['customers'];
     $check_customer_sql = "SELECT customers_firstname, customers_lastname, customers_password, customers_id
                            FROM $customerstable
