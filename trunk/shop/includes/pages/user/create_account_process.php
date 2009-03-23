@@ -23,15 +23,40 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-if (!isset($_POST['action'])) {
+if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_SESSION['formid']) && ($_SESSION['formid'] != $_POST['formid'])) ) {
     oos_redirect(oos_href_link($aModules['user'], $aFilename['create_account']));
 }
 
 require 'includes/languages/' . $sLanguage . '/user_create_account_process.php';
 require 'includes/functions/function_validate_vatid.php';
 
+if (ACCOUNT_GENDER == 'true') $gender = oos_prepare_input($_POST['gender']);
 $firstname = oos_db_prepare_input($_POST['firstname']);
 $lastname = oos_db_prepare_input($_POST['lastname']);
+
+if (ACCOUNT_DOB == 'true') $dob = oos_prepare_input($_POST['dob']);
+if (ACCOUNT_NUMBER == 'true') $number = oos_prepare_input($_POST['number']);
+$email_address = oos_prepare_input($_POST['email_address']);
+
+if (ACCOUNT_COMPANY == 'true') $company = oos_prepare_input($_POST['company']);
+if (ACCOUNT_OWNER == 'true') $owner = oos_prepare_input($_POST['owner']);
+if (ACCOUNT_VAT_ID == 'true') $vat_id = oos_prepare_input($_POST['vat_id']);
+
+$street_address = oos_prepare_input($_POST['street_address']);
+if (ACCOUNT_SUBURB == 'true') $suburb = oos_prepare_input($_POST['suburb']);
+$postcode = oos_prepare_input($_POST['postcode']);
+$city = oos_prepare_input($_POST['city']);
+if (ACCOUNT_STATE == 'true') $state = oos_prepare_input($_POST['state']);
+$country = oos_prepare_input($_POST['country']);
+
+$telephone = oos_prepare_input($_POST['telephone']);
+$fax = oos_prepare_input($_POST['fax']);
+
+$newsletter = oos_prepare_input($_POST['newsletter']);
+
+$password = oos_prepare_input($_POST['password']);
+$confirmation = oos_prepare_input($_POST['confirmation']);
+
 
 $bError = false; // reset error flag
 
