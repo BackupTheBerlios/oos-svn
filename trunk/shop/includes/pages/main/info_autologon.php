@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -20,18 +20,18 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  $_SESSION['navigation']->remove_current_page();
+$_SESSION['navigation']->remove_current_page();
 
-  $aOption['info_autologon'] = $sTheme . '/system/info_autologon.html';
+$aOption['info_autologon'] = $sTheme . '/system/info_autologon.html';
 
-  //smarty
-  require 'includes/classes/class_template.php';
-  $oSmarty =& new Template;
+//smarty
+require 'includes/classes/class_template.php';
+$oSmarty =& new Template;
 
-  $oSmarty->caching = true;
-  $info_autologon_id = $sTheme . '|info_autologon|' . $sLanguage;
+$oSmarty->caching = true;
+$info_autologon_id = $sTheme . '|info_autologon|' . $sLanguage;
 
-  if (!$oSmarty->is_cached($aOption['info_autologon'], $info_autologon_id )) {
+if (!$oSmarty->is_cached($aOption['info_autologon'], $info_autologon_id )) {
     require 'includes/languages/' . $sLanguage . '/main_info_autologon.php';
 
     // assign Smarty variables;
@@ -39,8 +39,9 @@
     $oSmarty->assign('lang', $aLang);
     $oSmarty->assign('theme_image', 'themes/' . $sTheme . '/images');
     $oSmarty->assign('theme_css', 'themes/' . $sTheme);
-  }
+}
 
-  // display the template
-  $oSmarty->display($aOption['info_autologon'], $info_autologon_id);
+// display the template
+$oSmarty->display($aOption['info_autologon'], $info_autologon_id);
+
 ?>

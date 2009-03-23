@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: address_book.php,v 1.55 2003/02/13 01:58:23 hpdl 
+   File: address_book.php,v 1.55 2003/02/13 01:58:23 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -19,25 +19,25 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!isset($_SESSION['customer_id'])) {
+if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
     oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
-  }
+}
 
-  require 'includes/languages/' . $sLanguage . '/account_address_book.php';
-  require 'includes/functions/function_address.php';
+require 'includes/languages/' . $sLanguage . '/account_address_book.php';
+require 'includes/functions/function_address.php';
 
- /**
-  * Returns Adress
-  *
-  * @param $customers_id
-  * @param $address_id
-  * @return string
-  */
-  function oos_address_summary($nCustomersId, $nAddressId) {
+/**
+ * Returns Adress
+ *
+ * @param $customers_id
+ * @param $address_id
+ * @return string
+ */
+function oos_address_summary($nCustomersId, $nAddressId) {
 
     $nCustomersId = intval($nCustomersId);
     $nAddressId = intval($nAddressId);
@@ -65,7 +65,7 @@
 
     $address_formattable = $oostable['address_format'];
     $address_format_query = "SELECT address_summary
-                             FROM $address_formattable 
+                             FROM $address_formattable
                              WHERE address_format_id = '" . intval($address['address_format_id']) . "'";
     $address_format = $dbconn->GetRow($address_format_query);
 
@@ -73,47 +73,45 @@
     eval("\$address = \"$address_summary\";");
 
     return $address;
-  }
+}
 
 
-  $address_booktable = $oostable['address_book'];
-  $sql = "SELECT address_book_id, entry_firstname, entry_lastname
-          FROM $address_booktable
-          WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
-            AND address_book_id > 1
-          ORDER BY address_book_id";
-  $address_book_result = $dbconn->Execute($sql);
+$address_booktable = $oostable['address_book'];
+$sql = "SELECT address_book_id, entry_firstname, entry_lastname
+        FROM $address_booktable
+        WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
+          AND address_book_id > 1
+        ORDER BY address_book_id";
+$address_book_result = $dbconn->Execute($sql);
 
-  $aAddressBook = array();
-  while ($address_book = $address_book_result->fields) {
+$aAddressBook = array();
+while ($address_book = $address_book_result->fields) {
     $aAddressBook[] = array('address_book_id' => $address_book['address_book_id'],
                             'entry_firstname' => $address_book['entry_firstname'],
                             'entry_lastname' => $address_book['entry_lastname'],
                             'address_summary' => oos_address_summary($_SESSION['customer_id'], $address_book['address_book_id']));
     $address_book_result->MoveNext();
-  }
+}
 
-  // Close result set
-  $address_book_result->Close();
 
-  // links breadcrumb
-  $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
-  $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
+// links breadcrumb
+$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
 
-  $aOption['template_main'] = $sTheme . '/modules/address_book.html';
-  $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['template_main'] = $sTheme . '/modules/address_book.html';
+$aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 
-  $nPageType = OOS_PAGE_TYPE_ACCOUNT;
+$nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
-  require 'includes/oos_system.php';
-  if (!isset($option)) {
+require 'includes/oos_system.php';
+if (!isset($option)) {
     require 'includes/info_message.php';
     require 'includes/oos_blocks.php';
     require 'includes/oos_counter.php';
-  }
+}
 
-  // assign Smarty variables;
-  $oSmarty->assign(
+// assign Smarty variables;
+$oSmarty->assign(
       array(
           'oos_breadcrumb'         => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
           'oos_heading_title'      => $aLang['heading_title'],
@@ -121,12 +119,12 @@
 
           'oos_address_book_array' => $aAddressBook
       )
-  );
+);
 
-  $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
-  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
+$oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
+$oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
-  // display the template
-  require 'includes/oos_display.php';
+// display the template
+require 'includes/oos_display.php';
 
 ?>
