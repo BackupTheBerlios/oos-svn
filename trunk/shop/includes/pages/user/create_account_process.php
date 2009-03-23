@@ -33,24 +33,24 @@ require 'includes/functions/function_validate_vatid.php';
 $firstname = oos_db_prepare_input($_POST['firstname']);
 $lastname = oos_db_prepare_input($_POST['lastname']);
 
-$error = false; // reset error flag
+$bError = false; // reset error flag
 
 if (ACCOUNT_GENDER == 'true') {
     if (($gender == 'm') || ($gender == 'f')) {
         $gender_error = false;
     } else {
-        $error = true;
+        $bError = true;
         $gender_error = 'true';
     }
 }
 
 if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
-    $error = true;
+    $bError = true;
     $firstname_error = 'true';
 }
 
 if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
-    $error = true;
+    $bError = true;
     $lastname_error = 'true';
 }
 
@@ -58,40 +58,40 @@ if (ACCOUNT_DOB == 'true') {
     if (checkdate(substr(oos_date_raw($dob), 4, 2), substr(oos_date_raw($dob), 6, 2), substr(oos_date_raw($dob), 0, 4))) {
       $date_of_birth_error = false;
     } else {
-      $error = true;
+      $bError = true;
       $date_of_birth_error = 'true';
     }
 }
 
 if (strlen($email_address) < ENTRY_EMAIL_ADDRESS_MIN_LENGTH) {
-    $error = true;
+    $bError = true;
     $email_address_error = 'true';
 }
 
 if (!oos_validate_is_email($email_address)) {
-    $error = true;
+    $bError = true;
     $email_address_check_error = 'true';
 }
 
 if ((ACCOUNT_VAT_ID == 'true') && (ACCOUNT_COMPANY_VAT_ID_CHECK == 'true') && oos_is_not_null($vat_id)) {
     if (!oos_validate_is_vatid($vat_id)) {
-        $error = true;
+        $bError = true;
         $vatid_check_error = 'true';
     }
 }
 
 if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
-    $error = true;
+    $bError = true;
     $street_address_error = 'true';
 }
 
 if (strlen($postcode) < ENTRY_POSTCODE_MIN_LENGTH) {
-    $error = true;
+    $bError = true;
     $post_code_error = 'true';
 }
 
 if (strlen($city) < ENTRY_CITY_MIN_LENGTH) {
-    $error = true;
+    $bError = true;
     $city_error = 'true';
 }
 
@@ -100,7 +100,7 @@ if (isset($_POST['country']) && is_numeric($_POST['country']) && ($_POST['countr
     $country = intval($_POST['country']);
 } else {
     $country = 0;
-    $error = true;
+    $bError = true;
     $country_error = 'true';
 }
 
@@ -143,12 +143,12 @@ if (ACCOUNT_STATE == 'true') {
                     $match_zone = $match_zone_result->fields;
                     $zone_id = $match_zone['zone_id'];
                 } else {
-                    $error = true;
+                    $bError = true;
                     $state_error = 'true';
                 }
             }
         } elseif (strlen($state) < ENTRY_STATE_MIN_LENGTH) {
-            $error = true;
+            $bError = true;
             $state_error = 'true';
         }
     }
@@ -156,7 +156,7 @@ if (ACCOUNT_STATE == 'true') {
 
 
 if (strlen($telephone) < ENTRY_TELEPHONE_MIN_LENGTH) {
-    $error = true;
+    $bError = true;
     $telephone_error = 'true';
 }
 
@@ -166,12 +166,12 @@ if (CUSTOMER_NOT_LOGIN == 'false') {
     } else {
         $passlen = strlen($password);
         if ($passlen < ENTRY_PASSWORD_MIN_LENGTH) {
-            $error = true;
+            $bError = true;
             $password_error = 'true';
         }
 
         if ($password != $confirmation) {
-            $error = true;
+            $bError = true;
             $password_error = 'true';
         }
     }
@@ -184,11 +184,11 @@ $check_email_sql = "SELECT customers_email_address
 $check_email = $dbconn->Execute($check_email_sql);
 
 if ($check_email->RecordCount()) {
-    $error = true;
+    $bError = true;
     $email_address_exists = 'true';
 }
 
-if ($error == true) {
+if ($bError == true) {
     $_SESSION['navigation']->remove_current_page();
 
     $processed = true;
@@ -416,7 +416,6 @@ if ($error == true) {
         $_SESSION['customer_zone_id'] = $zone_id;
         $_SESSION['customer_wishlist_link_id'] = $wishlist_link_id;
         $_SESSION['customer_max_order'] = $customer_max_order;
-        $_SESSION['customer_shopping_points'] = $customer_shopping_points;
 
         if (ACCOUNT_VAT_ID == 'true') {
             if ((ACCOUNT_COMPANY_VAT_ID_CHECK == 'true') && ($vatid_check_error === false)) {

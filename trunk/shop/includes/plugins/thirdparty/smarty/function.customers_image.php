@@ -33,7 +33,7 @@ function smarty_function_customers_image($params, &$smarty)
 
     $basedir = OOS_IMAGES . OOS_CUSTOMERS_IMAGES;
     $height = '150';
-    $width = '150';
+    $width = '';
     $border = 0;
     $alt = '';
     $image = '';
@@ -105,7 +105,7 @@ function smarty_function_customers_image($params, &$smarty)
 
     $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == 'true') ? ' /' : '');
 
-    return '<img src="'.$image.'" alt="'.$alt.'" border="'.$border.'" width="'.$width.'" height="'.$height.'"'.$extra.$sSlash.' />';
+    return '<img src="'.$image.'" alt="'.$alt.'" border="'.$border.'" width="'.$width.'" height="'.$height.'"'.$extra.$sSlash.'>';
 
 }
 ?>
