@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: tell_a_friend.php,v 1.36 2003/02/17 07:55:10 hpdl 
+   File: tell_a_friend.php,v 1.36 2003/02/17 07:55:10 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -163,13 +163,10 @@
       )
   );
 
-  if ($oEvent->installed_plugin('spell')) {
-    $oSmarty->assign('oos_spell', 'true');
-  }
-
   $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
   $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
   // display the template
   require 'includes/oos_display.php';
+
 ?>
