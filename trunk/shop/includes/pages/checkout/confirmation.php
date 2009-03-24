@@ -70,7 +70,8 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
             $_SESSION['navigation']->remove_current_page();
             $_SESSION['navigation']->remove_last_page();
 
-            oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_conditions_not_accepted'])), 'SSL', true, false));
+            $_SESSION['error_message'] = $aLang['error_conditions_not_accepted'];
+            oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
         }
     }
 
@@ -104,7 +105,8 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
 
     if ( (is_array($payment_modules->modules)) && (count($payment_modules->modules) > 1) && (!is_object($$_SESSION['payment'])) && (!$credit_covers) ) {
-      oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_no_payment_module_selected'])), 'SSL'));
+      $_SESSION['error_message'] = $aLang['error_no_payment_module_selected'];
+      oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
     }
 
     if (is_array($payment_modules->modules)) {

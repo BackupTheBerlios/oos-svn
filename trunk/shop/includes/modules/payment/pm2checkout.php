@@ -97,7 +97,7 @@
         $expires_month[] = array('id' => sprintf('%02d', $i), 'text' => strftime('%B',mktime(0,0,0,$i,1,2000)));
       }
 
-      $today = getdate(); 
+      $today = getdate();
       for ($i=$today['year']; $i < $today['year']+10; $i++) {
         $expires_year[] = array('id' => strftime('%y',mktime(0,0,0,1,1,$i)), 'text' => strftime('%Y',mktime(0,0,0,1,1,$i)));
       }
@@ -209,8 +209,8 @@
       if ($_POST['x_response_code'] != '1') {
         $aFilename = oos_get_filename();
         $aModules = oos_get_modules();
-
-        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode($aLang['module_payment_2checkout_text_error_message']), 'SSL', true, false));
+        $_SESSION['error_message'] = $aLang['module_payment_2checkout_text_error_message'];
+        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
       }
     }
 

@@ -25,20 +25,21 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 if (!isset($aInfoMessage)) $aInfoMessage = array();
 
 
-// Todo Remove 
-  if (isset($_GET['error_message']) && oos_is_not_null($_GET['error_message'])) {
+if (isset($_SESSION['error_message']) && !empty($_SESSION['error_message'])) {
     $aInfoMessage[] = array('type' => 'error',
-                            'text' => urldecode($_GET['error_message']));
-  }
+                            'text' => oos_var_prep_for_os($_SESSION['error_message']));
+    unset($_SESSION['error_message']);
+}
 
-  if (isset($_GET['info_message']) && oos_is_not_null($_GET['info_message'])) {
+if (isset($_SESSION['info_message']) && !empty($_SESSION['info_message'])) {
     $aInfoMessage[] = array('type' => 'info',
-                            'text' => urldecode($_GET['info_message']));
-  }
+                            'text' => oos_var_prep_for_os($_SESSION['info_message']));
+    unset($_SESSION['info_message']);
+}
 
-  if ($oMessage->size('upload') > 0) {
+if ($oMessage->size('upload') > 0) {
     $aInfoMessage = array_merge ($aInfoMessage, $oMessage->output('upload') );
-  }
+}
 
 
 for ($i = 0; $i < count($aInfoMessage); $i++) {

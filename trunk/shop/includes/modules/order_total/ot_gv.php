@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: ot_gv.php,v 1.4.2.12 2003/05/14 22:52:59 wilt 
+   File: ot_gv.php,v 1.4.2.12 2003/05/14 22:52:59 wilt
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -211,7 +211,8 @@
           $coupon_redeem_tracktable = $oostable['coupon_redeem_track'];
           $redeem_query = $dbconn->Execute("SELECT * FROM $coupon_redeem_tracktable WHERE coupon_id = '" . $gv_result['coupon_id'] . "'");
           if ( ($redeem_query->RecordCount() != 0) && ($gv_result['coupon_type'] == 'G') ) {
-            oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_no_invalid_redeem_gv'])), 'SSL'));
+            $_SESSION['error_message'] = $aLang['error_no_invalid_redeem_gv'];
+            oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
           }
         }
         if ($gv_result['coupon_type'] == 'G') {
@@ -219,7 +220,7 @@
           // Things to set
           // ip address of claimant
           // customer id of claimant
-          // date 
+          // date
           // redemption flag
           // now update customer account with gv_amount
 
@@ -234,7 +235,7 @@
 
           $couponstable = $oostable['coupons'];
           $gv_update = $dbconn->Execute("UPDATE $couponstable
-                                         SET coupon_active = 'N' 
+                                         SET coupon_active = 'N'
                                          WHERE coupon_id = '" . $gv_result['coupon_id'] . "'");
           $remote_addr = oos_server_get_remote();
 
@@ -261,7 +262,9 @@
                                             amount) VALUES ('" . intval($_SESSION['customer_id']) . "',
                                                             '" . $total_gv_amount . "')");
           }
-          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode($aLang['error_redeemed_amount'] . $oCurrencies->format($gv_amount)), 'SSL'));
+
+          $_SESSION['error_message'] = $aLang['error_redeemed_amount'] . $oCurrencies->format($gv_amount);
+          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
        }
      }
      if ($_POST['submit_redeem_x'] && $gv['coupon_type'] == 'G') oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_no_redeem_code'])), 'SSL'));

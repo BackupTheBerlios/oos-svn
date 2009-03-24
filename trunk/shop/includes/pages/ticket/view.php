@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: ticket_view.php,v 1.5 2003/04/25 21:37:12 hook 
+   File: ticket_view.php,v 1.5 2003/04/25 21:37:12 hook
    ----------------------------------------------------------------------
    OSC-SupportTicketSystem
    Copyright (c) 2003 Henri Schmidhuber IN-Solution
@@ -84,15 +84,18 @@
 
   if (isset($_GET['tlid'])) $tlid =  oos_db_prepare_input($_GET['tlid']);
   if (strlen($tlid) < 10) unset($tlid);
+
 // Form was submitted
-  $error = false;
+  $bError = false;
   if (isset($_GET['action']) && ($_GET['action'] == 'send') && isset($tlid) ) {
+
     // Check Message length
     if (isset($enquiry) && strlen($enquiry) < TICKET_ENTRIES_MIN_LENGTH ) {
-      $error = true;
-      $_GET['error_message'] = $aLang['ticket_warning_enquiry_too_short'];
+      $bError = true;
+      $_SESSION['error_message'] = $aLang['ticket_warning_enquiry_too_short'];
     }
-    if ($error == false) {
+
+    if ($bError === false) {
       $ticket_tickettable = $oostable['ticket_ticket'];
       $sql = "SELECT ticket_id, ticket_customers_name
               FROM $ticket_tickettable
@@ -118,7 +121,7 @@
                           'ticket_date_last_customer_modified' => 'now()');
 
         oos_db_perform($oostable['ticket_ticket'], $sql_data_array, 'update', 'ticket_id = \'' . $ticket_id['ticket_id'] . '\'');
-        $_GET['info_message'] = $aLang['ticket_message_updated'];
+        $_SESSION['info_message'] = $aLang['ticket_message_updated'];
 
       }
     }
@@ -226,4 +229,5 @@
 
   // display the template
   require 'includes/oos_display.php';
+
 ?>

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -18,7 +18,7 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
- 
+
   class authorizenet {
     var $code, $title, $description, $enabled = false;
 
@@ -43,7 +43,7 @@
 
 // Authorize.net utility functions
 // DISCLAIMER:
-//     This code is distributed in the hope that it will be useful, but without any warranty; 
+//     This code is distributed in the hope that it will be useful, but without any warranty;
 //     without even the implied warranty of merchantability or fitness for a particular purpose.
 
 // Main Interfaces:
@@ -59,8 +59,8 @@
 
 // Thanks is lance from http://www.php.net/manual/en/function.mhash.php
 //lance_rushing at hot* spamfree *mail dot com
-//27-Nov-2002 09:36 
-// 
+//27-Nov-2002 09:36
+//
 //Want to Create a md5 HMAC, but don't have hmash installed?
 //
 //Use this:
@@ -167,7 +167,7 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
         $expires_month[] = array('id' => sprintf('%02d', $i), 'text' => strftime('%B',mktime(0,0,0,$i,1,2000)));
       }
 
-      $today = getdate(); 
+      $today = getdate();
       for ($i=$today['year']; $i < $today['year']+10; $i++) {
         $expires_year[] = array('id' => strftime('%y',mktime(0,0,0,1,1,$i)), 'text' => strftime('%Y',mktime(0,0,0,1,1,$i)));
       }
@@ -281,10 +281,13 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
 
       if ($_POST['x_response_code'] == '1') return;
       if ($_POST['x_response_code'] == '2') {
-        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode($aLang['module_payment_authorizenet_text_declined_message']), 'SSL', true, false));
+        $_SESSION['error_message'] = $aLang['module_payment_authorizenet_text_declined_message'];
+
+        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
       }
       // Code 3 is an error - but anything else is an error too (IMHO)
-      oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode($aLang['module_payment_authorizenet_text_error_message']), 'SSL', true, false));
+      $_SESSION['error_message'] = $aLang['module_payment_authorizenet_text_error_message'];
+      oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
     }
 
     function after_process() {

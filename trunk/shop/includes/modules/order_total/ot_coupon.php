@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: ot_coupon.php,v 1.1.2.36 2003/05/14 22:52:59 wilt 
+   File: ot_coupon.php,v 1.1.2.36 2003/05/14 22:52:59 wilt
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -110,7 +110,7 @@
       $couponstable = $oostable['coupons'];
       $sql = "SELECT coupon_id, coupon_amount, coupon_type, coupon_minimum_order,
                      uses_per_coupon, uses_per_user, restrict_to_products,
-                     restrict_to_categories 
+                     restrict_to_categories
               FROM $couponstable
               WHERE coupon_code = '" . oos_db_input($_POST['gv_redeem_code']). "'
                 AND coupon_active = 'Y'";
@@ -120,7 +120,8 @@
       if ($coupon_result['coupon_type'] != 'G') {
 
         if ($coupon_query->RecordCount() == 0) {
-          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_no_invalid_redeem_coupon'])), 'SSL'));
+          $_SESSION['error_message'] = $aLang['error_no_invalid_redeem_coupon'];
+          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
         }
 
         $couponstable = $oostable['coupons'];
@@ -130,7 +131,8 @@
                 AND   coupon_code= '" . oos_db_input($_POST['gv_redeem_code']) . "'";
         $date_query = $dbconn->Execute($sql);
         if ($date_query->RecordCount() == 0) {
-          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_invalid_startdate_coupon'])), 'SSL'));
+          $_SESSION['error_message'] = $aLang['error_invalid_startdate_coupon'];
+          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
         }
 
         $couponstable = $oostable['coupons'];
@@ -140,7 +142,8 @@
                 AND   coupon_code= '" . oos_db_input($_POST['gv_redeem_code']) . "'";
         $date_query = $dbconn->Execute($sql);
         if ($date_query->RecordCount() == 0) {
-          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_invalid_finisdate_coupon'])), 'SSL'));
+          $_SESSION['error_message'] = $aLang['error_invalid_finisdate_coupon'];
+          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
         }
 
         $coupon_redeem_tracktable = $oostable['coupon_redeem_track'];
@@ -157,11 +160,13 @@
         $coupon_count_customer = $dbconn->Execute($sql);
 
         if ($coupon_count->RecordCount()>=$coupon_result['uses_per_coupon'] && $coupon_result['uses_per_coupon'] > 0) {
-          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode($aLang['error_invalid_uses_coupon'] . $coupon_result['uses_per_coupon'] . $aLang['times'] ), 'SSL'));
+          $_SESSION['error_message'] = $aLang['error_invalid_uses_coupon'] . $coupon_result['uses_per_coupon'] . $aLang['times'];
+          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
         }
 
         if ($coupon_count_customer->RecordCount()>=$coupon_result['uses_per_user'] && $coupon_result['uses_per_user'] > 0) {
-          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode($aLang['error_invalid_uses_user_coupon'] . $coupon_result['uses_per_user'] . $aLang['times'] ), 'SSL'));
+          $_SESSION['error_message'] = $aLang['error_invalid_uses_user_coupon'] . $coupon_result['uses_per_user'] . $aLang['times'];
+          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
         }
         if ($coupon_result['coupon_type'] == 'S') {
           $coupon_amount = $oOrder->info['shipping_cost'];
@@ -172,7 +177,10 @@
         if ($coupon_result['coupon_minimum_order']>0) $coupon_amount .= 'on orders greater than ' .  $coupon_result['coupon_minimum_order'];
         $_SESSION['cc_id'] = $coupon_result['coupon_id'];
       }
-      if ($_POST['submit_redeem_coupon_x'] && !$_POST['gv_redeem_code']) oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_no_invalid_redeem_coupon'])), 'SSL'));
+      if ($_POST['submit_redeem_coupon_x'] && !$_POST['gv_redeem_code']) {
+        $_SESSION['error_message'] = $aLang['error_no_invalid_redeem_coupon'];
+        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+      }
     }
   }
 
@@ -278,7 +286,7 @@
         // for percentage discounts. simply reduce tax group per product by discount percentage
         // or
         // for fixed payment amount
-        // calculate ratio based on total net 
+        // calculate ratio based on total net
         // for each product reduce tax group per product by ratio amount.
         $products = $_SESSION['cart']->get_products();
         for ($i=0; $i<count($products); $i++) {
@@ -318,7 +326,7 @@
         } else {
           $ratio = $od_amount / $total_price;
         }
-        if ($get_result['coupon_type'] == 'S') $ratio = 1; 
+        if ($get_result['coupon_type'] == 'S') $ratio = 1;
           if ($method=='Credit Note') {
             $tax_rate = oos_get_tax_rate($this->tax_class, $oOrder->delivery['country']['id'], $oOrder->delivery['zone_id']);
             $tax_desc = oos_get_tax_description($this->tax_class, $oOrder->delivery['country']['id'], $oOrder->delivery['zone_id']);
@@ -329,7 +337,7 @@
             }
             $oOrder->info['tax_groups'][$tax_desc] -= $tod_amount;
             $oOrder->info['total'] -= $tod_amount;
-          } else {     
+          } else {
             for ($p=0; $p<count($valid_array); $p++) {
               $tax_rate = oos_get_tax_rate($valid_array[$p]['products_tax_class'], $oOrder->delivery['country']['id'], $oOrder->delivery['zone_id']);
               $tax_desc = oos_get_tax_description($valid_array[$p]['products_tax_class'], $oOrder->delivery['country']['id'], $oOrder->delivery['zone_id']);
@@ -349,7 +357,7 @@
             $tax_desc = oos_get_tax_description($this->tax_class, $oOrder->delivery['country']['id'], $oOrder->delivery['zone_id']);
             $tod_amount = $od_amount / (100 + $tax_rate)* $tax_rate;
             $oOrder->info['tax_groups'][$tax_desc] -= $tod_amount;
-          } else {  
+          } else {
             $ratio1 = $od_amount/$amount;
             reset($oOrder->info['tax_groups']);
             while (list($key, $value) = each($oOrder->info['tax_groups'])) {
@@ -443,7 +451,7 @@
     }
     if ($this->include_tax == 'false') $order_total=$order_total-$oOrder->info['tax'];
     if ($this->include_shipping == 'false') $order_total=$order_total-$oOrder->info['shipping_cost'];
-    // OK thats fine for global coupons but what about restricted coupons 
+    // OK thats fine for global coupons but what about restricted coupons
     // where you can only redeem against certain products/categories.
     // and I though this was going to be easy !!!
 
@@ -488,7 +496,7 @@
              $in_cart=true;
              $total_price += $this->get_product_price($products_array[$ii-1]['id']);
            }
-         } 
+         }
        }
        $order_total = $total_price;
      }
