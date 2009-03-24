@@ -62,6 +62,13 @@
     $error = 'false';
     $friendemail_error = 'false';
 
+    $friendname = oos_prepare_input($_POST['friendname']);
+    $friendemail = oos_prepare_input($_POST['friendemail']);
+    $yourname = oos_prepare_input($_POST['yourname']);
+    $from = oos_prepare_input($_POST['from']);
+    $yourmessage = oos_prepare_input($_POST['yourmessage']);
+
+
     if (isset($_GET['action']) && ($_GET['action'] == 'process') && !oos_validate_is_email(trim($friendemail))) {
       $friendemail_error = 'true';
       $error = 'true';
@@ -92,7 +99,8 @@
       $error = 'true';
     }
 
-    if (isset($_GET['action']) && ($_GET['action'] == 'process') && ($error == 'false')) {
+    if (isset($_GET['action']) && ($_GET['action'] == 'process') && ($error == 'false') && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
+
       $email_subject = sprintf($aLang['text_email_subject'], $from_name, STORE_NAME);
       $email_body = sprintf($aLang['text_email_intro'], $friendname, $from_name, $products_name, STORE_NAME) . "\n\n";
 
