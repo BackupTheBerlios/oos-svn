@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,31 +19,31 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!$oEvent->installed_plugin('reviews')) {
+if (!$oEvent->installed_plugin('reviews')) {
     $_SESSION['navigation']->remove_current_page();
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
-  }
+}
 
-  if (!isset($_GET['reviews_id'])) {
+if (!isset($_GET['reviews_id'])) {
     oos_redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
-  }
+}
 
-  require 'includes/languages/' . $sLanguage . '/reviews_product_info.php';
+require 'includes/languages/' . $sLanguage . '/reviews_product_info.php';
 
 // lets retrieve all $_GET keys and values..
-  $get_parameters = oos_get_all_get_parameters(array('reviews_id'));
-  $get_parameters = oos_remove_trailing($get_parameters);
+$get_parameters = oos_get_all_get_parameters(array('reviews_id'));
+$get_parameters = oos_remove_trailing($get_parameters);
 
-  $reviewstable  = $oostable['reviews'];
-  $productstable = $oostable['products'];
-  $reviews_descriptiontable  = $oostable['reviews_description'];
-  $products_descriptiontable = $oostable['products_description'];
-  $sql = "SELECT rd.reviews_text, r.reviews_rating, r.reviews_id, r.products_id,
-                 r.customers_name, r.date_added, r.last_modified, r.reviews_read,
-                 p.products_id, pd.products_name, p.products_model, p.products_image
+$reviewstable  = $oostable['reviews'];
+$productstable = $oostable['products'];
+$reviews_descriptiontable  = $oostable['reviews_description'];
+$products_descriptiontable = $oostable['products_description'];
+$sql = "SELECT rd.reviews_text, r.reviews_rating, r.reviews_id, r.products_id,
+               r.customers_name, r.date_added, r.last_modified, r.reviews_read,
+               p.products_id, pd.products_name, p.products_model, p.products_image
           FROM $reviewstable r,
                $reviews_descriptiontable rd,
                $productstable p,
@@ -55,31 +55,31 @@
             AND p.products_status >= '1'
             AND p.products_id = pd.products_id
             AND pd.products_languages_id = '" . intval($nLanguageID) . "'";
-  $reviews_result = $dbconn->Execute($sql);
-  if (!$reviews_result->RecordCount()) oos_redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
-  $reviews = $reviews_result->fields;
+$reviews_result = $dbconn->Execute($sql);
+if (!$reviews_result->RecordCount()) oos_redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
+$reviews = $reviews_result->fields;
 
-  $dbconn->Execute("UPDATE " . $oostable['reviews'] . "
-                SET reviews_read = reviews_read+1
-                WHERE reviews_id = '" . $reviews['reviews_id'] . "'");
+$dbconn->Execute("UPDATE " . $oostable['reviews'] . "
+                  SET reviews_read = reviews_read+1
+                  WHERE reviews_id = '" . $reviews['reviews_id'] . "'");
 
-  // links breadcrumb
-  $oBreadcrumb->add($reviews['products_name'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $reviews['products_id']));
-  $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));
+// links breadcrumb
+$oBreadcrumb->add($reviews['products_name'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $reviews['products_id']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));
 
-  $aOption['template_main'] = $sTheme . '/modules/product_reviews_info.html';
-  $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['template_main'] = $sTheme . '/modules/product_reviews_info.html';
+$aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 
-  $nPageType = OOS_PAGE_TYPE_REVIEWS;
+$nPageType = OOS_PAGE_TYPE_REVIEWS;
 
-  require 'includes/oos_system.php';
-  if (!isset($option)) {
+require 'includes/oos_system.php';
+if (!isset($option)) {
     require 'includes/info_message.php';
     require 'includes/oos_blocks.php';
     require 'includes/oos_counter.php';
-  }
+}
 
-  $oSmarty->assign(
+$oSmarty->assign(
        array(
            'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
            'oos_heading_title' => sprintf($aLang['heading_title'], $reviews['products_name']),
@@ -91,9 +91,10 @@
        )
   );
 
-  $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
-  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
+$oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
+$oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
-  // display the template
-  require 'includes/oos_display.php';
+// display the template
+require 'includes/oos_display.php';
+
 ?>

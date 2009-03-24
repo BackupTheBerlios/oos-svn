@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -17,20 +17,20 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!$oEvent->installed_plugin('featured')) return false;
+if (!$oEvent->installed_plugin('featured')) return false;
 
-  if (!is_numeric(MAX_DISPLAY_FEATURED_PRODUCTS)) return false;
+if (!is_numeric(MAX_DISPLAY_FEATURED_PRODUCTS)) return false;
 
-  $productstable = $oostable['products'];
-  $products_descriptiontable = $oostable['products_description'];
-  $featuredtable = $oostable['featured'];
-  $sql = "SELECT p.products_id, p.products_image, p.products_price, p.products_tax_class_id,
-                 p.products_units_id, p.products_base_price, p.products_base_unit,
-                 p.products_discount_allowed, pd.products_name,
-                 substring(pd.products_description, 1, 150) AS products_description
+$productstable = $oostable['products'];
+$products_descriptiontable = $oostable['products_description'];
+$featuredtable = $oostable['featured'];
+$sql = "SELECT p.products_id, p.products_image, p.products_price, p.products_tax_class_id,
+               p.products_units_id, p.products_base_price, p.products_base_unit,
+               p.products_discount_allowed, pd.products_name,
+               substring(pd.products_description, 1, 150) AS products_description
           FROM $productstable p,
                $products_descriptiontable pd,
                $featuredtable f
@@ -41,66 +41,63 @@
             AND pd.products_languages_id = '" . intval($nLanguageID) . "'
             AND f.status = '1'
           ORDER BY f.featured_date_added DESC";
-  $featured_result = $dbconn->SelectLimit($sql, MAX_DISPLAY_FEATURED_PRODUCTS);
+$featured_result = $dbconn->SelectLimit($sql, MAX_DISPLAY_FEATURED_PRODUCTS);
 
 // MIN_DISPLAY_FEATURED
-  if ($featured_result->RecordCount() >= 1) {
+if ($featured_result->RecordCount() >= 1) {
     $aFeatured = array();
     while ($featured = $featured_result->fields) {
 
-      $featured_product_price = '';
-      $featured_product_special_price = '';
-      $featured_max_product_discount = 0;
-      $featured_product_discount_price = '';
-      $featured_base_product_price = '';
-      $featured_base_product_special_price = '';
-      $featured_special_price = '';
+        $featured_product_price = '';
+        $featured_product_special_price = '';
+        $featured_max_product_discount = 0;
+        $featured_product_discount_price = '';
+        $featured_base_product_price = '';
+        $featured_base_product_special_price = '';
+        $featured_special_price = '';
 
-      $featured_units = UNITS_DELIMITER . $products_units[$featured['products_units_id']];
+        $featured_units = UNITS_DELIMITER . $products_units[$featured['products_units_id']];
 
-      $featured_product_price = $oCurrencies->display_price($featured['products_price'], oos_get_tax_rate($featured['products_tax_class_id']));
-      $featured_special_price = oos_get_products_special_price($featured['products_id']);
+        $featured_product_price = $oCurrencies->display_price($featured['products_price'], oos_get_tax_rate($featured['products_tax_class_id']));
+        $featured_special_price = oos_get_products_special_price($featured['products_id']);
 
-      if (oos_is_not_null($featured_special_price)) {
-        $featured_product_special_price = $oCurrencies->display_price($featured_special_price, oos_get_tax_rate($featured['products_tax_class_id']));
-      } else {
-        $featured_max_product_discount = min($featured['products_discount_allowed'],$_SESSION['member']->group['discount']);
-        if ($featured_max_product_discount != 0 ) {
-          $featured_special_price = $featured['products_price']*(100-$featured_max_product_discount)/100;
-          $featured_product_discount_price = $oCurrencies->display_price($featured_special_price, oos_get_tax_rate($featured['products_tax_class_id']));
+        if (oos_is_not_null($featured_special_price)) {
+            $featured_product_special_price = $oCurrencies->display_price($featured_special_price, oos_get_tax_rate($featured['products_tax_class_id']));
+        } else {
+            $featured_max_product_discount = min($featured['products_discount_allowed'],$_SESSION['member']->group['discount']);
+            if ($featured_max_product_discount != 0 ) {
+                $featured_special_price = $featured['products_price']*(100-$featured_max_product_discount)/100;
+                $featured_product_discount_price = $oCurrencies->display_price($featured_special_price, oos_get_tax_rate($featured['products_tax_class_id']));
+            }
         }
-      }
 
-      if ($featured['products_base_price'] != 1) {
-        $featured_base_product_price = $oCurrencies->display_price($featured['products_price'] * $featured['products_base_price'], oos_get_tax_rate($featured['products_tax_class_id']));
+        if ($featured['products_base_price'] != 1) {
+            $featured_base_product_price = $oCurrencies->display_price($featured['products_price'] * $featured['products_base_price'], oos_get_tax_rate($featured['products_tax_class_id']));
 
-        if ($featured_special_price != '') {
-          $featured_base_product_special_price = $oCurrencies->display_price($featured_special_price * $featured['products_base_price'], oos_get_tax_rate($featured['products_tax_class_id']));
+            if ($featured_special_price != '') {
+                $featured_base_product_special_price = $oCurrencies->display_price($featured_special_price * $featured['products_base_price'], oos_get_tax_rate($featured['products_tax_class_id']));
+            }
         }
-      }
 
-      $aFeatured[] = array('products_id' => $featured['products_id'],
-                           'products_image' => $featured['products_image'],
-                           'products_name' => $featured['products_name'],
-                           'products_description' => oos_remove_tags($featured['products_description']),
-                           'products_base_price' => $featured['products_base_price'],
-                           'products_base_unit' => $featured['products_base_unit'],
-                           'products_units' => $featured_units,
-                           'featured_product_price' => $featured_product_price,
-                           'featured_product_special_price' => $featured_product_special_price,
-                           'featured_max_product_discount' => $featured_max_product_discount,
-                           'featured_product_discount_price' => $featured_product_discount_price,
-                           'featured_base_product_price' => $featured_base_product_price,
-                           'featured_base_product_special_price' => $featured_base_product_special_price,
-                           'featured_special_price' => $featured_special_price);
-      // Move that ADOdb pointer!
-      $featured_result->MoveNext();
+        $aFeatured[] = array('products_id' => $featured['products_id'],
+                             'products_image' => $featured['products_image'],
+                             'products_name' => $featured['products_name'],
+                             'products_description' => oos_remove_tags($featured['products_description']),
+                             'products_base_price' => $featured['products_base_price'],
+                             'products_base_unit' => $featured['products_base_unit'],
+                             'products_units' => $featured_units,
+                             'featured_product_price' => $featured_product_price,
+                             'featured_product_special_price' => $featured_product_special_price,
+                             'featured_max_product_discount' => $featured_max_product_discount,
+                             'featured_product_discount_price' => $featured_product_discount_price,
+                             'featured_base_product_price' => $featured_base_product_price,
+                             'featured_base_product_special_price' => $featured_base_product_special_price,
+                             'featured_special_price' => $featured_special_price);
+        // Move that ADOdb pointer!
+        $featured_result->MoveNext();
     }
 
-    // Close result set
-    $featured_result->Close();
-
     $oSmarty->assign('featured_array', $aFeatured);
-  }
+}
 
 ?>
