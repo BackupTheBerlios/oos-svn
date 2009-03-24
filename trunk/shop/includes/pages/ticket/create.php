@@ -144,7 +144,7 @@
                               'ticket_customer_notified' => '1',
                               'ticket_edited_by' => $name,
                               'ticket_comments' => $enquiry);
-      oos_db_perform($oostable['ticket_status_history'], $sql_data_array); 
+      oos_db_perform($oostable['ticket_status_history'], $sql_data_array);
 
        // Email  Customer doesn't get the Message cause he should use the web
       $ticket_email_subject = $aLang['ticket_email_subject'] . $subject;
@@ -219,9 +219,6 @@
       )
   );
 
-  if ($oEvent->installed_plugin('spell')) {
-    $oSmarty->assign('oos_spell', 'true');
-  }
 
   $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
   $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));

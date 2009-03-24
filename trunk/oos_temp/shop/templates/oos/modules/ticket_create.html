@@ -102,18 +102,7 @@
           </tr>
           <tr>
             <td colspan=3>
-<span id="spell_container" style="background-color: #ddd"></span><br>
 <textarea id="tal" name="enquiry" class="textarea">{$smarty.post.enquiry|stripslashes}</textarea>
-{if $oEvent->installed_plugin('spell')}
-{literal}
-  <script type="text/javascript">
-    var googie2 = new GoogieSpell("js/googiespell/", "send_req.php?lang=");
-    googie2.dontUseCloseButtons();
-    googie2.setSpellContainer("spell_container");
-    googie2.decorateTextarea("tal");
-  </script>
-{/literal}
-{/if}
 
 {if ($error_enquiry) }
 &nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_error_no_enquiry}</font></small>

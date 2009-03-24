@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -60,7 +60,7 @@
 
     if (ereg('[^0-9/.]', $gv_amount)) {
       $error = 'true';
-      $error_amount = $aLang['error_entry_amount_check']; 
+      $error_amount = $aLang['error_entry_amount_check'];
     }
     $gv_amount = round($gv_amount, $oCurrencies->currencies[DEFAULT_CURRENCY]['decimal_places']);
     if ($gv_amount>$customer_amount || $gv_amount == 0) {
@@ -73,7 +73,7 @@
     $id1 = oos_create_coupon_code($mail['customers_email_address']);
 
     $coupon_gv_customertable = $oostable['coupon_gv_customer'];
-    $sql = "SELECT amount 
+    $sql = "SELECT amount
             FROM $coupon_gv_customertable
             WHERE customer_id = '" . intval($_SESSION['customer_id']) . "'";
     $gv_result = $dbconn->Execute($sql);
@@ -82,7 +82,7 @@
     $new_amount = round($gv_result['amount'], $oCurrencies->currencies[DEFAULT_CURRENCY]['decimal_places'])-$amount;
     if ($new_amount<0) {
       $error = 'true';
-      $error_amount = $aLang['error_entry_amount_check']; 
+      $error_amount = $aLang['error_entry_amount_check'];
       $action = 'send';
     } else {
       $coupon_gv_customertable = $oostable['coupon_gv_customer'];
@@ -103,9 +103,9 @@
                                 (coupon_type,
                                  coupon_code,
                                  date_created,
-                                 coupon_amount) VALUES ('G', 
+                                 coupon_amount) VALUES ('G',
                                                         '" . oos_db_input($id1) . "',
-                                                         now(), 
+                                                         now(),
                                                         '" . oos_db_input($amount) . "')");
       $insert_id = $dbconn->Insert_ID();
 
@@ -137,7 +137,7 @@
       }
       $gv_email .= sprintf($aLang['email_gv_redeem'], $id1) . "\n\n";
       $gv_email .= $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $id1, 'NONSSL', false, false);
-      $gv_email .= "\n\n";  
+      $gv_email .= "\n\n";
       $gv_email .= $aLang['email_gv_fixed_footer'] . "\n\n";
       $gv_email .= $aLang['email_gv_shop_footer'] . "\n\n";
       // $gv_email_subject = sprintf($aLang['email_gv_text_subject'], $send_name);
@@ -201,9 +201,6 @@
       )
   );
 
-  if ($oEvent->installed_plugin('spell')) {
-    $oSmarty->assign('oos_spell', 'true');
-  }
 
   $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
   $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
