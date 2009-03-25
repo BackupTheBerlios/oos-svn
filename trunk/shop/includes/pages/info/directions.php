@@ -21,7 +21,7 @@ $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 $contents_cache_id = $sTheme . '|info|directions|' . $sLanguage;
 
 require 'includes/oos_system.php';
-  if (!isset($option)) {
+if (!isset($option)) {
     require 'includes/info_message.php';
     require 'includes/oos_blocks.php';
     require 'includes/oos_counter.php';
