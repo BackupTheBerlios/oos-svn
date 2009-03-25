@@ -80,12 +80,17 @@ while ($ticket_status = $ticket_status_result->fields) {
 
 
 if (isset($_GET['tlid'])) $tlid =  oos_db_prepare_input($_GET['tlid']);
+if (isset($_POST['tlid'])) $tlid =  oos_prepare_input($_POST['tlid']);
 if (strlen($tlid) < 10) unset($tlid);
-
 
 // Form was submitted
 $bError = false;
-if (isset($_GET['action']) && ($_GET['action'] == 'send') && isset($tlid) ) {
+if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) && isset($tlid) ) {
+
+    $status =  oos_prepare_input($_POST['status']);
+    $department =  oos_prepare_input($_POST['department']);
+    $priority =  oos_prepare_input($_POST['priority']);
+    $enquiry =  oos_prepare_input($_POST['enquiry']);
 
     // Check Message length
     if (isset($enquiry) && strlen($enquiry) < TICKET_ENTRIES_MIN_LENGTH ) {
@@ -99,31 +104,31 @@ if (isset($_GET['action']) && ($_GET['action'] == 'send') && isset($tlid) ) {
                 FROM $ticket_tickettable
                 WHERE ticket_link_id = '" . oos_db_input($tlid) . "'";
 
-      $ticket_id_result = $dbconn->Execute($sql);
-      $ticket_id = $ticket_id_result->fields;
-      if ($ticket_id['ticket_id']) {
-          if (TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS == 'false' && TICKET_CUSTOMER_REPLY_STATUS_ID > 0 ) $status = TICKET_CUSTOMER_REPLY_STATUS_ID;
-              $sql_data_array = array('ticket_id' => $ticket_id['ticket_id'],
-                                      'ticket_status_id' => $status,
-                                      'ticket_priority_id' => $priority,
-                                      'ticket_department_id' => $department,
-                                      'ticket_date_modified' => 'now()',
-                                      'ticket_customer_notified' => '0',
-                                      'ticket_edited_by' => $ticket_id['ticket_customers_name'],
-                                      'ticket_comments' => $enquiry);
-              oos_db_perform($oostable['ticket_status_history'], $sql_data_array);
-              $sql_data_array = array('ticket_status_id' => $status,
-                                      'ticket_priority_id' => $priority,
-                                      'ticket_department_id' => $department,
-                                      'ticket_date_last_modified' => 'now()',
-                                      'ticket_date_last_customer_modified' => 'now()');
+        $ticket_id_result = $dbconn->Execute($sql);
+        $ticket_id = $ticket_id_result->fields;
+        if ($ticket_id['ticket_id']) {
+            if (TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS == 'false' && TICKET_CUSTOMER_REPLY_STATUS_ID > 0 ) $status = TICKET_CUSTOMER_REPLY_STATUS_ID;
+            $sql_data_array = array('ticket_id' => $ticket_id['ticket_id'],
+                                    'ticket_status_id' => $status,
+                                    'ticket_priority_id' => $priority,
+                                    'ticket_department_id' => $department,
+                                    'ticket_date_modified' => 'now()',
+                                    'ticket_customer_notified' => '0',
+                                    'ticket_edited_by' => $ticket_id['ticket_customers_name'],
+                                    'ticket_comments' => $enquiry);
+            oos_db_perform($oostable['ticket_status_history'], $sql_data_array);
+            $sql_data_array = array('ticket_status_id' => $status,
+                                    'ticket_priority_id' => $priority,
+                                    'ticket_department_id' => $department,
+                                    'ticket_date_last_modified' => 'now()',
+                                    'ticket_date_last_customer_modified' => 'now()');
 
-              oos_db_perform($oostable['ticket_ticket'], $sql_data_array, 'update', 'ticket_id = \'' . $ticket_id['ticket_id'] . '\'');
-              $_SESSION['info_message'] = $aLang['ticket_message_updated'];
+            oos_db_perform($oostable['ticket_ticket'], $sql_data_array, 'update', 'ticket_id = \'' . $ticket_id['ticket_id'] . '\'');
+            $_SESSION['info_message'] = $aLang['ticket_message_updated'];
 
-          }
-      }
-  }
+        }
+    }
+}
 
 if (isset($_SESSION['customer_id'])) {
     $ticket_tickettable = $oostable['ticket_ticket'];

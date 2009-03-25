@@ -73,7 +73,17 @@ if (isset($_SESSION['customer_id'])) {
 
 // Form was submitted
 $bError = false;
-if (isset($_GET['action']) && ($_GET['action'] == 'send')) {
+if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
+
+    $name = oos_prepare_input($_POST['name']);
+    $email = oos_prepare_input($_POST['email']);
+    $subject = oos_prepare_input($_POST['subject']);
+    $ticket_customers_orders_id = oos_prepare_input($_POST['ticket_customers_orders_id']);
+    $department = oos_prepare_input($_POST['department']);
+    $priority = oos_prepare_input($_POST['priority']);
+    $enquiry = oos_prepare_input($_POST['enquiry']);
+
+
     // Check Name length
     if (!isset($_SESSION['customer_id']) && isset($name) && strlen($name) < TICKET_ENTRIES_MIN_LENGTH ) {
         $bError = true;
