@@ -9,8 +9,8 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: checkout_payment.php,v 1.6.2.1 2003/05/03 23:41:23 wilt 
-   orig: checkout_payment.php,v 1.109 2003/02/14 20:28:47 dgw_ 
+   File: checkout_payment.php,v 1.6.2.1 2003/05/03 23:41:23 wilt
+   orig: checkout_payment.php,v 1.109 2003/02/14 20:28:47 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -33,7 +33,7 @@
   }
 
   if (oos_empty($_SESSION['member']->group['payment'])) {
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main'])); 
+    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
   }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
@@ -90,18 +90,18 @@
   require 'includes/classes/class_order.php';
   $oOrder = new order;
   require 'includes/classes/class_order_total.php';
-  $order_total_modules = new order_total;
+  $oOrderTotalModules = new order_total;
 
 
   $total_weight = $_SESSION['cart']->show_weight();
   $total_count = $_SESSION['cart']->count_contents();
-  $total_count = $_SESSION['cart']->count_contents_virtual(); 
+  $total_count = $_SESSION['cart']->count_contents_virtual();
 
 // load all enabled payment modules
   require 'includes/classes/class_payment.php';
-  $payment_modules = new payment;
-  $selection = $payment_modules->selection();
-  $credit_selection = $order_total_modules->credit_selection();
+  $oPaymentModules = new payment;
+  $selection = $oPaymentModules->selection();
+  $credit_selection = $oOrderTotalModules->credit_selection();
 
   // links breadcrumb
   $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
@@ -116,7 +116,7 @@
 
   ob_start();
   require 'js/checkout_payment.js.php';
-  print $payment_modules->javascript_validation();
+  print $oPaymentModules->javascript_validation();
   $javascript = ob_get_contents();
   ob_end_clean();
 

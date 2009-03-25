@@ -81,7 +81,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
     if ($credit_covers) $_SESSION['payment'] = '';
 
-    $payment_modules = new payment($_SESSION['payment']);
+    $oPaymentModules = new payment($_SESSION['payment']);
     require 'includes/classes/class_order_total.php';
 
     require 'includes/classes/class_order.php';
@@ -94,23 +94,23 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
         }
     }
 
-    $payment_modules->update_status();
-    $order_total_modules = new order_total;
-    $order_total_modules->collect_posts();
+    $oPaymentModules->update_status();
+    $oOrderTotalModules = new order_total;
+    $oOrderTotalModules->collect_posts();
 
 
     if (isset($_SESSION['cot_gv'])) {
-        $credit_covers = $order_total_modules->pre_confirmation_check();
+        $credit_covers = $oOrderTotalModules->pre_confirmation_check();
     }
 
 
-    if ( (is_array($payment_modules->modules)) && (count($payment_modules->modules) > 1) && (!is_object($$_SESSION['payment'])) && (!$credit_covers) ) {
+    if ( (is_array($oPaymentModules->modules)) && (count($oPaymentModules->modules) > 1) && (!is_object($$_SESSION['payment'])) && (!$credit_covers) ) {
       $_SESSION['error_message'] = $aLang['error_no_payment_module_selected'];
       oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
     }
 
-    if (is_array($payment_modules->modules)) {
-      $payment_modules->pre_confirmation_check();
+    if (is_array($oPaymentModules->modules)) {
+      $oPaymentModules->pre_confirmation_check();
     }
 
     // load the selected shipping module
@@ -158,13 +158,13 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
     );
 
     if (MODULE_ORDER_TOTAL_INSTALLED) {
-      $order_total_modules->process();
-      $order_total_output = $order_total_modules->output();
+      $oOrderTotalModules->process();
+      $order_total_output = $oOrderTotalModules->output();
       $oSmarty->assign('order_total_output', $order_total_output);
     }
 
-    if (is_array($payment_modules->modules)) {
-        if ($confirmation = $payment_modules->confirmation()) {
+    if (is_array($oPaymentModules->modules)) {
+        if ($confirmation = $oPaymentModules->confirmation()) {
             $oSmarty->assign('confirmation', $confirmation);
         }
     }
@@ -176,11 +176,11 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
     }
     $oSmarty->assign('form_action_url', $form_action_url);
 
-    if (is_array($payment_modules->modules)) {
-      $payment_modules_process_button =  $payment_modules->process_button();
+    if (is_array($oPaymentModules->modules)) {
+      $oPaymentModules_process_button =  $oPaymentModules->process_button();
     }
 
-    $oSmarty->assign('payment_modules_process_button', $payment_modules_process_button);
+    $oSmarty->assign('payment_modules_process_button', $oPaymentModules_process_button);
     $oSmarty->assign('order', $oOrder);
 
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));

@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: checkout_shipping_address.php,v 1.8 2003/02/13 04:23:22 hpdl 
+   File: checkout_shipping_address.php,v 1.8 2003/02/13 04:23:22 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -44,8 +44,9 @@
     oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
   }
 
-  $error = false;
+  $bError = false;
   $process = 'false';
+
   if (isset($_POST['action']) && ($_POST['action'] == 'submit')) {
 // process a new shipping address
     if (oos_is_not_null($_POST['firstname']) && oos_is_not_null($_POST['lastname']) && oos_is_not_null($_POST['street_address'])) {
@@ -56,59 +57,45 @@
           $gender_error = 'false';
         } else {
           $gender_error = 'true';
-          $error = 'true';
+          $bError = true;
         }
       }
 
       if (ACCOUNT_COMPANY == 'true') {
         if (strlen($company) < ENTRY_COMPANY_MIN_LENGTH) {
           $company_error = 'true';
-          $error = 'true';
-        } else {
-          $company_error = 'false';
+          $bError = true;
         }
       }
 
       if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
         $firstname_error = 'true';
-        $error = 'true';
-      } else {
-        $firstname_error = 'false';
+        $bError = true;
       }
 
       if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
         $lastname_error = 'true';
-        $error = 'true';
-      } else {
-        $lastname_error = 'false';
+        $bError = true;
       }
 
       if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
         $street_address_error = 'true';
-        $error = 'true';
-      } else {
-        $street_address_error = 'false';
+        $bError = true;
       }
 
       if (strlen($postcode) < ENTRY_POSTCODE_MIN_LENGTH) {
         $postcode_error = 'true';
-        $error = 'true';
-      } else {
-        $postcode_error = 'false';
+        $bError = true;
       }
 
       if (strlen($city) < ENTRY_CITY_MIN_LENGTH) {
         $city_error = 'true';
-        $error = 'true';
-      } else {
-        $city_error = 'false';
+        $bError = true;
       }
 
       if (strlen($country) < 1) {
         $country_error = 'true';
-        $error = 'true';
-      } else {
-        $country_error = 'false';
+        $bError = true;
       }
 
       if (ACCOUNT_STATE == 'true') {
@@ -136,21 +123,21 @@
               $zone_values = $zone_result->fields;
               $zone_id = $zone_values['zone_id'];
             } else {
-              $error = 'true';
+              $bError = true;
               $state_error = 'true';
             }
           } else {
             if (strlen($state) < ENTRY_STATE_MIN_LENGTH) {
-              $error = 'true';
+              $bError = true;
               $state_error = 'true';
             }
           }
         }
       }
 
-      if ($error == false) {
+      if ($bError === false) {
         $address_booktable = $oostable['address_book'];
-        $sql = "SELECT max(address_book_id) AS address_book_id 
+        $sql = "SELECT max(address_book_id) AS address_book_id
                 FROM $address_booktable
                 WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'";
         $next_id_result = $dbconn->Execute($sql);
@@ -203,9 +190,9 @@
       $_SESSION['sendto'] = $_POST['address'];
 
       $address_booktable = $oostable['address_book'];
-      $sql = "SELECT COUNT(*) AS total 
+      $sql = "SELECT COUNT(*) AS total
               FROM $address_booktable
-              WHERE customers_id = '" . intval($_SESSION['customer_id']) . "' 
+              WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
                 AND address_book_id = '" . intval($_SESSION['sendto']) . "'";
       $check_address_result = $dbconn->Execute($sql);
       $check_address = $check_address_result->fields;
@@ -227,7 +214,7 @@
     $address_booktable = $oostable['address_book'];
     $sql = "SELECT COUNT(*) AS total
             FROM $address_booktable
-            WHERE customers_id = '" . intval($_SESSION['customer_id']) . "' 
+            WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
               AND address_book_id != '" . intval($_SESSION['sendto']) . "'";
     $addresses_count_result = $dbconn->Execute($sql);
     $addresses_count = $addresses_count_result->fields['total'];
@@ -344,7 +331,7 @@
     $oSmarty->assign('zone_id', $zone_id);
   }
   $country_name = oos_get_country_name($country);
-  $oSmarty->assign('country_name', $country_name); 
+  $oSmarty->assign('country_name', $country_name);
   $state = oos_get_zone_name($country, $zone_id, $state);
   $oSmarty->assign('state', $state);
 

@@ -9,8 +9,8 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: checkout_shipping.php,v 1.9 2003/02/22 17:34:00 wilt 
-   orig:  checkout_shipping.php,v 1.14 2003/02/14 20:28:47 dgw_ 
+   File: checkout_shipping.php,v 1.9 2003/02/22 17:34:00 wilt
+   orig:  checkout_shipping.php,v 1.14 2003/02/14 20:28:47 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -84,7 +84,7 @@
 
 // load all enabled shipping modules
   require 'includes/classes/class_shipping.php';
-  $shipping_modules = new shipping;
+  $oShippingModules = new shipping;
 
   if ( defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'true') ) {
     switch (MODULE_ORDER_TOTAL_SHIPPING_DESTINATION) {
@@ -135,7 +135,7 @@
             $quote[0]['methods'][0]['title'] = $aLang['free_shipping_title'];
             $quote[0]['methods'][0]['cost'] = '0';
           } else {
-            $quote = $shipping_modules->quote($method, $module);
+            $quote = $oShippingModules->quote($method, $module);
           }
           if (isset($quote['error'])) {
             unset($_SESSION['shipping']);
@@ -160,13 +160,13 @@
   }
 
 // get all available shipping quotes
-  $quotes = $shipping_modules->quote();
+  $quotes = $oShippingModules->quote();
 
 // if no shipping method has been selected, automatically select the cheapest method.
 // if the modules status was changed when none were available, to save on implementing
 // a javascript force-selection method, also automatically select the cheapest shipping
 // method if more than one module is now enabled
-  if ( !isset($_SESSION['shipping']) || ( isset($_SESSION['shipping']) && ($_SESSION['shipping'] == false) && (oos_count_shipping_modules() > 1) ) ) $_SESSION['shipping'] = $shipping_modules->cheapest();
+  if ( !isset($_SESSION['shipping']) || ( isset($_SESSION['shipping']) && ($_SESSION['shipping'] == false) && (oos_count_shipping_modules() > 1) ) ) $_SESSION['shipping'] = $oShippingModules->cheapest();
   list ($sess_class, $sess_method) = split ('_', $_SESSION['shipping']['id']);
 
   // links breadcrumb
@@ -227,7 +227,7 @@
   $oSmarty->assign('popup_window', 'checkout_shipping.js');
 
   $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
-  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'])); 
+  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
   // display the template
   require 'includes/oos_display.php';

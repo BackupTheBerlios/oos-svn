@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: checkout_payment_address.php,v 1.7 2003/02/13 04:23:22 hpdl 
+   File: checkout_payment_address.php,v 1.7 2003/02/13 04:23:22 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -36,7 +36,7 @@
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
   }
 
-  $error = false;
+  $bError = false;
   $process = 'false';
   if (isset($_POST['action']) && ($_POST['action'] == 'submit')) {
 // process a new billing address
@@ -48,59 +48,45 @@
           $gender_error = 'false';
         } else {
           $gender_error = 'true';
-          $error = 'true';
+          $bError = true;
         }
       }
 
       if (ACCOUNT_COMPANY == 'true') {
         if (strlen($company) < ENTRY_COMPANY_MIN_LENGTH) {
           $company_error = 'true';
-          $error = 'true';
-        } else {
-          $company_error = 'false';
+          $bError = true;
         }
       }
 
       if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
         $firstname_error = 'true';
-        $error = 'true';
-      } else {
-        $firstname_error = 'false';
+        $bError = true;
       }
 
       if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
         $lastname_error = 'true';
-        $error = 'true';
-      } else {
-        $lastname_error = 'false';
+        $bError = true;
       }
 
       if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
         $street_address_error = 'true';
-        $error = 'true';
-      } else {
-        $street_address_error = 'false';
+        $bError = true;
       }
 
       if (strlen($postcode) < ENTRY_POSTCODE_MIN_LENGTH) {
         $postcode_error = 'true';
-        $error = 'true';
-      } else {
-        $postcode_error = 'false';
+        $bError = true;
       }
 
       if (strlen($city) < ENTRY_CITY_MIN_LENGTH) {
         $city_error = 'true';
-        $error = 'true';
-      } else {
-        $city_error = 'false';
+        $bError = true;
       }
 
       if (strlen($country) < 1) {
         $country_error = 'true';
-        $error = 'true';
-      } else {
-        $country_error = 'false';
+        $bError = true;
       }
 
       if (ACCOUNT_STATE == 'true') {
@@ -119,28 +105,28 @@
           if ($check_value['total'] > 0) {
             $state_has_zones = 'true';
             $zonestable = $oostable['zones'];
-            $sql = "SELECT zone_id 
+            $sql = "SELECT zone_id
                     FROM $zonestable
-                    WHERE zone_country_id = '" . oos_db_input($country) . "' 
+                    WHERE zone_country_id = '" . oos_db_input($country) . "'
                       AND zone_name = '" . oos_db_input($state) . "'";
             $zone_result = $dbconn->Execute($sql);
             if ($zone_result->RecordCount() == 1) {
               $zone_values = $zone_result->fields;
               $zone_id = $zone_values['zone_id'];
             } else {
-              $error = 'true';
+              $bError = true;
               $state_error = 'true';
             }
           } else {
             if (!$state) {
-              $error = 'true';
+              $bError = true;
               $state_error = 'true';
             }
           }
         }
       }
 
-      if ($error == false) {
+      if ($bError === false) {
         $address_booktable = $oostable['address_book'];
         $sql = "SELECT max(address_book_id) AS address_book_id
                 FROM $address_booktable
