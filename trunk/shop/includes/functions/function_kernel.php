@@ -968,7 +968,7 @@
   */
   function oos_get_product_path($products_id) {
 
-    $categories = '';
+    $sCategoryPath = '';
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -993,14 +993,14 @@
 
       $size = count($categories)-1;
       for ($i = $size; $i >= 0; $i--) {
-        if ($categories != '') $categories .= '_';
-        $categories .= $categories[$i];
+        if ($sCategoryPath != '') $sCategoryPath .= '_';
+        $sCategoryPath .= $categories[$i];
       }
-      if ($categories != '') $categories .= '_';
-      $categories .= $cat_id_data['categories_id'];
+      if ($sCategoryPath != '') $sCategoryPath .= '_';
+      $sCategoryPath .= $cat_id_data['categories_id'];
     }
 
-    return $categories;
+    return $sCategoryPath;
   }
 
 
@@ -1323,12 +1323,12 @@
  /**
   * Parse and secure the categories parameter values
   *
-  * @param $categories
+  * @param $sCategories
   * @return array
   */
-  function oos_parse_category_path($categories) {
+  function oos_parse_category_path($sCategories) {
     // make sure the category IDs are integers
-    $aCategoryPath = array_map('oos_string_to_int', explode('_', $categories));
+    $aCategoryPath = array_map('oos_string_to_int', explode('_', $sCategories));
 
     // make sure no duplicate category IDs exist which could lock the server in a loop
     $aTmp = array();
@@ -1340,6 +1340,7 @@
 
     return $aTmp;
   }
+
 
 
 
