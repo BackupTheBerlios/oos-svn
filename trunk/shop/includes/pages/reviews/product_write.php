@@ -32,8 +32,13 @@ if (!isset($_SESSION['customer_id'])) {
     oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
+
 if (isset($_GET['products_id'])) {
+   $get_parameters = 'products_id=' . oos_var_prep_for_os($_GET['products_id']);
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
+} elseif (isset($_POST['products_id'])) {
+   $get_parameters = 'products_id=' . oos_var_prep_for_os($_POST['products_id']);
+    if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_POST['products_id']);
 } else {
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
@@ -53,7 +58,12 @@ $product_result = $dbconn->Execute($sql);
 $valid_product = ($product_result->RecordCount() > 0);
 $product_info = $product_result->fields;
 
-if (isset($_GET['action']) && $_GET['action'] == 'process') {
+if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
+
+
+    $rating = oos_prepare_input($_POST['rating']);
+    $review = oos_prepare_input($_POST['review']);
+
     if ($valid_product == true) { // We got to the process but it is an illegal product, don't write
         $customersstable = $oostable['customers'];
         $sql = "SELECT customers_firstname, customers_lastname
@@ -61,11 +71,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'process') {
                 WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'";
         $customer = $dbconn->Execute($sql);
         $customer_values = $customer->fields;
-        $date_now = date('Ymd');
 
-        $firstname = ltrim($customer_values['customers_firstname']);
-        $firstname = substr($firstname, 0, 1);
-        $customers_name = $firstname . '. ' . $customer_values['customers_lastname'];
+        $firstname = $customer_values['customers_firstname'];
+        $lastname = ltrim($customer_values['customers_lastname']);
+        $lastname = substr($lastname, 0, 1);
+        $customers_name = $firstname . ' ' . $lastname . '. ';
 
         $reviewstable  = $oostable['reviews'];
         $dbconn->Execute("INSERT INTO $reviewstable
@@ -124,16 +134,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'process') {
 
     }
     oos_redirect(oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));
-}
-
-// lets retrieve all $_GET keys and values
-$get_parameters = oos_get_all_get_parameters();
-$get_parameters_back = oos_get_all_get_parameters(array('reviews_id')); // for back button
-$get_parameters = oos_remove_trailing($get_parameters);
-if (oos_is_not_null($get_parameters_back)) {
-    $get_parameters_back = oos_remove_trailing($get_parameters_back); //remove trailing &
-} else {
-    $get_parameters_back = $get_parameters;
 }
 
 $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));
