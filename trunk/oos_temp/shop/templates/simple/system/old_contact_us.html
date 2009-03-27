@@ -19,9 +19,12 @@
 {else}
       <tr>
         <td>
-<form name="contact_us" action="{html_href_link modul=$modules.main file=$filename.contact_us action=send}" method="post">
-	<input type="hidden" name="formid" value="{$formid}">
-
+<form name="contact_us" action="{html_get_link}" method="post">
+    <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+    <input type="hidden" name="formid" value="{$formid}">
+    <input type="hidden" name="action" value="send">
+    <input type="hidden" name="mp" value="{$modules.main}">
+    <input type="hidden" name="file" value="{$filename.contact_us}">
 
 	<table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>

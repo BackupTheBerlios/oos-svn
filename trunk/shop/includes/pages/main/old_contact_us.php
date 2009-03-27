@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: contact_us.php,v 1.39 2003/02/14 05:51:15 hpdl 
+   File: contact_us.php,v 1.39 2003/02/14 05:51:15 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -25,7 +25,13 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 require 'includes/languages/' . $sLanguage . '/main_contact_us.php';
 
 $error = 'false';
-if (isset($_GET['action']) && ($_GET['action'] == 'send')) {
+
+if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
+
+    $name = oos_prepare_input($_POST['name']);
+    $email = oos_prepare_input($_POST['email']);
+    $enquiry = oos_prepare_input($_POST['enquiry']);
+
     if (oos_validate_is_email(trim($email))) {
         oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['email_subject'], $enquiry, $name, $email);
         oos_redirect(oos_href_link($aModules['main'], $aFilename['contact_us'], 'action=success'));
