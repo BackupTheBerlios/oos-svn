@@ -10,10 +10,15 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-define('MAX_DISPLAY_MANUFACTURER', 8);
-define('MIN_DISPLAY_MANUFACTURER', 1);
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 
 if (!$oEvent->installed_plugin('manufacturers')) return false;
+
+if (!defined('MIN_DISPLAY_MANUFACTURER')) {
+    define('MIN_DISPLAY_MANUFACTURER', 4);
+}
 if (!is_numeric(MAX_DISPLAY_MANUFACTURER)) return false;
 
 if (!isset($_GET['manufacturers_id'])) {

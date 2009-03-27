@@ -42,6 +42,11 @@ function oosWordCount($sStr, $sNeedle = ' ') {
 }
 
 
+if (!defined('MAX_DISPLAY_NEW_REVIEWS')) {
+    define('MAX_DISPLAY_NEW_REVIEWS', 5);
+}
+
+
 $aOption['template_main'] = $sTheme . '/modules/reviews.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';

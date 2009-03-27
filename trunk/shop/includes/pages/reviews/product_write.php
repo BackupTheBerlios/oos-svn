@@ -114,23 +114,23 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
         $sLocaleDir = $oSmarty->template_dir;
         $aSkins = array();
 
-       if (is_dir($sLocaleDir)) {
-          if ($dh = opendir($sLocaleDir)) {
-              while (($file = readdir($dh)) !== false) {
-                if ($file == '.' || $file == '..' || $file == 'CVS' || $file == '.svn' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
-                if (filetype(realpath($sLocaleDir . $file)) == 'dir') {
-                  $aSkins[] = $file;
+        if (is_dir($sLocaleDir)) {
+            if ($dh = opendir($sLocaleDir)) {
+                while (($file = readdir($dh)) !== false) {
+                    if ($file == '.' || $file == '..' || $file == 'CVS' || $file == '.svn' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
+                    if (filetype(realpath($sLocaleDir . $file)) == 'dir') {
+                      $aSkins[] = $file;
+                    }
                 }
+                closedir($dh);
             }
-            closedir($dh);
-        }
-    }
+       }
 
-    sort($aSkins);
+       sort($aSkins);
 
-    foreach ($aSkins as $sName) {
-        $oSmarty->clear_cache(null, $sName.'|products|reviews');
-    }
+       foreach ($aSkins as $sName) {
+            $oSmarty->clear_cache(null, $sName.'|products|reviews');
+       }
 
     }
     oos_redirect(oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));

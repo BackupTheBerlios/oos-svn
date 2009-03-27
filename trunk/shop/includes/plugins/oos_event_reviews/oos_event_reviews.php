@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -71,6 +71,7 @@
 
       $configurationtable = $oostable['configuration'];
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_RANDOM_SELECT_REVIEWS', '10', 6, 1, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_NEW_REVIEWS', '5', 6, 2, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('REVIEW_TEXT_MIN_LENGTH', '50', 6, 3, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
 
       return true;
@@ -89,7 +90,7 @@
     }
 
     function config_item() {
-      return array('MAX_RANDOM_SELECT_REVIEWS', 'REVIEW_TEXT_MIN_LENGTH');
+      return array('MAX_RANDOM_SELECT_REVIEWS', 'REVIEW_TEXT_MIN_LENGTH', 'MAX_DISPLAY_NEW_REVIEWS');
 
     }
   }
