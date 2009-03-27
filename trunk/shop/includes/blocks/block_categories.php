@@ -22,6 +22,7 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
+
 /**
  * Return the number of products in a category
  *
@@ -138,7 +139,7 @@ function oos_show_category($nCounter) {
 }
 
 
-// Normal Categories Display list
+// Categories Display list
 $categoriestable = $oostable['categories'];
 $categories_descriptiontable = $oostable['categories_description'];
 $query = "SELECT c.categories_id, cd.categories_name, c.parent_id, c.categories_status
@@ -152,33 +153,34 @@ $query = "SELECT c.categories_id, cd.categories_name, c.parent_id, c.categories_
           ORDER BY c.sort_order, cd.categories_name";
 $categories_result = $dbconn->Execute($query);
 
-while ($categories = $categories_result->fields) {
-    $list_of_categories_ids[] = intval($categories['categories_id']);
+while ($aCategories = $categories_result->fields) {
+    $list_of_categories_ids[] = intval($aCategories['categories_id']);
 
-    if ( (!oos_is_not_null($categories['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
-        $categories_description = oos_get_categories_description($categories['categories_id']);
-        $categories = array_merge($categories, $categories_description);
+    if ( (!oos_is_not_null($aCategories['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
+        $categories_description = oos_get_categories_description($aCategories['categories_id']);
+        $aCategories = array_merge($aCategories, $categories_description);
     }
 
-    $aFoo[$categories['categories_id']] = array('name' => $categories['categories_name'],
-                                                'parent' => $categories['parent_id'],
-                                                'level' => 0,
-                                                'path' => $categories['categories_id'],
-                                                'next_id' => false);
+    $aFoo[$aCategories['categories_id']] = array('name' => $aCategories['categories_name'],
+                                                 'parent' => $aCategories['parent_id'],
+                                                 'level' => 0,
+                                                 'path' => $aCategories['categories_id'],
+                                                 'next_id' => false);
 
     if (isset($prev_id)) {
-        $aFoo[$prev_id]['next_id'] = $categories['categories_id'];
+        $aFoo[$prev_id]['next_id'] = $aCategories['categories_id'];
     }
 
-    $prev_id = $categories['categories_id'];
+    $prev_id = $aCategories['categories_id'];
 
     if (!isset($first_element)) {
-        $first_element = $categories['categories_id'];
+        $first_element = $aCategories['categories_id'];
     }
 
     // Move that ADOdb pointer!
     $categories_result->MoveNext();
 }
+
 
 
 if (oos_is_not_null($categories)) {
