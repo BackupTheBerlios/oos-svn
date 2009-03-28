@@ -41,7 +41,8 @@ $sql = "SELECT ticket_department_id, ticket_department_name
         FROM $ticket_departmenttable
         WHERE ticket_languages_id = '" .  intval($nLanguageID) . "'";
 $ticket_department_result = $dbconn->Execute($sql);
-while ($ticket_department = $ticket_department_result->fields) {
+while ($ticket_department = $ticket_department_result->fields)
+{
     $ticket_departments[] = $ticket_department['ticket_department_id'];
     $ticket_department_values[] = $ticket_department['ticket_department_name'];
     $ticket_department_result->MoveNext();
@@ -54,7 +55,8 @@ $sql = "SELECT ticket_priority_id, ticket_priority_name
         FROM $ticket_prioritytable
         WHERE ticket_languages_id = '" .  intval($nLanguageID) . "'";
 $ticket_priority_result = $dbconn->Execute($sql);
-while ($ticket_priority = $ticket_priority_result->fields) {
+while ($ticket_priority = $ticket_priority_result->fields)
+{
     $ticket_prioritys[] = $ticket_priority['ticket_priority_id'];
     $ticket_priority_values[] = $ticket_priority['ticket_priority_name'];
     $ticket_priority_result->MoveNext();
@@ -183,7 +185,8 @@ if (TICKET_USE_ORDER_IDS == '1' && isset($_SESSION['customer_id'])) {
     if (isset($_GET['ticket_order_id'])) $ticket_preselected_order_id = oos_var_prep_for_os($_GET['ticket_order_id']);
     $orders_id[] = '';
     $orders_values[] = ' --- ';
-    while ($customers_orders = $customers_orders_result->fields) {
+    while ($customers_orders = $customers_orders_result->fields)
+    {
         $orders_id[] = $customers_orders['orders_id'];
         $orders_values[] = $customers_orders['orders_id'] . "  (" . oos_date_short($customers_orders['date_purchased']) . ")";
         $customers_orders_result->MoveNext();

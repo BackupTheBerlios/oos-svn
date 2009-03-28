@@ -43,7 +43,8 @@
 
         $zones_to_geo_zonestable = $oostable['zones_to_geo_zones'];
         $check_result = $dbconn->Execute("SELECT zone_id FROM $zones_to_geo_zonestable WHERE geo_zone_id = '" . MODULE_SHIPPING_ITEM_ZONE . "' and zone_country_id = '" . $oOrder->delivery['country']['id'] . "' ORDER BY zone_id");
-        while ($check = $check_result->fields) {
+        while ($check = $check_result->fields)
+        {
           if ($check['zone_id'] < 1) {
             $check_flag = true;
             break;

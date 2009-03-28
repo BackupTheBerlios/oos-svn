@@ -59,7 +59,8 @@ $orders_result =$dbconn->Execute($query);
 if ($orders_result->RecordCount()) {
 
     $product_ids = '';
-    while ($orders = $orders_result->fields) {
+    while ($orders = $orders_result->fields)
+    {
         $product_ids .= $orders['products_id'] . ',';
 
        // Move that ADOdb pointer!
@@ -91,7 +92,8 @@ if ($orders_result->RecordCount()) {
     $order_history_result = $dbconn->Execute($order_history_raw);
 
     $order_history_array = array();
-    while ($order_history = $order_history_result->fields) {
+    while ($order_history = $order_history_result->fields)
+    {
 
         $new_product_price = '';
         $new_product_special_price = '';

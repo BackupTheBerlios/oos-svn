@@ -773,7 +773,8 @@
 
     if ($tax_result->RecordCount() > 0) {
       $tax_multiplier = 0;
-      while ($tax = $tax_result->fields) {
+      while ($tax = $tax_result->fields)
+      {
         $tax_multiplier += $tax['tax_rate'];
         // Move that ADOdb pointer!
         $tax_result->MoveNext();
@@ -830,7 +831,8 @@
 
     if ($tax_result->RecordCount() > 0) {
       $tax_description = '';
-      while ($tax = $tax_result->fields) {
+      while ($tax = $tax_result->fields)
+      {
         $tax_description .= $tax['tax_description'] . ' + ';
 
         // Move that ADOdb pointer!
@@ -908,7 +910,8 @@
               ORDER BY sort_order, cd.categories_name";
     $result =& $dbconn->Execute($query);
 
-    while ($categories = $result->fields) {
+    while ($categories = $result->fields)
+    {
       $aCategories[] = array('id' => $categories['categories_id'],
                              'text' => $indent . $categories['categories_name']);
 
@@ -945,7 +948,8 @@
               WHERE categories_id = '" . intval($categories_id) . "'";
     $result =& $dbconn->Execute($query);
 
-    while ($parent_categories = $result->fields) {
+    while ($parent_categories = $result->fields)
+    {
       if ($parent_categories['parent_id'] == 0) return true;
       $categories[count($categories)] = $parent_categories['parent_id'];
       if ($parent_categories['parent_id'] != $categories_id) {
@@ -1449,7 +1453,8 @@
       $files_uploaded_result = $dbconn->Execute($query);
 
       if ($files_uploaded_result->RecordCount() > 0) {
-        while ($files_uploaded = $files_uploaded_result->fields) {
+        while ($files_uploaded = $files_uploaded_result->fields)
+        {
 
           $sDir = OOS_UPLOADS;
           if (substr($sDir, -1) != '/') $sDir .= '/';

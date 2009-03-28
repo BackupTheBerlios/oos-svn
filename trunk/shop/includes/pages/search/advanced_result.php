@@ -41,7 +41,8 @@
             FROM " . $oostable['searchword_swap'];
     $sql_words = $dbconn->Execute($sql);
     $pw_replacement = '';
-    while ($sql_words_result = $sql_words->fields) {
+    while ($sql_words_result = $sql_words->fields)
+    {
       if (stripslashes(strtolower($_GET['keywords'])) == stripslashes(strtolower($sql_words_result['sws_word']))) {
        	$pw_replacement = stripslashes($sql_words_result['sws_replacement']);
        	$pw_link_text = '<b><i>' . stripslashes($sql_words_result['sws_replacement']) . '</i></b>';

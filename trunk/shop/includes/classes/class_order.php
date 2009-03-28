@@ -167,7 +167,8 @@
               FROM $orders_productstable
               WHERE orders_id = '" . intval($order_id) . "'";
       $orders_products_result = $dbconn->Execute($sql);
-      while ($orders_products = $orders_products_result->fields) {
+      while ($orders_products = $orders_products_result->fields)
+      {
         $this->products[$index] = array('qty' => $orders_products['products_quantity'],
                                         'id' => $orders_products['products_id'],
                                         'name' => $orders_products['products_name'],
@@ -186,7 +187,8 @@
                   AND orders_products_id = '" . $orders_products['orders_products_id'] . "'";
         $attributes_result = $dbconn->Execute($sql);
         if ($attributes_result->RecordCount()) {
-          while ($attributes = $attributes_result->fields) {
+          while ($attributes = $attributes_result->fields)
+          {
             $this->products[$index]['attributes'][$subindex] = array('option' => $attributes['products_options'],
                                                                      'value' => $attributes['products_options_values'],
                                                                      'prefix' => $attributes['price_prefix'],

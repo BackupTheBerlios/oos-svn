@@ -60,7 +60,8 @@
     if (!$featured_result) {return;}
 
     if ($featured_result->RecordCount() > 0) {
-      while ($featured = $featured_result->fields) {
+      while ($featured = $featured_result->fields)
+      {
         oos_set_featured_status($featured['featured_id'], '0');
         // Move that ADOdb pointer!
         $featured_result->MoveNext();

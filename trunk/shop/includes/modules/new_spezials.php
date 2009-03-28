@@ -44,7 +44,8 @@ $sql = "SELECT p.products_id, pd.products_name, p.products_price, p.products_tax
 $new_spezials_result = $dbconn->SelectLimit($sql, MAX_DISPLAY_NEW_SPEZILAS);
 if ($new_spezials_result->RecordCount() >= MIN_DISPLAY_NEW_SPEZILAS) {
     $new_spezials_array = array();
-    while ($new_spezials = $new_spezials_result->fields) {
+    while ($new_spezials = $new_spezials_result->fields)
+    {
 
         $new_spezials_base_product_price = '';
         $new_spezials_base_product_special_price = '';

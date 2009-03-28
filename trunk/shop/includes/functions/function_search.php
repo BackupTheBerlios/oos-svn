@@ -40,7 +40,8 @@
               WHERE parent_id = '" . intval($nParentId) . "'";
     $result =& $dbconn->Execute($query);
 
-    while ($subcategories = $result->fields) {
+    while ($subcategories = $result->fields)
+    {
       $aSubcategories[count($aSubcategories)] = $subcategories['categories_id'];
       if ($subcategories['categories_id'] != $nParentId) {
         oos_get_subcategories($aSubcategories, $subcategories['categories_id']);

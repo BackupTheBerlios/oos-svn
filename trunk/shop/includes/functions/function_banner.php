@@ -75,7 +75,8 @@
     $banners_result = $dbconn->Execute("SELECT banners_id, date_scheduled FROM $bannerstable WHERE date_scheduled != NULL");
 
     if ($banners_result->RecordCount() > 0) {
-      while ($banners = $banners_result->fields) {
+      while ($banners = $banners_result->fields)
+      {
         if (date('Y-m-d H:i:s') >= $banners['date_scheduled']) {
           oos_set_banner_status($banners['banners_id'], '1');
         }
@@ -104,7 +105,8 @@
     $banners_result = $dbconn->Execute("SELECT b.banners_id, b.expires_date, b.expires_impressions, sum(bh.banners_shown) as banners_shown FROM $bannerstable b, $banners_historytable bh WHERE b.status = '1' AND b.banners_id = bh.banners_id GROUP BY b.banners_id, b.expires_date, b.expires_impressions");
 
     if ($banners_result->RecordCount() > 0) {
-      while ($banners = $banners_result->fields) {
+      while ($banners = $banners_result->fields)
+      {
         if (oos_is_not_null($banners['expires_date'])) {
           if (date('Y-m-d H:i:s') >= $banners['expires_date']) {
             oos_set_banner_status($banners['banners_id'], '0');

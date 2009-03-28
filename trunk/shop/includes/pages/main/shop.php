@@ -556,7 +556,8 @@ if ($category_depth == 'nested') {
                 }
 
                 $product_filter_select .= '<option value="">---------------</option>';
-                while ($filterlist = $filterlist_result->fields) {
+                while ($filterlist = $filterlist_result->fields)
+                {
                     $option_url = oos_href_link($aModules['main'], $aFilename['shop'], $arguments . '&amp;filter_id=' . $filterlist['id']);
                     if (isset($_GET['filter_id']) && ($_GET['filter_id'] == $filterlist['id'])) {
                         $product_filter_select .= '<option value="' . $option_url . '" selected="selected">' . $filterlist['name'] . '</option>';

@@ -298,7 +298,8 @@ if ($bError == true) {
 
         $zonestable = $oostable['zones'];
         $zones_result = $dbconn->Execute("SELECT zone_name FROM $zonestable WHERE zone_country_id = '" . intval($country) . "' ORDER BY zone_name");
-        while ($zones = $zones_result->fields) {
+        while ($zones = $zones_result->fields)
+        {
             $zones_names[] =  $zones['zone_name'];
             $zones_values[] = $zones['zone_name'];
             $zones_result->MoveNext();
@@ -592,4 +593,3 @@ if ($bError == true) {
 
     oos_redirect(oos_href_link($aModules['user'], $aFilename['create_account_success'], '', 'SSL'));
 }
-

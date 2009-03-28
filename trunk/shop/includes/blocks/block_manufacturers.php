@@ -43,7 +43,8 @@ if ($nManufacturersRecordCount < 1) {
     $manufacturers_block = '1';
     $manufacturers_list = array();
 
-    while ($manufacturers = $manufacturers_result->fields) {
+    while ($manufacturers = $manufacturers_result->fields)
+    {
         $manufacturers_name = ((strlen($manufacturers['manufacturers_name']) > MAX_DISPLAY_MANUFACTURER_NAME_LEN) ? substr($manufacturers['manufacturers_name'], 0, MAX_DISPLAY_MANUFACTURER_NAME_LEN) . '..' : $manufacturers['manufacturers_name']);
 
         if (isset($_GET['manufacturers_id']) && ($_GET['manufacturers_id'] == $manufacturers['manufacturers_id'])) $manufacturers_name = '<b>' . $manufacturers_name .'</b>';
@@ -68,7 +69,8 @@ if ($nManufacturersRecordCount < 1) {
         $manufacturers_names[] = $aLang['pull_down_default'];
     }
 
-    while ($manufacturers = $manufacturers_result->fields) {
+    while ($manufacturers = $manufacturers_result->fields)
+    {
         $manufacturers_name = ((strlen($manufacturers['manufacturers_name']) > MAX_DISPLAY_MANUFACTURER_NAME_LEN) ? substr($manufacturers['manufacturers_name'], 0, MAX_DISPLAY_MANUFACTURER_NAME_LEN) . '..' : $manufacturers['manufacturers_name']);
         $manufacturers_values[] = $manufacturers['manufacturers_id'];
         $manufacturers_names[] = $manufacturers_name;

@@ -30,7 +30,8 @@ function oos_get_manufacturers($aManufacturers = '') {
     $oostable = oosDBGetTables();
 
     $manufacturers_result = $dbconn->Execute("SELECT manufacturers_id, manufacturers_name FROM " . $oostable['manufacturers'] . " ORDER BY manufacturers_name");
-    while ($manufacturers = $manufacturers_result->fields) {
+    while ($manufacturers = $manufacturers_result->fields)
+    {
         $aManufacturers[] = array('id' => $manufacturers['manufacturers_id'], 'text' => $manufacturers['manufacturers_name']);
         $manufacturers_result->MoveNext();
     }

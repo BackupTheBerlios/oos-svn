@@ -46,7 +46,8 @@ if (isset($q) && !empty($q)) {
     $result = $dbconn->Execute($sql);
 
     if ($result->RecordCount() > 0) {
-        while ($row = $result->fields) {
+        while ($row = $result->fields)
+        {
 
             if (isset($row['products_model']) && !empty($row['products_model'])) {
                 $model = ' [' . $row['products_model'] . ']';

@@ -46,7 +46,8 @@
         } else {
           $languages_result = $dbconn->Execute($languages_sql);
         }
-        while ($languages = $languages_result->fields) {
+        while ($languages = $languages_result->fields)
+        {
           $this->_languages[$languages['iso_639_2']] = array('id' => $languages['languages_id'],
                                                              'name' => $languages['name'],
                                                              'iso_639_2' => $languages['iso_639_2'],

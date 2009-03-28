@@ -229,7 +229,8 @@
          $container = array();
          $number = 0;
          $top = 0;
-         while ( $result = $products_query->fields ) {
+         while ( $result = $products_query->fields )
+         {
 
            $top = max($top, $result['products_ordered']);
            $location = oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $result['pID'], 'NONSSL', false, true);
@@ -358,7 +359,8 @@
                WHERE categories_id='" . intval($categories_id) . "'";
        $parent_categories_query =  $dbconn->Execute($sql);
 
-       while ($parent_categories = $parent_categories_query->fields) {
+       while ($parent_categories = $parent_categories_query->fields)
+       {
          if ($parent_categories['parent_id'] == 0) return true;
          $categories[sizeof($categories)] = $parent_categories['parent_id'];
          if ($parent_categories['parent_id'] != $categories_id) {

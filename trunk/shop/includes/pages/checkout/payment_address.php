@@ -229,7 +229,8 @@
               WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'";
       $addresses_result = $dbconn->Execute($sql);
       $addresses_array = array();
-      while ($addresses = $addresses_result->fields) {
+      while ($addresses = $addresses_result->fields)
+      {
         $format_id = oos_get_address_format_id($address['country_id']);
         $addresses_array[] = array('format_id' => $format_id,
                                    'radio_buttons' => $radio_buttons,
@@ -309,7 +310,8 @@
     $zones_values = array();
     $zonestable = $oostable['zones'];
     $zones_result = $dbconn->Execute("SELECT zone_name FROM $zonestable WHERE zone_country_id = '" . oos_db_input($country) . "' ORDER BY zone_name");
-    while ($zones = $zones_result->fields) {
+    while ($zones = $zones_result->fields)
+    {
       $zones_names[] =  $zones['zone_name'];
       $zones_values[] = $zones['zone_name'];
       $zones_result->MoveNext();

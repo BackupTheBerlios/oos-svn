@@ -82,7 +82,8 @@ if ($global['global_product_notifications'] != '1') {
             WHERE orders_id = '" . intval($orders['orders_id']) . "'
             ORDER BY products_name";
     $products_result = $dbconn->Execute($sql);
-    while ($products = $products_result->fields) {
+    while ($products = $products_result->fields)
+    {
         $products_array[] = array('id' => $products['products_id'],
                                 'text' => $products['products_name']);
         $products_result->MoveNext();

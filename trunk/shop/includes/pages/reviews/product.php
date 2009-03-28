@@ -59,7 +59,8 @@ $sql = "SELECT reviews_rating, reviews_id, customers_name, date_added, reviews_r
           ORDER BY reviews_id DESC";
 $reviews_result = $dbconn->Execute($sql);
 $aReviews = array();
-while ($reviews = $reviews_result->fields) {
+while ($reviews = $reviews_result->fields)
+{
     $aReviews[] = array('rating' => $reviews['reviews_rating'],
                         'id' => $reviews['reviews_id'],
                         'customers_name' => $reviews['customers_name'],

@@ -77,7 +77,8 @@
       }
       $this->data = array();
 
-      while ($categories = $categories_result->fields) {
+      while ($categories = $categories_result->fields)
+      {
         $this->data[$categories['parent_id']][$categories['categories_id']] = array('name' => $categories['categories_name'], 'count' => 0);
 
         // Move that ADOdb pointer!

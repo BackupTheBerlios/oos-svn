@@ -53,7 +53,8 @@ function oos_count_products_in_category($category_id, $include_inactive = false)
     $child_categories_result = $dbconn->Execute("SELECT categories_id FROM $categoriestable WHERE ( access = '0' OR access = '" . intval($nGroupID) . "' ) AND parent_id = '" . intval($category_id) . "'");
 
     if ($child_categories_result->RecordCount()) {
-        while ($child_categories = $child_categories_result->fields) {
+        while ($child_categories = $child_categories_result->fields)
+        {
             $products_count += oos_count_products_in_category($child_categories['categories_id'], $include_inactive);
 
             // Move that ADOdb pointer!
@@ -153,7 +154,8 @@ $query = "SELECT c.categories_id, cd.categories_name, c.parent_id, c.categories_
           ORDER BY c.sort_order, cd.categories_name";
 $categories_result = $dbconn->Execute($query);
 
-while ($aCategories = $categories_result->fields) {
+while ($aCategories = $categories_result->fields)
+{
     $list_of_categories_ids[] = intval($aCategories['categories_id']);
 
     if ( (!oos_is_not_null($aCategories['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
@@ -210,7 +212,8 @@ if (oos_is_not_null($categories)) {
 
         if ($category_check > 0) {
             $new_path .= $value;
-            while ($row = $categories_result->fields) {
+            while ($row = $categories_result->fields)
+            {
                 $list_of_categories_ids[] = intval($row['categories_id']);
 
                 if ( (!oos_is_not_null($row['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
@@ -262,7 +265,8 @@ if (sizeof($list_of_categories_ids) > 0 ) {
               AND   parent_id in (" . $select_list_of_cat_ids . ")";
     $parent_child_result = $dbconn->Execute($query);
 
-    while ($_parent_child = $parent_child_result->fields) {
+    while ($_parent_child = $parent_child_result->fields)
+    {
         $parent_child[] = $_parent_child;
 
          // Move that ADOdb pointer!

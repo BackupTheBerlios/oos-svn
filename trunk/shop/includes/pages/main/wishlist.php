@@ -47,7 +47,8 @@
   $customer = $customer_info['customers_firstname'] . ' ' . $customer_info['customers_lastname'] . ': ';
 
   $aWishlist = array();
-  while ($wishlist = $wishlist_result->fields) {
+  while ($wishlist = $wishlist_result->fields)
+  {
     $wl_products_id = oos_get_product_id($wishlist['products_id']);
     $sql = "SELECT p.products_id, pd.products_name, pd.products_description, p.products_model,
                    p.products_image, p.products_price, p.products_base_price, p.products_base_unit,
@@ -94,7 +95,8 @@
               AND products_id = '" . $wishlist['products_id'] . "'";
     $attributes_result = $dbconn->Execute($sql);
     $attributes_print = '';
-    while ($attributes = $attributes_result->fields) {
+    while ($attributes = $attributes_result->fields)
+    {
       $attributes_print .= oos_draw_hidden_field('id[' . $attributes['products_options_id'] . ']', $attributes['products_options_value_id']);
       $attributes_print .= '                   <tr>';
       $sql = "SELECT popt.products_options_name,

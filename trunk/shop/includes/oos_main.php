@@ -135,7 +135,8 @@ if (USE_DB_CACHE == '1') {
     $configuration_result = $dbconn->Execute($configuration_query);
 }
 
-while ($configuration = $configuration_result->fields) {
+while ($configuration = $configuration_result->fields)
+{
     define($configuration['cfg_key'], $configuration['cfg_value']);
     // Move that ADOdb pointer!
     $configuration_result->MoveNext();
@@ -201,7 +202,7 @@ if (!isset($_SESSION['theme']) || isset($_GET['template'])) {
 }
 $sTheme = oos_var_prep_for_os($_SESSION['theme']);
 
-  // PAngV
+// PAngV
 if ($_SESSION['member']->group['show_price'] == 1) {
     if ($_SESSION['member']->group['show_price_tax'] == 1) {
         $sPAngV = $aLang['text_taxt_incl'];
@@ -247,7 +248,6 @@ if (USE_DB_CACHE == '1') {
 
 
 $aOption = array();
-
 
 // Todo remove
 if (isset($_POST)) {

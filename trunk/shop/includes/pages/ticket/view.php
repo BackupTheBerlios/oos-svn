@@ -41,7 +41,8 @@ $sql = "SELECT ticket_department_id, ticket_department_name
         FROM $ticket_departmenttable
         WHERE ticket_languages_id = '" .  intval($nLanguageID) . "'";
 $ticket_department_result = $dbconn->Execute($sql);
-while ($ticket_department = $ticket_department_result->fields) {
+while ($ticket_department = $ticket_department_result->fields)
+{
     $ticket_departments[] = array('id' => $ticket_department['ticket_department_id'],
                                   'text' => $ticket_department['ticket_department_name']);
     $ticket_department_array[$ticket_department['ticket_department_id']] = $ticket_department['ticket_department_name'];
@@ -56,7 +57,8 @@ $sql = "SELECT ticket_priority_id, ticket_priority_name
         FROM $ticket_prioritytable
         WHERE ticket_languages_id = '" .  intval($nLanguageID) . "'";
 $ticket_priority_result = $dbconn->Execute($sql);
-while ($ticket_priority = $ticket_priority_result->fields) {
+while ($ticket_priority = $ticket_priority_result->fields)
+{
     $ticket_prioritys[] = array('id' => $ticket_priority['ticket_priority_id'],
                                'text' => $ticket_priority['ticket_priority_name']);
     $ticket_priority_array[$ticket_priority['ticket_priority_id']] = $ticket_priority['ticket_priority_name'];
@@ -71,7 +73,8 @@ $sql = "SELECT ticket_status_id, ticket_status_name
         FROM $ticket_statustable
         WHERE ticket_languages_id = '" .  intval($nLanguageID) . "'";
 $ticket_status_result = $dbconn->Execute($sql);
-while ($ticket_status = $ticket_status_result->fields) {
+while ($ticket_status = $ticket_status_result->fields)
+{
     $ticket_statuses[] = array('id' => $ticket_status['ticket_status_id'],
                                'text' => $ticket_status['ticket_status_name']);
     $ticket_status_array[$ticket_status['ticket_status_id']] = $ticket_status['ticket_status_name'];
@@ -141,7 +144,8 @@ if (isset($_SESSION['customer_id'])) {
     if ($customers_tickets_numrows > 0 ) {
         $customers_tickets_result = $dbconn->Execute($customers_tickets_raw);
         $customers_tickets_array = array();
-        while ($customers_tickets = $customers_tickets_result->fields) {
+        while ($customers_tickets = $customers_tickets_result->fields)
+        {
             $customers_tickets_array[] = array('ticket_link_id' => $customers_tickets['ticket_link_id'],
                                                'ticket_subject' =>  $customers_tickets['ticket_subject'],
                                                'ticket_status_id' => $customers_tickets['ticket_status_id'],
@@ -172,7 +176,8 @@ if (isset($tlid)) {
             WHERE ticket_id = '". oos_db_input($ticket['ticket_id']) . "'";
     $ticket_status_result = $dbconn->Execute($sql);
     $statuses_array = array();
-    while ($ticket_status = $ticket_status_result->fields) {
+    while ($ticket_status = $ticket_status_result->fields)
+    {
         $statuses_array[] = array('ticket_edited_by' => $ticket_status['ticket_edited_by'],
                                   'ticket_date_modified' => $ticket_status['ticket_date_modified'],
                                   'ticket_status_id' => $ticket_status['ticket_status_id'],

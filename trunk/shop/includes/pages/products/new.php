@@ -68,7 +68,8 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     $products_new_result = $dbconn->Execute($products_new_result_raw);
 
     $products_new_array = array();
-    while ($products_new = $products_new_result->fields) {
+    while ($products_new = $products_new_result->fields)
+    {
 
         $new_product_price = '';
         $new_product_special_price = '';

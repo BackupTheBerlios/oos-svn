@@ -44,7 +44,8 @@
   $wishlist_result = $dbconn->Execute($wishlist_result_raw);
 
   $aWishlist = array();
-  while ($wishlist = $wishlist_result->fields) {
+  while ($wishlist = $wishlist_result->fields)
+  {
     $wl_products_id = oos_get_product_id($wishlist['products_id']);
 
     $productstable = $oostable['products'];
@@ -96,7 +97,8 @@
                   products_id = '" . oos_db_input($wishlist['products_id']) . "'";
     $attributes_result = $dbconn->Execute($sql);
     $attributes_print = '';
-    while ($attributes = $attributes_result->fields) {
+    while ($attributes = $attributes_result->fields)
+    {
       $attributes_print .=  oos_draw_hidden_field('id[' . $attributes['products_options_id'] . ']', $attributes['products_options_value_id']);
       $attributes_print .=  '                   <tr>';
 

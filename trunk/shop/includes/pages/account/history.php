@@ -48,7 +48,8 @@ $history_result = $dbconn->Execute($history_result_raw);
 
 $aHistory = array();
 if ($history_result->RecordCount()) {
-    while ($history = $history_result->fields) {
+    while ($history = $history_result->fields)
+    {
         $orders_productstable = $oostable['orders_products'];
         $sql = "SELECT COUNT(*) AS total
                 FROM $orders_productstable

@@ -46,7 +46,8 @@ $featured_result = $dbconn->SelectLimit($sql, MAX_DISPLAY_FEATURED_PRODUCTS);
 // MIN_DISPLAY_FEATURED
 if ($featured_result->RecordCount() >= 1) {
     $aFeatured = array();
-    while ($featured = $featured_result->fields) {
+    while ($featured = $featured_result->fields)
+    {
 
         $featured_product_price = '';
         $featured_product_special_price = '';

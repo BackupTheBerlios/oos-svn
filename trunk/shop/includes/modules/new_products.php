@@ -67,7 +67,8 @@ if ( (!isset($new_products_category_id)) || ($new_products_category_id == '0') )
 $new_products_result = $dbconn->SelectLimit($sql, MAX_DISPLAY_NEW_PRODUCTS);
 
 $new_products_array = array();
-while ($new_products = $new_products_result->fields) {
+while ($new_products = $new_products_result->fields)
+{
 
     $new_product_price = '';
     $new_product_special_price = '';

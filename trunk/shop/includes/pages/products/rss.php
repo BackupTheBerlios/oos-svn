@@ -78,7 +78,8 @@
     $products_result = $dbconn->SelectLimit($products_sql, MAX_DISPLAY_PRODUCTS_NEWSFEED);
     if ($products_result->RecordCount() >= MIN_DISPLAY_PRODUCTS_NEWSFEED) {
       $rows = 0;
-      while ($products = $products_result->fields) {
+      while ($products = $products_result->fields)
+      {
         $rows++;
         $products_description = strip_tags($products['products_description']);
         $products_description = substr($products_description, 0, 250) . '..';

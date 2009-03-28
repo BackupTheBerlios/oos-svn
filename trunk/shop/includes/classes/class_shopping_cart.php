@@ -133,7 +133,8 @@
               FROM $customers_baskettable
               WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'";
       $products_result = $dbconn->Execute($sql);
-      while ($products = $products_result->fields) {
+      while ($products = $products_result->fields)
+      {
         $this->contents[$products['products_id']] = array('qty' => $products['customers_basket_quantity'],
                                                           'towlid' => $products['to_wishlist_id']);
         // attributes
@@ -143,7 +144,8 @@
                 WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
                 AND products_id = '" . $products['products_id'] . "'";
         $attributes_result = $dbconn->Execute($sql);
-        while ($attributes = $attributes_result->fields) {
+        while ($attributes = $attributes_result->fields)
+        {
           $this->contents[$products['products_id']]['attributes'][$attributes['products_options_id']] = $attributes['products_options_value_id'];
           if ($attributes['products_options_value_id'] == PRODUCTS_OPTIONS_VALUE_TEXT_ID) {
             $this->contents[$products['products_id']]['attributes_values'][$attributes['products_options_id']] = $attributes['products_options_value_text'];

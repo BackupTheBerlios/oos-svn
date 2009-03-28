@@ -116,7 +116,8 @@
     if (!isset($all_get_listing)) $all_get_listing = oos_get_all_get_parameters(array('action'));
     $number_of_products = 0;
     $listing_result = $dbconn->Execute($listing_sql);
-    while ($listing = $listing_result->fields) {
+    while ($listing = $listing_result->fields)
+    {
       $number_of_products++;
 
       if ( (!oos_is_not_null($listing['products_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {

@@ -85,7 +85,8 @@ $sql = "SELECT address_book_id, entry_firstname, entry_lastname
 $address_book_result = $dbconn->Execute($sql);
 
 $aAddressBook = array();
-while ($address_book = $address_book_result->fields) {
+while ($address_book = $address_book_result->fields)
+{
     $aAddressBook[] = array('address_book_id' => $address_book['address_book_id'],
                             'entry_firstname' => $address_book['entry_firstname'],
                             'entry_lastname' => $address_book['entry_lastname'],

@@ -91,7 +91,8 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     $reviews_result = $dbconn->Execute($reviews_result_raw);
 
     $aReviews = array();
-    while ($reviews = $reviews_result->fields) {
+    while ($reviews = $reviews_result->fields)
+    {
         $aReviews[] = array('id' => $reviews['reviews_id'],
                             'products_id' => $reviews['products_id'],
                             'reviews_id' => $reviews['reviews_id'],

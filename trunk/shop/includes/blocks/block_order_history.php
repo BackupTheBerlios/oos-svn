@@ -48,7 +48,8 @@ if (isset($_SESSION['customer_id'])) { // retreive the last x products purchased
 
         $order_history_block = '1';
         $product_ids = '';
-        while ($orders = $orders_result->fields) {
+        while ($orders = $orders_result->fields)
+        {
             $product_ids .= $orders['products_id'] . ',';
 
             // Move that ADOdb pointer!

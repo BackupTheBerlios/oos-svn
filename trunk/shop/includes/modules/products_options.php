@@ -104,7 +104,8 @@ if (isset($_GET['products_id'])) {
                                             " . $options_sort_by;
                   $products_options_result = $dbconn->Execute($products_options_sql);
                   $row = 0;
-                  while ($products_options_array = $products_options_result->fields) {
+                  while ($products_options_array = $products_options_result->fields)
+                  {
                       $row++;
 
                       $options .= '<tr>';
@@ -230,7 +231,8 @@ if (isset($_GET['products_id'])) {
                                           " . $options_sort_by;
                   $products_options_result = $dbconn->Execute($products_options_sql);
 
-                  while ($products_options = $products_options_result->fields) {
+                  while ($products_options = $products_options_result->fields)
+                  {
                       $products_options_array[] = array('id' => $products_options['products_options_values_id'], 'text' => $products_options['products_options_values_name']);
 
                       if ($products_options['options_values_price'] > '0') {
