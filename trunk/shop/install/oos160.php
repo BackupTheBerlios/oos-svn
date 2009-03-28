@@ -267,6 +267,53 @@ echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;
 
 
 $table = $prefix_table . 'configuration';
+
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oos_cfg_select_option(array(\'true\', \'false\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oos_cfg_select_option(array(\'True\', \'False\'),'");
+
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_value = 'true'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_value = 'True'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '0' WHERE configuration_value = 'false'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '0' WHERE configuration_value = 'False'");
+
+
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_textarea(' WHERE set_function = 'oosCfgTextarea('");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_pull_down_country_list(' WHERE set_function = 'oosCfgPullDownCountryList('");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_pull_down_zone_list(' WHERE set_function = 'oosCfgPullDownZoneList('");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oosCfgSelectOption(array(\'true\', \'false\'),'");
+
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'and\', \'or\'),' WHERE set_function = 'oosCfgSelectOption(array(\'and\', \'or\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oosCfgSelectOption(array(\'True\', \'False\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'sendmail\', \'smtp\'),' WHERE set_function = 'oosCfgSelectOption(array(\'sendmail\', \'smtp\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'products_name\', \'date_expected\'),' WHERE set_function = 'oosCfgSelectOption(array(\'products_name\', \'date_expected\'),'");
+
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'Path and article\', \'only article\', \'no additives\'),' WHERE set_function = 'oosCfgSelectOption(array(\'Path and article\', \'only article\', \'no additives\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'None\', \'Standard\', \'Credit Note\'),' WHERE set_function = 'oosCfgSelectOption(array(\'None\', \'Standard\', \'Credit Note\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'no-cache\', \'cache\'),' WHERE set_function = 'oosCfgSelectOption(array(\'no-cache\', \'cache\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'None\', \'Standard\', \'Credit Note\'),' WHERE set_function = 'oosCfgSelectOption(array(\'None\', \'Standard\', \'Credit Note\'),'");
+
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'LF\', \'CRLF\'),' WHERE set_function = 'oosCfgSelectOption(array(\'LF\', \'CRLF\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'national\', \'international\', \'both\'),' WHERE set_function = 'oosCfgSelectOption(array(\'national\', \'international\', \'both\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'Meta Tag with categories edit\', \'description tag by category description replace\', \'no description tag per category\'),' WHERE set_function = 'oosCfgSelectOption(array(\'Meta Tag with categories edit\', \'description tag by category description replace\', \'no description tag per category\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'asc\', \'desc\'),' WHERE set_function = 'oosCfgSelectOption(array(\'asc\', \'desc\'),'");
+
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'fck\', \'0\'),' WHERE set_function = 'oosCfgSelectOption(array(\'true\', \'fck\', \'false\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'Meta Tag with article edit\', \'description tag by article description replace\', \'no description tag per article\'),' WHERE set_function = 'oosCfgSelectOption(array(\'Meta Tag with article edit\', \'description tag by article description replace\', \'no description tag per article\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'INDEX,FOLLOW\', \'INDEX,NOFOLLOW\', \'NOINDEX,FOLLOW\', \'NOINDEX,NOFOLLOW\'),' WHERE set_function = 'oosCfgSelectOption(array(\'INDEX,FOLLOW\', \'INDEX,NOFOLLOW\', \'NOINDEX,FOLLOW\', \'NOINDEX,NOFOLLOW\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_pull_down_zone_classes(' WHERE set_function = 'oosCfgPullDownZoneClasses('");
+
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_pull_down_tax_classes(' WHERE set_function = 'oosCfgPullDownTaxClasses('");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_pull_down_order_statuses(' WHERE set_function = 'oosCfgPullDownOrderStatuses('");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_pull_down_country_list(' WHERE set_function = 'oosCfgPullDownCountryList('");
+
+
+$result = $db->Execute("UPDATE " . $table . " SET use_function = 'oos_cfg_get_zone_class_title' WHERE use_function = 'oosCfgGetZoneClassTitle'");
+$result = $db->Execute("UPDATE " . $table . " SET use_function = 'oos_cfg_get_order_status_name' WHERE use_function = 'oosCfgGetOrderStatusName'");
+$result = $db->Execute("UPDATE " . $table . " SET use_function = 'oos_cfg_get_tax_class_title' WHERE use_function = 'oosCfgGetTaxClassTitle'");
+$result = $db->Execute("UPDATE " . $table . " SET use_function = 'oos_cfg_get_country_name' WHERE use_function = 'oosCfgGetCountryName'");
+$result = $db->Execute("UPDATE " . $table . " SET use_function = 'oos_cfg_get_zone_name' WHERE use_function = 'oosCfgGetZoneName'");
+
+
 $result = $db->Execute("INSERT INTO " . $table . " (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('SKYPE_ME', '', 1, 19, NULL, " . $db->DBTimeStamp($today) . ", NULL, NULL)") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
 $result = $db->Execute("INSERT INTO " . $table . " (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('DEFAULT_PRODUCTS_UNITS_ID', '1', 6, 0, NULL, " . $db->DBTimeStamp($today) . ", NULL, NULL)") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
 $result = $db->Execute("INSERT INTO " . $table . " (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('PRODUCT_LIST_UVP', '0', 8, 5, NULL, " . $db->DBTimeStamp($today) . ", NULL, NULL)") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
@@ -403,7 +450,14 @@ if ($result === false) {
 }
 
 
-require 'configuration_upgrade.php';
+
+$table = $prefix_table . 'block';
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_block_select_option(array(\'left\', \'right\'),' WHERE set_function = 'oosBlockSelectOption(array(\'left\', \'right\',),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_block_select_option(array(\'left\', \'right\'),' WHERE set_function = 'oosBlockSelectOption(array(\'left\', \'right\', \'header\',),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_block_select_option(array(\'left\', \'right\'),' WHERE set_function = 'oosBlockSelectOption(array(\'left\', \'right\', ),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_block_select_option(array(\'left\', \'right\'),' WHERE set_function = 'oosBlockSelectOption(array(\'left\', \'right\'),'");
+
+
 
 $table = $prefix_table . 'products_options_types';
 $result = $db->Execute("INSERT INTO " . $table . " (products_options_types_id, products_options_types_languages_id, products_options_types_name) VALUES (8, 2, 'Textarea')") or die ("<b>".NOTUPDATED . $prefix_table . "products_options_types</b>");

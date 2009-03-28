@@ -138,6 +138,16 @@ echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;
 
 
 $table = $prefix_table . 'configuration';
+
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oos_cfg_select_option(array(\'true\', \'false\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oos_cfg_select_option(array(\'True\', \'False\'),'");
+
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_value = 'true'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_value = 'True'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '0' WHERE configuration_value = 'false'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '0' WHERE configuration_value = 'False'");
+
+
 $result = $db->Execute("INSERT INTO " . $table . " (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('OOS_FCKEDITOR', '1', 29, '2', NULL, " . $db->DBTimeStamp($today) . ", NULL, 'oos_cfg_select_option(array(\'1\', \'0\'),')") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
 $result = $db->Execute("INSERT INTO " . $table . " (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('PRODUCTS_OPTIONS_TYPE_TEXTAREA', '8', 6, 0, NULL, " . $db->DBTimeStamp($today) . ", NULL, NULL)") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
 $result = $db->Execute("INSERT INTO " . $table . " (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('TEXTAREA_PREFIX', 'textarea_', 6, 0, NULL, " . $db->DBTimeStamp($today) . ", NULL, NULL)") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
