@@ -13,7 +13,7 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-$xsell_block = 'false';
+$xsell_block = '0';
 
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
@@ -36,7 +36,7 @@ if (isset($_GET['products_id'])) {
     $xsell_products_result = $dbconn->SelectLimit($sql, MAX_DISPLAY_XSELL_PRODUCTS);
 
     if ($xsell_products_result->RecordCount()) {
-        $xsell_block = 'true';
+        $xsell_block = '1';
         $oSmarty->assign('block_xsell_products', $xsell_products_result->GetArray());
     }
 }

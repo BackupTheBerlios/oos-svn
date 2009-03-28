@@ -1,4 +1,4 @@
-{if $xsell_block eq 'true'}
+{if $xsell_block eq '1'}
 <table width="150"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="2"><img src="{$theme_image}/block/tbl_top_left.gif" alt=" " width="2" height="4"></td>
@@ -17,7 +17,7 @@
 {foreach name=xsell item=xsell_products from=$block_xsell_products}
   <tr>
     <td class="boxText">{$smarty.foreach.xsell.iteration|number_format}.</td>
-  {if $smarty.const.BLOCK_XSELL_PRODUCTS_IMAGE eq 'true'}
+  {if $smarty.const.BLOCK_XSELL_PRODUCTS_IMAGE eq '1'}
     <td class="boxText">{tooltip products_id=$xsell_products.products_id products_description=$xsell_products.products_description image=$xsell_products.products_image}{$xsell_products.products_name|truncate:14:"":true|close_tags}</a></td>
   {else}
     <td class="boxText"><a href="{product_info_link products_id=$xsell_products.products_id}">{$xsell_products.products_name|truncate:14:"":true|close_tags}</a></td>

@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: logger.php,v 1.2 2002/05/03 10:33:59 hpdl 
+   File: logger.php,v 1.2 2002/05/03 10:33:59 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -40,7 +40,7 @@
       }
     }
 
-    function timer_stop($display = 'false') {
+    function timer_stop($display = '0') {
       $this->timer_stop = microtime();
 
       $time_start = explode(' ', $this->timer_start);
@@ -50,7 +50,7 @@
 
       $this->write(oos_server_get_var('REQUEST_URI'), $this->timer_total . 's');
 
-      if ($display == 'true') {
+      if ($display == '1') {
         return $this->timer_display();
       }
     }
@@ -63,4 +63,5 @@
       error_log(strftime(STORE_PARSE_DATE_TIME_FORMAT) . ' [' . $timer . '] ' . $message . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
     }
   }
+
 ?>

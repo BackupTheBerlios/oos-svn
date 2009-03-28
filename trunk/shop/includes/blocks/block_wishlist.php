@@ -25,13 +25,13 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 if (!$oEvent->installed_plugin('wishlist')) return false;
 if (!is_numeric(MAX_DISPLAY_WISHLIST_BOX)) return false;
 
-$wishlist_block = 'false';
+$wishlist_block = '0';
 
 if ($sFile != $aFilename['account_my_wishlist']) {
     if (isset($_SESSION['customer_id'])) {
 
-        $wishlist_block = 'true';
-        $show_wishlist = 'false';
+        $wishlist_block = '1';
+        $show_wishlist = '0';
 
         $productstable = $oostable['products'];
         $products_descriptiontable = $oostable['products_description'];
@@ -51,7 +51,7 @@ if ($sFile != $aFilename['account_my_wishlist']) {
         $wishlist_result = $dbconn->SelectLimit($query, MAX_DISPLAY_WISHLIST_BOX);
 
         if ($wishlist_result->RecordCount()) {
-            $show_wishlist = 'true';
+            $show_wishlist = '1';
             $oSmarty->assign('wishlist_contents', $wishlist_result->GetArray());
         }
 

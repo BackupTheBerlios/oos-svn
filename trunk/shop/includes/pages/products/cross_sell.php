@@ -63,7 +63,7 @@ if (!$product_info_result->RecordCount()) {
     $product_info = $product_info_result->fields;
 
     // links breadcrumb
-    if (SHOW_PRODUCTS_MODEL == 'true') {
+    if (SHOW_PRODUCTS_MODEL == '1') {
         $oBreadcrumb->add($product_info['products_model'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId));
     } else {
         $oBreadcrumb->add($product_info['products_name'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId));
@@ -90,7 +90,7 @@ if (!$product_info_result->RecordCount()) {
     require 'includes/modules/slavery_products.php';
     require 'includes/modules/history_products.php';
 
-    if ( (USE_CACHE == 'true') && (!SID) ) {
+    if ( (USE_CACHE == '1') && (!SID) ) {
         $oSmarty->caching = true;
     }
 

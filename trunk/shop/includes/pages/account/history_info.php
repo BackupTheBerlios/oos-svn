@@ -55,7 +55,7 @@ $oOrder = new order($_GET['order_id']);
 $aOption['template_main'] = $sTheme . '/modules/account_history_info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 
-if (DOWNLOAD_ENABLED == 'true') {
+if (DOWNLOAD_ENABLED == '1') {
   $aOption['download'] = $sTheme . '/modules/download.html';
 }
 
@@ -91,7 +91,7 @@ $sql = "SELECT os.orders_status_name, osh.date_added, osh.comments
           ORDER BY osh.date_added";
 $oSmarty->assign('statuses_array', $dbconn->GetAll($sql));
 
-if (DOWNLOAD_ENABLED == 'true') {
+if (DOWNLOAD_ENABLED == '1') {
     require 'includes/modules/downloads.php';
     $oSmarty->assign('download', $oSmarty->fetch($aOption['download']));
 }

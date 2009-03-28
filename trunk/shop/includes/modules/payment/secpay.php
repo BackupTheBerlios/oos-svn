@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: secpay.php,v 1.31 2003/01/29 19:57:15 hpdl 
+   File: secpay.php,v 1.31 2003/01/29 19:57:15 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -29,7 +29,7 @@
       $this->code = 'secpay';
       $this->title = $aLang['module_payment_secpay_text_title'];
       $this->description = $aLang['module_payment_secpay_text_description'];
-      $this->enabled = (defined('MODULE_PAYMENT_SECPAY_STATUS') && (MODULE_PAYMENT_SECPAY_STATUS == 'True') ? true : false);
+      $this->enabled = (defined('MODULE_PAYMENT_SECPAY_STATUS') && (MODULE_PAYMENT_SECPAY_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_PAYMENT_SECPAY_SORT_ORDER') ? MODULE_PAYMENT_SECPAY_SORT_ORDER : null);
 
       if ((int)MODULE_PAYMENT_SECPAY_ORDER_STATUS_ID > 0) {
@@ -107,14 +107,14 @@
 
       switch (MODULE_PAYMENT_SECPAY_TEST_STATUS) {
         case 'Always Fail':
-          $test_status = 'false';
+          $test_status = '0';
           break;
         case 'Production':
           $test_status = 'live';
           break;
         case 'Always Successful':
         default:
-          $test_status = 'true';
+          $test_status = '1';
           break;
       }
 
@@ -152,7 +152,7 @@
       $aFilename = oos_get_filename();
       $aModules = oos_get_modules();
 
-      if ($_POST['valid'] == 'true') {
+      if ($_POST['valid'] == '1') {
         if ($remote_host = oos_server_get_var('REMOTE_HOST')) {
           if ($remote_host != 'secpay.com') {
             $remote_host = @gethostbyaddr($remote_host);
@@ -198,7 +198,7 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_SECPAY_STATUS', 'True', '6', '1', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_SECPAY_STATUS', '1', '6', '1', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_SECPAY_MERCHANT_ID', 'secpay', '6', '2', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_SECPAY_CURRENCY', 'Any Currency', '6', '3', 'oos_cfg_select_option(array(\'Any Currency\', \'Default Currency\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_SECPAY_TEST_STATUS', 'Always Successful', '6', '4', 'oos_cfg_select_option(array(\'Always Successful\', \'Always Fail\', \'Production\'), ', now())");
@@ -221,4 +221,5 @@
       return array('MODULE_PAYMENT_SECPAY_STATUS', 'MODULE_PAYMENT_SECPAY_MERCHANT_ID', 'MODULE_PAYMENT_SECPAY_CURRENCY', 'MODULE_PAYMENT_SECPAY_TEST_STATUS', 'MODULE_PAYMENT_SECPAY_ZONE', 'MODULE_PAYMENT_SECPAY_ORDER_STATUS_ID', 'MODULE_PAYMENT_SECPAY_SORT_ORDER');
     }
   }
+
 ?>

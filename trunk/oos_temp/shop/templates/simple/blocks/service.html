@@ -15,10 +15,10 @@
 	<table width="100%"  border="0" cellspacing="3" cellpadding="0">
   <tr>
     <td>
-{if $smarty.const.DISPLAY_NEWSFEED eq 'true'}
+{if $smarty.const.DISPLAY_NEWSFEED eq '1'}
 <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.info file=$filename.info_newsfeed}">{$lang.block_service_newsfeed}</a><br />
 {/if}
-{if $smarty.const.MODULE_ORDER_TOTAL_GV_STATUS eq 'true'}
+{if $smarty.const.MODULE_ORDER_TOTAL_GV_STATUS eq '1'}
 <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.gv file=$filename.gv_faq}">{$lang.block_service_gv}</a><br />
 {/if}
 <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.info file=$filename.info_sitemap}">{$lang.block_service_sitemap}</a><br />

@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: pnAPI.php,v 1.81.2.14 2002/05/17 16:50:12 byronmhome 
+   File: pnAPI.php,v 1.81.2.14 2002/05/17 16:50:12 byronmhome
    ----------------------------------------------------------------------
    POST-NUKE Content Management System
    Copyright (C) 2001 by the Post-Nuke Development Team.
@@ -103,7 +103,7 @@
       $dbconn->memCache = true; // should we use memCache instead of caching in files
       $dbconn->memCacheHost = '126.0.1.1'; // $db->memCacheHost = array($ip1, $ip2, $ip3); // $db->memCacheHost = $ip1; still works
       $dbconn->memCachePort = '11211'; // this is default memCache port
-      $dbconn->memCacheCompress = false; // Use 'true' to store the item compressed (uses zlib)
+      $dbconn->memCacheCompress = false; // Use '1' to store the item compressed (uses zlib)
     }
 
 
@@ -115,7 +115,7 @@
         $dbconn->Execute("alter session set NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'");
     }
     //$dbconn->debug = true;
-    if (OOS_LOG_SQL == 'true') {
+    if (OOS_LOG_SQL == '1') {
       include 'includes/classes/thirdparty/adodb/adodb-perf.inc.php';
       adodb_perf::table(ADODB_LOGSQL_TABLE);
 

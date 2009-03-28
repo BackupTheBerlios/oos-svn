@@ -500,7 +500,7 @@
       $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_GROUPS . '</b>');
 
       $contents = array('form' => oos_draw_form('new_group', $aFilename['admin_members'], 'action=group_new&gID=' . $gInfo->admin_groups_id, 'post', 'enctype="multipart/form-data"'));
-      if ($_GET['gName'] == 'false') {
+      if ($_GET['gName'] == '0') {
         $contents[] = array('text' => TEXT_INFO_GROUPS_NAME_FALSE . '<br />&nbsp;');
       } elseif ($_GET['gName'] == 'used') {
         $contents[] = array('text' => TEXT_INFO_GROUPS_NAME_USED . '<br />&nbsp;');
@@ -515,7 +515,7 @@
       $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_EDIT_GROUP . '</b>');
 
       $contents = array('form' => oos_draw_form('edit_group', $aFilename['admin_members'], 'action=group_edit&gID=' . $_GET['gID'], 'post', 'enctype="multipart/form-data"'));
-      if ($_GET['gName'] == 'false') {
+      if ($_GET['gName'] == '0') {
         $contents[] = array('text' => TEXT_INFO_GROUPS_NAME_FALSE . '<br />&nbsp;');
       } elseif ($_GET['gName'] == 'used') {
         $contents[] = array('text' => TEXT_INFO_GROUPS_NAME_USED . '<br />&nbsp;');

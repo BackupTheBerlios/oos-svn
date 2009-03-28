@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -17,10 +17,10 @@ $table = $prefix_table . 'configuration';
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_textarea(' WHERE set_function = 'oosCfgTextarea('");
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_pull_down_country_list(' WHERE set_function = 'oosCfgPullDownCountryList('");
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_pull_down_zone_list(' WHERE set_function = 'oosCfgPullDownZoneList('");
-$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'true\', \'false\'),' WHERE set_function = 'oosCfgSelectOption(array(\'true\', \'false\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oosCfgSelectOption(array(\'1\', \'0\'),'");
 
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'and\', \'or\'),' WHERE set_function = 'oosCfgSelectOption(array(\'and\', \'or\'),'");
-$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'True\', \'False\'),' WHERE set_function = 'oosCfgSelectOption(array(\'True\', \'False\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oosCfgSelectOption(array(\'1\', \'0\'),'");
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'sendmail\', \'smtp\'),' WHERE set_function = 'oosCfgSelectOption(array(\'sendmail\', \'smtp\'),'");
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'products_name\', \'date_expected\'),' WHERE set_function = 'oosCfgSelectOption(array(\'products_name\', \'date_expected\'),'");
 
@@ -34,7 +34,7 @@ $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'Meta Tag with categories edit\', \'description tag by category description replace\', \'no description tag per category\'),' WHERE set_function = 'oosCfgSelectOption(array(\'Meta Tag with categories edit\', \'description tag by category description replace\', \'no description tag per category\'),'");
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'asc\', \'desc\'),' WHERE set_function = 'oosCfgSelectOption(array(\'asc\', \'desc\'),'");
 
-$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'true\', \'fck\', \'false\'),' WHERE set_function = 'oosCfgSelectOption(array(\'true\', \'fck\', \'false\'),'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'fck\', \'0\'),' WHERE set_function = 'oosCfgSelectOption(array(\'1\', \'fck\', \'0\'),'");
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'Meta Tag with article edit\', \'description tag by article description replace\', \'no description tag per article\'),' WHERE set_function = 'oosCfgSelectOption(array(\'Meta Tag with article edit\', \'description tag by article description replace\', \'no description tag per article\'),'");
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'INDEX,FOLLOW\', \'INDEX,NOFOLLOW\', \'NOINDEX,FOLLOW\', \'NOINDEX,NOFOLLOW\'),' WHERE set_function = 'oosCfgSelectOption(array(\'INDEX,FOLLOW\', \'INDEX,NOFOLLOW\', \'NOINDEX,FOLLOW\', \'NOINDEX,NOFOLLOW\'),'");
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_pull_down_zone_classes(' WHERE set_function = 'oosCfgPullDownZoneClasses('");

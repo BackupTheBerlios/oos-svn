@@ -49,7 +49,7 @@ if (!isset($option)) {
     require 'includes/oos_blocks.php';
     require 'includes/oos_counter.php';
 }
-$read = 'false';
+$read = '0';
 $oSmarty->assign('read', $read);
 $oSmarty->assign('oos_js', $javascript);
 
@@ -66,10 +66,10 @@ $oSmarty->assign(
 $oSmarty->assign('account', $account);
 $oSmarty->assign('email_address', $email_address);
 
-if ((CUSTOMER_NOT_LOGIN == 'true') or (MAKE_PASSWORD == 'true')) {
+if ((CUSTOMER_NOT_LOGIN == '1') or (MAKE_PASSWORD == '1')) {
     $show_password = false;
 } else {
-    $show_password = 'true';
+    $show_password = '1';
 }
 $oSmarty->assign('show_password', $show_password);
 

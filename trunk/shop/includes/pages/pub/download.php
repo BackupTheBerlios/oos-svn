@@ -125,7 +125,7 @@ header("Pragma: no-cache");
 header("Content-Type: Application/octet-stream");
 header("Content-disposition: attachment; filename=" . $downloads['orders_products_filename']);
 
-if (DOWNLOAD_BY_REDIRECT == 'true') {
+if (DOWNLOAD_BY_REDIRECT == '1') {
     // This will work only on Unix/Linux hosts
     oos_unlink_temp_dir(OOS_DOWNLOAD_PATH_PUBLIC);
     $tempdir = oos_random_name();

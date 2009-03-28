@@ -1,4 +1,4 @@
-{if $languages_block eq 'true'}
+{if $languages_block eq '1'}
 <div class="block" id="block_languages">
 	<h4>
 		{$block_heading_languages}
@@ -6,9 +6,9 @@
 	<div class="block_content">
 {foreach item=languages from=$languages_contents}
 	{if $languages.iso_639_2 eq $smarty.session.language}
-<a href="{html_href_link modul=$main_page file=$page_file oos_get=$lang_get_parameters language=$languages.iso_639_2 connection=$request_type search_engine_safe='false'}"><img src="{$smarty.const.OOS_IMAGES}flags/{$languages.iso_639_2}.gif" border="0" alt="{$languages.name}" width="24" height="15" /></a>
+<a href="{html_href_link modul=$main_page file=$page_file oos_get=$lang_get_parameters language=$languages.iso_639_2 connection=$request_type search_engine_safe='0'}"><img src="{$smarty.const.OOS_IMAGES}flags/{$languages.iso_639_2}.gif" border="0" alt="{$languages.name}" width="24" height="15" /></a>
 	{else}
-<a href="{html_href_link modul=$main_page file=$page_file oos_get=$lang_get_parameters language=$languages.iso_639_2 connection=$request_type search_engine_safe='false'}"><img src="{$smarty.const.OOS_IMAGES}flags/lang_{$languages.iso_639_2}.gif" border="0" alt="{$languages.name}" width="24" height="15" /></a>
+<a href="{html_href_link modul=$main_page file=$page_file oos_get=$lang_get_parameters language=$languages.iso_639_2 connection=$request_type search_engine_safe='0'}"><img src="{$smarty.const.OOS_IMAGES}flags/lang_{$languages.iso_639_2}.gif" border="0" alt="{$languages.name}" width="24" height="15" /></a>
 	{/if}
 {/foreach}
 	</div>

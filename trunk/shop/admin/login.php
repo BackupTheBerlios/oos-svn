@@ -24,13 +24,13 @@
 
   //CAPTCHA
   if (!defined('SHOW_CAPTCHA')) {
-    define('SHOW_CAPTCHA', 'false');
+    define('SHOW_CAPTCHA', '0');
   }
 
   if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
 
     //Check if userinput and CAPTCHA String are equal
-    if ( (SHOW_CAPTCHA == 'true') && ($_SESSION['oos_captcha_string'] != $_POST['captchastring'])) {
+    if ( (SHOW_CAPTCHA == '1') && ($_SESSION['oos_captcha_string'] != $_POST['captchastring'])) {
       $_GET['login'] = 'fail';
     } else {
       // Check if email exists
@@ -101,7 +101,7 @@ function setFocus() {
 			<div class="inputlabel"><?php echo ENTRY_PASSWORD; ?></div>
 			<div><?php echo oos_draw_password_field('password', '', 'class="inputbox" size="15"'); ?></div>
 <?php
-  if (SHOW_CAPTCHA == 'true') {
+  if (SHOW_CAPTCHA == '1') {
 ?>
 			<div class="clr"></div>
 			<div><img src="./captcha.php" alt="CAPTCHA"></div>

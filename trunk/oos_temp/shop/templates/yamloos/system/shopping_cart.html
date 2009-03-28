@@ -24,7 +24,7 @@
 
 
 		{if $any_out_of_stock eq 1 }
-			{if $smarty.const.STOCK_ALLOW_CHECKOUT eq 'true'}
+			{if $smarty.const.STOCK_ALLOW_CHECKOUT eq '1'}
 				<p class="important">{$lang.out_of_stock_can_checkout}</p>
 			{else}
 				<p class="important">{$lang.out_of_stock_cant_checkout}</p>

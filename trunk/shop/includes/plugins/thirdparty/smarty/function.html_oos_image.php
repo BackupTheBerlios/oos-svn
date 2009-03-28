@@ -37,7 +37,7 @@
 function smarty_function_html_oos_image($params, &$smarty)
 {
     require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
-    
+
     $alt = '';
     $image = '';
     $border = 0;
@@ -83,12 +83,12 @@ function smarty_function_html_oos_image($params, &$smarty)
     }
 
     $image = $basedir . $image;
-    
-    if ((empty($image) || ($image == OOS_IMAGES)) && (IMAGE_REQUIRED == 'false')) {
+
+    if ((empty($image) || ($image == OOS_IMAGES)) && (IMAGE_REQUIRED == '0')) {
         return false;
     }
 
-    if ( (CONFIG_CALCULATE_IMAGE_SIZE == 'true') && (empty($width) || empty($height)) ) {
+    if ( (CONFIG_CALCULATE_IMAGE_SIZE == '1') && (empty($width) || empty($height)) ) {
         if ($image_size = @getimagesize($image)) {
             if (empty($width) && oos_is_not_null($height)) {
               $ratio = $height / $image_size[1];
@@ -100,7 +100,7 @@ function smarty_function_html_oos_image($params, &$smarty)
               $width = $image_size[0];
               $height = $image_size[1];
             }
-        } elseif (IMAGE_REQUIRED == 'false') {
+        } elseif (IMAGE_REQUIRED == '0') {
             return false;
         }
     }

@@ -67,7 +67,7 @@ if (strlen(OOS_DB_TYPE) < 1) {
 
 // set the type of request (secure or not)
 $request_type = 'NONSSL';
-if (ENABLE_SSL == 'true') {
+if (ENABLE_SSL == '1') {
     if (strtolower(oos_server_get_var('HTTPS')) == 'on'
       || (oos_server_get_var('HTTPS') == '1')
       || oos_server_has_var('SSL_PROTOCOL')) {
@@ -129,7 +129,7 @@ oosDB_importTables($oostable);
 $configurationtable = $oostable['configuration'];
 $configuration_query = "SELECT configuration_key AS cfg_key, configuration_value AS cfg_value FROM $configurationtable";
 
-if (USE_DB_CACHE == 'true') {
+if (USE_DB_CACHE == '1') {
     $configuration_result = $dbconn->CacheExecute(3600, $configuration_query);
 } else {
     $configuration_result = $dbconn->Execute($configuration_query);
@@ -213,7 +213,7 @@ if ($_SESSION['member']->group['show_price'] == 1) {
         $sPAngV = $aLang['tax_info_excl'];
     }
 
-    $sPAngV .= (defined('OOS_XHTML') && (OOS_XHTML == 'true') ? ', <br />' : ', <br>');
+    $sPAngV .= (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ', <br />' : ', <br>');
     $sPAngV .= sprintf($aLang['text_shipping'], oos_href_link($aModules['info'], $aFilename['information'], 'information_id=1'));
 }
 
@@ -239,7 +239,7 @@ $products_unitstable = $oostable['products_units'];
 $query = "SELECT products_units_id, products_unit_name
           FROM $products_unitstable
           WHERE languages_id = '" . intval($nLanguageID) . "'";
-if (USE_DB_CACHE == 'true') {
+if (USE_DB_CACHE == '1') {
     $products_units = $dbconn->CacheGetAssoc(3600, $query);
 } else {
     $products_units = $dbconn->GetAssoc($query);

@@ -1,4 +1,4 @@
-{if $wishlist_block eq 'true'}
+{if $wishlist_block eq '1'}
 <table width="150"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="2"><img src="{$theme_image}/block/tbl_top_left.gif" alt=" " width="2" height="4"></td>
@@ -15,10 +15,10 @@
   <tr>
     <td colspan="2" align="left" valign="top" bgcolor="#F6F7F1">
 	<table width="100%"  border="0" cellspacing="3" cellpadding="0">
-{if $show_wishlist eq 'true'}
+{if $show_wishlist eq '1'}
   {foreach name=block item=wishlist from=$wishlist_contents}
   <tr>
-  {if $smarty.const.BLOCK_WISHLIST_IMAGE eq 'true'}
+  {if $smarty.const.BLOCK_WISHLIST_IMAGE eq '1'}
     <td align="center" colspan="2"><a href="{product_info_link products_id=$wishlist.products_id}">{small_product_image image=$wishlist.products_image alt=$wishlist.products_name|strip_tags}</a></td>
   </tr>
   <tr>

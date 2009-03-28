@@ -58,7 +58,7 @@
                <tr><td width="310" class="main">{$product_info.products_date_available|oos_date_long|string_format:$lang.text_date_available}</td>
                </tr>
 {else}
-  {if $smarty.const.SHOW_DATE_ADDED_AVAILABLE eq 'true'}
+  {if $smarty.const.SHOW_DATE_ADDED_AVAILABLE eq '1'}
                <tr><td height="10"></td></tr>
                <tr><td width="310" class="main">{$product_info.products_date_added|oos_date_long|string_format:$lang.text_date_added}</td>
                </tr>
@@ -115,7 +115,7 @@
 
 {if $oEvent->installed_plugin('sufu')}
        <tr><td height="10"></td></tr>
-       <tr><td class="main"><b>URL:</b><br /> {html_href_link modul=$modules.products file=$filename.product_info products_id=$product_info.products_id connection='NONSSL' add_session_id='false' search_engine_safe='true'}</a>
+       <tr><td class="main"><b>URL:</b><br /> {html_href_link modul=$modules.products file=$filename.product_info products_id=$product_info.products_id connection='NONSSL' add_session_id='0' search_engine_safe='1'}</a>
 {/if}
 
 

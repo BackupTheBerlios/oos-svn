@@ -1,4 +1,4 @@
-{if $tell_a_friend_block eq 'true'}
+{if $tell_a_friend_block eq '1'}
 <table width="150"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="2"><img src="{$theme_image}/block/tbl_top_left.gif" alt=" " width="2" height="4"></td>
@@ -16,7 +16,7 @@
 	<table width="100%"  border="0" cellspacing="3" cellpadding="0">
   <tr>
     <td>
-<form name="tell_a_friend" action="{html_href_link modul=$modules.tell_a_friend file=$filename.tell_a_friend connection='NONSSL' add_session_id='false'}" method="get">
+<form name="tell_a_friend" action="{html_href_link modul=$modules.tell_a_friend file=$filename.tell_a_friend connection='NONSSL' add_session_id='0'}" method="get">
 <input type="hidden" name="mp" value="{$modules.tell_a_friend}">
 <input type="hidden" name="file" value="{$filename.tell_a_friend}">
 <input type="text" name="send_to" size="10">&nbsp;{html_image_submit image="tell_a_friend.gif" alt=$block_heading_tell_a_friend}

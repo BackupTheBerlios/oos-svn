@@ -48,7 +48,7 @@
   * @return string
   */
   function oos_redirect($sUrl) {
-    if (ENABLE_SSL == 'true'){
+    if (ENABLE_SSL == '1'){
       if (strtolower(oos_server_get_var('HTTPS')) == 'on' || (oos_server_get_var('HTTPS') == '1') || oos_server_has_var('SSL_PROTOCOL')) { // We are loading an SSL page
         if (substr($sUrl, 0, strlen(OOS_HTTP_SERVER)) == OOS_HTTP_SERVER) { // NONSSL url
           $sUrl = OOS_HTTPS_SERVER . substr($sUrl, strlen(OOS_HTTP_SERVER)); // Change it to SSL
@@ -80,13 +80,13 @@
 
     $random_product = '';
     if (oos_is_not_null($limit)) {
-      if (USE_DB_CACHE == 'true') {
+      if (USE_DB_CACHE == '1') {
         $random_result = $dbconn->CacheSelectLimit(15, $query, $limit);
       } else {
         $random_result = $dbconn->SelectLimit($query, $limit);
       }
     } else {
-      if (USE_DB_CACHE == 'true') {
+      if (USE_DB_CACHE == '1') {
         $random_result = $dbconn->CacheExecute(15, $query);
       } else {
         $random_result = $dbconn->Execute($query);
@@ -764,7 +764,7 @@
                     (za.zone_id is null or za.zone_id = '0' or za.zone_id = '" . intval($zone_id) . "') AND
                      tr.tax_class_id = '" . intval($class_id) . "'
             GROUP BY tr.tax_priority";
-    if (USE_DB_CACHE_LEVEL_HIGH == 'true') {
+    if (USE_DB_CACHE_LEVEL_HIGH == '1') {
       $tax_result = $dbconn->CacheExecute(30, $query);
     } else {
       $tax_result = $dbconn->Execute($query);
@@ -820,7 +820,7 @@
            ORDER BY tr.tax_priority";
     $tax_result = $dbconn->Execute($query);
 
-    if (USE_DB_CACHE == 'true') {
+    if (USE_DB_CACHE == '1') {
       $dbconn->cacheSecs = 3600; // cache 1 hours
       $tax_result = $dbconn->CacheExecute($query);
     } else {
@@ -1428,7 +1428,7 @@
 
     // Build the text version
     $text = strip_tags($email_text);
-    if (EMAIL_USE_HTML == 'true') {
+    if (EMAIL_USE_HTML == '1') {
       $mail->IsHTML(true);
       $mail->Body = $email_text;
       $mail->AltBody = $text;

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -29,7 +29,7 @@
       $this->code = 'pm2checkout';
       $this->title = $aLang['module_payment_2checkout_text_title'];
       $this->description = $aLang['module_payment_2checkout_text_description'];
-      $this->enabled = (defined('MODULE_PAYMENT_2CHECKOUT_STATUS') && (MODULE_PAYMENT_2CHECKOUT_STATUS == 'True') ? true : false);
+      $this->enabled = (defined('MODULE_PAYMENT_2CHECKOUT_STATUS') && (MODULE_PAYMENT_2CHECKOUT_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_PAYMENT_2CHECKOUT_SORT_ORDER') ? MODULE_PAYMENT_2CHECKOUT_SORT_ORDER : null);
 
       if ((int)MODULE_PAYMENT_2CHECKOUT_ORDER_STATUS_ID > 0) {
@@ -198,7 +198,7 @@
                                oos_draw_hidden_field('x_ship_to_zip', $oOrder->delivery['postcode']) .
                                oos_draw_hidden_field('x_ship_to_country', $oOrder->delivery['country']['title']) .
                                oos_draw_hidden_field('x_receipt_link_url', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL')) .
-                               oos_draw_hidden_field('x_email_merchant', ((MODULE_PAYMENT_2CHECKOUT_EMAIL_MERCHANT == 'True') ? 'TRUE' : 'FALSE'));
+                               oos_draw_hidden_field('x_email_merchant', ((MODULE_PAYMENT_2CHECKOUT_EMAIL_MERCHANT == '1') ? 'TRUE' : 'FALSE'));
 
       return $process_button_string;
     }
@@ -242,10 +242,10 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_2CHECKOUT_STATUS', 'True', '6', '0', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_2CHECKOUT_STATUS', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_2CHECKOUT_LOGIN', '18157', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_2CHECKOUT_TESTMODE', 'Test', '6', '0', 'oos_cfg_select_option(array(\'Test\', \'Production\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_2CHECKOUT_EMAIL_MERCHANT', 'True', '6', '0', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_2CHECKOUT_EMAIL_MERCHANT', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_2CHECKOUT_SORT_ORDER', '0', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_PAYMENT_2CHECKOUT_ZONE', '0', '6', '2', 'oos_cfg_get_zone_class_title', 'oos_cfg_pull_down_zone_classes(', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, use_function, date_added) VALUES ('MODULE_PAYMENT_2CHECKOUT_ORDER_STATUS_ID', '0', '6', '0', 'oos_cfg_pull_down_order_statuses(', 'oos_cfg_get_order_status_name', now())");
@@ -265,4 +265,5 @@
       return array('MODULE_PAYMENT_2CHECKOUT_STATUS', 'MODULE_PAYMENT_2CHECKOUT_LOGIN', 'MODULE_PAYMENT_2CHECKOUT_TESTMODE', 'MODULE_PAYMENT_2CHECKOUT_EMAIL_MERCHANT', 'MODULE_PAYMENT_2CHECKOUT_ZONE', 'MODULE_PAYMENT_2CHECKOUT_ORDER_STATUS_ID', 'MODULE_PAYMENT_2CHECKOUT_SORT_ORDER');
     }
   }
+
 ?>

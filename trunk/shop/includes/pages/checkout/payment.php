@@ -55,7 +55,7 @@
   }
 
 // Stock Check
-  if ( (STOCK_CHECK == 'true') && (STOCK_ALLOW_CHECKOUT != 'true') ) {
+  if ( (STOCK_CHECK == '1') && (STOCK_ALLOW_CHECKOUT != '1') ) {
     $products = $_SESSION['cart']->get_products();
     $any_out_of_stock = 0;
     for ($i=0, $n=count($products); $i<$n; $i++) {
@@ -107,7 +107,7 @@
   $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
   $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
 
-  if (ENABLE_SSL == 'true') {
+  if (ENABLE_SSL == '1') {
     $condition_link = OOS_HTTPS_SERVER;
   } else {
     $condition_link = OOS_HTTP_SERVER;
@@ -144,7 +144,7 @@
   if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($error = ${$_GET['payment_error']}->get_error())) {
     $oSmarty->assign(
         array(
-            'oos_payment_error' => 'true',
+            'oos_payment_error' => '1',
             'error' => $error
         )
     );
@@ -162,7 +162,7 @@
   $sql = "SELECT campaigns_id FROM $campaignstable WHERE campaigns_languages_id = '" . intval($_SESSION['language_id']) . "'";
   $campaigns_result = $dbconn->Execute($sql);
   if ($campaigns_result->RecordCount()) {
-    $oSmarty->assign('campaigns', 'true');
+    $oSmarty->assign('campaigns', '1');
 
     if (isset($_SESSION['campaigns_id']) && is_numeric($_SESSION['campaigns_id'])) {
       $oSmarty->assign('campaigns_id', $_SESSION['campaigns_id']);

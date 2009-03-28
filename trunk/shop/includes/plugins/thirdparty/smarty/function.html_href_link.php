@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: html_output.php,v 1.49 2003/02/11 01:31:02 hpdl 
+   File: html_output.php,v 1.49 2003/02/11 01:31:02 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -44,8 +44,8 @@ function smarty_function_html_href_link($params, &$smarty)
     $file = '';
     $parameters = '';
     $connection = 'NONSSL';
-    $add_session_id = 'true';
-    $search_engine_safe = 'true';
+    $add_session_id = '1';
+    $search_engine_safe = '1';
 
     foreach($params as $_key => $_val) {
       switch($_key) {
@@ -66,7 +66,7 @@ function smarty_function_html_href_link($params, &$smarty)
           break;
 
         case 'oos_get':
-        case 'addentry_id': 
+        case 'addentry_id':
         case 'connection':
         case 'add_session_id':
         case 'search_engine_safe':
@@ -109,7 +109,7 @@ function smarty_function_html_href_link($params, &$smarty)
     if ($connection == 'NONSSL') {
       $link = OOS_HTTP_SERVER . OOS_SHOP;
     } elseif ($connection == 'SSL') {
-      if (ENABLE_SSL == 'true') {
+      if (ENABLE_SSL == '1') {
         $link = OOS_HTTPS_SERVER . OOS_SHOP;
       } else {
         $link = OOS_HTTP_SERVER . OOS_SHOP;
@@ -140,16 +140,16 @@ function smarty_function_html_href_link($params, &$smarty)
 
 
 // Add the session ID when moving from HTTP and HTTPS servers or when SID is defined
-    if ( (ENABLE_SSL == 'true' ) && ($connection == 'SSL') && ($add_session_id == 'true') ) {
+    if ( (ENABLE_SSL == '1' ) && ($connection == 'SSL') && ($add_session_id == '1') ) {
       $_sid = oos_session_name() . '=' . oos_session_id();
-    } elseif ( ($add_session_id == 'true') && (oos_is_not_null(SID)) ) {
+    } elseif ( ($add_session_id == '1') && (oos_is_not_null(SID)) ) {
       $_sid = SID;
     }
 
     if ( $spider_flag === false) $_sid = NULL;
 
 
-    if ( ($search_engine_safe == 'true') &&  $oEvent->installed_plugin('sefu') ) {
+    if ( ($search_engine_safe == '1') &&  $oEvent->installed_plugin('sefu') ) {
       $link = str_replace(array('?', '&amp;', '='), '/', $link);
 
       $separator = '?';

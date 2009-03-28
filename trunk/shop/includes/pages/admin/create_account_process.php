@@ -17,13 +17,13 @@
    Copyright (c) 2002 - 2003 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
-   ---------------------------------------------------------------------- 
+   ----------------------------------------------------------------------
    P&G Shipping Module Version 0.1 12/03/2002
    osCommerce Shipping Management Module
    Copyright (c) 2002  - Oliver Baelde
    http://www.francecontacts.com
    dev@francecontacts.com
-   - eCommerce Solutions development and integration - 
+   - eCommerce Solutions development and integration -
 
    osCommerce, Open Source E-Commerce Solutions
    Copyright (c) 2002 osCommerce
@@ -32,7 +32,7 @@
    IMPORTANT NOTE:
    This script is not part of the official osCommerce distribution
    but an add-on contributed to the osCommerce community. Please
-   read the README and  INSTALL documents that are provided 
+   read the README and  INSTALL documents that are provided
    with this file for further information and installation notes.
 
    LICENSE:
@@ -80,7 +80,7 @@
 
   $error = false; // reset error flag
 
-  if (ACCOUNT_GENDER == 'true') {
+  if (ACCOUNT_GENDER == '1') {
     if (($gender == 'm') || ($gender == 'f')) {
       $gender_error = false;
     } else {
@@ -103,7 +103,7 @@
     $lastname_error = false;
   }
 
-  if (ACCOUNT_DOB == 'true') {
+  if (ACCOUNT_DOB == '1') {
     if (checkdate(substr(oos_date_raw($dob), 4, 2), substr(oos_date_raw($dob), 6, 2), substr(oos_date_raw($dob), 0, 4))) {
       $date_of_birth_error = false;
     } else {
@@ -126,10 +126,10 @@
     $email_address_check_error = false;
   }
 
-  if ((ACCOUNT_VAT_ID == 'true') && (ACCOUNT_COMPANY_VAT_ID_CHECK == 'true') && oos_is_not_null($vat_id)) {
+  if ((ACCOUNT_VAT_ID == '1') && (ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && oos_is_not_null($vat_id)) {
     if (!oos_validate_is_vatid($vat_id)) {
       $error = true;
-      $vatid_check_error = 'true';
+      $vatid_check_error = '1';
     } else {
       $vatid_check_error = false;
     }
@@ -163,7 +163,7 @@
     $country_error = false;
   }
 
-  if (ACCOUNT_STATE == 'true') {
+  if (ACCOUNT_STATE == '1') {
     if ($country_error == true) {
       $state_error = true;
     } else {
@@ -307,7 +307,7 @@
         )
     );
 
-    if ($state_has_zones == 'true') {
+    if ($state_has_zones == '1') {
       $zones_names = array();
       $zones_values = array();
       $zonestable = $oostable['zones'];
@@ -322,7 +322,7 @@
     } else {
       $state = oos_get_zone_name($country, $zone_id, $state);
       $oSmarty->assign('state', $state);
-      $oSmarty->assign('zone_id', $zone_id);  
+      $oSmarty->assign('zone_id', $zone_id);
     }
 
     $country_name = oos_get_country_name($country);
@@ -365,12 +365,12 @@
                             'customers_wishlist_link_id' => $wishlist_link_id,
                             'customers_default_address_id' => 1);
 
-    if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
-    if (ACCOUNT_NUMBER == 'true') $sql_data_array['customers_number'] = $number;
-    if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = oos_date_raw($dob);
-    if (ACCOUNT_VAT_ID == 'true') {
+    if (ACCOUNT_GENDER == '1') $sql_data_array['customers_gender'] = $gender;
+    if (ACCOUNT_NUMBER == '1') $sql_data_array['customers_number'] = $number;
+    if (ACCOUNT_DOB == '1') $sql_data_array['customers_dob'] = oos_date_raw($dob);
+    if (ACCOUNT_VAT_ID == '1') {
       $sql_data_array['customers_vat_id'] = $vat_id;
-      if ((ACCOUNT_COMPANY_VAT_ID_CHECK == 'true') && ($vatid_check_error === false)) {
+      if ((ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && ($vatid_check_error === false)) {
         $sql_data_array['customers_vat_id_status'] = 1;
       } else {
         $sql_data_array['customers_vat_id_status'] = 0;
@@ -390,11 +390,11 @@
                             'entry_city' => $city,
                             'entry_country_id' => $country);
 
-    if (ACCOUNT_GENDER == 'true') $sql_data_array['entry_gender'] = $gender;
-    if (ACCOUNT_COMPANY == 'true') $sql_data_array['entry_company'] = $company;
-    if (ACCOUNT_OWNER == 'true') $sql_data_array['entry_owner'] = $owner;
-    if (ACCOUNT_SUBURB == 'true') $sql_data_array['entry_suburb'] = $suburb;
-    if (ACCOUNT_STATE == 'true') {
+    if (ACCOUNT_GENDER == '1') $sql_data_array['entry_gender'] = $gender;
+    if (ACCOUNT_COMPANY == '1') $sql_data_array['entry_company'] = $company;
+    if (ACCOUNT_OWNER == '1') $sql_data_array['entry_owner'] = $owner;
+    if (ACCOUNT_SUBURB == '1') $sql_data_array['entry_suburb'] = $suburb;
+    if (ACCOUNT_STATE == '1') {
       if ($zone_id > 0) {
         $sql_data_array['entry_zone_id'] = $zone_id;
         $sql_data_array['entry_state'] = '';
@@ -409,12 +409,12 @@
     $customers_infotable = $oostable['customers_info'];
     $dbconn->Execute("INSERT INTO " . $customers_infotable . "
                 (customers_info_id,
-                 customers_info_number_of_logons, 
+                 customers_info_number_of_logons,
                  customers_info_date_account_created) VALUES ('" . intval($customer_id) . "',
                                                               '0',
                                                               now())");
 
-    $_SESSION['customer_id'] = $customer_id; 
+    $_SESSION['customer_id'] = $customer_id;
     $_SESSION['customer_wishlist_link_id'] = $wishlist_link_id;
     $_SESSION['customer_first_name'] = $firstname;
     $_SESSION['customer_default_address_id'] = 1;
@@ -423,8 +423,8 @@
     $_SESSION['customer_max_order'] = $customer_max_order;
     $_SESSION['man_key'] = $keya;
 
-    if (ACCOUNT_VAT_ID == 'true') {
-      if ((ACCOUNT_COMPANY_VAT_ID_CHECK == 'true') && ($vatid_check_error === false)) {
+    if (ACCOUNT_VAT_ID == '1') {
+      if ((ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && ($vatid_check_error === false)) {
         $_SESSION['customers_vat_id_status'] = 1;
       } else {
         $_SESSION['customers_vat_id_status'] = 0;

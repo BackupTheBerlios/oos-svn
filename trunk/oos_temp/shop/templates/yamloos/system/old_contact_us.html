@@ -60,7 +60,7 @@
 				{if isset($smarty.session.customer_id) }
 					<input type="hidden" name="email" value="{$customer.customers_email_address}" />{$customer.customers_email_address}
 				{else}
-					{if $error eq 'true'}
+					{if $error eq '1'}
 						<input type="text" name="email" id="entry_email" value="" class="errFld" /><span class="reqMark">*</span>&nbsp;&nbsp;<span class="errMsg">{$lang.entry_email_address_check_error}<br /></span>
 					{else}
 						<input type="text" name="email" id="entry_email" value="{$smarty.post.email}" /><span class="reqMark">*</span><br />

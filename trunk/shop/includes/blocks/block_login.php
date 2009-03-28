@@ -20,10 +20,10 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if ($oEvent->installed_plugin('down_for_maintenance')) return false;
 
-$login_block = 'false';
+$login_block = '0';
 if ( ($sFile != $aFilename['login']) && ($sFile != $aFilename['create_account'])) {
     if (!isset($_SESSION['customer_id'])) {
-        $login_block = 'true';
+        $login_block = '1';
         $oSmarty->assign('block_login_heading', $block_heading);
     }
 }

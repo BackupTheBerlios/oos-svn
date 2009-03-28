@@ -34,7 +34,7 @@
       $this->code = 'banktransfer';
       $this->title = $aLang['module_payment_banktransfer_text_title'];
       $this->description = $aLang['module_payment_banktransfer_text_description'];
-      $this->enabled = (defined('MODULE_PAYMENT_BANKTRANSFER_STATUS') && (MODULE_PAYMENT_BANKTRANSFER_STATUS == 'True') ? true : false);
+      $this->enabled = (defined('MODULE_PAYMENT_BANKTRANSFER_STATUS') && (MODULE_PAYMENT_BANKTRANSFER_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_PAYMENT_BANKTRANSFER_SORT_ORDER') ? MODULE_PAYMENT_BANKTRANSFER_SORT_ORDER : null);
 
       if ((int)MODULE_PAYMENT_BANKTRANSFER_ORDER_STATUS_ID > 0) {
@@ -112,7 +112,7 @@
             '  var banktransfer_number = document.checkout_payment.banktransfer_number.value;' . "\n" .
             '  var banktransfer_owner = document.checkout_payment.banktransfer_owner.value;' . "\n";
 
-      if (MODULE_PAYMENT_BANKTRANSFER_FAX_CONFIRMATION == 'true'){
+      if (MODULE_PAYMENT_BANKTRANSFER_FAX_CONFIRMATION == '1'){
         $js .= '  var banktransfer_fax = document.checkout_payment.banktransfer_fax.checked;' . "\n" .
                '  if (banktransfer_fax == false) {' . "\n";
       }
@@ -130,7 +130,7 @@
              '       error = 1;' . "\n" .
              '    }' . "\n";
 
-      if (MODULE_PAYMENT_BANKTRANSFER_FAX_CONFIRMATION == 'true'){
+      if (MODULE_PAYMENT_BANKTRANSFER_FAX_CONFIRMATION == '1'){
         $js .= '  }' . "\n" ;
       }
 
@@ -158,7 +158,7 @@
       	                                         'field' => oos_draw_hidden_field('recheckok', $_POST['recheckok']))
       	                                   ));
 
-      if (MODULE_PAYMENT_BANKTRANSFER_FAX_CONFIRMATION =='true'){
+      if (MODULE_PAYMENT_BANKTRANSFER_FAX_CONFIRMATION =='1'){
         $sLanguage = oos_var_prep_for_os($_SESSION['language']);
         $sUrl = OOS_HTTP_SERVER . OOS_SHOP . OOS_MEDIA . $sLanguage . '/' .MODULE_PAYMENT_BANKTRANSFER_URL_NOTE;
         $selection['fields'][] = array('title' => $aLang['module_payment_banktransfer_text_note'],
@@ -188,12 +188,12 @@
             switch ($banktransfer_result) {
               case 1: // number & blz not ok
                 $error = $aLang['module_payment_banktransfer_text_bank_error_1'];
-                $recheckok = 'true';
+                $recheckok = '1';
                 break;
 
               case 5: // BLZ not found
                 $error = $aLang['module_payment_banktransfer_text_bank_error_5'];
-                $recheckok = 'true';
+                $recheckok = '1';
                 break;
 
               case 8: // no blz entered
@@ -208,12 +208,12 @@
 
               default:
                 $error = $aLang['module_payment_banktransfer_text_bank_error_4'];
-                $recheckok = 'true';
+                $recheckok = '1';
                 break;
             }
           }
 
-          if ($_POST['recheckok'] != 'true') {
+          if ($_POST['recheckok'] != '1') {
             $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&banktransfer_owner=' . urlencode($_POST['banktransfer_owner']) . '&banktransfer_number=' . urlencode($_POST['banktransfer_number']) . '&banktransfer_blz=' . urlencode($_POST['banktransfer_blz']) . '&banktransfer_bankname=' . urlencode($_POST['banktransfer_bankname']) . '&recheckok=' . $recheckok;
             $aFilename = oos_get_filename();
             $aModules = oos_get_modules();
@@ -323,12 +323,12 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_BANKTRANSFER_STATUS', 'True', '6', '1', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_BANKTRANSFER_STATUS', '1', '6', '1', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_PAYMENT_BANKTRANSFER_ZONE', '0', '6', '2', 'oos_cfg_get_zone_class_title', 'oos_cfg_pull_down_zone_classes(', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_BANKTRANSFER_MAX_ORDER', '', '6', '5', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_BANKTRANSFER_SORT_ORDER', '0', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, use_function, date_added) VALUES ('MODULE_PAYMENT_BANKTRANSFER_ORDER_STATUS_ID', '0', '6', '0', 'oos_cfg_pull_down_order_statuses(', 'oos_cfg_get_order_status_name', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_BANKTRANSFER_FAX_CONFIRMATION', 'false', '6', '2', 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_BANKTRANSFER_FAX_CONFIRMATION', '0', '6', '2', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_BANKTRANSFER_URL_NOTE', 'fax.html',  '6', '0', now())");
     }
 

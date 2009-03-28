@@ -46,13 +46,13 @@
         $sProductsQuantity = oos_db_prepare_input($_POST['products_quantity']);
         $sProductsStatus = oos_db_prepare_input($_POST['products_status']);
 
-        if (STOCK_CHECK == 'true') {
+        if (STOCK_CHECK == '1') {
           if ($sProductsQuantity <=0) {
             $sProductsStatus = 0;
           }
         }
 
-        if (NEW_PRODUCT_PREVIEW == 'false') {
+        if (NEW_PRODUCT_PREVIEW == '0') {
           if ( ($_POST['products_image'] != 'none') && (isset($_FILES['products_image'])) ) {
             $products_image = oos_get_uploaded_file('products_image');
             $image_directory = oos_get_local_path(OOS_ABSOLUTE_PATH . OOS_IMAGES);
@@ -130,7 +130,7 @@
           }
         }
 
-        if (OOS_PRICE_IS_BRUTTO == 'true' && $_POST['products_price']){
+        if (OOS_PRICE_IS_BRUTTO == '1' && $_POST['products_price']){
           $tax_ratestable = $oostable['tax_rates'];
           $tax_result = $dbconn->Execute("SELECT tax_rate FROM $tax_ratestable WHERE tax_class_id = '".$_POST['products_tax_class_id']."' ");
           $tax = $tax_result->fields;
@@ -271,7 +271,7 @@
             oos_db_perform($oostable['products'], $sql_data_array);
             $products_id = $dbconn->Insert_ID();
 
-            if (MULTIPLE_CATEGORIES_USE == 'false') {
+            if (MULTIPLE_CATEGORIES_USE == '0') {
               $products_to_categoriestable = $oostable['products_to_categories'];
               $dbconn->Execute("INSERT INTO $products_to_categoriestable (products_id, categories_id) VALUES ('" . $products_id . "', '" . $current_category_id . "')");
             }
@@ -283,12 +283,12 @@
 
             oos_db_perform($oostable['products'], $sql_data_array, 'update', 'products_id = \'' . oos_db_input($products_id) . '\'');
 
-            if (MULTIPLE_CATEGORIES_USE == 'true') {
+            if (MULTIPLE_CATEGORIES_USE == '1') {
               $products_to_categoriestable = $oostable['products_to_categories'];
               $dbconn->Execute("DELETE FROM $products_to_categoriestable WHERE products_id = '". $products_id . "'");
             }
           }
-          if (MULTIPLE_CATEGORIES_USE == 'true') {
+          if (MULTIPLE_CATEGORIES_USE == '1') {
             if (isset($_POST['categories_ids']) && !empty($_POST['categories_ids']) && is_array($_POST['categories_ids'])) {
               $selected_catids = $_POST['categories_ids'];
             } else {
@@ -411,7 +411,7 @@ function popupImageWindow(url) {
       // Move that ADOdb pointer!
       $manufacturers_result->MoveNext();
     }
-    if (MULTIPLE_CATEGORIES_USE == 'true') {
+    if (MULTIPLE_CATEGORIES_USE == '1') {
       $categories_array_selected = array(array('id' => ''));
       if (isset($_GET['action']) && ($_GET['action'] == 'new_product') && (isset($_GET['categories'])) )  {
         $categories_array_selected = array(array('id' => (int)$_GET['categories']));
@@ -476,12 +476,12 @@ function popupImageWindow(url) {
                                     array('id' => '0', 'text' => ENTRY_NO));
 
 
-    if (OOS_FCKEDITOR == 'true') {
+    if (OOS_FCKEDITOR == '1') {
       include 'includes/classes/fckeditor/fckeditor.php';
     }
 
     $form_action = ($_GET['pID']) ? 'update_product' : 'insert_product';
-    if (NEW_PRODUCT_PREVIEW == 'true') {
+    if (NEW_PRODUCT_PREVIEW == '1') {
       $form_action = 'new_product_preview';
     }
 ?>
@@ -491,7 +491,7 @@ function popupImageWindow(url) {
   var dateAvailable = new ctlSpiffyCalendarBox("dateAvailable", "new_product", "products_date_available","btnDate1","<?php echo $pInfo->products_date_available; ?>",scBTNMODE_CUSTOMBLUE);
 </script>
 <?php
-  if (OOS_BASE_PRICE == 'true') {
+  if (OOS_BASE_PRICE == '1') {
 ?>
 <script language="javascript"><!--
 
@@ -532,7 +532,7 @@ function calcBasePriceFactor() {
             <td class="main"><?php echo oos_draw_separator('trans.gif', '24', '15') . '&nbsp;' . oos_draw_pull_down_menu('products_status', $products_status_array, $pInfo->products_status); ?></td>
           </tr>
 <?php
-   if (MULTIPLE_CATEGORIES_USE == 'true') {
+   if (MULTIPLE_CATEGORIES_USE == '1') {
 ?>
           <tr>
             <td class="main"><?php echo TEXT_CATEGORIES; ?></td>
@@ -582,7 +582,7 @@ function calcBasePriceFactor() {
                 <td class="main">
 
 <?php
-      if (OOS_FCKEDITOR == 'true') {
+      if (OOS_FCKEDITOR == '1') {
         $oFCKeditor = new FCKeditor('products_description_' . $languages[$i]['id']);
         $oFCKeditor->BasePath = 'includes/classes/fckeditor/';
         $oFCKeditor->Config['AutoDetectLanguage'] = false;
@@ -642,7 +642,7 @@ function calcBasePriceFactor() {
             <td class="main"><?php echo oos_draw_separator('trans.gif', '24', '15') . '&nbsp;' . oos_draw_input_field('products_quantity', $pInfo->products_quantity) . ' Min: ' . oos_draw_input_field('products_quantity_order_min', ($pInfo->products_quantity_order_min==0 ? 1 : $pInfo->products_quantity_order_min)) . ' Units: ' . oos_draw_input_field('products_quantity_order_units', $pInfo->products_quantity_order_units); ?></td>
           </tr>
 <?php
-  if (STOCK_CHECK == 'true') {
+  if (STOCK_CHECK == '1') {
 ?>
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_REORDER_LEVEL; ?></td>
@@ -690,7 +690,7 @@ function calcBasePriceFactor() {
           </tr>
 <?php
   }
-  if (OOS_MO_PIC == 'true') {
+  if (OOS_MO_PIC == '1') {
 ?>
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_SUBIMAGE1; ?></td>
@@ -790,7 +790,7 @@ function calcBasePriceFactor() {
             <td class="main">
 <?php
    $oosPrice = $pInfo->products_price;
-   if (OOS_PRICE_IS_BRUTTO == 'true'){
+   if (OOS_PRICE_IS_BRUTTO == '1'){
      $oosPriceNetto = round($oosPrice,TAX_DECIMAL_PLACES);
      $tax_ratestable = $oostable['tax_rates'];
      $tax_result = $dbconn->Execute("SELECT tax_rate FROM $tax_ratestable WHERE tax_class_id = '" . $pInfo->products_tax_class_id . "' ");
@@ -799,7 +799,7 @@ function calcBasePriceFactor() {
    }
    $oosPrice = round($oosPrice,TAX_DECIMAL_PLACES);
    echo oos_draw_separator('trans.gif', '24', '15') . '&nbsp;' . oos_draw_input_field('products_price', $oosPrice);
-   if (OOS_PRICE_IS_BRUTTO == 'true') echo " - " . TEXT_TAX_INFO . $oosPriceNetto;
+   if (OOS_PRICE_IS_BRUTTO == '1') echo " - " . TEXT_TAX_INFO . $oosPriceNetto;
 ?>
       </td>
     </tr>
@@ -808,18 +808,18 @@ function calcBasePriceFactor() {
             <td class="main">
 <?php
    $oosPriceList = $pInfo->products_price_list;
-   if (OOS_PRICE_IS_BRUTTO == 'true'){
+   if (OOS_PRICE_IS_BRUTTO == '1'){
      $oosPriceListNetto = round($oosPriceList,TAX_DECIMAL_PLACES);
      $oosPriceList = ($oosPriceList*($tax[tax_rate]+100)/100);
    }
    $oosPriceList = round($oosPriceList,TAX_DECIMAL_PLACES);
    echo oos_draw_separator('trans.gif', '24', '15') . '&nbsp;' . oos_draw_input_field('products_price_list', $oosPriceList);
-   if (OOS_PRICE_IS_BRUTTO == 'true') echo " - " . TEXT_TAX_INFO . $oosPriceListNetto;
+   if (OOS_PRICE_IS_BRUTTO == '1') echo " - " . TEXT_TAX_INFO . $oosPriceListNetto;
 ?>
             </td>
           </tr>
 <?php
-  if (OOS_BASE_PRICE == 'true') {
+  if (OOS_BASE_PRICE == '1') {
 ?>
         </table><br />
         <table border="0" cellspacing="0" cellpadding="2">
@@ -856,7 +856,7 @@ function calcBasePriceFactor() {
             <td class="main"><?php echo oos_draw_separator('trans.gif', '24', '15') . '&nbsp;' . oos_draw_pull_down_menu('products_units_id', $products_units_array, $pInfo->products_units_id); ?></td>
           </tr>
 <?php
-  if (DECIMAL_CART_QUANTITY == 'true') {
+  if (DECIMAL_CART_QUANTITY == '1') {
 ?>
           <tr>
             <td colspan="2"><?php echo oos_draw_separator('trans.gif', '1', '10'); ?></td>
@@ -896,7 +896,7 @@ function calcBasePriceFactor() {
    $oosDiscount2 = $pInfo->products_discount2;
    $oosDiscount3 = $pInfo->products_discount3;
    $oosDiscount4 = $pInfo->products_discount4;
-   if (OOS_PRICE_IS_BRUTTO == 'true'){
+   if (OOS_PRICE_IS_BRUTTO == '1'){
      $oosDiscount1 = ($oosDiscount1*($tax[tax_rate]+100)/100);
      $oosDiscount2 = ($oosDiscount2*($tax[tax_rate]+100)/100);
      $oosDiscount3 = ($oosDiscount3*($tax[tax_rate]+100)/100);
@@ -943,7 +943,7 @@ function calcBasePriceFactor() {
       </tr>
       <tr>
 <?php
-    if (NEW_PRODUCT_PREVIEW == 'true') {
+    if (NEW_PRODUCT_PREVIEW == '1') {
 ?>
         <td class="main" align="right"><?php echo oos_draw_hidden_field('products_date_added', (($pInfo->products_date_added) ? $pInfo->products_date_added : date('Y-m-d'))) . oos_image_swap_submits('preview', 'preview_off.gif', IMAGE_PREVIEW) . '&nbsp;&nbsp;<a href="' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&pID=' . $_GET['pID']) . '">' . oos_image_swap_button('cancel', 'cancel_off.gif', IMAGE_CANCEL) . '</a>'; ?></td>
 <?php
@@ -1079,7 +1079,7 @@ function calcBasePriceFactor() {
             <td class="pageHeading"><?php echo oos_image(OOS_SHOP_IMAGES . 'flags/' . $languages[$i]['iso_639_2'] . '.gif', $languages[$i]['name']) . '&nbsp;' . $pInfo->products_name; ?></td>
 <?php
   $oosPrice = $pInfo->products_price;
-  if (OOS_PRICE_IS_BRUTTO == 'true' && ($_GET['read'] == 'only' || $action != 'new_product_preview') ){
+  if (OOS_PRICE_IS_BRUTTO == '1' && ($_GET['read'] == 'only' || $action != 'new_product_preview') ){
     $oosPriceNetto=round($oosPrice,TAX_DECIMAL_PLACES);
     $tax_ratestable = $oostable['tax_rates'];
     $tax_result = $dbconn->Execute("SELECT tax_rate FROM $tax_ratestable WHERE tax_class_id = '" . $pInfo->products_tax_class_id . "' ");

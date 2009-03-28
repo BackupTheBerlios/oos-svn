@@ -30,23 +30,23 @@ if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_
 require 'includes/languages/' . $sLanguage . '/user_create_account_process.php';
 require 'includes/functions/function_validate_vatid.php';
 
-if (ACCOUNT_GENDER == 'true') $gender = oos_prepare_input($_POST['gender']);
+if (ACCOUNT_GENDER == '1') $gender = oos_prepare_input($_POST['gender']);
 $firstname = oos_db_prepare_input($_POST['firstname']);
 $lastname = oos_db_prepare_input($_POST['lastname']);
 
-if (ACCOUNT_DOB == 'true') $dob = oos_prepare_input($_POST['dob']);
-if (ACCOUNT_NUMBER == 'true') $number = oos_prepare_input($_POST['number']);
+if (ACCOUNT_DOB == '1') $dob = oos_prepare_input($_POST['dob']);
+if (ACCOUNT_NUMBER == '1') $number = oos_prepare_input($_POST['number']);
 $email_address = oos_prepare_input($_POST['email_address']);
 
-if (ACCOUNT_COMPANY == 'true') $company = oos_prepare_input($_POST['company']);
-if (ACCOUNT_OWNER == 'true') $owner = oos_prepare_input($_POST['owner']);
-if (ACCOUNT_VAT_ID == 'true') $vat_id = oos_prepare_input($_POST['vat_id']);
+if (ACCOUNT_COMPANY == '1') $company = oos_prepare_input($_POST['company']);
+if (ACCOUNT_OWNER == '1') $owner = oos_prepare_input($_POST['owner']);
+if (ACCOUNT_VAT_ID == '1') $vat_id = oos_prepare_input($_POST['vat_id']);
 
 $street_address = oos_prepare_input($_POST['street_address']);
-if (ACCOUNT_SUBURB == 'true') $suburb = oos_prepare_input($_POST['suburb']);
+if (ACCOUNT_SUBURB == '1') $suburb = oos_prepare_input($_POST['suburb']);
 $postcode = oos_prepare_input($_POST['postcode']);
 $city = oos_prepare_input($_POST['city']);
-if (ACCOUNT_STATE == 'true') $state = oos_prepare_input($_POST['state']);
+if (ACCOUNT_STATE == '1') $state = oos_prepare_input($_POST['state']);
 $country = oos_prepare_input($_POST['country']);
 
 $telephone = oos_prepare_input($_POST['telephone']);
@@ -60,64 +60,64 @@ $confirmation = oos_prepare_input($_POST['confirmation']);
 
 $bError = false; // reset error flag
 
-if (ACCOUNT_GENDER == 'true') {
+if (ACCOUNT_GENDER == '1') {
     if (($gender == 'm') || ($gender == 'f')) {
         $gender_error = false;
     } else {
         $bError = true;
-        $gender_error = 'true';
+        $gender_error = '1';
     }
 }
 
 if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
     $bError = true;
-    $firstname_error = 'true';
+    $firstname_error = '1';
 }
 
 if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
     $bError = true;
-    $lastname_error = 'true';
+    $lastname_error = '1';
 }
 
-if (ACCOUNT_DOB == 'true') {
+if (ACCOUNT_DOB == '1') {
     if (checkdate(substr(oos_date_raw($dob), 4, 2), substr(oos_date_raw($dob), 6, 2), substr(oos_date_raw($dob), 0, 4))) {
       $date_of_birth_error = false;
     } else {
       $bError = true;
-      $date_of_birth_error = 'true';
+      $date_of_birth_error = '1';
     }
 }
 
 if (strlen($email_address) < ENTRY_EMAIL_ADDRESS_MIN_LENGTH) {
     $bError = true;
-    $email_address_error = 'true';
+    $email_address_error = '1';
 }
 
 if (!oos_validate_is_email($email_address)) {
     $bError = true;
-    $email_address_check_error = 'true';
+    $email_address_check_error = '1';
 }
 
-if ((ACCOUNT_VAT_ID == 'true') && (ACCOUNT_COMPANY_VAT_ID_CHECK == 'true') && oos_is_not_null($vat_id)) {
+if ((ACCOUNT_VAT_ID == '1') && (ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && oos_is_not_null($vat_id)) {
     if (!oos_validate_is_vatid($vat_id)) {
         $bError = true;
-        $vatid_check_error = 'true';
+        $vatid_check_error = '1';
     }
 }
 
 if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
     $bError = true;
-    $street_address_error = 'true';
+    $street_address_error = '1';
 }
 
 if (strlen($postcode) < ENTRY_POSTCODE_MIN_LENGTH) {
     $bError = true;
-    $post_code_error = 'true';
+    $post_code_error = '1';
 }
 
 if (strlen($city) < ENTRY_CITY_MIN_LENGTH) {
     $bError = true;
-    $city_error = 'true';
+    $city_error = '1';
 }
 
 
@@ -126,15 +126,15 @@ if (isset($_POST['country']) && is_numeric($_POST['country']) && ($_POST['countr
 } else {
     $country = 0;
     $bError = true;
-    $country_error = 'true';
+    $country_error = '1';
 }
 
-if (ACCOUNT_STATE == 'true') {
+if (ACCOUNT_STATE == '1') {
     if ($entry_country_error) {
-        $state_error = 'true';
+        $state_error = '1';
     } else {
         $zone_id = 0;
-        $state_error = 'false';
+        $state_error = '0';
 
         $zonestable = $oostable['zones'];
         $country_check_sql = "SELECT COUNT(*) AS total
@@ -145,7 +145,7 @@ if (ACCOUNT_STATE == 'true') {
         $entry_state_has_zones = ($country_check->fields['total'] > 0);
 
         if ($entry_state_has_zones === true) {
-            $state_has_zones = 'true';
+            $state_has_zones = '1';
 
             $zonestable = $oostable['zones'];
             $match_zone_sql = "SELECT zone_id
@@ -169,12 +169,12 @@ if (ACCOUNT_STATE == 'true') {
                     $zone_id = $match_zone['zone_id'];
                 } else {
                     $bError = true;
-                    $state_error = 'true';
+                    $state_error = '1';
                 }
             }
         } elseif (strlen($state) < ENTRY_STATE_MIN_LENGTH) {
             $bError = true;
-            $state_error = 'true';
+            $state_error = '1';
         }
     }
 }
@@ -182,22 +182,22 @@ if (ACCOUNT_STATE == 'true') {
 
 if (strlen($telephone) < ENTRY_TELEPHONE_MIN_LENGTH) {
     $bError = true;
-    $telephone_error = 'true';
+    $telephone_error = '1';
 }
 
-if (CUSTOMER_NOT_LOGIN == 'false') {
-    if (MAKE_PASSWORD == 'true') {
+if (CUSTOMER_NOT_LOGIN == '0') {
+    if (MAKE_PASSWORD == '1') {
         $password = oos_create_random_value(ENTRY_PASSWORD_MIN_LENGTH);
     } else {
         $passlen = strlen($password);
         if ($passlen < ENTRY_PASSWORD_MIN_LENGTH) {
             $bError = true;
-            $password_error = 'true';
+            $password_error = '1';
         }
 
         if ($password != $confirmation) {
             $bError = true;
-            $password_error = 'true';
+            $password_error = '1';
         }
     }
 }
@@ -210,17 +210,17 @@ $check_email = $dbconn->Execute($check_email_sql);
 
 if ($check_email->RecordCount()) {
     $bError = true;
-    $email_address_exists = 'true';
+    $email_address_exists = '1';
 }
 
 if ($bError == true) {
     $_SESSION['navigation']->remove_current_page();
 
     $processed = true;
-    if ((CUSTOMER_NOT_LOGIN == 'true') or (MAKE_PASSWORD == 'true')) {
+    if ((CUSTOMER_NOT_LOGIN == '1') or (MAKE_PASSWORD == '1')) {
         $show_password = false;
     } else {
-        $show_password = 'true';
+        $show_password = '1';
     }
 
     // links breadcrumb
@@ -292,7 +292,7 @@ if ($bError == true) {
     );
 
 
-    if ($state_has_zones == 'true') {
+    if ($state_has_zones == '1') {
         $zones_names = array();
         $zones_values = array();
 
@@ -347,7 +347,7 @@ if ($bError == true) {
     $customer_max_order = DEFAULT_MAX_ORDER;
     $customers_status = DEFAULT_CUSTOMERS_STATUS_ID;
 
-    if (CUSTOMER_NOT_LOGIN == 'true') {
+    if (CUSTOMER_NOT_LOGIN == '1') {
         $customers_login = '0';
     } else {
         $customers_login = '1';
@@ -372,12 +372,12 @@ if ($bError == true) {
                             'customers_wishlist_link_id' => $wishlist_link_id,
                             'customers_default_address_id' => 1);
 
-    if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
-    if (ACCOUNT_NUMBER == 'true') $sql_data_array['customers_number'] = $number;
-    if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = oos_date_raw($dob);
-    if (ACCOUNT_VAT_ID == 'true') {
+    if (ACCOUNT_GENDER == '1') $sql_data_array['customers_gender'] = $gender;
+    if (ACCOUNT_NUMBER == '1') $sql_data_array['customers_number'] = $number;
+    if (ACCOUNT_DOB == '1') $sql_data_array['customers_dob'] = oos_date_raw($dob);
+    if (ACCOUNT_VAT_ID == '1') {
         $sql_data_array['customers_vat_id'] = $vat_id;
-        if ((ACCOUNT_COMPANY_VAT_ID_CHECK == 'true') && ($vatid_check_error === false) && ($country != STORE_COUNTRY)) {
+        if ((ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && ($vatid_check_error === false) && ($country != STORE_COUNTRY)) {
             $sql_data_array['customers_vat_id_status'] = 1;
         } else {
             $sql_data_array['customers_vat_id_status'] = 0;
@@ -396,11 +396,11 @@ if ($bError == true) {
                             'entry_city' => $city,
                             'entry_country_id' => $country);
 
-    if (ACCOUNT_GENDER == 'true') $sql_data_array['entry_gender'] = $gender;
-    if (ACCOUNT_COMPANY == 'true') $sql_data_array['entry_company'] = $company;
-    if (ACCOUNT_OWNER == 'true') $sql_data_array['entry_owner'] = $owner;
-    if (ACCOUNT_SUBURB == 'true') $sql_data_array['entry_suburb'] = $suburb;
-    if (ACCOUNT_STATE == 'true') {
+    if (ACCOUNT_GENDER == '1') $sql_data_array['entry_gender'] = $gender;
+    if (ACCOUNT_COMPANY == '1') $sql_data_array['entry_company'] = $company;
+    if (ACCOUNT_OWNER == '1') $sql_data_array['entry_owner'] = $owner;
+    if (ACCOUNT_SUBURB == '1') $sql_data_array['entry_suburb'] = $suburb;
+    if (ACCOUNT_STATE == '1') {
         if ($zone_id > 0) {
             $sql_data_array['entry_zone_id'] = $zone_id;
             $sql_data_array['entry_state'] = '';
@@ -431,9 +431,9 @@ if ($bError == true) {
                           WHERE customers_email_address = '" . oos_db_input($email_address) . "'");
     }
 
-    if (CUSTOMER_NOT_LOGIN != 'true') {
+    if (CUSTOMER_NOT_LOGIN != '1') {
         $_SESSION['customer_id'] = $customer_id;
-        if (ACCOUNT_GENDER == 'true') $_SESSION['customer_gender'] = $gender;
+        if (ACCOUNT_GENDER == '1') $_SESSION['customer_gender'] = $gender;
         $_SESSION['customer_first_name'] = $firstname;
         $_SESSION['customer_lastname'] = $lastname;
         $_SESSION['customer_default_address_id'] = 1;
@@ -442,8 +442,8 @@ if ($bError == true) {
         $_SESSION['customer_wishlist_link_id'] = $wishlist_link_id;
         $_SESSION['customer_max_order'] = $customer_max_order;
 
-        if (ACCOUNT_VAT_ID == 'true') {
-            if ((ACCOUNT_COMPANY_VAT_ID_CHECK == 'true') && ($vatid_check_error === false)) {
+        if (ACCOUNT_VAT_ID == '1') {
+            if ((ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && ($vatid_check_error === false)) {
                 $_SESSION['customers_vat_id_status'] = 1;
             } else {
                 $_SESSION['customers_vat_id_status'] = 0;
@@ -459,7 +459,7 @@ if ($bError == true) {
     // build the message content
     $name = $firstname . " " . $lastname;
 
-    if (ACCOUNT_GENDER == 'true') {
+    if (ACCOUNT_GENDER == '1') {
         if ($gender == 'm') {
             $email_text = $aLang['email_greet_mr'];
         } else {
@@ -470,7 +470,7 @@ if ($bError == true) {
     }
 
     $email_text .= $aLang['email_welcome'];
-    if (MODULE_ORDER_TOTAL_GV_STATUS == 'true') {
+    if (MODULE_ORDER_TOTAL_GV_STATUS == '1') {
         if (NEW_SIGNUP_GIFT_VOUCHER_AMOUNT > 0) {
             $coupon_code = oos_create_coupon_code();
             $couponstable = $oostable['coupons'];
@@ -535,34 +535,34 @@ if ($bError == true) {
         }
     }
 
-    if (MAKE_PASSWORD == 'true') {
+    if (MAKE_PASSWORD == '1') {
         $email_text .= sprintf($aLang['email_password'], $password) . "\n\n";
     }
     $email_text .= $aLang['email_text'] . $aLang['email_contact'] . $aLang['email_warning'] . $aLang['email_disclaimer'];
 
     oos_mail($name, $email_address, $aLang['email_subject'], nl2br($email_text), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
-    if (SEND_CUSTOMER_EDIT_EMAILS == 'true') {
+    if (SEND_CUSTOMER_EDIT_EMAILS == '1') {
         $email_owner = $aLang['owner_email_subject'] . "\n" .
                        $aLang['email_separator'] . "\n" .
                        $aLang['owner_email_date'] . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n" .
                        $aLang['email_separator'] . "\n";
 
-        if (ACCOUNT_NUMBER == 'true') {
+        if (ACCOUNT_NUMBER == '1') {
             $email_owner .= $aLang['owner_email_number'] . ' ' . $number . "\n" .
                             $aLang['email_separator'] . "\n\n";
         }
-        if (ACCOUNT_COMPANY == 'true') {
+        if (ACCOUNT_COMPANY == '1') {
             $email_owner .= $aLang['owner_email_company_info'] . "\n" .
                             $aLang['owner_email_company'] . ' ' . $company . "\n";
-            if (ACCOUNT_OWNER == 'true') {
+            if (ACCOUNT_OWNER == '1') {
                 $email_owner .= $aLang['owner_email_owner'] . ' ' . $owner . "\n";
             }
-            if (ACCOUNT_VAT_ID == 'true') {
+            if (ACCOUNT_VAT_ID == '1') {
                 $email_owner .= $aLang['entry_vat_id'] . ' ' . $vat_id . "\n";
             }
         }
-        if (ACCOUNT_GENDER == 'true') {
+        if (ACCOUNT_GENDER == '1') {
             if ($gender == 'm') {
                 $email_owner .= $aLang['entry_gender'] . ' ' . $aLang['male'] . "\n";
             } else {

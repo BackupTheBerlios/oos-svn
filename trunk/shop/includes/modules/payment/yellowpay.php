@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -22,7 +22,7 @@
       $this->title = $aLang['module_payment_yellowpay_text_title'];
       $this->description = $aLang['module_payment_yellowpay_text_description'];
       $this->sort_order = MODULE_PAYMENT_YELLOWPAY_SORT_ORDER;
-      $this->enabled = ((MODULE_PAYMENT_YELLOWPAY_STATUS == 'True') ? true : false);
+      $this->enabled = ((MODULE_PAYMENT_YELLOWPAY_STATUS == '1') ? true : false);
 
       if ((int)MODULE_PAYMENT_YELLOWPAY_ORDER_STATUS_ID > 0) {
         $this->order_status = MODULE_PAYMENT_YELLOWPAY_ORDER_STATUS_ID;
@@ -143,7 +143,7 @@
                                oos_draw_hidden_field('txtBZipCode', $oOrder->billing['postcode']) .
                                oos_draw_hidden_field('txtBTel', $oOrder->customer['customers_telephone']) .
                                oos_draw_hidden_field('txtBEmail', $oOrder->customer['email_address']) .
-                               oos_draw_hidden_field('txtHistoryBack', 'false');
+                               oos_draw_hidden_field('txtHistoryBack', '0');
       return $process_button_string;
 
     }
@@ -179,7 +179,7 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_YELLOWPAY_STATUS', 'True', '6', '3', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_YELLOWPAY_STATUS', '1', '6', '3', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_YELLOWPAY_ID', 'shop1000_yp', '6', '4', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_YELLOWPAY_SHOP_ID', '', '6', '5', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_HASH_SEED', '', '6', '6', now())");
@@ -204,4 +204,5 @@
       return array('MODULE_PAYMENT_YELLOWPAY_STATUS', 'MODULE_PAYMENT_YELLOWPAY_ID', 'MODULE_PAYMENT_YELLOWPAY_SHOP_ID', 'MODULE_PAYMENT_HASH_SEED', 'MODULE_PAYMENT_YELLOWPAY_CURRENCY', 'MODULE_PAYMENT_YELLOWPAY_ZONE', 'MODULE_PAYMENT_YELLOWPAY_LANGUAGE', 'MODULE_PAYMENT_YELLOWPAY_ORDER_STATUS_ID', 'MODULE_PAYMENT_YELLOWPAY_SORT_ORDER');
     }
   }
+
 ?>

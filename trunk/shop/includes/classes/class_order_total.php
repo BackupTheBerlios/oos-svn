@@ -5,12 +5,12 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: order_total.php,v 1.3.2.7 2003/05/14 22:52:58 wilt 
-   orig: order_total.php,v 1.4 2003/02/11 00:04:53 hpdl 
+   File: order_total.php,v 1.3.2.7 2003/05/14 22:52:58 wilt
+   orig: order_total.php,v 1.4 2003/02/11 00:04:53 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -110,7 +110,7 @@
       $selection_string = '';
       $close_string = '';
       $credit_class_string = '';
-      if ( (MODULE_ORDER_TOTAL_GV_STATUS == 'true') || (MODULE_ORDER_TOTAL_COUPON_STATUS == 'true') ) { 
+      if ( (MODULE_ORDER_TOTAL_GV_STATUS == '1') || (MODULE_ORDER_TOTAL_COUPON_STATUS == '1') ) {
         $header_string = '<tr>' . "\n";
         $header_string .= '   <td><table border="0" width="100%" cellspacing="0" cellpadding="2">' . "\n";
         $header_string .= '      <tr>' . "\n";
@@ -138,15 +138,15 @@
               $output_string .= '<tr colspan="4"><td colspan="4" width="100%"></td></tr>';
               $output_string .= ' <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" >' . "\n" .
                                 '   <td width="10"></td>';
-              if ( ($use_credit_string !='' ) && (MODULE_ORDER_TOTAL_GV_STATUS == 'true') ) {
+              if ( ($use_credit_string !='' ) && (MODULE_ORDER_TOTAL_GV_STATUS == '1') ) {
                 $output_string .= ' ' . $use_credit_string;
-              } elseif ( (MODULE_ORDER_TOTAL_GV_STATUS == 'true') && (MODULE_ORDER_TOTAL_COUPON_STATUS == 'true') ) {
+              } elseif ( (MODULE_ORDER_TOTAL_GV_STATUS == '1') && (MODULE_ORDER_TOTAL_COUPON_STATUS == '1') ) {
                 $output_string .= '     <td class="main"></td>';
               } else {
                 $output_string .= '     <td class="main"><b>' . $GLOBALS[$class]->header . '</b></td>';
               }
               $output_string .= '<td width="10"></td>';
-              $output_string .= '  </tr>' . "\n"; 
+              $output_string .= '  </tr>' . "\n";
             }
           }
         }
@@ -298,8 +298,8 @@
     function get_order_total_main($class, $order_total) {
       global $credit, $oOrder;
 
-      if ($GLOBALS[$class]->include_tax == 'false') $order_total=$order_total-$oOrder->info['tax'];
-      if ($GLOBALS[$class]->include_shipping == 'false') $order_total=$order_total-$oOrder->info['shipping_cost'];
+      if ($GLOBALS[$class]->include_tax == '0') $order_total=$order_total-$oOrder->info['tax'];
+      if ($GLOBALS[$class]->include_shipping == '0') $order_total=$order_total-$oOrder->info['shipping_cost'];
       return $order_total;
     }
   }

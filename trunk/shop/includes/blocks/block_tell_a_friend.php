@@ -22,14 +22,14 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-$tell_a_friend_block = 'false';
+$tell_a_friend_block = '0';
 
 if ($sFile != $aFilename['tell_a_friend']) {
     if (isset($_GET['products_id'])) {
         if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
         $tell_products_id = intval($nProductsId);
 
-        $tell_a_friend_block = 'true';
+        $tell_a_friend_block = '1';
 
         $oSmarty->assign(
             array(

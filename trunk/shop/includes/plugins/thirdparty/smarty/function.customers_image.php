@@ -69,17 +69,17 @@ function smarty_function_customers_image($params, &$smarty)
     $image = $basedir . $image;
 
 
-    if ((empty($image) || ($image == $basedir)) && (IMAGE_REQUIRED == 'false')) {
+    if ((empty($image) || ($image == $basedir)) && (IMAGE_REQUIRED == '0')) {
         return false;
     }
 
-    if ((empty($image) || ($image == $basedir)) && (IMAGE_REQUIRED == 'true')) {
+    if ((empty($image) || ($image == $basedir)) && (IMAGE_REQUIRED == '1')) {
       $image = OOS_IMAGES . 'member.jpg';
 
       $image_size = @getimagesize($image);
       $width = $image_size[0];
       $height = $image_size[1];
-    } elseif ( (CONFIG_CALCULATE_IMAGE_SIZE == 'true') && (empty($width) || empty($height)) ) {
+    } elseif ( (CONFIG_CALCULATE_IMAGE_SIZE == '1') && (empty($width) || empty($height)) ) {
       if (file_exists(OOS_ABSOLUTE_PATH . $image)) {
         $image_size = @getimagesize($image);
         if (empty($width) && oos_is_not_null($height)) {
@@ -92,7 +92,7 @@ function smarty_function_customers_image($params, &$smarty)
           $width = $image_size[0];
           $height = $image_size[1];
         }
-      } elseif (IMAGE_REQUIRED == 'true') {
+      } elseif (IMAGE_REQUIRED == '1') {
         $image = OOS_IMAGES . 'member.jpg';
 
         $image_size = @getimagesize($image);
@@ -103,7 +103,7 @@ function smarty_function_customers_image($params, &$smarty)
       }
     }
 
-    $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == 'true') ? ' /' : '');
+    $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ' /' : '');
 
     return '<img src="'.$image.'" alt="'.$alt.'" border="'.$border.'" width="'.$width.'" height="'.$height.'"'.$extra.$sSlash.'>';
 

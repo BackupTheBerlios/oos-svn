@@ -274,13 +274,13 @@
             $lc_align = 'right';
             if ($_SESSION['member']->group['show_price'] == 1) {
 
-               if (DECIMAL_CART_QUANTITY == 'true') {
+               if (DECIMAL_CART_QUANTITY == '1') {
                  $order_min = number_format($listing['products_quantity_order_min'], 2);
                } else {
                  $order_min = number_format($listing['products_quantity_order_min']);
                }
 
-               if (PRODUCT_LISTING_WITH_QTY == 'true') {
+               if (PRODUCT_LISTING_WITH_QTY == '1') {
                  $lc_text = '<form name="buy_now" action="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php" method="post">';
                  $lc_text .= '<input type="hidden" name="action" value="buy_now">';
                  $lc_text .= '<input type="hidden" name="products_id" value="' . $listing['products_id'] .'">';

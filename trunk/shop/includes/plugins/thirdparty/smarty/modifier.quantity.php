@@ -8,7 +8,7 @@
 
 /*
  * Smarty plugin
- * 
+ *
  * Type:     modifier
  * Name:     quantity<br />
  * Version:  0.1
@@ -25,7 +25,7 @@
 function smarty_modifier_quantity($number, $decimal_places = 2)
 {
 
-    if (DECIMAL_CART_QUANTITY == 'true') {
+    if (DECIMAL_CART_QUANTITY == '1') {
       $number = number_format($number, $decimal_places);
     } else {
       $number = number_format($number);

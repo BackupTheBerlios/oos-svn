@@ -41,7 +41,7 @@
 <link rel="author" href="mailto:{$smarty.const.STORE_OWNER_EMAIL_ADDRESS}"/>
 <link rel="contents" type="text/html" href="{html_href_link modul=$modules.info file=$filename.info_sitemap}"/>
 <link rel="search" type="text/html" href="{html_href_link modul=$modules.search file=$filename.advanced_search}"/>
-<link rel="bookmark" type="text/html" href="{html_href_link modul=$main_page file=$page_file oos_get=$get_params connection='NONSSL' add_session_id='false' search_engine_safe='false'}"/>
+<link rel="bookmark" type="text/html" href="{html_href_link modul=$main_page file=$page_file oos_get=$get_params connection='NONSSL' add_session_id='0' search_engine_safe='0'}"/>
 
 {$oos_js}
 {formtool_init src="js/JsPopUpClass/popup.js"}
@@ -58,7 +58,7 @@
 <![endif]-->
 {/literal}
 
-{if ($smarty.const.LIGHTBOX eq 'true')  and ( $page_file eq $filename.product_info) }
+{if ($smarty.const.LIGHTBOX eq '1')  and ( $page_file eq $filename.product_info) }
 <script type="text/javascript" language="JavaScript" src="js/lightbox/prototype.js"></script>
 <script type="text/javascript" language="JavaScript" src="js/lightbox/scriptaculous.js?load=effects"></script>
 <script type="text/javascript" language="JavaScript" src="js/lightbox/lightbox.js"></script>

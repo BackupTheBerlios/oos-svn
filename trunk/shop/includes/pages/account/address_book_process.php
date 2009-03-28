@@ -56,7 +56,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'remove') && oos_is_not_null($
 
 
 // Post-entry error checking when updating or adding an entry
-$process = 'false';
+$process = '0';
 if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['action'] == 'update'))) {
     if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
@@ -73,65 +73,65 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
         $suburb = oos_prepare_input($_POST['suburb']);
 
 
-        $process = 'true';
-        $error = 'false';
+        $process = '1';
+        $error = '0';
 
-        if (ACCOUNT_GENDER == 'true') {
+        if (ACCOUNT_GENDER == '1') {
             if (($gender == 'm') || ($gender == 'f')) {
-                $gender_error = 'false';
+                $gender_error = '0';
             } else {
-                $gender_error = 'true';
-                $error = 'true';
+                $gender_error = '1';
+                $error = '1';
             }
         }
 
-        if (ACCOUNT_COMPANY == 'true') {
+        if (ACCOUNT_COMPANY == '1') {
             if (strlen($company) < ENTRY_COMPANY_MIN_LENGTH) {
-                $company_error = 'true';
-                $error = 'true';
+                $company_error = '1';
+                $error = '1';
             }
         }
 
         if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
-            $firstname_error = 'true';
-            $error = 'true';
+            $firstname_error = '1';
+            $error = '1';
         }
 
         if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
-            $lastname_error = 'true';
-            $error = 'true';
+            $lastname_error = '1';
+            $error = '1';
         }
 
         if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
-            $street_address_error = 'true';
-            $error = 'true';
+            $street_address_error = '1';
+            $error = '1';
         }
 
         if (strlen($postcode) < ENTRY_POSTCODE_MIN_LENGTH) {
-            $postcode_error = 'true';
-            $error = 'true';
+            $postcode_error = '1';
+            $error = '1';
         }
 
         if (strlen($city) < ENTRY_CITY_MIN_LENGTH) {
-            $city_error = 'true';
-            $error = 'true';
+            $city_error = '1';
+            $error = '1';
         }
 
         if (isset($_POST['country']) && is_numeric($_POST['country']) && ($_POST['country'] >= 1)) {
             $country = intval($_POST['country']);
-            $country_error = 'false';
+            $country_error = '0';
         } else {
             $country = 0;
             $error = true;
-            $country_error = 'true';
+            $country_error = '1';
         }
 
-        if (ACCOUNT_STATE == 'true') {
+        if (ACCOUNT_STATE == '1') {
             if ($entry_country_error) {
-                $state_error = 'true';
+                $state_error = '1';
             } else {
                 $zone_id = 0;
-                $state_error = 'false';
+                $state_error = '0';
 
                 $zonestable = $oostable['zones'];
                 $country_check_sql = "SELECT COUNT(*) AS total
@@ -141,7 +141,7 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
                 $entry_state_has_zones = ($country_check->fields['total'] > 0);
 
                 if ($entry_state_has_zones === true) {
-                    $state_has_zones = 'true';
+                    $state_has_zones = '1';
 
                     $zonestable = $oostable['zones'];
                     $match_zone_sql = "SELECT zone_id
@@ -165,18 +165,18 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
                             $match_zone = $match_zone_result->fields;
                             $zone_id = $match_zone['zone_id'];
                         } else {
-                            $error = 'true';
-                            $state_error = 'true';
+                            $error = '1';
+                            $state_error = '1';
                         }
                     }
                 } elseif (strlen($state) < ENTRY_STATE_MIN_LENGTH) {
-                    $error = 'true';
-                    $state_error = 'true';
+                    $error = '1';
+                    $state_error = '1';
                 }
             }
         }
 
-        if ($error == 'false') {
+        if ($error == '0') {
           $sql_data_array = array('entry_firstname' => $firstname,
                                   'entry_lastname' => $lastname,
                                   'entry_street_address' => $street_address,
@@ -184,10 +184,10 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
                                   'entry_city' => $city,
                                   'entry_country_id' => $country);
 
-          if (ACCOUNT_GENDER == 'true') $sql_data_array['entry_gender'] = $gender;
-          if (ACCOUNT_COMPANY == 'true') $sql_data_array['entry_company'] = $company;
-          if (ACCOUNT_SUBURB == 'true') $sql_data_array['entry_suburb'] = $suburb;
-          if (ACCOUNT_STATE == 'true') {
+          if (ACCOUNT_GENDER == '1') $sql_data_array['entry_gender'] = $gender;
+          if (ACCOUNT_COMPANY == '1') $sql_data_array['entry_company'] = $company;
+          if (ACCOUNT_SUBURB == '1') $sql_data_array['entry_suburb'] = $suburb;
+          if (ACCOUNT_STATE == '1') {
               if ($zone_id > 0) {
                   $sql_data_array['entry_zone_id'] = $zone_id;
                   $sql_data_array['entry_state'] = '';
@@ -232,7 +232,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'modify') && oos_is_not_null($
 }
 
 if (!isset($process)) {
-    $process = 'false';
+    $process = '0';
 }
 
 // links breadcrumb
@@ -330,7 +330,7 @@ $oSmarty->assign(
       )
 );
 
-if ($state_has_zones == 'true') {
+if ($state_has_zones == '1') {
      $aZonesNames = array();
      $aZonesValues = array();
      $zonestable = $oostable['zones'];

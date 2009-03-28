@@ -107,7 +107,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSI
         $ticket_id_result = $dbconn->Execute($sql);
         $ticket_id = $ticket_id_result->fields;
         if ($ticket_id['ticket_id']) {
-            if (TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS == 'false' && TICKET_CUSTOMER_REPLY_STATUS_ID > 0 ) $status = TICKET_CUSTOMER_REPLY_STATUS_ID;
+            if (TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS == '0' && TICKET_CUSTOMER_REPLY_STATUS_ID > 0 ) $status = TICKET_CUSTOMER_REPLY_STATUS_ID;
             $sql_data_array = array('ticket_id' => $ticket_id['ticket_id'],
                                     'ticket_status_id' => $status,
                                     'ticket_priority_id' => $priority,

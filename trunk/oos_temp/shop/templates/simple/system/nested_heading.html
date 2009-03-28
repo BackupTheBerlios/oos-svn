@@ -3,7 +3,7 @@
     <td class="body_head">{$oos_heading_title}</td>
     <td align="right"><img src="{$smarty.const.OOS_IMAGES}{$category.categories_image}" border="0" alt="{$category.categories_name}" title="{$category.categories_name}"></td>
   </tr>
-{if $smarty.const.ALLOW_CATEGORY_DESCRIPTIONS eq 'true' && $category.categories_description != '' }
+{if $smarty.const.ALLOW_CATEGORY_DESCRIPTIONS eq '1' && $category.categories_description != '' }
   <tr>
 <td colspan="2" height="10"></td>  </tr>
   <tr>

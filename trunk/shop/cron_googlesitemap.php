@@ -27,7 +27,7 @@
   require_once(dirname(__FILE__) . '/includes/oos_main.php');
 
   //Settings - changes made here
-  define('GOOGLE_SITEMAP_COMPRESS', 'false'); // Option to compress the files
+  define('GOOGLE_SITEMAP_COMPRESS', '0'); // Option to compress the files
 
   define('GOOGLE_SITEMAP_PROD_CHANGE_FREQ', 'weekly'); // Option for change frequency of products
   define('GOOGLE_SITEMAP_CAT_CHANGE_FREQ', 'weekly'); // Option for change frequency of categories

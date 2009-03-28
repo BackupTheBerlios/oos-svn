@@ -91,18 +91,18 @@
      */
      function SaveFile($data, $type){
        $filename = $this->savepath . $this->filename . $type;
-       $compress = defined('GOOGLE_SITEMAP_COMPRESS') ? GOOGLE_SITEMAP_COMPRESS : 'false';
-       if ($type == 'index') $compress = 'false';
+       $compress = defined('GOOGLE_SITEMAP_COMPRESS') ? GOOGLE_SITEMAP_COMPRESS : '0';
+       if ($type == 'index') $compress = '0';
        switch($compress){
-         case 'true':
+         case '1':
            $filename .= '.xml.gz';
            if ($gz = gzopen($filename,'wb9')){
              gzwrite($gz, $data);
              gzclose($gz);
-             $this->debug['SAVE_FILE_COMPRESS'][] = array('file' => $filename, 'status' => 'success', 'file_exists' => 'true');
+             $this->debug['SAVE_FILE_COMPRESS'][] = array('file' => $filename, 'status' => 'success', 'file_exists' => '1');
              return true;
            } else {
-             $file_check = file_exists($filename) ? 'true' : 'false';
+             $file_check = file_exists($filename) ? '1' : '0';
              $this->debug['SAVE_FILE_COMPRESS'][] = array('file' => $filename, 'status' => 'failure', 'file_exists' => $file_check);
              return false;
            }
@@ -113,10 +113,10 @@
            if ($fp = fopen($filename, 'w+')){
              fwrite($fp, $data);
              fclose($fp);
-             $this->debug['SAVE_FILE_XML'][] = array('file' => $filename, 'status' => 'success', 'file_exists' => 'true');
+             $this->debug['SAVE_FILE_XML'][] = array('file' => $filename, 'status' => 'success', 'file_exists' => '1');
              return true;
            } else {
-            $file_check = file_exists($filename) ? 'true' : 'false';
+            $file_check = file_exists($filename) ? '1' : '0';
             $this->debug['SAVE_FILE_XML'][] = array('file' => $filename, 'status' => 'failure', 'file_exists' => $file_check);
             return false;
            }
@@ -186,7 +186,7 @@
        $content = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
        $content .= '<sitemapindex xmlns="http://www.google.com/schemas/sitemap/0.84">' . "\n";
        $pattern = defined('GOOGLE_SITEMAP_COMPRESS')
-                  ? GOOGLE_SITEMAP_COMPRESS == 'true'
+                  ? GOOGLE_SITEMAP_COMPRESS == '1'
                   ? "{sitemap*.xml.gz}"
                     : "{sitemap*.xml}"
                     : "{sitemap*.xml}";
@@ -257,7 +257,7 @@
            return $this->GenerateSitemap($container, $type);
          }
        } else {
-         $this->debug['QUERY']['PRODUCTS']['STATUS'] = 'false';
+         $this->debug['QUERY']['PRODUCTS']['STATUS'] = '0';
          $this->debug['QUERY']['PRODUCTS']['NUM_ROWS'] = '0';
        }
     }
@@ -315,7 +315,7 @@
            return $this->GenerateSitemap($container, $type);
          }
        } else {
-         $this->debug['QUERY']['CATEOGRY']['STATUS'] = 'false';
+         $this->debug['QUERY']['CATEOGRY']['STATUS'] = '0';
          $this->debug['QUERY']['CATEOGRY']['NUM_ROWS'] = '0';
        }
     }

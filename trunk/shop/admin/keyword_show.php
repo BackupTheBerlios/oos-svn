@@ -13,7 +13,7 @@
   define('OOS_VALID_MOD', 'yes');
   require 'includes/oos_main.php';
 
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -49,7 +49,7 @@
   }
   $n = strtolower($n);
   $display=split("\|",$n);
-  print "<table border=\"0\" cellspacing=\"1\" cellpadding=\"2\" bgcolor=C9C9C9 >\n";     
+  print "<table border=\"0\" cellspacing=\"1\" cellpadding=\"2\" bgcolor=C9C9C9 >\n";
 
   foreach($display as $page) {
     $IPs = Array();
@@ -58,25 +58,25 @@
     $keywords = Array();
     $lines = Array();
     $robots = Array();
-	
+
     if ($page == "google") {
       $news = "<tr><td class=\"dataTableHeadingContent\" nowrap><b>Keywords, search from </b><a href=\"http://www.google.com/\">Google</a></td></tr>";
-      $fd = @gzopen("$logfile","r"); 
-      while ($x = gzgets($fd,1024)) { 
+      $fd = @gzopen("$logfile","r");
+      while ($x = gzgets($fd,1024)) {
         list($IP , , ,$time, , ,$link , , , , $referrer , ) = explode(" ", $x);
         $time = ereg_replace("\[","",$time);
 
-        if (($v== 'true') && (preg_match("/google.com\/search?/i",$referrer))) {
-          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);  
-          $keyword = urldecode($out[1]);     
+        if (($v== '1') && (preg_match("/google.com\/search?/i",$referrer))) {
+          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
           array_push($links, $link);
           array_push($keywords, $keyword);
-        } elseif (($v == 'false') && (preg_match("/google.com\/search?/i",$referrer)) && (preg_match("/$ip/i",$IP))) {             
-          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);  
-          $keyword = urldecode($out[1]);     
+        } elseif (($v == '0') && (preg_match("/google.com\/search?/i",$referrer)) && (preg_match("/$ip/i",$IP))) {
+          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
@@ -87,20 +87,20 @@
       gzclose($fd);
     } elseif ($page == "googlede") {
       $news="<tr><td class=\"dataTableHeadingContent\" nowrap><b>Keywords, search from </b><a href=\"http://www.google.de/\">Google Germany</a></td></tr>";
-      $fd = @gzopen("$logfile","r"); 
-      while ($x = gzgets($fd,1024)) { 
+      $fd = @gzopen("$logfile","r");
+      while ($x = gzgets($fd,1024)) {
         list($IP , , ,$time, , ,$link , , , , $referrer , ) = explode(" ", $x);
         $time = ereg_replace("\[","",$time);
 
-        if (($v == 'true') && (preg_match("/google.de\/search?/i", $referrer))) {
-          preg_match("/q=(.+?)[&\"]/i", $referrer, $out);  
+        if (($v == '1') && (preg_match("/google.de\/search?/i", $referrer))) {
+          preg_match("/q=(.+?)[&\"]/i", $referrer, $out);
           $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
           array_push($links, $link);
           array_push($keywords, $keyword);
-        } elseif(($v == 'false') && (preg_match("/google.de\/search?/i", $referrer)) && (!preg_match("/$ip/i", $IP))) {
+        } elseif(($v == '0') && (preg_match("/google.de\/search?/i", $referrer)) && (!preg_match("/$ip/i", $IP))) {
           preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
           $keyword = urldecode($out[1]);
 
@@ -118,7 +118,7 @@
         list($IP , , ,$time, , ,$link , , , , $referrer , ) = explode(" ", $x);
         $time = ereg_replace("\[","",$time);
 
-        if (($v == 'true') && (preg_match("/google.fr\/search?/i", $referrer))) {
+        if (($v == '1') && (preg_match("/google.fr\/search?/i", $referrer))) {
           preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
           $keyword = urldecode($out[1]);
 
@@ -126,10 +126,10 @@
           array_push($times, $time);
           array_push($links, $link);
           array_push($keywords, $keyword);
-        } elseif (($v== 'false') && (preg_match("/google.fr\/search?/i", $referrer)) && (!preg_match("/$ip/i", $IP))) {
+        } elseif (($v== '0') && (preg_match("/google.fr\/search?/i", $referrer)) && (!preg_match("/$ip/i", $IP))) {
           preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
           $keyword = urldecode($out[1]);
-    
+
           array_push($IPs, $IP);
           array_push($times, $time);
           array_push($links, $link);
@@ -139,22 +139,22 @@
       gzclose ($fd);
     } elseif ($page == "googlejp") {
       $news = "<tr><td class=\"dataTableHeadingContent\" nowrap><b>Keywords, search from </b><a href=\"http://www.google.co.jp/\">Google Japan</a></td></tr>";
-      $fd = @gzopen("$logfile","r"); 
+      $fd = @gzopen("$logfile","r");
       while ($x = gzgets($fd,1024)) {
         list($IP , , ,$time, , ,$link , , , , $referrer , ) = explode(" ", $x);
         $time = ereg_replace("\[","",$time);
 
-        if (($v == 'true') && (preg_match("/google.co.jp\/search?/i",$referrer))) {
-          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);  
-          $keyword = urldecode($out[1]); 
+        if (($v == '1') && (preg_match("/google.co.jp\/search?/i",$referrer))) {
+          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
           array_push($links, $link);
           array_push($keywords, $keyword);
-        } elseif (($v == 'false') && (preg_match("/google.co.jp\/search?/i", $referrer)) && (!preg_match("/$ip/i", $IP))) {
-          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);  
-          $keyword = urldecode($out[1]);     
+        } elseif (($v == '0') && (preg_match("/google.co.jp\/search?/i", $referrer)) && (!preg_match("/$ip/i", $IP))) {
+          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
@@ -170,17 +170,17 @@
         list($IP , , ,$time, , ,$link , , , , $referrer , ) = explode(" ", $x);
         $time = ereg_replace("\[","",$time);
 
-        if(($v == 'true') && ((preg_match("/google.(.+?)\/search?/i", $referrer)) && (!preg_match("/google.com\/search?/i", $referrer)) && (!preg_match("/google.de\/search?/i",$referrer)) && (!preg_match("/google.fr\/search?/i",$referrer)) && (!preg_match("/google.co.jp\/search?/i",$referrer)))) {
-          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);  
-          $keyword = urldecode($out[1]); 
+        if(($v == '1') && ((preg_match("/google.(.+?)\/search?/i", $referrer)) && (!preg_match("/google.com\/search?/i", $referrer)) && (!preg_match("/google.de\/search?/i",$referrer)) && (!preg_match("/google.fr\/search?/i",$referrer)) && (!preg_match("/google.co.jp\/search?/i",$referrer)))) {
+          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
           array_push($links, $link);
           array_push($keywords, $keyword);
-        } elseif (($v == 'false') && ((preg_match("/google.(.+?)\/search?/i",$referrer)) && (!preg_match("/google.com\/search?/i",$referrer)) && (!preg_match("/google.de\/search?/i",$referrer)) && (!preg_match("/google.fr\/search?/i",$referrer)) && (!preg_match("/google.co.jp\/search?/i",$referrer))) && (!preg_match("/$ip/i",$IP))) {
-          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);  
-          $keyword = urldecode($out[1]);     
+        } elseif (($v == '0') && ((preg_match("/google.(.+?)\/search?/i",$referrer)) && (!preg_match("/google.com\/search?/i",$referrer)) && (!preg_match("/google.de\/search?/i",$referrer)) && (!preg_match("/google.fr\/search?/i",$referrer)) && (!preg_match("/google.co.jp\/search?/i",$referrer))) && (!preg_match("/$ip/i",$IP))) {
+          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
@@ -191,12 +191,12 @@
       gzclose ($fd);
     } elseif ($page == "yahoo"){
       $news = "<tr><td class=\"dataTableHeadingContent\" nowrap><b>Keywords, search from </b><a href=\"http://www.yahoo.com/\">Yahoo</a></td></tr>";
-      $fd = @gzopen("$logfile","r"); 
-      while ($x = gzgets($fd,1024)) { 
+      $fd = @gzopen("$logfile","r");
+      while ($x = gzgets($fd,1024)) {
         list($IP , , ,$time, , ,$link , , , , $referrer , ) = explode(" ", $x);
         $time = ereg_replace("\[","",$time);
 
-        if (($v == 'true') && ((preg_match("/search.yahoo.com\/search?/i", $referrer)) || (preg_match("/search.yahoo.com\/bin\/search?/i", $referrer)))) {
+        if (($v == '1') && ((preg_match("/search.yahoo.com\/search?/i", $referrer)) || (preg_match("/search.yahoo.com\/bin\/search?/i", $referrer)))) {
           preg_match("/[q|p|&va]=(.+?)[&\"]/i", $referrer, $out);
           $keyword = urldecode($out[1]);
 
@@ -204,9 +204,9 @@
           array_push($times, $time);
           array_push($links, $link);
           array_push($keywords, $keyword);
-        } elseif (($v == 'false') && ((preg_match("/search.yahoo.com\/search?/i", $referrer)) || (preg_match("/search.yahoo.com\/bin\/search?/i", $referrer))) && (preg_match("/$ip/i", $IP))) {
+        } elseif (($v == '0') && ((preg_match("/search.yahoo.com\/search?/i", $referrer)) || (preg_match("/search.yahoo.com\/bin\/search?/i", $referrer))) && (preg_match("/$ip/i", $IP))) {
           preg_match("/[q|p]=(.+?)[&\"]/i", $referrer, $out);
-          $keyword = urldecode($out[1]);     
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
@@ -217,22 +217,22 @@
       gzclose ($fd);
     } elseif ($page == "altavista") {
       $news = "<tr><td class=\"dataTableHeadingContent\" nowrap><b>Keywords, search from </b><a href=\"http://www.altavista.com/\">Altavista</a></td></tr>";
-      $fd = @gzopen("$logfile","r"); 
-      while ($x = gzgets($fd,1024)) { 
+      $fd = @gzopen("$logfile","r");
+      while ($x = gzgets($fd,1024)) {
         list($IP , , ,$time, , ,$link , , , , $referrer , ) = explode(" ", $x);
         $time = ereg_replace("\[","",$time);
 
-        if(($v== 'true') && (preg_match("/altavista.com\/search?/i",$referrer))) {
-          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);  
-          $keyword = urldecode($out[1]); 
+        if(($v== '1') && (preg_match("/altavista.com\/search?/i",$referrer))) {
+          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
           array_push($links, $link);
           array_push($keywords, $keyword);
-        } elseif (($v == 'false') && (preg_match("/altavista.com\/search?/i", $referrer)) && (!preg_match("/$ip/i", $IP))) {
-          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);  
-          $keyword = urldecode($out[1]);     
+        } elseif (($v == '0') && (preg_match("/altavista.com\/search?/i", $referrer)) && (!preg_match("/$ip/i", $IP))) {
+          preg_match("/q=(.+?)[&\"]/i",$referrer,$out);
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
@@ -243,20 +243,20 @@
       gzclose ($fd);
     } elseif ($page == "other") {
       $news = "<tr><td class=\"dataTableHeadingContent\" nowrap><b>Keywords, search from </b><a href=\"http://search.msn.com/\">Other search engines</a></td></tr>";
-      $fd = @gzopen("$logfile","r"); 
-      while ($x = gzgets($fd,1024)) { 
+      $fd = @gzopen("$logfile","r");
+      while ($x = gzgets($fd,1024)) {
         list($IP , , ,$time, , ,$link , , , , $referrer , ) = explode(" ", $x);
         $time = ereg_replace("\[", "", $time);
 
-        if ((($v == 'true') && ((preg_match("/search.com\//i", $referrer)) || (preg_match("/search.msn.com\//i",$referrer)) || (preg_match("/websearch.com\//i",$referrer)) || (preg_match("/searchreply.com\//i",$referrer)) || (preg_match("/search.msn.com(.+?)\//i", $referrer))))) {
-          preg_match("/[q|qkw]=(.+?)[&\"]/i",$referrer,$out) || preg_match("/keywords=(.+?)[&\"]/i",$referrer,$out) || preg_match("/searchfor=(.+?)[&\"]/i",$referrer,$out);  
-          $keyword = urldecode($out[1]); 
+        if ((($v == '1') && ((preg_match("/search.com\//i", $referrer)) || (preg_match("/search.msn.com\//i",$referrer)) || (preg_match("/websearch.com\//i",$referrer)) || (preg_match("/searchreply.com\//i",$referrer)) || (preg_match("/search.msn.com(.+?)\//i", $referrer))))) {
+          preg_match("/[q|qkw]=(.+?)[&\"]/i",$referrer,$out) || preg_match("/keywords=(.+?)[&\"]/i",$referrer,$out) || preg_match("/searchfor=(.+?)[&\"]/i",$referrer,$out);
+          $keyword = urldecode($out[1]);
 
           array_push($IPs, $IP);
           array_push($times, $time);
           array_push($links, $link);
           array_push($keywords, $keyword);
-        } elseif ((($v == 'false') && ((preg_match("/search.com\//i",$referrer)) || (preg_match("/search.msn.com\//i",$referrer)) || (preg_match("/websearch.com\//i",$referrer)) || (preg_match("/searchreply.com\//i",$referrer)) || (preg_match("/search.msn.com(.+?)\//i",$referrer))))&& (!preg_match("/$ip/i",$IP))) {             
+        } elseif ((($v == '0') && ((preg_match("/search.com\//i",$referrer)) || (preg_match("/search.msn.com\//i",$referrer)) || (preg_match("/websearch.com\//i",$referrer)) || (preg_match("/searchreply.com\//i",$referrer)) || (preg_match("/search.msn.com(.+?)\//i",$referrer))))&& (!preg_match("/$ip/i",$IP))) {
           preg_match("/[q|qkw]=(.+?)[&\"]/i",$referrer,$out) || preg_match("/keywords=(.+?)[&\"]/i",$referrer,$out) || preg_match("/searchfor=(.+?)[&\"]/i",$referrer,$out);
           $keyword = urldecode($out[1]);
 
@@ -269,13 +269,13 @@
       gzclose ($fd);
     } elseif ($page == "googlebot"){
       $news="<tr><td class=\"dataTableHeadingContent\" nowrap><b>Visits from Googlebot &nbsp;&nbsp;&nbsp;</b><a href=\"http://www.googlebot.com/\">Googlebot</a></td></tr>";
-      $fd = @gzopen("$logfile","r"); 
-      while ($x = gzgets($fd,1024)) { 
+      $fd = @gzopen("$logfile","r");
+      while ($x = gzgets($fd,1024)) {
         list($IP , , ,$time, , ,$link , , , , $referrer ,$robot ) = explode(" ", $x);
         $time = ereg_replace("\[","",$time);
 
         if (preg_match("/Googlebot/i",$robot)) {
-          $keyword = urldecode($robot); 
+          $keyword = urldecode($robot);
 
           array_push($IPs, $IP);
           array_push($times, $time);
@@ -296,10 +296,10 @@
           <tr bgcolor=ffffff>
 
 <?php
-      if (($a == 'true') && (preg_match("/$ip/i", $IPs[$i]))) {
+      if (($a == '1') && (preg_match("/$ip/i", $IPs[$i]))) {
 ?>          <td class="dataTableContent" nowrap><?php echo ($times[$i]); ?></td>
             <td class="dataTableContent" align="left"><?php echo "<font color=red>" . ($IPs[$i]) . '</font>'; ?></td>
-            <td class="dataTableContent" align="left"><?php echo trim($links[$i]); ?></td> 
+            <td class="dataTableContent" align="left"><?php echo trim($links[$i]); ?></td>
             <td class="dataTableContent" align="left"><?php echo trim($keywords[$i]); ?></td>
 <?php
       } elseif (!preg_match("/$ip/i", $IPs[$i])) {
@@ -331,8 +331,8 @@
       </tr>
     </table></td>
 <!-- body_text_eof //-->
-  </tr> 
-</table> 
+  </tr>
+</table>
 <!-- body_eof //-->
 
 <?php require 'includes/oos_footer.php'; ?>

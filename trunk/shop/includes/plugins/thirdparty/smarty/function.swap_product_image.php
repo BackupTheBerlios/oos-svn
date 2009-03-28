@@ -69,7 +69,7 @@ function smarty_function_swap_product_image($params, &$smarty)
 
     $image = $basedir . $image;
 
-    if ((empty($image) || ($image == OOS_IMAGES)) && (IMAGE_REQUIRED == 'false')) {
+    if ((empty($image) || ($image == OOS_IMAGES)) && (IMAGE_REQUIRED == '0')) {
         return false;
     }
 

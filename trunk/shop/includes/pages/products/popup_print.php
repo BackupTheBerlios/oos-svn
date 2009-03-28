@@ -14,7 +14,7 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 if (!defined('OOS_BASE_PRICE')) {
-    define('OOS_BASE_PRICE', 'false');
+    define('OOS_BASE_PRICE', '0');
 }
 
 $_SESSION['navigation']->remove_current_page();
@@ -107,7 +107,7 @@ if (!$oSmarty->is_cached($aOption['popup_print'], $popup_cache_id )) {
         }
 
 
-        if (OOS_BASE_PRICE == 'false') {
+        if (OOS_BASE_PRICE == '0') {
             $info_product_price_list = $oCurrencies->display_price($product_info['products_price_list'], oos_get_tax_rate($product_info['products_tax_class_id']));
             $oSmarty->assign('info_product_price_list', $info_product_price_list);
         }

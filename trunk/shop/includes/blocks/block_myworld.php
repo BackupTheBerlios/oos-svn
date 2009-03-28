@@ -16,10 +16,10 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 if ($oEvent->installed_plugin('down_for_maintenance')) return false;
 if ($sFile == $aFilename['customers_image']) return false;
 
-$myworld_block = 'false';
+$myworld_block = '0';
 
 if (isset($_SESSION['customer_id'])) {
-    $myworld_block = 'true';
+    $myworld_block = '1';
 
     $customerstable = $oostable['customers'];
     $address_bookstable = $oostable['address_book'];

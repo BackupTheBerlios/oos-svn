@@ -23,7 +23,7 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 if (!defined('OOS_BASE_PRICE')) {
-    define('OOS_BASE_PRICE', 'false');
+    define('OOS_BASE_PRICE', '0');
 }
 
 if (isset($_GET['products_id'])) {
@@ -148,7 +148,7 @@ if (!$product_info_result->RecordCount()) {
     $aOption['up_sell_products'] =        $sTheme . '/products/up_sell_products.html';
     $aOption['page_heading'] =            $sTheme . '/products/product_heading.html';
 
-    if (SOCIAL_BOOKMARKS == 'true') {
+    if (SOCIAL_BOOKMARKS == '1') {
         $aOption['social_bookmarks'] = 'default/products/social_bookmarks.html';
     }
 
@@ -213,7 +213,7 @@ if (!$product_info_result->RecordCount()) {
         )
     );
 
-    if (OOS_BASE_PRICE == 'false') {
+    if (OOS_BASE_PRICE == '0') {
         $info_product_price_list = $oCurrencies->display_price($product_info['products_price_list'], oos_get_tax_rate($product_info['products_tax_class_id']));
         $oSmarty->assign('info_product_price_list', $info_product_price_list);
     }
@@ -228,10 +228,10 @@ if (!$product_info_result->RecordCount()) {
     }
 
 
-    $discounts_price = 'false';
+    $discounts_price = '0';
     if ( (oos_empty($info_special_price)) && ( ($product_info['products_discount4_qty'] > 0 || $product_info['products_discount3_qty'] > 0 || $product_info['products_discount2_qty'] > 0 || $product_info['products_discount1_qty'] > 0 )) ){
         if ( ($_SESSION['member']->group['show_price'] == 1 ) && ($_SESSION['member']->group['qty_discounts'] == 1) ) {
-            $discounts_price = 'true';
+            $discounts_price = '1';
             require 'includes/modules/discounts_price.php';
 
             if ( $product_info['products_discount4'] > 0 ) {
@@ -267,7 +267,7 @@ if (!$product_info_result->RecordCount()) {
     $oSmarty->assign('redirect', oos_href_link($aModules['main'], $aFilename['redirect'], 'action=url&amp;goto=' . urlencode($product_info['products_url']), 'NONSSL', false, false));
     $oSmarty->assign('oosDate', date('Y-m-d H:i:s'));
 
-    if (SOCIAL_BOOKMARKS == 'true') {
+    if (SOCIAL_BOOKMARKS == '1') {
         $oSmarty->caching = true;
         if (!$oSmarty->is_cached($aOption['social_bookmarks'], $oos_social_bookmarks_cache_id)) {
             $oSmarty->assign('bookmark', oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . intval($nProductsId), 'NONSSL', false));
@@ -280,7 +280,7 @@ if (!$product_info_result->RecordCount()) {
 
 
 
-    if ( (USE_CACHE == 'true') && (!SID) ) {
+    if ( (USE_CACHE == '1') && (!SID) ) {
         $oSmarty->caching = true;
     }
     if (!$oSmarty->is_cached($aOption['xsell_products'], $oos_products_info_cache_id)) {

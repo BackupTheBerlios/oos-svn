@@ -53,7 +53,7 @@ unset($_SESSION['shipping']);
 unset($_SESSION['payment']);
 unset($_SESSION['comments']);
 
-if (ACCOUNT_VAT_ID == 'true') {
+if (ACCOUNT_VAT_ID == '1') {
     $_SESSION['customers_vat_id_status'] = 0;
 }
 

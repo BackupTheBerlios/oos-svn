@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -200,7 +200,7 @@
         $products_status = $dbconn->GetOne($check_product_sql);
         if ($products_status >= '1') {
 
-          if (DECIMAL_CART_QUANTITY == 'true') {
+          if (DECIMAL_CART_QUANTITY == '1') {
             $productstable = $oostable['products'];
             $decimal_sql = "SELECT products_quantity_decimal
                               FROM $productstable
@@ -315,7 +315,7 @@
         $dbconn =& oosDBGetConn();
         $oostable =& oosDBGetTables();
 
-        if (DECIMAL_CART_QUANTITY == 'true') {
+        if (DECIMAL_CART_QUANTITY == '1') {
           $productstable = $oostable['products'];
           $decimal_sql = "SELECT products_quantity_decimal
                             FROM $productstable
@@ -390,7 +390,7 @@
       $dbconn =& oosDBGetConn();
       $oostable =& oosDBGetTables();
 
-      if (DECIMAL_CART_QUANTITY == 'true') {
+      if (DECIMAL_CART_QUANTITY == '1') {
         $check_quantity = 0.01;
       } else {
         $check_quantity = 1;
@@ -428,7 +428,7 @@
     function get_quantity($products_id) {
       if (isset($this->contents[$products_id])) {
         $nQuantity = $this->contents[$products_id]['qty'];
-        if (DECIMAL_CART_QUANTITY != 'true') {
+        if (DECIMAL_CART_QUANTITY != '1') {
           $nQuantity = intval($nQuantity);
         }
         return $nQuantity;
@@ -654,7 +654,7 @@
           $max_product_discount = min($products['products_discount_allowed'], $_SESSION['member']->group['discount']);
           $products_price = $products_price*(100-$max_product_discount)/100;
 
-          $spezial_price = 'false';
+          $spezial_price = '0';
           $specialstable = $oostable['specials'];
           $sql = "SELECT specials_new_products_price
                   FROM $specialstable
@@ -662,7 +662,7 @@
                         status = '1'";
           $specials_result = $dbconn->Execute($sql);
           if ($specials_result->RecordCount()) {
-            $spezial_price = 'true';
+            $spezial_price = '1';
             $specials = $specials_result->fields;
             $products_price = $specials['specials_new_products_price'];
           }
@@ -724,7 +724,7 @@
       $dbconn =& oosDBGetConn();
       $oostable =& oosDBGetTables();
 
-      if ( (DOWNLOAD_ENABLED == 'true') && ($this->count_contents() > 0) || ($this->show_weight() == 0 )&& ($this->count_contents() > 0) ) {
+      if ( (DOWNLOAD_ENABLED == '1') && ($this->count_contents() > 0) || ($this->show_weight() == 0 )&& ($this->count_contents() > 0) ) {
         reset($this->contents);
         while (list($products_id, ) = each($this->contents)) {
           if (isset($this->contents[$products_id]['attributes'])) {

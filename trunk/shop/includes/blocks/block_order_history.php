@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!is_numeric(MAX_DISPLAY_PRODUCTS_IN_ORDER_HISTORY_BOX)) return false;
 
-$order_history_block = 'false';
+$order_history_block = '0';
 
 if (isset($_SESSION['customer_id'])) { // retreive the last x products purchased
 
@@ -46,7 +46,7 @@ if (isset($_SESSION['customer_id'])) { // retreive the last x products purchased
 
     if ($orders_result->RecordCount()) {
 
-        $order_history_block = 'true';
+        $order_history_block = '1';
         $product_ids = '';
         while ($orders = $orders_result->fields) {
             $product_ids .= $orders['products_id'] . ',';

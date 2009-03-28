@@ -13,10 +13,10 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-$products_history_block = 'false';
+$products_history_block = '0';
 
 if ($_SESSION['products_history']->count_history() > 0) {
-    $products_history_block = 'true';
+    $products_history_block = '1';
     $product_ids = $_SESSION['products_history']->get_product_id_list();
 
     $productstable = $oostable['products'];

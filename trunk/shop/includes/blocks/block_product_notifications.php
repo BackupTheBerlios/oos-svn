@@ -24,11 +24,11 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('notify')) return false;
 
-$notifications_block = 'false';
+$notifications_block = '0';
 
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
-    $notifications_block = 'true';
+    $notifications_block = '1';
 
     if (!isset($block_get_parameters)) {
         $block_get_parameters = oos_get_all_get_parameters(array('action'));

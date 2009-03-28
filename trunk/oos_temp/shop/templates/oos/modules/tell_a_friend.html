@@ -21,7 +21,7 @@
       <tr>
         <td height="10"></td>
       </tr>
-    {if $action eq 'process' && $error eq 'false'}
+    {if $action eq 'process' && $error eq '0'}
       <tr>
         <td><br><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
@@ -68,11 +68,11 @@
                 <td class="main"><table border="0" cellspacing="0" cellpadding="2">
                   <tr>
                     <td class="main">{$lang.form_field_friend_name}</td>
-                    <td class="main"><input type="text" name="friendname" value="{$friendname}">{if $friendname_error eq 'true'}&nbsp;<span class="errorText">{$lang.text_required}</span>{/if}</td>
+                    <td class="main"><input type="text" name="friendname" value="{$friendname}">{if $friendname_error eq '1'}&nbsp;<span class="errorText">{$lang.text_required}</span>{/if}</td>
                   </tr>
                   <tr>
                     <td class="main">{$lang.form_field_friend_email}</td>
-                    <td class="main"><input type="text" name="friendemail" value="{$friendemail}">{if $friendemail_error eq 'true'}{$lang.entry_email_address_check_error}{/if}</td>
+                    <td class="main"><input type="text" name="friendemail" value="{$friendemail}">{if $friendemail_error eq '1'}{$lang.entry_email_address_check_error}{/if}</td>
                   </tr>
                 </table></td>
               </tr>

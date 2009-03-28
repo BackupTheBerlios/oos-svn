@@ -68,11 +68,11 @@ function smarty_function_small_product_image($params, &$smarty)
 
     $image = $basedir . $image;
 
-    if ((empty($image) || ($image == OOS_IMAGES)) && (IMAGE_REQUIRED == 'false')) {
+    if ((empty($image) || ($image == OOS_IMAGES)) && (IMAGE_REQUIRED == '0')) {
         return false;
     }
 
-    if ((empty($image) || ($image == OOS_IMAGES)) && (IMAGE_REQUIRED == 'true')) {
+    if ((empty($image) || ($image == OOS_IMAGES)) && (IMAGE_REQUIRED == '1')) {
       if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif')) {
         $image = OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif';
       } elseif (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture.gif')) {
@@ -83,7 +83,7 @@ function smarty_function_small_product_image($params, &$smarty)
       $image_size = @getimagesize($image);
       $width = $image_size[0];
       $height = $image_size[1];
-    } elseif ( (CONFIG_CALCULATE_IMAGE_SIZE == 'true') && (empty($width) || empty($height)) ) {
+    } elseif ( (CONFIG_CALCULATE_IMAGE_SIZE == '1') && (empty($width) || empty($height)) ) {
       if (is_readable(OOS_ABSOLUTE_PATH . $image)) {
         $image_size = @getimagesize($image);
         if (empty($width) && oos_is_not_null($height)) {
@@ -96,7 +96,7 @@ function smarty_function_small_product_image($params, &$smarty)
           $width = $image_size[0];
           $height = $image_size[1];
         }
-      } elseif (IMAGE_REQUIRED == 'true') {
+      } elseif (IMAGE_REQUIRED == '1') {
         if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif')) {
           $image = OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif';
         } elseif (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture.gif')) {
@@ -112,7 +112,7 @@ function smarty_function_small_product_image($params, &$smarty)
       }
     }
 
-    $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == 'true') ? ' /' : '');
+    $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ' /' : '');
 
     return '<img src="'.$image.'" alt="'.$alt.'" border="'.$border.'" width="'.$width.'" height="'.$height.'"'.$extra.$sSlash.'>';
 

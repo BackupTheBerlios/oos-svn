@@ -86,7 +86,7 @@
   require 'includes/classes/class_shipping.php';
   $oShippingModules = new shipping;
 
-  if ( defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'true') ) {
+  if ( defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == '1') ) {
     switch (MODULE_ORDER_TOTAL_SHIPPING_DESTINATION) {
       case 'national':
         if ($oOrder->delivery['country_id'] == STORE_COUNTRY) $pass = true; break;
@@ -189,7 +189,7 @@
   $sql = "SELECT campaigns_id FROM $campaignstable WHERE campaigns_languages_id = '" . intval($_SESSION['language_id']) . "'";
   $campaigns_result = $dbconn->Execute($sql);
   if ($campaigns_result->RecordCount()) {
-    $oSmarty->assign('campaigns', 'true');
+    $oSmarty->assign('campaigns', '1');
 
     if (isset($_SESSION['campaigns_id']) && is_numeric($_SESSION['campaigns_id'])) {
       $oSmarty->assign('campaigns_id', $_SESSION['campaigns_id']);

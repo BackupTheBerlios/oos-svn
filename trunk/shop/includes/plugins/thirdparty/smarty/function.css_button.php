@@ -24,8 +24,8 @@ function smarty_function_css_button($params, &$smarty)
     $file = '';
     $parameters = '';
     $connection = 'NONSSL';
-    $add_session_id = 'true';
-    $search_engine_safe = 'true';
+    $add_session_id = '1';
+    $search_engine_safe = '1';
 
     $title = '';
     $color = 'btnR blue';
@@ -50,7 +50,7 @@ function smarty_function_css_button($params, &$smarty)
           break;
 
         case 'oos_get':
-        case 'addentry_id': 
+        case 'addentry_id':
         case 'connection':
         case 'add_session_id':
         case 'search_engine_safe':
@@ -98,7 +98,7 @@ function smarty_function_css_button($params, &$smarty)
     if ($connection == 'NONSSL') {
       $link = OOS_HTTP_SERVER . OOS_SHOP;
     } elseif ($connection == 'SSL') {
-      if (ENABLE_SSL == 'true') {
+      if (ENABLE_SSL == '1') {
         $link = OOS_HTTPS_SERVER . OOS_SHOP;
       } else {
         $link = OOS_HTTP_SERVER . OOS_SHOP;
@@ -129,16 +129,16 @@ function smarty_function_css_button($params, &$smarty)
 
 
 // Add the session ID when moving from HTTP and HTTPS servers or when SID is defined
-    if ( (ENABLE_SSL == 'true' ) && ($connection == 'SSL') && ($add_session_id == 'true') ) {
+    if ( (ENABLE_SSL == '1' ) && ($connection == 'SSL') && ($add_session_id == '1') ) {
       $_sid = oos_session_name() . '=' . oos_session_id();
-    } elseif ( ($add_session_id == 'true') && (oos_is_not_null(SID)) ) {
+    } elseif ( ($add_session_id == '1') && (oos_is_not_null(SID)) ) {
       $_sid = SID;
     }
 
-    if ( $spider_kill_sid == 'true') $_sid = NULL;
+    if ( $spider_kill_sid == '1') $_sid = NULL;
 
 /*
-    if ( ($search_engine_safe == 'true') &&  $oEvent->installed_plugin('sefu') ) {
+    if ( ($search_engine_safe == '1') &&  $oEvent->installed_plugin('sefu') ) {
       $link = str_replace(array('?', '&amp;', '='), '/', $link);
 
       $separator = '?';

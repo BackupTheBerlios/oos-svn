@@ -172,7 +172,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
     }
 }
 
-if (TICKET_USE_ORDER_IDS == 'true' && isset($_SESSION['customer_id'])) {
+if (TICKET_USE_ORDER_IDS == '1' && isset($_SESSION['customer_id'])) {
     $orders_id = array();
     $orders_values = array();
     $orderstable = $oostable['orders'];

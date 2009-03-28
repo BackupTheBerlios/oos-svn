@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('spezials')) return false;
 
-$specials_block = 'false';
+$specials_block = '0';
 
 if ($file != $aFilename['specials']) {
 
@@ -46,7 +46,7 @@ if ($file != $aFilename['specials']) {
               ORDER BY s.specials_date_added DESC";
 
     if ($specials_random_product = oos_random_select($query, MAX_RANDOM_SELECT_SPECIALS)) {
-        $specials_block = 'true';
+        $specials_block = '1';
 
         $specials_random_product_price = '';
         $specials_random_product_special_price = '';

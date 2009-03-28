@@ -31,7 +31,7 @@
             <td class="main">{$lang.entry_name}<br /><input type="text" name="name" value="{$smarty.post.name}" size=40></td>
           </tr>
           <tr>
-            <td class="main">{$lang.entry_email}<br /><input type="text" name="email" value="{$smarty.post.email}" size=40> {if $error eq 'true'}{$lang.entry_email_address_check_error}{/if}</td>
+            <td class="main">{$lang.entry_email}<br /><input type="text" name="email" value="{$smarty.post.email}" size=40> {if $error eq '1'}{$lang.entry_email_address_check_error}{/if}</td>
           </tr>
           <tr>
             <td class="main">{$lang.entry_enquiry}</td>

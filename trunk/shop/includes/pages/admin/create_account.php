@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -17,13 +17,13 @@
    Copyright (c) 2002 - 2003 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
-   ---------------------------------------------------------------------- 
+   ----------------------------------------------------------------------
    P&G Shipping Module Version 0.1 12/03/2002
    osCommerce Shipping Management Module
    Copyright (c) 2002  - Oliver Baelde
    http://www.francecontacts.com
    dev@francecontacts.com
-   - eCommerce Solutions development and integration - 
+   - eCommerce Solutions development and integration -
 
    osCommerce, Open Source E-Commerce Solutions
    Copyright (c) 2002 osCommerce
@@ -32,7 +32,7 @@
    IMPORTANT NOTE:
    This script is not part of the official osCommerce distribution
    but an add-on contributed to the osCommerce community. Please
-   read the README and  INSTALL documents that are provided 
+   read the README and  INSTALL documents that are provided
    with this file for further information and installation notes.
 
    LICENSE:
@@ -109,7 +109,7 @@
       $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 
       $nPageType = OOS_PAGE_TYPE_SERVICE;
-      $read = 'false';
+      $read = '0';
 
       require 'includes/oos_system.php';
       if (!isset($option)) {

@@ -23,10 +23,10 @@
 {/if}
                 <li>{$lang.page_service}
                   <ul>
-{if $smarty.const.DISPLAY_NEWSFEED eq 'true'}
+{if $smarty.const.DISPLAY_NEWSFEED eq '1'}
                     <li><a href="{html_href_link modul=$modules.info file=$filename.info_newsfeed}">{$lang.block_service_newsfeed}</a></li>
 {/if}
-{if $smarty.const.MODULE_ORDER_TOTAL_GV_STATUS eq 'true'}
+{if $smarty.const.MODULE_ORDER_TOTAL_GV_STATUS eq '1'}
                     <li><a href="{html_href_link modul=$modules.gv file=$filename.gv_faq}">{$lang.block_service_gv}</a></li>
 {/if}
                     <li><a href="{html_href_link modul=$modules.info file=$filename.info_sitemap}">{$lang.block_service_sitemap}</a></li>

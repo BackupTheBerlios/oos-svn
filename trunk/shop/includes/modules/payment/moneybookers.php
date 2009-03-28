@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: moneybookers.php,v 1.38 2003/01/28 12:00:00 gbunte_ 
+   File: moneybookers.php,v 1.38 2003/01/28 12:00:00 gbunte_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -29,7 +29,7 @@
       $this->code = 'moneybookers';
       $this->title = $aLang['module_payment_moneybookers_text_title'];
       $this->description = $aLang['module_payment_moneybookers_text_description'];
-      $this->enabled = (defined('MODULE_PAYMENT_MONEYBOOKERS_STATUS') && (MODULE_PAYMENT_MONEYBOOKERS_STATUS == 'True') ? true : false);
+      $this->enabled = (defined('MODULE_PAYMENT_MONEYBOOKERS_STATUS') && (MODULE_PAYMENT_MONEYBOOKERS_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_PAYMENT_MONEYBOOKERS_SORT_ORDER') ? MODULE_PAYMENT_MONEYBOOKERS_SORT_ORDER : null);
 
       if ((int)MODULE_PAYMENT_MONEYBOOKERS_ORDER_STATUS_ID > 0) {
@@ -128,7 +128,7 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_MONEYBOOKERS_STATUS', 'True', '6', '3', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_MONEYBOOKERS_STATUS', '1', '6', '3', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_MONEYBOOKERS_ID', '', '6', '4', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_MONEYBOOKERS_REFID', '', '6', '7', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_MONEYBOOKERS_SORT_ORDER', '0', '6', '0', now())");

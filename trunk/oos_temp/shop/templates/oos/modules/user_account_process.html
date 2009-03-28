@@ -7,11 +7,11 @@
            <td class="main"><table border="0" width="100%" cellspacing="0" cellpadding="2" class="formArea">
             <tr>
               <td class="main"><table border="0" cellspacing="0" cellpadding="2">
-{if $smarty.const.ACCOUNT_GENDER eq 'true'}
+{if $smarty.const.ACCOUNT_GENDER eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_gender}</td>
             <td class="main">&nbsp;
-  {if $gender_error eq 'true'}
+  {if $gender_error eq '1'}
       <input type="radio" name="gender" value="m" CHECKED>&nbsp;&nbsp;{$lang.male}&nbsp;&nbsp;<input type="radio" name="gender" value="f">&nbsp;&nbsp;{$lang.female}&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_info_text}</font></small></td>
   {else}
     {if $gender eq 'm' }
@@ -27,7 +27,7 @@
           <tr>
             <td class="main">&nbsp;{$lang.entry_first_name}</td>
             <td class="main">&nbsp;
-  {if $firstname_error eq 'true'}
+  {if $firstname_error eq '1'}
      <input type="text" name="firstname" value="{$firstname}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_first_name_error}</font></small>
   {else}
      {$firstname}<input type=hidden name="firstname" value="{$firstname}">
@@ -37,18 +37,18 @@
           <tr>
             <td class="main">&nbsp;{$lang.entry_last_name}</td>
             <td class="main">&nbsp;
-  {if $lastname_error eq 'true'}
+  {if $lastname_error eq '1'}
      <input type="text" name="lastname" value="{$lastname}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_last_name_error}</font></small>
   {else}
      {$lastname}<input type=hidden name="lastname" value="{$lastname}">
   {/if}
             </td>
           </tr>
-{if $smarty.const.ACCOUNT_DOB eq 'true'}
+{if $smarty.const.ACCOUNT_DOB eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_date_of_birth}</td>
             <td class="main">&nbsp;
-  {if $date_of_birth_error eq 'true'}
+  {if $date_of_birth_error eq '1'}
      <input type="text" name="dob" value="{$dob}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_date_of_birth_text}</font></small>
   {else}
      {$dob}<input type=hidden name="dob" value="{$dob}">
@@ -56,7 +56,7 @@
             </td>
           </tr>
 {/if}
-{if $smarty.const.ACCOUNT_NUMBER eq 'true'}
+{if $smarty.const.ACCOUNT_NUMBER eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_number}</td>
             <td class="main">&nbsp;{$number}<input type=hidden name="number" value="{$number}"></td>
@@ -65,11 +65,11 @@
          <tr>
             <td class="main">&nbsp;{$lang.entry_email_address}</td>
             <td class="main">&nbsp;
-  {if $email_address_error eq 'true'}
+  {if $email_address_error eq '1'}
       <input type="text" name="email_address" value="{$email_address}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_email_address_error}</font></small>
-  {elseif $email_address_check_error eq 'true'}
+  {elseif $email_address_check_error eq '1'}
       <input type="text" name="email_address" value="{$email_address}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_email_address_check_error}</font></small>
-  {elseif $email_address_exists eq 'true'}
+  {elseif $email_address_exists eq '1'}
       <input type="text" name="email_address" value="{$email_address}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_email_address_error_exists}</font></small>
   {else}
       {$email_address}<input type=hidden name="email_address" value="{$email_address}">
@@ -80,7 +80,7 @@
       </tr>
     </table></td>
   </tr>
-{if $smarty.const.ACCOUNT_COMPANY eq 'true'}
+{if $smarty.const.ACCOUNT_COMPANY eq '1'}
   <tr>
     <td class="formAreaTitle"><br>{$lang.category_company}</td>
   </tr>
@@ -92,17 +92,17 @@
             <td class="main">&nbsp;{$lang.entry_company}</td>
             <td class="main">&nbsp;{$company}<input type=hidden name="company" value="{$company}"></td>
           </tr>
-  {if $smarty.const.ACCOUNT_OWNER eq 'true'}
+  {if $smarty.const.ACCOUNT_OWNER eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_owner}</td>
             <td class="main">&nbsp;{$owner}<input type=hidden name="owner" value="{$owner}"></td>
           </tr>
   {/if}
-  {if $smarty.const.ACCOUNT_VAT_ID eq 'true'}
+  {if $smarty.const.ACCOUNT_VAT_ID eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_vat_id}</td>
             <td class="main">&nbsp;
-    {if $vatid_check_error eq 'true'}
+    {if $vatid_check_error eq '1'}
         <input type="text" name="vat_id" value="{$vat_id}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_vat_id_error}</font></small>
     {else}
         {$vat_id}<input type=hidden name="vat_id" value="{$vat_id}">
@@ -125,14 +125,14 @@
           <tr>
             <td class="main">&nbsp;{$lang.entry_street_address}</td>
             <td class="main">&nbsp;
-  {if $street_address_error eq 'true'}
+  {if $street_address_error eq '1'}
      <input type="text" name="street_address" value="{$street_address}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_street_address_error}</font></small>
   {else}
      {$street_address}<input type=hidden name="street_address" value="{$street_address}">
   {/if}
             </td>
           </tr>
-{if $smarty.const.ACCOUNT_SUBURB eq 'true'}
+{if $smarty.const.ACCOUNT_SUBURB eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_suburb}</td>
             <td class="main">&nbsp;{$suburb}<input type=hidden name="suburb" value="{$suburb}"></td>
@@ -141,7 +141,7 @@
           <tr>
             <td class="main">&nbsp;{$lang.entry_post_code}</td>
             <td class="main">&nbsp;
-  {if $post_code_error eq 'true'}
+  {if $post_code_error eq '1'}
      <input type="text" name="postcode" value="{$postcode}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_post_code_error}</font></small>
   {else}
      {$postcode}<input type=hidden name="postcode" value="{$postcode}">
@@ -151,19 +151,19 @@
           <tr>
             <td class="main">&nbsp;{$lang.entry_city}</td>
             <td class="main">&nbsp;
-  {if $city_error eq 'true'}
+  {if $city_error eq '1'}
      <input type="text" name="city" value="{$city}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_city_error}</font></small>
   {else}
      {$city}<input type=hidden name="city" value="{$city}">
   {/if}
             </td>
           </tr>
-{if $smarty.const.ACCOUNT_STATE eq 'true'}
+{if $smarty.const.ACCOUNT_STATE eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_state}</td>
             <td class="main">&nbsp;
-  {if $state_error eq 'true'}
-      {if $state_has_zones eq 'true'}
+  {if $state_error eq '1'}
+      {if $state_has_zones eq '1'}
           <select name=state>{html_options values=$zones_values output=$zones_names}</select>&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_info_text}</font></small>
       {else}
           <input type="text" name="state" value="">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_state_error}</font></small>
@@ -177,7 +177,7 @@
           <tr>
             <td class="main">&nbsp;{$lang.entry_country}</td>
             <td class="main">&nbsp;
-  {if $country_error eq 'true'}
+  {if $country_error eq '1'}
      {oos_get_country_list name=country}&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_country_error}</font></small>
   {else}
      {$country_name}<input type=hidden name="country" value="{$country}">
@@ -198,7 +198,7 @@
           <tr>
             <td class="main">&nbsp;{$lang.entry_telephone_number}</td>
             <td class="main">&nbsp;
-  {if $telephone_error eq 'true'}
+  {if $telephone_error eq '1'}
      <input type="text" name="telephone" value="{$telephone}">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_telephone_number_error}</font></small>
   {else}
      {$telephone}<input type=hidden name="telephone" value="{$telephone}">
@@ -228,7 +228,7 @@
       </tr>
     </table></td>
   </tr>
-{if $show_password eq 'true'}
+{if $show_password eq '1'}
   <tr>
     <td class="formAreaTitle"><br>{$lang.category_password}</td>
   </tr>
@@ -239,14 +239,14 @@
           <tr>
             <td class="main">&nbsp;{$lang.entry_password}</td>
             <td class="main">&nbsp;
-  {if $password_error eq 'true'}
+  {if $password_error eq '1'}
      <input type="password" name="password" maxlength="40">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_password_error}</font></small>
   {else}
      {$password_hidden}<input type=hidden name="password" value="{$password}"><input type=hidden name="confirmation" value="{$confirmation}">
   {/if}
             </td>
           </tr>
-  {if $password_error eq 'true'}
+  {if $password_error eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_password_confirmation}</td>
             <td class="main">&nbsp;<input type="password" name="confirmation" maxlength="40">&nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_password_confirmation}</font></small></td>

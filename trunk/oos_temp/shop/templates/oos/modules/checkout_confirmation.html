@@ -46,7 +46,7 @@
             <td class="main" align="right" valign="top" width="30">{$products.qty|quantity}&nbsp;x</td>
             <td class="main" valign="top">{$products.name}
 
-    {if $smarty.const.STOCK_CHECK eq 'true'}
+    {if $smarty.const.STOCK_CHECK eq '1'}
       {oos_check_stock products_id=$products.id products_quantity=$products.qty}
     {/if}
 
@@ -157,7 +157,7 @@
         <td height="10"></td>
       </tr>
 {/if}
- {if $smarty.const.DISPLAY_CONDITIONS_ON_CHECKOUT eq 'true'}
+ {if $smarty.const.DISPLAY_CONDITIONS_ON_CHECKOUT eq '1'}
       <tr>
         <td class="main"><b>{$lang.heading_conditions_information}</b></td>
       </tr>

@@ -42,9 +42,9 @@
   }
 
   if ($action == 'send') {
-    $error = 'false';
+    $error = '0';
     if (!oos_validate_is_email(trim($email))) {
-      $error = 'true';
+      $error = '1';
       $error_email = $aLang['error_entry_email_address_check'];
     }
 
@@ -59,12 +59,12 @@
 
 
     if (ereg('[^0-9/.]', $gv_amount)) {
-      $error = 'true';
+      $error = '1';
       $error_amount = $aLang['error_entry_amount_check'];
     }
     $gv_amount = round($gv_amount, $oCurrencies->currencies[DEFAULT_CURRENCY]['decimal_places']);
     if ($gv_amount>$customer_amount || $gv_amount == 0) {
-      $error = 'true';
+      $error = '1';
       $error_amount = $aLang['error_entry_amount_check'];
     }
   }
@@ -81,7 +81,7 @@
 
     $new_amount = round($gv_result['amount'], $oCurrencies->currencies[DEFAULT_CURRENCY]['decimal_places'])-$amount;
     if ($new_amount<0) {
-      $error = 'true';
+      $error = '1';
       $error_amount = $aLang['error_entry_amount_check'];
       $action = 'send';
     } else {
@@ -146,7 +146,7 @@
     }
   }
 
-  if ($action == 'send' && $error == 'false') {
+  if ($action == 'send' && $error == '0') {
     // validate entries
     $gv_amount = (double) $gv_amount;
     $customerstable = $oostable['customers'];

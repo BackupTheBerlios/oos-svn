@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -29,7 +29,7 @@
       $this->code = 'cc';
       $this->title = $aLang['module_payment_cc_text_title'];
       $this->description = $aLang['module_payment_cc_text_description'];
-      $this->enabled = (defined('MODULE_PAYMENT_CC_STATUS') && (MODULE_PAYMENT_CC_STATUS == 'True') ? true : false);
+      $this->enabled = (defined('MODULE_PAYMENT_CC_STATUS') && (MODULE_PAYMENT_CC_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_PAYMENT_CC_SORT_ORDER') ? MODULE_PAYMENT_CC_SORT_ORDER : null);
       $this->accepted = '';
       if ((int)MODULE_PAYMENT_CC_ORDER_STATUS_ID > 0) {
@@ -81,7 +81,7 @@
     function javascript_validation() {
       global $aLang;
 
-      if (USE_CC_CVV == 'true') {
+      if (USE_CC_CVV == '1') {
         $js = '  if (payment_value == "' . $this->code . '") {' . "\n" .
               '    var cc_owner = document.checkout_payment.cc_owner.value;' . "\n" .
               '    var cc_number = document.checkout_payment.cc_number.value;' . "\n" .
@@ -148,7 +148,7 @@
 
 
       // Startdate
-      if (USE_CC_START == 'true') {
+      if (USE_CC_START == '1') {
         $form_array = array_merge($form_array, array(array('title' => $aLang['module_payment_cc_text_credit_card_start'], 'field' => oos_draw_pull_down_menu('cc_start_month', $start_month).'&nbsp;'.oos_draw_pull_down_menu('cc_start_year', $start_year))));
       }
       // expire date
@@ -156,29 +156,29 @@
 
 
       // CVV
-      if (USE_CC_CVV == 'true') {
+      if (USE_CC_CVV == '1') {
         $form_array = array_merge($form_array, array(array('title' => $aLang['module_payment_cc_text_credit_card_cvv'], 'field' => oos_draw_input_field('cc_cvv', '', 'size=4 maxlength=4'))));
       }
 
-      if (USE_CC_ISS == 'true') {
+      if (USE_CC_ISS == '1') {
         $form_array = array_merge($form_array, array(array('title' => $aLang['module_payment_cc_text_credit_card_issue'], 'field' => oos_draw_input_field('cc_issue', '', 'size=2 maxlength=2'))));
       }
 
 
       // cards
-      if (MODULE_PAYMENT_CC_ACCEPT_VISA == 'true')
+      if (MODULE_PAYMENT_CC_ACCEPT_VISA == '1')
         $this->accepted .= oos_image(OOS_ICONS . 'cc_visa.jpg');
-      if (MODULE_PAYMENT_CC_ACCEPT_MASTERCARD == 'true')
+      if (MODULE_PAYMENT_CC_ACCEPT_MASTERCARD == '1')
         $this->accepted .= oos_image(OOS_ICONS . 'cc_mastercard.jpg');
-      if (MODULE_PAYMENT_CC_ACCEPT_AMERICANEXPRESS == 'true')
+      if (MODULE_PAYMENT_CC_ACCEPT_AMERICANEXPRESS == '1')
         $this->accepted .= oos_image(OOS_ICONS . 'cc_amex.jpg');
-      if (MODULE_PAYMENT_CC_ACCEPT_DINERSCLUB == 'true')
+      if (MODULE_PAYMENT_CC_ACCEPT_DINERSCLUB == '1')
         $this->accepted .= oos_image(OOS_ICONS . 'cc_diners.jpg');
-      if (MODULE_PAYMENT_CC_ACCEPT_DISCOVERNOVUS == 'true')
+      if (MODULE_PAYMENT_CC_ACCEPT_DISCOVERNOVUS == '1')
         $this->accepted .= oos_image(OOS_ICONS . 'cc_discover.jpg');
-      if (MODULE_PAYMENT_CC_ACCEPT_JCB == 'true')
+      if (MODULE_PAYMENT_CC_ACCEPT_JCB == '1')
         $this->accepted .= oos_image(OOS_ICONS . 'cc_jcb.jpg');
-      if (MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD == 'true')
+      if (MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD == '1')
         $this->accepted .='';
 
       $form_array = array_merge(array(array('title'=>$aLang['module_payment_cc_accepted_cards'],'field'=>$this->accepted)),$form_array);
@@ -210,19 +210,19 @@
           break;
         case -5 :
           $cards = '';
-          if (MODULE_PAYMENT_CC_ACCEPT_VISA == 'true')
+          if (MODULE_PAYMENT_CC_ACCEPT_VISA == '1')
             $cards .= ' Visa,';
-          if (MODULE_PAYMENT_CC_ACCEPT_MASTERCARD == 'true')
+          if (MODULE_PAYMENT_CC_ACCEPT_MASTERCARD == '1')
             $cards .= ' Master Card,';
-          if (MODULE_PAYMENT_CC_ACCEPT_AMERICANEXPRESS == 'true')
+          if (MODULE_PAYMENT_CC_ACCEPT_AMERICANEXPRESS == '1')
             $cards .= ' American Express,';
-          if (MODULE_PAYMENT_CC_ACCEPT_DINERSCLUB == 'true')
+          if (MODULE_PAYMENT_CC_ACCEPT_DINERSCLUB == '1')
             $cards .= ' Diners Club,';
-          if (MODULE_PAYMENT_CC_ACCEPT_DISCOVERNOVUS == 'true')
+          if (MODULE_PAYMENT_CC_ACCEPT_DISCOVERNOVUS == '1')
             $cards .= ' Discover,';
-          if (MODULE_PAYMENT_CC_ACCEPT_JCB == 'true')
+          if (MODULE_PAYMENT_CC_ACCEPT_JCB == '1')
             $cards .= ' JCB,';
-          if (MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD == 'true')
+          if (MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD == '1')
             $cards .= ' Australian BankCard,';
           $error = sprintf($aLang['text_card_not_aczepted'], $cc_validation->cc_type).$cards;
           break;
@@ -240,7 +240,7 @@
         oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
 
-	  if (USE_CC_CVV != 'true') {
+	  if (USE_CC_CVV != '1') {
         $this->cc_cvv = '000';
       }
 
@@ -262,7 +262,7 @@
       $form_array = array_merge($form_array, array (array ('title' => $aLang['module_payment_cc_text_credit_card_number'], 'field' => substr($_POST['cc_number'], 0, 4).str_repeat('X', (strlen($_POST['cc_number']) - 8)).substr($_POST['cc_number'], -4))));
 
       // startdate
-      if (strtolower(USE_CC_START) == 'true') {
+      if (strtolower(USE_CC_START) == '1') {
         $form_array = array_merge($form_array, array (array ('title' => $aLang['module_payment_cc_text_credit_card_start'], 'field' => strftime('%B, %Y', mktime(0, 0, 0, $_POST['cc_start_month'], 1, $_POST['cc_start_year'])))));
       }
 
@@ -270,12 +270,12 @@
       $form_array = array_merge($form_array, array (array ('title' => $aLang['module_payment_cc_text_credit_card_expires'], 'field' => strftime('%B, %Y', mktime(0, 0, 0, $_POST['cc_expires_month'], 1, '20'.$_POST['cc_expires_year'])))));
 
 
-      if (USE_CC_CVV == 'true') {
+      if (USE_CC_CVV == '1') {
         $form_array = array_merge($form_array, array (array ('title' => $aLang['module_payment_cc_text_credit_card_cvv'], 'field' => $_POST['cc_cvv'])));
       }
 
       // ISS
-      if (strtolower(USE_CC_ISS) == 'true') {
+      if (strtolower(USE_CC_ISS) == '1') {
         $form_array = array_merge($form_array, array (array ('title' => $aLang['module_payment_cc_text_credit_card_issue'], 'field' => $_POST['cc_issue'])));
       }
 
@@ -352,21 +352,21 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_CC_STATUS', 'True', '6', '0', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_CC_STATUS', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_PAYMENT_CC_ZONE', '0', '6', '2', 'oos_cfg_get_zone_class_title', 'oos_cfg_pull_down_zone_classes(', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('USE_CC_CVV', 'true', '6', '0', 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('USE_CC_ISS', 'true', '6', '0', 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('USE_CC_START', 'true', '6', '0', 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('CC_VAL', 'True', '6', '0', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('CC_ENC', 'True', '6', '0', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_DINERSCLUB','false', 6, 0, 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_AMERICANEXPRESS','false', 6, 0, 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD','false', 6, 0, 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD','false', 6, 0, 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_DISCOVERNOVUS','false', 6, 0, 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_MASTERCARD','false', 6, 0, 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_JCB','false', 6, 0, 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_VISA','false', 6, 0, 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('USE_CC_CVV', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('USE_CC_ISS', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('USE_CC_START', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('CC_VAL', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('CC_ENC', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_DINERSCLUB','0', 6, 0, 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_AMERICANEXPRESS','0', 6, 0, 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD','0', 6, 0, 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD','0', 6, 0, 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_DISCOVERNOVUS','0', 6, 0, 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_MASTERCARD','0', 6, 0, 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_JCB','0', 6, 0, 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_CC_ACCEPT_VISA','0', 6, 0, 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('CC_CVV_MIN_LENGTH', '3', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_CC_EMAIL', '', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_CC_SORT_ORDER', '0', '6', '0' , now())");
@@ -390,4 +390,5 @@
 
     }
   }
+
 ?>

@@ -38,7 +38,7 @@ function oos_customer_greeting() {
     $aModules = oos_get_modules();
 
     $personal_text = '';
-    if ( (isset($_SESSION['customer_lastname'])) && (ACCOUNT_GENDER == 'true') ) {
+    if ( (isset($_SESSION['customer_lastname'])) && (ACCOUNT_GENDER == '1') ) {
         if ($_SESSION['customer_gender'] == 'm') {
             $personal_text = $aLang['male_address'] . ' ' . $_SESSION['customer_lastname'];
         } else {
@@ -77,7 +77,7 @@ if (!isset($option)) {
     require 'includes/oos_counter.php';
 }
 
-if (TIME_BASED_GREETING == 'true') {
+if (TIME_BASED_GREETING == '1') {
     $heading_title = oos_time_based_greeting();
 } else {
     $heading_title = $aLang['heading_title'];
@@ -97,7 +97,7 @@ if (isset($_SESSION['customer_id'])) {
     $oSmarty->assign('customer_greeting', oos_customer_greeting());
 }
 
-if ( (USE_CACHE == 'true') && (!SID) && (!isset($_SESSION['customer_id'])) ){
+if ( (USE_CACHE == '1') && (!SID) && (!isset($_SESSION['customer_id'])) ){
     $oSmarty->caching = true;
 }
 

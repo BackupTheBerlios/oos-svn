@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: ot_cod_fee.php,v 1.02 2003/02/24 06:05:00 harley_vb 
+   File: ot_cod_fee.php,v 1.02 2003/02/24 06:05:00 harley_vb
    ----------------------------------------------------------------------
    Copyright (C) 2001 - 2003 TheMedia, Dipl.-Ing Thomas Plänkers
        http://www.themedia.at & http://www.oscommerce.at
@@ -45,7 +45,7 @@
       $this->code = 'ot_cod_fee';
       $this->title = $aLang['module_order_total_cod_title'];
       $this->description = $aLang['module_order_total_cod_description'];
-      $this->enabled = (defined('MODULE_ORDER_TOTAL_COD_STATUS') && (MODULE_ORDER_TOTAL_COD_STATUS == 'true') ? true : false);
+      $this->enabled = (defined('MODULE_ORDER_TOTAL_COD_STATUS') && (MODULE_ORDER_TOTAL_COD_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_ORDER_TOTAL_COD_SORT_ORDER') ? MODULE_ORDER_TOTAL_COD_SORT_ORDER : null);
 
       $this->output = array();
@@ -54,7 +54,7 @@
     function process() {
       global $oOrder, $oCurrencies, $cod_cost, $cod_country;
 
-      if (MODULE_ORDER_TOTAL_COD_STATUS == 'true') {
+      if (MODULE_ORDER_TOTAL_COD_STATUS == '1') {
 
         //Will become true, if cod can be processed.
         $cod_country = false;
@@ -142,7 +142,7 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_STATUS', 'true', '6', '0','oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_STATUS', '1', '6', '0','oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_SORT_ORDER', '6', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_FEE_FLAT', 'AT:3.00,DE:3.58,00:9.99', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_FEE_ITEM', 'AT:3.00,DE:3.58,00:9.99', '6', '0', now())");
@@ -166,4 +166,5 @@
       $dbconn->Execute("DELETE FROM $configurationtable WHERE configuration_key in ('" . implode("', '", $this->keys()) . "')");
     }
   }
+
 ?>

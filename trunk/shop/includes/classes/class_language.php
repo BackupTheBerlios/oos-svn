@@ -41,7 +41,7 @@
                           FROM $languagestable
                           WHERE status = '1'
                           ORDER BY sort_order";
-        if (USE_DB_CACHE == 'true') {
+        if (USE_DB_CACHE == '1') {
           $languages_result = $dbconn->CacheExecute(3600*24, $languages_sql);
         } else {
           $languages_result = $dbconn->Execute($languages_sql);

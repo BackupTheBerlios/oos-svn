@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -55,7 +55,7 @@
 
       $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
       $spider_flag = false;
-      $spider_kill_sid = 'false';
+      $spider_kill_sid = '0';
 
       // set the top level domains
       $http_domain = oos_server_get_top_level_domain(OOS_HTTP_SERVER);
@@ -85,7 +85,7 @@
         foreach ($spider_agent as $spider) {
           if (empty($spider) === false) {
             if (strpos($user_agent, trim($spider)) !== false) {
-              $spider_kill_sid = 'true';
+              $spider_kill_sid = '1';
               $spider_flag = true;
               break;
             }

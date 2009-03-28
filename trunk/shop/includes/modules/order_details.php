@@ -28,7 +28,7 @@ $shopping_cart_detail .= '  <tr>' . "\n";
 
 $colspan = 3;
 
-if ((SHOPPING_CART_IMAGE_ON == 'true')) {
+if ((SHOPPING_CART_IMAGE_ON == '1')) {
     $colspan++;
     $shopping_cart_detail .= '    <td align="center" class="smallText"></td>' . "\n";
 }
@@ -70,7 +70,7 @@ $shopping_cart_detail .= '    <td align="right" class="tableHeading">' . $aLang[
 for ($i=0, $n=count($products); $i<$n; $i++) {
     $shopping_cart_detail .= '  <tr>' . "\n";
 
-    if (SHOPPING_CART_IMAGE_ON == 'true') {
+    if (SHOPPING_CART_IMAGE_ON == '1') {
         $shopping_cart_detail .= '    <td align="center" valign="top" class="main"><a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $products[$i]['id'], 'NONSSL') . '">';
         if ($products[$i]['image'] != '') {
             $sProductImage = $products[$i]['image'];
@@ -91,7 +91,7 @@ for ($i=0, $n=count($products); $i<$n; $i++) {
     }
 
     // Quantity box or information as an input box or text
-    if (DECIMAL_CART_QUANTITY == 'true') {
+    if (DECIMAL_CART_QUANTITY == '1') {
         $quantity = number_format($products[$i]['quantity'], 2);
     } else {
         $quantity = number_format($products[$i]['quantity']);
@@ -117,7 +117,7 @@ for ($i=0, $n=count($products); $i<$n; $i++) {
     }
 
     // Display marker if stock quantity insufficient
-    if (STOCK_CHECK == 'true') {
+    if (STOCK_CHECK == '1') {
         $shopping_cart_detail .= $stock_check = oos_check_stock($products[$i]['id'], $products[$i]['quantity']);
         if ($stock_check) $any_out_of_stock = 1;
     }
@@ -151,7 +151,7 @@ for ($i=0, $n=count($products); $i<$n; $i++) {
     if ($sFile == $aFilename['main_shopping_cart']) {
         if ($_SESSION['member']->group['discount'] != 0) {
             $max_product_discount = min($products[$i]['discount_allowed'] , $_SESSION['member']->group['discount']);
-            if ( ($max_product_discount > 0) && ($products[$i]['spezial'] == 'false') ) {
+            if ( ($max_product_discount > 0) && ($products[$i]['spezial'] == '0') ) {
                 $shopping_cart_detail .= '    <td align="right" valign="top" class="main">-' . number_format($max_product_discount, 2) . '%</td>';
             } else {
                 $shopping_cart_detail .= '    <td align="right" valign="top" class="main">&nbsp</td>';

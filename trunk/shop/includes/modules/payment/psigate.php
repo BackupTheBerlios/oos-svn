@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: psigate.php,v 1.16 2003/01/29 19:57:15 hpdl 
+   File: psigate.php,v 1.16 2003/01/29 19:57:15 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -29,7 +29,7 @@
       $this->code = 'psigate';
       $this->title = $aLang['module_payment_psigate_text_title'];
       $this->description = $aLang['module_payment_psigate_text_description'];
-      $this->enabled = (defined('MODULE_PAYMENT_PSIGATE_STATUS') && (MODULE_PAYMENT_PSIGATE_STATUS == 'True') ? true : false);
+      $this->enabled = (defined('MODULE_PAYMENT_PSIGATE_STATUS') && (MODULE_PAYMENT_PSIGATE_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_PAYMENT_PSIGATE_SORT_ORDER') ? MODULE_PAYMENT_PSIGATE_SORT_ORDER : null);
 
       if ((int)MODULE_PAYMENT_PSIGATE_ORDER_STATUS_ID > 0) {
@@ -102,7 +102,7 @@
           $expires_month[] = array('id' => sprintf('%02d', $i), 'text' => strftime('%B',mktime(0,0,0,$i,1,2000)));
         }
 
-        $today = getdate(); 
+        $today = getdate();
         for ($i=$today['year']; $i < $today['year']+10; $i++) {
           $expires_year[] = array('id' => strftime('%y',mktime(0,0,0,1,1,$i)), 'text' => strftime('%Y',mktime(0,0,0,1,1,$i)));
         }
@@ -224,8 +224,8 @@
       $aModules = oos_get_modules();
       $process_button_string = oos_draw_hidden_field('MerchantID', MODULE_PAYMENT_PSIGATE_MERCHANT_ID) .
                                oos_draw_hidden_field('FullTotal', number_format($oOrder->info['total'] * $oCurrencies->get_value(MODULE_PAYMENT_PSIGATE_CURRENCY), $oCurrencies->currencies[MODULE_PAYMENT_PSIGATE_CURRENCY]['decimal_places'])) .
-                               oos_draw_hidden_field('ThanksURL', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL', true)) . 
-                               oos_draw_hidden_field('NoThanksURL', oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'payment_error=' . $this->code, 'NONSSL', true)) . 
+                               oos_draw_hidden_field('ThanksURL', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL', true)) .
+                               oos_draw_hidden_field('NoThanksURL', oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'payment_error=' . $this->code, 'NONSSL', true)) .
                                oos_draw_hidden_field('Bname', $oOrder->billing['firstname'] . ' ' . $oOrder->billing['lastname']) .
                                oos_draw_hidden_field('Baddr1', $oOrder->billing['street_address']) .
                                oos_draw_hidden_field('Bcity', $oOrder->billing['city']) .
@@ -291,7 +291,7 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_PSIGATE_STATUS', 'True', '6', '1', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_PSIGATE_STATUS', '1', '6', '1', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_PSIGATE_MERCHANT_ID', 'teststorewithcard', '6', '2', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_PSIGATE_TRANSACTION_MODE', 'Production', '6', '3', 'oos_cfg_select_option(array(\'Production\', \'Always Good\', \'Always Duplicate\', \'Always Decline\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_PSIGATE_TRANSACTION_TYPE', 'PreAuth', '6', '4', 'oos_cfg_select_option(array(\'Sale\', \'PreAuth\', \'PostAuth\'), ', now())");
@@ -316,4 +316,5 @@
       return array('MODULE_PAYMENT_PSIGATE_STATUS', 'MODULE_PAYMENT_PSIGATE_MERCHANT_ID', 'MODULE_PAYMENT_PSIGATE_TRANSACTION_MODE', 'MODULE_PAYMENT_PSIGATE_TRANSACTION_TYPE', 'MODULE_PAYMENT_PSIGATE_INPUT_MODE', 'MODULE_PAYMENT_PSIGATE_CURRENCY', 'MODULE_PAYMENT_PSIGATE_ZONE', 'MODULE_PAYMENT_PSIGATE_ORDER_STATUS_ID', 'MODULE_PAYMENT_PSIGATE_SORT_ORDER');
     }
   }
+
 ?>

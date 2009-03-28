@@ -22,10 +22,10 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-$customers_status_block = 'false';
+$customers_status_block = '0';
 
 if ($_SESSION['member']->group['public'] > 0 ) {
-    $customers_status_block = 'true';
+    $customers_status_block = '1';
     $customers_discount = $oCurrencies->display_price($_SESSION['member']->group['ot_minimum'], '');
     $oSmarty->assign('customers_discount', $customers_discount);
 }

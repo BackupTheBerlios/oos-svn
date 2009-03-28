@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -31,31 +31,31 @@
 
       if (ereg('^4[0-9]{12}([0-9]{3})?$', $this->cc_number)) {
         $this->cc_type = 'Visa';
-        if (MODULE_PAYMENT_CC_ACCEPT_VISA != 'true')
+        if (MODULE_PAYMENT_CC_ACCEPT_VISA != '1')
           return -5;
       } elseif (ereg('^5[1-5][0-9]{14}$', $this->cc_number)) {
         $this->cc_type = 'Master Card';
-        if (MODULE_PAYMENT_CC_ACCEPT_MASTERCARD != 'true')
+        if (MODULE_PAYMENT_CC_ACCEPT_MASTERCARD != '1')
           return -5;
       } elseif (ereg('^3[47][0-9]{13}$', $this->cc_number)) {
         $this->cc_type = 'American Express';
-        if (MODULE_PAYMENT_CC_ACCEPT_AMERICANEXPRESS != 'true')
+        if (MODULE_PAYMENT_CC_ACCEPT_AMERICANEXPRESS != '1')
           return -5;
       } elseif (ereg('^3(0[0-5]|[68][0-9])[0-9]{11}$', $this->cc_number)) {
         $this->cc_type = 'Diners Club';
-        if (MODULE_PAYMENT_CC_ACCEPT_DINERSCLUB != 'true')
+        if (MODULE_PAYMENT_CC_ACCEPT_DINERSCLUB != '1')
           return -5;
       } elseif (ereg('^6011[0-9]{12}$', $this->cc_number)) {
         $this->cc_type = 'Discover';
-        if (MODULE_PAYMENT_CC_ACCEPT_DISCOVERNOVUS != 'true')
+        if (MODULE_PAYMENT_CC_ACCEPT_DISCOVERNOVUS != '1')
           return -5;
       } elseif (ereg('^(3[0-9]{4}|2131|1800)[0-9]{11}$', $this->cc_number)) {
         $this->cc_type = 'JCB';
-        if (MODULE_PAYMENT_CC_ACCEPT_JCB != 'true')
+        if (MODULE_PAYMENT_CC_ACCEPT_JCB != '1')
           return -5;
       } elseif (ereg('^5610[0-9]{12}$', $this->cc_number)) {
         $this->cc_type = 'Australian BankCard';
-        if (MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD != 'true')
+        if (MODULE_PAYMENT_CC_ACCEPT_OZBANKCARD != '1')
           return -5;
       } else {
         return -1;

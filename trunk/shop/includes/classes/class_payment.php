@@ -5,12 +5,12 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: payment.php,v 1.3.2.1 2003/05/03 23:41:23 wilt 
-   orig: payment.php,v 1.36 2003/02/11 00:04:53 hpdl 
+   File: payment.php,v 1.3.2.1 2003/05/03 23:41:23 wilt
+   orig: payment.php,v 1.36 2003/02/11 00:04:53 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -98,7 +98,7 @@
       $js = '';
       if (is_array($this->modules)) {
 
-        if (OOS_XHTML == 'true') {
+        if (OOS_XHTML == '1') {
           $js = '<script type= "text/javascript">/*<![CDATA[*/' . "\n";
         } else {
           $js = '<script language="javascript"><!-- ' . "\n";
@@ -127,7 +127,7 @@
           }
         }
 
-        if (DISPLAY_CONDITIONS_ON_CHECKOUT == 'true') {
+        if (DISPLAY_CONDITIONS_ON_CHECKOUT == '1') {
           $js .= "\n" . '  if (!document.getElementById("1").checked) {' . "\n" .
                  '    error_message = error_message + unescape("' . decode($aLang['error_conditions_not_accepted']) . '");' . "\n" .
                  '    error = 1;' . "\n" .
@@ -146,7 +146,7 @@
                '  }' . "\n" .
                '}' . "\n";
 
-        if (OOS_XHTML == 'true') {
+        if (OOS_XHTML == '1') {
           $js .= '/*]]>*/</script>' . "\n";
         } else {
           $js .= '//--></script>' . "\n";
@@ -175,21 +175,21 @@
     }
 
     function pre_confirmation_check() {
-      global $credit_covers, $payment_modules; 
+      global $credit_covers, $payment_modules;
 
       if (is_array($this->modules)) {
         if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
 
-          if ($credit_covers) { 
-            $GLOBALS[$this->selected_module]->enabled = false; 
-            $GLOBALS[$this->selected_module] = NULL; 
-            $payment_modules = ''; 
-          } else { 
+          if ($credit_covers) {
+            $GLOBALS[$this->selected_module]->enabled = false;
+            $GLOBALS[$this->selected_module] = NULL;
+            $payment_modules = '';
+          } else {
             $GLOBALS[$this->selected_module]->pre_confirmation_check();
           }
         }
       }
-    } 
+    }
 
     function confirmation() {
       if (is_array($this->modules)) {

@@ -22,7 +22,7 @@
   /** ensure this file is being included by a parent file */
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (DISPLAY_CART == 'true') {
+  if (DISPLAY_CART == '1') {
     $goto_mp = $aModules['main'];
     $goto_file = $aFilename['main_shopping_cart'];
     $parameters = array('action', 'categories', 'products_id', 'pid', 'formid');
@@ -58,7 +58,7 @@
           $_SESSION['cart']->remove($_POST['products_id'][$i]);
         } else {
 
-          if (DECIMAL_CART_QUANTITY == 'true') {
+          if (DECIMAL_CART_QUANTITY == '1') {
             $_POST['cart_quantity'][$i] = str_replace(',', '.', $_POST['cart_quantity'][$i]);
           }
 
@@ -174,7 +174,7 @@
           }
         } else {
 
-          if (DECIMAL_CART_QUANTITY == 'true') {
+          if (DECIMAL_CART_QUANTITY == '1') {
             $_POST['cart_quantity'] = str_replace(',', '.', $_POST['cart_quantity']);
             $cart_quantity = oos_prepare_input($_POST['cart_quantity']);
           }
@@ -275,7 +275,7 @@
           oos_redirect(oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $_POST['products_id']));
         } else {
 
-          if (DECIMAL_CART_QUANTITY == 'true') {
+          if (DECIMAL_CART_QUANTITY == '1') {
             $_POST['cart_quantity'] = str_replace(',', '.', $_POST['cart_quantity']);
           }
 
@@ -340,7 +340,7 @@
           oos_redirect(oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $_POST['slave_id']));
         } else {
 
-          if (DECIMAL_CART_QUANTITY == 'true') {
+          if (DECIMAL_CART_QUANTITY == '1') {
             $_POST['cart_quantity'] = str_replace(',', '.', $_POST['cart_quantity']);
           }
 
@@ -373,7 +373,7 @@
 
     case 'add_a_quickie' :
 
-      if (DECIMAL_CART_QUANTITY == 'true') {
+      if (DECIMAL_CART_QUANTITY == '1') {
         $_POST['cart_quantity'] = str_replace(',', '.', $_POST['cart_quantity']);
         $cart_quantity = oos_prepare_input($_POST['cart_quantity']);
       }

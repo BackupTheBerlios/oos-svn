@@ -6,11 +6,11 @@
    http://www.oos-shop.de/
 
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: general.php,v 1.212 2003/02/17 07:55:54 hpdl 
+   File: general.php,v 1.212 2003/02/17 07:55:54 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -104,7 +104,7 @@ function smarty_function_oos_address_format($params, &$smarty)
    eval("\$address = \"$fmt\";");
    $address = stripslashes($address);
 
-   if ( (ACCOUNT_COMPANY == 'true') && (oos_is_not_null($company)) ) {
+   if ( (ACCOUNT_COMPANY == '1') && (oos_is_not_null($company)) ) {
      $address = $company . $cr . $address;
    }
 

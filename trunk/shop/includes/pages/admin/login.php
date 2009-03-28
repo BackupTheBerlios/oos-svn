@@ -136,13 +136,13 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
         $_SESSION['customer_wishlist_link_id'] = $check_customer['customers_wishlist_link_id'];
         $_SESSION['customer_id'] = $check_customer['customers_id'];
         $_SESSION['customer_default_address_id'] = $check_customer['customers_default_address_id'];
-        if (ACCOUNT_GENDER == 'true') $_SESSION['customer_gender'] = $check_customer['customers_gender'];
+        if (ACCOUNT_GENDER == '1') $_SESSION['customer_gender'] = $check_customer['customers_gender'];
         $_SESSION['customer_first_name'] = $check_customer['customers_firstname'];
         $_SESSION['customer_lastname'] = $check_customer['customers_lastname'];
         $_SESSION['customer_max_order'] = $check_customer['customers_max_order'];
         $_SESSION['customer_country_id'] = $check_country['entry_country_id'];
         $_SESSION['customer_zone_id'] = $check_country['entry_zone_id'];
-        if (ACCOUNT_VAT_ID == 'true') $_SESSION['customers_vat_id_status'] = $check_customer['customers_vat_id_status'];
+        if (ACCOUNT_VAT_ID == '1') $_SESSION['customers_vat_id_status'] = $check_customer['customers_vat_id_status'];
 
         $_SESSION['man_key'] = $keya;
         $_SESSION['member']->restore_group();

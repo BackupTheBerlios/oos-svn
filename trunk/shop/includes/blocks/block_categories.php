@@ -93,7 +93,7 @@ function oos_show_category($nCounter) {
         }
     }
 
-    if (SHOW_COUNTS == 'true') {
+    if (SHOW_COUNTS == '1') {
         $nProductsInCategory = oos_count_products_in_category($nCounter);
         $aCategory['countProductsInCategory'] = $nProductsInCategory;
     }

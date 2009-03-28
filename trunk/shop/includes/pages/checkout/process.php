@@ -145,8 +145,8 @@ $subtotal = 0;
 $total_tax = 0;
 
 for ($i=0, $n=count($oOrder->products); $i<$n; $i++) {
-    if (STOCK_LIMITED == 'true') {
-        if (DOWNLOAD_ENABLED == 'true') {
+    if (STOCK_LIMITED == '1') {
+        if (DOWNLOAD_ENABLED == '1') {
             $productstable = $oostable['products'];
             $products_attributestable = $oostable['products_attributes'];
             $products_attributes_downloadtable = $oostable['products_attributes_download'];
@@ -175,7 +175,7 @@ for ($i=0, $n=count($oOrder->products); $i<$n; $i++) {
             $stock_values = $stock_result->fields;
 
             // do not decrement quantities if products_attributes_filename exists
-            if ((DOWNLOAD_ENABLED != 'true') || (!$stock_values['products_attributes_filename'])) {
+            if ((DOWNLOAD_ENABLED != '1') || (!$stock_values['products_attributes_filename'])) {
                 $stock_left = $stock_values['products_quantity'] - $oOrder->products[$i]['qty'];
             } else {
                 $stock_left = $stock_values['products_quantity'];
@@ -222,7 +222,7 @@ for ($i=0, $n=count($oOrder->products); $i<$n; $i++) {
     if (isset($oOrder->products[$i]['attributes'])) {
         $attributes_exist = '1';
         for ($j=0, $n2=count($oOrder->products[$i]['attributes']); $j<$n2; $j++) {
-            if (DOWNLOAD_ENABLED == 'true') {
+            if (DOWNLOAD_ENABLED == '1') {
 
                 $products_optionstable = $oostable['products_options'];
                 $products_options_valuestable = $oostable['products_options_values'];
@@ -299,7 +299,7 @@ for ($i=0, $n=count($oOrder->products); $i<$n; $i++) {
             // insert
             oos_db_perform($oostable['orders_products_attributes'], $sql_data_array);
 
-            if ((DOWNLOAD_ENABLED == 'true') && isset($attributes_values['products_attributes_filename']) && oos_is_not_null($attributes_values['products_attributes_filename'])) {
+            if ((DOWNLOAD_ENABLED == '1') && isset($attributes_values['products_attributes_filename']) && oos_is_not_null($attributes_values['products_attributes_filename'])) {
                 $sql_data_array = array('orders_id' => $insert_id,
                                         'orders_products_id' => $order_products_id,
                                         'orders_products_filename' => $attributes_values['products_attributes_filename'],
@@ -379,7 +379,7 @@ if (!isset($_SESSION['man_key'])) {
 
 // send emails to other people
 if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
-    if (SEND_BANKINFO_TO_ADMIN == 'true') {
+    if (SEND_BANKINFO_TO_ADMIN == '1') {
         if ($_POST['banktransfer_fax'] != "on"){
             $email_order .= "\n";
             $email_order .= "Kontoinhaber: ". $banktransfer_owner . "\n";

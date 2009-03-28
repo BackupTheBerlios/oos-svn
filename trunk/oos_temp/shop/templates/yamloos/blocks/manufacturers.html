@@ -1,11 +1,11 @@
-{if $manufacturers_block eq 'true'}
+{if $manufacturers_block eq '1'}
 <div class="block" id="block_manufacturers">
 	<h4>
 		{$block_heading_manufacturers}
 	</h4>
 	<div class="block_content">
 
-	{if $display_a_list eq 'true'}
+	{if $display_a_list eq '1'}
 		<ul>
 		{foreach item=manufacturer from=$manufacturers_list}
 			<li><a href="{html_href_link modul=$modules.main file=$filename.shop manufacturers_id=$manufacturer.id}"  title="{$manufacturer.name}">{$manufacturer.name}</a></li>

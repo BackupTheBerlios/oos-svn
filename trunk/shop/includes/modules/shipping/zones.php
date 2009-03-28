@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -27,7 +27,7 @@
    clicking on Modules, then clicking on Shipping.  A list of all shipping
    modules should appear.  Click on the green dot next to the one labeled
    zones.php.  A list of settings will appear to the right.  Click on the
-   Edit button. 
+   Edit button.
 
    PLEASE NOTE THAT YOU WILL LOSE YOUR CURRENT SHIPPING RATES AND OTHER
    SETTINGS IF YOU TURN OFF THIS SHIPPING METHOD.  Make sure you keep a
@@ -64,7 +64,7 @@
    some time and effort will go into setting the appropriate rates.  You
    will define a set of weight ranges and the shipping price for each
    range.  For instance, you might want an order than weighs more than 0
-   and less than or equal to 3 to cost 5.50 to ship to a certain zone.  
+   and less than or equal to 3 to cost 5.50 to ship to a certain zone.
    This would be defined by this:  3:5.5
 
    You should combine a bunch of these rates together in a comma delimited
@@ -81,24 +81,24 @@
    At this time, it does not deal with weights that are above the highest amount
    defined.  This will probably be the next area to be improved with the
    module.  For now, you could have one last very high range with a very
-   high shipping rate to discourage orders of that magnitude.  For 
+   high shipping rate to discourage orders of that magnitude.  For
    instance:  999:1000
 
-   If you want to be able to ship to any country in the world, you will 
+   If you want to be able to ship to any country in the world, you will
    need to enter every country code into the Country fields. For most
-   shops, you will not want to enter every country.  This is often 
+   shops, you will not want to enter every country.  This is often
    because of too much fraud from certain places. If a country is not
    listed, then the module will add a $0.00 shipping charge and will
-   indicate that shipping is not available to that destination.  
+   indicate that shipping is not available to that destination.
    PLEASE NOTE THAT THE ORDER CAN STILL BE COMPLETED AND PROCESSED!
 
-   It appears that the osC shipping system automatically rounds the 
+   It appears that the osC shipping system automatically rounds the
    shipping weight up to the nearest whole unit.  This makes it more
-   difficult to design precise shipping tables.  If you want to, you 
+   difficult to design precise shipping tables.  If you want to, you
    can hack the shipping.php file to get rid of the rounding.
 
    Lastly, there is a limit of 255 characters on each of the Zone
-   Shipping Tables and Zone Countries. 
+   Shipping Tables and Zone Countries.
    ---------------------------------------------------------------------- */
 
   class zones {
@@ -114,9 +114,9 @@
       $this->sort_order = (defined('MODULE_SHIPPING_ZONES_SORT_ORDER') ? MODULE_SHIPPING_ZONES_SORT_ORDER : null);
       $this->icon = '';
       $this->tax_class = (defined('MODULE_SHIPPING_ZONES_TAX_CLASS') ? MODULE_SHIPPING_ZONES_TAX_CLASS : null);
-      $this->enabled = (defined('MODULE_SHIPPING_ZONES_STATUS') && (MODULE_SHIPPING_ZONES_STATUS == 'True') ? true : false);
+      $this->enabled = (defined('MODULE_SHIPPING_ZONES_STATUS') && (MODULE_SHIPPING_ZONES_STATUS == '1') ? true : false);
 
-      $this->enabled = ((MODULE_SHIPPING_ZONES_STATUS == 'True') ? true : false);
+      $this->enabled = ((MODULE_SHIPPING_ZONES_STATUS == '1') ? true : false);
 
       // CUSTOMIZE THIS SETTING FOR THE NUMBER OF ZONES NEEDED
       $this->num_zones = 2;
@@ -197,7 +197,7 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_SHIPPING_ZONES_STATUS', 'True', '6', '0', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_SHIPPING_ZONES_STATUS', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_SHIPPING_ZONES_TAX_CLASS', '0', '6', '0', 'oos_cfg_get_tax_class_title', 'oos_cfg_pull_down_tax_classes(', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_SHIPPING_ZONES_SORT_ORDER', '0', '6', '0', now())");
       for ($i = 1; $i <= $this->num_zones; $i++) {

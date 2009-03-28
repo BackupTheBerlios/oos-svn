@@ -29,7 +29,7 @@
       $this->code = 'authorizenet';
       $this->title = $aLang['module_payment_authorizenet_text_title'];
       $this->description = $aLang['module_payment_authorizenet_text_description'];
-      $this->enabled = (defined('MODULE_PAYMENT_AUTHORIZENET_STATUS') && (MODULE_PAYMENT_AUTHORIZENET_STATUS == 'True') ? true : false);
+      $this->enabled = (defined('MODULE_PAYMENT_AUTHORIZENET_STATUS') && (MODULE_PAYMENT_AUTHORIZENET_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_PAYMENT_AUTHORIZENET_SORT_ORDER') ? MODULE_PAYMENT_AUTHORIZENET_SORT_ORDER : null);
 
       if ((int)MODULE_PAYMENT_AUTHORIZENET_ORDER_STATUS_ID > 0) {
@@ -247,7 +247,7 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
                                oos_draw_hidden_field('x_Method', ((MODULE_PAYMENT_AUTHORIZENET_METHOD == 'Credit Card') ? 'CC' : 'ECHECK')) .
                                oos_draw_hidden_field('x_Version', '3.0') .
                                oos_draw_hidden_field('x_Cust_ID', $_SESSION['customer_id']) .
-                               oos_draw_hidden_field('x_Email_Customer', ((MODULE_PAYMENT_AUTHORIZENET_EMAIL_CUSTOMER == 'True') ? 'TRUE': 'FALSE')) .
+                               oos_draw_hidden_field('x_Email_Customer', ((MODULE_PAYMENT_AUTHORIZENET_EMAIL_CUSTOMER == '1') ? 'TRUE': 'FALSE')) .
                                oos_draw_hidden_field('x_first_name', $oOrder->customer['firstname']) .
                                oos_draw_hidden_field('x_last_name', $oOrder->customer['lastname']) .
                                oos_draw_hidden_field('x_address', $oOrder->customer['street_address']) .
@@ -318,12 +318,12 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_STATUS', 'True', '6', '0', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_STATUS', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_LOGIN', 'testing', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_TXNKEY', 'Test', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_TESTMODE', 'Test', '6', '0', 'oos_cfg_select_option(array(\'Test\', \'Production\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_METHOD', 'Credit Card', '6', '0', 'oos_cfg_select_option(array(\'Credit Card\', \'eCheck\'), ', now())");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_EMAIL_CUSTOMER', 'False', '6', '0', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_EMAIL_CUSTOMER', '0', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_SORT_ORDER', '0', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_ZONE', '0', '6', '2', 'oos_cfg_get_zone_class_title', 'oos_cfg_pull_down_zone_classes(', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, use_function, date_added) VALUES ('MODULE_PAYMENT_AUTHORIZENET_ORDER_STATUS_ID', '0', '6', '0', 'oos_cfg_pull_down_order_statuses(', 'oos_cfg_get_order_status_name', now())");
@@ -343,4 +343,5 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
       return array('MODULE_PAYMENT_AUTHORIZENET_STATUS', 'MODULE_PAYMENT_AUTHORIZENET_LOGIN', 'MODULE_PAYMENT_AUTHORIZENET_TXNKEY', 'MODULE_PAYMENT_AUTHORIZENET_TESTMODE', 'MODULE_PAYMENT_AUTHORIZENET_METHOD', 'MODULE_PAYMENT_AUTHORIZENET_EMAIL_CUSTOMER', 'MODULE_PAYMENT_AUTHORIZENET_ZONE', 'MODULE_PAYMENT_AUTHORIZENET_ORDER_STATUS_ID', 'MODULE_PAYMENT_AUTHORIZENET_SORT_ORDER');
     }
   }
+
 ?>

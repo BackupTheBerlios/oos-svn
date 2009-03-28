@@ -40,7 +40,7 @@ if (!isset($option)) {
     require 'includes/oos_counter.php';
 }
 
-if ( (USE_CACHE == 'true') && (!SID) ) {
+if ( (USE_CACHE == '1') && (!SID) ) {
     $oSmarty->caching = 2;
     $oSmarty->cache_lifetime = 6 * 3600;
 }

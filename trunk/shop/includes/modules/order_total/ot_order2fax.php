@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -29,7 +29,7 @@
       $this->code = 'ot_order2fax';
       $this->title = $aLang['module_order_total_order2fax_text_title'];
       $this->description = $aLang['module_order_total_order2fax_text_description'];
-      $this->enabled = (defined('MODULE_ORDER_TOTAL_ORDER2FAX_STATUS') && (MODULE_ORDER_TOTAL_ORDER2FAX_STATUS == 'true') ? true : false);
+      $this->enabled = (defined('MODULE_ORDER_TOTAL_ORDER2FAX_STATUS') && (MODULE_ORDER_TOTAL_ORDER2FAX_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_ORDER_TOTAL_ORDER2FAX_SORT_ORDER') ? MODULE_ORDER_TOTAL_ORDER2FAX_SORT_ORDER : null);
 
       $this->output = array();
@@ -81,7 +81,7 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_ORDER_TOTAL_ORDER2FAX_STATUS', 'true', '6', '1','oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_ORDER_TOTAL_ORDER2FAX_STATUS', '1', '6', '1','oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_ORDER2FAX_USERNAME', 'Username', '6', '2', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_ORDER2FAX_PASSWORD', 'Password', '6', '3', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_ORDER2FAX_FAXNUMBER', 'Fax number', '6', '4', now())");
@@ -102,4 +102,5 @@
       $dbconn->Execute("DELETE FROM $configurationtable WHERE configuration_key in ('" . implode("', '", $this->keys()) . "')");
     }
   }
+
 ?>

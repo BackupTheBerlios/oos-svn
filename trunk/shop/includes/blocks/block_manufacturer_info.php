@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('manufacturers')) return false;
 
-$manufacturer_info_block = 'false';
+$manufacturer_info_block = '0';
 
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
@@ -45,7 +45,7 @@ if (isset($_GET['products_id'])) {
     if ($manufacturer_result->RecordCount()) {
 
         $manufacturer = $manufacturer_result->fields;
-        $manufacturer_info_block = 'true';
+        $manufacturer_info_block = '1';
 
         $oSmarty->assign(
             array(

@@ -29,7 +29,7 @@ if (isset($_SESSION['customer_id'])) {
             WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'";
     $account = $dbconn->Execute($sql);
     $account_values = $account->fields;
-} elseif (ALLOW_GUEST_TO_TELL_A_FRIEND == 'false') {
+} elseif (ALLOW_GUEST_TO_TELL_A_FRIEND == '0') {
     $_SESSION['navigation']->set_snapshot();
     oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
@@ -59,8 +59,8 @@ if (isset($_GET['products_id'])) {
 
 if ($valid_product != false) {
     $product_info = $product_info_result->fields;
-    $error = 'false';
-    $friendemail_error = 'false';
+    $error = '0';
+    $friendemail_error = '0';
 
     $friendname = oos_prepare_input($_POST['friendname']);
     $friendemail = oos_prepare_input($_POST['friendemail']);
@@ -70,13 +70,13 @@ if ($valid_product != false) {
 
 
     if (isset($_GET['action']) && ($_GET['action'] == 'process') && !oos_validate_is_email(trim($friendemail))) {
-        $friendemail_error = 'true';
-        $error = 'true';
+        $friendemail_error = '1';
+        $error = '1';
     }
 
     if (isset($_GET['action']) && ($_GET['action'] == 'process') && empty($friendname)) {
-        $friendname_error = 'true';
-        $error = 'true';
+        $friendname_error = '1';
+        $error = '1';
     }
 
     if (isset($_SESSION['customer_id'])) {
@@ -89,17 +89,17 @@ if ($valid_product != false) {
 
     if (!isset($_SESSION['customer_id'])) {
         if (isset($_GET['action']) && ($_GET['action'] == 'process') && !oos_validate_is_email(trim($from_email_address))) {
-            $fromemail_error = 'true';
-            $error = 'true';
+            $fromemail_error = '1';
+            $error = '1';
         }
     }
 
     if (isset($_GET['action']) && ($_GET['action'] == 'process') && empty($from_name)) {
-        $fromname_error = 'true';
-        $error = 'true';
+        $fromname_error = '1';
+        $error = '1';
     }
 
-    if (isset($_GET['action']) && ($_GET['action'] == 'process') && ($error == 'false') && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
+    if (isset($_GET['action']) && ($_GET['action'] == 'process') && ($error == '0') && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
 
         $email_subject = sprintf($aLang['text_email_subject'], $from_name, STORE_NAME);
         $email_body = sprintf($aLang['text_email_intro'], $friendname, $from_name, $products_name, STORE_NAME) . "\n\n";
@@ -117,10 +117,10 @@ if ($valid_product != false) {
             $your_name_prompt = $account_values['customers_firstname'] . ' ' . $account_values['customers_lastname'];
             $your_email_address_prompt = $account_values['customers_email_address'];
         } else {
-            $your_name_prompt = oos_draw_input_field('yourname', (($fromname_error == 'true') ? $yourname : $_GET['yourname']));
-            if ($fromname_error == 'true') $your_name_prompt .= '&nbsp;<span class="errorText">' . $aLang['text_required'] . '</span>';
-            $your_email_address_prompt = oos_draw_input_field('from', (($fromemail_error == 'true') ? $from : $_GET['from']));
-            if ($fromemail_error == 'true') $your_email_address_prompt .= $aLang['entry_email_address_check_error'];
+            $your_name_prompt = oos_draw_input_field('yourname', (($fromname_error == '1') ? $yourname : $_GET['yourname']));
+            if ($fromname_error == '1') $your_name_prompt .= '&nbsp;<span class="errorText">' . $aLang['text_required'] . '</span>';
+            $your_email_address_prompt = oos_draw_input_field('from', (($fromemail_error == '1') ? $from : $_GET['from']));
+            if ($fromemail_error == '1') $your_email_address_prompt .= $aLang['entry_email_address_check_error'];
         }
     }
 }

@@ -37,73 +37,73 @@
   }
 
   $bError = false;
-  $process = 'false';
+  $process = '0';
   if (isset($_POST['action']) && ($_POST['action'] == 'submit')) {
 // process a new billing address
     if (oos_is_not_null($_POST['firstname']) && oos_is_not_null($_POST['lastname']) && oos_is_not_null($_POST['street_address'])) {
-      $process = 'true';
+      $process = '1';
 
-      if (ACCOUNT_GENDER == 'true') {
+      if (ACCOUNT_GENDER == '1') {
         if (($gender == 'm') || ($gender == 'f')) {
-          $gender_error = 'false';
+          $gender_error = '0';
         } else {
-          $gender_error = 'true';
+          $gender_error = '1';
           $bError = true;
         }
       }
 
-      if (ACCOUNT_COMPANY == 'true') {
+      if (ACCOUNT_COMPANY == '1') {
         if (strlen($company) < ENTRY_COMPANY_MIN_LENGTH) {
-          $company_error = 'true';
+          $company_error = '1';
           $bError = true;
         }
       }
 
       if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
-        $firstname_error = 'true';
+        $firstname_error = '1';
         $bError = true;
       }
 
       if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
-        $lastname_error = 'true';
+        $lastname_error = '1';
         $bError = true;
       }
 
       if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
-        $street_address_error = 'true';
+        $street_address_error = '1';
         $bError = true;
       }
 
       if (strlen($postcode) < ENTRY_POSTCODE_MIN_LENGTH) {
-        $postcode_error = 'true';
+        $postcode_error = '1';
         $bError = true;
       }
 
       if (strlen($city) < ENTRY_CITY_MIN_LENGTH) {
-        $city_error = 'true';
+        $city_error = '1';
         $bError = true;
       }
 
       if (strlen($country) < 1) {
-        $country_error = 'true';
+        $country_error = '1';
         $bError = true;
       }
 
-      if (ACCOUNT_STATE == 'true') {
-        if ($country_error == 'true') {
-          $state_error = 'true';
+      if (ACCOUNT_STATE == '1') {
+        if ($country_error == '1') {
+          $state_error = '1';
         } else {
           $zone_id = 0;
-          $state_error = 'false';
+          $state_error = '0';
           $zonestable = $oostable['zones'];
           $sql = "SELECT COUNT(*) AS total
                   FROM $zonestable
                   WHERE zone_country_id = '" . oos_db_input($country) . "'";
           $check_result = $dbconn->Execute($sql);
           $check_value = $check_result->fields;
-          $state_has_zones = 'false';
+          $state_has_zones = '0';
           if ($check_value['total'] > 0) {
-            $state_has_zones = 'true';
+            $state_has_zones = '1';
             $zonestable = $oostable['zones'];
             $sql = "SELECT zone_id
                     FROM $zonestable
@@ -115,12 +115,12 @@
               $zone_id = $zone_values['zone_id'];
             } else {
               $bError = true;
-              $state_error = 'true';
+              $state_error = '1';
             }
           } else {
             if (!$state) {
               $bError = true;
-              $state_error = 'true';
+              $state_error = '1';
             }
           }
         }
@@ -148,10 +148,10 @@
                                 'entry_city' => $city,
                                 'entry_country_id' => $country);
 
-        if (ACCOUNT_GENDER == 'true') $sql_data_array['entry_gender'] = $gender;
-        if (ACCOUNT_COMPANY == 'true') $sql_data_array['entry_company'] = $company;
-        if (ACCOUNT_SUBURB == 'true') $sql_data_array['entry_suburb'] = $suburb;
-        if (ACCOUNT_STATE == 'true') {
+        if (ACCOUNT_GENDER == '1') $sql_data_array['entry_gender'] = $gender;
+        if (ACCOUNT_COMPANY == '1') $sql_data_array['entry_company'] = $company;
+        if (ACCOUNT_SUBURB == '1') $sql_data_array['entry_suburb'] = $suburb;
+        if (ACCOUNT_STATE == '1') {
           if ($zone_id > 0) {
             $sql_data_array['entry_zone_id'] = $zone_id;
             $sql_data_array['entry_state'] = '';
@@ -209,7 +209,7 @@
     $_SESSION['billto'] = $_SESSION['customer_default_address_id'];
   }
 
-  if ($process == 'false') {
+  if ($process == '0') {
     $address_booktable = $oostable['address_book'];
     $sql = "SELECT COUNT(*) AS total
             FROM $address_booktable
@@ -242,7 +242,7 @@
       }
     }
   }
-  if (!isset($process)) $process = 'false';
+  if (!isset($process)) $process = '0';
 
   // links breadcrumb
   $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
@@ -300,11 +300,11 @@
   // JavaScript
   $oSmarty->assign('oos_js', $javascript);
 
-  if ($process == 'false') {
+  if ($process == '0') {
     $oSmarty->assign('addresses_array', $addresses_array);
   }
 
-  if ($state_has_zones == 'true') {
+  if ($state_has_zones == '1') {
     $zones_names = array();
     $zones_values = array();
     $zonestable = $oostable['zones'];

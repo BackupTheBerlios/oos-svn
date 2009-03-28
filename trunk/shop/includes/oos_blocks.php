@@ -42,7 +42,7 @@ if (isset($_SESSION['customer_id'])) {
 }
 $block_sql .= " ORDER BY b.block_side, b.block_sort_order ASC";
 
-if (USE_DB_CACHE == 'true') {
+if (USE_DB_CACHE == '1') {
     $dbconn->cacheSecs = 3600*24; // cache 24 hours
     $block_result = $dbconn->CacheExecute($block_sql);
 } else {
@@ -62,7 +62,7 @@ foreach ($block_result as $block) {
     $block_tpl = $sTheme . '/blocks/' . $block_file . '.html';
 
     if ($block['block_cache'] != '') {
-        if ( (USE_CACHE == 'true') && (!SID) ) {
+        if ( (USE_CACHE == '1') && (!SID) ) {
             $oSmarty->caching = true;
         }
         $bid = trim('oos_' . $block['block_cache'] . '_cache_id');

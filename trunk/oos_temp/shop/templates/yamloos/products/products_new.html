@@ -26,7 +26,7 @@
 				<a href="{product_info_link products_id=$products_new.id}"><strong>{$products_new.name}</strong></a>
 			</p>
 
-			{if ($smarty.const.SHOW_DATE_ADDED_AVAILABLE eq 'true')}
+			{if ($smarty.const.SHOW_DATE_ADDED_AVAILABLE eq '1')}
 				<p>{$lang.text_date_added}{$products_new.date_added|oos_date_short}</p>
 			{/if}
 

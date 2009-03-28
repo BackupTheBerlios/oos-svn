@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 require 'includes/languages/' . $sLanguage . '/main_contact_us.php';
 
-$error = 'false';
+$error = '0';
 
 if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
 
@@ -36,7 +36,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSI
         oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['email_subject'], $enquiry, $name, $email);
         oos_redirect(oos_href_link($aModules['main'], $aFilename['contact_us'], 'action=success'));
     } else {
-        $error = 'true';
+        $error = '1';
     }
 }
 

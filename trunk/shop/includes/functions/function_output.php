@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: html_output.php,v 1.49 2003/02/11 01:31:02 hpdl 
+   File: html_output.php,v 1.49 2003/02/11 01:31:02 hpdl
          html_output.php 1498 2007-03-29 14:04:50Z hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
@@ -49,7 +49,7 @@
     if ($connection == 'NONSSL') {
       $link = OOS_HTTP_SERVER . OOS_SHOP;
     } elseif ($connection == 'SSL') {
-      if (ENABLE_SSL == 'true') {
+      if (ENABLE_SSL == '1') {
         $link = OOS_HTTPS_SERVER . OOS_SHOP;
       } else {
         $link = OOS_HTTP_SERVER . OOS_SHOP;
@@ -75,7 +75,7 @@
     }
 
     // Add the session ID when moving from HTTP and HTTPS servers or when SID is defined
-    if ( (ENABLE_SSL == 'true' ) && ($connection == 'SSL') && ($add_session_id == true) ) {
+    if ( (ENABLE_SSL == '1' ) && ($connection == 'SSL') && ($add_session_id == true) ) {
       $_sid = oos_session_name() . '=' . oos_session_id();
     } elseif ( ($add_session_id == true) && (oos_is_not_null(SID)) ) {
       $_sid = SID;
@@ -115,7 +115,7 @@
   * @return string
   */
   function oos_image($src, $title = null, $width = 0, $height = 0, $parameters = null) {
-    if ( (empty($src) || ($src == OOS_IMAGES)) && (IMAGE_REQUIRED == 'false') ) {
+    if ( (empty($src) || ($src == OOS_IMAGES)) && (IMAGE_REQUIRED == '0') ) {
       return false;
     }
 
@@ -145,7 +145,7 @@
       $image .= ' ' . oos_output_string($parameters);
     }
 
-    if (OOS_XHTML == 'true') $image .= ' /';
+    if (OOS_XHTML == '1') $image .= ' /';
     $image .= '>';
 
     return $image;
@@ -165,7 +165,7 @@
     $sTheme = oos_var_prep_for_os($_SESSION['theme']);
     $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 
-    return oos_image('themes/' . $sTheme . '/images/buttons/' . $sLanguage . '/' . $image, $alt, '', '', $parameters); 
+    return oos_image('themes/' . $sTheme . '/images/buttons/' . $sLanguage . '/' . $image, $alt, '', '', $parameters);
   }
 
 
@@ -205,7 +205,7 @@
       $image .= ' ' . $params;
     }
     $image .= 'onmouseover="imgSwap(this)" onmouseout="imgSwap(this)"';
-    if (OOS_XHTML == 'true') $image .= ' /';
+    if (OOS_XHTML == '1') $image .= ' /';
     $image .= '>';
 
     return $image;
@@ -246,7 +246,7 @@
   * @param $height
   * @param $width
   * @param $image
-  */ 
+  */
   function oos_black_line($width = '100%', $height = '1', $image = 'black.gif') {
     return oos_image(OOS_IMAGES . $image, '', $width, $height);
   }
@@ -285,7 +285,7 @@
       $field .= ' ' . $parameters;
     }
 
-    if (OOS_XHTML == 'true') $field .= ' /';
+    if (OOS_XHTML == '1') $field .= ' /';
     $field .= '>';
 
     return $field;
@@ -315,7 +315,7 @@
       $selection .= ' ' . $parameters;
     }
 
-    if (OOS_XHTML == 'true') $selection .= ' /';
+    if (OOS_XHTML == '1') $selection .= ' /';
     $selection .= '>';
 
     return $selection;
@@ -376,7 +376,7 @@
       $field .= ' ' . $parameters;
     }
 
-    if (OOS_XHTML == 'true') $field .= ' /';
+    if (OOS_XHTML == '1') $field .= ' /';
     $field .= '>';
 
     return $field;
@@ -425,7 +425,7 @@
   * @param $values
   * @param $default
   * @param $parameters
-  * @param $required 
+  * @param $required
   */
   function oos_draw_pull_down_menu($name, $values, $default = '', $parameters = '', $required = false) {
 

@@ -20,7 +20,7 @@
   /** ensure this file is being included by a parent file */
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (DISPLAY_NEWSFEED != 'true') {
+  if (DISPLAY_NEWSFEED != '1') {
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
   }
 

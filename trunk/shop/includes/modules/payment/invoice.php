@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: invoice.php,v 1.25 2003/02/19 02:14:00 harley_vb 
+   File: invoice.php,v 1.25 2003/02/19 02:14:00 harley_vb
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -29,7 +29,7 @@
       $this->code = 'invoice';
       $this->title = $aLang['module_payment_invoice_text_title'];
       $this->description = $aLang['module_payment_invoice_text_description'];
-      $this->enabled = (defined('MODULE_PAYMENT_INVOICE_STATUS') && (MODULE_PAYMENT_INVOICE_STATUS == 'True') ? true : false);
+      $this->enabled = (defined('MODULE_PAYMENT_INVOICE_STATUS') && (MODULE_PAYMENT_INVOICE_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_PAYMENT_INVOICE_SORT_ORDER') ? MODULE_PAYMENT_INVOICE_SORT_ORDER : null);
 
       if ((int)MODULE_PAYMENT_INVOICE_ORDER_STATUS_ID > 0) {
@@ -130,7 +130,7 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_INVOICE_STATUS', 'True', '6', '0', 'oos_cfg_select_option(array(\'True\', \'False\'), ', now());");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_PAYMENT_INVOICE_STATUS', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now());");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_PAYMENT_INVOICE_ZONE', '0', '6', '0', 'oos_cfg_get_zone_class_title', 'oos_cfg_pull_down_zone_classes(', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_PAYMENT_INVOICE_SORT_ORDER', '0', '6', '0', now())");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, use_function, date_added) VALUES ('MODULE_PAYMENT_INVOICE_ORDER_STATUS_ID', '0', '6', '0', 'oos_cfg_pull_down_order_statuses(', 'oos_cfg_get_order_status_name', now())");

@@ -1,4 +1,4 @@
-{if $manufacturers_block eq 'true'}
+{if $manufacturers_block eq '1'}
 <table width="154" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="19" class="block_head_background"><img src="{$theme_image}/table_head_arrow.gif" alt=" " width="21" height="19"></td>
@@ -12,7 +12,7 @@
         <td width="150"><table width="150" border="0" cellspacing="0" cellpadding="3">
           <tr>
             <td align="left" valign="top" class="block_content">
-{if $display_a_list eq 'true'}
+{if $display_a_list eq '1'}
 {foreach item=manufacturer from=$manufacturers_list}
   {include file="default/blocks/manufacturer.html"}
 {/foreach}

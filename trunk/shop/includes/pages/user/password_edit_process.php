@@ -24,11 +24,11 @@ if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_
 
 require 'includes/languages/' . $sLanguage . '/user_password_edit_process.php';
 
-if (ACCOUNT_GENDER == 'true') $gender = oos_prepare_input($_POST['gender']);
+if (ACCOUNT_GENDER == '1') $gender = oos_prepare_input($_POST['gender']);
 $firstname = oos_prepare_input($_POST['firstname']);
 $lastname = oos_prepare_input($_POST['lastname']);
 
-if (ACCOUNT_NUMBER == 'true') $number = oos_prepare_input($_POST['number']);
+if (ACCOUNT_NUMBER == '1') $number = oos_prepare_input($_POST['number']);
 $email_address = oos_prepare_input($_POST['email_address']);
 
 $password = oos_prepare_input($_POST['password']);
@@ -38,43 +38,43 @@ $confirmation = oos_prepare_input($_POST['confirmation']);
 
 $bError = false; // reset error flag
 
-if (ACCOUNT_GENDER == 'true') {
+if (ACCOUNT_GENDER == '1') {
     if ( ($gender == 'm') || ($gender == 'f') ) {
         $gender_error = false;
     } else {
         $bError = true;
-        $gender_error = 'true';
+        $gender_error = '1';
     }
 }
 
 if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
     $bError = true;
-    $firstname_error = 'true';
+    $firstname_error = '1';
 }
 
 if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
     $bError = true;
-    $lastname_error = 'true';
+    $lastname_error = '1';
 }
 
 if (strlen($email_address) < ENTRY_EMAIL_ADDRESS_MIN_LENGTH) {
     $bError = true;
-    $email_address_error = 'true';
+    $email_address_error = '1';
 }
 
 if (!oos_validate_is_email($email_address)) {
     $bError = true;
-    $email_address_check_error = 'true';
+    $email_address_check_error = '1';
 }
 
 if (strlen($password) < ENTRY_PASSWORD_MIN_LENGTH) {
     $bError = true;
-    $password_error = 'true';
+    $password_error = '1';
 }
 
 if ($password != $confirmation) {
     $bError = true;
-    $password_error = 'true';
+    $password_error = '1';
 }
 
 $customerstable = $oostable['customers'];
@@ -86,7 +86,7 @@ $check_email = $dbconn->Execute($check_email_sql);
 
 if ($check_email->fields['total'] > 0) {
     $bError = true;
-    $email_address_exists = 'true';
+    $email_address_exists = '1';
 }
 
 if ($bError == true) {
@@ -94,7 +94,7 @@ if ($bError == true) {
 
     $processed = true;
     $no_edit = true;
-    $show_password = 'true';
+    $show_password = '1';
 
     // links breadcrumb
     $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
@@ -158,7 +158,7 @@ if ($bError == true) {
                             'customers_email_address' => $email_address,
                             'customers_password' => $new_encrypted_password);
 
-    if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
+    if (ACCOUNT_GENDER == '1') $sql_data_array['customers_gender'] = $gender;
 
     oos_db_perform($oostable['customers'], $sql_data_array, 'update', "customers_id = '" . intval($_SESSION['customer_id']) . "'");
 
@@ -175,17 +175,17 @@ if ($bError == true) {
     $dbconn->Execute($update_info_sql);
 
 
-    if (SEND_CUSTOMER_EDIT_EMAILS == 'true') {
+    if (SEND_CUSTOMER_EDIT_EMAILS == '1') {
         $email_owner = $aLang['owner_email_subject'] . "\n" .
                        $aLang['email_separator'] . "\n" .
                        $aLang['owner_email_date'] . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n" .
                        $aLang['email_separator'] . "\n";
-        if (ACCOUNT_NUMBER == 'true') {
+        if (ACCOUNT_NUMBER == '1') {
             $email_owner .= $aLang['owner_email_number'] . ' ' . $number . "\n" .
                             $aLang['email_separator'] . "\n\n";
         }
 
-        if (ACCOUNT_GENDER == 'true') {
+        if (ACCOUNT_GENDER == '1') {
             if ($gender == 'm') {
                 $email_owner .= $aLang['entry_gender'] . ' ' . $aLang['male'] . "\n";
             } else {

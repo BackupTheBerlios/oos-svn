@@ -7,7 +7,7 @@
            <td class="main"><table border="0" width="100%" cellspacing="0" cellpadding="2" class="formArea">
             <tr>
               <td class="main"><table border="0" cellspacing="0" cellpadding="2">
-{if $smarty.const.ACCOUNT_GENDER eq 'true'}
+{if $smarty.const.ACCOUNT_GENDER eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_gender}</td>
             <td class="main">&nbsp;<input type="radio" name="gender" value="m" checked="checked">&nbsp;&nbsp;{$lang.male}&nbsp;&nbsp;<input type="radio" name="gender" value="f">&nbsp;&nbsp;{$lang.female}&nbsp;&nbsp;<small><font color="#AABBDD">{$lang.entry_info_text}</font></small></td>
@@ -21,14 +21,14 @@
             <td class="main">&nbsp;{$lang.entry_last_name}</td>
             <td class="main">&nbsp;<input type="text" name="lastname" value="{$account.customers_lastname}">&nbsp;&nbsp;<small><font color="#AABBDD">{$lang.entry_info_text}</font></small></td>
           </tr>
-{if $smarty.const.ACCOUNT_DOB eq 'true'}
+{if $smarty.const.ACCOUNT_DOB eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_date_of_birth}</td>
             <td class="main">&nbsp;<input type="text" name="dob" value="{$account.customers_dob|oos_date_short}">&nbsp;&nbsp;<small>{$lang.entry_date_of_birth_text}<font color="#AABBDD">{$lang.entry_info_text}</font></small></td>
           </tr>
 {/if}
-{if $smarty.const.ACCOUNT_NUMBER eq 'true'}
-  {if $read eq 'false'}
+{if $smarty.const.ACCOUNT_NUMBER eq '1'}
+  {if $read eq '0'}
           <tr>
               <td class="main">&nbsp;{$lang.entry_number}</td>
               <td class="main">&nbsp;<input type="text" name="number" value="{$number}"></td>
@@ -48,7 +48,7 @@
       </tr>
     </table></td>
   </tr>
-{if $smarty.const.ACCOUNT_COMPANY eq 'true'}
+{if $smarty.const.ACCOUNT_COMPANY eq '1'}
   <tr>
     <td class="formAreaTitle"><br>{$lang.category_company}</td>
   </tr>
@@ -60,14 +60,14 @@
             <td class="main">&nbsp;{$lang.entry_company}</td>
             <td class="main">&nbsp;<input type="text" name="company" value="{$account.entry_company}"></td>
           </tr>
-  {if $smarty.const.ACCOUNT_OWNER eq 'true'}
+  {if $smarty.const.ACCOUNT_OWNER eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_owner}</td>
             <td class="main">&nbsp;<input type="text" name="owner" value="{$account.entry_owner}"></td>
           </tr>
 
   {/if}
-  {if $smarty.const.ACCOUNT_VAT_ID eq 'true'}
+  {if $smarty.const.ACCOUNT_VAT_ID eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_vat_id}</td>
             <td class="main">&nbsp;<input type="text" name="vat_id" value="{$account.customers_vat_id}"></td>
@@ -89,7 +89,7 @@
             <td class="main">&nbsp;{$lang.entry_street_address}</td>
             <td class="main">&nbsp;<input type="text" name="street_address" value="{$account.entry_street_address}">&nbsp;&nbsp;<small><font color="#AABBDD">{$lang.entry_info_text}</font></small></td>
           </tr>
-{if $smarty.const.ACCOUNT_SUBURB eq 'true'}
+{if $smarty.const.ACCOUNT_SUBURB eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_suburb}</td>
             <td class="main">&nbsp;<input type="text" name="suburb" value="{$account.entry_suburb}"></td>
@@ -103,7 +103,7 @@
             <td class="main">&nbsp;{$lang.entry_city}</td>
             <td class="main">&nbsp;<input type="text" name="city" value="{$account.entry_city}">&nbsp;&nbsp;<small><font color="#AABBDD">{$lang.entry_info_text}</font></small></td>
           </tr>
-{if $smarty.const.ACCOUNT_STATE eq 'true'}
+{if $smarty.const.ACCOUNT_STATE eq '1'}
           <tr>
             <td class="main">&nbsp;{$lang.entry_state}</td>
             <td class="main">&nbsp;<input type="text" name="state" value="{oos_get_zone_name country_id=$account.entry_country_id zone_id=$account.entry_zone_id default_zone=$account.entry_state}">&nbsp;&nbsp;<small><font color="#AABBDD">{$lang.entry_info_text}</font></small></td>
@@ -151,7 +151,7 @@
       </tr>
     </table></td>
   </tr>
-{if $show_password eq 'true'}
+{if $show_password eq '1'}
   <tr>
     <td class="formAreaTitle"><br>{$lang.category_password}</td>
   </tr>

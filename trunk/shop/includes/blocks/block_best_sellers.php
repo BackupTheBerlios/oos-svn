@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!is_numeric(MAX_DISPLAY_BESTSELLERS)) return false;
 
-$best_sellers_block = 'false';
+$best_sellers_block = '0';
 
 if (isset($nCurrentCategoryId) && ($nCurrentCategoryId > 0)) {
     $productstable = $oostable['products'];
@@ -62,7 +62,7 @@ if (isset($nCurrentCategoryId) && ($nCurrentCategoryId > 0)) {
 
 $best_sellers_result = $dbconn->SelectLimit($query, MAX_DISPLAY_BESTSELLERS);
 if ($best_sellers_result->RecordCount() >= MIN_DISPLAY_BESTSELLERS) {
-    $best_sellers_block = 'true';
+    $best_sellers_block = '1';
 
     $oSmarty->assign('best_sellers_list', $best_sellers_result->GetArray());
     $oSmarty->assign('block_heading_best_sellers', $block_heading);

@@ -20,7 +20,7 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-$newsfeeds_block = 'false';
+$newsfeeds_block = '0';
 
 $newsfeed_managertable = $oostable['newsfeed_manager'];
 $random_select = "SELECT newsfeed_manager_id, newsfeed_categories_id, newsfeed_manager_name,
@@ -36,7 +36,7 @@ $random_select .= " ORDER BY newsfeed_manager_id DESC";
 $random_newsfeed = oos_random_select($random_select, MAX_RANDOM_SELECT_NEWSFEED);
 
 if ($random_newsfeed) {
-    $newsfeeds_block = 'true';
+    $newsfeeds_block = '1';
     $newsfeeds = '<b>' . $random_newsfeed['newsfeed_manager_name'] . '</b><br />' .
                  strftime(DATE_TIME_FORMAT) . '<br />' ;
 

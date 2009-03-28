@@ -6,7 +6,7 @@
 	<td>
 	<table border="0" cellspacing="0" cellpadding="2">
 
-{if $smarty.const.ACCOUNT_GENDER eq 'true'}
+{if $smarty.const.ACCOUNT_GENDER eq '1'}
 	<tr>
 		<td class="main">&nbsp;{$lang.entry_gender}</td>
 		<td class="main">&nbsp;{$gender}</td>
@@ -20,13 +20,13 @@
 		<td class="main">&nbsp;{$lang.entry_last_name}</td>
 		<td class="main">&nbsp;{$account.customers_lastname}</td>
 	</tr>
-{if $smarty.const.ACCOUNT_DOB eq 'true'}
+{if $smarty.const.ACCOUNT_DOB eq '1'}
 	<tr>
 		<td class="main">&nbsp;{$lang.entry_date_of_birth}</td>
 		<td class="main">&nbsp;{$account.customers_dob|oos_date_short}</td>
 	</tr>
 {/if}
-{if $smarty.const.ACCOUNT_NUMBER eq 'true'}
+{if $smarty.const.ACCOUNT_NUMBER eq '1'}
 	<tr>
 		<td class="main">&nbsp;{$lang.entry_number}</td>
 		<td class="main">&nbsp;{$account.customers_number}</td>

@@ -65,7 +65,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
 
     // if conditions are not accepted, redirect the customer to the payment method selection page
-    if ( (DISPLAY_CONDITIONS_ON_CHECKOUT == 'true') && (empty($_POST['gv_redeem_code'])) ) {
+    if ( (DISPLAY_CONDITIONS_ON_CHECKOUT == '1') && (empty($_POST['gv_redeem_code'])) ) {
         if ($_POST['conditions'] == false) {
             $_SESSION['navigation']->remove_current_page();
             $_SESSION['navigation']->remove_last_page();
@@ -120,14 +120,14 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
     // Stock Check
     $any_out_of_stock = false;
-    if (STOCK_CHECK == 'true') {
+    if (STOCK_CHECK == '1') {
         for ($i=0, $n=count($oOrder->products); $i<$n; $i++) {
             if (oos_check_stock($oOrder->products[$i]['id'], $oOrder->products[$i]['qty'])) {
                 $any_out_of_stock = true;
             }
         }
         // Out of Stock
-        if ( (STOCK_ALLOW_CHECKOUT != 'true') && ($any_out_of_stock == true) ) {
+        if ( (STOCK_ALLOW_CHECKOUT != '1') && ($any_out_of_stock == true) ) {
             oos_redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
         }
     }

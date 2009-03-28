@@ -66,7 +66,7 @@ $products_index_array;
      var $parent_category_name;
      var $ifw = 0;     //internal width  margin for the products (image AND text) description
      var $text_fw = 0; //text width for the products (text) description
-     var $ifh = 0;     //internal height margin for the products description 
+     var $ifh = 0;     //internal height margin for the products description
      var $products_index_array;
      var $products_index_list='';
 
@@ -74,7 +74,7 @@ $products_index_array;
        //Background Color
        $background_color_table = explode(",",BACKGROUND_COLOR);
        $this->SetFillColor($background_color_table[0], $background_color_table[1], $background_color_table[2]);
-       $this->ifw = $this->fw * 0.95; // A4 portrait = 200 
+       $this->ifw = $this->fw * 0.95; // A4 portrait = 200
        $this->ifh = $this->fh * 0.87; // A4 portrait = 260
        $this->Rect(0,0,$this->fw,$this->fh,F); // Draw background
 
@@ -213,7 +213,7 @@ $products_index_array;
          }
 
          $path = $destination.$array[$last-1];
-         $this->SetLineWidth(1);  
+         $this->SetLineWidth(1);
          $this->Cell($width+3,$height,"",1,0);
          $this->SetLineWidth(0.2);
          $this->Image($path,($this->GetX()-$width), $this->GetY(), $width, $height,'',$link);
@@ -247,7 +247,7 @@ $products_index_array;
          $this->categories_string_spe .=  $foo[$cid]['name'];
 
          if (SHOW_COUNTS) {
-           $products_in_category = oos_products_in_category_count($cid,'false');
+           $products_in_category = oos_products_in_category_count($cid,'0');
            if ($products_in_category > 0) {
              $this->categories_string_spe .= ' (' . $products_in_category . ')';
            }
@@ -308,7 +308,7 @@ $products_index_array;
 
        if (!function_exists(CompareIndex)) {
          function CompareIndex($a, $b) {
-            return strncasecmp($a['name'],$b['name'],8); 
+            return strncasecmp($a['name'],$b['name'],8);
          }
        }
        usort($this->products_index_array, CompareIndex);
@@ -586,7 +586,7 @@ if (SHOW_INTRODUCTION) {
        $oostable =& oosDBGetTables();
 
        for ($i=0; $i<sizeof($categoriesidarray)-1; $i++) {
-         $category_count_products = oos_products_in_category_count($categoriesidarray[$i],'false');
+         $category_count_products = oos_products_in_category_count($categoriesidarray[$i],'0');
          if (!((!SHOW_EMPTY_CATEGORIES) AND ($category_count_products < 1))) {
            $taille = 0;
            $current_category_id = $categoriesidarray[$i];
@@ -657,7 +657,7 @@ if (SHOW_INTRODUCTION) {
                 $this->SetFont('Arial','',11);
 
                 for($j=0; $j<$taille; $j++ ) {
-                    // NH si pas d'image definie, image par default 
+                    // NH si pas d'image definie, image par default
                     if (strlen($print_catalog_array[$j]['image']) > 0 && file_exists(DIR_FS_CATALOG. OOS_IMAGES .$print_catalog_array[$j]['image'])) {
                         $imagepath=DIR_FS_CATALOG. OOS_IMAGES .$print_catalog_array[$j]['image'];
                     } else {
@@ -675,7 +675,7 @@ echo 'The product "'.$print_catalog_array[$j]['name'].'" has no picture. I use t
                     $date_added = rtrim(strip_tags($print_catalog_array[$j]['date_added']));
 
                     $data_array=array($imagewidth,$imageheight,$name,$model,$date_added,$manufacturer,$description,$tax_class_id,$specials_price,$price,$id,$languages_code,$imagepath);
-                    $this->Ln(PRODUCTS_SEPARATOR); // NH blank space before the products description cells 
+                    $this->Ln(PRODUCTS_SEPARATOR); // NH blank space before the products description cells
                     $this->DrawCells($data_array);
                     if (SHOW_INDEX) {
                         switch (INDEX_EXTRA_FIELD) {
@@ -706,8 +706,8 @@ echo 'The product "'.$print_catalog_array[$j]['name'].'" has no picture. I use t
        $products_to_categoriestable = $oostable['products_to_categories'];
        $specialstable = $oostable['specials'];
        $categoriestable = $oostable['categories'];
-       $products_new_query_raw = "SELECT p.products_id, pd.products_name, pd.products_description, 
-                                         p.products_image, p.products_model, p.products_price, p.products_tax_class_id, 
+       $products_new_query_raw = "SELECT p.products_id, pd.products_name, pd.products_description,
+                                         p.products_image, p.products_model, p.products_price, p.products_tax_class_id,
                                          IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price,
                                          p.products_date_added, m.manufacturers_name
                                   FROM $products_descriptiontable pd,
@@ -717,7 +717,7 @@ echo 'The product "'.$print_catalog_array[$j]['name'].'" has no picture. I use t
                                        $categoriestable c,
                                        $products_to_categoriestable p2c
                                   WHERE p.products_status = '1' AND
-                                        p.products_id = pd.products_id AND 
+                                        p.products_id = pd.products_id AND
                                         pd.language_id = '" . $languages_id . "' AND
                                         p.products_id = p2c.products_id AND
                                         p2c.categories_id = c.categories_id
@@ -787,7 +787,7 @@ echo 'The product "'.$print_catalog_array[$j]['name'].'" has no picture. I use t
    }
 
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

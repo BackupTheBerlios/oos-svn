@@ -5,12 +5,12 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: ot_xmembers.php,v 1.1 2003/01/08 10:53:04 elarifr 
-         ot_lev_members.php,v 1.0 2002/04/08 01:13:43 hpdl 
+   File: ot_xmembers.php,v 1.1 2003/01/08 10:53:04 elarifr
+         ot_lev_members.php,v 1.0 2002/04/08 01:13:43 hpdl
    ----------------------------------------------------------------------
    Customers_status v3.x / Catalog part
    Copyright elari@free.fr
@@ -34,7 +34,7 @@
       $this->code = 'ot_xmembers';
       $this->title = $aLang['module_xmembers_title'];
       $this->description = $aLang['module_xmembers_description'];
-      $this->enabled = (defined('MODULE_XMEMBERS_STATUS') && (MODULE_XMEMBERS_STATUS == 'true') ? true : false);
+      $this->enabled = (defined('MODULE_XMEMBERS_STATUS') && (MODULE_XMEMBERS_STATUS == '1') ? true : false);
       $this->sort_order = (defined('MODULE_XMEMBERS_SORT_ORDER') ? MODULE_XMEMBERS_SORT_ORDER : null);
       $this->include_shipping = (defined('MODULE_XMEMBERS_INC_SHIPPING') ? MODULE_XMEMBERS_INC_SHIPPING : null);
       $this->include_tax = (defined('MODULE_XMEMBERS_INC_TAX') ? MODULE_XMEMBERS_INC_TAX : null);
@@ -66,7 +66,7 @@
     $od_pc = $this->percentage;
     if ($amount > $this->minimum) {
       if ($_SESSION['member']->group['ot_discount_flag'] == '1') {  // Calculate tax reduction if necessary
-        if ($this->calculate_tax == 'true') {  // Calculate main tax reduction
+        if ($this->calculate_tax == '1') {  // Calculate main tax reduction
           $tod_amount = round($oOrder->info['tax']*10)/10*$od_pc/100;
           $oOrder->info['tax'] = $oOrder->info['tax'] - $tod_amount; // Calculate tax group deductions
           reset($oOrder->info['tax_groups']);
@@ -106,7 +106,7 @@
       if (ereg('^GIFT', addslashes($gv_result['products_model']))) {
         $qty = $_SESSION['cart']->get_quantity($t_prid);
         $products_tax = oos_get_tax_rate($gv_result['products_tax_class_id']);
-        if ($this->include_tax == 'false') {
+        if ($this->include_tax == '0') {
           $gv_amount = $gv_result['products_price'] * $qty;
         } else {
           $gv_amount = ($gv_result['products_price'] + oos_calculate_tax($gv_result['products_price'],$products_tax)) * $qty;
@@ -114,8 +114,8 @@
         $order_total = $order_total - $gv_amount;
       }
     }
-    if ($this->include_tax == 'false') $order_total = $order_total-$oOrder->info['tax'];
-    if ($this->include_shipping == 'false') $order_total = $order_total-$oOrder->info['shipping_cost'];
+    if ($this->include_tax == '0') $order_total = $order_total-$oOrder->info['tax'];
+    if ($this->include_shipping == '0') $order_total = $order_total-$oOrder->info['shipping_cost'];
     return $order_total;
   }
 
@@ -139,11 +139,11 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_XMEMBERS_STATUS', 'true', '6', '1','oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
+      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_XMEMBERS_STATUS', '1', '6', '1','oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
       $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_XMEMBERS_SORT_ORDER', '3', '6', '2', now())");
-      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_INC_SHIPPING', 'true', '6', '5', 'oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_INC_TAX', 'true', '6', '6','oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_CALC_TAX', 'false', '6', '5','oos_cfg_select_option(array(\'true\', \'false\'), ', now())");
+      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_INC_SHIPPING', '1', '6', '5', 'oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_INC_TAX', '1', '6', '6','oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
+      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_CALC_TAX', '0', '6', '5','oos_cfg_select_option(array(\'1\', \'0\'), ', now())");
     }
 
     function remove() {
@@ -156,4 +156,5 @@
       $dbconn->Execute("DELETE FROM  $configurationtable WHERE configuration_key in ('" . implode("', '", $this->keys()) . "')");
     }
   }
+
 ?>

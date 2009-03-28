@@ -1,4 +1,4 @@
-{if $xsell_block eq 'true'}
+{if $xsell_block eq '1'}
 <div class="block" id="block_ticket">
 	<h4>
 		{$block_heading_xsell}
@@ -8,7 +8,7 @@
 		<ul>
 		{foreach name=xsell item=xsell_products from=$block_xsell_products}
 			<li>
-			{if $smarty.const.BLOCK_XSELL_PRODUCTS_IMAGE eq 'true'}
+			{if $smarty.const.BLOCK_XSELL_PRODUCTS_IMAGE eq '1'}
 				{tooltip products_id=$xsell_products.products_id products_description=$xsell_products.products_description image=$xsell_products.products_image}{$xsell_products.products_name|truncate:14:"":true|close_tags}</a>
 			{else}
 				<a href="{product_info_link products_id=$xsell_products.products_id}">{$xsell_products.products_name|truncate:14:"":true|close_tags}</a></td>

@@ -33,16 +33,16 @@
         <td><table width="100%" border="0" cellspacing="0" cellpadding="5">
           <tr>
             <td class="infoBoxHeading" align="left">{$lang.table_heading_nr}</td>
-        {if $smarty.const.TICKET_USE_SUBJECT eq 'true'}
+        {if $smarty.const.TICKET_USE_SUBJECT eq '1'}
             <td class="infoBoxHeading" align="left">{$lang.table_heading_subject}</td>
         {/if}
-        {if $ticket_use_status eq 'true'}
+        {if $ticket_use_status eq '1'}
             <td class="infoBoxHeading">{$lang.table_heading_status}</td>
         {/if}
-        {if $smarty.const.TICKET_USE_DEPARTMENT eq 'true'}
+        {if $smarty.const.TICKET_USE_DEPARTMENT eq '1'}
             <td class="infoBoxHeading">{$lang.table_heading_department}</td>
         {/if}
-        {if $smarty.const.TICKET_USE_PRIORITY eq 'true'}
+        {if $smarty.const.TICKET_USE_PRIORITY eq '1'}
             <td class="infoBoxHeading">{$lang.table_heading_priority}</td>
         {/if}
            <td class="infoBoxHeading" align="right">{$lang.table_heading_created}</td>
@@ -55,16 +55,16 @@
       <tr class="productListing-odd">
           {/if}
             <td class="smallText" align="left"><a href="{html_href_link modul=$modules.ticket file=$filename.ticket_view tlid=$customers_tickets_array[i].ticket_link_id}">{$customers_tickets_array[i].ticket_link_id}</a></td>
-          {if $smarty.const.TICKET_USE_SUBJECT eq 'true'}
+          {if $smarty.const.TICKET_USE_SUBJECT eq '1'}
             <td class="smallText" align="left"><a href="{html_href_link modul=$modules.ticket file=$filename.ticket_view tlid=$customers_tickets_array[i].ticket_link_id}">{$customers_tickets_array[i].ticket_subject}</a></td>
           {/if}
-          {if $ticket_use_status eq 'true'}
+          {if $ticket_use_status eq '1'}
             <td class="smallText">{assign_array var=$customers_tickets_array[i].ticket_status_id values=$ticket_status_array}</td>
           {/if}
-          {if $smarty.const.TICKET_USE_DEPARTMENT eq 'true'}
+          {if $smarty.const.TICKET_USE_DEPARTMENT eq '1'}
             <td class="smallText">{assign_array var=$customers_tickets_array[i].ticket_department_id values=$ticket_department_array}</td>
           {/if}
-          {if $smarty.const.TICKET_USE_PRIORITY eq 'true'}
+          {if $smarty.const.TICKET_USE_PRIORITY eq '1'}
             <td class="smallText">{assign_array var=$customers_tickets_array[i].ticket_priority_id values=$ticket_priority_array}</td>
           {/if}
             <td class="smallText" align="right">{$customers_tickets_array[i].ticket_date_created|oos_date_short}</td>
@@ -104,9 +104,9 @@
             <td class="ticketSmallText" width="15%"><b>{$statuses_array[i].ticket_edited_by}</b><br></br>
 
           {$lang.text_date}&nbsp;{$statuses_array[i].ticket_date_modified|oos_date_short}<br>
-          {if $ticket_use_status eq 'true'}      {$lang.text_status}&nbsp;{assign_array var=$statuses_array[i].ticket_status_id values=$ticket_status_array}<br>{/if}
-          {if $smarty.const.TICKET_USE_DEPARTMENT eq 'true'}  {$lang.text_department}&nbsp;{assign_array var=$statuses_array[i].ticket_department_id values=$ticket_department_array}<br>{/if}
-          {if $smarty.const.TICKET_USE_PRIORITY eq 'true'}    {$lang.text_priority}&nbsp;{assign_array var=$statuses_array[i].ticket_priority_id values=$ticket_priority_array}<br>{/if}
+          {if $ticket_use_status eq '1'}      {$lang.text_status}&nbsp;{assign_array var=$statuses_array[i].ticket_status_id values=$ticket_status_array}<br>{/if}
+          {if $smarty.const.TICKET_USE_DEPARTMENT eq '1'}  {$lang.text_department}&nbsp;{assign_array var=$statuses_array[i].ticket_department_id values=$ticket_department_array}<br>{/if}
+          {if $smarty.const.TICKET_USE_PRIORITY eq '1'}    {$lang.text_priority}&nbsp;{assign_array var=$statuses_array[i].ticket_priority_id values=$ticket_priority_array}<br>{/if}
             </td>
             <td align=left class="ticketSmallText">{$statuses_array[i].ticket_comments|nl2br}</td>
           </tr>

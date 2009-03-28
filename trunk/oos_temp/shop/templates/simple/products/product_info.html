@@ -1,4 +1,4 @@
-{if $smarty.const.LIGHTBOX eq 'true'}
+{if $smarty.const.LIGHTBOX eq '1'}
 <script type="text/javascript" src="js/lightbox/prototype.js"></script>
 <script type="text/javascript" src="js/lightbox/scriptaculous.js?load=effects"></script>
 <script type="text/javascript" src="js/lightbox/lightbox.js"></script>
@@ -34,7 +34,7 @@ document.write('<a href="javascript:void window.open(\'{html_href_link modul=$mo
     </td>
     <td align="right" valign="top" class="smallText">
 {if $product_info.products_image != '' }
-  {if $smarty.const.LIGHTBOX eq 'true'}
+  {if $smarty.const.LIGHTBOX eq '1'}
     <a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} ><img src="{$smarty.const.OOS_IMAGES}{$product_info.products_image}" alt={$product_info.products_name|escape:"quotes"} border="0"></a><br>
     <br><br><a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} >{html_js_icon image="zoom.gif" alt=$lang.icon_button_zoom}{$lang.text_click_to_enlarge}</a>
 
@@ -85,14 +85,14 @@ document.write('<br /><a href="javascript:popupZoom(\'{html_href_link modul=$mod
         <td align="center" class="smallText"><br />{$product_info.products_date_available|oos_date_long|string_format:$lang.text_date_available}</td>
       </tr>
 {else}
-  {if $smarty.const.SHOW_DATE_ADDED_AVAILABLE eq 'true'}
+  {if $smarty.const.SHOW_DATE_ADDED_AVAILABLE eq '1'}
       <tr>
         <td align="center" class="smallText"><br />{$product_info.products_date_added|oos_date_long|string_format:$lang.text_date_added}</td>
       </tr>
   {/if}
 {/if}
 
-{if $discounts_price eq 'true'}
+{if $discounts_price eq '1'}
   {include file="$theme_set/products/discounts_price.html"}
 {/if}
 

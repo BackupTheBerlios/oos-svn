@@ -100,7 +100,7 @@ if ($_SESSION['cart']->count_contents() > 0) {
 
                 if ($_SESSION['member']->group['discount'] != 0) {
                     $max_product_discount = min($products[$i]['discount_allowed'], $_SESSION['member']->group['discount']);
-                    if ( ($max_product_discount > 0) && ($products[$i]['spezial'] == 'false') ) {
+                    if ( ($max_product_discount > 0) && ($products[$i]['spezial'] == '0') ) {
                         $attr_price = $attr_price*(100-$max_product_discount)/100;
                     }
                 }

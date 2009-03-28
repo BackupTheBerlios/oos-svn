@@ -1,4 +1,4 @@
-{if $products_history_block eq 'true'}
+{if $products_history_block eq '1'}
 <div class="block" id="block_products_history">
 	<h4>
 		{$block_heading_products_history}
@@ -6,7 +6,7 @@
 	<div class="block_content">
 
 	{foreach name=history item=products_history from=$customer_products_history}
-		{if $smarty.const.BLOCK_PRODUCTS_HISTORY_IMAGE eq 'true'}
+		{if $smarty.const.BLOCK_PRODUCTS_HISTORY_IMAGE eq '1'}
 			<p>
 				{tooltip products_id=$products_history.products_id products_description=$products_history.products_description image=$products_history.products_image}{$products_history.products_name|truncate:11:"":true|close_tags}</a>
 			</p>

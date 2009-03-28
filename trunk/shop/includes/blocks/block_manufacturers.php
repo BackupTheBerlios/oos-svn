@@ -24,8 +24,8 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('manufacturers')) return false;
 
-$manufacturers_block = 'false';
-$display_a_list = 'false';
+$manufacturers_block = '0';
+$display_a_list = '0';
 
 $manufacturerstable = $oostable['manufacturers'];
 $query = "SELECT manufacturers_id, manufacturers_name
@@ -35,12 +35,12 @@ $manufacturers_result = $dbconn->Execute($query);
 $nManufacturersRecordCount = $manufacturers_result->RecordCount();
 
 if ($nManufacturersRecordCount < 1) {
-    $manufacturers_block = 'false';
+    $manufacturers_block = '0';
 } elseif ($nManufacturersRecordCount <= MAX_DISPLAY_MANUFACTURERS_IN_A_LIST) {
 
     // Display a list
-    $display_a_list = 'true';
-    $manufacturers_block = 'true';
+    $display_a_list = '1';
+    $manufacturers_block = '1';
     $manufacturers_list = array();
 
     while ($manufacturers = $manufacturers_result->fields) {
@@ -59,7 +59,7 @@ if ($nManufacturersRecordCount < 1) {
 } else {
 
     // Display a drop-down
-    $manufacturers_block = 'true';
+    $manufacturers_block = '1';
     $manufacturers_names = array();
     $manufacturers_values = array();
 

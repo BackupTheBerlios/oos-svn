@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -49,7 +49,7 @@
 
     function oosCategoryTree() {
 
-      if (SHOW_COUNTS == 'true') {
+      if (SHOW_COUNTS == '1') {
         $this->show_category_product_count = true;
       }
 
@@ -70,7 +70,7 @@
                 AND c.categories_id = cd.categories_id
                 AND cd.categories_languages_id = '" .  intval($nLanguageID) . "'
               ORDER BY c.parent_id, c.sort_order, cd.categories_name";
-      if (USE_DB_CACHE == 'true') {
+      if (USE_DB_CACHE == '1') {
         $categories_result = $dbconn->CacheExecute(3600, $sql);
       } else {
         $categories_result = $dbconn->Execute($sql);
@@ -373,4 +373,5 @@
       $this->category_product_count_end_string = $category_product_count_end_string;
     }
   }
+
 ?>

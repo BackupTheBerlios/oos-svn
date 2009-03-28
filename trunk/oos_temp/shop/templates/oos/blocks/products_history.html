@@ -1,4 +1,4 @@
-{if $products_history_block eq 'true'}
+{if $products_history_block eq '1'}
 <table width="154" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="19" class="block_head_background"><img src="{$theme_image}/table_head_arrow.gif" alt=" " width="21" height="19"></td>
@@ -13,7 +13,7 @@
 {foreach name=history item=products_history from=$customer_products_history}
           <tr>
             <td class="block_content">{$smarty.foreach.history.iteration|number_format}.</td>
-{if $smarty.const.BLOCK_PRODUCTS_HISTORY_IMAGE eq 'true'}
+{if $smarty.const.BLOCK_PRODUCTS_HISTORY_IMAGE eq '1'}
             <td class="block_content">{tooltip products_id=$products_history.products_id products_description=$products_history.products_description image=$products_history.products_image}{$products_history.products_name|truncate:11:"":true|close_tags}</a></td>
 {else}
             <td class="block_content"><a href="{product_info_link products_id=$products_history.products_id}">{$products_history.products_name|truncate:11:"":true|close_tags}</a></td>
