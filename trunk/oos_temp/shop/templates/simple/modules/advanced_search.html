@@ -1,4 +1,4 @@
-<!--  $Id$ -->
+{*  $Id$ -->
 
 <form name="advanced_search" action="{html_get_link}" method="get" onSubmit="return check_form(this);">
 	<input type="hidden" name="mp" value="{$modules.search}">
@@ -33,11 +33,11 @@
              <tr>
                <td class="boxText"><input type="text" name="keywords" id="keywords" onKeyUp="loadXMLDoc(this.value)" autocomplete="off" style="width: 100%"></td>
              </tr>
-<!-- ajax contrib start -->
+{* ajax contrib start -->
              <tr>
                <td><div style="display: block; margin-left: 0%; width:100%; float: left;border:solid 1px;background-color:#CCCCCC;" id="quicksearch">Quick Find Results....</div></td>
              </tr>
-<!-- ajax contrib end -->
+{* ajax contrib end -->
 
              <tr>
               <td align="right" class="boxText"><input type="checkbox" name="search_in_description" value="1">{$lang.text_search_in_description}</td>
