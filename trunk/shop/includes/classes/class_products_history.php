@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -57,7 +57,7 @@
       function add_current_products($products_id) {
         if (!$this->in_history($products_id)) {
           if ($this->count_history() >= MAX_DISPLAY_PRODUCTS_IN_PRODUCTS_HISTORY_BOX) {
-            $temp = array_shift($this->products_history); 
+            $temp = array_shift($this->products_history);
           }
           array_push($this->products_history, $products_id);
         }
@@ -108,4 +108,4 @@
         $this->products_history = array();
       }
     }
-?>
+

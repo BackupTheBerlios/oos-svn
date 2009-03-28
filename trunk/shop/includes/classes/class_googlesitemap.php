@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -162,7 +162,7 @@
      * @param string $file
      */
      function GenerateSitemap($data, $file) {
-       $content = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+       $content = '<?xml version="1.0" encoding="UTF-8"' . "\n";
        $content .= '<urlset xmlns="http://www.google.com/schemas/sitemap/0.84">' . "\n";
        foreach ($data as $url){
          $content .= "\t" . '<url>' . "\n";
@@ -183,7 +183,7 @@
      * @return boolean
      */
      function GenerateSitemapIndex(){
-       $content = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+       $content = '<?xml version="1.0" encoding="UTF-8"' . "\n";
        $content .= '<sitemapindex xmlns="http://www.google.com/schemas/sitemap/0.84">' . "\n";
        $pattern = defined('GOOGLE_SITEMAP_COMPRESS')
                   ? GOOGLE_SITEMAP_COMPRESS == '1'
@@ -395,4 +395,4 @@
        return htmlspecialchars(utf8_encode('http://www.google.com/webmasters/sitemaps/ping?sitemap=' . $url));
      }
 }
-?>
+

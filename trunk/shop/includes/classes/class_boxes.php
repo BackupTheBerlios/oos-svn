@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: boxes.php,v 1.31 2003/02/11 00:04:48 hpdl 
+   File: boxes.php,v 1.31 2003/02/11 00:04:48 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -112,7 +112,7 @@
   class infoBoxHeading extends tableBox {
     function infoBoxHeading($contents, $left_corner = true, $right_corner = true, $right_arrow = false) {
       global $aLang;
-      
+
       $this->table_cellpadding = '0';
 
       if ($left_corner == true) {
@@ -211,4 +211,4 @@
       $this->tableBox($contents, true);
     }
   }
-?>
+

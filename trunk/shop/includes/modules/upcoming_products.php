@@ -67,4 +67,3 @@ if ($expected_result->RecordCount() > 0) {
     $oSmarty->assign('expected_array', $expected_result->GetArray());
 }
 
-?>

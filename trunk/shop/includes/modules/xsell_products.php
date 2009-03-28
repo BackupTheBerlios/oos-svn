@@ -54,4 +54,3 @@ if (isset($_GET['products_id'])) {
     }
 }
 
-?>

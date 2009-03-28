@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -79,7 +79,7 @@
 
      /**
      * This is the first thing we need to check. what this does is see if
-     * HTTP_HOST is anywhere in HTTP_REFERER. This is so we dont log hits coming 
+     * HTTP_HOST is anywhere in HTTP_REFERER. This is so we dont log hits coming
      * from our own domain.
      */
       if (!ereg("$httphost", $httpreferer)) {
@@ -171,4 +171,4 @@
     }
   }
 
-?>
+

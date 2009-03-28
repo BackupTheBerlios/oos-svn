@@ -12,7 +12,7 @@
  * Type:     function<br>
  * Name:     css_submit_button<br>
  * Input:<br>
- *         - value = button 
+ *         - value = button
  *
  * Examples: {css_submit_button value=$lang.image_button_login}
  * @author r23 <info@r23.de>
@@ -54,4 +54,3 @@ function smarty_function_css_submit_button($params, &$smarty)
 
 }
 
-?>

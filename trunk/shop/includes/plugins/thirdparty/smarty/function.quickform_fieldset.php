@@ -153,4 +153,3 @@ function smarty_function_quickform_fieldset($params, &$smarty)
 }
 
 
-?>

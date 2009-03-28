@@ -59,4 +59,3 @@ if (isset($_SESSION['customer_id'])) {
 $oSmarty->assign('block_heading_myworld', $block_heading);
 $oSmarty->assign('myworld_block', $myworld_block);
 
-?>

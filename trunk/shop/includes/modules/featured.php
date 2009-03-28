@@ -100,4 +100,3 @@ if ($featured_result->RecordCount() >= 1) {
     $oSmarty->assign('featured_array', $aFeatured);
 }
 
-?>

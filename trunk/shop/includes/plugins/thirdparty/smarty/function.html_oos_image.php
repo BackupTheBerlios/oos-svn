@@ -113,4 +113,3 @@ function smarty_function_html_oos_image($params, &$smarty)
 
     return '<img src="'.$image.'" alt="'.$alt.'" border="'.$border.'" width="'.$width.'" height="'.$height.'"'.$extra.' />';
 }
-?>

@@ -5,12 +5,12 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: compatibility.php,v 1.22 2004/07/22 16:36:22 hpdl 
-         compatibility.php,v 1.18 2003/02/11 01:31:01 hpdl 
+   File: compatibility.php,v 1.22 2004/07/22 16:36:22 hpdl
+         compatibility.php,v 1.18 2003/02/11 01:31:01 hpdl
          compatibility.php 1498 2007-03-29 14:04:50Z hpdl $
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
@@ -92,7 +92,7 @@
 
 
  /**
-  * Fix for PHP as CGI hosts that set SCRIPT_FILENAME to 
+  * Fix for PHP as CGI hosts that set SCRIPT_FILENAME to
   * something ending in php.cgi for all requests
   */
   if (strpos(php_sapi_name(), 'cgi') !== false) {
@@ -161,4 +161,4 @@
   }
 
 
-?>
+

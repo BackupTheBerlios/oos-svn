@@ -5,7 +5,7 @@
  * Type:       modifier
  * Name:       B2Smilies
  * Purpose:    Converts smilies in string to <IMG SRC> references
- * Author:     Gavin Cowie ('Lifted' from b2++ code by 
+ * Author:     Gavin Cowie ('Lifted' from b2++ code by
  *             Donncha O Caoimh (http://blogs.linux.ie/xeer/))
  * Version:    0.1
  * Remarks:    Expects a b2 installation at www.yoursite.com/b2/
@@ -83,4 +83,3 @@ $smilies_directory = OOS_IMAGES . 'smilies';
 	return str_replace($b2_smiliessearch, $b2_smiliesreplace, $message);
 }
 
-?>

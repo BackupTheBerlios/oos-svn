@@ -83,4 +83,3 @@ if ($downloads_result->RecordCount() > 0) {
     $oSmarty->assign('downloads_array',$downloads_array);
 }
 
-?>

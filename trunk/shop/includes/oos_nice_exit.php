@@ -52,5 +52,3 @@ if (OOS_LOG_SQL == 'true') {
     echo $perf->ExpensiveSQL();
     echo $perf->InvalidSQL();
 }
-
-?>

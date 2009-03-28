@@ -14,5 +14,5 @@ function smarty_prefilter_improvetypo($content, &$smarty)
 	require_once $smarty->_get_plugin_filepath('shared','improvetypo');
 	return smarty_improvetypo($content);
 	}
-	
-?>
+
+

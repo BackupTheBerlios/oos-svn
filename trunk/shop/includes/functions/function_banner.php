@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: banner.php,v 1.10 2003/02/11 01:31:01 hpdl 
+   File: banner.php,v 1.10 2003/02/11 01:31:01 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -250,9 +250,8 @@
 
     $banners_historytable = $oostable['banners_history'];
     $dbconn->Execute("UPDATE $banners_historytable
-                  SET banners_clicked = banners_clicked + 1 
-                  WHERE banners_id = '" . intval($banner_id) . "' 
+                  SET banners_clicked = banners_clicked + 1
+                  WHERE banners_id = '" . intval($banner_id) . "'
                     AND date_format(banners_history_date, '%Y%m%d') = date_format(now(), '%Y%m%d')");
   }
 
-?>

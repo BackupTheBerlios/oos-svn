@@ -326,4 +326,3 @@
                         'oos_page_numrows' => $listing_numrows));
   $oSmarty->assign('list_box_contents', $list_box_contents);
 
-?>

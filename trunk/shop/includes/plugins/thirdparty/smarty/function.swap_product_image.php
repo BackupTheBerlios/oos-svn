@@ -76,4 +76,3 @@ function smarty_function_swap_product_image($params, &$smarty)
     return '<img id="'.$id.'" src="'.$image.'" alt="'.$alt.'" border="'.$border.'" width="'.$width.'" height="'.$height.'"'.$extra.' onmouseover="imgSwap(this)" onmouseout="imgSwap(this)" />';
 
 }
-?>

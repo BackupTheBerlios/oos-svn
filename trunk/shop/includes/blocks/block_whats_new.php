@@ -87,4 +87,3 @@ if ($random_product = oos_random_select($query, MAX_RANDOM_SELECT_NEW)) {
 
 $oSmarty->assign('whats_new_block', $whats_new_block);
 
-?>

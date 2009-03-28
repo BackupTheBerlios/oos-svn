@@ -93,4 +93,3 @@ $oSmarty->assign(
           'td5' => $td5)
 );
 
-?>

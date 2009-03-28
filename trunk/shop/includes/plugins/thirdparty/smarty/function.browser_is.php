@@ -30,7 +30,7 @@ function smarty_function_browser_is($params, &$smarty)
 {
 
   $agent = $_SERVER['HTTP_USER_AGENT'];
-  $result = $params['assign']; 
+  $result = $params['assign'];
 
 /* A good list of agent strings can be found at
  * http://www.pgts.com.au/pgtsj/pgtsj0208c.html */
@@ -133,4 +133,3 @@ function smarty_function_browser_is($params, &$smarty)
   }
   return $vendor;
 }
-?>

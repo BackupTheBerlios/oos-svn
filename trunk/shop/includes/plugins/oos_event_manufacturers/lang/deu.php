@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -22,4 +22,4 @@ define('MAX_MANUFACTURERS_LIST_DESC', 'Wird im Hersteller-Block benutzt. Ist die
 define('MAX_DISPLAY_MANUFACTURER_NAME_LEN_TITLE', 'L&auml;nge des Herstellernamens');
 define('MAX_DISPLAY_MANUFACTURER_NAME_LEN_DESC', 'Wird im Hersteller-Block benutzt. Maximale Anzahl anzuzeigender Zeichen des Herstellernamens');
 
-?>
+

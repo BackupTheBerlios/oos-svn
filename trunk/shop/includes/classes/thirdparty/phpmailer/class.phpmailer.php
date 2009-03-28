@@ -1910,5 +1910,3 @@ class PHPMailer {
     $this->sign_key_pass = $key_pass;
   }
 }
-
-?>

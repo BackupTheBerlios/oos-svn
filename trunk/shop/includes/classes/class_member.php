@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -78,9 +78,9 @@
 
       $customerstable = $oostable['customers'];
       $customers_statustable = $oostable['customers_status'];
-      $sql = "SELECT c.customers_status, cs.customers_status_id, cs.customers_status_name, cs.customers_status_public, 
-                     cs.customers_status_show_price, cs.customers_status_show_price_tax, cs.customers_status_image, 
-                     cs.customers_status_discount, cs.customers_status_ot_discount_flag, cs.customers_status_ot_minimum, 
+      $sql = "SELECT c.customers_status, cs.customers_status_id, cs.customers_status_name, cs.customers_status_public,
+                     cs.customers_status_show_price, cs.customers_status_show_price_tax, cs.customers_status_image,
+                     cs.customers_status_discount, cs.customers_status_ot_discount_flag, cs.customers_status_ot_minimum,
                      cs.customers_status_ot_discount, cs.customers_status_qty_discounts, cs.customers_status_payment
                 FROM $customerstable AS c LEFT JOIN
                      $customers_statustable AS cs
@@ -117,4 +117,4 @@
       return oos_create_random_value($length, 'digits');
     }
   }
-?>
+

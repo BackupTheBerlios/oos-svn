@@ -5,19 +5,19 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: banktransfer_validation.php 155 2005-04-04 21:05:46Z dogu 
-         banktransfer_validation.php 126 2004-04-16 23:41:52Z dogu 
-         banktransfer_validation.php  108 2003-11-13 20:54:23Z dogu 
-         banktransfer_validation.php,v 1.17 2003/02/18 18:33:15 dogu 
+   File: banktransfer_validation.php 155 2005-04-04 21:05:46Z dogu
+         banktransfer_validation.php 126 2004-04-16 23:41:52Z dogu
+         banktransfer_validation.php  108 2003-11-13 20:54:23Z dogu
+         banktransfer_validation.php,v 1.17 2003/02/18 18:33:15 dogu
    ----------------------------------------------------------------------
 
    OSC German Banktransfer
    (http://www.oscommerce.com/community/contributions,826)
- 
+
    Contribution based on:
 
    osCommerce, Open Source E-Commerce Solutions
@@ -51,9 +51,9 @@ class AccountCheck {
 /*                                                                            */
 /* 0 -> Kontonummer & BLZ OK                                                  */
 /* 1 -> Kontonummer & BLZ passen nicht                                        */
-/* 2 -> Fr diese Kontonummer ist kein Prfziffernverfahren definiert         */
+/* 2 -> Fuer diese Kontonummer ist kein Prfziffernverfahren definiert         */
 /* 3 -> Dieses Prfziffernverfahren ist noch nicht implementiert              */
-/* 4 -> Diese Kontonummer ist technisch nicht prfbar                         */
+/* 4 -> Diese Kontonummer ist technisch nicht pruefbar                         */
 /* 5 -> BLZ nicht gefunden                                                    */
 /* 8 -> Keine BLZ bergeben                                                   */
 /* 9 -> Keine Kontonummer bergeben                                           */
@@ -61,18 +61,18 @@ class AccountCheck {
 /*                                                                            */
 
  /**
-  * Enth�t den Namen der Bank bei der Suche nach BLZ
+  * Enthaelt den Namen der Bank bei der Suche nach BLZ
   */
-  var $Bankname; 
+  var $Bankname;
 
  /**
-  * Enth�t die Prfziffer
+  * Enth?t die Prfziffer
   */
-  var $PRZ; 
+  var $PRZ;
 
 
  /**
-  * Diese function gibt die Bankinformationen aus der csv-Datei zurck
+  * Diese function gibt die Bankinformationen aus der csv-Datei zurueck
   */
   function csv_result($blz) {
     $cdata = -1;
@@ -89,10 +89,10 @@ class AccountCheck {
 
 
  /**
-  * Diese function gibt die Bankinformationen aus der Datenbank zurck
+  * Diese function gibt die Bankinformationen aus der Datenbank zurueck
   */
   function query($blz) {
- 
+
    $data = $this->csv_result($blz);
     return $data;
   }
@@ -468,7 +468,7 @@ class AccountCheck {
       case 4 :
       case 5 :
       case 6 :
-        // deaktivert, da die Postbank diese Definition nicht einh�t
+        // deaktivert, da die Postbank diese Definition nicht einh?t
         //$AccountNo = Substr($AccountNo,1);
         break;
       case 9 :
@@ -1045,11 +1045,11 @@ class AccountCheck {
 
   function Mark57($AccountNo) {
     $Correct = 1;
-    
+
     $AccountNo = $this->ExpandAccount($AccountNo);
-    
+
     $help = substr($AccountNo,0,2);
-    
+
     switch (true){
       case ($help <= 50):
       case ($help == 91):
@@ -1058,7 +1058,7 @@ class AccountCheck {
         break;
       default:
     }
-    
+
     if (preg_match("/[87]{6}/", $AccountNo)) {
       return 0;
     }
@@ -1238,8 +1238,8 @@ class AccountCheck {
       $Mark73 = $this->Method00($AccountNo, '000121212', 10);
     }
     return $Mark73;
-  } 
- */ 
+  }
+ */
 
 
   function Mark73($AccountNo) {
@@ -1259,7 +1259,7 @@ class AccountCheck {
     return $Mark73;
   }  /* End of Mark73 */
 
-   
+
   function Mark74($AccountNo) {
     $Help = 0;
     $V2 = 0;
@@ -1403,7 +1403,7 @@ class AccountCheck {
 
   function Mark80($AccountNo) {
     $AccountNo = $this->ExpandAccount($AccountNo);
-    
+
     if (substr($AccountNo,2,1) == '9') {
       $Mark80 = $this->Mark51($AccountNo);
     } else {
@@ -1413,7 +1413,7 @@ class AccountCheck {
       $Significance='000021212';
       $Help = 0;
        $Mark80 = 1;
-       
+
        for ($Run = 0; $Run < strlen($Significance); $Run++) {
          $Help += $this->CrossSum(substr($AccountNo,$Run,1) * substr($Significance,$Run,1));
        }
@@ -1981,4 +1981,3 @@ class AccountCheck {
       return $Result;
     }  /* End of CheckAccount */
   }  /* End Class AccountCheck */
-?>

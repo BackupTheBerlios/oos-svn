@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: validations.php,v 1.11 2003/02/11 01:31:02 hpdl 
+   File: validations.php,v 1.11 2003/02/11 01:31:02 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -21,13 +21,13 @@
 
  /**
   * validations
-  * 
+  *
   * @package validations
   * @copyright (C) 2006 by the OOS Development Team.
   * @license GPL <http://www.gnu.org/licenses/gpl.html>
   * @link http://www.oos-shop.de/
   */
-  
+
   /** ensure this file is being included by a parent file */
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
@@ -100,7 +100,7 @@
       if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
         $bValidAddress = false;
       }
-    } 
+    }
     return $bValidAddress;
   }
 
@@ -114,7 +114,7 @@
    if (strlen($sUrl) == 0) {
      return false;
    }
- 
+
    return preg_match('!^http(s)?://[\w-]+\.[\w-]+(\S+)?$!i', $sUrl);
  }
 
@@ -122,7 +122,7 @@
  /**
   * A list of all TLDs that result in two part
   * domain names.
-  * 
+  *
   * @return string
   * @access public
   * @static
@@ -133,4 +133,4 @@
    return '^com$|^edu$|^net$|^org$|^gov$|^mil$|^int$|^biz$|^info$|^name$|^pro$|^aero$|^coop$|^museum$';
  }
 
-?>
+

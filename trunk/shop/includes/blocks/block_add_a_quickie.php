@@ -30,4 +30,3 @@ if (!isset($block_get_parameters)) {
 
 $oSmarty->assign('block_heading_add_product_id', $block_heading);
 
-?>

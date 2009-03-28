@@ -118,4 +118,3 @@ function smarty_function_small_product_image($params, &$smarty)
 
 }
 
-?>

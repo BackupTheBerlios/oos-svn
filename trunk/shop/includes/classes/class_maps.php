@@ -23,7 +23,7 @@ class SPAF_Maps {
 
   // EDITABLE CONFIGURATION
   var $google_api_key = '';
-                                // Your Google Maps API key. Google Maps will 
+                                // Your Google Maps API key. Google Maps will
                                 // not display if this is blank or incorrect!
                                 // Please note that API Key is bound to a host
                                 // (domain name) that you are trying to display
@@ -52,22 +52,22 @@ class SPAF_Maps {
                                 // etc.)
 
   var $show_overlay = true;
-                                // Show overlay markers of the query results 
+                                // Show overlay markers of the query results
                                 // along with basic info on them (i.e.
                                 // population)
 
   var $secondary_search = true;
-                                // If search by specified query produces no 
+                                // If search by specified query produces no
                                 // results, repeat the search without query -
                                 // just the specified country.
 
   var $use_sockets = false;
-                                // true - geocode data will be fetched by 
+                                // true - geocode data will be fetched by
                                 // opening direct socket connection to HTTP port
                                 // of the geocode webservice.
                                 //
                                 // false - function file_get_contents() will be
-                                // used. PHP ini value of allow_url_fopen must 
+                                // used. PHP ini value of allow_url_fopen must
                                 // be set to on.
 
   // !!! DO NOT CHANGE ANYTHING BELOW THIS LINE ===============================
@@ -90,7 +90,7 @@ class SPAF_Maps {
       'lat'         => '43.00028',
       'lng'         => '-75.50028',
       'geonameId'   => '5128638',
-      'countryCode' => 'US', 
+      'countryCode' => 'US',
       'countryName' => 'United States',
       'fcl'         => 'A',
       'fcode'       => 'ADM1',
@@ -185,7 +185,7 @@ class SPAF_Maps {
     echo 'function SPAF_Maps_load() {'."\r\n".
          '  if (GBrowserIsCompatible()) {'."\r\n";
 
-    // create object and center it  
+    // create object and center it
     echo  '    map = new GMap2(document.getElementById("spaf_map"));'."\r\n".
           '    map.setCenter(new GLatLng('.$current['lat'].', '.$current['lng'].'), '.$zoom.');'."\r\n";
 
@@ -262,7 +262,7 @@ class SPAF_Maps {
     $cnt = sizeof($this->results);
     for ($i = 0; $i < $cnt; $i++) {
       $location = &$this->results[$i];
-      echo '<option value="'.$location['lat'].' '.$location['lng'].' '.$this->calcZoom(&$location).'">'.$location['name'].' ('.$location['countryName'].')</option>'."\r\n"; 
+      echo '<option value="'.$location['lat'].' '.$location['lng'].' '.$this->calcZoom(&$location).'">'.$location['name'].' ('.$location['countryName'].')</option>'."\r\n";
     }
 
     // show a no-results sign
@@ -341,7 +341,7 @@ class SPAF_Maps {
     // parse fetched XML
 
     // get all items
-    $this->results = array(); 
+    $this->results = array();
     preg_match_all('/<geoname>(.*)<\/geoname>/isU', $xml, $arr, PREG_SET_ORDER);
 
     // parse each individual item
@@ -415,4 +415,3 @@ class SPAF_Maps {
   }
 
 }
-?>

@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: shipping.php,v 1.21 2003/02/11 00:04:53 hpdl 
+   File: shipping.php,v 1.21 2003/02/11 00:04:53 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -136,4 +136,4 @@
       }
     }
   }
-?>
+

@@ -108,4 +108,3 @@ function smarty_function_customers_image($params, &$smarty)
     return '<img src="'.$image.'" alt="'.$alt.'" border="'.$border.'" width="'.$width.'" height="'.$height.'"'.$extra.$sSlash.'>';
 
 }
-?>

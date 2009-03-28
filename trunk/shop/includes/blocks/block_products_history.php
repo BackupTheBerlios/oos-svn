@@ -36,4 +36,3 @@ if ($_SESSION['products_history']->count_history() > 0) {
 
 $oSmarty->assign('products_history_block', $products_history_block);
 
-?>

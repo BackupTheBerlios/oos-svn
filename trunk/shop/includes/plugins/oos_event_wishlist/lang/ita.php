@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -27,4 +27,4 @@ define('MAX_DISPLAY_WISHLIST_BOX_DESC', 'Massimo numero prodotti nel box della l
 define('BLOCK_WISHLIST_IMAGE_TITLE', 'Immagine nella lista dei desideri');
 define('BLOCK_WISHLIST_IMAGE_DESC', 'Inserire l\'immagine nella lista dei desideri?');
 
-?>
+

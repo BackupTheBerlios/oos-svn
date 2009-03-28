@@ -30,7 +30,7 @@ function smarty_function_product_info_link($params, &$smarty)
   require_once $smarty->_get_plugin_filepath('function','html_href_link');
 
   $aModules = oos_get_modules();
-  $aFilename =  oos_get_filename(); 
+  $aFilename =  oos_get_filename();
 
   $result = array();
   $link_params = array();
@@ -47,4 +47,3 @@ function smarty_function_product_info_link($params, &$smarty)
 
 }
 
-?>

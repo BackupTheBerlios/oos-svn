@@ -11,8 +11,8 @@
  *             correct syntax. Try not to use it with invalid
  *             BBCode because this could lead to unexpected
  *             results ;-)
- *             It seems that this function ignores manual 
- *             line breaks. IMO this can be fixed by adding 
+ *             It seems that this function ignores manual
+ *             line breaks. IMO this can be fixed by adding
  *             '/\n/' => "<br>" to $preg
  *
  * What's new: - Rewrote some preg expressions for more
@@ -99,18 +99,18 @@ function smarty_modifier_bbcode2html($message) {
           '/(?<!\\\\)\[quote(?::\w+)?\](.*?)\[\/quote(?::\w+)?\]/si'         => "<div>Quote:<div class=\"bb-quote\">\\1</div></div>",
           '/(?<!\\\\)\[quote(?::\w+)?=(?:&quot;|"|\')?(.*?)["\']?(?:&quot;|"|\')?\](.*?)\[\/quote\]/si'   => "<div>Quote \\1:<div class=\"bb-quote\">\\2</div></div>",
           // [list]
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[\*(?::\w+)?\](.*?)(?=(?:\s*<br\s*\/?>\s*)?\[\*|(?:\s*<br\s*\/?>\s*)?\[\/?list)/si' => "\n<li class=\"bb-listitem\">\\1</li>",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[\/list(:(?!u|o)\w+)?\](?:<br\s*\/?>)?/si'    => "\n</ul>",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[\/list:u(:\w+)?\](?:<br\s*\/?>)?/si'         => "\n</ul>",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[\/list:o(:\w+)?\](?:<br\s*\/?>)?/si'         => "\n</ol>",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[list(:(?!u|o)\w+)?\]\s*(?:<br\s*\/?>)?/si'   => "\n<ul class=\"bb-list-unordered\">",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[list:u(:\w+)?\]\s*(?:<br\s*\/?>)?/si'        => "\n<ul class=\"bb-list-unordered\">",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[list:o(:\w+)?\]\s*(?:<br\s*\/?>)?/si'        => "\n<ol class=\"bb-list-ordered\">",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[list(?::o)?(:\w+)?=1\]\s*(?:<br\s*\/?>)?/si' => "\n<ol class=\"bb-list-ordered,bb-list-ordered-d\">",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[list(?::o)?(:\w+)?=i\]\s*(?:<br\s*\/?>)?/s'  => "\n<ol class=\"bb-list-ordered,bb-list-ordered-lr\">",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[list(?::o)?(:\w+)?=I\]\s*(?:<br\s*\/?>)?/s'  => "\n<ol class=\"bb-list-ordered,bb-list-ordered-ur\">",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[list(?::o)?(:\w+)?=a\]\s*(?:<br\s*\/?>)?/s'  => "\n<ol class=\"bb-list-ordered,bb-list-ordered-la\">",
-          '/(?<!\\\\)(?:\s*<br\s*\/?>\s*)?\[list(?::o)?(:\w+)?=A\]\s*(?:<br\s*\/?>)?/s'  => "\n<ol class=\"bb-list-ordered,bb-list-ordered-ua\">",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[\*(?::\w+)?\](.*?)(?=(?:\s*<br\s*\/\s*)?\[\*|(?:\s*<br\s*\/\s*)?\[\/?list)/si' => "\n<li class=\"bb-listitem\">\\1</li>",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[\/list(:(?!u|o)\w+)?\](?:<br\s*\/)?/si'    => "\n</ul>",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[\/list:u(:\w+)?\](?:<br\s*\/)?/si'         => "\n</ul>",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[\/list:o(:\w+)?\](?:<br\s*\/)?/si'         => "\n</ol>",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[list(:(?!u|o)\w+)?\]\s*(?:<br\s*\/)?/si'   => "\n<ul class=\"bb-list-unordered\">",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[list:u(:\w+)?\]\s*(?:<br\s*\/)?/si'        => "\n<ul class=\"bb-list-unordered\">",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[list:o(:\w+)?\]\s*(?:<br\s*\/)?/si'        => "\n<ol class=\"bb-list-ordered\">",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[list(?::o)?(:\w+)?=1\]\s*(?:<br\s*\/)?/si' => "\n<ol class=\"bb-list-ordered,bb-list-ordered-d\">",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[list(?::o)?(:\w+)?=i\]\s*(?:<br\s*\/)?/s'  => "\n<ol class=\"bb-list-ordered,bb-list-ordered-lr\">",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[list(?::o)?(:\w+)?=I\]\s*(?:<br\s*\/)?/s'  => "\n<ol class=\"bb-list-ordered,bb-list-ordered-ur\">",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[list(?::o)?(:\w+)?=a\]\s*(?:<br\s*\/)?/s'  => "\n<ol class=\"bb-list-ordered,bb-list-ordered-la\">",
+          '/(?<!\\\\)(?:\s*<br\s*\/\s*)?\[list(?::o)?(:\w+)?=A\]\s*(?:<br\s*\/)?/s'  => "\n<ol class=\"bb-list-ordered,bb-list-ordered-ua\">",
           // escaped tags like \[b], \[color], \[url], ...
           '/\\\\(\[\/?\w+(?::\w+)*\])/'                                      => "\\1"
 
@@ -118,4 +118,3 @@ function smarty_modifier_bbcode2html($message) {
   $message = preg_replace(array_keys($preg), array_values($preg), $message);
   return $message;
 }
-?>

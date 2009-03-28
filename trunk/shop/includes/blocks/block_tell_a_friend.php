@@ -41,4 +41,3 @@ if ($sFile != $aFilename['tell_a_friend']) {
 }
 $oSmarty->assign('tell_a_friend_block', $tell_a_friend_block);
 
-?>

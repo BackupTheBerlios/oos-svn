@@ -372,6 +372,3 @@ class ONYX_RSS
       return (isset($modtime)) ? $modtime : 0;
    }
 }
-
-
-?>

@@ -30,4 +30,3 @@ if ( ($sFile != $aFilename['login']) && ($sFile != $aFilename['create_account'])
 
 $oSmarty->assign('login_block', $login_block);
 
-?>

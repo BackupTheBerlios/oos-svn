@@ -60,4 +60,3 @@ if ($sFile != $aFilename['product_reviews_write']) {
      );
 }
 
-?>

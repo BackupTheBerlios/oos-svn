@@ -59,5 +59,3 @@ $oSmarty->assign(
           'counter_startdate_formatted' => $counter_startdate_formatted
       )
 );
-
-?>

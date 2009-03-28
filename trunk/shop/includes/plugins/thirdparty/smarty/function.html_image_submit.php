@@ -16,7 +16,7 @@
  *         - button = button (and path) of image (required)
  *         - border = border width (optional, default 0)
  *         - height = image height (optional, default actual height)
- *         - basedir = base directory 
+ *         - basedir = base directory
  *
  * Examples: {html_image_submit image="masthead.gif"}
  * @author r23 <info@r23.de>
@@ -79,4 +79,3 @@ function smarty_function_html_image_submit($params, &$smarty)
 
 }
 
-?>

@@ -70,4 +70,4 @@ if ($best_sellers_result->RecordCount() >= MIN_DISPLAY_BESTSELLERS) {
 
 $oSmarty->assign('best_sellers_block', $best_sellers_block);
 
-?>
+

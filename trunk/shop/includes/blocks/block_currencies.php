@@ -49,4 +49,3 @@ if (isset($oCurrencies) && is_object($oCurrencies)) {
     );
 }
 
-?>

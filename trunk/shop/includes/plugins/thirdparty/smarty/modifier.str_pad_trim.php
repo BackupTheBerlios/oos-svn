@@ -8,13 +8,13 @@
   * Version:  0.2
   * Author:   Terence Johnson <terry at scribendi dot com>
   *           Pablo Dias <pablo at grafia dot com dot br> (modifier.str_pad.php)
-  * Purpose:  Pad a string to a certain length with another string, 
+  * Purpose:  Pad a string to a certain length with another string,
   *           like php/str_pad, or shorten it if it's too long.
   *
   * Example:  {$text|str_pad_trim:20:'.':'right'}
   *    If $text has less tha 20 characters, this modifier
   *    will pad $string with dots, on the right hand side,
-  *    until $text is 20 characters.  If $text has more 
+  *    until $text is 20 characters.  If $text has more
   *    than 20 characters, it will shorten the string from
   *    the right hand side.
   *
@@ -41,4 +41,3 @@ function smarty_modifier_str_pad_trim($string, $length, $pad_string=' ', $pad_ty
   }
 }
 
-?>

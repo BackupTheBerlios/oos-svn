@@ -336,6 +336,3 @@ function getGDversion() {
    }
    return $gd_version_number;
 }
-
-
-?>

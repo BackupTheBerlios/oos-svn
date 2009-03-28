@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File:  contact.class.php,v 1.6 2005/01/23 08:28:14 stingrey 
+   File:  contact.class.php,v 1.6 2005/01/23 08:28:14 stingrey
    ----------------------------------------------------------------------
    Mambo is Free Software
    http://www.mamboserver.com/
@@ -58,7 +58,7 @@
       $title   = trim( $title );
       $this->properties['TITLE']   = $title;
     }
-  
+
     // added ability to set organisation/company
     function setOrg( $org ) {
       $org   = trim( $org );
@@ -76,7 +76,5 @@
       $text  .= "END:VCARD\r\n";
       return $text;
     }
-  
-  }
 
-?>
+  }

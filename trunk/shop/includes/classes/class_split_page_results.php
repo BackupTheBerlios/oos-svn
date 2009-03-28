@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: split_page_results.php,v 1.11 2003/02/13 04:23:23 hpdl 
+   File: split_page_results.php,v 1.11 2003/02/13 04:23:23 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -85,11 +85,11 @@
 
        if ( oos_is_not_null($parameters) && (substr($parameters, -5) != '&amp;') ) $parameters .= '&amp;';
 
-       // calculate number of pages needing links 
+       // calculate number of pages needing links
        $num_pages = intval($query_numrows / $max_rows_per_page);
 
-       // $num_pages now contains int of pages needed unless there is a remainder from division 
-       if ($query_numrows % $max_rows_per_page) $num_pages++; // has remainder so add one page 
+       // $num_pages now contains int of pages needed unless there is a remainder from division
+       if ($query_numrows % $max_rows_per_page) $num_pages++; // has remainder so add one page
 
         // previous button - not displayed on first page
        if ($current_page_number > 1) $display_link .= '<a href="' . oos_href_link($sMp, $sFile, $parameters . 'page=' . ($current_page_number - 1)) . '" ' . $class . ' title=" ' . $aLang['prevnext_title_previous_page'] . ' ">[<u>' . $aLang['prevnext_button_prev'] . '</u>]</a>&nbsp;&nbsp;';
@@ -148,4 +148,4 @@
      }
    }
 
-?>
+

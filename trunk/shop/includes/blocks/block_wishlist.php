@@ -66,4 +66,3 @@ if ($sFile != $aFilename['account_my_wishlist']) {
 
 $oSmarty->assign('wishlist_block', $wishlist_block);
 
-?>

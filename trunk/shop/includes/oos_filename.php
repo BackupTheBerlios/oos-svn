@@ -160,5 +160,3 @@ $aModules['search'] = $prefix_modules . 'search';
 $aModules['tell_a_friend'] = $prefix_modules . 'tell_a_friend';
 $aModules['ticket'] = $prefix_modules . 'ticket';
 $aModules['user'] = $prefix_modules . 'user';
-
-?>

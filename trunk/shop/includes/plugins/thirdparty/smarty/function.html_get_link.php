@@ -51,4 +51,3 @@ function smarty_function_html_get_link($params, &$smarty)
     return $link;
 }
 
-?>

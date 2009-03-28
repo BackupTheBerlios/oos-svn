@@ -16,7 +16,7 @@
  *         - button = button (and path) of image (required)
  *         - border = border width (optional, default 0)
  *         - height = image height (optional, default actual height)
- *         - basedir = base directory 
+ *         - basedir = base directory
  *
  * Examples: {html_js_icon image="email.gif"}
  * Output:   <img src="images/masthead.gif" border=0 width=400 height=23>
@@ -113,4 +113,3 @@ function smarty_function_html_js_icon($params, &$smarty)
 
 }
 
-?>

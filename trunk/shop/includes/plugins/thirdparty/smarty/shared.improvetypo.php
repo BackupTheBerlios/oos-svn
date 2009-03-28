@@ -4,12 +4,12 @@
  * Purpose: improve typo for better site appearance (Comments will not be edited, so use them to prevent css-sections)
  * Home: http://www.cerdmann.com/improvetypo/
  * Copyright (C) 2005 Christoph Erdmann
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110, USA 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110, USA
  * -------------------------------------------------------------
  * Author:   Christoph Erdmann <smarty@cerdmann.com>
  * Internet: http://www.cerdmann.com
@@ -40,7 +40,7 @@ function smarty_improvetypo($source, $diff = false)
 	//$diff	= 0;
 	// Shows plugins runtime in HTML source
 	//$measuretime = 1;
-	
+
 	########## Start time measurement
 	if ($measuretime == 1)
 		{
@@ -55,13 +55,13 @@ function smarty_improvetypo($source, $diff = false)
 		$time['start'] = getmicrotime();
 		}
 
-	
+
 	########## Prepare source
 	// Which smarty delimiters are in use?
 	global $smarty;
 	$ldelim = preg_quote($smarty->left_delimiter);
 	$rdelim = preg_quote($smarty->right_delimiter);
-	
+
 	// replace and save HTML and smarty tags, at the end they will rereplaced. Makes the function faster.
 	$what = "=(".$ldelim."php".$rdelim.".*?".$ldelim."/php".$rdelim.")=is";
 	preg_match_all($what,$source,$hits['smarty_php']);
@@ -86,7 +86,7 @@ function smarty_improvetypo($source, $diff = false)
 			}
 		}
 	}
-		
+
 	########## Improve Typo
 	// Replace "string" with &raquo;string&laquo;
 	$what = '=([^\d]|\A)"|“|”|«|»=ieS';
@@ -174,4 +174,4 @@ function smarty_improvetypo($source, $diff = false)
 	return $source;
 	}
 
-?>
+

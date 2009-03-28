@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: html_output.php,v 1.49 2003/02/11 01:31:02 hpdl 
+   File: html_output.php,v 1.49 2003/02/11 01:31:02 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -94,4 +94,4 @@ function smarty_function_oos_get_country_list($params, &$smarty)
     print $html_result;
 }
 
-?>
+

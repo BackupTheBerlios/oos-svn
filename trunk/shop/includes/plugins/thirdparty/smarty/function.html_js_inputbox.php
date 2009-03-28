@@ -64,4 +64,3 @@ function smarty_function_html_js_inputbox($params, &$smarty)
 
 }
 
-?>

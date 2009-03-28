@@ -139,4 +139,3 @@ function smarty_modifier_price2image($string, $special = false)
     return  $image;
 
 }
-?>

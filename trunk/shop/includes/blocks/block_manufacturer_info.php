@@ -58,4 +58,3 @@ if (isset($_GET['products_id'])) {
 
 $oSmarty->assign('manufacturer_info_block', $manufacturer_info_block);
 
-?>

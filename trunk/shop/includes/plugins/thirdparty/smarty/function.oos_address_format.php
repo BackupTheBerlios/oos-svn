@@ -111,4 +111,3 @@ function smarty_function_oos_address_format($params, &$smarty)
    print $boln . $address . $eoln;
 }
 
-?>

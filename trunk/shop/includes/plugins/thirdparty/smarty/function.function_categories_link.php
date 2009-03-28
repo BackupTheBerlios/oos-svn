@@ -47,4 +47,3 @@ function smarty_function_categories_link($params, &$smarty)
 
 }
 
-?>

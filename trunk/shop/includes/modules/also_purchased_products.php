@@ -59,4 +59,3 @@ if (isset($_GET['products_id']) && is_numeric(MAX_DISPLAY_ALSO_PURCHASED)) {
     }
 }
 
-?>

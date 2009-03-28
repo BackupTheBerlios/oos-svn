@@ -30,5 +30,3 @@ if (isset($option) && ($option == 'print')) {
 
     $oSmarty->display($sTheme.'/theme.html');
 }
-
-?>

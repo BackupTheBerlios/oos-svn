@@ -78,4 +78,4 @@ function smarty_function_css_back_button($params, &$smarty)
 
   }
 
-?>
+

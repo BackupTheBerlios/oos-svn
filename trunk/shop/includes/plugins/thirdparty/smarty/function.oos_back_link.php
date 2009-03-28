@@ -47,4 +47,3 @@ function smarty_function_oos_back_link($params, &$smarty)
   return $link;
 
 }
-?>

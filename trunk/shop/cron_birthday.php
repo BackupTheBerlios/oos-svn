@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -192,8 +192,8 @@
 
         $email_text .= sprintf($aLang['email_gv_incentive_header'], $oCurrencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
                        sprintf($aLang['email_gv_redeem'], $coupon_code) . "\n\n" .
-                       $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $coupon_code, 'NONSSL', false, false) . 
-                       "\n\n";  
+                       $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $coupon_code, 'NONSSL', false, false) .
+                       "\n\n";
       }
       if (NEW_SIGNUP_DISCOUNT_COUPON != '') {
         $coupon_id = NEW_SIGNUP_DISCOUNT_COUPON;
@@ -246,7 +246,7 @@
                         $aLang['email_separator'] . "\n\n";
       }
       if (ACCOUNT_COMPANY == 'true') {
-        $email_owner .= $aLang['owner_email_company_info'] . "\n" . 
+        $email_owner .= $aLang['owner_email_company_info'] . "\n" .
                         $aLang['owner_email_company'] . ' ' . $company . "\n";
         if (ACCOUNT_OWNER == 'true') {
           $email_owner .= $aLang['owner_email_owner'] . ' ' . $owner . "\n";
@@ -277,7 +277,7 @@
       } else {
         $email_owner .= $aLang['owner_email_newsletter'] . $aLang['entry_newsletter_no'] . "\n";
       }
-      oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['owner_email_subject'], nl2br($email_owner), $name, $email_address, '1');  
+      oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['owner_email_subject'], nl2br($email_owner), $name, $email_address, '1');
     }
 
 */
@@ -301,5 +301,3 @@
   }
 
   require_once(dirname(__FILE__) . '/includes/oos_nice_exit.php');
-
-?>

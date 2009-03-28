@@ -78,4 +78,3 @@ if ($new_spezials_result->RecordCount() >= MIN_DISPLAY_NEW_SPEZILAS) {
     $oSmarty->assign('new_spezials_array', $new_spezials_array);
 }
 
-?>

@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: password_funcs.php,v 1.10 2003/02/11 01:31:02 hpdl 
+   File: password_funcs.php,v 1.10 2003/02/11 01:31:02 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -54,7 +54,7 @@
 
 
  /**
-  * This function makes a new password from a plaintext password. 
+  * This function makes a new password from a plaintext password.
   *
   * @param $sPlain
   * @return string
@@ -73,4 +73,4 @@
     return $sPassword;
   }
 
-?>
+

@@ -79,4 +79,3 @@ if ($file != $aFilename['specials']) {
 
 $oSmarty->assign('specials_block', $specials_block);
 
-?>

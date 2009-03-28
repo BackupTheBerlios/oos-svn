@@ -13,7 +13,7 @@
  * Name:     linkurl<br>
  * Purpose:  links URLs und shortens it to $length
  *
- * Author:   Christoph Erdmann 
+ * Author:   Christoph Erdmann
  * Internet: http://www.cerdmann.com
  *
  * Changelog:
@@ -32,7 +32,7 @@
  * @return string
  */
 function smarty_modifier_linkurl($string, $length = 50, $link = true) {
-  
+
   if (!function_exists(oos_truncate)) {
     function oos_truncate($string, $length) {
       $returner = $string;
@@ -63,4 +63,3 @@ function smarty_modifier_linkurl($string, $length = 50, $link = true) {
   return $string;
 }
 
-?>

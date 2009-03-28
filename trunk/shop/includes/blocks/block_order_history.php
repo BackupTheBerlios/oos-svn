@@ -80,4 +80,3 @@ if (isset($_SESSION['customer_id'])) { // retreive the last x products purchased
 
 $oSmarty->assign('order_history_block', $order_history_block);
 
-?>

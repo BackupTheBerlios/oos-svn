@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -21,4 +21,4 @@ define('MAX_RANDOM_SELECT_REVIEWS_DESC', 'De hoeveelheid produkten waaruit per t
 
 define('REVIEW_TEXT_MIN_LENGTH_TITLE', 'Beoordelingstekst');
 define('REVIEW_TEXT_MIN_LENGTH_DESC', 'Minimale lengte beoordelingstekst');
-?>
+

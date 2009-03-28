@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -77,7 +77,7 @@
    *
    * Returns the server host name fetched from HTTP headers when possible.
    * The host name is in the canonical form (host + : + port) when the port is different than 80.
-   * 
+   *
    * Last Editor: Author: r23
    * @author Marco Canini <marco@xaraya.com>
    * @access public
@@ -238,4 +238,4 @@
     return $ip;
   }
 
-?>
+

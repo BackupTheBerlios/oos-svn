@@ -58,5 +58,3 @@ for ($i = 0; $i < count($aInfoMessage); $i++) {
            break;
    }
 }
-
-?>

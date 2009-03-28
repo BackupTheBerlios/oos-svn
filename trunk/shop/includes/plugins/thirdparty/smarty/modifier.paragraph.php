@@ -20,7 +20,7 @@
  * @return string|void
  */
 function smarty_modifier_paragraph($string, $br=true) {
-	
+
     if($string != '') {
         $string = $string . "\n"; // just to make things a little easier, pad the end
 	    $string = preg_replace('|<br />\s*<br />|', "\n\n", $string);
@@ -48,4 +48,3 @@ function smarty_modifier_paragraph($string, $br=true) {
 
 /* vim: set expandtab: */
 
-?>

@@ -269,4 +269,4 @@
     $dict->ExecuteSQLArray($sqlarray);
   }
 
-?>
+

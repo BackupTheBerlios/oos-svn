@@ -50,7 +50,6 @@ if (file_exists('includes/pages/' . $sMp . '/' . $sFile . '.php')) {
     }
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
 
-  }
-  require_once(dirname(__FILE__) . '/includes/oos_nice_exit.php');
+}
 
-?>
+require_once(dirname(__FILE__) . '/includes/oos_nice_exit.php');

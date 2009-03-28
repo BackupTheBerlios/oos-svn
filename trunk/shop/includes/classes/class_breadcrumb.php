@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: breadcrumb.php,v 1.3 2003/02/11 00:04:50 hpdl 
+   File: breadcrumb.php,v 1.3 2003/02/11 00:04:50 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -64,4 +64,4 @@
       return $trail_title_string;
     }
   }
-?>
+

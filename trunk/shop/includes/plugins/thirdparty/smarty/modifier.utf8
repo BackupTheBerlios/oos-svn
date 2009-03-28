@@ -120,4 +120,4 @@ function smarty_modifier_utf8 ($source) {
     return $encodedString; 
 
 }
-?>
+

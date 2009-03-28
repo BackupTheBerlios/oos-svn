@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -16,9 +16,9 @@
   /**
    * Smarty Template System
    *
-   * {@link http://smarty.php.net/ smarty.php.net}
+   * {@link http://smarty.net/ smarty.net}
    * {@link http://smarty.incutio.com/ smarty wiki}
-   * {@link http://marc.theaimsgroup.com/?l=smarty-general&r=1&w=2 mail list archive}
+   * {@link http://smarty.net/resources.php?category=7 Mailing lists}
    */
    include SMARTY_DIR . 'Smarty.class.php';
    include SMARTY_DIR . 'SmartyValidate.class.php';
@@ -77,4 +77,3 @@
      return "<?php echo \"<!-- Created by Smarty! -->\n\" ?>\n".$tpl_source;
    }
 
-?>

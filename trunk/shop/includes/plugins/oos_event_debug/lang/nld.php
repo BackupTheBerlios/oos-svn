@@ -12,4 +12,4 @@
 
 define('PLUGIN_EVENT_AUTOLOGON_NAME', 'DEBUG MODE');
 define('PLUGIN_EVENT_AUTOLOGON_DESC', 'There is a debugging console included with MyOOS. The console informs you of all the included templates, assigned variables and config file variables for the current invocation of the Online Shop.');
-?>
+

@@ -99,5 +99,3 @@ for ($i = 0, $n = count($aContentBlock); $i < $n; $i++) {
 }
 
 $oSmarty->caching = false;
-
-?>

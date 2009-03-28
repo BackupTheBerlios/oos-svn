@@ -68,4 +68,3 @@ if ($random_newsfeed) {
 
 $oSmarty->assign('newsfeeds_block', $newsfeeds_block);
 
-?>

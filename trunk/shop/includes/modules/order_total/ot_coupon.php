@@ -600,4 +600,3 @@ function get_product_price($product_id) {
     }
   }
 
-?>

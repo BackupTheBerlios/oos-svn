@@ -8,7 +8,7 @@
 
 /*
  * Smarty plugin
- * 
+ *
  * Type:     modifier
  * Name:     number<br>
  * Version:  0.1
@@ -27,4 +27,3 @@ function smarty_modifier_number($number, $decimal_places = 2)
     return number_format($number, $decimal_places);
 }
 
-?>

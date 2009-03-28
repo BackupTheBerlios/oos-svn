@@ -114,5 +114,3 @@ if ($cart_count_contents > 0) {
 
 $oSmarty->assign('cart_show_total', $cart_show_total);
 $oSmarty->assign('cart_count_contents', $cart_count_contents);
-
-?>

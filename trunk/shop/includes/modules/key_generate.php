@@ -53,4 +53,3 @@ $dbconn->Execute("UPDATE $manual_infotable
                   WHERE man_info_id = '1'");
 
 
-?>

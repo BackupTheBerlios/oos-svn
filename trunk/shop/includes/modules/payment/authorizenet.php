@@ -344,4 +344,3 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
     }
   }
 
-?>

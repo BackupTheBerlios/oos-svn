@@ -25,8 +25,8 @@ function smarty_modifier_close_tags($string)
     if(preg_match_all('/<\/([a-z]+)>/', $string, $end_tags)) {
       $complete_tags = array();
       $end_tags = $end_tags[1];
-    
-      foreach($start_tags as $key => $val) {   
+
+      foreach($start_tags as $key => $val) {
         $posb = array_search($val, $end_tags);
         if (is_integer($posb)) {
           unset($end_tags[$posb]);
@@ -37,7 +37,7 @@ function smarty_modifier_close_tags($string)
     } else {
       $complete_tags = $start_tags;
     }
-    
+
     $complete_tags = array_reverse($complete_tags);
     for($i = 0; $i < count($complete_tags); $i++) {
       $string .= '</' . $complete_tags[$i] . '>';
@@ -45,4 +45,3 @@ function smarty_modifier_close_tags($string)
   }
   return $string;
 }
-?>

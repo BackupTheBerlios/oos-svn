@@ -55,5 +55,3 @@ define('OOS_PAGE_TYPE_CHECKOUT',  6);
 // 7 remove
 define('OOS_PAGE_TYPE_ACCOUNT',   8);
 define('OOS_PAGE_TYPE_REVIEWS',   9);
-
-?>

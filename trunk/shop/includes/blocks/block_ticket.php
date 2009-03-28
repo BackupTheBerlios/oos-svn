@@ -15,4 +15,3 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 $oSmarty->assign('block_heading_ticket', $block_heading);
 
-?>

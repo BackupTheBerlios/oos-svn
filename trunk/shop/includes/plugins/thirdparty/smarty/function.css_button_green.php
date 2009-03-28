@@ -33,4 +33,4 @@ function smarty_function_css_button_green($params, &$smarty)
 
 }
 
-?>
+

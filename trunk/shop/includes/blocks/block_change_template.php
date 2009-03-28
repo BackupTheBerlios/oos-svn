@@ -38,4 +38,3 @@ $oSmarty->assign(
 );
 
 
-?>

@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   Id: pnAPI.php,v 1.41 2003/07/12 21:44:40 markwest Exp 
+   Id: pnAPI.php,v 1.41 2003/07/12 21:44:40 markwest Exp
    ----------------------------------------------------------------------
    PostNuke Content Management System
    Copyright (C) 2001 by the Post-Nuke Development Team.
@@ -140,4 +140,4 @@
     }
   }
 
-?>
+

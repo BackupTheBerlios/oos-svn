@@ -61,4 +61,3 @@ if (isset($_GET['products_id'])) {
 
 $oSmarty->assign('notifications_block', $notifications_block);
 
-?>

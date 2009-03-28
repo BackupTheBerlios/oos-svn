@@ -193,4 +193,3 @@ for ($i=0, $n=count($products); $i<$n; $i++) {
 
 $shopping_cart_detail .= '  </tr>' . "\n";
 
-?>

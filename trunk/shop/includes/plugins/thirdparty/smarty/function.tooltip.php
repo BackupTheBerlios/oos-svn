@@ -116,4 +116,3 @@ function smarty_function_tooltip($params, &$smarty)
 }
 
 
-?>

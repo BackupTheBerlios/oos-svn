@@ -41,4 +41,3 @@ function smarty_outputfilter_png_image($tpl_source, &$smarty)
       "<img\$1src=\"/images/spacer.gif\"style=\"px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='\$2.png',sizingMethod='scale');\"\$3>", $tpl_source);
  }
 }
-?>

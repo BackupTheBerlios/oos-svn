@@ -45,4 +45,3 @@ $oSmarty->assign('block_heading_xsell', $block_heading);
 
 $oSmarty->assign('xsell_block', $xsell_block);
 
-?>

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -16,4 +16,4 @@ define('PLUGIN_EVENT_FEATURED_DESC', 'Set to true or false in order to display f
 define('MAX_DISPLAY_FEATURED_PRODUCTS_TITLE', 'Maximum Display of Featured');
 define('MAX_DISPLAY_FEATURED_PRODUCTS_DESC', 'This is the maximum amount of items to display on the front page.');
 
-?>
+

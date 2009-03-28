@@ -65,7 +65,7 @@ function smarty_function_html_dir_icons($params, &$smarty)
 	 *		 etc.....
 	 */
 	$filetypes	= array();
-	
+
 	/**
 	 * @var string
 	 * Changes output format, valid types are box, ulist and olist
@@ -74,25 +74,25 @@ function smarty_function_html_dir_icons($params, &$smarty)
 	 * # olist displays icons and text in an ordered list
 	 */
 	$format		= 'box';
-	
+
 	/**
 	 * @var string
 	 * The id of the list (for css etc.)
 	 */
 	$list_id	= '';
-	
+
 	/**
 	 * @var bool
 	 * True to produce hyperlinks for the icons
 	 */
 	$link		= true;
-	
+
 	/**
 	 * @var bool
 	 * True to show any pictures (not defined by filetypes) as unlinked pictures
 	 */
 	$thumb_pics	= true;
-	
+
 	extract($params);
 
 	//sort out defaults
@@ -100,13 +100,13 @@ function smarty_function_html_dir_icons($params, &$smarty)
 
 	//check paths
 	if($dir == '') return;
-	
+
 	$abs_dir = $_SERVER['DOCUMENT_ROOT'].$dir;
 	if (!is_dir($abs_dir)) return;
-	
+
 	//Scan Directory and puts it in an array (will want to change to scandir with php 5, so mimic behaviour)
 	$file_list = array();
-	
+
 	if ($handle = opendir($abs_dir))
 	{
 		while (false !== ($file = readdir($handle)))
@@ -121,7 +121,7 @@ function smarty_function_html_dir_icons($params, &$smarty)
 
 	if ($format == 'ulist') $full_xhtml .= "<ul$list_id>\n";
 	if ($format == 'olist') $full_xhtml .= "<ol$list_id>\n";
-	
+
 	// goes through directoy and builds up xhtml
 	for($i = 2; $i < count($file_list); $i++)
 	{
@@ -132,13 +132,13 @@ function smarty_function_html_dir_icons($params, &$smarty)
 		{
 
 			if ($format == 'box') $item_xhtml .= "<span>\n";
-			else $item_xhtml .= "<li>";		
-		
+			else $item_xhtml .= "<li>";
+
 			$ext = strtolower($matches[1]);
 			//check if its in the display array
 			if ( isset($filetypes[ $ext ]) )
 			{
-				
+
 				if($link)
 				{
 					$item_xhtml .= '<a href="'.$dir.$file_list[$i].'">';
@@ -155,24 +155,24 @@ function smarty_function_html_dir_icons($params, &$smarty)
 			{
 				if( $ext == 'png' || $ext == 'jpg' || $ext == 'gif' )
 				{
-					
+
 					$item_xhtml .= '<img src="'.$dir.$file_list[$i].'" alt="file '.$file_list[$i].'" />';
 					if($format == 'box') $item_xhtml .= "<br/>\n";
 					$item_xhtml .= $file_list[$i];
-					
+
 				}
 			}
-			
+
 			if ($format == 'box') $item_xhtml .= "\n</span>\n";
 			else $item_xhtml .= "</li>\n";
 		}
 		$full_xhtml .= $item_xhtml;
 	}
-	
+
 	if ($format == 'ulist') $full_xhtml .= "</ul>\n";
 	if ($format == 'olist') $full_xhtml .= "</ol>\n";
-	
-	
+
+
 	return $full_xhtml;
 }
-?>
+

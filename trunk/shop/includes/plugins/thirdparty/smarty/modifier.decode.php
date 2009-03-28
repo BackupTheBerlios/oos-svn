@@ -11,4 +11,3 @@ function smarty_modifier_decode($string)
 
 }
 
-?>

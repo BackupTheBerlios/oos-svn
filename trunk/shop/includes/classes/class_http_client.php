@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: http_client.php,v 1.1 2002/11/01 02:26:03 hpdl 
+   File: http_client.php,v 1.1 2002/11/01 02:26:03 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -17,7 +17,7 @@
    Copyright (c) 2003 osCommerce
    ----------------------------------------------------------------------
    Copyright 2001 Leo West <west_leo@yahoo-REMOVE-.com> Net_HTTP_Client v0.6
-   ---------------------------------------------------------------------- 
+   ----------------------------------------------------------------------
    Minimal Example:
 
    $http = new httpClient();
@@ -29,13 +29,13 @@
      echo $http->getBody();
    }
    $http->Disconnect();
- 
+
    Persistent Example:
- 
+
    $http = new httpClient("dir.yahoo.com", 80);
    $http->addHeader("Host", "dir.yahoo.com");
    $http->addHeader("Connection", "keep-alive");
- 
+
    if ($http->Get("/Reference/Libraries/") == 200) $page1 = $http->getBody();
    if ($http->Get("/News_and_Media/") == 200 ) $page2 = $http->getBody();
    $http->disconnect();
@@ -44,7 +44,7 @@
    ---------------------------------------------------------------------- */
 
   if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
-   
+
   class httpClient {
     var $url; // array containg server URL, similar to parseurl() returned array
     var $reply; // response code
@@ -204,7 +204,7 @@
  * @param uri string URI of the document
  * @param query_params array parameters to send in the form "parameter name" => value
  * @return string response status code (200 if ok)
- * @example 
+ * @example
  * $params = array( "login" => "tiger", "password" => "secret" );
  * $http->post( "/login.php", $params );
  **/
@@ -294,17 +294,17 @@
  *  - 20x : request processed OK
  *  - 30x : document moved
  *  - 40x : client error ( bad url, document not found, etc...)
- *  - 50x : server error 
+ *  - 50x : server error
  * @see RFC2616 "Hypertext Transfer Protocol -- HTTP/1.1"
  **/
     function getStatus() {
       return $this->reply;
     }
 
-/** 
+/**
  * getStatusMessage return the full response status, of the form "CODE Message"
  * eg. "404 Document not found"
- * @return string the message 
+ * @return string the message
  **/
     function getStatusMessage() {
       return $this->replyString;
@@ -314,7 +314,7 @@
  * @scope only protected or private methods below
  **/
 
-/** 
+/**
  * send a request
  * data sent are in order
  * a) the command
@@ -398,7 +398,7 @@
         $finished = ($str == $lastLine);
         if (!$finished) {
           list($hdr, $value) = split(': ', $str, 2);
-// nasty workaround broken multiple same headers (eg. Set-Cookie headers) @FIXME 
+// nasty workaround broken multiple same headers (eg. Set-Cookie headers) @FIXME
           if (isset($headers[$hdr])) {
             $headers[$hdr] .= '; ' . trim($value);
           } else {
@@ -413,7 +413,7 @@
 /**
  * processBody() reads the body from the socket
  * the body is the "real" content of the reply
- * @return string body content 
+ * @return string body content
  * @scope private
  **/
     function processBody() {
@@ -467,4 +467,4 @@
       return $requesturi;
     }
   }
-?>
+

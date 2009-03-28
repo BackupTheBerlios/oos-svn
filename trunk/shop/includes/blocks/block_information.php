@@ -35,4 +35,3 @@ $sql = "SELECT id.information_id, id.information_name, i.sort_order
 $oSmarty->assign('information', $dbconn->GetAll($sql));
 $oSmarty->assign('block_heading_information', $block_heading);
 
-?>

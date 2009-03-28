@@ -21,8 +21,8 @@
  *           cache_dir = directory to store cache (opt,
  *                       default=$smarty->cache_dir)
  *           cache_lifetime = number of seconds cache file
- *                            is valid (opt, default=3600) 
- *           debug_mode = sets onyx debug mode (opt) 
+ *                            is valid (opt, default=3600)
+ *           debug_mode = sets onyx debug mode (opt)
  *
  * Examples: {rss_load
  *              file="http://www.php.net/news.rss"
@@ -43,22 +43,22 @@ function smarty_function_rss_load($params, &$smarty)
         $smarty->trigger_error("rss_load: missing 'assign' parameter");
         return;
     }
-	
+
 
 	require_once 'includes/classes/onyx/rss.php');
-	
+
 	if(class_exists('ONYX_RSS')) {
-	
+
 		$_rss =& new ONYX_RSS();
 
 		if(isset($params['cache_dir'])) {
-			$_rss->setCachePath($params['cache_dir']);		
-		} else {	
+			$_rss->setCachePath($params['cache_dir']);
+		} else {
 			$_rss->setCachePath($smarty->cache_dir);
 		}
 		if(isset($params['cache_lifetime'])) {
-			$_rss->setExpiryTime($params['cache_lifetime']);		
-		} else {	
+			$_rss->setExpiryTime($params['cache_lifetime']);
+		} else {
 			$_rss->setExpiryTime(3600); // one hour
 		}
 		if(isset($params['debug_mode'])) {
@@ -67,19 +67,18 @@ function smarty_function_rss_load($params, &$smarty)
 		if(!isset($params['caching']) || $params['caching']) {
 			$_cache_file = 'rss_cache.' . urlencode($params['file']);
 		} else {
-			$_cache_file = null;		
+			$_cache_file = null;
 		}
 
 		if($_rss->parse($params['file'], $_cache_file)) {
 			$smarty->assign($params['assign'], $_rss->RSSData);
 		} else {
-        	$smarty->trigger_error("rss_load: unable to read '". $params['file'] . "'");		
+        	$smarty->trigger_error("rss_load: unable to read '". $params['file'] . "'");
 		}
 	} else {
-        $smarty->trigger_error("rss_load: unable to load ONYX_RSS library");				
-	}	
+        $smarty->trigger_error("rss_load: unable to load ONYX_RSS library");
+	}
 }
 
 /* vim: set expandtab: */
 
-?>

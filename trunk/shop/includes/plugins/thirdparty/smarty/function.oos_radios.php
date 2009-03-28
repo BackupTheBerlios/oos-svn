@@ -41,7 +41,7 @@
 function smarty_function_oos_radios($params, &$smarty)
 {
     require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
-   
+
     $name = 'radio';
     $values = null;
     $options = null;
@@ -159,4 +159,4 @@ function oos_function_oos_radios_output($name, $value, $output, $selected, $extr
     return $_output;
 }
 
-?>
+

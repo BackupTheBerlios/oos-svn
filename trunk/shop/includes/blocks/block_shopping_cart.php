@@ -59,4 +59,3 @@ $oSmarty->assign(
      )
 );
 
-?>

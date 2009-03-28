@@ -59,4 +59,3 @@ if ($languages_result->RecordCount() >= 2) {
 
 $oSmarty->assign('languages_block', $languages_block);
 
-?>
