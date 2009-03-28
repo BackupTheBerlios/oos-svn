@@ -51,12 +51,12 @@
    All contributions are gladly accepted though Paypal.
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  require 'includes/languages/' . $sLanguage . '/admin_create_account.php';
+require 'includes/languages/' . $sLanguage . '/admin_create_account.php';
 
-  if (isset($_SESSION['customer_id'])) {
+if (isset($_SESSION['customer_id'])) {
     unset($_SESSION['customer_id']);
     unset($_SESSION['customer_wishlist_link_id']);
     unset($_SESSION['customer_default_address_id']);
@@ -74,77 +74,83 @@
     $_SESSION['cart']->reset();
 
     $_SESSION['member']->default_member();
-  }
+}
 
-  require 'includes/modules/key_generate.php';
 
-  $manual_infotable = $oostable['manual_info'];
-  $login_result = $dbconn->Execute("SELECT man_key2, man_key3, status FROM $manual_infotable where man_key = '" . oos_db_input($verif_key) . "' AND status = 1 ");
-  if (!$login_result->RecordCount()) {
+if (isset($_POST['verif_key'])) {
+    $verif_key = oos_prepare_input($_POST['verif_key']);
+}
+
+require 'includes/modules/key_generate.php';
+
+$manual_infotable = $oostable['manual_info'];
+$login_result = $dbconn->Execute("SELECT man_key2, man_key3, status FROM $manual_infotable WHERE man_key = '" . oos_db_input($verif_key) . "' AND status = 1 ");
+
+if (!$login_result->RecordCount()) {
     $manual_infotable = $oostable['manual_info'];
     $dbconn->Execute("UPDATE $manual_infotable SET man_key = '', man_key2 = '' WHERE man_info_id = '1' ");
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
-  }
+}
 
-  if (!isset($_GET['action']) && ($_GET['action'] != 'login_admin')) {
+if (!isset($_GET['action']) && ($_GET['action'] != 'login_admin')) {
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
-  } else {
+} else {
     $login_result_values = $login_result->fields;
+
     if (($login_result_values['man_key2'] = $newkey2) && ($login_result_values['status'] !=0))  {
 
-      // links breadcrumb
-      $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['admin'], $aFilename['admin_create_account'], '', 'NONSSL'));
+        // links breadcrumb
+        $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['admin'], $aFilename['admin_create_account'], '', 'NONSSL'));
 
-      ob_start();
-      require 'js/form_check.js.php';
-      $javascript = ob_get_contents();
-      ob_end_clean();
+        ob_start();
+        require 'js/form_check.js.php';
+        $javascript = ob_get_contents();
+        ob_end_clean();
 
-      if (isset($_GET['email_address'])) {
-        $email_address = oos_db_prepare_input($_GET['email_address']);
-      }
-      $account['entry_country_id'] = STORE_COUNTRY;
+        if (isset($_GET['email_address'])) {
+            $email_address = oos_db_prepare_input($_GET['email_address']);
+        }
+        $account['entry_country_id'] = STORE_COUNTRY;
 
-      $aOption['template_main'] = $sTheme . '/modules/create_account_admin.html';
-      $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+        $aOption['template_main'] = $sTheme . '/modules/create_account_admin.html';
+        $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 
-      $nPageType = OOS_PAGE_TYPE_SERVICE;
-      $read = '0';
+        $nPageType = OOS_PAGE_TYPE_SERVICE;
+        $read = '0';
 
-      require 'includes/oos_system.php';
-      if (!isset($option)) {
-        require 'includes/info_message.php';
-        require 'includes/oos_blocks.php';
-        require 'includes/oos_counter.php';
-      }
+        require 'includes/oos_system.php';
+        if (!isset($option)) {
+            require 'includes/info_message.php';
+            require 'includes/oos_blocks.php';
+            require 'includes/oos_counter.php';
+        }
 
-// assign Smarty variables;
-      $oSmarty->assign(
-          array(
-              'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
-              'oos_heading_title' => $aLang['heading_title'],
-              'oos_heading_image' => 'account.gif',
+        // assign Smarty variables;
+        $oSmarty->assign(
+            array(
+                'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
+                'oos_heading_title' => $aLang['heading_title'],
+                'oos_heading_image' => 'account.gif',
 
-              'oos_js'            => $javascript,
-              'read'              => $read,
+                'oos_js'            => $javascript,
+                'read'              => $read,
 
-              'account'           => $account,
-              'email_address'     => $email_address,
-              'show_password'     => $show_password,
-              'snapshot'          => $snapshot,
-              'verif_key'         => $verif_key,
-              'newkey2'           => $newkey2
-          )
-      );
+                'account'           => $account,
+                'email_address'     => $email_address,
+                'show_password'     => $show_password,
+                'snapshot'          => $snapshot,
+                'verif_key'         => $verif_key,
+                'newkey2'           => $newkey2
+            )
+        );
 
-      $oSmarty->assign('newsletter_ids', array(0,1));
-      $oSmarty->assign('newsletter', array($aLang['entry_newsletter_no'],$aLang['entry_newsletter_yes']));
+        $oSmarty->assign('newsletter_ids', array(0,1));
+        $oSmarty->assign('newsletter', array($aLang['entry_newsletter_no'],$aLang['entry_newsletter_yes']));
 
-      $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
-      $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
+        $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
+        $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
-      // display the template
-      require 'includes/oos_display.php';
+        // display the template
+        require 'includes/oos_display.php';
     }
-  }
-
+}
