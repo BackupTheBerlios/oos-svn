@@ -436,4 +436,4 @@
 
     oos_redirect(oos_href_link($aModules['user'], $aFilename['create_account_success'], '', 'SSL'));
   }
-?>
+

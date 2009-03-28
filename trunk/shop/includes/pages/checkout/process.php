@@ -420,4 +420,3 @@ $oOrderTotalModules->clear_posts();
 
 oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_success'], '', 'SSL'));
 
-?>

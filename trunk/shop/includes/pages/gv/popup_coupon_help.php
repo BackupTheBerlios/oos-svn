@@ -155,4 +155,3 @@ if (!$oSmarty->is_cached($aOption['popup_help'], $help_cache_id )) {
 // display the template
 $oSmarty->display($aOption['popup_help'], $help_cache_id);
 
-?>

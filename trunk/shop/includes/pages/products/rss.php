@@ -47,7 +47,7 @@
     $result =& $dbconn->Execute($query, array((int)$newsfeed_info['newsfeed_id'], (int)$nLanguageID));
 
 
-    $schema = '<?xml version="1.0" encoding="' . CHARSET . '"?><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/">' . "\n" .
+    $schema = '<?xml version="1.0" encoding="' . CHARSET . '"<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/">' . "\n" .
               '<channel rdf:about="' . OOS_HTTP_SERVER . OOS_SHOP .'">' . "\n" .
               '<title>' . htmlspecialchars($newsfeed_info['newsfeed_title']) . '</title>' . "\n" .
               '<link>' . OOS_HTTP_SERVER . OOS_SHOP . '</link>' . "\n" .
@@ -113,4 +113,3 @@
   header('Content-type: application/xml');
   echo $schema;
   oos_session_close();
-?>

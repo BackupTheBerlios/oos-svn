@@ -341,4 +341,3 @@
   // display the template
   require 'includes/oos_display.php';
 
-?>

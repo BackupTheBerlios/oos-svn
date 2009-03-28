@@ -74,7 +74,7 @@
                                                 '" . oos_db_input($remote_addr) . "')");
     $couponstable = $oostable['coupons'];
     $gv_update = $dbconn->Execute("UPDATE $couponstable
-                               SET coupon_active = 'N' 
+                               SET coupon_active = 'N'
                                WHERE coupon_id = '" . $coupon['coupon_id'] . "'");
     oos_gv_account_update($_SESSION['customer_id'], $_SESSION['gv_id']);
     unset($_SESSION['gv_id']);
@@ -117,4 +117,4 @@
   $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
   require 'includes/oos_display.php';
-?>
+

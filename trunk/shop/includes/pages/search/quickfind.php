@@ -69,4 +69,3 @@ if (isset($q) && !empty($q)) {
 
 die; #for disable output $_GET, $_POST, $_COOKIE, $_SESSION arrays
 
-?>

@@ -362,4 +362,3 @@ $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 // display the template
 require 'includes/oos_display.php';
 
-?>

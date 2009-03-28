@@ -615,4 +615,3 @@ if ($category_depth == 'nested') {
 // display the template
 require 'includes/oos_display.php';
 
-?>

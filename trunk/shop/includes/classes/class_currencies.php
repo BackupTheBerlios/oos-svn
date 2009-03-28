@@ -97,5 +97,3 @@
       return $show_what_price;
     }
   }
-
-?>

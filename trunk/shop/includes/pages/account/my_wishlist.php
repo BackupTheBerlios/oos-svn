@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: wishlist_help.php,v 1  2002/11/09 wib 
+   File: wishlist_help.php,v 1  2002/11/09 wib
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -38,7 +38,7 @@
   $wishlist_result_raw = "SELECT products_id, customers_wishlist_date_added
                           FROM $customers_wishlisttable
                           WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
-                            AND customers_wishlist_link_id = '" . oos_db_input($_SESSION['customer_wishlist_link_id']) . "' 
+                            AND customers_wishlist_link_id = '" . oos_db_input($_SESSION['customer_wishlist_link_id']) . "'
                        ORDER BY customers_wishlist_date_added";
   $wishlist_split = new splitPageResults($_GET['page'], MAX_DISPLAY_WISHLIST_PRODUCTS, $wishlist_result_raw, $wishlist_numrows);
   $wishlist_result = $dbconn->Execute($wishlist_result_raw);
@@ -111,7 +111,7 @@
                    $products_attributestable pa
              WHERE pa.products_id = '" . intval($wl_products_id) . "'
                AND pa.options_id = '" . oos_db_input($attributes['products_options_id']) . "'
-               AND pa.options_id = popt.products_options_id 
+               AND pa.options_id = popt.products_options_id
                AND pa.options_values_id = '" . oos_db_input($attributes['products_options_value_id']) . "'
                AND pa.options_values_id = poval.products_options_values_id
                AND popt.products_options_languages_id = '" .  intval($nLanguageID) . "'
@@ -189,4 +189,3 @@
   // display the template
   require 'includes/oos_display.php';
 
-?>

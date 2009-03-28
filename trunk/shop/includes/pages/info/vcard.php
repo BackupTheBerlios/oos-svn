@@ -85,4 +85,3 @@ header( 'Content-Type: text/x-vCard; name='. $filename );
 
 print $output;
 
-?>

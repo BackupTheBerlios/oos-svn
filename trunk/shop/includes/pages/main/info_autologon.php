@@ -44,4 +44,3 @@ if (!$oSmarty->is_cached($aOption['info_autologon'], $info_autologon_id )) {
 // display the template
 $oSmarty->display($aOption['info_autologon'], $info_autologon_id);
 
-?>

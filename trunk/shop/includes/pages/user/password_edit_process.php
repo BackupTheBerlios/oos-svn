@@ -207,4 +207,3 @@ if ($bError == true) {
     oos_redirect(oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
 }
 
-?>

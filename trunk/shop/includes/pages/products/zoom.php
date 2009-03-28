@@ -66,4 +66,3 @@ $oSmarty->assign('zoomify', $sZoomify);
 // display the template
 $oSmarty->display($aOption['popup_zoom']);
 
-?>

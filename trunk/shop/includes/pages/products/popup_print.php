@@ -147,4 +147,3 @@ if (!$oSmarty->is_cached($aOption['popup_print'], $popup_cache_id )) {
 // display the template
 $oSmarty->display($aOption['popup_print'], $popup_cache_id);
 
-?>

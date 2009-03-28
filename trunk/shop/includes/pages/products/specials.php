@@ -128,4 +128,3 @@ $oSmarty->caching = false;
 require 'includes/oos_display.php';
 
 
-?>

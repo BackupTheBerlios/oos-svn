@@ -43,4 +43,3 @@ if (!$oSmarty->is_cached($aOption['info_shopping_cart'], $info_shopping_cart_id 
 // display the template
 $oSmarty->display($aOption['info_shopping_cart'], $info_shopping_cart_id);
 
-?>

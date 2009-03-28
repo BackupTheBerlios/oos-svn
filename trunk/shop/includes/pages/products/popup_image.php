@@ -137,4 +137,3 @@
 
   // display the template
   $oSmarty->display($aOption['popup_image'], $popup_cache_id);
-?>

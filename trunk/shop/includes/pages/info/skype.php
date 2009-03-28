@@ -54,4 +54,3 @@ $oSmarty->caching = false;
 // display the template
 require 'includes/oos_display.php';
 
-?>

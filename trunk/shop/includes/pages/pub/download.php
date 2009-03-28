@@ -139,4 +139,3 @@ if (DOWNLOAD_BY_REDIRECT == '1') {
     readfile(OOS_DOWNLOAD_PATH . $downloads['orders_products_filename']);
 }
 
-?>
