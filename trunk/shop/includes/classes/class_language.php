@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -23,15 +23,24 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-
-  class language {
+/**
+ * Class language.
+ *
+ * @category   OOS [OSIS Online Shop]
+ * @package    language
+ * @copyright  Copyright (c) 2003 - 2009 by the OOS Development Team. (http://www.oos-shop.de/)
+ * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+class language
+{
     var $languages;
     var $_languages = array();
 
-    function language() {
+    function language()
+    {
 
         $dbconn =& oosDBGetConn();
         $oostable =& oosDBGetTables();
@@ -42,145 +51,154 @@
                           WHERE status = '1'
                           ORDER BY sort_order";
         if (USE_DB_CACHE == '1') {
-          $languages_result = $dbconn->CacheExecute(3600*24, $languages_sql);
+            $languages_result = $dbconn->CacheExecute(3600*24, $languages_sql);
         } else {
-          $languages_result = $dbconn->Execute($languages_sql);
+            $languages_result = $dbconn->Execute($languages_sql);
         }
         while ($languages = $languages_result->fields)
         {
-          $this->_languages[$languages['iso_639_2']] = array('id' => $languages['languages_id'],
-                                                             'name' => $languages['name'],
-                                                             'iso_639_2' => $languages['iso_639_2'],
-                                                             'iso_639_1' => $languages['iso_639_1']);
-          // Move that ADOdb pointer!
-          $languages_result->MoveNext();
+            $this->_languages[$languages['iso_639_2']] = array('id' => $languages['languages_id'],
+                                                               'name' => $languages['name'],
+                                                               'iso_639_2' => $languages['iso_639_2'],
+                                                               'iso_639_1' => $languages['iso_639_1']);
+            // Move that ADOdb pointer!
+            $languages_result->MoveNext();
         }
-        // Close result set
-        $languages_result->Close();
     }
 
 
-    function set($sLang = '') {
+    function set($sLang = '')
+    {
 
-      if ( (oos_is_not_null($sLang)) && ($this->exists($sLang) === true)) {
-        $this->language = $this->get($sLang);
-      } else {
-        $this->language = $this->get(DEFAULT_LANGUAGE);
-      }
+        if ( (oos_is_not_null($sLang)) && ($this->exists($sLang) === true)) {
+            $this->language = $this->get($sLang);
+        } else {
+            $this->language = $this->get(DEFAULT_LANGUAGE);
+        }
 /*
         if (!isset($_COOKIE['language']) || (isset($_COOKIE['language']) && ($_COOKIE['language'] != $this->language['iso_639_2']))) {
           oos_setcookie('language', $this->language['iso_639_2'], time()+60*60*24*90);
         }
 */
 
-       $_SESSION['language'] = $this->language['iso_639_2'];
-       $_SESSION['language_id'] = $this->language['id'];
+         $_SESSION['language'] = $this->language['iso_639_2'];
+         $_SESSION['language_id'] = $this->language['id'];
 
-       $_SESSION['iso_639_1'] = $this->language['iso_639_1'];
-       $_SESSION['languages_name'] = $this->language['name'];
+         $_SESSION['iso_639_1'] = $this->language['iso_639_1'];
+         $_SESSION['languages_name'] = $this->language['name'];
 
-       if (isset($_SESSION['customer_id'])) {
-         $dbconn =& oosDBGetConn();
-         $oostable =& oosDBGetTables();
+         if (isset($_SESSION['customer_id'])) {
+             $dbconn =& oosDBGetConn();
+             $oostable =& oosDBGetTables();
 
-         $sLanguage = oos_var_prep_for_os($this->language['iso_639_2']);
-         $customerstable = $oostable['customers'];
-         $query = "UPDATE $customerstable SET customers_language =? WHERE customers_id =?";
-         $result =& $dbconn->Execute($query, array($sLanguage, (int)$_SESSION['customer_id']));
-       }
+             $sLanguage = oos_var_prep_for_os($this->language['iso_639_2']);
+             $customerstable = $oostable['customers'];
+             $query = "UPDATE $customerstable SET customers_language =? WHERE customers_id =?";
+             $result =& $dbconn->Execute($query, array($sLanguage, (int)$_SESSION['customer_id']));
+         }
 
     }
 
 
-    function get_browser_language() {
+    function get_browser_language()
+    {
 
-      if (isset($_COOKIE['language'])) {
-        if ($this->exists($_COOKIE['language'])) {
-          $this->set($_COOKIE['language']);
+        if (isset($_COOKIE['language'])) {
+            if ($this->exists($_COOKIE['language'])) {
+                $this->set($_COOKIE['language']);
 
-          return true;
+                return true;
+            }
         }
-      }
 
-      $http_accept_language = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        $http_accept_language = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
-      $browser_languages = array(
-         'af' => 'af|afrikaans',
-         'ar' => 'ar([-_][[:alpha:]]{2})?|arabic',
-         'az' => 'az|azerbaijani',
-         'bg' => 'bg|bulgarian',
-         'br' => 'pt[-_]br|brazilian portuguese',
-         'bs' => 'bs|bosnian',
-         'ca' => 'ca|catalan',
-         'cs' => 'cs|czech',
-         'da' => 'da|danish',
-         'deu' => 'de([-_][[:alpha:]]{2})?|german',
-         'el' => 'el|greek',
-         'eng' => 'en([-_][[:alpha:]]{2})?|english',
-         'spa' => 'es([-_][[:alpha:]]{2})?|spanish',
-         'et' => 'et|estonian',
-         'fi' => 'fi|finnish',
-         'fra' => 'fr([-_][[:alpha:]]{2})?|french',
-         'gl' => 'gl|galician',
-         'he' => 'he|hebrew',
-         'hu' => 'hu|hungarian',
-         'id' => 'id|indonesian',
-         'ita' => 'it|italian',
-         'ja' => 'ja|japanese',
-         'ko' => 'ko|korean',
-         'ka' => 'ka|georgian',
-         'lt' => 'lt|lithuanian',
-         'nl' => 'nl([-_][[:alpha:]]{2})?|dutch',
-         'no' => 'no|norwegian',
-         'pol' => 'pl|polish',
-         'pt' => 'pt([-_][[:alpha:]]{2})?|portuguese',
-         'ro' => 'ro|romanian',
-         'rus' => 'ru|russian',
-         'sk' => 'sk|slovak',
-         'sr' => 'sr|serbian',
-         'sv' => 'sv|swedish',
-         'th' => 'th|thai',
-         'tr' => 'tr|turkish',
-         'uk' => 'uk|ukrainian',
-         'tw' => 'zh[-_]tw|chinese traditional',
-         'zh' => 'zh|chinese simplified');
+        $browser_languages = array(
+           'af' => 'af|afrikaans',
+           'ar' => 'ar([-_][[:alpha:]]{2})?|arabic',
+           'az' => 'az|azerbaijani',
+           'bg' => 'bg|bulgarian',
+           'br' => 'pt[-_]br|brazilian portuguese',
+           'bs' => 'bs|bosnian',
+           'ca' => 'ca|catalan',
+           'cs' => 'cs|czech',
+           'da' => 'da|danish',
+           'deu' => 'de([-_][[:alpha:]]{2})?|german',
+           'el' => 'el|greek',
+           'eng' => 'en([-_][[:alpha:]]{2})?|english',
+           'spa' => 'es([-_][[:alpha:]]{2})?|spanish',
+           'et' => 'et|estonian',
+           'fi' => 'fi|finnish',
+           'fra' => 'fr([-_][[:alpha:]]{2})?|french',
+           'gl' => 'gl|galician',
+           'he' => 'he|hebrew',
+           'hu' => 'hu|hungarian',
+           'id' => 'id|indonesian',
+           'ita' => 'it|italian',
+           'ja' => 'ja|japanese',
+           'ko' => 'ko|korean',
+           'ka' => 'ka|georgian',
+           'lt' => 'lt|lithuanian',
+           'nld' => 'nl([-_][[:alpha:]]{2})?|dutch',
+           'no' => 'no|norwegian',
+           'pol' => 'pl|polish',
+           'pt' => 'pt([-_][[:alpha:]]{2})?|portuguese',
+           'ro' => 'ro|romanian',
+           'rus' => 'ru|russian',
+           'sk' => 'sk|slovak',
+           'sr' => 'sr|serbian',
+           'sv' => 'sv|swedish',
+           'th' => 'th|thai',
+           'tr' => 'tr|turkish',
+           'uk' => 'uk|ukrainian',
+           'tw' => 'zh[-_]tw|chinese traditional',
+           'zh' => 'zh|chinese simplified');
 
-      foreach ($http_accept_language as $browser_language) {
-        foreach ($browser_languages as $key => $value) {
-          if (eregi('^(' . $value . ')(;q=[0-9]\\.[0-9])?$', $browser_language) && $this->exists($key)) {
-            $this->set($key);
-            return true;
-          }
+        foreach ($http_accept_language as $browser_language) {
+            foreach ($browser_languages as $key => $value) {
+                if (eregi('^(' . $value . ')(;q=[0-9]\\.[0-9])?$', $browser_language) && $this->exists($key)) {
+                    $this->set($key);
+                    return true;
+                }
+            }
         }
-      }
 
-      $this->set(DEFAULT_LANGUAGE);
+        $this->set(DEFAULT_LANGUAGE);
     }
 
 
-    function get($sLang) {
-      return $this->_languages[$sLang];
+    function get($sLang)
+    {
+        return $this->_languages[$sLang];
     }
 
-    function getAll() {
-      return $this->_languages;
+
+    function getAll()
+    {
+        return $this->_languages;
     }
 
-    function exists($sLang) {
-      return array_key_exists($sLang, $this->_languages);
+
+    function exists($sLang)
+    {
+        return array_key_exists($sLang, $this->_languages);
     }
 
-    function getID() {
-      return $this->language['id'];
+
+    function getID()
+    {
+        return $this->language['id'];
     }
 
-    function getName() {
-      return $this->language['name'];
+
+    function getName()
+    {
+        return $this->language['name'];
     }
 
-    function getCode() {
-      return $this->language['iso_639_2'];
+    function getCode()
+    {
+        return $this->language['iso_639_2'];
     }
-  }
 
-
+}

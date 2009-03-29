@@ -19,81 +19,103 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  class currencies {
+
+/**
+ * Class Currencies.
+ *
+ * @category   OOS [OSIS Online Shop]
+ * @package    Currencies
+ * @copyright  Copyright (c) 2003 - 2009 by the OOS Development Team. (http://www.oos-shop.de/)
+ * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+class currencies
+{
     var $currencies;
 
-    function currencies() {
+    function currencies()
+    {
 
-      $this->currencies = array();
+        $this->currencies = array();
 
-      // Get database information
-      $dbconn =& oosDBGetConn();
-      $oostable =& oosDBGetTables();
+        // Get database information
+        $dbconn =& oosDBGetConn();
+        $oostable =& oosDBGetTables();
 
-      $currenciestable = $oostable['currencies'];
-      $sql = "SELECT code, title, symbol_left, symbol_right, decimal_point,
-                     thousands_point, decimal_places, value
-              FROM " . $currenciestable;
-      if (USE_DB_CACHE == 'true') {
-        $this->currencies = $dbconn->CacheGetAssoc(3600*24, $sql);
-      } else {
-        $this->currencies = $dbconn->GetAssoc($sql);
-      }
-    }
-
-    function format($number, $calculate_currency_value = true, $currency_type = '', $currency_value = '') {
-
-      if (empty($currency_type) || ($this->exists($currency_type) == false)) {
-        $currency_type = (isset($_SESSION['currency']) ? $_SESSION['currency'] : DEFAULT_CURRENCY);
-      }
-
-      if ($calculate_currency_value == true) {
-        $rate = (oos_is_not_null($currency_value)) ? $currency_value : $this->currencies[$currency_type]['value'];
-        $format_string = $this->currencies[$currency_type]['symbol_left'] . number_format($number * $rate, $this->currencies[$currency_type]['decimal_places'], $this->currencies[$currency_type]['decimal_point'], $this->currencies[$currency_type]['thousands_point']) . ' ' . $this->currencies[$currency_type]['symbol_right'];
-      } else {
-        $format_string = $this->currencies[$currency_type]['symbol_left'] . number_format($number, $this->currencies[$currency_type]['decimal_places'], $this->currencies[$currency_type]['decimal_point'], $this->currencies[$currency_type]['thousands_point']) . ' ' . $this->currencies[$currency_type]['symbol_right'];
-      }
-
-      return $format_string;
+        $currenciestable = $oostable['currencies'];
+        $sql = "SELECT code, title, symbol_left, symbol_right, decimal_point,
+                       thousands_point, decimal_places, value
+                FROM " . $currenciestable;
+        if (USE_DB_CACHE == 'true') {
+            $this->currencies = $dbconn->CacheGetAssoc(3600*24, $sql);
+        } else {
+            $this->currencies = $dbconn->GetAssoc($sql);
+        }
     }
 
 
-    function exists($code) {
-      if (isset($this->currencies[$code])) {
-        return true;
-      }
+    function format($number, $calculate_currency_value = true, $currency_type = '', $currency_value = '')
+    {
 
-      return false;
+        if (empty($currency_type) || ($this->exists($currency_type) == false)) {
+            $currency_type = (isset($_SESSION['currency']) ? $_SESSION['currency'] : DEFAULT_CURRENCY);
+        }
+
+        if ($calculate_currency_value == true) {
+            $rate = (oos_is_not_null($currency_value)) ? $currency_value : $this->currencies[$currency_type]['value'];
+            $format_string = $this->currencies[$currency_type]['symbol_left'] . number_format($number * $rate, $this->currencies[$currency_type]['decimal_places'], $this->currencies[$currency_type]['decimal_point'], $this->currencies[$currency_type]['thousands_point']) . ' ' . $this->currencies[$currency_type]['symbol_right'];
+        } else {
+            $format_string = $this->currencies[$currency_type]['symbol_left'] . number_format($number, $this->currencies[$currency_type]['decimal_places'], $this->currencies[$currency_type]['decimal_point'], $this->currencies[$currency_type]['thousands_point']) . ' ' . $this->currencies[$currency_type]['symbol_right'];
+        }
+
+        return $format_string;
     }
 
-    function get_value($code) {
-      return $this->currencies[$code]['value'];
+
+    function exists($code)
+    {
+        if (isset($this->currencies[$code])) {
+            return true;
+        }
+
+        return false;
     }
 
-    function get_decimal_places($code) {
-      return $this->currencies[$code]['decimal_places'];
+
+    function get_value($code)
+    {
+        return $this->currencies[$code]['value'];
     }
 
-    function get_currencies_info($code) {
-      return $this->currencies[$code];
+
+    function get_decimal_places($code)
+    {
+        return $this->currencies[$code]['decimal_places'];
     }
 
-    function display_price($products_price, $products_tax, $quantity = 1) {
-      global $oEvent, $aLang;
 
-      $show_what_price = '';
-      switch (true) {
-        case ($oEvent->installed_plugin('down_for_maintenance')):
-           $show_what_price = $aLang['down_for_maintenance_no_prices_display'];
-           break;
-
-        default:
-            $show_what_price = $this->format(oos_add_tax($products_price, $products_tax) * $quantity);
-            break;
-      }
-      return $show_what_price;
+    function get_currencies_info($code)
+    {
+        return $this->currencies[$code];
     }
-  }
+
+    function display_price($products_price, $products_tax, $quantity = 1)
+    {
+        global $oEvent, $aLang;
+
+        $show_what_price = '';
+        switch (true) {
+            case ($oEvent->installed_plugin('down_for_maintenance')):
+               $show_what_price = $aLang['down_for_maintenance_no_prices_display'];
+               break;
+
+            default:
+                $show_what_price = $this->format(oos_add_tax($products_price, $products_tax) * $quantity);
+                break;
+        }
+        return $show_what_price;
+    }
+
+}

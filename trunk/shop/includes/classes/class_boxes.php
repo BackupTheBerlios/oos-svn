@@ -22,6 +22,9 @@
   /** ensure this file is being included by a parent file */
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
+// todo remove it
+
+
   class tableBox {
     var $table_border = '0';
     var $table_width = '100%';
