@@ -26,68 +26,88 @@
    if ($oMessage->size > 0) echo $oMessage->output();
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  class messageStack {
+/**
+ * Class messageStack.
+ *
+ * @category   OOS [OSIS Online Shop]
+ * @package    messageStack
+ * @copyright  Copyright (c) 2003 - 2009 by the OOS Development Team. (http://www.oos-shop.de/)
+ * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+class messageStack
+{
 
-    function messageStack() {
-      global $messageToStack;
+    function messageStack()
+    {
+        global $messageToStack;
 
-      $this->messages = array();
+        $this->messages = array();
 
-      if (isset($_SESSION['messageToStack'])) {
-        $messageToStack = $_SESSION['messageToStack'];
-        for ($i=0, $n=count($messageToStack); $i<$n; $i++) {
-          $this->add($messageToStack[$i]['class'], $messageToStack[$i]['text'], $messageToStack[$i]['type']);
+        if (isset($_SESSION['messageToStack'])) {
+            $messageToStack = $_SESSION['messageToStack'];
+            for ($i=0, $n=count($messageToStack); $i<$n; $i++) {
+                $this->add($messageToStack[$i]['class'], $messageToStack[$i]['text'], $messageToStack[$i]['type']);
+            }
+            unset($_SESSION['messageToStack']);
         }
-        unset($_SESSION['messageToStack']);
-      }
     }
+
 
 // class methods
-    function add($class, $message, $type = 'error') {
-      $this->messages[] = array('class' => $class, 'type' => $type, 'text' => $message);
+    function add($class, $message, $type = 'error')
+    {
+        $this->messages[] = array('class' => $class, 'type' => $type, 'text' => $message);
     }
 
-    function add_session($class, $message, $type = 'error') {
 
-      if (!isset($_SESSION['messageToStack'])) {
-        $messageToStack = array();
-      } else {
-        $messageToStack = $_SESSION['messageToStack'];
-      }
+    function add_session($class, $message, $type = 'error')
+    {
 
-      $messageToStack[] = array('class' => $class, 'text' => $message, 'type' => $type);
-      $_SESSION['messageToStack'] = $messageToStack;
-      $this->add($class, $message, $type);
-    }
-
-    function reset() {
-      $this->messages = array();
-    }
-
-    function output($class) {
-      $output = array();
-      for ($i=0, $n=count($this->messages); $i<$n; $i++) {
-        if ($this->messages[$i]['class'] == $class) {
-          $output[] = $this->messages[$i];
+        if (!isset($_SESSION['messageToStack'])) {
+            $messageToStack = array();
+        } else {
+            $messageToStack = $_SESSION['messageToStack'];
         }
-      }
 
-      return $output;
+        $messageToStack[] = array('class' => $class, 'text' => $message, 'type' => $type);
+        $_SESSION['messageToStack'] = $messageToStack;
+        $this->add($class, $message, $type);
     }
 
-    function size($class) {
-      $count = 0;
 
-      for ($i=0, $n=count($this->messages); $i<$n; $i++) {
-        if ($this->messages[$i]['class'] == $class) {
-          $count++;
+    function reset()
+    {
+        $this->messages = array();
+    }
+
+
+    function output($class)
+    {
+        $output = array();
+        for ($i=0, $n=count($this->messages); $i<$n; $i++) {
+            if ($this->messages[$i]['class'] == $class) {
+                $output[] = $this->messages[$i];
+            }
         }
-      }
 
-      return $count;
+        return $output;
     }
-  }
 
+
+    function size($class)
+    {
+        $count = 0;
+
+        for ($i=0, $n=count($this->messages); $i<$n; $i++) {
+            if ($this->messages[$i]['class'] == $class) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
+}

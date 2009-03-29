@@ -19,48 +19,65 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  class logger {
+
+/**
+ * Class logger.
+ *
+ * @category   OOS [OSIS Online Shop]
+ * @package    logger
+ * @copyright  Copyright (c) 2003 - 2009 by the OOS Development Team. (http://www.oos-shop.de/)
+ * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+class logger
+{
     var $timer_start;
     var $timer_stop;
     var $timer_total;
 
 // class constructor
-    function logger() {
-      $this->timer_start();
+    function logger()
+    {
+        $this->timer_start();
     }
 
-    function timer_start() {
-      if (defined("PAGE_PARSE_START_TIME")) {
-        $this->timer_start = PAGE_PARSE_START_TIME;
-      } else {
-        $this->timer_start = microtime();
-      }
+
+    function timer_start()
+    {
+        if (defined("PAGE_PARSE_START_TIME")) {
+            $this->timer_start = PAGE_PARSE_START_TIME;
+        } else {
+            $this->timer_start = microtime();
+        }
     }
 
-    function timer_stop($display = '0') {
-      $this->timer_stop = microtime();
 
-      $time_start = explode(' ', $this->timer_start);
-      $time_end = explode(' ', $this->timer_stop);
+    function timer_stop($display = '0')
+    {
+        $this->timer_stop = microtime();
 
-      $this->timer_total = number_format(($time_end[1] + $time_end[0] - ($time_start[1] + $time_start[0])), 3);
+        $time_start = explode(' ', $this->timer_start);
+        $time_end = explode(' ', $this->timer_stop);
 
-      $this->write(oos_server_get_var('REQUEST_URI'), $this->timer_total . 's');
+        $this->timer_total = number_format(($time_end[1] + $time_end[0] - ($time_start[1] + $time_start[0])), 3);
 
-      if ($display == '1') {
-        return $this->timer_display();
-      }
+        $this->write(oos_server_get_var('REQUEST_URI'), $this->timer_total . 's');
+
+        if ($display == '1') {
+            return $this->timer_display();
+        }
     }
 
-    function timer_display() {
-      return '<span class="smallText">Parse Time: ' . $this->timer_total . 's</span>';
+    function timer_display()
+    {
+        return '<span class="smallText">Parse Time: ' . $this->timer_total . 's</span>';
     }
 
-    function write($message, $timer) {
-      error_log(strftime(STORE_PARSE_DATE_TIME_FORMAT) . ' [' . $timer . '] ' . $message . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
+    function write($message, $timer)
+    {
+        error_log(strftime(STORE_PARSE_DATE_TIME_FORMAT) . ' [' . $timer . '] ' . $message . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
     }
-  }
 
+}
