@@ -12,24 +12,8 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-/* 
- * Define the IP address you want to accept requests from 
- * as a security measure. If blank we accept anyone promisciously!
- */
-$ACCEPTIP = '127.0.0.1';
 
-function err($s)
-{
-	die('**** '.$s.' ');
-}
-
-$remote = $_SERVER["REMOTE_ADDR"]; 
- 
-
-if (!empty($ACCEPTIP))
- if ($remote != '127.0.0.1' && $remote != $ACCEPTIP) 
- 	err("Unauthorised client: '$remote'");
-	
+die('Due to a security issue, this demo has been disabled. It can be enabled by removing line 16 in demos/demo.write.php');
 
 
 $TaggingFormat = 'UTF-8';
@@ -40,7 +24,7 @@ echo '<HTML><HEAD><TITLE>getID3() - Sample tag writer</TITLE></HEAD><BODY>';
 require_once('../getid3/getid3.php');
 // Initialize getID3 engine
 $getID3 = new getID3;
-$getID3->encoding = $TaggingFormat;
+$getID3->setOption(array('encoding'=>$TaggingFormat));
 
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'write.php', __FILE__, true);
 

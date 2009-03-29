@@ -12,27 +12,6 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-/* 
- * Define the IP address you want to accept requests from 
- * as a security measure. If blank we accept anyone promisciously!
- */
-$ACCEPTIP = '127.0.0.1';
-
-function err($s)
-{
-	die('**** '.$s.' ');
-}
-
-$remote = $_SERVER["REMOTE_ADDR"]; 
- 
-
-if (!empty($ACCEPTIP))
- if ($remote != '127.0.0.1' && $remote != $ACCEPTIP) 
- 	err("Unauthorised client: '$remote'");
-	
-
-
-
 require_once('../getid3/getid3.php');
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'extension.cache.mysql.php', __FILE__, true);
 

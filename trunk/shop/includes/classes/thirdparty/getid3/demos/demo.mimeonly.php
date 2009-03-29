@@ -12,27 +12,6 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-/* 
- * Define the IP address you want to accept requests from 
- * as a security measure. If blank we accept anyone promisciously!
- */
-$ACCEPTIP = '127.0.0.1';
-
-function err($s)
-{
-	die('**** '.$s.' ');
-}
-
-$remote = $_SERVER["REMOTE_ADDR"]; 
- 
-
-if (!empty($ACCEPTIP))
- if ($remote != '127.0.0.1' && $remote != $ACCEPTIP) 
- 	err("Unauthorised client: '$remote'");
-	
-
-
-
 echo '<HTML><HEAD><STYLE>BODY, TD, TH { font-family: sans-serif; font-size: 10pt; }</STYLE></HEAD><BODY>';
 
 if (!empty($_REQUEST['filename'])) {

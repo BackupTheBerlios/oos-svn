@@ -12,25 +12,8 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-/* 
- * Define the IP address you want to accept requests from 
- * as a security measure. If blank we accept anyone promisciously!
- */
-$ACCEPTIP = '127.0.0.1';
 
-function err($s)
-{
-	die('**** '.$s.' ');
-}
-
-$remote = $_SERVER["REMOTE_ADDR"]; 
- 
-
-if (!empty($ACCEPTIP))
- if ($remote != '127.0.0.1' && $remote != $ACCEPTIP) 
- 	err("Unauthorised client: '$remote'");
-	
-
+//die('Due to a security issue, this demo has been disabled. It can be enabled by removing line '.__LINE__.' in demos/'.basename(__FILE__));
 
 
 /////////////////////////////////////////////////////////////////
@@ -70,9 +53,12 @@ $writescriptfilename = 'demo.write.php';
 
 require_once('../getid3/getid3.php');
 
+// Needed for windows only
+define('GETID3_HELPERAPPSDIR', 'C:/helperapps/');
+
 // Initialize getID3 engine
 $getID3 = new getID3;
-$getID3->encoding = 'UTF-8';
+$getID3->setOption(array('encoding' => 'UTF-8'));
 
 $getID3checkColor_Head           = 'CCCCDD';
 $getID3checkColor_DirectoryLight = 'FFCCCC';
@@ -88,9 +74,10 @@ $getID3checkColor_UnknownDark    = 'BBBBDD';
 
 header('Content-Type: text/html; charset=UTF-8');
 ob_start();
+echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
 echo '<html><head>';
 echo '<title>getID3() - /demo/demo.browse.php (sample script)</title>';
-echo '<style>BODY,TD,TH { font-family: sans-serif; font-size: 9pt; }</style>';
+echo '<link rel="stylesheet" href="getid3.css" type="text/css">';
 echo '</head><body>';
 
 if (isset($_REQUEST['deletefile'])) {
@@ -106,22 +93,24 @@ if (isset($_REQUEST['deletefile'])) {
 	if (isset($_REQUEST['noalert'])) {
 		echo '<b><font color="'.(($deletefilemessage{0} == 'F') ? '#FF0000' : '#008000').'">'.$deletefilemessage.'</font></b><hr>';
 	} else {
-		echo '<script language="JavaScript">alert("'.$deletefilemessage.'");</script>';
+		echo '<script type="text/javascript">alert("'.$deletefilemessage.'");</script>';
 	}
 }
 
 
 if (isset($_REQUEST['filename'])) {
 
-	if (!file_exists($_REQUEST['filename'])) {
+	if (!file_exists($_REQUEST['filename']) || !is_file($_REQUEST['filename'])) {
 		die(getid3_lib::iconv_fallback('ISO-8859-1', 'UTF-8', $_REQUEST['filename'].' does not exist'));
 	}
 	$starttime = getmicrotime();
-	$AutoGetHashes = (bool) (filesize($_REQUEST['filename']) < 52428800); // auto-get md5_data, md5_file, sha1_data, sha1_file if filesize < 50MB
 
-	$getID3->option_md5_data  = $AutoGetHashes;
-	$getID3->option_sha1_data = $AutoGetHashes;
+	//$getID3->setOption(array(
+	//	'option_md5_data'  => $AutoGetHashes,
+	//	'option_sha1_data' => $AutoGetHashes,
+	//));
 	$ThisFileInfo = $getID3->analyze($_REQUEST['filename']);
+	$AutoGetHashes = (bool) ((@$ThisFileInfo['filesize'] > 0) && ($ThisFileInfo['filesize'] < (50 * 1048576))); // auto-get md5_data, md5_file, sha1_data, sha1_file if filesize < 50MB, and NOT zero (which may indicate a file>2GB)
 	if ($AutoGetHashes) {
 		$ThisFileInfo['md5_file']  = getid3_lib::md5_file($_REQUEST['filename']);
 		$ThisFileInfo['sha1_file'] = getid3_lib::sha1_file($_REQUEST['filename']);
@@ -179,10 +168,10 @@ if (isset($_REQUEST['filename'])) {
 		$FilesWithErrors           = 0;
 
 		while ($file = readdir($handle)) {
+			$currentfilename = $listdirectory.'/'.$file;
 			set_time_limit(30); // allocate another 30 seconds to process this file - should go much quicker than this unless intense processing (like bitrate histogram analysis) is enabled
 			echo ' .'; // progress indicator dot
 			flush();  // make sure the dot is shown, otherwise it's useless
-			$currentfilename = $listdirectory.'/'.$file;
 
 			switch ($file) {
 				case '..':
@@ -200,7 +189,7 @@ if (isset($_REQUEST['filename'])) {
 					break;
 			}
 
-			// symbolic-link-resolution enhancements by davidbullockØtech-center*com
+			// symbolic-link-resolution enhancements by davidbullock×´ech-center*com
 			$TargetObject     = realpath($currentfilename);  // Find actual file path, resolve if it's a symbolic link
 			$TargetObjectType = filetype($TargetObject);     // Check file type without examining extension
 
@@ -210,7 +199,7 @@ if (isset($_REQUEST['filename'])) {
 
 			} elseif ($TargetObjectType == 'file') {
 
-				$getID3->option_md5_data = isset($_REQUEST['ShowMD5']);
+				$getID3->setOption(array('option_md5_data' => isset($_REQUEST['ShowMD5'])));
 				$fileinformation = $getID3->analyze($currentfilename);
 
 				getid3_lib::CopyTagsToComments($fileinformation);
@@ -247,18 +236,19 @@ if (isset($_REQUEST['filename'])) {
 		flush();
 
 		$columnsintable = 14;
-		echo '<table border="1" cellspacing="0" cellpadding="3">';
+		echo '<table class="table" cellspacing="0" cellpadding="3">';
 
 		echo '<tr bgcolor="#'.$getID3checkColor_Head.'"><th colspan="'.$columnsintable.'">Files in '.getid3_lib::iconv_fallback('ISO-8859-1', 'UTF-8', $currentfulldir).'</th></tr>';
 		$rowcounter = 0;
 		foreach ($DirectoryContents as $dirname => $val) {
-			if (is_array($DirectoryContents[$dirname]['dir'])) {
+			if (isset($DirectoryContents[$dirname]['dir']) && is_array($DirectoryContents[$dirname]['dir'])) {
 				uksort($DirectoryContents[$dirname]['dir'], 'MoreNaturalSort');
 				foreach ($DirectoryContents[$dirname]['dir'] as $filename => $fileinfo) {
 					echo '<tr bgcolor="#'.(($rowcounter++ % 2) ? $getID3checkColor_DirectoryLight : $getID3checkColor_DirectoryDark).'">';
 					if ($filename == '..') {
+						echo '<td colspan="'.$columnsintable.'">';
 						echo '<form action="'.$_SERVER['PHP_SELF'].'" method="get">';
-						echo '<td colspan="'.$columnsintable.'">Parent directory: ';
+						echo 'Parent directory: ';
 						echo '<input type="text" name="listdirectory" size="50" style="background-color: '.$getID3checkColor_DirectoryDark.';" value="';
 						if (GETID3_OS_ISWINDOWS) {
 							echo htmlentities(str_replace('\\', '/', realpath($dirname.$filename)), ENT_QUOTES);
@@ -266,7 +256,7 @@ if (isset($_REQUEST['filename'])) {
 							echo htmlentities(realpath($dirname.$filename), ENT_QUOTES);
 						}
 						echo '"> <input type="submit" value="Go">';
-						echo '</td></form>';
+						echo '</form></td>';
 					} else {
 						echo '<td colspan="'.$columnsintable.'"><a href="'.$_SERVER['PHP_SELF'].'?listdirectory='.urlencode($dirname.$filename).'"><b>'.FixTextFields($filename).'</b></a></td>';
 					}
@@ -287,10 +277,10 @@ if (isset($_REQUEST['filename'])) {
 				echo '<th>MD5&nbsp;Data (File) (<a href="'.$_SERVER['PHP_SELF'].'?listdirectory='.rawurlencode(isset($_REQUEST['listdirectory']) ? $_REQUEST['listdirectory'] : '.').'">disable</a>)</th>';
 				echo '<th>MD5&nbsp;Data (Source) (<a href="'.$_SERVER['PHP_SELF'].'?listdirectory='.rawurlencode(isset($_REQUEST['listdirectory']) ? $_REQUEST['listdirectory'] : '.').'">disable</a>)</th>';
 			} else {
-				echo '<th colspan="3">MD5&nbsp;Data (<a href="'.$_SERVER['PHP_SELF'].'?listdirectory='.rawurlencode(isset($_REQUEST['listdirectory']) ? $_REQUEST['listdirectory'] : '.').'&ShowMD5=1">enable</a>)</th>';
+				echo '<th colspan="3">MD5&nbsp;Data (<a href="'.$_SERVER['PHP_SELF'].'?listdirectory='.rawurlencode(isset($_REQUEST['listdirectory']) ? $_REQUEST['listdirectory'] : '.').'&amp;ShowMD5=1">enable</a>)</th>';
 			}
 			echo '<th>Tags</th>';
-			echo '<th>Errors & Warnings</th>';
+			echo '<th>Errors &amp; Warnings</th>';
 			echo '<th>Edit</th>';
 			echo '<th>Delete</th>';
 			echo '</tr>';
@@ -299,7 +289,7 @@ if (isset($_REQUEST['filename'])) {
 				uksort($DirectoryContents[$dirname]['known'], 'MoreNaturalSort');
 				foreach ($DirectoryContents[$dirname]['known'] as $filename => $fileinfo) {
 					echo '<tr bgcolor="#'.(($rowcounter++ % 2) ? $getID3checkColor_FileDark : $getID3checkColor_FileLight).'">';
-					echo '<td><a href="'.$_SERVER['PHP_SELF'].'?filename='.urlencode($dirname.$filename).'" TITLE="View detailed analysis">'.FixTextFields(getid3_lib::SafeStripSlashes($filename)).'</a></td>';
+					echo '<td><a href="'.$_SERVER['PHP_SELF'].'?filename='.urlencode($dirname.$filename).'" title="View detailed analysis">'.FixTextFields(getid3_lib::SafeStripSlashes($filename)).'</a></td>';
 					echo '<td align="right">&nbsp;'.number_format($fileinfo['filesize']).'</td>';
 					echo '<td align="right">&nbsp;'.NiceDisplayFiletypeFormat($fileinfo).'</td>';
 					echo '<td align="right">&nbsp;'.(isset($fileinfo['playtime_string']) ? $fileinfo['playtime_string'] : '-').'</td>';
@@ -318,11 +308,11 @@ if (isset($_REQUEST['filename'])) {
 					echo '<td align="left">&nbsp;';
 					if (!empty($fileinfo['warning'])) {
 						$FilesWithWarnings++;
-						echo '<a href="javascript:alert(\''.FixTextFields(implode('\\n', $fileinfo['warning'])).'\');" TITLE="'.FixTextFields(implode("\n", $fileinfo['warning'])).'">warning</a><br>';
+						echo '<a href="#" onClick="alert(\''.FixTextFields(implode('\\n', $fileinfo['warning'])).'\'); return false;" title="'.FixTextFields(implode("\n", $fileinfo['warning'])).'">warning</a><br>';
 					}
 					if (!empty($fileinfo['error'])) {
 						$FilesWithErrors++;
-						echo '<a href="javascript:alert(\''.FixTextFields(implode('\\n', $fileinfo['error'])).'\');" TITLE="'.FixTextFields(implode("\n", $fileinfo['error'])).'">error</a><br>';
+						echo '<a href="#" onClick="alert(\''.FixTextFields(implode('\\n', $fileinfo['error'])).'\'); return false;" title="'.FixTextFields(implode("\n", $fileinfo['error'])).'">error</a><br>';
 					}
 					echo '</td>';
 
@@ -334,12 +324,12 @@ if (isset($_REQUEST['filename'])) {
 						case 'flac':
 						case 'mpc':
 						case 'real':
-							echo '<a href="'.$writescriptfilename.'?Filename='.urlencode($dirname.$filename).'" TITLE="Edit tags">edit&nbsp;tags</a>';
+							echo '<a href="'.$writescriptfilename.'?Filename='.urlencode($dirname.$filename).'" title="Edit tags">edit&nbsp;tags</a>';
 							break;
 						case 'ogg':
 							switch (@$fileinfo['audio']['dataformat']) {
 								case 'vorbis':
-									echo '<a href="'.$writescriptfilename.'?Filename='.urlencode($dirname.$filename).'" TITLE="Edit tags">edit&nbsp;tags</a>';
+									echo '<a href="'.$writescriptfilename.'?Filename='.urlencode($dirname.$filename).'" title="Edit tags">edit&nbsp;tags</a>';
 									break;
 							}
 							break;
@@ -347,7 +337,7 @@ if (isset($_REQUEST['filename'])) {
 							break;
 					}
 					echo '</td>';
-					echo '<td align="left">&nbsp;<a href="'.$_SERVER['PHP_SELF'].'?listdirectory='.urlencode($listdirectory).'&deletefile='.urlencode($dirname.$filename).'" onClick="return confirm(\'Are you sure you want to delete '.addslashes($dirname.$filename).'? \n(this action cannot be un-done)\');" TITLE="Permanently delete '."\n".FixTextFields($filename)."\n".' from'."\n".' '.FixTextFields($dirname).'">delete</a></td>';
+					echo '<td align="left">&nbsp;<a href="'.$_SERVER['PHP_SELF'].'?listdirectory='.urlencode($listdirectory).'&amp;deletefile='.urlencode($dirname.$filename).'" onClick="return confirm(\'Are you sure you want to delete '.addslashes(htmlentities($dirname.$filename)).'? \n(this action cannot be un-done)\');" title="Permanently delete '."\n".FixTextFields($filename)."\n".' from'."\n".' '.FixTextFields($dirname).'">delete</a></td>';
 					echo '</tr>';
 				}
 			}
@@ -370,18 +360,18 @@ if (isset($_REQUEST['filename'])) {
 					echo '<td align="left">&nbsp;';
 					if (!empty($fileinfo['warning'])) {
 						$FilesWithWarnings++;
-						echo '<a href="javascript:alert(\''.FixTextFields(implode('\\n', $fileinfo['warning'])).'\');" TITLE="'.FixTextFields(implode("\n", $fileinfo['warning'])).'">warning</a><br>';
+						echo '<a href="#" onClick="alert(\''.FixTextFields(implode('\\n', $fileinfo['warning'])).'\'); return false;" title="'.FixTextFields(implode("\n", $fileinfo['warning'])).'">warning</a><br>';
 					}
 					if (!empty($fileinfo['error'])) {
 						if ($fileinfo['error'][0] != 'unable to determine file format') {
 							$FilesWithErrors++;
-							echo '<a href="javascript:alert(\''.FixTextFields(implode('\\n', $fileinfo['error'])).'\');" TITLE="'.FixTextFields(implode("\n", $fileinfo['error'])).'">error</a><br>';
+							echo '<a href="#" onClick="alert(\''.FixTextFields(implode('\\n', $fileinfo['error'])).'\'); return false;" title="'.FixTextFields(implode("\n", $fileinfo['error'])).'">error</a><br>';
 						}
 					}
 					echo '</td>';
 
 					echo '<td align="left">&nbsp;</td>'; // Edit
-					echo '<td align="left">&nbsp;<a href="'.$_SERVER['PHP_SELF'].'?listdirectory='.urlencode($listdirectory).'&deletefile='.urlencode($dirname.$filename).'" onClick="return confirm(\'Are you sure you want to delete '.addslashes($dirname.$filename).'? \n(this action cannot be un-done)\');" TITLE="Permanently delete '.addslashes($dirname.$filename).'">delete</a></td>';
+					echo '<td align="left">&nbsp;<a href="'.$_SERVER['PHP_SELF'].'?listdirectory='.urlencode($listdirectory).'&amp;deletefile='.urlencode($dirname.$filename).'" onClick="return confirm(\'Are you sure you want to delete '.addslashes($dirname.$filename).'? \n(this action cannot be un-done)\');" title="Permanently delete '.addslashes($dirname.$filename).'">delete</a></td>';
 					echo '</tr>';
 				}
 			}
@@ -392,7 +382,7 @@ if (isset($_REQUEST['filename'])) {
 			echo '<td>&nbsp;</td>';
 			echo '<td align="right">'.getid3_lib::PlaytimeString($TotalScannedPlaytime / max($TotalScannedPlaytimeFiles, 1)).'</td>';
 			echo '<td align="right">'.BitrateText(round(($TotalScannedBitrate / 1000) / max($TotalScannedBitrateFiles, 1))).'</td>';
-			echo '<td rowspan="2" colspan="'.($columnsintable - 5).'"><table border="0" cellspacing="0" cellpadding="2"><tr><th align="right">Identified Files:</th><td align="right">'.number_format($TotalScannedKnownFiles).'</td><td>&nbsp;&nbsp;&nbsp;</td><th align="right">Errors:</th><td align="right">'.number_format($FilesWithErrors).'</td></tr><tr><th align="right">Unknown Files:</th><td align="right">'.number_format($TotalScannedUnknownFiles).'</td><td>&nbsp;&nbsp;&nbsp;</td><th align="right">Warnings:</th><td align="right">'.number_format($FilesWithWarnings).'</td></tr></table>';
+			echo '<td rowspan="2" colspan="'.($columnsintable - 5).'"><table class="table" border="0" cellspacing="0" cellpadding="2"><tr><th align="right">Identified Files:</th><td align="right">'.number_format($TotalScannedKnownFiles).'</td><td>&nbsp;&nbsp;&nbsp;</td><th align="right">Errors:</th><td align="right">'.number_format($FilesWithErrors).'</td></tr><tr><th align="right">Unknown Files:</th><td align="right">'.number_format($TotalScannedUnknownFiles).'</td><td>&nbsp;&nbsp;&nbsp;</td><th align="right">Warnings:</th><td align="right">'.number_format($FilesWithWarnings).'</td></tr></table>';
 			echo '</tr>';
 			echo '<tr bgcolor="#'.$getID3checkColor_Head.'">';
 			echo '<td><b>Total:</b></td>';
@@ -417,8 +407,27 @@ ob_end_flush();
 
 
 function RemoveAccents($string) {
-	// Revised version by markstewardØhotmail*com
-	return strtr(strtr($string, 'ŠŽšžŸÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖØÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõöøùúûüýÿ', 'SZszYAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy'), array('Þ' => 'TH', 'þ' => 'th', 'Ð' => 'DH', 'ð' => 'dh', 'ß' => 'ss', 'Œ' => 'OE', 'œ' => 'oe', 'Æ' => 'AE', 'æ' => 'ae', 'µ' => 'u'));
+	// Revised version by marksteward×¨otmail*com
+	// Again revised by James Heinrich (19-June-2006)
+	return strtr(
+		strtr(
+			$string,
+			"\x8A\x8E\x9A\x9E\x9F\xC0\xC1\xC2\xC3\xC4\xC5\xC7\xC8\xC9\xCA\xCB\xCC\xCD\xCE\xCF\xD1\xD2\xD3\xD4\xD5\xD6\xD8\xD9\xDA\xDB\xDC\xDD\xE0\xE1\xE2\xE3\xE4\xE5\xE7\xE8\xE9\xEA\xEB\xEC\xED\xEE\xEF\xF1\xF2\xF3\xF4\xF5\xF6\xF8\xF9\xFA\xFB\xFC\xFD\xFF",
+			'SZszYAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy'
+		),
+		array(
+			"\xDE" => 'TH',
+			"\xFE" => 'th',
+			"\xD0" => 'DH',
+			"\xF0" => 'dh',
+			"\xDF" => 'ss',
+			"\x8C" => 'OE',
+			"\x9C" => 'oe',
+			"\xC6" => 'AE',
+			"\xE6" => 'ae',
+			"\xB5" => 'u'
+		)
+	);
 }
 
 
@@ -460,11 +469,12 @@ function string_var_dump($variable) {
 }
 
 
-function table_var_dump($variable) {
+function table_var_dump($variable, $wrap_in_td=false) {
 	$returnstring = '';
 	switch (gettype($variable)) {
 		case 'array':
-			$returnstring .= '<table border="1" cellspacing="0" cellpadding="2">';
+			$returnstring .= ($wrap_in_td ? '<td>' : '');
+			$returnstring .= '<table class="dump" cellspacing="0" cellpadding="2">';
 			foreach ($variable as $key => $value) {
 				$returnstring .= '<tr><td valign="top"><b>'.str_replace("\x00", ' ', $key).'</b></td>';
 				$returnstring .= '<td valign="top">'.gettype($value);
@@ -474,7 +484,8 @@ function table_var_dump($variable) {
 					$returnstring .= '&nbsp;('.strlen($value).')';
 				}
 				if (($key == 'data') && isset($variable['image_mime']) && isset($variable['dataoffset'])) {
-					$imagechunkcheck = getid3_lib::GetDataImageSize($value);
+					$imageinfo = array();
+					$imagechunkcheck = getid3_lib::GetDataImageSize($value, $imageinfo);
 					$DumpedImageSRC = (!empty($_REQUEST['filename']) ? $_REQUEST['filename'] : '.getid3').'.'.$variable['dataoffset'].'.'.getid3_lib::ImageTypesLookup($imagechunkcheck[2]);
 					if ($tempimagefile = @fopen($DumpedImageSRC, 'wb')) {
 						fwrite($tempimagefile, $value);
@@ -482,25 +493,29 @@ function table_var_dump($variable) {
 					}
 					$returnstring .= '</td><td><img src="'.$_SERVER['PHP_SELF'].'?showfile='.urlencode($DumpedImageSRC).'&md5='.md5_file($DumpedImageSRC).'" width="'.$imagechunkcheck[0].'" height="'.$imagechunkcheck[1].'"></td></tr>';
 				} else {
-					$returnstring .= '</td><td>'.table_var_dump($value).'</td></tr>';
+					$returnstring .= '</td>'.table_var_dump($value, true).'</tr>';
 				}
 			}
 			$returnstring .= '</table>';
+			$returnstring .= ($wrap_in_td ? '</td>' : '');
 			break;
 
 		case 'boolean':
-			$returnstring .= ($variable ? 'TRUE' : 'FALSE');
+			$returnstring .= ($wrap_in_td ? '<td class="dump_boolean">' : '').($variable ? 'TRUE' : 'FALSE').($wrap_in_td ? '</td>' : '');
 			break;
 
 		case 'integer':
+			$returnstring .= ($wrap_in_td ? '<td class="dump_integer">' : '').$variable.($wrap_in_td ? '</td>' : '');
+			break;
+
 		case 'double':
 		case 'float':
-			$returnstring .= $variable;
+			$returnstring .= ($wrap_in_td ? '<td class="dump_double">' : '').$variable.($wrap_in_td ? '</td>' : '');
 			break;
 
 		case 'object':
 		case 'null':
-			$returnstring .= string_var_dump($variable);
+			$returnstring .= ($wrap_in_td ? '<td>' : '').string_var_dump($variable).($wrap_in_td ? '</td>' : '');
 			break;
 
 		case 'string':
@@ -513,19 +528,22 @@ function table_var_dump($variable) {
 					$returnstring .= '&#'.str_pad(ord($variable{$i}), 3, '0', STR_PAD_LEFT).';';
 				}
 			}
-			$returnstring = nl2br($returnstring);
+			$returnstring = ($wrap_in_td ? '<td class="dump_string">' : '').nl2br($returnstring).($wrap_in_td ? '</td>' : '');
 			break;
 
 		default:
-			$imagechunkcheck = getid3_lib::GetDataImageSize($variable);
+			$imageinfo = array();
+			$imagechunkcheck = getid3_lib::GetDataImageSize($variable, $imageinfo);
 			if (($imagechunkcheck[2] >= 1) && ($imagechunkcheck[2] <= 3)) {
-				$returnstring .= '<table border="1" cellspacing="0" cellpadding="2">';
+				$returnstring .= ($wrap_in_td ? '<td>' : '');
+				$returnstring .= '<table class="dump" cellspacing="0" cellpadding="2">';
 				$returnstring .= '<tr><td><b>type</b></td><td>'.getid3_lib::ImageTypesLookup($imagechunkcheck[2]).'</td></tr>';
 				$returnstring .= '<tr><td><b>width</b></td><td>'.number_format($imagechunkcheck[0]).' px</td></tr>';
 				$returnstring .= '<tr><td><b>height</b></td><td>'.number_format($imagechunkcheck[1]).' px</td></tr>';
 				$returnstring .= '<tr><td><b>size</b></td><td>'.number_format(strlen($variable)).' bytes</td></tr></table>';
+				$returnstring .= ($wrap_in_td ? '</td>' : '');
 			} else {
-				$returnstring .= nl2br(htmlspecialchars(str_replace("\x00", ' ', $variable)));
+				$returnstring .= ($wrap_in_td ? '<td>' : '').nl2br(htmlspecialchars(str_replace("\x00", ' ', $variable))).($wrap_in_td ? '</td>' : '');
 			}
 			break;
 	}
@@ -658,7 +676,4 @@ function UnifyMagicQuotes($turnon=false) {
 }
 /////////////////////////////////////////////////////////////////
 
-
 ?>
-</BODY>
-</HTML>
