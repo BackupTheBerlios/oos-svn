@@ -13,6 +13,16 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
+/**
+ * getID3()
+ *
+ * getID3() is a PHP script that extracts useful information (such as ID3 tags,
+ * bitrate, playtime, etc.) from MP3s & other multimedia file formats (Ogg, WMA,
+ * WMV, ASF, WAV, AVI, AAC, VQF, FLAC, MusePack, Real, QuickTime, Monkey's Audio,
+ * MIDI and more).
+ *
+ * {@link http://www.getid3.org/ Latest release of this class}
+ */
 require_once 'thirdparty/getid3/getid3/getid3.php';
 
 
