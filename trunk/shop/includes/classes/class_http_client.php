@@ -43,8 +43,7 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
-
+  if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
 
   class httpClient {
     var $url; // array containg server URL, similar to parseurl() returned array
@@ -63,7 +62,7 @@ if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.
  * @seeAlso connect
  **/
     function httpClient($host = '', $port = '') {
-      if (oos_is_not_null($host)) {
+      if (!empty($host)) {
         $this->connect($host, $port);
       }
     }
@@ -148,7 +147,7 @@ if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.
     function Connect($host, $port = '') {
       $this->url['scheme'] = 'http';
       $this->url['host'] = $host;
-      if (oos_is_not_null($port)) $this->url['port'] = $port;
+      if (!empty($port)) $this->url['port'] = $port;
 
       return true;
     }
@@ -337,13 +336,13 @@ if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.
           $port = $this->url['port'];
         }
 
-        if (oos_empty($port)) $port = 80;
+        if (!!empty($port)) $port = 80;
 
         if (!$this->socket = fsockopen($host, $port, $this->reply, $this->replyString)) {
           return false;
         }
 
-        if (oos_is_not_null($this->requestBody)) {
+        if (!empty($this->requestBody)) {
           $this->addHeader('Content-Length', strlen($this->requestBody));
         }
 
@@ -356,7 +355,7 @@ if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.
           }
         }
 
-        if (oos_is_not_null($this->requestBody)) {
+        if (!empty($this->requestBody)) {
           $cmd .= "\r\n" . $this->requestBody;
         }
 
