@@ -44,7 +44,7 @@ $_SESSION['error_cart_msg'] = '';
 oos_session_close();
 
 
-if (OOS_LOG_SQL == 'true') {
+if (OOS_LOG_SQL == '1') {
     $dbconn->LogSQL(false); // turn off logging
     // output summary of SQL logging results
     $perf = NewPerfMonitor($dbconn);

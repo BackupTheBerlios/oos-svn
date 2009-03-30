@@ -43,7 +43,8 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
+if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
+
 
   class httpClient {
     var $url; // array containg server URL, similar to parseurl() returned array
