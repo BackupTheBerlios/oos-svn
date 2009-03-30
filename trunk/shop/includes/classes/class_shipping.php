@@ -24,10 +24,10 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 
 /**
- * Class Multimedia.
+ * Class Shipping.
  *
  * @category   OOS [OSIS Online Shop]
- * @package    Multimedia getID3   getID3
+ * @package    Shipping
  * @copyright  Copyright (c) 2003 - 2009 by the OOS Development Team. (http://www.oos-shop.de/)
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
