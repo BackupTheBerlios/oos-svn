@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: oscommerce.sql,v 1.71 2003/02/14 05:58:35 hpdl 
+   File: oscommerce.sql,v 1.71 2003/02/14 05:58:35 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -17,7 +17,7 @@
    Copyright (c) 2003 osCommerce
    ----------------------------------------------------------------------
 
-   File: newtables.php,v 1.40.2.1 2002/04/03 21:02:06 
+   File: newtables.php,v 1.40.2.1 2002/04/03 21:02:06
    ----------------------------------------------------------------------
    POST-NUKE Content Management System
    Copyright (C) 2001 by the Post-Nuke Development Team.
@@ -42,7 +42,7 @@
    To read the license please visit http://www.gnu.org/copyleft/gpl.html
    ----------------------------------------------------------------------
    Original Author of file:
-   Purpose of file: 
+   Purpose of file:
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -52,10 +52,10 @@ function dosql($table, $flds) {
 
    $dict = NewDataDictionary($db);
 
-   $taboptarray = array('mysql' => 'TYPE=MyISAM', 'REPLACE'); 
+   $taboptarray = array('mysql' => 'TYPE=MyISAM', 'REPLACE');
 
    $sqlarray = $dict->CreateTableSQL($table, $flds, $taboptarray);
-   $dict->ExecuteSQLArray($sqlarray); 
+   $dict->ExecuteSQLArray($sqlarray);
 
    echo '<br><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $table . " " . MADE . '</font>';
 }
@@ -213,9 +213,9 @@ $flds = "
   block_type I2 NOTNULL DEFAULT '1',
   block_sort_order I2 DEFAULT NULL,
   block_login_flag I2 NOTNULL DEFAULT '0',
-  block_author_name C(32) NOTNULL,
+  block_author_name C(32),
   block_author_www C(255),
-  block_modules_group C(32) NOTNULL,
+  block_modules_group C(32),
   date_added T,
   last_modified T,
   set_function C(255) NULL
@@ -233,7 +233,7 @@ $flds = "
 dosql($table, $flds);
 
 
-$idxname = 'idx_block_name'; 
+$idxname = 'idx_block_name';
 $idxflds = 'block_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -352,7 +352,7 @@ $flds = "
 dosql($table, $flds);
 
 
-$idxname = 'idx_countries_name'; 
+$idxname = 'idx_countries_name';
 $idxflds = 'countries_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -456,13 +456,13 @@ $flds = "
    customers_firstname C(32) NOTNULL,
    customers_lastname C(32) NOTNULL,
    customers_image C(64) NULL,
-   customers_number C(16) NOTNULL,
+   customers_number C(16),
    customers_dob T,
    customers_email_address C(96) NOTNULL,
    customers_default_address_id I2 DEFAULT '1' NOTNULL,
    customers_vat_id C(20) NULL,
    customers_vat_id_status I1 DEFAULT '0' NOTNULL,
-   customers_telephone C(32) NOTNULL,
+   customers_telephone C(32),
    customers_fax C(32) NULL,
    customers_password C(40) NOTNULL,
    customers_wishlist_link_id C(32) NOTNULL,
@@ -531,7 +531,7 @@ $flds = "
 dosql($table, $flds);
 
 
-$idxname = 'idx_customers_status_name'; 
+$idxname = 'idx_customers_status_name';
 $idxflds = 'customers_status_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -651,7 +651,7 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_name'; 
+$idxname = 'idx_name';
 $idxflds = 'name';
 idxsql($idxname, $table, $idxflds);
 
@@ -706,12 +706,12 @@ $flds = "
   manufacturers_name C(32) NOTNULL,
   manufacturers_image C(64),
   date_added T,
-  last_modified T 
+  last_modified T
 ";
 dosql($table, $flds);
 
 
-$idxname = 'idx_manufacturers_name'; 
+$idxname = 'idx_manufacturers_name';
 $idxflds = 'manufacturers_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -723,7 +723,7 @@ $flds = "
   manufacturers_languages_id I NOTNULL DEFAULT '1' PRIMARY,
   manufacturers_url C(255) NOTNULL,
   url_clicked I2 NOTNULL DEFAULT '0',
-  date_last_click T 
+  date_last_click T
 ";
 dosql($table, $flds);
 
@@ -762,7 +762,7 @@ $flds = "
 dosql($table, $flds);
 
 
-$idxname = 'idx_newsfeed_categories'; 
+$idxname = 'idx_newsfeed_categories';
 $idxflds = 'newsfeed_categories_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -779,15 +779,15 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_newsfeed_name'; 
+$idxname = 'idx_newsfeed_name';
 $idxflds = 'newsfeed_name';
 idxsql($idxname, $table, $idxflds);
 
-$idxname = 'idx_newsfeed_title'; 
+$idxname = 'idx_newsfeed_title';
 $idxflds = 'newsfeed_title';
 idxsql($idxname, $table, $idxflds);
 
-$idxname = 'idx_newsfeed_description'; 
+$idxname = 'idx_newsfeed_description';
 $idxflds = 'newsfeed_description';
 idxsql($idxname, $table, $idxflds);
 
@@ -808,11 +808,11 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_newsfeed_manager_name'; 
+$idxname = 'idx_newsfeed_manager_name';
 $idxflds = 'newsfeed_manager_name';
 idxsql($idxname, $table, $idxflds);
 
-$idxname = 'idx_newsfeed_manager_link'; 
+$idxname = 'idx_newsfeed_manager_link';
 $idxflds = 'newsfeed_manager_link';
 idxsql($idxname, $table, $idxflds);
 
@@ -830,7 +830,7 @@ $flds = "
 dosql($table, $flds);
 
 
-$idxname = 'idx_news_categories_id'; 
+$idxname = 'idx_news_categories_id';
 $idxflds = 'news_categories_id';
 idxsql($idxname, $table, $idxflds);
 
@@ -846,7 +846,7 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_news_categories_name'; 
+$idxname = 'idx_news_categories_name';
 $idxflds = 'news_categories_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -866,8 +866,8 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_news_date_added'; 
-$idxflds = 'news_date_added'; 
+$idxname = 'idx_news_date_added';
+$idxflds = 'news_date_added';
 idxsql($idxname, $table, $idxflds);
 
 
@@ -882,7 +882,7 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_news_name'; 
+$idxname = 'idx_news_name';
 $idxflds = 'news_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -997,7 +997,7 @@ $flds = "
 dosql($table, $flds);
 
 
-$idxname = 'idx_orders_status_name'; 
+$idxname = 'idx_orders_status_name';
 $idxflds = 'orders_status_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -1054,7 +1054,7 @@ $flds = "
 dosql($table, $flds);
 
 
-$idxname = 'idx_orders_id'; 
+$idxname = 'idx_orders_id';
 $idxflds = 'orders_id';
 idxsql($idxname, $table, $idxflds);
 
@@ -1069,7 +1069,7 @@ $flds = "
 dosql($table, $flds);
 
 
-$idxname = 'idx_page_type_name'; 
+$idxname = 'idx_page_type_name';
 $idxflds = 'page_type_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -1126,8 +1126,8 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_products_date_added'; 
-$idxflds = 'products_date_added'; 
+$idxname = 'idx_products_date_added';
+$idxflds = 'products_date_added';
 idxsql($idxname, $table, $idxflds);
 
 
@@ -1168,7 +1168,7 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_products_name'; 
+$idxname = 'idx_products_name';
 $idxflds = 'products_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -1205,7 +1205,7 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_products_options_types_name'; 
+$idxname = 'idx_products_options_types_name';
 $idxflds = 'products_options_types_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -1239,7 +1239,7 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_products_status_name'; 
+$idxname = 'idx_products_status_name';
 $idxflds = 'products_status_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -1487,7 +1487,7 @@ $flds = "
 dosql($table, $flds);
 
 
-$idxname = 'idx_ticket_status_name'; 
+$idxname = 'idx_ticket_status_name';
 $idxflds = 'ticket_status_name';
 idxsql($idxname, $table, $idxflds);
 
@@ -1507,11 +1507,11 @@ $flds = "
 ";
 dosql($table, $flds);
 
-$idxname = 'idx_ticket_status_history_id'; 
+$idxname = 'idx_ticket_status_history_id';
 $idxflds = 'ticket_status_history_id';
 idxsql($idxname, $table, $idxflds);
 
-$idxname = 'idx_ticket_id'; 
+$idxname = 'idx_ticket_id';
 $idxflds = 'ticket_id';
 idxsql($idxname, $table, $idxflds);
 

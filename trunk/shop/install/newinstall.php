@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: newinstall.php,v 1.5 2002/02/09 12:50:40 
+   File: newinstall.php,v 1.5 2002/02/09 12:50:40
    ----------------------------------------------------------------------
    POST-NUKE Content Management System
    Copyright (C) 2001 by the Post-Nuke Development Team.
@@ -38,9 +38,9 @@
    ---------------------------------------------------------------------- */
 
  /**
-  * This function creates the DB on new installs 
+  * This function creates the DB on new installs
   */
-  function make_db($dbhost, $dbuname, $dbpass, $dbname, $prefix_table, $dbtype, $dbmake) { 
+  function make_db($dbhost, $dbuname, $dbpass, $dbname, $prefix_table, $dbtype, $dbmake) {
      global $db;
 
      echo '<font class="oos-title">' . INPUT_DATA . '</font>';
@@ -69,7 +69,7 @@
   }
 
   /**
-   * This function inserts the default data on new installs 
+   * This function inserts the default data on new installs
    */
   function oosInputData($gender, $firstname, $name, $pwd, $repeatpwd, $email, $phone, $fax, $prefix_table, $update) {
     global $currentlang, $db, $update;
@@ -87,6 +87,8 @@
     $owp_pwd = oos_encrypt_password($pwd);
 
     include_once 'newconfigdata.php';
+
+
 
     $admin_groups_id = '1';
     $sql = "INSERT INTO ". $prefix_table . "admin
@@ -162,17 +164,29 @@
 
     $book_id = 1;
     $country = 81;
+    $zone_id = 88;
+    $sStr = '0';
     $sql = "INSERT INTO ". $prefix_table . "address_book
             (customers_id,
              address_book_id,
+             entry_gender,
              entry_firstname,
              entry_lastname,
-             entry_country_id)
+               entry_street_address,
+               entry_postcode,
+               entry_city,
+             entry_country_id,
+             entry_zone_id)
              VALUES (" . $db->qstr($customer_id) . ','
                        . $db->qstr($book_id) . ','
+                       . $db->qstr($gender) . ','
                        . $db->qstr($firstname) . ','
                        . $db->qstr($name) . ','
-                       . $db->qstr($country) . ")";
+                         . $db->qstr($sStr) . ','
+                         . $db->qstr($sStr) . ','
+                         . $db->qstr($sStr) . ','
+                       . $db->qstr($country) . ','
+                       . $db->qstr($zone_id) . ")";
     $result = $db->Execute($sql);
     if ($result === false) {
       echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle"><font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
