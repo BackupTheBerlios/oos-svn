@@ -47,14 +47,14 @@
       $bannerstable = $oostable['banners'];
       return $dbconn->Execute("UPDATE $bannerstable
                                SET status = '1',
-                                   date_status_change = now(),
+                                   date_status_change = '" . date("Y-m-d", time()) . "',
                                    date_scheduled = NULL
                                WHERE banners_id = '" . intval($banners_id) . "'");
     } elseif ($status == '0') {
       $bannerstable = $oostable['banners'];
       return $dbconn->Execute("UPDATE $bannerstable
                                SET status = '0',
-                                   date_status_change = now()
+                                   date_status_change = '" . date("Y-m-d", time()) . "'
                               WHERE banners_id = '" . intval($banners_id) . "'");
     } else {
       return false;
@@ -220,13 +220,13 @@
     $oostable =& oosDBGetTables();
 
     $banners_historytable = $oostable['banners_history'];
-    $banner_check = $dbconn->Execute("SELECT COUNT(*) AS total FROM $banners_historytable WHERE banners_id = '" . intval($banner_id) . "' AND date_format(banners_history_date, '%Y%m%d') = date_format(now(), '%Y%m%d')");
+    $banner_check = $dbconn->Execute("SELECT COUNT(*) AS total FROM $banners_historytable WHERE banners_id = '" . intval($banner_id) . "' AND banners_history_date = '" . date("Y-m-d", time()) . "'");
     if ($banner_check->fields['total'] > 0) {
       $banners_historytable = $oostable['banners_history'];
       $dbconn->Execute("UPDATE $banners_historytable
                   SET banners_shown = banners_shown + 1
-                  WHERE banners_id = '" . intval($banner_id) . "' AND
-                  date_format(banners_history_date, '%Y%m%d') = date_format(now(), '%Y%m%d')");
+                  WHERE banners_id = '" . intval($banner_id) . "'
+                    AND banners_history_date = '" . date("Y-m-d", time()) . "'");
     } else {
       $banners_historytable = $oostable['banners_history'];
       $dbconn->Execute("INSERT INTO $banners_historytable
@@ -234,7 +234,7 @@
                    banners_shown,
                    banners_history_date) VALUES ('" . intval($banner_id) . "',
                                                  1,
-                                                 now())");
+                                                 '" . date("Y-m-d", time()) . "')");
     }
   }
 
@@ -254,6 +254,6 @@
     $dbconn->Execute("UPDATE $banners_historytable
                   SET banners_clicked = banners_clicked + 1
                   WHERE banners_id = '" . intval($banner_id) . "'
-                    AND date_format(banners_history_date, '%Y%m%d') = date_format(now(), '%Y%m%d')");
+                    AND banners_history_date = '" . date("Y-m-d", time()) . "'");
   }
 
