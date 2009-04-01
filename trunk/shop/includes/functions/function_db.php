@@ -189,7 +189,7 @@
       while (list(, $value) = each($data)) {
         switch ((string)$value) {
           case 'now()':
-            $query .= 'now(), ';
+            $query .= '" . date("Y-m-d H:i:s", time()) . "';
             break;
 
           case 'null':
@@ -207,7 +207,7 @@
       while (list($columns, $value) = each($data)) {
         switch ((string)$value) {
           case 'now()':
-            $query .= $columns . ' = now(), ';
+            $query .= $columns . ' = ' . date("Y-m-d H:i:s", time()) . ', ';
             break;
 
           case 'null':

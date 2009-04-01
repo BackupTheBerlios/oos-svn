@@ -139,11 +139,11 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_XMEMBERS_STATUS', '1', '6', '1','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_XMEMBERS_SORT_ORDER', '3', '6', '2', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_INC_SHIPPING', '1', '6', '5', 'oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_INC_TAX', '1', '6', '6','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_CALC_TAX', '0', '6', '5','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d", time()) . "')");
+      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_XMEMBERS_STATUS', '1', '6', '1','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_XMEMBERS_SORT_ORDER', '3', '6', '2', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_INC_SHIPPING', '1', '6', '5', 'oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_INC_TAX', '1', '6', '6','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO  $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) values ('MODULE_XMEMBERS_CALC_TAX', '0', '6', '5','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d H:i:s", time()) . "')");
     }
 
     function remove() {

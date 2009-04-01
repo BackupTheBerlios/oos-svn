@@ -87,7 +87,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
                                        '" . intval($_SESSION['customer_id']) . "',
                                        '" . oos_db_input($customers_name) . "',
                                        '" . oos_db_input($rating) . "',
-                                       now())");
+                                       '" . date("Y-m-d H:i:s", time()) . "')");
         $insert_id = $dbconn->Insert_ID();
         $reviews_descriptiontable  = $oostable['reviews_description'];
         $dbconn->Execute("INSERT INTO $reviews_descriptiontable

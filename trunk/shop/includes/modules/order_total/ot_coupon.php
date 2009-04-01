@@ -127,7 +127,7 @@
         $couponstable = $oostable['coupons'];
         $sql = "SELECT coupon_start_date
                 FROM $couponstable
-                WHERE coupon_start_date <= '" . date("Y-m-d", time()) . "'
+                WHERE coupon_start_date <= '" . date("Y-m-d H:i:s", time()) . "'
                 AND   coupon_code= '" . oos_db_input($_POST['gv_redeem_code']) . "'";
         $date_query = $dbconn->Execute($sql);
         if ($date_query->RecordCount() == 0) {
@@ -138,7 +138,7 @@
         $couponstable = $oostable['coupons'];
         $sql = "SELECT coupon_expire_date
                 FROM $couponstable
-                WHERE coupon_expire_date >= '" . date("Y-m-d", time()) . "'
+                WHERE coupon_expire_date >= '" . date("Y-m-d H:i:s", time()) . "'
                 AND   coupon_code= '" . oos_db_input($_POST['gv_redeem_code']) . "'";
         $date_query = $dbconn->Execute($sql);
         if ($date_query->RecordCount() == 0) {
@@ -415,7 +415,7 @@
      $oostable =& oosDBGetTables();
 
      $coupon_redeem_tracktable = $oostable['coupon_redeem_track'];
-     $dbconn->Execute("INSERT INTO $coupon_redeem_tracktable (coupon_id, redeem_date, redeem_ip, customer_id, order_id) VALUES ('" . oos_db_input($cc_id) . "', '" . date("Y-m-d", time()) . "', '" . oos_db_input($remote_addr) . "', '" . intval($_SESSION['customer_id']) . "', '" . intval($insert_id) . "')");
+     $dbconn->Execute("INSERT INTO $coupon_redeem_tracktable (coupon_id, redeem_date, redeem_ip, customer_id, order_id) VALUES ('" . oos_db_input($cc_id) . "', '" . date("Y-m-d H:i:s", time()) . "', '" . oos_db_input($remote_addr) . "', '" . intval($_SESSION['customer_id']) . "', '" . intval($insert_id) . "')");
    }
    unset($_SESSION['cc_id']);
  }
@@ -581,12 +581,12 @@ function get_product_price($product_id) {
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_STATUS', '1', '6', '1','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_SORT_ORDER', '8', '6', '2', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_INC_SHIPPING', '1', '6', '5', 'oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_INC_TAX', '1', '6', '6','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_CALC_TAX', 'None', '6', '7','oos_cfg_select_option(array(\'None\', \'Standard\', \'Credit Note\'), ', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_TAX_CLASS', '0', '6', '0', 'oos_cfg_get_tax_class_title', 'oos_cfg_pull_down_tax_classes(', '" . date("Y-m-d", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_STATUS', '1', '6', '1','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_SORT_ORDER', '8', '6', '2', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_INC_SHIPPING', '1', '6', '5', 'oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_INC_TAX', '1', '6', '6','oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function ,date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_CALC_TAX', 'None', '6', '7','oos_cfg_select_option(array(\'None\', \'Standard\', \'Credit Note\'), ', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_ORDER_TOTAL_COUPON_TAX_CLASS', '0', '6', '0', 'oos_cfg_get_tax_class_title', 'oos_cfg_pull_down_tax_classes(', '" . date("Y-m-d H:i:s", time()) . "')");
     }
 
     function remove() {

@@ -419,7 +419,7 @@ if ($bError == true) {
                  customers_info_number_of_logons,
                  customers_info_date_account_created) VALUES ('" . intval($customer_id) . "',
                                                               '0',
-                                                              now())");
+                                                              '" . date("Y-m-d H:i:s", time()) . "')");
 
     $maillisttable = $oostable['maillist'];
     $sql = "SELECT customers_firstname
@@ -482,7 +482,7 @@ if ($bError == true) {
                                                date_created) VALUES ('" . oos_db_input($coupon_code) . "',
                                                                      'G',
                                                                      '" . NEW_SIGNUP_GIFT_VOUCHER_AMOUNT . "',
-                                                                     now())");
+                                                                     '" . date("Y-m-d H:i:s", time()) . "')");
             $insert_id = $dbconn->Insert_ID();
             $coupon_email_tracktable = $oostable['coupon_email_track'];
             $insert_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable
@@ -494,7 +494,7 @@ if ($bError == true) {
                                                                  '0',
                                                                  'Admin',
                                                                  '" . $email_address . "',
-                                                                 now() )");
+                                                                 '" . date("Y-m-d H:i:s", time()) . "' )");
 
             $email_text .= sprintf($aLang['email_gv_incentive_header'], $oCurrencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
                            sprintf($aLang['email_gv_redeem'], $coupon_code) . "\n\n" .
@@ -527,7 +527,7 @@ if ($bError == true) {
                                                                    '0',
                                                                    'Admin',
                                                                    '" . oos_db_input($email_address) . "',
-                                                                   now() )");
+                                                                   '" . date("Y-m-d H:i:s", time()) . "' )");
 
             $email_text .= $aLang['email_coupon_incentive_header'] .  "\n\n" .
                            $coupon_desc['coupon_description'] .

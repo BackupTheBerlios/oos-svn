@@ -197,17 +197,17 @@
       $oostable =& oosDBGetTables();
 
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_SHIPPING_ZONES_STATUS', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_SHIPPING_ZONES_TAX_CLASS', '0', '6', '0', 'oos_cfg_get_tax_class_title', 'oos_cfg_pull_down_tax_classes(', '" . date("Y-m-d", time()) . "')");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_SHIPPING_ZONES_SORT_ORDER', '0', '6', '0', '" . date("Y-m-d", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) VALUES ('MODULE_SHIPPING_ZONES_STATUS', '1', '6', '0', 'oos_cfg_select_option(array(\'1\', \'0\'), ', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_SHIPPING_ZONES_TAX_CLASS', '0', '6', '0', 'oos_cfg_get_tax_class_title', 'oos_cfg_pull_down_tax_classes(', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_SHIPPING_ZONES_SORT_ORDER', '0', '6', '0', '" . date("Y-m-d H:i:s", time()) . "')");
       for ($i = 1; $i <= $this->num_zones; $i++) {
         $default_countries = '';
         if ($i == 1) {
           $default_countries = 'US,CA';
         }
-        $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_SHIPPING_ZONES_COUNTRIES_" . $i ."', '" . $default_countries . "', '6', '0', '" . date("Y-m-d", time()) . "')");
-        $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_SHIPPING_ZONES_COST_" . $i ."', '3:8.50,7:10.50,99:20.00', '6', '0', '" . date("Y-m-d", time()) . "')");
-        $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_SHIPPING_ZONES_HANDLING_" . $i."', '0', '6', '0', '" . date("Y-m-d", time()) . "')");
+        $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_SHIPPING_ZONES_COUNTRIES_" . $i ."', '" . $default_countries . "', '6', '0', '" . date("Y-m-d H:i:s", time()) . "')");
+        $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_SHIPPING_ZONES_COST_" . $i ."', '3:8.50,7:10.50,99:20.00', '6', '0', '" . date("Y-m-d H:i:s", time()) . "')");
+        $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_SHIPPING_ZONES_HANDLING_" . $i."', '0', '6', '0', '" . date("Y-m-d H:i:s", time()) . "')");
       }
     }
 

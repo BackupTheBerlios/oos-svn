@@ -67,12 +67,10 @@
                         SET block_status = 1
                         WHERE block_file = 'reviews'");
 
-      $today = date("Y-m-d H:i:s");
-
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_RANDOM_SELECT_REVIEWS', '10', 6, 1, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_NEW_REVIEWS', '5', 6, 2, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('REVIEW_TEXT_MIN_LENGTH', '50', 6, 3, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_RANDOM_SELECT_REVIEWS', '10', 6, 1, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_NEW_REVIEWS', '5', 6, 2, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('REVIEW_TEXT_MIN_LENGTH', '50', 6, 3, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
 
       return true;
     }

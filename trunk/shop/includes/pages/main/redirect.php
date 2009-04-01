@@ -70,13 +70,13 @@ switch ($_GET['action']) {
                                   } else {
                                       $manufacturer = $manufacturer_result->fields;
                                       $manufacturers_infotable = $oostable['manufacturers_info'];
-                                      $dbconn->Execute("UPDATE $manufacturers_infotable SET url_clicked = url_clicked+1, date_last_click = now() WHERE manufacturers_id = '" . intval($manufacturers_id) . "' AND manufacturers_languages_id = '" . $manufacturer['manufacturers_languages_id'] . "'");
+                                      $dbconn->Execute("UPDATE $manufacturers_infotable SET url_clicked = url_clicked+1, date_last_click = '" . date("Y-m-d H:i:s", time()) . "' WHERE manufacturers_id = '" . intval($manufacturers_id) . "' AND manufacturers_languages_id = '" . $manufacturer['manufacturers_languages_id'] . "'");
                                   }
                               } else {
                                   // url exists in selected language
                                   $manufacturer = $manufacturer_result->fields;
                                   $manufacturers_infotable = $oostable['manufacturers_info'];
-                                  $dbconn->Execute("UPDATE $manufacturers_infotable SET url_clicked = url_clicked+1, date_last_click = now() WHERE manufacturers_id = '" . intval($manufacturers_id) . "' AND manufacturers_languages_id = '" .  intval($nLanguageID) . "'");
+                                  $dbconn->Execute("UPDATE $manufacturers_infotable SET url_clicked = url_clicked+1, date_last_click = '" . date("Y-m-d H:i:s", time()) . "' WHERE manufacturers_id = '" . intval($manufacturers_id) . "' AND manufacturers_languages_id = '" .  intval($nLanguageID) . "'");
                               }
 
                               oos_redirect($manufacturer['manufacturers_url']);

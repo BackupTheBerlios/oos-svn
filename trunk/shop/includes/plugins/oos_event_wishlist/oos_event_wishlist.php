@@ -62,12 +62,10 @@
       $blocktable = $oostable['block'];
       $dbconn->Execute("UPDATE $blocktable SET block_status = 1 WHERE block_file = 'wishlist'");
 
-      $today = date("Y-m-d H:i:s");
-
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_WISHLIST_PRODUCTS', '6', 6, 1, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_WISHLIST_BOX', '6', 6, 2, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('BLOCK_WISHLIST_IMAGE', '1', 6, 3, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, 'oos_cfg_select_option(array(\'1\', \'0\'),')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_WISHLIST_PRODUCTS', '6', 6, 1, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_WISHLIST_BOX', '6', 6, 2, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('BLOCK_WISHLIST_IMAGE', '1', 6, 3, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, 'oos_cfg_select_option(array(\'1\', \'0\'),')");
 
       return true;
     }

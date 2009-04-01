@@ -170,7 +170,7 @@ if ($bError == true) {
     }
 
     $update_info_sql = "UPDATE " . $oostable['customers_info'] . "
-                        SET customers_info_date_account_last_modified = now()
+                        SET customers_info_date_account_last_modified = '" . date("Y-m-d H:i:s", time()) . "'
                         WHERE customers_info_id = '" . intval($_SESSION['customer_id']) . "'";
     $dbconn->Execute($update_info_sql);
 

@@ -70,12 +70,10 @@
                         SET block_status = 1
                         WHERE block_file = 'manufacturer_info'");
 
-      $today = date("Y-m-d H:i:s");
-
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_MANUFACTURERS_IN_A_LIST', '0', 6, 7, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_MANUFACTURERS_LIST', '1', 6, 8, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_MANUFACTURER_NAME_LEN', '15', 6, 9, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_MANUFACTURERS_IN_A_LIST', '0', 6, 7, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_MANUFACTURERS_LIST', '1', 6, 8, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_MANUFACTURER_NAME_LEN', '15', 6, 9, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
 
       return true;
     }

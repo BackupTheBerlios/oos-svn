@@ -432,7 +432,7 @@ if ($bError == true) {
                  customers_info_number_of_logons,
                  customers_info_date_account_created) VALUES ('" . intval($customer_id) . "',
                                                               '0',
-                                                              now())");
+                                                              '" . date("Y-m-d H:i:s", time()) . "')");
 
     $_SESSION['customer_id'] = $customer_id;
     $_SESSION['customer_wishlist_link_id'] = $wishlist_link_id;

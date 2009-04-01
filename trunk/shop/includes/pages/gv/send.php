@@ -105,7 +105,7 @@
                                  date_created,
                                  coupon_amount) VALUES ('G',
                                                         '" . oos_db_input($id1) . "',
-                                                         now(),
+                                                         '" . date("Y-m-d H:i:s", time()) . "',
                                                         '" . oos_db_input($amount) . "')");
       $insert_id = $dbconn->Insert_ID();
 
@@ -121,7 +121,7 @@
                                                     '" . $gv_customer['customers_firstname'] . "',
                                                     '" . $gv_customer['customers_lastname'] . "',
                                                     '" . oos_db_input($email) . "',
-                                                    now())");
+                                                    '" . date("Y-m-d H:i:s", time()) . "')");
 
       $gv_email = STORE_NAME . "\n" .
               $aLang['email_separator'] . "\n" .

@@ -61,10 +61,8 @@
       $dbconn =& oosDBGetConn();
       $oostable =& oosDBGetTables();
 
-      $today = date("Y-m-d H:i:s");
-
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('GOOGLE_MAP_API_KEY', '', 6, 1, NULL, " . $dbconn->DBTimeStamp($today) . ", NULL, NULL)");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('GOOGLE_MAP_API_KEY', '', 6, 1, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
 
       return true;
     }

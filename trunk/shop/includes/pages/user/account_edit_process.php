@@ -398,7 +398,7 @@ if ($bError == true) {
     oos_db_perform($oostable['address_book'], $sql_data_array, 'update', "customers_id = '" . intval($_SESSION['customer_id']) . "' AND address_book_id = '" . intval($_SESSION['customer_default_address_id']) . "'");
 
     $update_info_sql = "UPDATE " . $oostable['customers_info'] . "
-                        SET customers_info_date_account_last_modified = now()
+                        SET customers_info_date_account_last_modified = '" . date("Y-m-d H:i:s", time()) . "'
                         WHERE customers_info_id = '" . intval($_SESSION['customer_id']) . "'";
     $dbconn->Execute($update_info_sql);
 

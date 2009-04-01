@@ -95,7 +95,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
 
             $customers_infotable = $oostable['customers_info'];
             $dbconn->Execute("UPDATE $customers_infotable
-                              SET customers_info_date_of_last_logon = now(),
+                              SET customers_info_date_of_last_logon = '" . date("Y-m-d H:i:s", time()) . "',
                                   customers_info_number_of_logons = customers_info_number_of_logons+1
                               WHERE customers_info_id = '" . intval($_SESSION['customer_id']) . "'");
 

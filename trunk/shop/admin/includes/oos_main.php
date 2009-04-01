@@ -39,10 +39,13 @@
   }
 
 // Set the local configuration parameters - mainly for developers
-  if (file_exists('../includes/local/configure.php')) include('../includes/local/configure.php');
+if (is_readable('../includes/local/configure.php')) {
+    include('../includes/local/configure.php');
+} else {
+    require '../includes/configure.php';
+}
 
 // Include application configuration parameters
-  require '../includes/configure.php';
   require 'includes/oos_define.php';
 
  /**
@@ -159,71 +162,71 @@
  }
 
 // require the language translations
-  require 'includes/languages/' . $_SESSION['language'] . '.php';
-  $current_page = split('\?', basename($_SERVER['PHP_SELF'])); $current_page = $current_page[0]; // for BadBlue(Win32) webserver compatibility
+require 'includes/languages/' . $_SESSION['language'] . '.php';
+$current_page = split('\?', basename($_SERVER['PHP_SELF'])); $current_page = $current_page[0]; // for BadBlue(Win32) webserver compatibility
   if (file_exists('includes/languages/' . $_SESSION['language'] . '/' . $current_page)) {
     require 'includes/languages/' . $_SESSION['language'] . '/' . $current_page;
-  }
+}
 
 
 // define our general functions used application-wide
-  require 'includes/functions/function_output.php';
-  require '../includes/functions/function_password.php';
+require 'includes/functions/function_output.php';
+require '../includes/functions/function_password.php';
 
 
 // setup our boxes
-  require 'includes/classes/class_table_block.php';
-  require 'includes/classes/class_box.php';
+require 'includes/classes/class_table_block.php';
+require 'includes/classes/class_box.php';
 
 // initialize the message stack for output messages
-  require 'includes/classes/class_message_stack.php';
-  $messageStack = new messageStack;
+require 'includes/classes/class_message_stack.php';
+$messageStack = new messageStack;
 
 // split-page-results
-  require 'includes/classes/class_split_page_results.php';
+require 'includes/classes/class_split_page_results.php';
 
 // entry/item info classes
-  require 'includes/classes/class_object_info.php';
+require 'includes/classes/class_object_info.php';
 
 // email classes
-  require '../includes/classes/thirdparty/phpmailer/class.phpmailer.php';
+require '../includes/classes/thirdparty/phpmailer/class.phpmailer.php';
 
 // calculate category path
-  $categories = $_GET['categories'];
-  if (strlen($categories) > 0) {
+$categories = $_GET['categories'];
+if (strlen($categories) > 0) {
     $categories_array = explode('_', $categories);
     $current_category_id = $categories_array[(count($categories_array)-1)];
-  } else {
+} else {
     $current_category_id = 0;
-  }
+}
 
 
 // default open navigation box
-  if (!isset($_SESSION['selected_box'])) {
+if (!isset($_SESSION['selected_box'])) {
     $_SESSION['selected_box'] = 'administrator';
-  }
-  if (isset($_GET['selected_box'])) {
+}
+if (isset($_GET['selected_box'])) {
     $_SESSION['selected_box'] = $_GET['selected_box'];
-  }
+}
 
 // check if a default currency is set
-  if (!defined('DEFAULT_CURRENCY')) {
+if (!defined('DEFAULT_CURRENCY')) {
     $messageStack->add(ERROR_NO_DEFAULT_CURRENCY_DEFINED, 'error');
-  }
+}
 
 // check if a default language is set
-  if (!defined('DEFAULT_LANGUAGE')) {
+if (!defined('DEFAULT_LANGUAGE')) {
     $messageStack->add(ERROR_NO_DEFAULT_LANGUAGE_DEFINED, 'error');
-  }
+}
 
 
-  require 'includes/functions/function_ticket.php';
-  require 'includes/functions/function_added.php';
+require 'includes/functions/function_ticket.php';
+require 'includes/functions/function_added.php';
 
 
-  if (basename($_SERVER['PHP_SELF']) != $aFilename['login']
+if (basename($_SERVER['PHP_SELF']) != $aFilename['login']
    && basename($_SERVER['PHP_SELF']) != $aFilename['password_forgotten']) {
     oos_admin_check_login();
-  }
+}
 
 ?>

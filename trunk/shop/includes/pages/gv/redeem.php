@@ -70,7 +70,7 @@
                              redeem_date,
                              redeem_ip) VALUES ('" . $coupon['coupon_id'] . "',
                                                 '" . intval($_SESSION['customer_id']) . "',
-                                                now(),
+                                                '" . date("Y-m-d H:i:s", time()) . "',
                                                 '" . oos_db_input($remote_addr) . "')");
     $couponstable = $oostable['coupons'];
     $gv_update = $dbconn->Execute("UPDATE $couponstable

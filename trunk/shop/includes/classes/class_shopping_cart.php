@@ -127,7 +127,7 @@ class shoppingCart
                                                redeem_date,
                                                redeem_ip) VALUES ('" . oos_db_input($_SESSION['gv_id']) . "',
                                                                   '" . intval($_SESSION['customer_id']) . "',
-                                                                  now(),
+                                                                  '" . date("Y-m-d H:i:s", time()) . "',
                                                                   '" . oos_db_input($remote) . "')");
 
                 $couponstable = $oostable['coupons'];
