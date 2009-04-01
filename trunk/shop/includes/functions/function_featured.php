@@ -32,7 +32,7 @@
     $featuredtable = $oostable['featured'];
     return $dbconn->Execute("UPDATE $featuredtable
                              SET status = '" . oos_db_input($status) . "',
-                                 date_status_change = now()
+                                 date_status_change = '" . date("Y-m-d H:i:s", time()) . "'
                              WHERE featured_id = '" . intval($nFeaturedId) . "'");
   }
 

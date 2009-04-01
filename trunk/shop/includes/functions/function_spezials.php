@@ -39,7 +39,7 @@
     $specialstable = $oostable['specials'];
     return $dbconn->Execute("UPDATE $specialstable
                              SET status = '" . oos_db_input($status) . "',
-                                 date_status_change = now()
+                                 date_status_change = '" . date("Y-m-d H:i:s", time()) . "'
                               WHERE specials_id = '" . intval($nSpecialsId) . "'");
   }
 

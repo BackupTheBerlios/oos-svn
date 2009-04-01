@@ -265,7 +265,7 @@ if (!$product_info_result->RecordCount()) {
     $oSmarty->assign('options', $options);
 
     $oSmarty->assign('redirect', oos_href_link($aModules['main'], $aFilename['redirect'], 'action=url&amp;goto=' . urlencode($product_info['products_url']), 'NONSSL', false, false));
-    $oSmarty->assign('oosDate', date('Y-m-d H:i:s'));
+    $oSmarty->assign('oosDate', date("Y-m-d H:i:s", time()));
 
     if (SOCIAL_BOOKMARKS == '1') {
         $oSmarty->caching = true;

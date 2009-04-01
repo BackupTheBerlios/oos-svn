@@ -108,8 +108,8 @@ $sql_data_array = array('customers_id' => $_SESSION['customer_id'],
                         'cc_owner' => $oOrder->info['cc_owner'],
                         'cc_number' => $oOrder->info['cc_number'],
                         'cc_expires' => $oOrder->info['cc_expires'],
-                        'date_purchased' => 'now()',
-                        'last_modified' => 'now()',
+                        'date_purchased' => date("Y-m-d H:i:s", time()),
+                        'last_modified' => date("Y-m-d H:i:s", time()),
                         'campaigns' => $_SESSION['campaigns_id'],
                         'orders_status' => $oOrder->info['order_status'],
                         'currency' => $oOrder->info['currency'],
@@ -133,7 +133,7 @@ $customer_notification = ($oEvent->installed_plugin('mail')) ? '1' : '0';
 
 $sql_data_array = array('orders_id' => $insert_id,
                         'orders_status_id' => $oOrder->info['order_status'],
-                        'date_added' => 'now()',
+                        'date_added' => date("Y-m-d H:i:s", time()),
                         'customer_notified' => $customer_notification,
                         'comments' => $oOrder->info['comments']);
 oos_db_perform($oostable['orders_status_history'], $sql_data_array);
