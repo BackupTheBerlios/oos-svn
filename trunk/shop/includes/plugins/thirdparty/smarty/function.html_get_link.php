@@ -37,7 +37,7 @@ function smarty_function_html_get_link($params, &$smarty)
     if ($connection == 'NONSSL') {
       $link = OOS_HTTP_SERVER . OOS_SHOP;
     } elseif ($connection == 'SSL') {
-      if (ENABLE_SSL == 'true') {
+      if (ENABLE_SSL == '1') {
         $link = OOS_HTTPS_SERVER . OOS_SHOP;
       } else {
         $link = OOS_HTTP_SERVER . OOS_SHOP;

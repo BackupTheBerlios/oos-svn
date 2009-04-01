@@ -59,7 +59,7 @@
               WHERE status = '1'
                 AND now() >= expires_date
                 AND expires_date > 0";
-    if (USE_DB_CACHE == 'true') {
+    if (USE_DB_CACHE == '1') {
       $result =& $dbconn->CacheExecute(3600, $query);
     } else {
       $result =& $dbconn->Execute($query);

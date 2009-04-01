@@ -20,7 +20,7 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-if (DISPLAY_NEWSFEED != 'true') {
+if (DISPLAY_NEWSFEED != '1') {
     $_SESSION['navigation']->remove_current_page();
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
@@ -40,7 +40,7 @@ if (!isset($option)) {
     require 'includes/oos_counter.php';
 }
 
-if ( (USE_CACHE == 'true') && (!SID) ) {
+if ( (USE_CACHE == '1') && (!SID) ) {
     $oSmarty->caching = 2;
     $oSmarty->cache_lifetime = 30 * 24 * 3600;
 }

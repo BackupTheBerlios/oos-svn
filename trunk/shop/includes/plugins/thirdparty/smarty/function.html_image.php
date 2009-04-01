@@ -132,7 +132,7 @@ function smarty_function_html_image($params, &$smarty)
         $height = round($height * $_resize);
     }
 
-    $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == 'true') ? ' /' : '');
+    $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ' /' : '');
 
     return $prefix . '<img src="'.$file.'" alt="'.$alt.'" width="'.$width.'" height="'.$height.'"'.$extra.$sSlash.'>' . $suffix;
 }

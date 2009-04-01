@@ -96,7 +96,7 @@
     } else {
       $bValidAddress = false;
     }
-    if ($bValidAddress && ENTRY_EMAIL_ADDRESS_CHECK == 'true') {
+    if ($bValidAddress && ENTRY_EMAIL_ADDRESS_CHECK == '1') {
       if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
         $bValidAddress = false;
       }

@@ -60,11 +60,11 @@
       $oCurrencies = new currencies();
 
       // currency
-      if (!isset($_SESSION['currency']) || isset($_GET['currency']) || ( (USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && (LANGUAGE_CURRENCY != $_SESSION['currency']) ) ) {
+      if (!isset($_SESSION['currency']) || isset($_GET['currency']) || ( (USE_DEFAULT_LANGUAGE_CURRENCY == '1') && (LANGUAGE_CURRENCY != $_SESSION['currency']) ) ) {
         if (isset($_GET['currency']) && oos_currency_exits($_GET['currency'])) {
           $_SESSION['currency'] = oos_var_prep_for_os($_GET['currency']);
         } else {
-          $_SESSION['currency'] = (USE_DEFAULT_LANGUAGE_CURRENCY == 'true') ? LANGUAGE_CURRENCY : DEFAULT_CURRENCY;
+          $_SESSION['currency'] = (USE_DEFAULT_LANGUAGE_CURRENCY == '1') ? LANGUAGE_CURRENCY : DEFAULT_CURRENCY;
         }
       }
 

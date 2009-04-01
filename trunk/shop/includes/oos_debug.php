@@ -39,7 +39,7 @@
   *
   * send 404 error reporting email to the webmaster
   */
-  define('SEND_404_ERROR', 'true');
+  define('SEND_404_ERROR', '1');
   define('WEBMASTER_NAME', STORE_OWNER);
   define('WEBMASTER_EMAIL_ADDRESS', STORE_OWNER_EMAIL_ADDRESS);
   define('REPORTLEVEL_404', '2');   // 0 = don't use the email capabilities at all

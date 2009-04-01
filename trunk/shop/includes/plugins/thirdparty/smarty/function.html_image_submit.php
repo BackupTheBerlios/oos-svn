@@ -73,7 +73,7 @@ function smarty_function_html_image_submit($params, &$smarty)
         return;
     }
 
-    $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == 'true') ? ' /' : '');
+    $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ' /' : '');
 
     return '<input type="image" src="'.$basedir.$image.'" alt="'.$alt.'" '.$extra.$sSlash.'>';
 

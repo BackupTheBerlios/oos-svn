@@ -29,7 +29,7 @@
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 
-  if (STORE_SESSIONS == 'true') {
+  if (STORE_SESSIONS == '1') {
     $host = OOS_DB_SERVER;
     $driver = OOS_DB_TYPE;
     $database = OOS_DB_DATABASE;
@@ -45,7 +45,7 @@
     $options['table'] = $oostable['sessions'];
 
     include_once OOS_ABSOLUTE_PATH.'includes/classes/thirdparty/adodb/adodb.inc.php';
-    if (STORE_SESSIONS_CRYPT == 'true') {
+    if (STORE_SESSIONS_CRYPT == '1') {
       include OOS_ABSOLUTE_PATH.'includes/classes/thirdparty/adodb/session/adodb-cryptsession2.php';
     } else {
       include OOS_ABSOLUTE_PATH.'includes/classes/thirdparty/adodb/session/adodb-session2.php';
@@ -90,7 +90,7 @@
   * @private
   */
   function oos_session_close() {
-    if (STORE_SESSIONS != 'true') {
+    if (STORE_SESSIONS != '1') {
       if (function_exists('session_close')) {
         return session_close();
       }
