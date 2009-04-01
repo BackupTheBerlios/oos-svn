@@ -483,7 +483,7 @@ $flds = "
   products_id C(32) NOTNULL,
   customers_basket_quantity N '10.2' NOTNULL DEFAULT '1.00',
   final_price N '15.8'  NOTNULL,
-  customers_basket_date_added C(8)
+  customers_basket_date_added C(10)
 ";
 dosql($table, $flds);
 

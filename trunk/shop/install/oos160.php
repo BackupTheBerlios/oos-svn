@@ -423,13 +423,38 @@ if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
 
+
 $table = $prefix_table . 'customers_basket';
 $result = $db->Execute("ALTER TABLE " . $table . " CHANGE `customers_basket_quantity` `customers_basket_quantity` DECIMAL( 10, 2 ) NOT NULL");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+}
+
+$result = $db->Execute("ALTER TABLE " . $table . " CHANGE `customers_basket_date_added` `customers_basket_date_added` VARCHAR( 10 ) NULL DEFAULT NULL");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 } else {
   echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
 }
+
+
+$table = $prefix_table . 'customers_wishlist';
+$result = $db->Execute("ALTER TABLE " . $table . " CHANGE `customers_wishlist_date_added` `customers_wishlist_date_added` VARCHAR( 10 ) NULL DEFAULT NULL");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+} else {
+  echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
+}
+
+
+$table = $prefix_table . 'customers_wishlist_attributes';
+$result = $db->Execute("ALTER TABLE " . $table . " CHANGE `customers_wishlist_date_added` `customers_wishlist_date_added` VARCHAR( 10 ) NULL DEFAULT NULL");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+} else {
+  echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
+}
+
 
 
 $table = $prefix_table . 'orders';

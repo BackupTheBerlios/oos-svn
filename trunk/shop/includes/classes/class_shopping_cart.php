@@ -89,7 +89,7 @@ class shoppingCart
                                                                          '" . oos_db_input($towlid) . "',
                                                                          '" . oos_db_input($products_id) . "',
                                                                          '" . oos_db_input($qty) . "',
-                                                                         '" . oos_db_input(date('Ymd')) . "')");
+                                                                         '" . oos_db_input(date("Y-m-d", time())) . "')");
                     if (isset($this->contents[$products_id]['attributes'])) {
                         reset($this->contents[$products_id]['attributes']);
                         while (list($option, $value) = each($this->contents[$products_id]['attributes'])) {
@@ -264,7 +264,7 @@ class shoppingCart
                                                                                 . $dbconn->qstr($towlid) . ','
                                                                                 . $dbconn->qstr($sProductsId) . ','
                                                                                 . $dbconn->qstr($nQuantity) . ','
-                                                                                . $dbconn->qstr(date('Ymd')) . ")");
+                                                                                . $dbconn->qstr(date("Y-m-d", time())) . ")");
                     }
 
 

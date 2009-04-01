@@ -164,6 +164,36 @@ $result = $db->Execute("INSERT INTO " . $table . " (configuration_key, configura
 echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $prefix_table . "configuration " . UPDATED .'</font>';
 
 
+
+$table = $prefix_table . 'customers_basket';
+$result = $db->Execute("ALTER TABLE " . $table . " CHANGE `customers_basket_date_added` `customers_basket_date_added` VARCHAR( 10 ) NULL DEFAULT NULL");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+} else {
+  echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
+}
+
+
+
+$table = $prefix_table . 'customers_wishlist';
+$result = $db->Execute("ALTER TABLE " . $table . " CHANGE `customers_wishlist_date_added` `customers_wishlist_date_added` VARCHAR( 10 ) NULL DEFAULT NULL");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+} else {
+  echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
+}
+
+
+$table = $prefix_table . 'customers_wishlist_attributes';
+$result = $db->Execute("ALTER TABLE " . $table . " CHANGE `customers_wishlist_date_added` `customers_wishlist_date_added` VARCHAR( 10 ) NULL DEFAULT NULL");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+} else {
+  echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
+}
+
+
+
 $table = $prefix_table . 'products';
 $result = $db->Execute("ALTER TABLE " . $table . " ADD `products_access` INT( 11 ) DEFAULT '0' NOT NULL AFTER `products_weight`");
 if ($result === false) {
@@ -183,18 +213,33 @@ $result = $db->Execute("INSERT INTO " . $table . " (products_options_types_id, p
 echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $prefix_table . "products_options_types " . UPDATED .'</font>';
 
 
-ALTER TABLE orders ADD cc_start varchar(4) default NULL AFTER cc_expires,
-                   ADD cc_issue varchar(3) default NULL AFTER cc_start,
-                   ADD cc_cvv varchar(4) default NULL AFTER cc_issue;
 
 $table = $prefix_table . 'orders';
+$result = $db->Execute("ALTER TABLE " . $table . " ADD cc_start varchar(4) default NULL AFTER cc_expires");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+}
+
+$result = $db->Execute("ALTER TABLE " . $table . " ADD cc_issue varchar(3) default NULL AFTER cc_start");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+}
+
+$result = $db->Execute("ALTER TABLE " . $table . " ADD cc_cvv varchar(4) default NULL AFTER cc_issue");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+}
+
 $result = $db->Execute("ALTER TABLE " . $table . " ADD `products_access` INT( 11 ) DEFAULT '0' NOT NULL AFTER `cc_expires`");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+}
+
+$result = $db->Execute("ALTER TABLE " . $table . "  CHANGE `cc_number` `cc_number` VARCHAR( 64 ) DEFAULT NULL
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 } else {
   echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
 }
-
-ALTER TABLE `orders` CHANGE `cc_number` `cc_number` VARCHAR( 64 ) DEFAULT NULL
 
 ?>

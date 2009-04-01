@@ -154,7 +154,7 @@
                            customers_wishlist_date_added) VALUES (" . $dbconn->qstr($_SESSION['customer_id']) . ','
                                                                     . $dbconn->qstr($_SESSION['customer_wishlist_link_id']) . ','
                                                                     . $dbconn->qstr($wishlist_products_id) . ','
-                                                                    . $dbconn->qstr(date('Ymd')) . ")");
+                                                                    . $dbconn->qstr(date("Y-m-d", time())) . ")");
             if (is_array($_POST['id'])) {
               reset($_POST['id']);
               while (list($option, $value) = each($_POST['id'])) {
@@ -230,11 +230,11 @@
         $dbconn->Execute("DELETE FROM $customers_wishlisttable WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'  AND products_id = '" . oos_db_input($wishlist_products_id) . "'");
 
         $dbconn->Execute("INSERT INTO $customers_wishlisttable
-                         (customers_id, customers_wishlist_link_id, products_id,
+                          (customers_id, customers_wishlist_link_id, products_id,
                            customers_wishlist_date_added) VALUES (" . $dbconn->qstr($_SESSION['customer_id']) . ','
                                                                     . $dbconn->qstr($_SESSION['customer_wishlist_link_id']) . ','
                                                                     . $dbconn->qstr($wishlist_products_id) . ','
-                                                                    . $dbconn->qstr(date('Ymd')) . ")");
+                                                                    . $dbconn->qstr(date("Y-m-d", time())) . ")");
          oos_redirect(oos_href_link($aModules['account'], $aFilename['account_my_wishlist']));
        }
       break;
@@ -442,7 +442,7 @@
                         AND customers_id = '" . intval($_SESSION['customer_id']) . "'";
           $check = $dbconn->Execute($check_sql);
           if ($check->fields['total'] < 1) {
-            $today = date("Y-m-d H:i:s");
+            $today = date("Y-m-d H:i:s", time());
             $sql = "INSERT INTO $products_notificationstable
                     (products_id, customers_id,
                      date_added) VALUES (" . $dbconn->qstr($notify[$i]) . ','
