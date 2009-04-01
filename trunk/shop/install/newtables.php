@@ -558,7 +558,7 @@ $flds = "
   products_id C(32) NOTNULL,
   customers_wishlist_quantity I1 NOT NULL DEFAULT '0',
   final_price N '15.8'  NOTNULL,
-  customers_wishlist_date_added C(8) DEFAULT ''
+  customers_wishlist_date_added C(10) DEFAULT ''
 ";
 dosql($table, $flds);
 
@@ -572,7 +572,7 @@ $flds = "
   products_id C(32) NOTNULL,
   products_options_id I NOTNULL DEFAULT '0',
   products_options_value_id I NOTNULL DEFAULT '0',
-  customers_wishlist_date_added C(8) DEFAULT NULL
+  customers_wishlist_date_added C(10) DEFAULT NULL
 ";
 dosql($table, $flds);
 
@@ -817,106 +817,6 @@ $idxflds = 'newsfeed_manager_link';
 idxsql($idxname, $table, $idxflds);
 
 
-$table = $prefix_table . 'news_categories';
-$flds = "
-  news_categories_id I NOTNULL AUTO PRIMARY,
-  news_categories_image C(64) NULL,
-  parent_id I NOTNULL DEFAULT '0',
-  sort_order I1,
-  date_added T,
-  last_modified T,
-  news_categories_status I1 NOTNULL DEFAULT '0'
-";
-dosql($table, $flds);
-
-
-$idxname = 'idx_news_categories_id';
-$idxflds = 'news_categories_id';
-idxsql($idxname, $table, $idxflds);
-
-
-
-$table = $prefix_table . 'news_categories_description';
-$flds = "
-  news_categories_id I NOTNULL DEFAULT '0' PRIMARY,
-  news_categories_languages_id I NOTNULL DEFAULT '1' PRIMARY,
-  news_categories_name C(32) NOTNULL,
-  news_categories_heading_title C(64) NULL,
-  news_categories_description X
-";
-dosql($table, $flds);
-
-$idxname = 'idx_news_categories_name';
-$idxflds = 'news_categories_name';
-idxsql($idxname, $table, $idxflds);
-
-
-
-$table = $prefix_table . 'news';
-$flds = "
-  news_id I NOTNULL AUTO PRIMARY,
-  news_image C(64) NULL,
-  news_date_added T,
-  news_added_by I NOTNULL,
-  news_last_modified T,
-  news_modified_by I NOTNULL,
-  news_expires_date T,
-  news_status I1 NOTNULL DEFAULT '0',
-  newsfeed_categories_id I NOTNULL DEFAULT '0'
-";
-dosql($table, $flds);
-
-$idxname = 'idx_news_date_added';
-$idxflds = 'news_date_added';
-idxsql($idxname, $table, $idxflds);
-
-
-$table = $prefix_table . 'news_description';
-$flds = "
-  news_id I NOTNULL AUTO PRIMARY,
-  news_languages_id I NOTNULL DEFAULT '1' PRIMARY,
-  news_name C(64) NOTNULL,
-  news_description X,
-  news_url C(255) NULL,
-  news_viewed I2 DEFAULT '0'
-";
-dosql($table, $flds);
-
-$idxname = 'idx_news_name';
-$idxflds = 'news_name';
-idxsql($idxname, $table, $idxflds);
-
-
-$table = $prefix_table . 'news_to_categories';
-$flds = "
-  news_id I NOTNULL PRIMARY,
-  news_categories_id I NOTNULL PRIMARY
-";
-dosql($table, $flds);
-
-
-$table = $prefix_table . 'news_reviews';
-$flds = "
-  news_reviews_id I NOTNULL AUTO PRIMARY,
-  news_id I NOTNULL,
-  customers_id I,
-  customers_name C(64) NOTNULL,
-  news_reviews_rating I1,
-  date_added T,
-  last_modified T,
-  news_reviews_read I2 NOTNULL DEFAULT '0'
-";
-dosql($table, $flds);
-
-
-$table = $prefix_table . 'news_reviews_description';
-$flds = "
-  news_reviews_id I NOTNULL PRIMARY,
-  news_reviews_languages_id I NOTNULL DEFAULT '1' PRIMARY,
-  news_reviews_text X NOTNULL
-";
-dosql($table, $flds);
-
 
 
 $table = $prefix_table . 'orders';
@@ -957,6 +857,9 @@ $flds = "
   cc_owner C(64),
   cc_number C(32),
   cc_expires C(4),
+  cc_start C(4),
+  cc_issue C(3),
+  cc_cvv C(4),
   last_modified T,
   date_purchased T,
   campaigns I2 NOTNULL,
@@ -1296,8 +1199,8 @@ $table = $prefix_table . 'recovercartsales';
 $flds = "
   recovercartsales_id I NOTNULL AUTO PRIMARY,
   customers_id I unsigned NOTNULL,
-  recovercartsales_date_added C(8) NOTNULL,
-  recovercartsales_date_modified C(8) NOTNULL
+  recovercartsales_date_added C(10) NOTNULL,
+  recovercartsales_date_modified C(10) NOTNULL
 ";
 dosql($table, $flds);
 
