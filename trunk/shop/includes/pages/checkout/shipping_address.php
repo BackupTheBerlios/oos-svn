@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -47,9 +47,21 @@ if ($oOrder->content_type == 'virtual') {
 $bError = false;
 $process = '0';
 
-if (isset($_POST['action']) && ($_POST['action'] == 'submit')) {
+if ( (isset($_POST['action']) && ($_POST['action'] == 'submit')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
 // process a new shipping address
     if (oos_is_not_null($_POST['firstname']) && oos_is_not_null($_POST['lastname']) && oos_is_not_null($_POST['street_address'])) {
+
+        if (ACCOUNT_GENDER == '1') $gender = oos_prepare_input($_POST['gender']);
+        $firstname = oos_db_prepare_input($_POST['firstname']);
+        $lastname = oos_db_prepare_input($_POST['lastname']);
+        if (ACCOUNT_COMPANY == '1') $company = oos_prepare_input($_POST['company']);
+        $street_address = oos_prepare_input($_POST['street_address']);
+        if (ACCOUNT_SUBURB == '1') $suburb = oos_prepare_input($_POST['suburb']);
+        $postcode = oos_prepare_input($_POST['postcode']);
+        $city = oos_prepare_input($_POST['city']);
+        if (ACCOUNT_STATE == '1') $state = oos_prepare_input($_POST['state']);
+        $country = oos_prepare_input($_POST['country']);
+
         $process = '1';
 
         if (ACCOUNT_GENDER == '1') {

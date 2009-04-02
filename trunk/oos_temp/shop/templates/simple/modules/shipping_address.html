@@ -1,6 +1,10 @@
 {*  $Id$ -->
-<form name="checkout_address" action="{html_href_link modul=$modules.checkout file=$filename.checkout_shipping_address connection=SSL}" method="post" onSubmit="return check_form();">
-	<input type="hidden" name="formid" value="{$formid}">
+
+<form name="checkout_address" action="{html_get_link connection=SSL}" method="post" onSubmit="return check_form();">
+    <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+    <input type="hidden" name="formid" value="{$formid}">
+    <input type="hidden" name="mp" value="{$modules.checkout}">
+    <input type="hidden" name="file" value="{$filename.checkout_shipping_address}">
 
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
       <tr>
