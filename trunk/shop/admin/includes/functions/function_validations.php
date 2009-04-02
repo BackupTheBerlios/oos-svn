@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: validations.php,v 1.11 2003/02/11 01:31:02 hpdl 
+   File: validations.php,v 1.11 2003/02/11 01:31:02 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -109,7 +109,7 @@
     } else {
       $valid_address = false;
     }
-    if ($valid_address && ENTRY_EMAIL_ADDRESS_CHECK == 'true') {
+    if ($valid_address && ENTRY_EMAIL_ADDRESS_CHECK == '1') {
       if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
         $valid_address = false;
       }
@@ -121,7 +121,7 @@
  /**
   * A list of all TLDs that result in two part
   * domain names.
-  * 
+  *
   * @return string
   * @access public
   * @static

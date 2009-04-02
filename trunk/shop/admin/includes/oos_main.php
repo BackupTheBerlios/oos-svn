@@ -23,7 +23,7 @@
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 // debug
-  $debug = 'true';
+  $debug = '1';
 
 // Start the clock for the page parse time log
   define('PAGE_PARSE_START_TIME', microtime());
@@ -126,7 +126,7 @@ if (is_readable('../includes/local/configure.php')) {
   $configurationtable = $oostable['configuration'];
   $configuration_query = "SELECT configuration_key AS cfg_key, configuration_value AS cfg_value
                           FROM $configurationtable";
-  if (USE_DB_CACHE == 'true') {
+  if (USE_DB_CACHE == '1') {
     $configuration_result = $dbconn->CacheExecute(3600, $configuration_query);
   } else {
     $configuration_result = $dbconn->Execute($configuration_query);

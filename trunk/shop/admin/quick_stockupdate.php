@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -73,7 +73,7 @@
   if (isset($_POST['stock_update']) && !empty($_POST['stock_update'])) {
 
     foreach ($_POST['stock_update'] as $key => $items) {
-      if (OOS_PRICE_IS_BRUTTO == 'true' && isset($items['price'])){
+      if (OOS_PRICE_IS_BRUTTO == '1' && isset($items['price'])){
         $tax_ratestable = $oostable['tax_rates'];
         $query = "SELECT tax_rate
                   FROM $tax_ratestable
@@ -146,7 +146,7 @@
       echo '</td><td class="dataTableContent" align="left"><input type="text" size="3" name="stock_update[' . $product['products_id'] . '][weight]" value="' . $product['products_weight'] . '"><i>';
 
       $oosPrice = $product['products_price'];
-      if (OOS_PRICE_IS_BRUTTO == 'true'){
+      if (OOS_PRICE_IS_BRUTTO == '1'){
         $oosPriceNetto = round($oosPrice,TAX_DECIMAL_PLACES);
         $tax_ratestable = $oostable['tax_rates'];
         $query = "SELECT tax_rate
@@ -157,7 +157,7 @@
         $oosPrice = round($oosPrice,TAX_DECIMAL_PLACES);
       }
       echo '</td><td class="dataTableContent" align="left"><input type="text" size="5" name="stock_update[' . $product['products_id'] . '][price]" value="' . $oosPrice . '"><i>';
-      if (OOS_PRICE_IS_BRUTTO == 'true') echo " - " . TEXT_TAX_INFO . ' ' .  $currencies->format($oosPriceNetto) . '</i>';
+      if (OOS_PRICE_IS_BRUTTO == '1') echo " - " . TEXT_TAX_INFO . ' ' .  $currencies->format($oosPriceNetto) . '</i>';
       echo '<input type="hidden" name="stock_update[' . $product['products_id'] . '][tax_class_id]" value="' . $product['products_tax_class_id'] . '">';
       echo '</td><td class="dataTableContent" align="left"><input type="text" size="4" name="stock_update[' . $product['products_id'] . '][stock]" value="' . $product['products_quantity'] . '"><i>';
       echo (($product['products_status'] != 3) ? '<font color="ff0000"><b>not active</b></font>' : '<font color="009933"><b>active</b></font>');
@@ -175,7 +175,7 @@
     echo '<input type="checkbox" name="update_status">';
     echo TEXT_INFO_UPDATE_STATUS;
     echo '<input type="submit" value="Update"></td></tr></form>';
-  } 
+  }
 ?>
     </tr></table>
   </td>

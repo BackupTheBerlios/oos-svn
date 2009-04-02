@@ -96,7 +96,7 @@
 
       case 'new_category':
       case 'edit_category':
-        if (ALLOW_CATEGORY_DESCRIPTIONS == 'true') {
+        if (ALLOW_CATEGORY_DESCRIPTIONS == '1') {
           $action = $action . '_ACD';
         }
         break;
@@ -135,7 +135,7 @@
             $categories_name_array = $_POST['categories_name'];
             $lang_id = $languages[$i]['id'];
             $sql_data_array = array('categories_name' => oos_db_prepare_input($categories_name_array[$lang_id]));
-            if (ALLOW_CATEGORY_DESCRIPTIONS == 'true') {
+            if (ALLOW_CATEGORY_DESCRIPTIONS == '1') {
               $sql_data_array = array('categories_name' => oos_db_prepare_input($_POST['categories_name'][$lang_id]),
                                       'categories_heading_title' => oos_db_prepare_input($_POST['categories_heading_title'][$lang_id]),
                                       'categories_description' => oos_db_prepare_input($_POST['categories_description'][$lang_id]),
@@ -155,7 +155,7 @@
             }
           }
 
-          if (ALLOW_CATEGORY_DESCRIPTIONS == 'true') {
+          if (ALLOW_CATEGORY_DESCRIPTIONS == '1') {
             $categories_image = (($categories_image == 'none') ? '' : oos_db_prepare_input($categories_image));
             $dbconn->Execute("UPDATE " . $oostable['categories'] . " SET categories_image = '" . oos_db_input($categories_image) . "' WHERE categories_id = '" .  oos_db_input($categories_id) . "'");
             $categories_image = '';
@@ -886,7 +886,7 @@ function popupImageWindow(url) {
                 <td class="dataTableContent" align="center">
 <?php
 /*
-  if (STOCK_CHECK == 'true') {
+  if (STOCK_CHECK == '1') {
     switch ($products['products_status']) {
      case '0':
           echo oos_image(OOS_IMAGES . 'icon_status_red.gif', $image_icon_status_array[0]['text'], 10, 10);
@@ -1159,7 +1159,7 @@ function popupImageWindow(url) {
             $oosPrice = $pInfo->products_price;
             $oosPriceList = $pInfo->products_price_list;
 
-            if (OOS_PRICE_IS_BRUTTO == 'true' && ($_GET['read'] == 'only' || $action != 'new_product_preview') ){
+            if (OOS_PRICE_IS_BRUTTO == '1' && ($_GET['read'] == 'only' || $action != 'new_product_preview') ){
               $oosPriceNetto = round($oosPrice,TAX_DECIMAL_PLACES);
               $oosPriceListNetto = round($oosPriceList,TAX_DECIMAL_PLACES);
               $tax_result = $dbconn->Execute("SELECT tax_rate FROM " . $oostable['tax_rates'] . " WHERE tax_class_id = '" . $pInfo->products_tax_class_id . "' ");
@@ -1192,7 +1192,7 @@ function popupImageWindow(url) {
 
             if ( $pInfo->products_discount1_qty > 0 ) {
               $oosDiscount1 = $pInfo->products_discount1;
-              if (OOS_PRICE_IS_BRUTTO == 'true') {
+              if (OOS_PRICE_IS_BRUTTO == '1') {
                 $oosDiscount1Netto = round($oosDiscount1,TAX_DECIMAL_PLACES);
                 $oosDiscount1 = ($oosDiscount1*($tax[tax_rate]+100)/100);
               }
@@ -1202,7 +1202,7 @@ function popupImageWindow(url) {
             }
             if ( $pInfo->products_discount2_qty > 0 ) {
               $oosDiscount2 = $pInfo->products_discount2;
-              if (OOS_PRICE_IS_BRUTTO == 'true') {
+              if (OOS_PRICE_IS_BRUTTO == '1') {
                 $oosDiscount2Netto = round($oosDiscount2,TAX_DECIMAL_PLACES);
                 $oosDiscount2 = ($oosDiscount2*($tax[tax_rate]+100)/100);
               }
@@ -1211,7 +1211,7 @@ function popupImageWindow(url) {
             }
             if ( $pInfo->products_discount3_qty > 0 ) {
               $oosDiscount3 = $pInfo->products_discount3;
-              if (OOS_PRICE_IS_BRUTTO == 'true') {
+              if (OOS_PRICE_IS_BRUTTO == '1') {
                 $oosDiscount3Netto = round($oosDiscount3,TAX_DECIMAL_PLACES);
                 $oosDiscount3 = ($oosDiscount3*($tax[tax_rate]+100)/100);
               }
@@ -1220,7 +1220,7 @@ function popupImageWindow(url) {
             }
             if ( $pInfo->products_discount4_qty > 0 ) {
                $oosDiscount4 = $pInfo->products_discount4;
-               if (OOS_PRICE_IS_BRUTTO == 'true') {
+               if (OOS_PRICE_IS_BRUTTO == '1') {
                  $oosDiscount4Netto = round($oosDiscount4,TAX_DECIMAL_PLACES);
                  $oosDiscount4 = ($oosDiscount4*($tax[tax_rate]+100)/100);
                }

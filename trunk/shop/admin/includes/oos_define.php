@@ -13,7 +13,7 @@
   /** ensure this file is being included by a parent file */
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  define('IMGSWAP', 'true');
-  define('IMGLENS', 'true');
+  define('IMGSWAP', '1');
+  define('IMGLENS', '1');
 
 ?>

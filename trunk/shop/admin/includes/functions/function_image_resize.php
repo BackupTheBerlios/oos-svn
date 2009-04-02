@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   image_resize.php,v 1.3 2003/03/28 16:57:40 hook 
+   image_resize.php,v 1.3 2003/03/28 16:57:40 hook
    Copyright (c) 2003 IN-Solution.de Henri Schmidhuber
 
    based on
@@ -35,7 +35,7 @@
 
 function oos_copy_uploaded_file($filename, $target) {
   if (substr($target, -1) != '/') $target .= '/';
-  if (OOS_RANDOM_PICTURE_NAME == 'true') {
+  if (OOS_RANDOM_PICTURE_NAME == '1') {
     $picture_tempname = oos_get_random_picture_name(26);
     $picture_tempname .= '.';
     $picture_tempname .= oos_get_extension($filename['name']);
@@ -51,7 +51,7 @@ function oos_copy_uploaded_file($filename, $target) {
 
   // Resize Big image
   $target_big .= $picture_name;
-  if (OOS_WATERMARK == 'true') {
+  if (OOS_WATERMARK == '1') {
     oos_watermark ($filename['tmp_name'], $target_big, OOS_WATERMARK_QUALITY);
   } else {
     if (OOS_BIGIMAGE_WIDTH || OOS_BIGIMAGE_HEIGHT ) {
@@ -100,10 +100,10 @@ function oos_get_random_picture_name($length = 24) {
 
 function oos_resize_image($pic,$image_new,$new_width,$new_height,$fixed=0) {
    // resize Picture if possible
-   // $fixed: 
+   // $fixed:
    // 0: propotional resize; new_width or new_height are max Size
    // 1: new_width, new_height are new sizes; Image is proportional resized into new Image.  OOS_IMAGE_BGCOLOUR are the backgroundcolors
-   // 2: new_width, new_height are new sizes; Thumbnail, Pic is resized and part of it is copied to new imaget 
+   // 2: new_width, new_height are new sizes; Thumbnail, Pic is resized and part of it is copied to new imaget
    $dst_img = '';
    $imageInfo = GetImageSize($pic);
    $width = $imageInfo[0];
@@ -165,7 +165,7 @@ function oos_resize_image($pic,$image_new,$new_width,$new_height,$fixed=0) {
 
              if ($new_width > 0 && $new_width > $width_big)  {
                $dst_width = $new_width;
-             } else { 
+             } else {
                $dst_width = $width_big;
              }
              if ($new_height > 0 && $new_height > $height_big) {
@@ -204,14 +204,14 @@ function oos_resize_image($pic,$image_new,$new_width,$new_height,$fixed=0) {
              if (($x > 0 && $y > $x) || $x==0) $x = $y;
              $width_big = $width * $x;
              $height_big = $height * $x;
-             // Bild verkleinern 
+             // Bild verkleinern
              if (OOS_GD_LIB_VERSION == '2') {
                $dst_img = imagecreatetruecolor($new_width,$new_height);
                $tmp_img = imagecreatetruecolor($width_big,$height_big);
                imagecopyresampled($tmp_img,$src_img,0,0,0,0,$width_big,$height_big,imagesx($src_img),imagesy($src_img));
                imagecopy($dst_img,$tmp_img,0,0,0,0,$new_width,$new_height);
 
-               if (IMGLENS == 'true') {
+               if (IMGLENS == '1') {
                  $trans = imagecolorallocatealpha($dst_img, 255, 255, 255, 25);
                  imagefilledrectangle($dst_img, 0, $new_height-9, $new_width, $new_height, $trans);
 

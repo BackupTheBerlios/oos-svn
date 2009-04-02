@@ -5,18 +5,18 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: customers.php,v 1.74 2003/02/06 19:28:52 project3000 
+   File: customers.php,v 1.74 2003/02/06 19:28:52 project3000
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
 
    Copyright (c) 2003 osCommerce
 
-   Max Order - 2003/04/27 JOHNSON - Copyright (c) 2003 Matti Ressler - mattifinn@optusnet.com.au  
+   Max Order - 2003/04/27 JOHNSON - Copyright (c) 2003 Matti Ressler - mattifinn@optusnet.com.au
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -55,7 +55,7 @@
                  $dbconn->Execute("UPDATE $customerstable SET customers_password = '" . $crypted_password . "' WHERE customers_id = '" . $_GET['cID'] . "'");
 
                  $name = $check_customer_values['customers_firstname'] . " " . $check_customer_values['customers_lastname'];
-                 if (ACCOUNT_GENDER == 'true') {
+                 if (ACCOUNT_GENDER == '1') {
                    if ($check_customer_values['customers_gender'] == 'm') {
                      $email_text = EMAIL_GREET_MR . $check_customer_values['customers_lastname'] . ', ' . "\n\n";
                    } else {
@@ -65,7 +65,7 @@
                    $email_text = EMAIL_GREET_NONE;
                  }
                  $email_text .= EMAIL_WELCOME;
-                 if (MODULE_ORDER_TOTAL_GV_STATUS == 'true') {
+                 if (MODULE_ORDER_TOTAL_GV_STATUS == '1') {
                    // ICW - CREDIT CLASS CODE BLOCK ADDED  BEGIN
                    if (NEW_SIGNUP_GIFT_VOUCHER_AMOUNT > 0) {
                      $coupon_code = oos_create_coupon_code();
@@ -87,14 +87,14 @@
                                                     sent_firstname,
                                                     emailed_to,
                                                     date_sent) VALUES ('" . $insert_id ."',
-                                                                       '0', 
-                                                                       'Admin', 
+                                                                       '0',
+                                                                       'Admin',
                                                                        '" . $email_address . "',
-                                                                       now() )"); 
+                                                                       now() )");
 
                      $email_text .= sprintf(EMAIL_GV_INCENTIVE_HEADER, $currencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
                                     sprintf(EMAIL_GV_REDEEM, $coupon_code) . "\n\n" .
-                                    EMAIL_GV_LINK . oos_catalog_link($oosModules['gv'], $oosCatalogFilename['gv_redeem'], 'gv_no=' . $coupon_code) . 
+                                    EMAIL_GV_LINK . oos_catalog_link($oosModules['gv'], $oosCatalogFilename['gv_redeem'], 'gv_no=' . $coupon_code) .
                                     "\n\n";
                    }
                    if (NEW_SIGNUP_DISCOUNT_COUPON != '') {
@@ -135,7 +135,7 @@
                  $email_text .= EMAIL_TEXT;
                  $email_text .= sprintf(EMAIL_PASSWORD_BODY, $newpass);
                  $email_text .= EMAIL_CONTACT;
-                 oos_mail($name, $check_customer_values['customers_email_address'], EMAIL_SUBJECT, nl2br($email_text), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS); 
+                 oos_mail($name, $check_customer_values['customers_email_address'], EMAIL_SUBJECT, nl2br($email_text), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
                  oos_redirect_admin(oos_href_link_admin($aFilename['customers'], 'selected_box=customers&page=' . $_GET['page'] . '&cID=' . $_GET['cID']));
               }
             }
@@ -186,13 +186,13 @@
                                 'customers_newsletter' => $customers_newsletter,
                                 'customers_max_order' => $customers_max_order);
 
-        if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $customers_gender;
-        if (ACCOUNT_NUMBER == 'true') $sql_data_array['customers_number'] = $customers_number;
-        if (ACCOUNT_VAT_ID == 'true') {
+        if (ACCOUNT_GENDER == '1') $sql_data_array['customers_gender'] = $customers_gender;
+        if (ACCOUNT_NUMBER == '1') $sql_data_array['customers_number'] = $customers_number;
+        if (ACCOUNT_VAT_ID == '1') {
           $sql_data_array['customers_vat_id'] = $customers_vat_id;
           $sql_data_array['customers_vat_id_status'] = $customers_vat_id_status;
         }
-        if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = oos_date_raw($customers_dob);
+        if (ACCOUNT_DOB == '1') $sql_data_array['customers_dob'] = oos_date_raw($customers_dob);
 
         oos_db_perform($oostable['customers'], $sql_data_array, 'update', "customers_id = '" . intval($customers_id) . "'");
 
@@ -208,10 +208,10 @@
                                 'entry_city' => $entry_city,
                                 'entry_country_id' => $entry_country_id);
 
-        if (ACCOUNT_COMPANY == 'true') $sql_data_array['entry_company'] = $entry_company;
-        if (ACCOUNT_OWNER == 'true') $sql_data_array['entry_owner'] = $entry_owner;
-        if (ACCOUNT_SUBURB == 'true') $sql_data_array['entry_suburb'] = $entry_suburb;
-        if (ACCOUNT_STATE == 'true') {
+        if (ACCOUNT_COMPANY == '1') $sql_data_array['entry_company'] = $entry_company;
+        if (ACCOUNT_OWNER == '1') $sql_data_array['entry_owner'] = $entry_owner;
+        if (ACCOUNT_SUBURB == '1') $sql_data_array['entry_suburb'] = $entry_suburb;
+        if (ACCOUNT_STATE == '1') {
           $sql_data_array['entry_state'] = $entry_state;
           $sql_data_array['entry_zone_id'] = $entry_zone_id;
         }
@@ -248,7 +248,7 @@
         $dbconn->Execute("DELETE FROM " . $oostable['customers_status_history'] . " WHERE customers_id = '" . intval($customers_id) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['whos_online'] . " WHERE customer_id = '" . intval($customers_id) . "'");
 
-        oos_redirect_admin(oos_href_link_admin($aFilename['customers'], oos_get_all_get_params(array('cID', 'action')))); 
+        oos_redirect_admin(oos_href_link_admin($aFilename['customers'], oos_get_all_get_params(array('cID', 'action'))));
         break;
     }
   }
@@ -295,17 +295,17 @@ function check_form() {
 
   var customers_firstname = document.customers.customers_firstname.value;
   var customers_lastname = document.customers.customers_lastname.value;
-<?php 
-  if (ACCOUNT_COMPANY == 'true') echo 'var entry_company = document.customers.entry_company.value;' . "\n"; 
-  if (ACCOUNT_DOB == 'true') echo 'var customers_dob = document.customers.customers_dob.value;' . "\n"; 
+<?php
+  if (ACCOUNT_COMPANY == '1') echo 'var entry_company = document.customers.entry_company.value;' . "\n";
+  if (ACCOUNT_DOB == '1') echo 'var customers_dob = document.customers.customers_dob.value;' . "\n";
 ?>
-  var customers_email_address = document.customers.customers_email_address.value;  
+  var customers_email_address = document.customers.customers_email_address.value;
   var entry_street_address = document.customers.entry_street_address.value;
   var entry_postcode = document.customers.entry_postcode.value;
   var entry_city = document.customers.entry_city.value;
   var customers_telephone = document.customers.customers_telephone.value;
 
-<?php if (ACCOUNT_GENDER == 'true') { ?>
+<?php if (ACCOUNT_GENDER == '1') { ?>
   if (document.customers.customers_gender[0].checked || document.customers.customers_gender[1].checked) {
   } else {
     error_message = error_message + "<?php echo JS_GENDER; ?>";
@@ -323,7 +323,7 @@ function check_form() {
     error = 1;
   }
 
-<?php if (ACCOUNT_DOB == 'true') { ?>
+<?php if (ACCOUNT_DOB == '1') { ?>
   if (customers_dob == "" || customers_dob.length < <?php echo ENTRY_DOB_MIN_LENGTH; ?>) {
     error_message = error_message + "<?php echo JS_DOB; ?>";
     error = 1;
@@ -350,7 +350,7 @@ function check_form() {
     error = 1;
   }
 
-<?php if (ACCOUNT_STATE == 'true') { ?>
+<?php if (ACCOUNT_STATE == '1') { ?>
   if (document.customers.entry_zone_id.options.length <= 1) {
     if (document.customers.entry_state.value == "" || document.customers.entry_state.length < 4 ) {
        error_message = error_message + "<?php echo JS_STATE; ?>";
@@ -436,9 +436,9 @@ function popupGoogleMap(url) {
 <?php
    echo '<br />' . HEADING_TITLE_STATUS;
    if ($customers_statuses_array[$customers['customers_status']]['cs_image'] != '') {
-      echo oos_image(OOS_SHOP_IMAGES . 'icons/' . $customers_statuses_array[$customers['customers_status']]['cs_image'], '') . ' - '; 
+      echo oos_image(OOS_SHOP_IMAGES . 'icons/' . $customers_statuses_array[$customers['customers_status']]['cs_image'], '') . ' - ';
    }
-   echo  $customers_statuses_array[$customers['customers_status']]['text'] . ' - ' . $customers_statuses_array[$customers['customers_status']]['cs_ot_discount_flag']; 
+   echo  $customers_statuses_array[$customers['customers_status']]['text'] . ' - ' . $customers_statuses_array[$customers['customers_status']]['cs_ot_discount_flag'];
 ?>
             </td>
             <td class="pageHeading" align="right"><?php echo oos_draw_separator('trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
@@ -454,7 +454,7 @@ function popupGoogleMap(url) {
       <tr>
         <td class="formArea"><table border="0" cellspacing="2" cellpadding="2">
 <?php
-    if (ACCOUNT_GENDER == 'true') {
+    if (ACCOUNT_GENDER == '1') {
 ?>
           <tr>
             <td class="main"><?php echo ENTRY_GENDER; ?></td>
@@ -472,7 +472,7 @@ function popupGoogleMap(url) {
             <td class="main"><?php echo oos_draw_input_field('customers_lastname', $cInfo->customers_lastname, 'maxlength="32"', true); ?></td>
           </tr>
 <?php
-    if (ACCOUNT_DOB == 'true') {
+    if (ACCOUNT_DOB == '1') {
 ?>
           <tr>
             <td class="main"><?php echo ENTRY_DATE_OF_BIRTH; ?></td>
@@ -480,7 +480,7 @@ function popupGoogleMap(url) {
           </tr>
 <?php
     }
-    if (ACCOUNT_NUMBER == 'true') {
+    if (ACCOUNT_NUMBER == '1') {
 ?>
           <tr>
             <td class="main"><?php echo ENTRY_NUMBER; ?></td>
@@ -497,7 +497,7 @@ function popupGoogleMap(url) {
         </table></td>
       </tr>
 <?php
-    if (ACCOUNT_COMPANY == 'true') {
+    if (ACCOUNT_COMPANY == '1') {
 ?>
       <tr>
         <td><?php echo oos_draw_separator('trans.gif', '1', '10'); ?></td>
@@ -512,7 +512,7 @@ function popupGoogleMap(url) {
             <td class="main"><?php echo oos_draw_input_field('entry_company', $cInfo->entry_company, 'maxlength="32"'); ?></td>
           </tr>
 <?php
-      if (ACCOUNT_OWNER == 'true') {
+      if (ACCOUNT_OWNER == '1') {
 ?>
           <tr>
             <td class="main"><?php echo ENTRY_OWNER; ?></td>
@@ -523,7 +523,7 @@ function popupGoogleMap(url) {
 ?>
 
 <?php
-      if (ACCOUNT_VAT_ID == 'true') {
+      if (ACCOUNT_VAT_ID == '1') {
 ?>
           <tr>
             <td class="main"><?php echo ENTRY_VAT_ID; ?></td>
@@ -572,7 +572,7 @@ function popupGoogleMap(url) {
             <td class="main"><?php echo oos_draw_input_field('entry_street_address', $cInfo->entry_street_address, 'maxlength="64"', true); ?></td>
           </tr>
 <?php
-    if (ACCOUNT_SUBURB == 'true') {
+    if (ACCOUNT_SUBURB == '1') {
 ?>
           <tr>
             <td class="main"><?php echo ENTRY_SUBURB; ?></td>
@@ -594,7 +594,7 @@ function popupGoogleMap(url) {
             <td class="main"><?php echo oos_draw_pull_down_menu('entry_country_id', oos_get_countries(), $cInfo->entry_country_id, 'onChange="update_zone(this.form);"'); ?></td>
           </tr>
 <?php
-    if (ACCOUNT_STATE == 'true') {
+    if (ACCOUNT_STATE == '1') {
 ?>
           <tr>
             <td class="main"><?php echo ENTRY_STATE; ?></td>
@@ -700,7 +700,7 @@ function popupGoogleMap(url) {
     $customerstable = $oostable['customers'];
     $address_booktable = $oostable['address_book'];
     $customers_result_raw = "SELECT c.customers_id, c.customers_lastname, c.customers_firstname, c.customers_email_address,
-                                    c.customers_wishlist_link_id, c.customers_status, c.customers_login, c.customers_max_order,  
+                                    c.customers_wishlist_link_id, c.customers_status, c.customers_login, c.customers_max_order,
                                     a.entry_country_id, a.entry_city
                              FROM $customerstable c LEFT JOIN
                                   $address_booktable a
@@ -817,7 +817,7 @@ function popupGoogleMap(url) {
       $contents[] = array('text' => '<table border="0" cellspacing="0" cellpadding="5"><tr><td class="smallText" align="center">' . TABLE_HEADING_NEW_VALUE .' </td><td class="smallText" align="center">' . TABLE_HEADING_DATE_ADDED . '</td></tr>');
 
       $customers_status_historytable = $oostable['customers_status_history'];
-      $customers_history_sql = "SELECT new_value, old_value, date_added, customer_notified 
+      $customers_history_sql = "SELECT new_value, old_value, date_added, customer_notified
                                 FROM $customers_status_historytable
                                 WHERE customers_id = '" . oos_db_input($cID) . "'
                                 ORDER BY customers_status_history_id DESC";

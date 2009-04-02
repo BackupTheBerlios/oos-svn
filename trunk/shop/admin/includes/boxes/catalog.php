@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -32,7 +32,7 @@
   if ($_SESSION['selected_box'] == 'catalog' || $menu_dhtml == true) {
     $contents[] = array('text'  => oos_admin_files_boxes('categories', BOX_CATALOG_CATEGORIES_PRODUCTS));
 
-    if (MULTIPLE_CATEGORIES_USE == 'true') {
+    if (MULTIPLE_CATEGORIES_USE == '1') {
       $contents[] = array('text'  =>  '<a href="' . oos_href_link_admin($aFilename['products'], 'action=new_product', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_CATALOG_QADD_PRODUCT . '</a><br />');
     }
     $contents[] = array('text'  =>  oos_admin_files_boxes('specials', BOX_CATALOG_SPECIALS) .
@@ -40,7 +40,7 @@
                                    oos_admin_files_boxes('featured', BOX_CATALOG_PRODUCTS_FEATURED) .
                                    oos_admin_files_boxes('products_units', BOX_CATALOG_PRODUCTS_UNITS) .
                                    oos_admin_files_boxes('products_attributes', BOX_CATALOG_CATEGORIES_PRODUCTS_ATTRIBUTES));
-    if (STOCK_CHECK == 'true') {
+    if (STOCK_CHECK == '1') {
       $contents[] = array('text'  =>  oos_admin_files_boxes('products_status', BOX_CATALOG_PRODUCTS_STATUS));
     }
 
@@ -52,7 +52,7 @@
                                      oos_admin_files_boxes('manufacturers', BOX_CATALOG_MANUFACTURERS) .
                                      oos_admin_files_boxes('reviews', BOX_CATALOG_REVIEWS));
 
-    if (STOCK_CHECK == 'true') {
+    if (STOCK_CHECK == '1') {
       $contents[] = array('text'  =>  oos_admin_files_boxes('quick_stockupdate', BOX_CATALOG_QUICK_STOCKUPDATE));
     }
 

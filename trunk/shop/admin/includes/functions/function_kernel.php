@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -29,7 +29,7 @@
   * @package Admin Kernel
   * @author r23 <info@r23.de>
   * @copyright 2003 r23
-  * @version $Revision: 1.67 $ - changed by $Author: r23 $ on $Date: 2007/10/28 17:42:07 $
+  * @version $Revision: 1.67 $ - changed by $Author: r23 $ on $Date: 2009/10/28 17:42:07 $
   */
 
 
@@ -44,7 +44,7 @@
     if (!isset($_SESSION['login_id'])) {
       oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
     } else {
-      $filename = split('\?', basename($_SERVER['PHP_SELF'])); 
+      $filename = split('\?', basename($_SERVER['PHP_SELF']));
       $filename = $filename[0];
       $page_key = array_search($filename, $aFilename);
 
@@ -105,7 +105,7 @@
     $aFilename = oos_get_filename();
 
     $admin_filestable = $oostable['admin_files'];
-    $query = "SELECT admin_files_name 
+    $query = "SELECT admin_files_name
               FROM $admin_filestable
               WHERE FIND_IN_SET( '" . $_SESSION['login_groups_id'] . "', admin_groups_id)
                 AND admin_files_is_boxes = '0'
@@ -119,7 +119,7 @@
     // Close result set
     $result->Close();
 
-    return $sub_boxes; 
+    return $sub_boxes;
   }
 
 
@@ -148,7 +148,7 @@
       $randomize_query = "SELECT admin_files_name
                            FROM $admin_filestable
                            WHERE FIND_IN_SET( '" . $_SESSION['login_groups_id'] . "', admin_groups_id)
-                             AND admin_files_is_boxes = '0' 
+                             AND admin_files_is_boxes = '0'
                              AND admin_files_to_boxes = '" . $boxes_id['boxes_id'] . "'";
       $randomize_result =& $dbconn->Execute($randomize_query);
 
@@ -165,7 +165,7 @@
 
     header('Location: ' . $url);
 
-    if (STORE_PAGE_PARSE_TIME == 'true') {
+    if (STORE_PAGE_PARSE_TIME == '1') {
       if (!is_object($logger)) $logger = new logger;
       $logger->timer_stop();
     }
@@ -182,7 +182,7 @@
     $oostable =& oosDBGetTables();
 
     $customerstable = $oostable['customers'];
-    $query = "SELECT customers_firstname, customers_lastname 
+    $query = "SELECT customers_firstname, customers_lastname
               FROM $customerstable
               WHERE customers_id = '" . $customers_id . "'";
     $result =& $dbconn->Execute($query);
@@ -217,7 +217,7 @@
   * system is not allowed
   * @author    PostNuke Content Management System
   * @copyright Copyright (C) 2001 by the Post-Nuke Development Team.
-  * @version Revision: 2.0  - changed by Author: r23  on Date: 2004/01/12 06:02:08 
+  * @version Revision: 2.0  - changed by Author: r23  on Date: 2004/01/12 06:02:08
   * @access private
   * @param var variable to prepare
   * @param ...
@@ -389,7 +389,7 @@
     eval("\$address = \"$fmt\";");
     $address = stripslashes($address);
 
-    if ( (ACCOUNT_COMPANY == 'true') && (oos_is_not_null($company)) ) {
+    if ( (ACCOUNT_COMPANY == '1') && (oos_is_not_null($company)) ) {
       $address = $company . $cr . $address;
     }
 
@@ -567,9 +567,9 @@
     $oostable =& oosDBGetTables();
 
     $zonestable = $oostable['zones'];
-    $query = "SELECT zone_id, zone_name 
+    $query = "SELECT zone_id, zone_name
               FROM $zonestable
-              WHERE zone_country_id = '" . $country_id . "' 
+              WHERE zone_country_id = '" . $country_id . "'
               ORDER BY zone_name";
     $result =& $dbconn->Execute($query);
 
@@ -711,7 +711,7 @@
     $product_image_result->Close();
 
     $productstable = $oostable['products'];
-    $duplicate_query = "SELECT COUNT(*) AS total 
+    $duplicate_query = "SELECT COUNT(*) AS total
                         FROM $productstable
                         WHERE products_image = '" . oos_db_input($product_image['products_image']) . "'";
     $duplicate_result =& $dbconn->Execute($duplicate_query);
@@ -862,7 +862,7 @@
   function oos_add_tax($price, $tax) {
     global $currencies;
 
-    if (DISPLAY_PRICE_WITH_TAX == 'true') {
+    if (DISPLAY_PRICE_WITH_TAX == '1') {
       return round($price, $currencies->currencies[DEFAULT_CURRENCY]['decimal_places']) + oos_calculate_tax($price, $tax);
     } else {
       return round($price, $currencies->currencies[DEFAULT_CURRENCY]['decimal_places']);
@@ -904,7 +904,7 @@
                  ON (tz.geo_zone_id = tr.tax_zone_id)
               WHERE (za.zone_country_id IS null or za.zone_country_id = '0'
                   OR za.zone_country_id = '" . (int)$country_id . "')
-                AND (za.zone_id is null OR za.zone_id = '0' 
+                AND (za.zone_id is null OR za.zone_id = '0'
                   OR za.zone_id = '" . (int)$zone_id . "')
                 AND tr.tax_class_id = '" . (int)$class_id . "'
             GROUP BY tr.tax_priority";
@@ -1059,7 +1059,7 @@
 
     // Build the text version
     $text = strip_tags($email_text);
-    if (EMAIL_USE_HTML == 'true') {
+    if (EMAIL_USE_HTML == '1') {
       $mail->IsHTML(true);
       $mail->Body = $email_text;
       $mail->AltBody = $text;

@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: header.php,v 1.19 2002/04/13 16:11:52 hpdl 
+   File: header.php,v 1.19 2002/04/13 16:11:52 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -33,7 +33,7 @@
 
   <script type="text/javascript" src="includes/imgswap.js"></script>
 <?php
-  if ($no_js_general == 'true') {
+  if ($no_js_general == '1') {
 ?>
    <link rel="StyleSheet" href="includes/stylesheet.css" type="text/css" >
 </head>

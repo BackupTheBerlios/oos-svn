@@ -62,7 +62,7 @@
   * This will return a list of customers with sessions. Handles
   * either the mysql or file ase
   *
-  * Returns an empty array if the check sessions flag is not true 
+  * Returns an empty array if the check sessions flag is not true
   * (empty array means same SQL statement can be used) !!!!!
   *
   *
@@ -72,7 +72,7 @@
 
     $cust_ses_ids = 0;
 
-    if (RCS_CHECK_SESSIONS == 'true') {
+    if (RCS_CHECK_SESSIONS == '1') {
       $dbconn =& oosDBGetConn();
       $oostable =& oosDBGetTables();
 
@@ -114,7 +114,7 @@
   }
 
   if ($_GET['delete']) {
-    $messageStack->add(MESSAGE_STACK_CUSTOMER_ID . (int)$_GET['customer_id'] . MESSAGE_STACK_DELETE_SUCCESS, 'success'); 
+    $messageStack->add(MESSAGE_STACK_CUSTOMER_ID . (int)$_GET['customer_id'] . MESSAGE_STACK_DELETE_SUCCESS, 'success');
   }
   // Delete Entry End
 
@@ -218,7 +218,7 @@
 
         $mline .= $inrec['qty'] . ' x ' . $inrec2['name'] . "\n";
 
-        if (EMAIL_USE_HTML == 'true') {
+        if (EMAIL_USE_HTML == '1') {
           $mline .= '   <blockquote><a href="' . oos_catalog_link($oosModules['products'], $oosCatalogFilename['product_info'], 'products_id='. $inrec['pid']) . '">' . oos_catalog_link($oosModules['products'], $oosCatalogFilename['product_info'], 'products_id='. $inrec['pid']) . "</a></blockquote>\n\n";
         } else {
           $mline .= '   (' . oos_catalog_link($oosModules['products'], $oosCatalogFilename['product_info'], 'products_id='. $inrec['pid']).")\n\n";
@@ -238,7 +238,7 @@
 
       $email = EMAIL_TEXT_LOGIN;
 
-      if (EMAIL_USE_HTML == 'true') {
+      if (EMAIL_USE_HTML == '1') {
         $email .= '  <a href="' . oos_catalog_link($oosModules['user'], $oosCatalogFilename['user_login'], '', 'SSL') . '">' . oos_catalog_link($oosModules['user'], $oosCatalogFilename['user_login'], '', 'SSL')  . '</a>';
       } else {
         $email .= '  (' . oos_catalog_link($oosModules['user'], $oosCatalogFilename['user_login'], '', 'SSL') . ')';
@@ -246,7 +246,7 @@
 
       $email .= "\n" . EMAIL_SEPARATOR . "\n\n";
 
-      if (RCS_EMAIL_FRIENDLY == 'true'){
+      if (RCS_EMAIL_FRIENDLY == '1'){
         $email .= EMAIL_TEXT_SALUTATION . $inrec['fname'] . ',';
       } else {
         $email .= STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n";
@@ -260,7 +260,7 @@
 
       $email .= EMAIL_TEXT_BODY_HEADER . $mline . EMAIL_TEXT_BODY_FOOTER;
 
-      if (EMAIL_USE_HTML == 'true') {
+      if (EMAIL_USE_HTML == '1') {
         $email .= '<a href="' . oos_catalog_link($oosModules['main'], $oosCatalogFilename['default']) . '">' . STORE_OWNER . "\n" . OOS_HTTP_SERVER . OOS_SHOP . '</a>';
       } else {
         $email .= STORE_OWNER . "\n" . OOS_HTTP_SERVER . OOS_SHOP;
@@ -432,7 +432,7 @@
                   $checked = 0;
                 }
                 // OK, we have a matching order; see if we should just skip this or show the status
-                if (RCS_SKIP_MATCHED_CARTS == 'true' && !$checked) {
+                if (RCS_SKIP_MATCHED_CARTS == '1' && !$checked) {
                   $skip = true; // reset flag & break us out of the while loop!
                   break;
                 } else {
@@ -464,7 +464,7 @@
 
           $cline = '
           <tr bgcolor="' . $fcolor . '">
-            <td class="dataTableContent" align="center" width="1%">' . oos_draw_checkbox_field('custid[]', $curcus, RCS_AUTO_CHECK == 'true' ? $checked : 0) . '</td>
+            <td class="dataTableContent" align="center" width="1%">' . oos_draw_checkbox_field('custid[]', $curcus, RCS_AUTO_CHECK == '1' ? $checked : 0) . '</td>
             <td class="dataTableContent" align="left" width="9%" nowrap><b>' . $sentInfo . '</b></td>
             <td class="dataTableContent" align="left" width="15%" nowrap>' . cart_date_short($inrec['bdate']) . '</td>
             <td class="dataTableContent" align="left" width="30%" nowrap><a href="' . oos_href_link_admin($aFilename['customers'], 'search=' . $inrec['lname'], 'NONSSL') . '">' . $customer . '</a>' . $status . '</td>
@@ -501,7 +501,7 @@
         // BEGIN OF ATTRIBUTE DB CODE
         $prodAttribs = ''; // DO NOT DELETE
 
-        if (RCS_SHOW_ATTRIBUTES == 'true') {
+        if (RCS_SHOW_ATTRIBUTES == '1') {
           $customers_basket_attributestable = $oostable['customers_basket_attributes'];
           $products_optionstable = $oostable['products_options'];
           $products_options_valuestable = $oostable['products_options_values'];

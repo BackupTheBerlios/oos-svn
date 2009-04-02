@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: ticket_view.php,v 1.5 2003/04/25 21:37:11 hook 
+   File: ticket_view.php,v 1.5 2003/04/25 21:37:11 hook
    ----------------------------------------------------------------------
    OSC-SupportTicketSystem
    Copyright (c) 2003 Henri Schmidhuber IN-Solution
@@ -159,7 +159,7 @@
   }
 
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <link rel="stylesheet" type="text/css" href="includes/ticketstyle.css">
 <!-- body //-->
@@ -181,14 +181,14 @@
         <td><table class="ticket" width="100%" border="1" cellspacing="0" cellpadding="2">
           <tr>
             <td colspan=2 class="ticketInfoBoxHeading" align="left"><b><?php echo $ticket['ticket_subject']; ?></b></td>
-          </tr> 
+          </tr>
           <tr>
             <td class="ticketSmallText" colspan=2 align="left">
-<?php 
+<?php
       echo TEXT_OPENED . ' ' .oos_datetime_short($ticket['ticket_date_created']) . ' ' . TEXT_BY . ' ' . $ticket['ticket_customers_name'] . "<br />";
       echo TEXT_CUSTOMERS_EMAIL . ' ' . $ticket['ticket_customers_email'] . "<br />";
       echo TEXT_TICKET_NR . '&nbsp;' . $ticket['ticket_link_id'];
-      if ($ticket['ticket_customers_orders_id'] > 0 && TICKET_USE_ORDER_IDS == 'true') echo '<br />' . TEXT_CUSTOMERS_ORDERS_ID . '&nbsp;' . $ticket['ticket_customers_orders_id'];
+      if ($ticket['ticket_customers_orders_id'] > 0 && TICKET_USE_ORDER_IDS == '1') echo '<br />' . TEXT_CUSTOMERS_ORDERS_ID . '&nbsp;' . $ticket['ticket_customers_orders_id'];
 ?>
             </td>
           </tr>
@@ -200,9 +200,9 @@
 <?php
                   echo '<b>' . $ticket_status['ticket_edited_by'] . '</b><br /></br>';
                   echo TEXT_DATE . '&nbsp;' .  oos_datetime_short($ticket_status['ticket_date_modified']) . '<br />';
-                  if (TICKET_USE_STATUS == 'true') echo TEXT_STATUS . '&nbsp;' .  $ticket_status_array[$ticket_status['ticket_status_id']] . '<br />';
-                  if (TICKET_USE_DEPARTMENT == 'true') echo TEXT_DEPARTMENT . '&nbsp;' .  $ticket_department_array[$ticket_status['ticket_department_id']] . '<br />';
-                  if (TICKET_USE_PRIORITY == 'true') echo TEXT_PRIORITY . '&nbsp;' .  $ticket_priority_array[$ticket_status['ticket_priority_id']] . '<br />';
+                  if (TICKET_USE_STATUS == '1') echo TEXT_STATUS . '&nbsp;' .  $ticket_status_array[$ticket_status['ticket_status_id']] . '<br />';
+                  if (TICKET_USE_DEPARTMENT == '1') echo TEXT_DEPARTMENT . '&nbsp;' .  $ticket_department_array[$ticket_status['ticket_department_id']] . '<br />';
+                  if (TICKET_USE_PRIORITY == '1') echo TEXT_PRIORITY . '&nbsp;' .  $ticket_priority_array[$ticket_status['ticket_priority_id']] . '<br />';
                   $ticket_last_used_status = $ticket_status['ticket_status_id'];
                   $ticket_last_used_department = $ticket_status['ticket_department_id'];
                   $ticket_last_used_priority = $ticket_status['ticket_priority_id'];
@@ -223,12 +223,12 @@
 ?>
           <tr>
             <td class="ticketSmallText" valign="top">
-<?php 
+<?php
       echo '            ' . TEXT_COMMENT . '<br /><br /><br />';
       echo '            ' . TEXT_ADMIN . '&nbsp;' . oos_draw_pull_down_menu('admin', $ticket_admins, ($ticket_last_used_admin ? $ticket_last_used_admins : TICKET_DEFAULT_ADMIN_ID) ) . "<br /><br />";
-      if (TICKET_USE_STATUS == 'true') echo '            ' . TEXT_STATUS . '&nbsp;' . oos_draw_pull_down_menu('status', $ticket_statuses, ($ticket_last_used_status ? $ticket_last_used_status : TICKET_DEFAULT_STATUS_ID) ) . "<br /><br />";
-      if (TICKET_USE_DEPARTMENT == 'true') echo '            ' . TEXT_DEPARTMENT . '&nbsp;' . oos_draw_pull_down_menu('department', $ticket_departments, ($ticket_last_used_department ? $ticket_last_used_department : TICKET_DEFAULT_DEPARTMENT_ID) ) . "<br /><br />";
-      if (TICKET_USE_PRIORITY == 'true') echo '            ' . TEXT_PRIORITY . '&nbsp;' . oos_draw_pull_down_menu('priority', $ticket_prioritys, ($ticket_last_used_priority ? $ticket_last_used_priority : TICKET_DEFAULT_PRIORITY_ID) ) . "<br /><br />";
+      if (TICKET_USE_STATUS == '1') echo '            ' . TEXT_STATUS . '&nbsp;' . oos_draw_pull_down_menu('status', $ticket_statuses, ($ticket_last_used_status ? $ticket_last_used_status : TICKET_DEFAULT_STATUS_ID) ) . "<br /><br />";
+      if (TICKET_USE_DEPARTMENT == '1') echo '            ' . TEXT_DEPARTMENT . '&nbsp;' . oos_draw_pull_down_menu('department', $ticket_departments, ($ticket_last_used_department ? $ticket_last_used_department : TICKET_DEFAULT_DEPARTMENT_ID) ) . "<br /><br />";
+      if (TICKET_USE_PRIORITY == '1') echo '            ' . TEXT_PRIORITY . '&nbsp;' . oos_draw_pull_down_menu('priority', $ticket_prioritys, ($ticket_last_used_priority ? $ticket_last_used_priority : TICKET_DEFAULT_PRIORITY_ID) ) . "<br /><br />";
       echo '            ' . TEXT_REPLY . '&nbsp;' ;
 
       $ticket_replytable = $oostable['ticket_reply'];
@@ -238,7 +238,7 @@
         echo '            <option value="' . $reply['ticket_reply_text'] . '"';
         if (TICKET_DEFAULT_REPLY_ID == $reply['ticket_reply_id']) echo ' selected';
         echo '>';
-        echo $reply['ticket_reply_name'] . '</option>' . "\n"; 
+        echo $reply['ticket_reply_name'] . '</option>' . "\n";
 
         // Move that ADOdb pointer!
         $reply_result->MoveNext();
@@ -254,7 +254,7 @@
 ?>
           <tr>
             <td colspan=2 class="main" align="left">
-<?php 
+<?php
 
         $ticket_change_login = array();
         $ticket_change_login_array = array();
@@ -263,7 +263,7 @@
         $ticket_change_login[] = array('id' => '1', 'text' => TEXT_CUSTOMER_LOGIN_YES);
         $ticket_change_login_array['1'] = TEXT_CUSTOMER_LOGIN_YES;
 
-        if (TICKET_CHANGE_CUSTOMER_LOGIN_REQUIREMENT == 'true') {
+        if (TICKET_CHANGE_CUSTOMER_LOGIN_REQUIREMENT == '1') {
           echo oos_draw_pull_down_menu('ticket_login_required', $ticket_change_login, $ticket['ticket_login_required']);
         }
         else {
@@ -293,9 +293,9 @@
               <tr><?php echo oos_draw_form('status', $aFilename['ticket_view'], '', 'get'); ?>
                 <td class="smallText" align="right">
 <?php
-    if (TICKET_USE_STATUS == 'true') echo HEADING_TITLE_STATUS . ' ' . oos_draw_pull_down_menu('status', array_merge(array(array('id' => '', 'text' => TEXT_ALL_TICKETS)), $ticket_statuses), '', 'onChange="this.form.submit();"') . "<br />\n";
-    if (TICKET_USE_DEPARTMENT == 'true') echo HEADING_TITLE_DEPARTMENT . ' ' . oos_draw_pull_down_menu('department', array_merge(array(array('id' => '', 'text' => TEXT_ALL_DEPARTMENTS)), $ticket_departments), '', 'onChange="this.form.submit();"') . "<br />\n"; 
-    if (TICKET_USE_PRIORITY == 'true') echo HEADING_TITLE_PRIORITY . ' ' . oos_draw_pull_down_menu('priority', array_merge(array(array('id' => '', 'text' => TEXT_ALL_PRIORITYS)), $ticket_prioritys), '', 'onChange="this.form.submit();"') . "<br />\n"; 
+    if (TICKET_USE_STATUS == '1') echo HEADING_TITLE_STATUS . ' ' . oos_draw_pull_down_menu('status', array_merge(array(array('id' => '', 'text' => TEXT_ALL_TICKETS)), $ticket_statuses), '', 'onChange="this.form.submit();"') . "<br />\n";
+    if (TICKET_USE_DEPARTMENT == '1') echo HEADING_TITLE_DEPARTMENT . ' ' . oos_draw_pull_down_menu('department', array_merge(array(array('id' => '', 'text' => TEXT_ALL_DEPARTMENTS)), $ticket_departments), '', 'onChange="this.form.submit();"') . "<br />\n";
+    if (TICKET_USE_PRIORITY == '1') echo HEADING_TITLE_PRIORITY . ' ' . oos_draw_pull_down_menu('priority', array_merge(array(array('id' => '', 'text' => TEXT_ALL_PRIORITYS)), $ticket_prioritys), '', 'onChange="this.form.submit();"') . "<br />\n";
 ?>
                 </td>
               </form></tr>
@@ -312,11 +312,11 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_CUSTOMER_ID; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_DATE; ?></td>
 <?php
-    if (TICKET_USE_SUBJECT == 'true') echo '                <td class="dataTableHeadingContent" align="left">' .  TABLE_HEADING_TICKET_SUBJECT . '</td>';
-    if (TICKET_USE_ORDER_IDS == 'true') echo '                <td class="dataTableHeadingContent" align="center">' . TABLE_HEADING_ORDER_ID . '</td>';
-    if (TICKET_USE_STATUS == 'true') echo '                <td class="dataTableHeadingContent" align="center">' . TABLE_HEADING_STATUS . '</td>';
-    if (TICKET_USE_PRIORITY == 'true') echo '                <td class="dataTableHeadingContent" align="center">' . TABLE_HEADING_PRIORITY . '</td>';
-    if (TICKET_USE_DEPARTMENT == 'true') echo '                <td class="dataTableHeadingContent" align="center">' . TABLE_HEADING_DEPARTMENT . '&nbsp;</td>';
+    if (TICKET_USE_SUBJECT == '1') echo '                <td class="dataTableHeadingContent" align="left">' .  TABLE_HEADING_TICKET_SUBJECT . '</td>';
+    if (TICKET_USE_ORDER_IDS == '1') echo '                <td class="dataTableHeadingContent" align="center">' . TABLE_HEADING_ORDER_ID . '</td>';
+    if (TICKET_USE_STATUS == '1') echo '                <td class="dataTableHeadingContent" align="center">' . TABLE_HEADING_STATUS . '</td>';
+    if (TICKET_USE_PRIORITY == '1') echo '                <td class="dataTableHeadingContent" align="center">' . TABLE_HEADING_PRIORITY . '</td>';
+    if (TICKET_USE_DEPARTMENT == '1') echo '                <td class="dataTableHeadingContent" align="center">' . TABLE_HEADING_DEPARTMENT . '&nbsp;</td>';
 ?>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
@@ -359,11 +359,11 @@
                 <td class="dataTableContent" align="right"><?php echo ($ticket['ticket_customers_id']>0) ? ('<a href="' . oos_href_link_admin($aFilename['customers'],"cID=" . $ticket['ticket_customers_id'] ."&action=edit") . '" target="' . TICKET_LINK_TARGET . '">' . $ticket['ticket_customers_id'] . "</a>")  : '--'; ?>&nbsp;</td>
                 <td class="dataTableContent" align="right"><?php echo oos_datetime_short($ticket['ticket_date_last_modified']); ?></td>
 <?php
-      if (TICKET_USE_SUBJECT == 'true') echo '                <td class="dataTableContent" align="left">' . strip_tags($ticket['ticket_subject']) . '&nbsp;</td>';
-      if (TICKET_USE_ORDER_IDS == 'true') echo '                <td class="dataTableContent" align="center">' . (($ticket['ticket_customers_orders_id'] > 0) ? ('<a href="' . oos_href_link_admin($aFilename['orders'],"oID=" . $ticket['ticket_customers_orders_id'] ."&action=edit") . '" target="' . TICKET_LINK_TARGET . '">' . $ticket['ticket_customers_orders_id'] . "</a>") : '--') . '&nbsp;</td>';
-      if (TICKET_USE_STATUS == 'true') echo '                <td class="dataTableContent" align="center">' . $ticket_status_array[$ticket['ticket_status_id']] . '&nbsp;</td>';
-      if (TICKET_USE_PRIORITY == 'true') echo '                <td class="dataTableContent" align="center">' . $ticket_priority_array[$ticket['ticket_priority_id']] . '</td>';
-      if (TICKET_USE_DEPARTMENT == 'true') echo '                <td class="dataTableContent" align="center">' . $ticket_department_array[$ticket['ticket_department_id']] . '</td>';
+      if (TICKET_USE_SUBJECT == '1') echo '                <td class="dataTableContent" align="left">' . strip_tags($ticket['ticket_subject']) . '&nbsp;</td>';
+      if (TICKET_USE_ORDER_IDS == '1') echo '                <td class="dataTableContent" align="center">' . (($ticket['ticket_customers_orders_id'] > 0) ? ('<a href="' . oos_href_link_admin($aFilename['orders'],"oID=" . $ticket['ticket_customers_orders_id'] ."&action=edit") . '" target="' . TICKET_LINK_TARGET . '">' . $ticket['ticket_customers_orders_id'] . "</a>") : '--') . '&nbsp;</td>';
+      if (TICKET_USE_STATUS == '1') echo '                <td class="dataTableContent" align="center">' . $ticket_status_array[$ticket['ticket_status_id']] . '&nbsp;</td>';
+      if (TICKET_USE_PRIORITY == '1') echo '                <td class="dataTableContent" align="center">' . $ticket_priority_array[$ticket['ticket_priority_id']] . '</td>';
+      if (TICKET_USE_DEPARTMENT == '1') echo '                <td class="dataTableContent" align="center">' . $ticket_department_array[$ticket['ticket_department_id']] . '</td>';
 ?>
                 <td class="dataTableContent" align="right"><?php if (isset($tInfo) && is_object($tInfo) && ($ticket['ticket_id'] == $tInfo->ticket_id) ) { echo oos_image(OOS_IMAGES . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . oos_href_link_admin($aFilename['ticket_view'], oos_get_all_get_params(array('tID')) . 'tID=' . $ticket['ticket_id']) . '">' . oos_image(OOS_IMAGES . 'icon_information.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
               </tr>
@@ -407,14 +407,14 @@
         $contents[] = array('text' => '<br />' . TEXT_DATE_TICKET_CREATED . ' ' . oos_datetime_short($tInfo->ticket_date_created));
         if (oos_is_not_null($tInfo->ticket_date_last_modified)) $contents[] = array('text' => TEXT_DATE_TICKET_LAST_MODIFIED . ' ' . oos_datetime_short($tInfo->ticket_date_last_modified));
         if (oos_is_not_null($tInfo->ticket_date_last_customer_modified)) $contents[] = array('text' => TEXT_DATE_TICKET_LAST_CUSTOMER_MODIFIED . ' ' . oos_datetime_short($tInfo->ticket_date_last_customer_modified));
-        if (TICKET_USE_STATUS == 'true') $contents[] = array('text' => '<br />' . TEXT_STATUS . ' ' . $ticket_status_array[$tInfo->ticket_status_id]);
-        if (TICKET_USE_PRIORITY == 'true') $contents[] = array('text' => '<br />' . TEXT_PRIORITY . ' ' . $ticket_priority_array[$tInfo->ticket_priority_id]);
-        if (TICKET_USE_DEPARTMENT == 'true') $contents[] = array('text' => '<br />' . TEXT_DEPARTMENT . ' ' . $ticket_department_array[$tInfo->ticket_department_id]);  
-        $contents[] = array('text' => '<br />' . TEXT_TICKET_NR . ' ' . $tInfo->ticket_link_id);  
-        $contents[] = array('text' => '<br />' . TEXT_CUSTOMERS_NAME . ' ' . $tInfo->ticket_customers_name); 
+        if (TICKET_USE_STATUS == '1') $contents[] = array('text' => '<br />' . TEXT_STATUS . ' ' . $ticket_status_array[$tInfo->ticket_status_id]);
+        if (TICKET_USE_PRIORITY == '1') $contents[] = array('text' => '<br />' . TEXT_PRIORITY . ' ' . $ticket_priority_array[$tInfo->ticket_priority_id]);
+        if (TICKET_USE_DEPARTMENT == '1') $contents[] = array('text' => '<br />' . TEXT_DEPARTMENT . ' ' . $ticket_department_array[$tInfo->ticket_department_id]);
+        $contents[] = array('text' => '<br />' . TEXT_TICKET_NR . ' ' . $tInfo->ticket_link_id);
+        $contents[] = array('text' => '<br />' . TEXT_CUSTOMERS_NAME . ' ' . $tInfo->ticket_customers_name);
         $contents[] = array('text' => '<br />' . TEXT_CUSTOMERS_EMAIL . ' ' . $tInfo->ticket_customers_email);
-        if ($tInfo->ticket_customers_id > 0) $contents[] = array('text' => TEXT_CUSTOMERS_ID . ' ' . '<a href="' . oos_href_link_admin($aFilename['customers'],"cID=" . $tInfo->ticket_customers_id ."&action=edit") . '" target="' . TICKET_LINK_TARGET . '">' . $tInfo->ticket_customers_id . '</a>');  
-        if (TICKET_USE_ORDER_IDS == 'true') $contents[] = array('text' => '<br />' . TEXT_CUSTOMERS_ORDERS_ID . ' ' . '<a href="' . oos_href_link_admin($aFilename['orders'],"oID=" . $tInfo->ticket_customers_orders_id ."&action=edit") . '" target="' . TICKET_LINK_TARGET . '">' . $tInfo->ticket_customers_orders_id . '</a>');  
+        if ($tInfo->ticket_customers_id > 0) $contents[] = array('text' => TEXT_CUSTOMERS_ID . ' ' . '<a href="' . oos_href_link_admin($aFilename['customers'],"cID=" . $tInfo->ticket_customers_id ."&action=edit") . '" target="' . TICKET_LINK_TARGET . '">' . $tInfo->ticket_customers_id . '</a>');
+        if (TICKET_USE_ORDER_IDS == '1') $contents[] = array('text' => '<br />' . TEXT_CUSTOMERS_ORDERS_ID . ' ' . '<a href="' . oos_href_link_admin($aFilename['orders'],"oID=" . $tInfo->ticket_customers_orders_id ."&action=edit") . '" target="' . TICKET_LINK_TARGET . '">' . $tInfo->ticket_customers_orders_id . '</a>');
       }
       break;
   }

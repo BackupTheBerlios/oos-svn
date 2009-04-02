@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: specials.php,v 1.38 2002/05/16 15:32:22 hpdl 
+   File: specials.php,v 1.38 2002/05/16 15:32:22 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -107,7 +107,7 @@
           $new_special_insert = $new_special_insert_result->fields;
           $_POST['products_price'] = $new_special_insert['products_price'];
           $_POST['specials_price'] = ($_POST['products_price'] - (($_POST['specials_price'] / 100) * $_POST['products_price']));
-        } elseif (OOS_PRICE_IS_BRUTTO == 'true') {
+        } elseif (OOS_PRICE_IS_BRUTTO == '1') {
           $tax_ratestable = $oostable['tax_rates'];
           $productstable = $oostable['products'];
           $sql = "SELECT tr.tax_rate
@@ -134,7 +134,7 @@
         // update a product on special
         if (substr($_POST['specials_price'], -1) == '%') {
           $_POST['specials_price'] = ($_POST['products_price'] - (($_POST['specials_price'] / 100) * $_POST['products_price']));
-        } elseif (OOS_PRICE_IS_BRUTTO == 'true') {
+        } elseif (OOS_PRICE_IS_BRUTTO == '1') {
           $tax_ratestable = $oostable['tax_rates'];
           $productstable = $oostable['products'];
           $sql = "SELECT tr.tax_rate
@@ -212,7 +212,7 @@
                   p.products_id = s.products_id AND
                   s.specials_id = '" . $_GET['sID'] . "'";
       $product_result = $dbconn->Execute($sql);
-      // END IN-SOLUTION	
+      // END IN-SOLUTION
       $product = $product_result->fields;
 
       $sInfo = new objectInfo($product);
@@ -254,9 +254,9 @@
           <tr>
             <td class="main"><?php echo TEXT_SPECIALS_PRODUCT; echo ($sInfo->products_name) ? "" :  '('.TEXT_TAX_INFO.')'; ?>&nbsp;</td>
 <?php
-    $in_price = $sInfo->products_price; 
+    $in_price = $sInfo->products_price;
     $in_new_price = $sInfo->specials_new_products_price;
-    if (OOS_PRICE_IS_BRUTTO == 'true'){
+    if (OOS_PRICE_IS_BRUTTO == '1'){
       $in_price_netto = round($in_price,TAX_DECIMAL_PLACES);
       $in_new_price_netto = round($in_new_price,TAX_DECIMAL_PLACES);
 
@@ -340,9 +340,9 @@
         echo '                  <tr class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\';this.style.cursor=\'hand\'" onmouseout="this.className=\'dataTableRow\'" onclick="document.location.href=\'' . oos_href_link_admin($aFilename['specials'], 'page=' . $_GET['page'] . '&sID=' . $specials['specials_id']) . '\'">' . "\n";
       }
 
-      $in_price = $sInfo->products_price; 
+      $in_price = $sInfo->products_price;
       $in_new_price = $sInfo->specials_new_products_price;
-      if (OOS_PRICE_IS_BRUTTO == 'true') {
+      if (OOS_PRICE_IS_BRUTTO == '1') {
         $tax_ratestable = $oostable['tax_rates'];
         $tax_result = $dbconn->Execute("SELECT tax_rate FROM $tax_ratestable WHERE tax_class_id = '" . $sInfo->products_tax_class_id . "' ");
         $tax = $tax_result->fields;
@@ -379,7 +379,7 @@
 <?php
   if (empty($action)) {
 ?>
-                  <tr> 
+                  <tr>
                     <td colspan="2" align="right"><?php echo '<a href="' . oos_href_link_admin($aFilename['specials'], 'page=' . $_GET['page'] . '&action=new') . '">' . oos_image_swap_button('new_product','new_product_off.gif', IMAGE_NEW_PRODUCT) . '</a>'; ?></td>
                   </tr>
 <?php
@@ -411,9 +411,9 @@
         $contents[] = array('align' => 'center', 'text' => '<br />' . oos_info_image($sInfo->products_image, $sInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT));
 
 
-        $in_price = $sInfo->products_price; 
+        $in_price = $sInfo->products_price;
         $in_new_price = $sInfo->specials_new_products_price;
-        if (OOS_PRICE_IS_BRUTTO == 'true') {
+        if (OOS_PRICE_IS_BRUTTO == '1') {
           $in_price_netto = round($in_price,TAX_DECIMAL_PLACES);
           $in_new_price_netto = round($in_new_price,TAX_DECIMAL_PLACES);
           $tax_ratestable = $oostable['tax_rates'];

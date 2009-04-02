@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -48,7 +48,7 @@
   if (!empty($action)) {
     switch ($action) {
       case 'add_product_attributes':
-        if (OOS_PRICE_IS_BRUTTO == 'true'){
+        if (OOS_PRICE_IS_BRUTTO == '1'){
           $tax_ratestable = $oostable['tax_rates'];
           $productstable = $oostable['products'];
           $sql = "SELECT tr.tax_rate
@@ -69,7 +69,7 @@
         $products_attributestable = $oostable['products_attributes'];
         $dbconn->Execute("INSERT INTO $products_attributestable VALUES ('', '" . $_POST['products_id'] . "', '" . $_POST['options_id'] . "', '" . $_POST['values_id'] . "', '" . $_POST['value_price'] . "', '" . $_POST['price_prefix'] . "', '" . $_POST['sort_order'] . "')");
         $products_attributes_id = $dbconn->Insert_ID();
-        if ((DOWNLOAD_ENABLED == 'true') && $_POST['products_attributes_filename'] != '') {
+        if ((DOWNLOAD_ENABLED == '1') && $_POST['products_attributes_filename'] != '') {
           $products_attributes_downloadtable = $oostable['products_attributes_download'];
           $dbconn->Execute("INSERT INTO $products_attributes_downloadtable VALUES (" . $products_attributes_id . ", '" . $_POST['products_attributes_filename'] . "', '" . $_POST['products_attributes_maxdays'] . "', '" . $_POST['products_attributes_maxcount'] . "')");
         }
@@ -77,13 +77,13 @@
         break;
 
       case 'update_product_attribute':
-        if (OOS_PRICE_IS_BRUTTO == 'true'){
+        if (OOS_PRICE_IS_BRUTTO == '1'){
           $tax_ratestable = $oostable['tax_rates'];
           $productstable = $oostable['products'];
           $sql = "SELECT tr.tax_rate
                    FROM $tax_ratestable tr,
                         $productstable p
-                  WHERE tr.tax_class_id = p.products_tax_class_id 
+                  WHERE tr.tax_class_id = p.products_tax_class_id
                     AND p.products_id = '".$_POST['products_id']."'";
           $tax_result = $dbconn->Execute($sql);
           $tax = $tax_result->fields;
@@ -105,7 +105,7 @@
         $products_attributestable = $oostable['products_attributes'];
         $dbconn->Execute("UPDATE $products_attributestable SET products_id = '" . $_POST['products_id'] . "', options_id = '" . $_POST['options_id'] . "', options_values_id = '" . $_POST['values_id'] . "', options_values_price = '" . $_POST['value_price'] . "', price_prefix = '" . $_POST['price_prefix'] . "', options_sort_order = '" . $_POST['sort_order'] . "' WHERE products_attributes_id = '" . $_POST['attribute_id'] . "'");
 
-        if ((DOWNLOAD_ENABLED == 'true') && $_POST['products_attributes_filename'] != '') {
+        if ((DOWNLOAD_ENABLED == '1') && $_POST['products_attributes_filename'] != '') {
           $products_attributes_downloadtable = $oostable['products_attributes_download'];
           $dbconn->Execute("UPDATE $products_attributes_downloadtable
                         SET products_attributes_filename='" . $_POST['products_attributes_filename'] . "',
@@ -336,28 +336,28 @@ function go_option() {
 
 <?php
       $in_price= $attributes_values['options_values_price'];
-      if (OOS_PRICE_IS_BRUTTO == 'true') {
+      if (OOS_PRICE_IS_BRUTTO == '1') {
         $in_price_netto = round($in_price, TAX_DECIMAL_PLACES);
         $tax_ratestable = $oostable['tax_rates'];
         $productstable = $oostable['products'];
         $sql = "SELECT tr.tax_rate  FROM  $tax_ratestable tr,  $productstable p  WHERE  tr.tax_class_id = p.products_tax_class_id  AND  p.products_id = '". $attributes_values['products_id'] . "'";
         $tax_result = $dbconn->Execute($sql);
         $tax = $tax_result->fields;
-        $in_price= ($in_price*($tax[tax_rate]+100)/100);  
+        $in_price= ($in_price*($tax[tax_rate]+100)/100);
       }
       $in_price = round ($in_price,TAX_DECIMAL_PLACES);
 ?>
             <td align="right" class="smallText">&nbsp;<input type="text" name="value_price" value="<?php echo $in_price; ?>" size="6">
 <?php
-      if (OOS_PRICE_IS_BRUTTO == 'true') echo " - " . TEXT_TAX_INFO . $in_price_netto;
+      if (OOS_PRICE_IS_BRUTTO == '1') echo " - " . TEXT_TAX_INFO . $in_price_netto;
       echo '&nbsp;</td>';
 ?>
             <td align="center" class="smallText">&nbsp;<input type="text" name="price_prefix" value="<?php echo $attributes_values['price_prefix']; ?>" size="2">&nbsp;</td>
             <td align="center" class="smallText">&nbsp;<?php echo oos_image_swap_submits('update', 'update_off.gif', IMAGE_UPDATE); ?>&nbsp;<?php echo '<a href="' . oos_href_link_admin($aFilename['products_attributes'], '&attribute_page=' . $attribute_page, 'NONSSL') . '">'; ?><?php echo oos_image_swap_button('cancel', 'cancel_off.gif', IMAGE_CANCEL); ?></a>&nbsp;</td>
 <?php
-      if (DOWNLOAD_ENABLED == 'true') {
+      if (DOWNLOAD_ENABLED == '1') {
         $products_attributes_downloadtable = $oostable['products_attributes_download'];
-        $download_result_raw ="SELECT products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount 
+        $download_result_raw ="SELECT products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount
                               FROM $products_attributes_downloadtable
                               WHERE products_attributes_id = '" . $attributes_values['products_attributes_id'] . "'";
         $download_result = $dbconn->Execute($download_result_raw);
@@ -407,21 +407,21 @@ function go_option() {
             <td align="right" class="smallText">&nbsp;<b><?php echo $attributes_values["options_sort_order"]; ?></td>
 <?php
       $in_price= $attributes_values['options_values_price'];
-      if (OOS_PRICE_IS_BRUTTO == 'true') {
+      if (OOS_PRICE_IS_BRUTTO == '1') {
         $in_price_netto = round($in_price,TAX_DECIMAL_PLACES);
         $tax_ratestable = $oostable['tax_rates'];
         $productstable = $oostable['products'];
         $sql = "SELECT tr.tax_rate FROM $tax_ratestable tr, $productstable p  WHERE tr.tax_class_id = p.products_tax_class_id  AND p.products_id = '". $attributes_values['products_id'] . "' ";
         $tax_result = $dbconn->Execute($sql);
         $tax = $tax_result->fields;
-        $in_price = ($in_price*($tax[tax_rate]+100)/100); 
+        $in_price = ($in_price*($tax[tax_rate]+100)/100);
       }
       $in_price= round($in_price,TAX_DECIMAL_PLACES);
 ?>
             <td align="right" class="smallText">&nbsp;
 <?php
         echo $in_price;
-        if (OOS_PRICE_IS_BRUTTO == 'true') echo " - ". TEXT_TAX_INFO . $in_price_netto;
+        if (OOS_PRICE_IS_BRUTTO == '1') echo " - ". TEXT_TAX_INFO . $in_price_netto;
 ?>&nbsp;</td>
             <td align="center" class="smallText">&nbsp;<?php echo $attributes_values["price_prefix"]; ?>&nbsp;</td>
             <td align="center" class="smallText">&nbsp;<?php echo '<a href="' . oos_href_link_admin($aFilename['products_attributes'], 'action=update_attribute&attribute_id=' . $attributes_values['products_attributes_id'] . '&attribute_page=' . $attribute_page, 'NONSSL') . '">'; ?><?php echo oos_image_swap_button('edit', 'edit_off.gif', IMAGE_UPDATE); ?></a>&nbsp;&nbsp;<?php echo '<a href="' . oos_href_link_admin($aFilename['products_attributes'], 'action=delete_product_attribute&attribute_id=' . $attributes_values['products_attributes_id'] . '&attribute_page=' . $attribute_page, 'NONSSL') , '">'; ?><?php echo oos_image_swap_button('delete', 'delete_off.gif', IMAGE_DELETE); ?></a>&nbsp;</td>
@@ -498,7 +498,7 @@ function go_option() {
             <td align="center" class="smallText">&nbsp;<?php echo oos_image_swap_submits('insert', 'insert_off.gif', IMAGE_INSERT); ?>&nbsp;</td>
           </tr>
 <?php
-      if (DOWNLOAD_ENABLED == 'true') {
+      if (DOWNLOAD_ENABLED == '1') {
         $products_attributes_maxdays  = DOWNLOAD_MAX_DAYS;
         $products_attributes_maxcount = DOWNLOAD_MAX_COUNT;
 ?>

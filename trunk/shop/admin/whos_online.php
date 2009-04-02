@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: whos_online.php,v 1.30 2002/11/22 14:45:49 dgw_ 
+   File: whos_online.php,v 1.30 2002/11/22 14:45:49 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -34,7 +34,7 @@
   $dbconn->Execute("DELETE FROM $whos_onlinetable WHERE time_last_click < '" . $xx_mins_ago . "'");
 
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -67,8 +67,8 @@
               </tr>
 <?php
   $whos_onlinetable = $oostable['whos_online'];
-  $sql = "SELECT customer_id, full_name, ip_address, time_entry, 
-                 time_last_click, last_page_url, session_id 
+  $sql = "SELECT customer_id, full_name, ip_address, time_entry,
+                 time_last_click, last_page_url, session_id
           FROM $whos_onlinetable";
   $whos_online_result = $dbconn->Execute($sql);
   while ($whos_online = $whos_online_result->fields) {
@@ -108,15 +108,15 @@
   if (isset($info)) {
     $heading[] = array('text' => '<b>' . TABLE_HEADING_SHOPPING_CART . '</b><br />');
 
-    if (STORE_SESSIONS == 'true') {
+    if (STORE_SESSIONS == '1') {
       $sessionstable = $oostable['sessions'];
 
       $session_data = $dbconn->Execute("SELECT data FROM $sessionstable WHERE sesskey = '" . $info . "'");
 
-      if (STORE_SESSIONS_CRYPT == 'true') {
+      if (STORE_SESSIONS_CRYPT == '1') {
         include_once '../includes/classes/thirdparty/adodb/session/crypt.inc.php';
         $Crypt = new MD5Crypt;
-        $session_data = rawurldecode($Crypt->Decrypt(reset($session_data->fields), crypt(ADODB_Session::encryptionKey(), $info)));    
+        $session_data = rawurldecode($Crypt->Decrypt(reset($session_data->fields), crypt(ADODB_Session::encryptionKey(), $info)));
       } else {
         $session_data = rawurldecode($session_data->fields['data']);
       }

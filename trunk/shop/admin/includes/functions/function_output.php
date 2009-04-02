@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -27,7 +27,7 @@
   *
   * @link http://www.oos-shop.de/
   * @package Admin html output
-  * @version $Revision: 1.46 $ - changed by $Author: r23 $ on $Date: 2007/05/28 09:20:12 $
+  * @version $Revision: 1.46 $ - changed by $Author: r23 $ on $Date: 2009/05/28 09:20:12 $
   */
 
 
@@ -46,7 +46,7 @@
     if ($connection == 'NONSSL') {
       $link = OOS_HTTP_SERVER . OOS_SHOP . 'admin/';
     } elseif ($connection == 'SSL') {
-      if (ENABLE_SSL == 'true') {
+      if (ENABLE_SSL == '1') {
         $link = OOS_HTTPS_SERVER . OOS_SHOP . 'admin/';
       } else {
         $link = OOS_HTTP_SERVER . OOS_SHOP . 'admin/';
@@ -79,7 +79,7 @@
     if ($connection == 'NONSSL') {
       $link = OOS_HTTP_SERVER . OOS_SHOP;
     } elseif ($connection == 'SSL') {
-      if (ENABLE_SSL_SHOP == 'true') {
+      if (ENABLE_SSL_SHOP == '1') {
         $link = OOS_HTTPS_SERVER . OOS_SHOP;
       } else {
         $link = OOS_HTTP_SERVER . OOS_SHOP;
@@ -393,7 +393,7 @@
     }
     if ($parameter != '') {
       $selection .= ' ' . $parameter;
-    }   
+    }
     $selection .= '>';
 
     return $selection;
