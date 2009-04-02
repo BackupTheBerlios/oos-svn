@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,33 +19,34 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (!$oEvent->installed_plugin('wishlist')) {
+if (!$oEvent->installed_plugin('wishlist')) {
     $_SESSION['navigation']->remove_current_page();
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
-  }
+}
 
-  if (!isset($_SESSION['customer_id'])) {
+if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
     oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
-  }
+}
 
-  require 'includes/languages/' . $sLanguage . '/account_my_wishlist.php';
+require 'includes/languages/' . $sLanguage . '/account_my_wishlist.php';
 
-  $customers_wishlisttable = $oostable['customers_wishlist'];
-  $wishlist_result_raw = "SELECT products_id, customers_wishlist_date_added
-                          FROM $customers_wishlisttable
-                          WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
-                            AND customers_wishlist_link_id = '" . oos_db_input($_SESSION['customer_wishlist_link_id']) . "'
+$customers_wishlisttable = $oostable['customers_wishlist'];
+$wishlist_result_raw = "SELECT products_id, customers_wishlist_date_added
+                        FROM $customers_wishlisttable
+                        WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
+                          AND customers_wishlist_link_id = '" . oos_db_input($_SESSION['customer_wishlist_link_id']) . "'
                        ORDER BY customers_wishlist_date_added";
-  $wishlist_split = new splitPageResults($_GET['page'], MAX_DISPLAY_WISHLIST_PRODUCTS, $wishlist_result_raw, $wishlist_numrows);
-  $wishlist_result = $dbconn->Execute($wishlist_result_raw);
+$wishlist_split = new splitPageResults($_GET['page'], MAX_DISPLAY_WISHLIST_PRODUCTS, $wishlist_result_raw, $wishlist_numrows);
+$wishlist_result = $dbconn->Execute($wishlist_result_raw);
 
-  $aWishlist = array();
-  while ($wishlist = $wishlist_result->fields)
-  {
+$aWishlist = array();
+
+while ($wishlist = $wishlist_result->fields)
+{
     $wl_products_id = oos_get_product_id($wishlist['products_id']);
 
     $productstable = $oostable['products'];
@@ -71,22 +72,22 @@
     $wishlist_product_price = $oCurrencies->display_price($wishlist_product['products_price'], oos_get_tax_rate($wishlist_product['products_tax_class_id']));
 
     if ($wishlist_special_price = oos_get_products_special_price($wl_products_id)) {
-      $wishlist_product_special_price = $oCurrencies->display_price($wishlist_special_price, oos_get_tax_rate($wishlist_product['products_tax_class_id']));
+        $wishlist_product_special_price = $oCurrencies->display_price($wishlist_special_price, oos_get_tax_rate($wishlist_product['products_tax_class_id']));
     } else {
-      $wishlist_product_discount = min($wishlist_product['products_discount_allowed'], $_SESSION['member']->group['discount']);
+        $wishlist_product_discount = min($wishlist_product['products_discount_allowed'], $_SESSION['member']->group['discount']);
 
-      if ($wishlist_product_discount != 0 ) {
-        $wishlist_special_price = $wishlist_product['products_price']*(100-$wishlist_product_discount)/100;
-        $wishlist_product_discount_price = $oCurrencies->display_price($wishlist_special_price, oos_get_tax_rate($wishlist_product['products_tax_class_id']));
-      }
+        if ($wishlist_product_discount != 0 ) {
+            $wishlist_special_price = $wishlist_product['products_price']*(100-$wishlist_product_discount)/100;
+            $wishlist_product_discount_price = $oCurrencies->display_price($wishlist_special_price, oos_get_tax_rate($wishlist_product['products_tax_class_id']));
+        }
     }
 
     if ($wishlist_product['products_base_price'] != 1) {
-      $wishlist_base_product_price = $oCurrencies->display_price($wishlist_product['products_price'] * $wishlist_product['products_base_price'], oos_get_tax_rate($wishlist_product['products_tax_class_id']));
+        $wishlist_base_product_price = $oCurrencies->display_price($wishlist_product['products_price'] * $wishlist_product['products_base_price'], oos_get_tax_rate($wishlist_product['products_tax_class_id']));
 
-      if ($wishlist_special_price != '') {
-        $wishlist_base_product_special_price = $oCurrencies->display_price($wishlist_special_price * $wishlist_product['products_base_price'], oos_get_tax_rate($wishlist_product['products_tax_class_id']));
-      }
+        if ($wishlist_special_price != '') {
+            $wishlist_base_product_special_price = $oCurrencies->display_price($wishlist_special_price * $wishlist_product['products_base_price'], oos_get_tax_rate($wishlist_product['products_tax_class_id']));
+        }
     }
 
     $customers_wishlist_attributestable = $oostable['customers_wishlist_attributes'];
@@ -99,40 +100,37 @@
     $attributes_print = '';
     while ($attributes = $attributes_result->fields)
     {
-      $attributes_print .=  oos_draw_hidden_field('id[' . $attributes['products_options_id'] . ']', $attributes['products_options_value_id']);
-      $attributes_print .=  '                   <tr>';
+        $attributes_print .=  oos_draw_hidden_field('id[' . $attributes['products_options_id'] . ']', $attributes['products_options_value_id']);
+        $attributes_print .=  '                   <tr>';
 
-      $products_optionstable = $oostable['products_options'];
-      $products_options_valuestable = $oostable['products_options_values'];
-      $products_attributestable = $oostable['products_attributes'];
-      $sql = "SELECT popt.products_options_name,
-                     poval.products_options_values_name,
-                     pa.options_values_price, pa.price_prefix
-              FROM $products_optionstable popt,
-                   $products_options_valuestable poval,
-                   $products_attributestable pa
-             WHERE pa.products_id = '" . intval($wl_products_id) . "'
-               AND pa.options_id = '" . oos_db_input($attributes['products_options_id']) . "'
-               AND pa.options_id = popt.products_options_id
-               AND pa.options_values_id = '" . oos_db_input($attributes['products_options_value_id']) . "'
-               AND pa.options_values_id = poval.products_options_values_id
-               AND popt.products_options_languages_id = '" .  intval($nLanguageID) . "'
-               AND poval.products_options_values_languages_id = '" .  intval($nLanguageID) . "'";
-      $option_values = $dbconn->GetRow($sql);
+        $products_optionstable = $oostable['products_options'];
+        $products_options_valuestable = $oostable['products_options_values'];
+        $products_attributestable = $oostable['products_attributes'];
+        $sql = "SELECT popt.products_options_name,
+                       poval.products_options_values_name,
+                       pa.options_values_price, pa.price_prefix
+                FROM $products_optionstable popt,
+                     $products_options_valuestable poval,
+                     $products_attributestable pa
+               WHERE pa.products_id = '" . intval($wl_products_id) . "'
+                 AND pa.options_id = '" . oos_db_input($attributes['products_options_id']) . "'
+                 AND pa.options_id = popt.products_options_id
+                 AND pa.options_values_id = '" . oos_db_input($attributes['products_options_value_id']) . "'
+                 AND pa.options_values_id = poval.products_options_values_id
+                 AND popt.products_options_languages_id = '" .  intval($nLanguageID) . "'
+                 AND poval.products_options_values_languages_id = '" .  intval($nLanguageID) . "'";
+        $option_values = $dbconn->GetRow($sql);
 
-      $attributes_print .=  '<td><br /><small><i> - ' . $option_values['products_options_name'] . ' ' . $option_values['products_options_values_name'] . '</i></small></td>';
+        $attributes_print .=  '<td><br /><small><i> - ' . $option_values['products_options_name'] . ' ' . $option_values['products_options_values_name'] . '</i></small></td>';
 
-      if ($option_values['options_values_price'] != 0) {
-        $attributes_print .=  '<td align="right"><small><i>' . $option_values['price_prefix'] . $oCurrencies->display_price($option_values['options_values_price'], oos_get_tax_rate($wishlist_product['products_tax_class_id'])) . '</i></small></td>';
-      } else {
-        $attributes_print .=  '<td><small><i>&nbsp;</i></small></td>';
-      }
-      $attributes_print .=  '                   </tr>';
-      $attributes_result->MoveNext();
+        if ($option_values['options_values_price'] != 0) {
+            $attributes_print .=  '<td align="right"><small><i>' . $option_values['price_prefix'] . $oCurrencies->display_price($option_values['options_values_price'], oos_get_tax_rate($wishlist_product['products_tax_class_id'])) . '</i></small></td>';
+        } else {
+            $attributes_print .=  '<td><small><i>&nbsp;</i></small></td>';
+        }
+        $attributes_print .=  '                   </tr>';
+        $attributes_result->MoveNext();
     }
-
-    // Close result set
-    $attributes_result->Close();
 
     // with option $wishlist['products_id'] = 2{3}1
     $aWishlist[] = array('products_id' => $wishlist['products_id'],
@@ -149,29 +147,27 @@
                          'products_base_unit' => $wishlist_product['products_base_unit'],
                          'attributes_print' => $attributes_print);
     $wishlist_result->MoveNext();
-  }
+}
 
-  // Close result set
-  $wishlist_result->Close();
 
-  // links breadcrumb
-  $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['account'], $aFilename['account_my_wishlist']));
+// links breadcrumb
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['account'], $aFilename['account_my_wishlist']));
 
-  $aOption['template_main'] = $sTheme . '/modules/my_wishlist.html';
-  $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-  $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
+$aOption['template_main'] = $sTheme . '/modules/my_wishlist.html';
+$aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
 
-  $nPageType = OOS_PAGE_TYPE_CATALOG;
+$nPageType = OOS_PAGE_TYPE_CATALOG;
 
-  require 'includes/oos_system.php';
-  if (!isset($option)) {
+require 'includes/oos_system.php';
+if (!isset($option)) {
     require 'includes/info_message.php';
     require 'includes/oos_blocks.php';
     require 'includes/oos_counter.php';
-  }
+}
 
 // assign Smarty variables;
-  $oSmarty->assign(
+$oSmarty->assign(
        array(
            'oos_breadcrumb' => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
            'oos_heading_title' => $aLang['heading_title'],
@@ -183,11 +179,11 @@
 
            'wishlist_array' => $aWishlist
        )
-  );
-  $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation']));
-  $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
-  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
+);
 
-  // display the template
-  require 'includes/oos_display.php';
+$oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation']));
+$oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
+$oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
+// display the template
+require 'includes/oos_display.php';
