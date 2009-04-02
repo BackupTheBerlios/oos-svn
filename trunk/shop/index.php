@@ -25,7 +25,7 @@ $sFile = oos_var_prep_for_os($sFile);
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 $sTheme = oos_var_prep_for_os($_SESSION['theme']);
 
-if (file_exists('includes/pages/' . $sMp . '/' . $sFile . '.php')) {
+if (is_readable('includes/pages/' . $sMp . '/' . $sFile . '.php')) {
     if (isset($_GET['history_back'])){
         $_SESSION['navigation']->remove_last_page();
     } else {

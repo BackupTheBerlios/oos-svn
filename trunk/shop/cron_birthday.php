@@ -24,10 +24,11 @@
   define('OOS_VALID_MOD', 'yes');
 
 // Set the local configuration parameters - mainly for developers
-  if (file_exists('includes/local/configure.php')) {
-    require_once(dirname(__FILE__) . '/includes/local/configure.php');
-  }
-  require_once(dirname(__FILE__) . '/includes/configure.php');
+if (is_readable('includes/local/configure.php')) {
+    include('includes/local/configure.php');
+} else {
+    require 'includes/configure.php';
+}
 
 // include server parameters
   require_once(dirname(__FILE__) . '/includes/oos_define.php');
