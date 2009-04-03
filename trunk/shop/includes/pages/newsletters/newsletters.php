@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -23,52 +23,58 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
+if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
 
-  require 'includes/languages/' . $sLanguage . '/newsletters_newsletters.php';
+require 'includes/languages/' . $sLanguage . '/newsletters_newsletters.php';
 
-  if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
+if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
+
+    $firstname = oos_prepare_input($_POST['firstname']);
+    $lastname = oos_prepare_input($_POST['lastname']);
+    $email_address = oos_prepare_input($_POST['email_address']);
+
+
     if (!oos_validate_is_email($email_address)) {
-      oos_redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters'], 'email=nonexistent', 'SSL'));
+        oos_redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters'], 'email=nonexistent', 'SSL'));
     } else {
 
-      $customerstable = $oostable['customers'];
-      $sql = "SELECT customers_firstname, customers_lastname, customers_id
-              FROM " .$customerstable . "
-              WHERE customers_email_address = '" . oos_db_input($email_address) . "'";
-      $check_customer_result = $dbconn->Execute($sql);
-
-      if ($check_customer_result->RecordCount()) {
-        $check_customer = $check_customer_result->fields;
-
         $customerstable = $oostable['customers'];
-        $dbconn->Execute("UPDATE $customerstable
-                      SET customers_newsletter = '1'
-                      WHERE customers_id = '" . $check_customer['customers_id'] . "'");
-        oos_redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_subscribe_success']));
-      } else {
-        $maillisttable = $oostable['maillist'];
-        $sql = "SELECT customers_firstname
-                FROM " . $maillisttable . "
+        $sql = "SELECT customers_firstname, customers_lastname, customers_id
+                FROM $customerstable
                 WHERE customers_email_address = '" . oos_db_input($email_address) . "'";
-        $check_mail_customer_result = $dbconn->Execute($sql);
-        if ($check_mail_customer_result->RecordCount()) {
-          $maillisttable = $oostable['maillist'];
-          $dbconn->Execute("UPDATE " . $maillisttable . "
-                            SET customers_newsletter = '1'
-                            WHERE customers_email_address = '" . oos_db_input($email_address) . "'");
-          oos_redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_subscribe_success']));
+        $check_customer_result = $dbconn->Execute($sql);
+
+        if ($check_customer_result->RecordCount()) {
+            $check_customer = $check_customer_result->fields;
+
+            $customerstable = $oostable['customers'];
+            $dbconn->Execute("UPDATE $customerstable
+                              SET customers_newsletter = '1'
+                              WHERE customers_id = '" . $check_customer['customers_id'] . "'");
+            oos_redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_subscribe_success']));
         } else {
-          $sql_data_array = array('customers_firstname' => $firstname,
-                                  'customers_lastname' => $lastname,
-                                  'customers_email_address' => $email_address,
-                                  'customers_newsletter' => 1);
-          oos_db_perform($oostable['maillist'], $sql_data_array);
-          oos_redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_subscribe_success']));
+            $maillisttable = $oostable['maillist'];
+            $sql = "SELECT customers_firstname
+                    FROM $maillisttable
+                    WHERE customers_email_address = '" . oos_db_input($email_address) . "'";
+            $check_mail_customer_result = $dbconn->Execute($sql);
+            if ($check_mail_customer_result->RecordCount()) {
+                $maillisttable = $oostable['maillist'];
+                $dbconn->Execute("UPDATE $maillisttable
+                                  SET customers_newsletter = '1'
+                                  WHERE customers_email_address = '" . oos_db_input($email_address) . "'");
+                oos_redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_subscribe_success']));
+            } else {
+                $sql_data_array = array('customers_firstname' => $firstname,
+                                        'customers_lastname' => $lastname,
+                                        'customers_email_address' => $email_address,
+                                        'customers_newsletter' => 1);
+                oos_db_perform($oostable['maillist'], $sql_data_array);
+                oos_redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_subscribe_success']));
+            }
         }
-      }
     }
-  } else {
+} else {
 
     $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['newsletters'], $aFilename['newsletters'], '', 'SSL'));
 
@@ -79,9 +85,9 @@
 
     require 'includes/oos_system.php';
     if (!isset($option)) {
-      require 'includes/info_message.php';
-      require 'includes/oos_blocks.php';
-      require 'includes/oos_counter.php';
+        require 'includes/info_message.php';
+        require 'includes/oos_blocks.php';
+        require 'includes/oos_counter.php';
     }
 
     // assign Smarty variables;
@@ -98,4 +104,5 @@
 
     // display the template
     require 'includes/oos_display.php';
-  }
+}
+
