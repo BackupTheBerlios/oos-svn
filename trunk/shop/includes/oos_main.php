@@ -249,9 +249,11 @@ if (USE_DB_CACHE == '1') {
 
 $aOption = array();
 
+/*
 // Todo remove
 if (isset($_POST)) {
     foreach ($_POST as $key=>$value) {
         $$key = oos_prepare_input($value);
     }
 }
+*/

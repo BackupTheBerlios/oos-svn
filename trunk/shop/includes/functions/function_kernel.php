@@ -1398,6 +1398,9 @@
 
     // Instantiate a new mail object
     $mail = new PHPMailer;
+	$mail->ClearAllRecipients();
+	$mail->ClearAddresses();
+	$mail->ClearAttachments();
 
     $mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/';
     $mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/language/' );
