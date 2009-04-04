@@ -35,4 +35,4 @@ $aLang['page_reviews'] = 'Meinungen';
 $aLang['page_service'] = 'Service';
 $aLang['page_mapquest'] = 'Stadtplan von unserem Standort';
 
-?>
+

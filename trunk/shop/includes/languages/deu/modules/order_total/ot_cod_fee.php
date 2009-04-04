@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -77,5 +77,3 @@ define('MODULE_ORDER_TOTAL_COD_TAX_CLASS_DESC', 'W&auml;hlen Sie eine Steuerklas
 $aLang['module_order_total_cod_title'] = 'Nachnahmegeb&uuml;hr';
 $aLang['module_order_total_cod_description'] = 'Nachnahmegeb&uuml;hr';
 
-
-?>

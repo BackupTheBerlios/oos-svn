@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -36,4 +36,3 @@ define('MODULE_ORDER_TOTAL_ORDER2SMS_SORT_ORDER_DESC', 'Reihenfolge der Anzeige.
 $aLang['module_order_total_order2sms_text_title'] = 'Bestellung per SMS';
 $aLang['module_order_total_order2sms_text_description'] = 'versendet Information &uuml;ber eingehende Bestellungen per SMS (ein SMS Gateway Account ist erforderlich!)';
 
-?>

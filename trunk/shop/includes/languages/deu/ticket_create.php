@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -47,4 +47,5 @@ $aLang['entry_error_no_name'] = 'Bitte Namen angeben!';
 $aLang['entry_error_no_subject'] = 'Bitte &Uuml;berschrift angeben!';
 $aLang['entry_error_no_enquiry'] = 'Bitte Anfrage ausf&uuml;llen!';
 $aLang['entry_order'] = 'Bestellnr (Bestelldatum)';
-?>
+
+

@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -32,4 +31,5 @@ $aLang['text_coupon_help_date'] = '<br /><br />Der Coupon ist g&uuml;ltig zwisch
 $aLang['text_coupon_help_restrict'] = '<br /><br />Produkte/Kategorie Einschr&auml;nkungen';
 $aLang['text_coupon_help_categories'] = 'Kategorie';
 $aLang['text_coupon_help_products'] = 'Produkt';
-?>
+
+

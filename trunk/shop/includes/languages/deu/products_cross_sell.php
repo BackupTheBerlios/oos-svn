@@ -4,8 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -29,4 +29,5 @@ $aLang['table_heading_quantity'] = 'Anzahl';
 $aLang['table_heading_price'] = 'Preis';
 $aLang['table_heading_weight'] = 'Gewicht';
 $aLang['table_heading_buy_now'] = 'Bestellen';
-?>
+
+

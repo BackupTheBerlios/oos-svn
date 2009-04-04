@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -23,4 +22,4 @@
 $aLang['heading_title'] = 'Abmeldung';
 $aLang['navbar_title'] = 'Abmeldung';
 $aLang['text_main'] = 'Sie wurden soeben sicher abgemeldet, so dass niemand mehr Ihre Daten einsehen kann.<br /><br />Ihr Warenkorb wurde zwischengespeichert und steht Ihnen nach der n&auml;chsten Anmeldung wieder zur Verf&uuml;gung.';
-?>
+

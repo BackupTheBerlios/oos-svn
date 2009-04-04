@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -40,4 +40,5 @@ define('MODULE_SHIPPING_ITEM_SORT_ORDER_DESC', 'Reihenfolge der Anzeige');
 $aLang['module_shipping_item_text_title'] = 'Versandkosten pro St&uuml;ck';
 $aLang['module_shipping_item_text_description'] = 'Versandkosten pro St&uuml;ck';
 $aLang['module_shipping_item_text_way'] = '';
-?>
+
+

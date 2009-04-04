@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -49,4 +49,5 @@ $aLang['module_shipping_usps_text_opt_pp'] = 'Parcel Post';
 $aLang['module_shipping_usps_text_opt_pm'] = 'Priority Mail';
 $aLang['module_shipping_usps_text_opt_ex'] = 'Express Mail';
 $aLang['module_shipping_usps_text_error'] = 'Es ist ein Fehler bei der Berechnung der USPS Versandkosten aufgetreten.<br />Wenn Sie USPS als Ihre gew&uuml;nschte Versandart verwenden wollen, nehmen Sie bitte Kontakt mit uns auf.';
-?>
+
+

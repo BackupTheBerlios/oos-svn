@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -35,4 +35,4 @@ $aLang['text_bad'] = '<strong>SCHLECHT</strong>';
 $aLang['text_good'] = '<strong>SEHR GUT</strong>';
 $aLang['error_invalid_product'] = 'Das von Ihnen gew&auml;hlte Produkt wurde nicht gefunden!';
 
-?>
+

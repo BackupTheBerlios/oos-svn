@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -82,4 +82,4 @@ $aLang['js_bank_blz'] = 'Bitte geben Sie die BLZ Ihrer Bank ein!\n';
 $aLang['js_bank_name'] = 'Bitte geben Sie den Namen Ihrer Bank ein!\n';
 $aLang['js_bank_number'] = 'Bitte geben Sie Ihre Kontonummer ein!\n';
 $aLang['js_bank_owner'] = 'Bitte geben Sie den Namen des Kontobesitzers ein!\n';
-?>
+

@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -41,4 +40,5 @@ $aLang['text_new_shipping_address_problem'] = 'Bitte &uuml;berpr&uuml;fen Sie Ih
 
 $aLang['title_continue_checkout_procedure'] = 'Fortsetzung des Bestellvorganges';
 $aLang['text_continue_checkout_procedure'] = 'zur Auswahl der gew&uuml;nschten Versandart.';
-?>
+
+

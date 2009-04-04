@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -16,4 +16,4 @@ $aLang['navbar_title_2'] = 'Erfolg';
 $aLang['heading_title'] = 'Sie wurden aus der Mailingliste ausgetragen!';
 $aLang['text_main'] = '';
 
-?>
+

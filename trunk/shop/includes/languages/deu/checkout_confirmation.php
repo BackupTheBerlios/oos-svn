@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -40,4 +39,5 @@ $aLang['text_edit'] = 'Bearbeiten';
 
 $aLang['heading_conditions_information'] = 'Widerrufsrecht nach dem Fernabsatzgesetz';
 $aLang['heading_conditions_text'] = 'F&uuml;gen Sie hier Ihren Text zum Widerrufsrecht ein.';
-?>
+
+

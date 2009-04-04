@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -16,7 +16,7 @@
 
    Copyright (c) 2002 - 2003 osCommerce
    ----------------------------------------------------------------------
-   Copyright (C) 2001 - 2003 TheMedia, Dipl.-Ing Thomas Pl�nkers
+   Copyright (C) 2001 - 2003 TheMedia, Dipl.-Ing Thomas Plaenkers
        http://www.themedia.at & http://www.oscommerce.at
 
                     All rights reserved.
@@ -57,4 +57,4 @@ define('MODULE_PAYMENT_CASH_ORDER_STATUS_ID_DESC', 'Bestellungen, welche mit die
 $aLang['module_payment_cash_text_description'] = 'Barzahlung';
 $aLang['module_payment_cash_text_title'] = 'Barzahlung';
 
-?>
+

@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -52,4 +51,5 @@ $aLang['ticket_warning_enquiry_too_short'] = 'Fehler: Die Eingaben entsprechen n
 $aLang['ticket_message_updated'] = 'Ihr Ticket wurde aktualisiert';
 
 $aLang['text_view_ticket_login'] = '<a href="%s">Um das Supportticket einzusehen, m&uuml;ssen sie sich zuvor hier einloggen</a>';
-?>
+
+

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -40,4 +40,3 @@ $aLang['module_xmembers_description'] = 'Kundenrabatt';
 $aLang['shipping_not_included'] = ' [Versandkosten nicht enthalten]';
 $aLang['tax_not_included'] = ' [MwSt. nicht enthalten]';
 
-?>

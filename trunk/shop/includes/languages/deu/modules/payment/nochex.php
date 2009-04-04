@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -37,4 +37,4 @@ define('MODULE_PAYMENT_NOCHEX_ORDER_STATUS_ID_DESC', 'Bestellungen, welche mit d
 $aLang['module_payment_nochex_text_title'] = 'NOCHEX';
 $aLang['module_payment_nochex_text_description'] = 'NOCHEX<br />Erfordert die W&auml;hrung GBP.';
 
-?>
+

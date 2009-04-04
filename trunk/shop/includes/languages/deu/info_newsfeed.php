@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -30,4 +29,5 @@ if ($oEvent->installed_plugin('sefu')) {
 $aLang['text_information'] .= '<br /><br /><br />
 <b>PHP Client</b><br />
 <a href="http://download.juretta.com/fase4/" target="_blank">RDF/RSS Klasse</a> Stefan Saasen';
-?>
+
+

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -42,4 +42,3 @@ define('MODULE_PAYMENT_YELLOWPAY_ORDER_STATUS_ID_DESC', 'W&auml;hlen Sie den Sta
 
 $aLang['module_payment_yellowpay_text_title'] = 'PostFinance';
 $aLang['module_payment_yellowpay_text_description'] = 'PostFinance';
-?>

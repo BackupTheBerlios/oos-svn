@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -30,4 +30,3 @@ $aLang['module_order_total_tax_description'] = 'Mehrwertsteuer';
 $aLang['module_order_total_included_tax'] = 'enthaltene ';
 $aLang['module_order_total_ex_tax'] = '+ ';
 
-?>

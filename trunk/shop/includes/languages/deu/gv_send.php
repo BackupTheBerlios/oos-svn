@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -50,4 +50,5 @@ $aLang['email_gv_enter'] = ' und den Gutscheincode eingeben ';
 $aLang['email_gv_fixed_footer'] = 'Falls Sie Probleme haben den Gutschein mit dem automatisierten Link zu benutzen, ' . "\n" . 
                                 'können Sie den Gutscheincode auch bei der Bestellung eingeben, wenn Sie diese an der Kasse beenden.' . "\n\n";
 $aLang['email_gv_shop_footer'] = '';
-?>
+
+

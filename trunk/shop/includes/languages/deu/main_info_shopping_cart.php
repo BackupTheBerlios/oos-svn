@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -28,4 +27,4 @@ $aLang['sub_heading_text_1'] = 'Jeder Besucher unseres Online-Shops bekommt eine
 $aLang['sub_heading_text_2'] = 'Jeder angemeldete Kunde verf&uuml;gt &uuml;ber einen \'Kundenwarenkorb\' zum Einkaufen, mit dem er auch zu einem sp&auml;terem Zeitpunkt den Einkauf beenden kann. Jeder Artikel bleibt darin registriert bis der Kunde zur Kasse geht, oder die Produkte darin l&ouml;scht.';
 $aLang['sub_heading_text_3'] = 'Die Besuchereingaben werden automatisch bei der Registrierung als Kunde in den Kundenwarenkorb &uuml;bernommen.';
 $aLang['text_close_window'] = '<b><u>[Fenster schliessen]</b></u>';
-?>
+

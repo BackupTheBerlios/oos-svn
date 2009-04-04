@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -56,4 +56,4 @@ $aLang['module_payment_2checkout_text_js_cc_number'] = '* Die \'Kreditkarten-Nr.
 $aLang['module_payment_2checkout_text_error_message'] = 'Bei der &Uuml;berp&uuml;fung Ihrer Kreditkarte ist ein Fehler aufgetreten! Bitte versuchen Sie es nochmal.';
 $aLang['module_payment_2checkout_text_error'] = 'Fehler bei der &Uuml;berp&uuml;fung der Kreditkarte!';
 
-?>
+

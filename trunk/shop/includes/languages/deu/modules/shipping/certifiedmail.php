@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -44,4 +44,4 @@ $aLang['module_shipping_certified_mail_text_title'] = '&Uuml;bergabeeinschreiben
 $aLang['module_shipping_certified_mail_text_description'] = '&Uuml;bergabeeinschreiben';
 $aLang['module_shipping_certified_mail_text_way'] = '';
 
-?>
+

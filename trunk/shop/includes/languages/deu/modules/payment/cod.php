@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -35,4 +35,4 @@ define('MODULE_PAYMENT_COD_ORDER_STATUS_ID_DESC', 'Bestellungen, welche mit dies
 $aLang['module_payment_cod_text_title'] = 'Nachnahme';
 $aLang['module_payment_cod_text_description'] = 'Nachnahme';
 
-?>
+

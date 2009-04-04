@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -37,4 +37,5 @@ $aLang['text_global_product_notifications_description_enabled'] = 'Wenn Sie von 
 $aLang['text_product_notifications_list'] = 'Nachfolgend aufgef&uuml;hrt ist eine Liste mit Produkten, &uuml;ber die Sie aktuell informiert werden wollen. Wenn Sie ein oder mehrere Produkte von dieser Liste l&ouml;schen wollen, so w&auml;hlen Sie diese bitte aus und klicken anschliessend auf den Button \'Benachrichtigung l&ouml;schen\'.';
 
 $aLang['text_enable_global_notifications'] = 'Bitte senden Sie mir aktuelle Nachrichten zu allen Produkten';
-?>
+
+

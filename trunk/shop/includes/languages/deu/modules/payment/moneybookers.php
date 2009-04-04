@@ -41,4 +41,4 @@ define('MODULE_PAYMENT_MONEYBOOKERS_LANGUAGE_DESC', 'Die Sprache f&uuml;r die Za
 $aLang['module_payment_moneybookers_text_title'] = 'Moneybookers.com';
 $aLang['module_payment_moneybookers_text_description'] = 'Moneybookers.com';
 
-?>
+

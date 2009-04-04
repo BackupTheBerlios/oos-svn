@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -32,4 +32,3 @@ $aLang['module_shipping_selfpickup_text_title'] = 'Selbstabholung';
 $aLang['module_shipping_selfpickup_text_description'] = 'Selbstabholung der Ware in unserer Gesch&auml;ftsstelle.';
 $aLang['module_shipping_selfpickup_text_way'] = 'Selbstabholung der Ware in unserer Gesch&auml;ftsstelle.';
 
-?>

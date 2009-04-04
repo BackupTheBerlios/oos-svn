@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -50,4 +50,5 @@ $aLang['js_price_from_must_be_num'] = '* Preis ab, muss eine Zahl sein\n';
 $aLang['js_price_to_must_be_num'] = '* Preis bis, muss eine Zahl sein\n';
 $aLang['js_price_to_less_than_price_from'] = '* Preis bis muss größer oder gleich Preis ab sein.\n';
 $aLang['js_invalid_keywords'] = '* Suchbegriff unzulässig\n';
-?>
+
+

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -47,4 +47,4 @@ $aLang['text_password_forgotten'] = 'Sie haben Ihr Passwort vergessen? Dann klic
 $aLang['text_login_error'] = '<strong>FEHLER:</strong> Keine &Uuml;bereinstimmung der eingebenen \'eMail-Adresse\' und/oder dem \'Passwort\'.';
 $aLang['text_visitors_cart'] = '<strong>ACHTUNG:</strong> Ihre Besuchereingaben werden automatisch mit Ihrem Kundenkonto verbunden. <a href="javascript:session_win(\'' . oos_href_link($aModules['main'], $aFilename['info_shopping_cart']) . '\');">[Mehr Information]</a>';
 
-?>
+

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -38,4 +38,4 @@ $aLang['module_payment_moneyorder_text_title'] = 'Scheck/Vorkasse';
 $aLang['module_payment_moneyorder_text_description'] = 'Zahlbar an:&nbsp;' . MODULE_PAYMENT_MONEYORDER_PAYTO . '<br />Adressat:<br /><br />' . nl2br(STORE_NAME_ADDRESS) . '<br /><br />' . 'Die Ware wird ausgeliefert wenn der Betrag auf unserem Konto eingegangen ist.';
 $aLang['module_payment_moneyorder_text_email_footer'] = "Zahlbar an: ". MODULE_PAYMENT_MONEYORDER_PAYTO . "\n\nAdressat:\n" . STORE_NAME_ADDRESS . "\n\n" . 'Die Ware wird ausgeliefert wenn der Betrag auf unserem Konto eingegangen ist.';
 
-?>
+

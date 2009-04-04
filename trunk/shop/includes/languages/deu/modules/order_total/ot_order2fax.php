@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -41,4 +41,3 @@ define('MODULE_ORDER_TOTAL_ORDER2FAX_SORT_ORDER_DESC', 'Reihenfolge der Anzeige.
 $aLang['module_order_total_order2fax_text_title'] = 'Bestellung per Fax';
 $aLang['module_order_total_order2fax_text_description'] = 'versendet eingehende Bestellungen per Fax (ein mail2fax Gateway Account erforderlich!)';
 
-?>

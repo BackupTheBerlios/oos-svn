@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -40,4 +40,3 @@ $aLang['module_order_total_shipping_description'] = 'Versandkosten einer Bestell
 $aLang['free_shipping_title'] = 'Versandkostenfrei';
 $aLang['free_shipping_description'] = 'Versandkostenfrei bei einem Bestellwert &uuml;ber %s';
 
-?>

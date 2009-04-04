@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -30,4 +29,5 @@ $aLang['sub_heading_text_1'] = 'Die \'Automatische Anmeldung\' sorgt daf&uuml;r,
 $aLang['sub_heading_text_2'] = 'Ihr Passwort wird nur verschl&uuml;sselt an den Shop &uuml;bertragen. Ein Abfangen ist also nicht m&ouml;glich. Ihr Passwort wird in einem sogenanten Cookie auf Ihrem Rechner gespeichert. <br /><b>Hinweis:</b> Falls Sie Ihren Computer mit anderen Personen gemeinsam nutzen oder einen &ouml;ffentlichen Computer verwenden, sollten Sie sich aus Sicherheitsgr&uuml;nden immer ausloggen, wenn Sie Ihren Besuch beenden.';
 $aLang['sub_heading_text_3'] = 'Die Benutzung der \'Automatischen Anmeldung\' steht Ihnen frei und ist nicht zwingend notwendig, wenn Sie diese Option nicht benutzen wollen, k&ouml;nnen Sie sich selbstverst&auml;ndlich bei jedem Besuch von %s erneut anmelden.';
 $aLang['text_close_window'] = '[ Fenster schlie&szlig;en ]';
-?>
+
+

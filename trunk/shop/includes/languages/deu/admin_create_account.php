@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -30,4 +29,4 @@ $aLang['navbar_title'] = 'Konto erstellen';
 $aLang['heading_title'] = 'Die pers&ouml;nlichen Daten';
 $aLang['TEXT_ORIGIN_LOGIN'] = '<font color="#FF0000"><small><b>ACHTUNG:</b></font></small> Wenn Sie bereits ein Konto besitzen, so melden Sie sich bitte <a href="%s"><u><b>hier</b></u></a> an.';
 
-?>
+

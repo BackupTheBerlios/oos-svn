@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -50,4 +49,4 @@ $aLang['OWNER_EMAIL_NEWSLETTER_YES'] = 'abonniert';
 $aLang['OWNER_EMAIL_NEWSLETTER_NO'] = 'nicht abonniert';
 $aLang['EMAIL_SEPARATOR'] = '------------------------------------------------------';
 
-?>
+

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -67,8 +67,8 @@ $aLang['module_payment_eu_banktransfer_text_description'] = '<br />Die einfachst
                                                             '<br /><br />Die Ware wird ausgeliefert wenn der Betrag auf unserem Konto eingegangen ist.<br />';
 
 
-$aLang['module_payment_eu_banktransfer_email_footer'] = 'Die einfachste Zahlungsmethode innerhalb der EU ist die Überweisung mittels IBAN und BIC.' .
-                                                        'Bitte verwenden Sie folgende Daten für die Überweisung des Gesamtbetrages:' . "\n\n" .
+$aLang['module_payment_eu_banktransfer_email_footer'] = 'Die einfachste Zahlungsmethode innerhalb der EU ist die ï¿½berweisung mittels IBAN und BIC.' .
+                                                        'Bitte verwenden Sie folgende Daten fï¿½r die ï¿½berweisung des Gesamtbetrages:' . "\n\n" .
                                                         'Name der Bank: ' . MODULE_PAYMENT_EU_BANKTRANSFER_BANKNAME . "\n" .
                                                         'Kontoname: ' . MODULE_PAYMENT_EU_BANKTRANSFER_KONTONAME . "\n" .
                                                         'Kontonummer: ' . MODULE_PAYMENT_EU_BANKTRANSFER_KONTONUM . "\n" .
@@ -77,4 +77,4 @@ $aLang['module_payment_eu_banktransfer_email_footer'] = 'Die einfachste Zahlungs
                                                         'Die Ware wird ausgeliefert wenn der Betrag auf unserem Konto eingegangen ist.';
 
 
-?>
+

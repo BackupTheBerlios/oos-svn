@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -36,4 +36,3 @@ $aLang['text_no_entries_in_address_book'] = 'Sie haben noch keine Eintr&auml;ge 
 $aLang['text_maximum_entries'] = '<strong>Hinweis:</strong> Ihnen stehen %s Adressbucheintr&auml;ge zur Verf&uuml;gung!';
 $aLang['text_maximum_entries_reached'] = '<strong>ACHTUNG:</strong> Sie haben die maximale Anzahl (%s) an Adressbucheintr&auml;gen erreicht!';
 
-?>

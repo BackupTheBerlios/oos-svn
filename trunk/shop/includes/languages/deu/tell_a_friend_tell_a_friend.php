@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -39,4 +39,5 @@ $aLang['text_email_subject'] = 'Ihr Freund %s, hat dieses Produkt gefunden, und 
 $aLang['text_email_intro'] = 'Hallo %s!' . "\n\n" . 'Ihr Freund, %s, hat dieses Produkt %s bei %s gefunden.';
 $aLang['text_email_link'] = 'Um das Produkt anzusehen, klicken Sie bitte auf den Link oder kopieren diesen und fügen Sie ihn in der Adress-Zeile Ihres Browsers ein:' . "\n\n" . '%s';
 $aLang['text_email_signature'] = 'Mit freundlichen Grüssen,' . "\n\n" . '%s';
-?>
+
+

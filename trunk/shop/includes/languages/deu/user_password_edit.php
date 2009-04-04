@@ -19,4 +19,4 @@ $aLang['navbar_title_1'] = 'Ihr Konto';
 $aLang['navbar_title_2'] = 'Ihre pers&ouml;nliche Daten &auml;ndern';
 $aLang['heading_title'] = 'Ihre pers&ouml;nliche Daten &auml;ndern:';
 
-?>
+

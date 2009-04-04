@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -28,4 +28,3 @@ define('MODULE_ORDER_TOTAL_TOTAL_SORT_ORDER_DESC', 'Reihenfolge der Anzeige. Kle
 $aLang['module_order_total_total_title'] = '<b>Summe</b>';
 $aLang['module_order_total_total_description'] = 'Summe der Bestellung';
 
-?>

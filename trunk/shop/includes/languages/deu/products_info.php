@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -46,4 +46,5 @@ $aLang['table_heading_buy_now'] = 'Bestellen';
 // modules/slavery_listing.php
 $aLang['text_buy'] = '1 x \'';
 $aLang['text_now'] = '\' bestellen!';
-?>
+
+

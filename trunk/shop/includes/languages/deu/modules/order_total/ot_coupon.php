@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -55,4 +55,3 @@ $aLang['redeemed_min_order'] = 'f&uuml;r Waren &uuml;ber ';
 $aLang['redeemed_restrictions'] = ' [Artikel / Kategorie Einschr&auml;nkungen]';
 $aLang['text_enter_coupon_code'] = 'Gutscheincode&nbsp;&nbsp;';
 
-?>

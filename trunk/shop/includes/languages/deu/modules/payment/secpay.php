@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -47,4 +47,4 @@ $aLang['module_payment_secpay_text_description'] = 'Kreditkarten Test Info:<br /
 $aLang['module_payment_secpay_text_error'] = 'Fehler bei der &Uuml;berp&uuml;fung der Kreditkarte!';
 $aLang['module_payment_secpay_text_error_message'] = 'Bei der &Uuml;berp&uuml;fung Ihrer Kreditkarte ist ein Fehler aufgetreten! Bitte versuchen Sie es nochmal.';
 
-?>
+

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -59,4 +59,4 @@ $aLang['module_payment_authorizenet_text_error_message'] = 'Bei der &Uuml;berp&u
 $aLang['module_payment_authorizenet_text_declined_message'] = 'Ihre Kreditkarte wurde abgelehnt. Bitte versuchen Sie es mit einer anderen Karte oder kontaktieren Sie Ihre Bank f&uuml;r weitere Informationen.';
 $aLang['module_payment_authorizenet_text_error'] = 'Fehler bei der &Uuml;berp&uuml;fung der Kreditkarte!';
 
-?>
+

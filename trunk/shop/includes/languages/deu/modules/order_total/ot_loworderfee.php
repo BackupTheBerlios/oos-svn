@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -43,4 +43,3 @@ define('MODULE_ORDER_TOTAL_LOWORDERFEE_TAX_CLASS_DESC', 'Folgende Steuerklasse f
 $aLang['module_order_total_loworderfee_title'] = 'Mindermengenzuschlag';
 $aLang['module_order_total_loworderfee_description'] = 'Zuschlag bei Unterschreitung des Mindestbestellwertes';
 
-?>

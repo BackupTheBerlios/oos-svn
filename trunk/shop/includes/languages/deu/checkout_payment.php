@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -42,4 +42,5 @@ $aLang['text_continue_checkout_procedure'] = 'zur Best&auml;tigung Ihrer Bestell
 $aLang['heading_conditions_information'] = 'Allgemeine Gesch&auml;fts- und Lieferbedingungen';
 $aLang['text_conditions_confirm'] = 'Ich akzeptiere Ihre allgemeinen Gesch&auml;fts- und Lieferbedingungen';
 $aLang['text_conditions_download'] = 'AGB herunterladen';
-?>
+
+

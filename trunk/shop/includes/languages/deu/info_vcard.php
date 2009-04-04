@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -33,4 +32,5 @@ define('TEXT_VCARD_CITY_WORK','');
 define('TEXT_VCARD_REGION_WORK','');
 define('TEXT_VCARD_ZIP_WORK','');
 define('TEXT_VCARD_COUNTRY_WORK','');
-?>
+
+

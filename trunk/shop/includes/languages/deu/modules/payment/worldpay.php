@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -59,4 +59,4 @@ $aLang['module_payment_worldpay_text_description'] = 'Worldpay Payment Module';
 $aLang['module_payment_worldpay_text_error'] = '<font color="#FF0000">FEHLER: </font>';
 $aLang['module_payment_worldpay_text_error_1'] = '... Your payment has been cancelled!';
 
-?>
+

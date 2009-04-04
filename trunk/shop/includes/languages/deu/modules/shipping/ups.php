@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -55,4 +55,5 @@ $aLang['module_shipping_ups_text_opt_std'] = 'Canada Standard';
 $aLang['module_shipping_ups_text_opt_xpr'] = 'Worldwide Express';
 $aLang['module_shipping_ups_text_opt_xdm'] = 'Worldwide Express Plus';
 $aLang['module_shipping_ups_text_opt_xpd'] = 'Worldwide Expedited';
-?>
+
+

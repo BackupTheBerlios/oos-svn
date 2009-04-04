@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -34,4 +34,3 @@ define('MODULE_PAYMENT_INVOICE_ORDER_STATUS_ID_DESC', 'Bestellungen, welche mit 
 $aLang['module_payment_invoice_text_description'] = 'Rechnung';
 $aLang['module_payment_invoice_text_title'] = 'Rechnung';
 
-?>

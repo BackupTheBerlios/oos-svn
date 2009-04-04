@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -97,5 +97,5 @@ $aLang['module_payment_cc_text_js_cc_cvv'] = '* Der CVV Sicherheitscode ist ein 
 $aLang['module_payment_cc_text_error'] = 'Fehler bei der &Uuml;berp&uuml;fung der Kreditkarte!';
 $aLang['text_card_not_aczepted'] = 'Die Zahlung mit einer <b>%s</b> Karte ist nicht m&ouml;glich, bitte verwenden Sie eine andere Karte!<br />Folgende Karten werden von uns Akzeptiert: ';
 
-?>
+
 
