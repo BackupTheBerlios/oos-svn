@@ -1,4 +1,29 @@
 <?php
+/* ----------------------------------------------------------------------
+   $Id: oos_counter.php 120 2009-03-28 08:37:06Z r23 $
+
+   OOS [OSIS Online Shop]
+   http://www.oos-shop.de/
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   ----------------------------------------------------------------------
+   Based on:
+
+   File: GalleryUtilities Revision: 17582
+   ----------------------------------------------------------------------
+   Gallery - a web based photo album viewer and editor
+   http://gallery.menalto.com/
+
+   Copyright (C) 2000-2008 Bharat Mediratta
+   ----------------------------------------------------------------------
+   Released under the GNU General Public License
+   ---------------------------------------------------------------------- */
+
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
+
+
 /*
  * Gallery - a web based photo album viewer and editor
  * Copyright (C) 2000-2008 Bharat Mediratta
@@ -30,7 +55,7 @@
  * @package GalleryCore
  * @subpackage Classes
  * @author Bharat Mediratta <bharat@menalto.com>
- * @version $Revision: 17582 $
+ * @version Revision: 17582
  * @static
  */
 class GalleryUtilities {
