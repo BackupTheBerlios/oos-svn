@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: GalleryUtilities Revision: 17582
+   File: MyOOS_Utilities Revision: 17582
    ----------------------------------------------------------------------
    Gallery - a web based photo album viewer and editor
    http://gallery.menalto.com/
@@ -47,7 +47,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  * A collection of useful utilities that have no obvious home.
  *
  * All of these utilities should be accessed in a static sense, ie.
- *   GalleryUtilities::getFileExtension($filename);
+ *   MyOOS_Utilities::getFileExtension($filename);
  *
  * Try not to jam too many methods into this class.  Only put methods here if they are of obvious
  * value to the class layer and there's no other home for them.
@@ -58,7 +58,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  * @version Revision: 17582
  * @static
  */
-class GalleryUtilities {
+class MyOOS_Utilities {
 
     /**
      * Get the type of the file from its filename.
@@ -68,23 +68,24 @@ class GalleryUtilities {
      * @param string $filename
      * @return array the file basename, the file extension
      */
-    function getFileNameComponents($filename) {
+    function getFileNameComponents($filename)
+    {
 
-	$pos = strrpos($filename, '.');
+        $pos = strrpos($filename, '.');
 
-	/* No dot == it's all base, no extension */
-	if ($pos === false) {
-	    return array($filename, '');
-	}
+        /* No dot == it's all base, no extension */
+        if ($pos === false) {
+            return array($filename, '');
+        }
 
-	$pos++;
+        $pos++;
 
-	/* If it's the last char in the name, just return the base */
-	if ($pos >= strlen($filename)) {
-	    return array(substr($filename, 0, $pos - 1), '');
-	}
+        /* If it's the last char in the name, just return the base */
+        if ($pos >= strlen($filename)) {
+            return array(substr($filename, 0, $pos - 1), '');
+        }
 
-	return array(substr($filename, 0, $pos - 1), substr($filename, $pos));
+        return array(substr($filename, 0, $pos - 1), substr($filename, $pos));
     }
 
     /**
@@ -94,9 +95,10 @@ class GalleryUtilities {
      * @param string $filename
      * @return array the file extension
      */
-    function getFileExtension($filename) {
-	list ($base, $extension) = GalleryUtilities::getFileNameComponents($filename);
-	return $extension;
+    function getFileExtension($filename)
+    {
+        list ($base, $extension) = MyOOS_Utilities::getFileNameComponents($filename);
+        return $extension;
     }
 
     /**
@@ -106,9 +108,10 @@ class GalleryUtilities {
      * @param string $filename
      * @return array the file base
      */
-    function getFileBase($filename) {
-	list ($base, $extension) = GalleryUtilities::getFileNameComponents($filename);
-	return $base;
+    function getFileBase($filename)
+    {
+        list ($base, $extension) = MyOOS_Utilities::getFileNameComponents($filename);
+        return $base;
     }
 
     /**
@@ -117,27 +120,28 @@ class GalleryUtilities {
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      * @return array file data
      */
-    function getFile($key, $prefix=true) {
-	$file = array();
-	if ($prefix) {
-	    $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
-	}
-	if (isset($_FILES[$key])) {
-	    /*
-	     * Later during our sanitization process we call stripslashes on our file name.  But it
-	     * may legitimately have backslashes in it (eg. c:\apache\tmp\php195.jpg), so make sure
-	     * those are escaped at this time.  There's gotta be a better way to handle this.
-	     */
-	    $file = $_FILES[$key];
-	    if (get_magic_quotes_gpc()) {
-		$file['tmp_name'] = addslashes($file['tmp_name']);
-	    }
+    function getFile($key, $prefix=true)
+    {
+        $file = array();
+        if ($prefix) {
+            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+        }
+        if (isset($_FILES[$key])) {
+            /*
+             * Later during our sanitization process we call stripslashes on our file name.  But it
+             * may legitimately have backslashes in it (eg. c:\apache\tmp\php195.jpg), so make sure
+             * those are escaped at this time.  There's gotta be a better way to handle this.
+             */
+            $file = $_FILES[$key];
+            if (get_magic_quotes_gpc()) {
+                $file['tmp_name'] = addslashes($file['tmp_name']);
+            }
 
-	    /* Perform any necessary transformations on our values */
-	    GalleryUtilities::sanitizeInputValues($file);
-	}
+            /* Perform any necessary transformations on our values */
+            MyOOS_Utilities::sanitizeInputValues($file);
+        }
 
-	return $file;
+        return $file;
     }
 
     /**
@@ -146,38 +150,39 @@ class GalleryUtilities {
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      * @return array key value pairs
      */
-    function getFormVariables($key, $prefix=true) {
-	if ($prefix) {
-	    $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
-	}
-	$form = array();
-	if (isset($_POST[$key]) && is_array($_POST[$key])) {
-	    $form = $_POST[$key];
-	}
+    function getFormVariables($key, $prefix=true)
+    {
+        if ($prefix) {
+            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+        }
+        $form = array();
+        if (isset($_POST[$key]) && is_array($_POST[$key])) {
+            $form = $_POST[$key];
+        }
 
-	if (isset($_FILES[$key]) && is_array($_FILES[$key])) {
-	    /*
-	     * Later during our sanitization process we call stripslashes on our file name.  But it
-	     * may legitimately have backslashes in it (eg. c:\apache\tmp\php195.jpg), so make sure
-	     * those are escaped at this time.  There's gotta be a better way to handle this.
-	     */
-	    $postForm = $_FILES[$key];
-	    if (get_magic_quotes_gpc()) {
-		foreach ($postForm['tmp_name'] as $i => $unused) {
-		    $postForm['tmp_name'][$i] = addslashes($postForm['tmp_name'][$i]);
-		}
-	    }
-	    $form = GalleryUtilities::array_merge_replace($form, $postForm);
-	}
+        if (isset($_FILES[$key]) && is_array($_FILES[$key])) {
+            /*
+             * Later during our sanitization process we call stripslashes on our file name.  But it
+             * may legitimately have backslashes in it (eg. c:\apache\tmp\php195.jpg), so make sure
+             * those are escaped at this time.  There's gotta be a better way to handle this.
+             */
+            $postForm = $_FILES[$key];
+            if (get_magic_quotes_gpc()) {
+                foreach ($postForm['tmp_name'] as $i => $unused) {
+                    $postForm['tmp_name'][$i] = addslashes($postForm['tmp_name'][$i]);
+                }
+            }
+            $form = MyOOS_Utilities::array_merge_replace($form, $postForm);
+        }
 
-	if (isset($_GET[$key]) && is_array($_GET[$key])) {
-	    $form = GalleryUtilities::array_merge_replace($form, $_GET[$key]);
-	}
+        if (isset($_GET[$key]) && is_array($_GET[$key])) {
+            $form = MyOOS_Utilities::array_merge_replace($form, $_GET[$key]);
+        }
 
-	/* Perform any necessary transformations on our values */
-	GalleryUtilities::sanitizeInputValues($form);
+        /* Perform any necessary transformations on our values */
+        MyOOS_Utilities::sanitizeInputValues($form);
 
-	return $form;
+        return $form;
     }
 
     /**
@@ -186,21 +191,22 @@ class GalleryUtilities {
      * @param boolean $prefix (optional) if true, remove form variable prefix from keys in result
      * @return array unsanitized key value pairs
      */
-    function getUrlVariablesFiltered($skip=array(), $prefix=false) {
-	$filter = array();
-	foreach ($skip as $key) {
-	    $filter[GALLERY_FORM_VARIABLE_PREFIX . $key] = true;
-	}
+    function getUrlVariablesFiltered($skip=array(), $prefix=false)
+    {
+        $filter = array();
+        foreach ($skip as $key) {
+            $filter[GALLERY_FORM_VARIABLE_PREFIX . $key] = true;
+        }
 
-	$values = array();
-	$prefixLength = strlen(GALLERY_FORM_VARIABLE_PREFIX);
-	foreach ($_GET as $key => $value) {
-	    if (empty($filter[$key])) {
-		$values[$prefix ? substr($key, $prefixLength) : $key] = $value;
-	    }
-	}
+        $values = array();
+        $prefixLength = strlen(GALLERY_FORM_VARIABLE_PREFIX);
+        foreach ($_GET as $key => $value) {
+            if (empty($filter[$key])) {
+                $values[$prefix ? substr($key, $prefixLength) : $key] = $value;
+            }
+        }
 
-	return $values;
+        return $values;
     }
 
     /**
@@ -216,27 +222,28 @@ class GalleryUtilities {
      * @author Tobias Tom <t.tom@succont.de>
      * @todo Verify that both arguments are arrays.
      */
-    function array_merge_replace($array, $newValues) {
-	foreach ($newValues as $key => $value) {
-	    if (is_array($value)) {
-		if (!isset($array[$key])) {
-		    $array[$key] = array();
-		}
-		$array[$key] = GalleryUtilities::array_merge_replace($array[$key], $value);
-	    } else {
-		if (isset($array[$key]) && is_array($array[$key])) {
-		    $array[$key][0] = $value;
-		} else {
-		    if (isset($array) && !is_array($array)) {
-			$temp = $array;
-			$array = array();
-			$array[0] = $temp;
-		    }
-		    $array[$key] = $value;
-		}
-	    }
-	}
-	return $array;
+    function array_merge_replace($array, $newValues)
+    {
+        foreach ($newValues as $key => $value) {
+            if (is_array($value)) {
+                if (!isset($array[$key])) {
+                    $array[$key] = array();
+                }
+                $array[$key] = MyOOS_Utilities::array_merge_replace($array[$key], $value);
+            } else {
+                if (isset($array[$key]) && is_array($array[$key])) {
+                    $array[$key][0] = $value;
+                } else {
+                    if (isset($array) && !is_array($array)) {
+                        $temp = $array;
+                        $array = array();
+                        $array[0] = $temp;
+                    }
+                    $array[$key] = $value;
+                }
+            }
+        }
+        return $array;
     }
 
     /**
@@ -244,14 +251,15 @@ class GalleryUtilities {
      * @param string $key
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      */
-    function removeFormVariables($key, $prefix=true) {
-	/* Remove all matching GET and POST variables */
-	if ($prefix) {
-	    $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
-	}
-	unset($_POST[$key]);
-	unset($_FILES[$key]);
-	unset($_GET[$key]);
+    function removeFormVariables($key, $prefix=true)
+    {
+        /* Remove all matching GET and POST variables */
+        if ($prefix) {
+            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+        }
+        unset($_POST[$key]);
+        unset($_FILES[$key]);
+        unset($_GET[$key]);
     }
 
     /**
@@ -260,45 +268,47 @@ class GalleryUtilities {
      * @param one or more string parameters
      * @return mixed a single string value or many values
      */
-    function getRequestVariables() {
-	$values = array();
-	foreach (func_get_args() as $argName) {
-	    $values[] = GalleryUtilities::_getRequestVariable(
-		GALLERY_FORM_VARIABLE_PREFIX . $argName);
-	}
+    function getRequestVariables()
+    {
+        $values = array();
+        foreach (func_get_args() as $argName) {
+            $values[] = MyOOS_Utilities::_getRequestVariable(
+            GALLERY_FORM_VARIABLE_PREFIX . $argName);
+        }
 
-	/* Sanitize the input */
-	GalleryUtilities::sanitizeInputValues($values);
+        /* Sanitize the input */
+        MyOOS_Utilities::sanitizeInputValues($values);
 
-	if (func_num_args() == 1) {
-	    return array_shift($values);
-	}
-	return $values;
+        if (func_num_args() == 1) {
+            return array_shift($values);
+        }
+        return $values;
     }
 
     /**
      * Return all request variables with the Gallery variable prefix.
      * @return array request variable name => value
      */
-    function getAllRequestVariables() {
-	$values = array();
-	$prefixLength = strlen(GALLERY_FORM_VARIABLE_PREFIX);
-	foreach ($_POST as $key => $value) {
-	    if (substr($key, 0, $prefixLength) == GALLERY_FORM_VARIABLE_PREFIX) {
-		$values[substr($key, $prefixLength)] = $value;
-	    }
-	}
+    function getAllRequestVariables()
+    {
+        $values = array();
+        $prefixLength = strlen(GALLERY_FORM_VARIABLE_PREFIX);
+        foreach ($_POST as $key => $value) {
+            if (substr($key, 0, $prefixLength) == GALLERY_FORM_VARIABLE_PREFIX) {
+                $values[substr($key, $prefixLength)] = $value;
+            }
+        }
 
-	foreach ($_GET as $key => $value) {
-	    if (substr($key, 0, $prefixLength) == GALLERY_FORM_VARIABLE_PREFIX) {
-		$values[substr($key, $prefixLength)] = $value;
-	    }
-	}
+        foreach ($_GET as $key => $value) {
+            if (substr($key, 0, $prefixLength) == GALLERY_FORM_VARIABLE_PREFIX) {
+                $values[substr($key, $prefixLength)] = $value;
+            }
+        }
 
-	/* Sanitize the input */
-	GalleryUtilities::sanitizeInputValues($values);
+        /* Sanitize the input */
+        MyOOS_Utilities::sanitizeInputValues($values);
 
-	return $values;
+        return $values;
     }
 
     /**
@@ -308,19 +318,20 @@ class GalleryUtilities {
      * @param one or more string parameters
      * @return mixed a single string value or many values
      */
-    function getRequestVariablesNoPrefix() {
-	$values = array();
-	foreach (func_get_args() as $argName) {
-	    $values[] = GalleryUtilities::_getRequestVariable($argName);
-	}
+    function getRequestVariablesNoPrefix()
+    {
+        $values = array();
+        foreach (func_get_args() as $argName) {
+            $values[] = MyOOS_Utilities::_getRequestVariable($argName);
+        }
 
-	/* Sanitize the input */
-	GalleryUtilities::sanitizeInputValues($values);
+        /* Sanitize the input */
+        MyOOS_Utilities::sanitizeInputValues($values);
 
-	if (func_num_args() == 1) {
-	    return array_shift($values);
-	}
-	return $values;
+        if (func_num_args() == 1) {
+            return array_shift($values);
+        }
+        return $values;
     }
 
     /**
@@ -329,17 +340,18 @@ class GalleryUtilities {
      * @param string $value
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      */
-    function putRequestVariable($key, $value, $prefix=true) {
-	if ($prefix) {
-	    $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
-	}
+    function putRequestVariable($key, $value, $prefix=true)
+    {
+        if ($prefix) {
+            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+    }
 
-	/* Simulate the damage caused by magic_quotes */
-	GalleryUtilities::unsanitizeInputValues($key);
-	GalleryUtilities::unsanitizeInputValues($value);
+        /* Simulate the damage caused by magic_quotes */
+        MyOOS_Utilities::unsanitizeInputValues($key);
+        MyOOS_Utilities::unsanitizeInputValues($value);
 
-	$keyPath = preg_split('/[\[\]]/', $key, -1, PREG_SPLIT_NO_EMPTY);
-	GalleryUtilities::_internalPutRequestVariable($keyPath, $value, $_GET);
+        $keyPath = preg_split('/[\[\]]/', $key, -1, PREG_SPLIT_NO_EMPTY);
+        MyOOS_Utilities::_internalPutRequestVariable($keyPath, $value, $_GET);
     }
 
     /**
@@ -352,14 +364,15 @@ class GalleryUtilities {
      * @param mixed $value
      * @param array $array the destination
      */
-    function _internalPutRequestVariable($keyPath, $value, &$array) {
-	$key = array_shift($keyPath);
-	while (!empty($keyPath)) {
-	    $array =& $array[$key];
-	    $key = array_shift($keyPath);
-	}
+    function _internalPutRequestVariable($keyPath, $value, &$array)
+    {
+        $key = array_shift($keyPath);
+        while (!empty($keyPath)) {
+            $array =& $array[$key];
+            $key = array_shift($keyPath);
+        }
 
-	$array[$key] = $value;
+        $array[$key] = $value;
     }
 
     /**
@@ -367,12 +380,13 @@ class GalleryUtilities {
      * @param string $key
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      */
-    function hasRequestVariable($key, $prefix=true) {
-	if ($prefix) {
-	    $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
-	}
-	$value = GalleryUtilities::_getRequestVariable($key);
-	return !empty($value);
+    function hasRequestVariable($key, $prefix=true)
+    {
+        if ($prefix) {
+            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+        }
+        $value = MyOOS_Utilities::_getRequestVariable($key);
+        return !empty($value);
     }
 
     /**
@@ -380,13 +394,14 @@ class GalleryUtilities {
      * @param string $key
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      */
-    function removeRequestVariable($key, $prefix=true) {
-	if ($prefix) {
-	    $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
-	}
-	$keyPath = preg_split('/[\[\]]/', $key, -1, PREG_SPLIT_NO_EMPTY);
-	GalleryUtilities::_internalRemoveRequestVariable($keyPath, $_GET);
-	GalleryUtilities::_internalRemoveRequestVariable($keyPath, $_POST);
+    function removeRequestVariable($key, $prefix=true)
+    {
+        if ($prefix) {
+            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+        }
+        $keyPath = preg_split('/[\[\]]/', $key, -1, PREG_SPLIT_NO_EMPTY);
+        MyOOS_Utilities::_internalRemoveRequestVariable($keyPath, $_GET);
+        MyOOS_Utilities::_internalRemoveRequestVariable($keyPath, $_POST);
     }
 
     /**
@@ -398,18 +413,19 @@ class GalleryUtilities {
      * @param array $array the source
      * @access private
      */
-    function _internalRemoveRequestVariable($keyPath, &$array) {
-	$key = array_shift($keyPath);
-	while (!empty($keyPath)) {
-	    if (empty($array[$key])) {
-		return null;
-	    }
+    function _internalRemoveRequestVariable($keyPath, &$array)
+    {
+        $key = array_shift($keyPath);
+        while (!empty($keyPath)) {
+            if (empty($array[$key])) {
+                return null;
+            }
 
-	    $array =& $array[$key];
-	    $key = array_shift($keyPath);
-	}
+            $array =& $array[$key];
+            $key = array_shift($keyPath);
+        }
 
-	unset($array[$key]);
+        unset($array[$key]);
     }
 
     /**
@@ -417,8 +433,9 @@ class GalleryUtilities {
      * @param string $key form variable name
      * @return string prefixed form variable name
      */
-    function prefixFormVariable($key) {
-	return GALLERY_FORM_VARIABLE_PREFIX . $key;
+    function prefixFormVariable($key)
+    {
+        return GALLERY_FORM_VARIABLE_PREFIX . $key;
     }
 
     /**
@@ -426,20 +443,21 @@ class GalleryUtilities {
      * @param int $count the number of markers to return
      * @return string
      */
-    function makeMarkers($count, $markerFragment='?') {
-	if (is_array($count)) {
-	    $count = count($count);
-	}
+    function makeMarkers($count, $markerFragment='?')
+    {
+        if (is_array($count)) {
+            $count = count($count);
+        }
 
-	$markers = '';
-	if ($count > 1) {
-	    $markers = str_repeat($markerFragment . ',', $count - 1);
-	}
-	if ($count != 0) {
-	    $markers .= $markerFragment;
-	}
+        $markers = '';
+        if ($count > 1) {
+            $markers = str_repeat($markerFragment . ',', $count - 1);
+        }
+        if ($count != 0) {
+            $markers .= $markerFragment;
+        }
 
-	return $markers;
+        return $markers;
     }
 
     /**
@@ -452,25 +470,26 @@ class GalleryUtilities {
      * @param array $options (optional) options to pass to UrlGenerator
      * @return string a URL
      */
-    function convertPathToUrl($path, $options=array()) {
-	global $gallery;
-	$platform =& $gallery->getPlatform();
-	$dirbase = $platform->realpath(dirname(__FILE__) . '/../../..') . '/';
+    function convertPathToUrl($path, $options=array())
+    {
+        global $gallery;
+        $platform =& $gallery->getPlatform();
+        $dirbase = $platform->realpath(dirname(__FILE__) . '/../../..') . '/';
 
-	/*
-	 * Factor the Gallery code base out of the path, accounting for differences in directory
-	 * separators between platforms
-	 */
-	$slash = $platform->getDirectorySeparator();
-	if ($slash != '/') {
-	    $dirbase = str_replace($slash, '/', $dirbase);
-	    $path = str_replace($slash, '/', $path);
-	}
-	$relativePath = str_replace($dirbase, '', $path);
+        /*
+         * Factor the Gallery code base out of the path, accounting for differences in directory
+         * separators between platforms
+         */
+        $slash = $platform->getDirectorySeparator();
+        if ($slash != '/') {
+            $dirbase = str_replace($slash, '/', $dirbase);
+            $path = str_replace($slash, '/', $path);
+        }
+        $relativePath = str_replace($dirbase, '', $path);
 
-	/* Prepend the Gallery base URL */
-	$urlGenerator =& $gallery->getUrlGenerator();
-	return $urlGenerator->generateUrl(array('href' => $relativePath), $options);
+        /* Prepend the Gallery base URL */
+        $urlGenerator =& $gallery->getUrlGenerator();
+        return $urlGenerator->generateUrl(array('href' => $relativePath), $options);
     }
 
     /**
@@ -483,15 +502,16 @@ class GalleryUtilities {
      * @param int $targetHeight (optional) target height, defaults to same as width
      * @return array(width, height)
      */
-    function shrinkDimensionsToFit($width, $height, $targetWidth, $targetHeight=null) {
-	if (!isset($targetHeight)) {
-	    $targetHeight = $targetWidth;
-	}
-	if ($width > $targetWidth || $height > $targetHeight) {
-	    list ($width, $height) = GalleryUtilities::scaleDimensionsToFit(
-					    $width, $height, $targetWidth, $targetHeight);
-	}
-	return array($width, $height);
+    function shrinkDimensionsToFit($width, $height, $targetWidth, $targetHeight=null)
+    {
+        if (!isset($targetHeight)) {
+            $targetHeight = $targetWidth;
+        }
+        if ($width > $targetWidth || $height > $targetHeight) {
+            list ($width, $height) = MyOOS_Utilities::scaleDimensionsToFit(
+                            $width, $height, $targetWidth, $targetHeight);
+        }
+        return array($width, $height);
     }
 
     /**
@@ -502,19 +522,20 @@ class GalleryUtilities {
      * @param int $targetHeight (optional) target height, defaults to same as width
      * @return array(width, height)
      */
-    function scaleDimensionsToFit($width, $height, $targetWidth, $targetHeight=null) {
-	if (!isset($targetHeight)) {
-	    $targetHeight = $targetWidth;
-	}
-	$aspect = $height / $width;
-	if ($aspect < $targetHeight / $targetWidth) {
-	    $width = (int)$targetWidth;
-	    $height = (int)round($targetWidth * $aspect);
-	} else {
-	    $width = (int)round($targetHeight / $aspect);
-	    $height = (int)$targetHeight;
-	}
-	return array($width, $height);
+    function scaleDimensionsToFit($width, $height, $targetWidth, $targetHeight=null)
+    {
+        if (!isset($targetHeight)) {
+            $targetHeight = $targetWidth;
+        }
+        $aspect = $height / $width;
+        if ($aspect < $targetHeight / $targetWidth) {
+            $width = (int)$targetWidth;
+            $height = (int)round($targetWidth * $aspect);
+        } else {
+            $width = (int)round($targetHeight / $aspect);
+            $height = (int)$targetHeight;
+        }
+        return array($width, $height);
     }
 
     /**
@@ -524,8 +545,9 @@ class GalleryUtilities {
      * @param int $precision defaults to zero
      * @return string rounded value
      */
-    function roundToString($floatValue, $precision=0) {
-	return str_replace(',', '.', round($floatValue, $precision));
+    function roundToString($floatValue, $precision=0)
+    {
+        return str_replace(',', '.', round($floatValue, $precision));
     }
 
     /**
@@ -534,12 +556,13 @@ class GalleryUtilities {
      * can ditch this method and just cast to (float).  (Note that newer PHP versions may accept
      * only "." even if locale uses ",").
      */
-    function castToFloat($value) {
-	if (is_string($value) && (float)'1.1' != 1.1
-		&& ($test = (string)1.1) != '1.1' && strlen($test) == 3) {
-	    return (float)str_replace('.', $test{1}, $value);
-	}
-	return (float)$value;
+    function castToFloat($value)
+    {
+        if (is_string($value) && (float)'1.1' != 1.1
+            && ($test = (string)1.1) != '1.1' && strlen($test) == 3) {
+            return (float)str_replace('.', $test{1}, $value);
+        }
+        return (float)$value;
     }
 
     /**
@@ -550,8 +573,9 @@ class GalleryUtilities {
      * @param string $className
      * @return boolean
      */
-    function isA($instance, $className) {
-	return is_a($instance, $className);
+    function isA($instance, $className)
+    {
+        return is_a($instance, $className);
     }
 
     /**
@@ -562,9 +586,10 @@ class GalleryUtilities {
      * @param string $className
      * @return boolean
      */
-    function isExactlyA($instance, $className) {
-	return (($instanceClass = get_class($instance)) == $className || $instanceClass ==
-		strtr($className, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'));
+    function isExactlyA($instance, $className)
+    {
+        return (($instanceClass = get_class($instance)) == $className || $instanceClass ==
+            strtr($className, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'));
     }
 
     /**
@@ -579,56 +604,57 @@ class GalleryUtilities {
      * @return array int the number of entities in the string
      *               string the output string
      */
-    function entitySubstr($string, $start, $length=null, $countEntitiesAsOne=true) {
-	$stringLength = strlen($string);
-	if ($stringLength < $start) {
-	    return array(0, false);
-	}
+    function entitySubstr($string, $start, $length=null, $countEntitiesAsOne=true)
+    {
+        $stringLength = strlen($string);
+        if ($stringLength < $start) {
+            return array(0, false);
+        }
 
-	if (!isset($length)) {
-	    $length = $stringLength;
-	}
+        if (!isset($length)) {
+            $length = $stringLength;
+        }
 
-	if (!$countEntitiesAsOne && $start == 0 && $length >= $stringLength) {
-	    return array(strlen($string), $string);
-	}
+        if (!$countEntitiesAsOne && $start == 0 && $length >= $stringLength) {
+            return array(strlen($string), $string);
+        }
 
-	if (preg_match_all('(&#x[A-Fa-f0-9]+;|&#[0-9]+;|&[A-Za-z0-9]+;|.|\n)', $string, $reg)) {
-	    $charArray = $reg[0];
-	    $charArrayLength = count($charArray);
+        if (preg_match_all('(&#x[A-Fa-f0-9]+;|&#[0-9]+;|&[A-Za-z0-9]+;|.|\n)', $string, $reg)) {
+            $charArray = $reg[0];
+            $charArrayLength = count($charArray);
 
-	    /* if $length < 0, then it's really the end index */
-	    $cookedStart = ($start < 0) ? $charArrayLength + $start : $start;
-	    $cookedLength = ($length < 0) ? $charArrayLength - $cookedStart + $length : $length;
+            /* if $length < 0, then it's really the end index */
+            $cookedStart = ($start < 0) ? $charArrayLength + $start : $start;
+            $cookedLength = ($length < 0) ? $charArrayLength - $cookedStart + $length : $length;
 
-	    /* We now have the proper begin/end indices, so grab that slice */
-	    if ($countEntitiesAsOne) {
-		$slice = array_slice($charArray, $cookedStart, $cookedLength);
-		return array(count($slice), join('', $slice));
-	    } else {
-		$cookedText = '';
-		$actualLength = 0;
-		for ($i = $cookedStart; $i < $cookedLength; $i++) {
-		    if ($charArray[$i][0] == '&') {
-			$size = strlen($charArray[$i]);
-		    } else {
-			$size = 1;
-		    }
+            /* We now have the proper begin/end indices, so grab that slice */
+            if ($countEntitiesAsOne) {
+            $slice = array_slice($charArray, $cookedStart, $cookedLength);
+            return array(count($slice), join('', $slice));
+        } else {
+            $cookedText = '';
+            $actualLength = 0;
+            for ($i = $cookedStart; $i < $cookedLength; $i++) {
+                if ($charArray[$i][0] == '&') {
+                    $size = strlen($charArray[$i]);
+                } else {
+                    $size = 1;
+                }
 
-		    if ($actualLength + $size > $cookedLength) {
-			/* We're done */
-			break;
-		    }
-		    $cookedText .= $charArray[$i];
-		    $actualLength += $size;
-		}
-		return array($actualLength, $cookedText);
-	    }
-	} else {
-	    /* How could we get here?  Our regex should match everything */
-	    $newString = substr($string, $start, $length);
-	    return array(strlen($newString), $newString);
-	}
+                if ($actualLength + $size > $cookedLength) {
+                    /* We're done */
+                    break;
+                }
+                    $cookedText .= $charArray[$i];
+                    $actualLength += $size;
+                }
+                return array($actualLength, $cookedText);
+            }
+        } else {
+            /* How could we get here?  Our regex should match everything */
+            $newString = substr($string, $start, $length);
+            return array(strlen($newString), $newString);
+        }
     }
 
     /**
@@ -643,77 +669,78 @@ class GalleryUtilities {
      * @param string $source encoded using UTF-8
      * @return string of unicode entities
      */
-    function utf8ToUnicodeEntities($source) {
-	/*
-	 * Array used to figure what number to decrement from character order value according to
-	 * number of characters used to map unicode to ASCII by UTF-8
-	 */
-	$decrement[4] = 240;
-	$decrement[3] = 224;
-	$decrement[2] = 192;
-	$decrement[1] = 0;
+    function utf8ToUnicodeEntities($source)
+    {
+        /*
+         * Array used to figure what number to decrement from character order value according to
+         * number of characters used to map unicode to ASCII by UTF-8
+         */
+        $decrement[4] = 240;
+        $decrement[3] = 224;
+        $decrement[2] = 192;
+        $decrement[1] = 0;
 
-	/* Number of bits to shift each charNum by */
-	$shift[1][0] = 0;
-	$shift[2][0] = 6;
-	$shift[2][1] = 0;
-	$shift[3][0] = 12;
-	$shift[3][1] = 6;
-	$shift[3][2] = 0;
-	$shift[4][0] = 18;
-	$shift[4][1] = 12;
-	$shift[4][2] = 6;
-	$shift[4][3] = 0;
+        /* Number of bits to shift each charNum by */
+        $shift[1][0] = 0;
+        $shift[2][0] = 6;
+        $shift[2][1] = 0;
+        $shift[3][0] = 12;
+        $shift[3][1] = 6;
+        $shift[3][2] = 0;
+        $shift[4][0] = 18;
+        $shift[4][1] = 12;
+        $shift[4][2] = 6;
+        $shift[4][3] = 0;
 
-	$pos = 0;
-	$len = strlen($source);
-	$encodedString = '';
-	while ($pos < $len) {
-	    $asciiPos = ord(substr($source, $pos, 1));
-	    if (($asciiPos >= 240) && ($asciiPos <= 255)) {
-		/* 4 chars representing one unicode character */
-		$thisLetter = substr($source, $pos, 4);
-		$pos += 4;
-	    }
-	    else if (($asciiPos >= 224) && ($asciiPos <= 239)) {
-		/* 3 chars representing one unicode character */
-		$thisLetter = substr($source, $pos, 3);
-		$pos += 3;
-	    }
-	    else if (($asciiPos >= 192) && ($asciiPos <= 223)) {
-		/* 2 chars representing one unicode character */
-		$thisLetter = substr($source, $pos, 2);
-		$pos += 2;
-	    }
-	    else {
-		/* 1 char (lower ASCII) */
-		$thisLetter = substr($source, $pos, 1);
-		$pos += 1;
-	    }
+        $pos = 0;
+        $len = strlen($source);
+        $encodedString = '';
+        while ($pos < $len) {
+            $asciiPos = ord(substr($source, $pos, 1));
+            if (($asciiPos >= 240) && ($asciiPos <= 255)) {
+                /* 4 chars representing one unicode character */
+                $thisLetter = substr($source, $pos, 4);
+                $pos += 4;
+            }
+            else if (($asciiPos >= 224) && ($asciiPos <= 239)) {
+                /* 3 chars representing one unicode character */
+                $thisLetter = substr($source, $pos, 3);
+                $pos += 3;
+            }
+            else if (($asciiPos >= 192) && ($asciiPos <= 223)) {
+                /* 2 chars representing one unicode character */
+                $thisLetter = substr($source, $pos, 2);
+                $pos += 2;
+            }
+            else {
+                /* 1 char (lower ASCII) */
+                $thisLetter = substr($source, $pos, 1);
+                $pos += 1;
+            }
 
-	    /* Process the string representing the letter to a unicode entity */
-	    $thisLen = strlen ($thisLetter);
-	    $thisPos = 0;
-	    $decimalCode = 0;
-	    while ($thisPos < $thisLen) {
-		$thisCharOrd = ord(substr($thisLetter, $thisPos, 1));
-		if ($thisPos == 0) {
-		    $charNum = intval($thisCharOrd - $decrement[$thisLen]);
-		    $decimalCode += ($charNum << $shift[$thisLen][$thisPos]);
-		} else {
-		    $charNum = intval($thisCharOrd - 128);
-		    $decimalCode += ($charNum << $shift[$thisLen][$thisPos]);
-		}
-		$thisPos++;
-	    }
-	    if (($thisLen == 1) && ($decimalCode<=128)) {
-		$encodedLetter = $thisLetter;
-	    } else {
-		$encodedLetter = '&#' . $decimalCode . ';';
-	    }
-	    $encodedString .= $encodedLetter;
-	}
-	return $encodedString;
+            /* Process the string representing the letter to a unicode entity */
+            $thisLen = strlen ($thisLetter);
+            $thisPos = 0;
+            $decimalCode = 0;
+            while ($thisPos < $thisLen) {
+                $thisCharOrd = ord(substr($thisLetter, $thisPos, 1));
+                if ($thisPos == 0) {
+                    $charNum = intval($thisCharOrd - $decrement[$thisLen]);
+                    $decimalCode += ($charNum << $shift[$thisLen][$thisPos]);
+                } else {
+                    $charNum = intval($thisCharOrd - 128);
+                    $decimalCode += ($charNum << $shift[$thisLen][$thisPos]);
+                }
+                $thisPos++;
+            }
+            if (($thisLen == 1) && ($decimalCode<=128)) {
+                $encodedLetter = $thisLetter;
+            } else {
+                $encodedLetter = '&#' . $decimalCode . ';';
+            }
+                $encodedString .= $encodedLetter;
+        }
+        return $encodedString;
     }
 
     /**
@@ -726,36 +753,37 @@ class GalleryUtilities {
      * @param boolean $adaptForMagicQuotes (optional) false to skip undoing the damage caused
      *                by magic_quotes
      */
-    function sanitizeInputValues(&$value, $adaptForMagicQuotes=true) {
-	if (is_array($value)) {
-	    foreach (array_keys($value) as $key) {
-		$newKey = $key;
-		GalleryUtilities::sanitizeInputValues($newKey);
-		if ($key != $newKey) {
-		    $value[$newKey] =& $value[$key];
-		    unset($value[$key]);
-		}
+    function sanitizeInputValues(&$value, $adaptForMagicQuotes=true)
+    {
+        if (is_array($value)) {
+            foreach (array_keys($value) as $key) {
+                $newKey = $key;
+                MyOOS_Utilities::sanitizeInputValues($newKey);
+                if ($key != $newKey) {
+                    $value[$newKey] =& $value[$key];
+                    unset($value[$key]);
+                }
 
-		GalleryUtilities::sanitizeInputValues($value[$newKey]);
-	    }
-	} else {
-	    /*
-	     * Simulate calling htmlspecialchars($value, ENT_COMPAT, 'UTF-8') We avoid using
-	     * htmlspecialchars directly because on some versions of PHP (notable PHP 4.1.2) it
-	     * changes the character set of the input data (in one environment it converted the
-	     * UTF-8 data to ISO-8859-1)
-	     */
-	    $value = str_replace(array('&', '"', '<', '>'),
-				 array('&amp;', '&quot;', '&lt;', '&gt;'),
-				 $value);
+                MyOOS_Utilities::sanitizeInputValues($value[$newKey]);
+            }
+        } else {
+        /*
+             * Simulate calling htmlspecialchars($value, ENT_COMPAT, 'UTF-8') We avoid using
+             * htmlspecialchars directly because on some versions of PHP (notable PHP 4.1.2) it
+             * changes the character set of the input data (in one environment it converted the
+             * UTF-8 data to ISO-8859-1)
+             */
+            $value = str_replace(array('&', '"', '<', '>'),
+                     array('&amp;', '&quot;', '&lt;', '&gt;'),
+                     $value);
 
-	    /* Undo the damage caused by magic_quotes */
-	    if ($adaptForMagicQuotes) {
-		if (get_magic_quotes_gpc()) {
-		    $value = stripslashes($value);
-		}
-	    }
-	}
+            /* Undo the damage caused by magic_quotes */
+            if ($adaptForMagicQuotes) {
+                if (get_magic_quotes_gpc()) {
+                    $value = stripslashes($value);
+                }
+            }
+        }
     }
 
     /**
@@ -764,23 +792,24 @@ class GalleryUtilities {
      * @param boolean $adaptForMagicQuotes (optional) false to skip redoing the damage caused
      *                by magic_quotes
      */
-    function unsanitizeInputValues(&$value, $adaptForMagicQuotes=true) {
-	if (is_array($value)) {
-	    foreach (array_keys($value) as $key) {
-		GalleryUtilities::unsanitizeInputValues($value[$key], $adaptForMagicQuotes);
-	    }
-	} else {
-	    /* Unsanitize dangerous html entities */
-	    /* bugs.php.net/bug.php?id=22014 - TODO: remove empty check when min php is 4.3.2+ */
-	    $value = empty($value) ? $value : html_entity_decode($value);
+    function unsanitizeInputValues(&$value, $adaptForMagicQuotes=true)
+    {
+        if (is_array($value)) {
+            foreach (array_keys($value) as $key) {
+                MyOOS_Utilities::unsanitizeInputValues($value[$key], $adaptForMagicQuotes);
+            }
+        } else {
+            /* Unsanitize dangerous html entities */
+            /* bugs.php.net/bug.php?id=22014 - TODO: remove empty check when min php is 4.3.2+ */
+            $value = empty($value) ? $value : html_entity_decode($value);
 
-	    /* Redo the damage caused by magic_quotes */
-	    if ($adaptForMagicQuotes) {
-		if (get_magic_quotes_gpc()) {
-		    $value = addslashes($value);
-		}
-	    }
-	}
+            /* Redo the damage caused by magic_quotes */
+            if ($adaptForMagicQuotes) {
+                if (get_magic_quotes_gpc()) {
+                    $value = addslashes($value);
+                }
+            }
+        }
     }
 
     /**
@@ -788,10 +817,11 @@ class GalleryUtilities {
      * @param string $string the input string with UTF-8 entities
      * @return string the UTF-8 string
      */
-    function unicodeEntitiesToUtf8($string) {
-	$string = preg_replace('/&#([xa-f\d]+);/mei',
-	    "GalleryUtilities::unicodeValueToUtf8Value('\\1')", $string);
-	return $string;
+    function unicodeEntitiesToUtf8($string)
+    {
+        $string = preg_replace('/&#([xa-f\d]+);/mei',
+            "MyOOS_Utilities::unicodeValueToUtf8Value('\\1')", $string);
+        return $string;
     }
 
     /**
@@ -802,8 +832,9 @@ class GalleryUtilities {
      * @return string a multibyte safe substring of input value
      * @deprecated Please use GalleryCoreApi::utf8Substring instead
      */
-    function utf8Substring($string, $start, $length) {
-	return GalleryCoreApi::utf8Substring($string, $start, $length);
+    function utf8Substring($string, $start, $length)
+    {
+        return GalleryCoreApi::utf8Substring($string, $start, $length);
     }
 
     /**
@@ -813,35 +844,36 @@ class GalleryUtilities {
      * @param int $num the unicode value
      * @return string the UTF-8 string
      */
-    function unicodeValueToUtf8Value($num) {
-	if ($num[0] == 'x') {
-	    /* Convert hex to decimal */
-	    $num = hexdec(substr($num, 1));
-	}
+    function unicodeValueToUtf8Value($num)
+    {
+        if ($num[0] == 'x') {
+            /* Convert hex to decimal */
+            $num = hexdec(substr($num, 1));
+        }
 
-	if ($num < 128) {
-	    return chr($num);
-	}
+        if ($num < 128) {
+            return chr($num);
+        }
 
-	if ($num < 2048) {
-	    return (chr(192 + ($num >> 6))
-		. chr(128 + ($num & 63)));
-	}
+        if ($num < 2048) {
+            return (chr(192 + ($num >> 6))
+            . chr(128 + ($num & 63)));
+        }
 
-	if ($num < 65535) {
-	    return (chr(224 + ($num >> 12))
-		. chr(128 + (($num >> 6 ) & 63))
-		. chr(128 + ($num & 63)));
-	}
+        if ($num < 65535) {
+            return (chr(224 + ($num >> 12))
+            . chr(128 + (($num >> 6 ) & 63))
+            . chr(128 + ($num & 63)));
+        }
 
-	if ($num < 2097152) {
-	    return (chr(240 + ($num >> 18))
-		. chr(128 + (($num >> 12) & 63))
-		. chr(128 + (($num >> 6) & 63))
-		. chr(128 + ($num & 63)));
-	}
+        if ($num < 2097152) {
+            return (chr(240 + ($num >> 18))
+            . chr(128 + (($num >> 12) & 63))
+            . chr(128 + (($num >> 6) & 63))
+            . chr(128 + ($num & 63)));
+        }
 
-	return '';
+        return '';
     }
 
     /**
@@ -851,8 +883,9 @@ class GalleryUtilities {
      * @deprecated
      * @todo Remove at the next major version bump of core API
      */
-    function htmlEntityDecode($string) {
-	return empty($string) ? $string : html_entity_decode($string, ENT_COMPAT);
+    function htmlEntityDecode($string)
+    {
+        return empty($string) ? $string : html_entity_decode($string, ENT_COMPAT);
     }
 
     /**
@@ -861,9 +894,10 @@ class GalleryUtilities {
      * @param string $markupType (optional) markup type, defaults from core markup parameter
      * @return string resulting text
      */
-    function markup($text, $markupType=null) {
-	GalleryCoreApi::requireOnce('lib/smarty_plugins/modifier.markup.php');
-	return smarty_modifier_markup($text, $markupType);
+    function markup($text, $markupType=null)
+    {
+        GalleryCoreApi::requireOnce('lib/smarty_plugins/modifier.markup.php');
+        return smarty_modifier_markup($text, $markupType);
     }
 
     /**
@@ -872,20 +906,21 @@ class GalleryUtilities {
      * @param boolean $decode (optional) true to decode entities, process, then recode
      * @return string safe HTML
      */
-    function htmlSafe($html, $decode=false) {
-	GalleryCoreApi::requireOnce('lib/pear/Safe.php');
-	static $parser;
-	if (!isset($parser)) {
-	    $parser =& new HTML_Safe();
-	}
-	if ($decode) {
-	    GalleryUtilities::unsanitizeInputValues($html, false);
-	}
-	$html = $parser->parse($html);
-	if ($decode) {
-	    GalleryUtilities::sanitizeInputValues($html, false);
-	}
-	return $html;
+    function htmlSafe($html, $decode=false)
+    {
+        GalleryCoreApi::requireOnce('lib/pear/HTML/Safe.php');
+        static $parser;
+        if (!isset($parser)) {
+            $parser =& new HTML_Safe();
+        }
+        if ($decode) {
+            MyOOS_Utilities::unsanitizeInputValues($html, false);
+        }
+        $html = $parser->parse($html);
+        if ($decode) {
+            MyOOS_Utilities::sanitizeInputValues($html, false);
+        }
+        return $html;
     }
 
     /**
@@ -894,13 +929,14 @@ class GalleryUtilities {
      * @return string a single value
      * @access private
      */
-    function _getRequestVariable($key) {
-	$keyPath = preg_split('/[\[\]]/', $key, -1, PREG_SPLIT_NO_EMPTY);
-	$result = GalleryUtilities::_internalGetRequestVariable($keyPath, $_GET);
-	if (isset($result)) {
-	    return $result;
-	}
-	return GalleryUtilities::_internalGetRequestVariable($keyPath, $_POST);
+    function _getRequestVariable($key)
+    {
+        $keyPath = preg_split('/[\[\]]/', $key, -1, PREG_SPLIT_NO_EMPTY);
+        $result = MyOOS_Utilities::_internalGetRequestVariable($keyPath, $_GET);
+        if (isset($result)) {
+            return $result;
+        }
+        return MyOOS_Utilities::_internalGetRequestVariable($keyPath, $_POST);
     }
 
     /**
@@ -913,18 +949,19 @@ class GalleryUtilities {
      * @return the value or null if it does not exist
      * @access private
      */
-    function _internalGetRequestVariable($keyPath, $array) {
-	$key = array_shift($keyPath);
-	while (!empty($keyPath)) {
-	    if (!isset($array[$key])) {
-		return null;
-	    }
+    function _internalGetRequestVariable($keyPath, $array)
+    {
+        $key = array_shift($keyPath);
+        while (!empty($keyPath)) {
+            if (!isset($array[$key])) {
+                return null;
+            }
 
-	    $array = $array[$key];
-	    $key = array_shift($keyPath);
-	}
+            $array = $array[$key];
+            $key = array_shift($keyPath);
+        }
 
-	return isset($array[$key]) ? $array[$key] : null;
+        return isset($array[$key]) ? $array[$key] : null;
     }
 
     /**
@@ -934,37 +971,39 @@ class GalleryUtilities {
      *     existing header.  This differs from the PHP header() $replace param which adds a header
      *     if it would otherwise replace and existing header.
      */
-    function setResponseHeader($header, $replace=true) {
-	/* Use our PHP VM for testability */
-	global $gallery;
-	$phpVm = $gallery->getPhpVm();
+    function setResponseHeader($header, $replace=true)
+    {
 
-	$responseHeaders =& GalleryUtilities::_getResponseHeaders();
+        /* Use our PHP VM for testability */
+        global $gallery;
+        $phpVm = $gallery->getPhpVm();
 
-	/* Special case for HTTP status codes.  See http://php.net/header */
-	$key = 'status';
-	if (strncasecmp($header, 'HTTP/', 5)) {
-	    $key = GalleryUtilities::strToLower(substr($header, 0, strpos($header, ':')));
-	}
+        $responseHeaders =& MyOOS_Utilities::_getResponseHeaders();
 
-	/* Avoid setting HTTP response header if it would replace an existing header */
-	if (!$replace && (!empty($responseHeaders[$key])
-		|| ($key == 'location' && !empty($responseHeaders['status'])
-		    && !preg_match('/^HTTP\/[0-9]\.[0-9] 3/', $responseHeaders['status'])))) {
-	    return;
-	}
+        /* Special case for HTTP status codes.  See http://php.net/header */
+        $key = 'status';
+        if (strncasecmp($header, 'HTTP/', 5)) {
+            $key = MyOOS_Utilities::strToLower(substr($header, 0, strpos($header, ':')));
+        }
 
-	$phpVm->header($header);
-	$responseHeaders[$key] = $header;
+        /* Avoid setting HTTP response header if it would replace an existing header */
+        if (!$replace && (!empty($responseHeaders[$key])
+            || ($key == 'location' && !empty($responseHeaders['status'])
+                && !preg_match('/^HTTP\/[0-9]\.[0-9] 3/', $responseHeaders['status'])))) {
+            return;
+        }
 
-	/*
-	 * Special case for the Location: header.  Set HTTP status code unless some 3xx status code
-	 * is already set.  See http://php.net/header
-	 */
-	if ($key == 'location' && (empty($responseHeaders['status'])
-		|| !preg_match('/^HTTP\/[0-9]\.[0-9] 3/', $responseHeaders['status']))) {
-	    $responseHeaders['status'] = 'HTTP/1.0 302 Found';
-	}
+        $phpVm->header($header);
+        $responseHeaders[$key] = $header;
+
+        /*
+         * Special case for the Location: header.  Set HTTP status code unless some 3xx status code
+         * is already set.  See http://php.net/header
+         */
+        if ($key == 'location' && (empty($responseHeaders['status'])
+            || !preg_match('/^HTTP\/[0-9]\.[0-9] 3/', $responseHeaders['status']))) {
+            $responseHeaders['status'] = 'HTTP/1.0 302 Found';
+        }
     }
 
     /**
@@ -972,9 +1011,10 @@ class GalleryUtilities {
      * @return array key => value pairs of headers
      * @access private
      */
-    function &_getResponseHeaders() {
-	static $responseHeaders;
-	return $responseHeaders;
+    function &_getResponseHeaders()
+    {
+        static $responseHeaders;
+        return $responseHeaders;
     }
 
     /**
@@ -984,30 +1024,31 @@ class GalleryUtilities {
      * @param string $list the list of legal paths
      * @return boolean
      */
-    function isPathInList($path, $list) {
-	global $gallery;
-	$platform =& $gallery->getPlatform();
-	$slash = $platform->getDirectorySeparator();
-	$path = $platform->realpath($path) . $slash;
-	$compare = GalleryUtilities::isA($platform, 'WinNtPlatform') ? 'strncasecmp' : 'strncmp';
+    function isPathInList($path, $list)
+    {
+        global $gallery;
+        $platform =& $gallery->getPlatform();
+        $slash = $platform->getDirectorySeparator();
+        $path = $platform->realpath($path) . $slash;
+        $compare = MyOOS_Utilities::isA($platform, 'WinNtPlatform') ? 'strncasecmp' : 'strncmp';
 
-	foreach ($list as $element) {
-	    if (($element = $platform->realpath($element)) === false) {
-		continue;
-	    }
-	    /*
-	     * Make sure the compare directory has a trailing slash so that /tmp doesn't
-	     * accidentally match /tmpfoo
-	     */
-	    if ($element{strlen($element)-1} != $slash) {
-		$element .= $slash;
-	    }
+        foreach ($list as $element) {
+            if (($element = $platform->realpath($element)) === false) {
+                continue;
+            }
+            /*
+             * Make sure the compare directory has a trailing slash so that /tmp doesn't
+             * accidentally match /tmpfoo
+             */
+            if ($element{strlen($element)-1} != $slash) {
+                $element .= $slash;
+            }
 
-	    if (!$compare($element, $path, strlen($element))) {
-		return true;
-	    }
-	}
-	return false;
+            if (!$compare($element, $path, strlen($element))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -1015,31 +1056,33 @@ class GalleryUtilities {
      * @param string $addr an address in dotted quad form
      * @return boolean
      */
-    function isTrustedProxy($addr) {
-	return (boolean)preg_match('/^((10\.\d{1,3}\.\d{1,3}\.\d{1,3})|'
-	    . '(172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3})|'
-	    . '(192\.168\.\d{1,3}\.\d{1,3}))$/', $addr);
+    function isTrustedProxy($addr)
+    {
+        return (boolean)preg_match('/^((10\.\d{1,3}\.\d{1,3}\.\d{1,3})|'
+            . '(172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3})|'
+            . '(192\.168\.\d{1,3}\.\d{1,3}))$/', $addr);
     }
 
     /**
      * Return the address of the remote host.
      * @return string the remote host address (or null)
      */
-    function getRemoteHostAddress() {
-	$addr = null;
-	if (isset($_SERVER['REMOTE_ADDR'])) {
-	    $addr = $_SERVER['REMOTE_ADDR'];
-	    if (GalleryUtilities::isTrustedProxy($addr)) {
-		foreach (array('HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP') as $key) {
-		    if (isset($_SERVER[$key]) &&
-			    preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $_SERVER[$key])) {
-			$addr = $_SERVER[$key];
-			break;
-		    }
-		}
-	    }
-	}
-	return $addr;
+    function getRemoteHostAddress()
+    {
+        $addr = null;
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $addr = $_SERVER['REMOTE_ADDR'];
+            if (MyOOS_Utilities::isTrustedProxy($addr)) {
+                foreach (array('HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP') as $key) {
+                    if (isset($_SERVER[$key]) &&
+                        preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $_SERVER[$key])) {
+                        $addr = $_SERVER[$key];
+                        break;
+                    }
+                }
+            }
+        }
+        return $addr;
     }
 
     /**
@@ -1048,41 +1091,42 @@ class GalleryUtilities {
      * @return array boolean true if dir exists or was created successfully
      *               array of directories that were created
      */
-    function guaranteeDirExists($dir) {
-	global $gallery;
-	$platform =& $gallery->getPlatform();
-	if ($platform->file_exists($dir)) {
-	    return array($platform->is_dir($dir), array());
-	}
+    function guaranteeDirExists($dir)
+    {
+        global $gallery;
+        $platform =& $gallery->getPlatform();
+        if ($platform->file_exists($dir)) {
+            return array($platform->is_dir($dir), array());
+        }
 
-	static $cacheKey = 'GalleryUtilities::guaranteeDirExists';
-	if (GalleryDataCache::containsKey($cacheKey)) {
-	    $dirPerms = GalleryDataCache::get($cacheKey);
-	} else {
-	    /* To avoid looping if getPluginParameter calls guaranteeDirExists */
-	    GalleryDataCache::put($cacheKey, 0);
-	    list ($ret, $dirPerms) =
-		GalleryCoreApi::getPluginParameter('module', 'core', 'permissions.directory');
-	    /* Ignore error here, then recheck $dir in case it was created in nested call */
-	    GalleryDataCache::put($cacheKey, $dirPerms);
-	    if ($platform->file_exists($dir)) {
-		return array($platform->is_dir($dir), array());
-	    }
-	}
+        static $cacheKey = 'MyOOS_Utilities::guaranteeDirExists';
+        if (GalleryDataCache::containsKey($cacheKey)) {
+            $dirPerms = GalleryDataCache::get($cacheKey);
+        } else {
+            /* To avoid looping if getPluginParameter calls guaranteeDirExists */
+            GalleryDataCache::put($cacheKey, 0);
+            list ($ret, $dirPerms) =
+            GalleryCoreApi::getPluginParameter('module', 'core', 'permissions.directory');
+            /* Ignore error here, then recheck $dir in case it was created in nested call */
+            GalleryDataCache::put($cacheKey, $dirPerms);
+            if ($platform->file_exists($dir)) {
+                return array($platform->is_dir($dir), array());
+            }
+        }
 
-	$parentDir = dirname($dir);
-	if ($parentDir == $dir) {
-	    return array(false, array());
-	}
-	list ($success, $created) = GalleryUtilities::guaranteeDirExists($parentDir);
-	if ($success) {
-	    $success = !empty($dirPerms) ? $platform->mkdir($dir, $dirPerms)
-					 : $platform->mkdir($dir);
-	    if ($success) {
-		$created[] = $dir;
-	    }
-	}
-	return array($success, $created);
+        $parentDir = dirname($dir);
+        if ($parentDir == $dir) {
+            return array(false, array());
+        }
+        list ($success, $created) = MyOOS_Utilities::guaranteeDirExists($parentDir);
+        if ($success) {
+            $success = !empty($dirPerms) ? $platform->mkdir($dir, $dirPerms)
+                         : $platform->mkdir($dir);
+            if ($success) {
+                $created[] = $dir;
+            }
+        }
+        return array($success, $created);
     }
 
     /**
@@ -1091,47 +1135,48 @@ class GalleryUtilities {
      * @return array an associative array of tree data.  Each node has a 'depth' element, and a
      *               'data' element that contains all the members of the current album item.
      */
-    function createAlbumTree($albums) {
-	if (empty($albums)) {
-	    $tree = array(); return $tree;  /* Help CodeAudit match up returns */
-	}
+    function createAlbumTree($albums)
+    {
+        if (empty($albums)) {
+            $tree = array(); return $tree;  /* Help CodeAudit match up returns */
+        }
 
-	/* Index the albums by id */
-	$map = array();
-	foreach ($albums as $album) {
-	    $albumId = $album->getId();
-	    $parentId = $album->getParentId();
-	    $map[$albumId]['instance'] = $album;
-	    if (!empty($parentId)) {
-		$map[$albumId]['parent'] = $parentId;
-		$map[$parentId]['children'][] = $albumId;
-	    }
-	}
+        /* Index the albums by id */
+        $map = array();
+        foreach ($albums as $album) {
+            $albumId = $album->getId();
+            $parentId = $album->getParentId();
+            $map[$albumId]['instance'] = $album;
+            if (!empty($parentId)) {
+                $map[$albumId]['parent'] = $parentId;
+                $map[$parentId]['children'][] = $albumId;
+            }
+        }
 
-	/*
-	 * Prune parents that don't exist.  This can occur if we have multiple roots (unusual) or an
-	 * album in the middle of the hierarchy that is not viewable.
-	 */
-	foreach ($map as $id => $info) {
-	    if (isset($info['parent']) && !isset($map[$info['parent']]['instance'])) {
-		unset($map[$info['parent']]);
-	    }
-	}
+        /*
+         * Prune parents that don't exist.  This can occur if we have multiple roots (unusual) or an
+         * album in the middle of the hierarchy that is not viewable.
+         */
+        foreach ($map as $id => $info) {
+            if (isset($info['parent']) && !isset($map[$info['parent']]['instance'])) {
+                unset($map[$info['parent']]);
+            }
+        }
 
-	/* Find root albums */
-	foreach ($map as $id => $info) {
-	    if (!isset($info['parent']) || !isset($map[$info['parent']])) {
-		$roots[] = $id;
-	    }
-	}
+        /* Find root albums */
+        foreach ($map as $id => $info) {
+            if (!isset($info['parent']) || !isset($map[$info['parent']])) {
+                $roots[] = $id;
+            }
+        }
 
-	/* Walk the root albums */
-	$tree = array();
-	foreach ($roots as $id) {
-	    $tree = array_merge($tree, GalleryUtilities::_createDepthTree($map, $id));
-	}
+        /* Walk the root albums */
+        $tree = array();
+        foreach ($roots as $id) {
+            $tree = array_merge($tree, MyOOS_Utilities::_createDepthTree($map, $id));
+        }
 
-	return $tree;
+        return $tree;
     }
 
     /**
@@ -1141,17 +1186,18 @@ class GalleryUtilities {
      * @param int $depth (optional) current depth
      * @access private
      */
-    function _createDepthTree(&$map, $id, $depth=0) {
-	$data = array();
-	$data[] = array('depth' => $depth, 'data' => (array)$map[$id]['instance']);
-	if (isset($map[$id]['children'])) {
-	    foreach ($map[$id]['children'] as $childId) {
-		$data = array_merge($data,
-				    GalleryUtilities::_createDepthTree($map, $childId, $depth + 1));
-	    }
-	}
+    function _createDepthTree(&$map, $id, $depth=0)
+    {
+        $data = array();
+        $data[] = array('depth' => $depth, 'data' => (array)$map[$id]['instance']);
+        if (isset($map[$id]['children'])) {
+            foreach ($map[$id]['children'] as $childId) {
+                $data = array_merge($data,
+                        MyOOS_Utilities::_createDepthTree($map, $childId, $depth + 1));
+            }
+        }
 
-	return $data;
+        return $data;
     }
 
     /**
@@ -1161,45 +1207,45 @@ class GalleryUtilities {
      *               string pseudoFileName a filename
      */
     function getPseudoFileName($entity) {
-	/*
-	 * If our GalleryEntity is a GalleryFileSystemEntity, then we've got a path component so
-	 * we're cool.  If it's a derivative, then get the pseudo filename of its parent and use
-	 * that instead (but make sure the extension matches derivative, as parent mime type may
-	 * differ).  If it's neither, then return 'unknown' for now.
-	 */
-	if (GalleryUtilities::isA($entity, 'GalleryFileSystemEntity')) {
-	    $pseudoFileName = $entity->getPathComponent();
-	} else if (GalleryUtilities::isA($entity, 'GalleryDerivative')) {
-	    list ($ret, $parentEntity) =
-		GalleryCoreApi::loadEntitiesById($entity->getParentId(), 'GalleryEntity');
-	    if ($ret) {
-		return array($ret, null);
-	    }
+    /*
+     * If our GalleryEntity is a GalleryFileSystemEntity, then we've got a path component so
+     * we're cool.  If it's a derivative, then get the pseudo filename of its parent and use
+     * that instead (but make sure the extension matches derivative, as parent mime type may
+     * differ).  If it's neither, then return 'unknown' for now.
+     */
+    if (MyOOS_Utilities::isA($entity, 'GalleryFileSystemEntity')) {
+        $pseudoFileName = $entity->getPathComponent();
+    } else if (MyOOS_Utilities::isA($entity, 'GalleryDerivative')) {
+        list ($ret, $parentEntity) =
+        GalleryCoreApi::loadEntitiesById($entity->getParentId(), 'GalleryEntity');
+        if ($ret) {
+        return array($ret, null);
+        }
 
-	    if (GalleryUtilities::isA($parentEntity, 'GalleryFileSystemEntity')) {
-		$pseudoFileName = $parentEntity->getPathComponent();
-		if (!method_exists($parentEntity, 'getMimeType') ||
-			$parentEntity->getMimeType() != $entity->getMimeType()) {
-		    list ($ret, $extensions) =
-			GalleryCoreApi::convertMimeToExtensions($entity->getMimeType());
-		    if ($ret) {
-			return array($ret, null);
-		    }
-		    if (!empty($extensions)) {
-			if (method_exists($parentEntity, 'getMimeType')) {
-			    /* Change extension for mime type of this derivative */
-			    $pseudoFileName =
-				preg_replace('{\.[^.]+$}', '.' . $extensions[0], $pseudoFileName);
-			} else {
-			    /* Non-item parent, like an album.  Add extension for this mime type. */
-			    $pseudoFileName .= '.' . $extensions[0];
-			}
-		    }
-		}
-	    }
-	}
-	return array(null,
-		     isset($pseudoFileName) ? $pseudoFileName : 'unknown');
+        if (MyOOS_Utilities::isA($parentEntity, 'GalleryFileSystemEntity')) {
+        $pseudoFileName = $parentEntity->getPathComponent();
+        if (!method_exists($parentEntity, 'getMimeType') ||
+            $parentEntity->getMimeType() != $entity->getMimeType()) {
+            list ($ret, $extensions) =
+            GalleryCoreApi::convertMimeToExtensions($entity->getMimeType());
+            if ($ret) {
+            return array($ret, null);
+            }
+            if (!empty($extensions)) {
+            if (method_exists($parentEntity, 'getMimeType')) {
+                /* Change extension for mime type of this derivative */
+                $pseudoFileName =
+                preg_replace('{\.[^.]+$}', '.' . $extensions[0], $pseudoFileName);
+            } else {
+                /* Non-item parent, like an album.  Add extension for this mime type. */
+                $pseudoFileName .= '.' . $extensions[0];
+            }
+            }
+        }
+        }
+    }
+    return array(null,
+             isset($pseudoFileName) ? $pseudoFileName : 'unknown');
     }
 
     /**
@@ -1207,42 +1253,44 @@ class GalleryUtilities {
      * @see Gallery::getHttpDate
      * @deprecated
      */
-    function getHttpDate($time='') {
-	global $gallery;
-	return $gallery->getHttpDate($time);
+    function getHttpDate($time='')
+    {
+        global $gallery;
+        return $gallery->getHttpDate($time);
     }
 
     /**
      * Get contents of MANIFEST files.
      * @return array (file => array('checksum'=>..,'size'=>..,'viewable'=>..), ..)
      */
-    function readManifest() {
-	/*
-	 * Be careful not to reference $gallery here; this method is called from the installer.
-	 * Look in (modules|themes)/.../MANIFEST and top level MANIFEST.
-	 */
-	$base = realpath(dirname(__FILE__) . '/../../..') . '/';
-	$list = array();
-	if (file_exists($base . 'MANIFEST')) {
-	    $list[] = 'MANIFEST';
-	}
-	foreach (array('modules', 'themes') as $dir) {
-	    $dh = opendir($base . $dir);
-	    while (($file = readdir($dh)) !== false) {
-		if ($file == '..' || $file == '.') {
-		    continue;
-		}
-		if (file_exists($base . $dir . '/' . $file . '/MANIFEST')) {
-		    $list[] = $dir . '/' . $file . '/MANIFEST';
-		}
-	    }
-	    closedir($dh);
-	}
-	$manifest = array();
-	foreach ($list as $file) {
-	    GalleryUtilities::readIndividualManifest($base . $file, $manifest);
-	}
-	return $manifest;
+    function readManifest()
+    {
+        /*
+         * Be careful not to reference $gallery here; this method is called from the installer.
+         * Look in (modules|themes)/.../MANIFEST and top level MANIFEST.
+         */
+        $base = realpath(dirname(__FILE__) . '/../../..') . '/';
+        $list = array();
+        if (file_exists($base . 'MANIFEST')) {
+            $list[] = 'MANIFEST';
+        }
+        foreach (array('modules', 'themes') as $dir) {
+            $dh = opendir($base . $dir);
+            while (($file = readdir($dh)) !== false) {
+                if ($file == '..' || $file == '.') {
+                    continue;
+                }
+                if (file_exists($base . $dir . '/' . $file . '/MANIFEST')) {
+                    $list[] = $dir . '/' . $file . '/MANIFEST';
+                }
+            }
+            closedir($dh);
+        }
+        $manifest = array();
+        foreach ($list as $file) {
+            MyOOS_Utilities::readIndividualManifest($base . $file, $manifest);
+        }
+        return $manifest;
     }
 
     /**
@@ -1250,39 +1298,40 @@ class GalleryUtilities {
      * @param string $filePath the path to the MANIFEST file
      * @return array(file => array('checksum'=>..,'size'=>..,'viewable'=>..), ...)
      */
-    function readIndividualManifest($filePath, &$manifest) {
-	global $gallery;
+    function readIndividualManifest($filePath, &$manifest)
+    {
+        global $gallery;
 
-	/* If the method getPlatform exists, then we are not installing and it is safe to use. */
-	if (method_exists($gallery, "getPlatform")) {
-	    $platform =& $gallery->getPlatform();
-	    $lines = $platform->file($filePath);
-	} else {
-	    $lines = file($filePath);
-	}
-	if (!empty($lines)) {
-	    foreach ($lines as $line) {
-		$line = trim(preg_replace('/#.*/', '', $line));
-		if (empty($line)) {
-		    continue;
-		}
+        /* If the method getPlatform exists, then we are not installing and it is safe to use. */
+        if (method_exists($gallery, "getPlatform")) {
+            $platform =& $gallery->getPlatform();
+            $lines = $platform->file($filePath);
+        } else {
+            $lines = file($filePath);
+        }
+        if (!empty($lines)) {
+            foreach ($lines as $line) {
+                $line = trim(preg_replace('/#.*/', '', $line));
+                if (empty($line)) {
+                    continue;
+                }
 
-		$line = explode("\t", $line);
-		if (count($line) == 2 && $line[0] == 'R') {
-		    $file = trim($line[1]);
-		    $manifest[$file] = array('removed' => 1);
-		} else {
-		    list ($file, $cksum, $cksum_crlf, $size, $size_crlf) = $line;
-		    $file = trim($file);
-		    $manifest[$file] = array(
-			'checksum' => $cksum,
-			'checksum_crlf' => $cksum_crlf,
-			'size' => $size,
-			'size_crlf' => $size_crlf);
-		}
-	    }
-	}
-	return $manifest;
+                $line = explode("\t", $line);
+                if (count($line) == 2 && $line[0] == 'R') {
+                    $file = trim($line[1]);
+                    $manifest[$file] = array('removed' => 1);
+                } else {
+                    list ($file, $cksum, $cksum_crlf, $size, $size_crlf) = $line;
+                    $file = trim($file);
+                    $manifest[$file] = array(
+                    'checksum' => $cksum,
+                    'checksum_crlf' => $cksum_crlf,
+                    'size' => $size,
+                    'size_crlf' => $size_crlf);
+                }
+            }
+        }
+        return $manifest;
     }
 
     /**
@@ -1290,8 +1339,9 @@ class GalleryUtilities {
      * @param string $email email address
      * @return boolean
      */
-    function isValidEmailString($email) {
-	return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,6}$/', $email) > 0);
+    function isValidEmailString($email)
+    {
+        return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,6}$/', $email) > 0);
     }
 
     /**
@@ -1300,17 +1350,18 @@ class GalleryUtilities {
      * @param string $salt (optional) salt or hash containing salt (randomly generated if omitted)
      * @return string hashed password
      */
-    function md5Salt($password, $salt='') {
-	if (empty($salt)) {
-	    for ($i = 0; $i < 4; $i++) {
-		$char = mt_rand(48, 109);
-		$char += ($char > 90) ? 13 : ($char > 57) ? 7 : 0;
-		$salt .= chr($char);
-	    }
-	} else {
-	    $salt = substr($salt, 0, 4);
-	}
-	return $salt . md5($salt . $password);
+    function md5Salt($password, $salt='')
+    {
+        if (empty($salt)) {
+            for ($i = 0; $i < 4; $i++) {
+                $char = mt_rand(48, 109);
+                $char += ($char > 90) ? 13 : ($char > 57) ? 7 : 0;
+                $salt .= chr($char);
+            }
+        } else {
+            $salt = substr($salt, 0, 4);
+        }
+        return $salt . md5($salt . $password);
     }
 
     /**
@@ -1320,7 +1371,7 @@ class GalleryUtilities {
      * @return boolean true if correct
      */
     function isCorrectPassword($guess, $hashedPassword) {
-	return (GalleryUtilities::md5Salt($guess, $hashedPassword) === $hashedPassword);
+        return (MyOOS_Utilities::md5Salt($guess, $hashedPassword) === $hashedPassword);
     }
 
     /**
@@ -1333,25 +1384,26 @@ class GalleryUtilities {
      * @param array $provided (major, minor)
      * @return boolean true if compatible
      */
-    function isCompatibleWithApi($required, $provided) {
-	if (!is_array($required) || !is_array($provided)) {
-	    return false;
-	}
-	if (count($required) != count($provided) || count($required) != 2) {
-	    return false;
-	}
-	for ($i = 0; $i < 1; $i++) {
-	    if (!is_int($required[$i]) || !is_int($provided[$i])) {
-		return false;
-	    }
-	}
-	if ($required[0] != $provided[0]) {
-	    return false;
-	}
-	if ($required[1] > $provided[1]) {
-	    return false;
-	}
-	return true;
+    function isCompatibleWithApi($required, $provided)
+    {
+        if (!is_array($required) || !is_array($provided)) {
+            return false;
+        }
+        if (count($required) != count($provided) || count($required) != 2) {
+            return false;
+        }
+        for ($i = 0; $i < 1; $i++) {
+            if (!is_int($required[$i]) || !is_int($provided[$i])) {
+                return false;
+            }
+        }
+        if ($required[0] != $provided[0]) {
+            return false;
+        }
+        if ($required[1] > $provided[1]) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -1359,15 +1411,16 @@ class GalleryUtilities {
      * @param array $array
      * @return array of keys
      */
-    function arrayKeysRecursive($array) {
-	$keys = array();
-	foreach ($array as $key => $item) {
-	    $keys[] = $key;
-	    if (is_array($item) && !empty($item)) {
-		$keys = array_merge($keys, GalleryUtilities::arrayKeysRecursive($item));
-	    }
-	}
-	return $keys;
+    function arrayKeysRecursive($array)
+    {
+        $keys = array();
+        foreach ($array as $key => $item) {
+            $keys[] = $key;
+            if (is_array($item) && !empty($item)) {
+                $keys = array_merge($keys, MyOOS_Utilities::arrayKeysRecursive($item));
+            }
+        }
+        return $keys;
     }
 
     /**
@@ -1375,47 +1428,49 @@ class GalleryUtilities {
      * @param string $ini_string name of the php.ini value to be retrieved
      * @return boolean value
      */
-    function getPhpIniBool($ini_string) {
-	$value = ini_get($ini_string);
+    function getPhpIniBool($ini_string)
+    {
+        $value = ini_get($ini_string);
 
-	if (!strcasecmp('on', $value) || $value == 1 || $value === true) {
-	    return true;
-	}
+        if (!strcasecmp('on', $value) || $value == 1 || $value === true) {
+            return true;
+        }
 
-	if (!strcasecmp('off', $value) || $value == 0 || $value === false) {
-	    return false;
-	}
+        if (!strcasecmp('off', $value) || $value == 0 || $value === false) {
+            return false;
+        }
 
-	/* Catchall */
-	return false;
+        /* Catchall */
+        return false;
     }
 
     /**
      * Return id of the search engine currently crawling the site by analyzing the current request.
      * @return string the crawler id, or null if it's a regular user
      */
-    function identifySearchEngine() {
-	if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-	    return null;
-	}
-	$userAgent = $_SERVER['HTTP_USER_AGENT'];
-	if (strstr($userAgent, 'Google') || strstr($userAgent, 'gsa-crawler')) {
-	    return 'google';
-	} else if (strstr($userAgent, 'Yahoo')) {
-	    return 'yahoo';
-	} else if (strstr($userAgent, 'Ask Jeeves')) {
-	    return 'askjeeves';
-	} else if (strstr($userAgent, 'msnbot')) {
-	    return 'microsoft';
-	} else if (strstr($userAgent, 'Yandex')) {
-	    return 'yandex';
-	} else if (strstr($userAgent, 'StackRambler')) {
-	    return 'stackrambler';
-	} else if (strstr($userAgent, 'ConveraCrawler')) {
-	    return 'convera';
-	}
+    function identifySearchEngine()
+    {
+        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+            return null;
+        }
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        if (strstr($userAgent, 'Google') || strstr($userAgent, 'gsa-crawler')) {
+            return 'google';
+        } else if (strstr($userAgent, 'Yahoo')) {
+            return 'yahoo';
+        } else if (strstr($userAgent, 'Ask Jeeves')) {
+            return 'askjeeves';
+        } else if (strstr($userAgent, 'msnbot')) {
+            return 'microsoft';
+        } else if (strstr($userAgent, 'Yandex')) {
+            return 'yandex';
+        } else if (strstr($userAgent, 'StackRambler')) {
+            return 'stackrambler';
+        } else if (strstr($userAgent, 'ConveraCrawler')) {
+            return 'convera';
+        }
 
-	return null;
+        return null;
     }
 
     /**
@@ -1423,14 +1478,15 @@ class GalleryUtilities {
      * @param string $key the key in the _SERVER superglobal
      * @return string the value
      */
-    function getServerVar($key) {
-	if (!isset($_SERVER[$key])) {
-	    return null;
-	}
+    function getServerVar($key)
+    {
+        if (!isset($_SERVER[$key])) {
+            return null;
+    }
 
-	$value = $_SERVER[$key];
-	GalleryUtilities::sanitizeInputValues($value);
-	return $value;
+        $value = $_SERVER[$key];
+        MyOOS_Utilities::sanitizeInputValues($value);
+        return $value;
     }
 
     /**
@@ -1438,17 +1494,18 @@ class GalleryUtilities {
      * @param string $key the key in the _COOKIE superglobal
      * @return string the value
      */
-    function getCookieVar($key) {
-	if (!isset($_COOKIE[$key])) {
-	    return null;
-	}
+    function getCookieVar($key)
+    {
+        if (!isset($_COOKIE[$key])) {
+            return null;
+        }
 
-	/* Fix PHP HTTP_COOKIE header bug http://bugs.php.net/bug.php?id=32802 */
-	GalleryUtilities::fixCookieVars();
+        /* Fix PHP HTTP_COOKIE header bug http://bugs.php.net/bug.php?id=32802 */
+        MyOOS_Utilities::fixCookieVars();
 
-	$value = $_COOKIE[$key];
-	GalleryUtilities::sanitizeInputValues($value);
-	return $value;
+        $value = $_COOKIE[$key];
+        MyOOS_Utilities::sanitizeInputValues($value);
+        return $value;
     }
 
     /**
@@ -1456,9 +1513,10 @@ class GalleryUtilities {
      * @see Gallery::isEmbedded
      * @deprecated
      */
-    function isEmbedded() {
-	global $gallery;
-	return $gallery->isEmbedded();
+    function isEmbedded()
+    {
+        global $gallery;
+        return $gallery->isEmbedded();
     }
 
     /**
@@ -1495,81 +1553,81 @@ class GalleryUtilities {
      * @param boolean $unset unset static variable for testability
      */
     function fixCookieVars($force=false, $unset=false) {
-	static $fixed;
-	if (!isset($fixed) || $force) {
-	    $fixed = true;
-	    if (isset($_SERVER['HTTP_COOKIE']) && !empty($_SERVER['HTTP_COOKIE'])) {
-		/*
-		 * Array to keep track of fixed cookies to not make the same mistake as PHP, ie.
-		 * don't assign values to cookies that were already fixed/set before
-		 */
-		$fixedCookies = array();
-		/* Check if the Cookie header contains quoted-strings */
-		if (strstr($_SERVER['HTTP_COOKIE'], '"') === false) {
-		    /*
-		     * Use fast method, no quoted-strings in the header.  Get rid of less specific
-		     * cookies if multiple cookies with the same NAME are present. Do this by going
-		     * from left/first cookie to right/last cookie.
-		     */
-		    $tok = strtok($_SERVER['HTTP_COOKIE'], ',;');
-		    while ($tok) {
-			GalleryUtilities::_registerCookieAttr($tok, $fixedCookies);
-			$tok = strtok(',;');
-		    }
-		} else {
-		    /*
-		     * We can't just tokenize the Cookie header string because there are
-		     * quoted-strings and delimiters in quoted-string should be handled as values
-		     * and not as delimiters.  Thus, we have to parse it character by character.
-		     */
-		    $quotedStringOpen = false;
-		    $string = $_SERVER['HTTP_COOKIE'];
-		    $len = strlen($string);
-		    $i = 0;
-		    $lastPos = 0;
-		    while ($i < $len) {
-			switch ($string{$i}) {
-			    /* Two attr-pair separators */
-			case ',':
-			case ';':
-			    if ($quotedStringOpen) {
-				/* Ignore separators within quoted-strings */
-			    } else {
-				/* An attr[=value] pair */
-				GalleryUtilities::_registerCookieAttr(substr($string, $lastPos,
-									     $i - $lastPos),
-								      $fixedCookies);
-				$lastPos = $i + 1; /* Next attr starts at next char */
-			    }
-			    break;
-			case '"':
-			    $quotedStringOpen = !$quotedStringOpen;
-			    break;
-			case '\\':
-			    /* Escape the next character = jump over it */
-			    $i++;
-			    break;
-			}
-			$i++;
-		    }
-		    /* Register last attr in header, but only if the syntax is correct */
-		    if (!$quotedStringOpen) {
-			GalleryUtilities::_registerCookieAttr(substr($string, $lastPos),
-							      $fixedCookies);
-		    }
-		}
-	    }
-	}
+    static $fixed;
+    if (!isset($fixed) || $force) {
+        $fixed = true;
+        if (isset($_SERVER['HTTP_COOKIE']) && !empty($_SERVER['HTTP_COOKIE'])) {
+        /*
+         * Array to keep track of fixed cookies to not make the same mistake as PHP, ie.
+         * don't assign values to cookies that were already fixed/set before
+         */
+        $fixedCookies = array();
+        /* Check if the Cookie header contains quoted-strings */
+        if (strstr($_SERVER['HTTP_COOKIE'], '"') === false) {
+            /*
+             * Use fast method, no quoted-strings in the header.  Get rid of less specific
+             * cookies if multiple cookies with the same NAME are present. Do this by going
+             * from left/first cookie to right/last cookie.
+             */
+            $tok = strtok($_SERVER['HTTP_COOKIE'], ',;');
+            while ($tok) {
+            MyOOS_Utilities::_registerCookieAttr($tok, $fixedCookies);
+            $tok = strtok(',;');
+            }
+        } else {
+            /*
+             * We can't just tokenize the Cookie header string because there are
+             * quoted-strings and delimiters in quoted-string should be handled as values
+             * and not as delimiters.  Thus, we have to parse it character by character.
+             */
+            $quotedStringOpen = false;
+            $string = $_SERVER['HTTP_COOKIE'];
+            $len = strlen($string);
+            $i = 0;
+            $lastPos = 0;
+            while ($i < $len) {
+            switch ($string{$i}) {
+                /* Two attr-pair separators */
+            case ',':
+            case ';':
+                if ($quotedStringOpen) {
+                /* Ignore separators within quoted-strings */
+                } else {
+                /* An attr[=value] pair */
+                MyOOS_Utilities::_registerCookieAttr(substr($string, $lastPos,
+                                         $i - $lastPos),
+                                      $fixedCookies);
+                $lastPos = $i + 1; /* Next attr starts at next char */
+                }
+                break;
+            case '"':
+                $quotedStringOpen = !$quotedStringOpen;
+                break;
+            case '\\':
+                /* Escape the next character = jump over it */
+                $i++;
+                break;
+            }
+            $i++;
+            }
+            /* Register last attr in header, but only if the syntax is correct */
+            if (!$quotedStringOpen) {
+            MyOOS_Utilities::_registerCookieAttr(substr($string, $lastPos),
+                                  $fixedCookies);
+            }
+        }
+        }
+    }
 
-	/*
-	 * To test methods that call fixCookieVars, we have to first unset the static $fixed
-	 * variable to enable testability of these functions.  This way, fixCookieVars will
-	 * repopulate $_COOKIE on the next call, ie. it simulates a case, where fixCookieVars has
-	 * not been called before on the request.
-	 */
-	if ($unset) {
-	    $fixed = null;
-	}
+    /*
+     * To test methods that call fixCookieVars, we have to first unset the static $fixed
+     * variable to enable testability of these functions.  This way, fixCookieVars will
+     * repopulate $_COOKIE on the next call, ie. it simulates a case, where fixCookieVars has
+     * not been called before on the request.
+     */
+    if ($unset) {
+        $fixed = null;
+    }
     }
 
     /**
@@ -1588,51 +1646,51 @@ class GalleryUtilities {
      * @access private
      */
     function _registerCookieAttr($attr, &$fixedCookies) {
-	global $gallery;
-	/* Split NAME [=VALUE], value is optional for all attributes but the cookie name */
-	if (($pos = strpos($attr, '=')) !== false) {
-	    $val = substr($attr, $pos + 1);
-	    $key = substr($attr, 0, $pos);
-	} else {
-	    /* No cookie name=value attr, we can ignore it */
-	    return null;
-	}
-	/* Urldecode header data (php-style of name = attr handling) */
-	$key = trim(urldecode($key));
-	/* Don't accept zero length key */
-	if (($len = strlen($key)) == 0) {
-	    return null;
-	}
-	/* Don't fix cookies with '[', ']' or any array-cookies (for simplicity) */
-	$pos = strchr($key, '[');
-	if (strchr($key, '[') !== false || strchr($key, ']') !== false) {
-	    return null;
-	}
-	/* Make it a binary safe variable name */
-	for ($i = 0; $i < $len; $i++) {
-	    if ($key{$i} == ' ' || $key{$i} == '.') {
-		$key{$i} = '_';
-	    }
-	}
-	/*
-	 * Don't register non-NAME attributes like domain, path, ... which are all starting with a
-	 * dollar sign according to RFC 2965
-	 */
-	if (strpos($key, '$') === 0) {
-	    return null;
-	}
-	/* Urldecode value */
-	$val = trim(urldecode($val));
-	/* Add slashes if magic_quotes_gpc is on */
-	$phpVm = $gallery->getPhpVm();
-	if ($phpVm->get_magic_quotes_gpc()) {
-	    $key = addslashes($key);
-	    $val = addslashes($val);
-	}
-	if (!isset($fixedCookies[$key])) {
-	    $_COOKIE[$key] = $val;
-	    $fixedCookies[$key] = true;
-	}
+    global $gallery;
+    /* Split NAME [=VALUE], value is optional for all attributes but the cookie name */
+    if (($pos = strpos($attr, '=')) !== false) {
+        $val = substr($attr, $pos + 1);
+        $key = substr($attr, 0, $pos);
+    } else {
+        /* No cookie name=value attr, we can ignore it */
+        return null;
+    }
+    /* Urldecode header data (php-style of name = attr handling) */
+    $key = trim(urldecode($key));
+    /* Don't accept zero length key */
+    if (($len = strlen($key)) == 0) {
+        return null;
+    }
+    /* Don't fix cookies with '[', ']' or any array-cookies (for simplicity) */
+    $pos = strchr($key, '[');
+    if (strchr($key, '[') !== false || strchr($key, ']') !== false) {
+        return null;
+    }
+    /* Make it a binary safe variable name */
+    for ($i = 0; $i < $len; $i++) {
+        if ($key{$i} == ' ' || $key{$i} == '.') {
+        $key{$i} = '_';
+        }
+    }
+    /*
+     * Don't register non-NAME attributes like domain, path, ... which are all starting with a
+     * dollar sign according to RFC 2965
+     */
+    if (strpos($key, '$') === 0) {
+        return null;
+    }
+    /* Urldecode value */
+    $val = trim(urldecode($val));
+    /* Add slashes if magic_quotes_gpc is on */
+    $phpVm = $gallery->getPhpVm();
+    if ($phpVm->get_magic_quotes_gpc()) {
+        $key = addslashes($key);
+        $val = addslashes($val);
+    }
+    if (!isset($fixedCookies[$key])) {
+        $_COOKIE[$key] = $val;
+        $fixedCookies[$key] = true;
+    }
     }
 
     /**
@@ -1641,8 +1699,9 @@ class GalleryUtilities {
      * @param string $string
      * @return string lowercase version of the string
      */
-    function strToLower($string) {
-	return strtr($string, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
+    function strToLower($string)
+    {
+        return strtr($string, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
     }
 
     /**
@@ -1650,8 +1709,9 @@ class GalleryUtilities {
      * @param string $string
      * @return string uppercase version of the string
      */
-    function strToUpper($string) {
-	return strtr($string, 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+    function strToUpper($string)
+    {
+        return strtr($string, 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
     }
 
     /**
@@ -1663,22 +1723,23 @@ class GalleryUtilities {
      * @param string $header
      * @return bool true if the given header is safe
      */
-    function isSafeHttpHeader($header) {
-	if (!is_string($header)) {
-	    return false;
-	}
+    function isSafeHttpHeader($header)
+    {
+        if (!is_string($header)) {
+            return false;
+        }
 
-	/* Don't allow plain occurrences of CR or LF */
-	if (strpos($header, chr(13)) !== false || strpos($header, chr(10)) !== false) {
-	    return false;
-	}
+        /* Don't allow plain occurrences of CR or LF */
+        if (strpos($header, chr(13)) !== false || strpos($header, chr(10)) !== false) {
+            return false;
+        }
 
-	/* Don't allow (x times) url encoded versions of CR or LF */
-	if (preg_match('/%(25)*(0a|0d)/i', $header)) {
-	    return false;
-	}
+        /* Don't allow (x times) url encoded versions of CR or LF */
+        if (preg_match('/%(25)*(0a|0d)/i', $header)) {
+            return false;
+        }
 
-	return true;
+        return true;
     }
+
 }
-?>
