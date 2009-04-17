@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: mail.php,v 1.30 2002/03/16 01:07:28 hpdl 
+   File: mail.php,v 1.30 2002/03/16 01:07:28 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -47,10 +47,10 @@
     // Instantiate a new mail object
     $send_mail = new PHPMailer();
 
-    $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/';
+    $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/';
 
     $sLang = (isset($_SESSION['iso_639_1']) ? $_SESSION['iso_639_1'] : 'en');
-    $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/language/' );
+    $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/language/' );
 
     $send_mail->CharSet = CHARSET;
     $send_mail->IsMail();
@@ -98,7 +98,7 @@
     $messageStack->add(sprintf(NOTICE_EMAIL_SENT_TO, $_GET['mail_sent_to']), 'notice');
   }
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -150,7 +150,7 @@
               </tr>
               <tr>
                 <td class="smallText"><b><?php echo TEXT_FROM_MAIL; ?></b><br /><?php echo htmlspecialchars(stripslashes($_POST['from_mail'])); ?></td>
-              </tr>  
+              </tr>
               <tr>
                 <td><?php echo oos_draw_separator('trans.gif', '1', '10'); ?></td>
               </tr>
@@ -222,7 +222,7 @@
               <tr>
                 <td class="main"><?php echo TEXT_FROM_MAIL; ?></td>
                 <td><?php echo oos_draw_input_field('from_mail',STORE_OWNER_EMAIL_ADDRESS); ?></td></td>
-              </tr>  
+              </tr>
               <tr>
                 <td colspan="2"><?php echo oos_draw_separator('trans.gif', '1', '10'); ?></td>
               </tr>

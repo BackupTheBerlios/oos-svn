@@ -44,11 +44,11 @@
     }
     $options['table'] = $oostable['sessions'];
 
-    include_once OOS_ABSOLUTE_PATH.'includes/classes/thirdparty/adodb/adodb.inc.php';
+    include_once OOS_ABSOLUTE_PATH.'includes/lib/adodb/adodb.inc.php';
     if (STORE_SESSIONS_CRYPT == '1') {
-      include OOS_ABSOLUTE_PATH.'includes/classes/thirdparty/adodb/session/adodb-cryptsession2.php';
+      include OOS_ABSOLUTE_PATH.'includes/lib/adodb/session/adodb-cryptsession2.php';
     } else {
-      include OOS_ABSOLUTE_PATH.'includes/classes/thirdparty/adodb/session/adodb-session2.php';
+      include OOS_ABSOLUTE_PATH.'includes/lib/adodb/session/adodb-session2.php';
     }
 
     ADOdb_Session::config($driver, $host, $user, $pwd, $database, $options);

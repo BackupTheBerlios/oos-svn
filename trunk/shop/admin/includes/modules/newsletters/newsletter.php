@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: newsletter.php,v 1.1 2002/03/08 18:38:18 hpdl 
+   File: newsletter.php,v 1.1 2002/03/08 18:38:18 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -83,14 +83,14 @@
 
       // Get database information
       $dbconn =& oosDBGetConn();
-      $oostable =& oosDBGetTables(); 
+      $oostable =& oosDBGetTables();
 
       $send_mail = new PHPMailer();
 
-      $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/';
+      $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/';
 
       $sLang = (isset($_SESSION['iso_639_1']) ? $_SESSION['iso_639_1'] : 'en');
-      $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/language/' );
+      $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/language/' );
 
       $send_mail->CharSet = CHARSET;
       $send_mail->IsMail();
@@ -117,8 +117,8 @@
 
       $send_mail->Subject = $this->title;
 
-      $sql = "SELECT customers_firstname, customers_lastname, customers_email_address 
-              FROM " . $oostable['customers'] . " 
+      $sql = "SELECT customers_firstname, customers_lastname, customers_email_address
+              FROM " . $oostable['customers'] . "
               WHERE customers_newsletter = '1'";
       $mail_result = $dbconn->Execute($sql);
 
@@ -134,8 +134,8 @@
         $mail_result->MoveNext();
       }
 
-      $sql = "SELECT customers_firstname, customers_lastname, customers_email_address 
-              FROM " . $oostable['maillist'] . " 
+      $sql = "SELECT customers_firstname, customers_lastname, customers_email_address
+              FROM " . $oostable['maillist'] . "
               WHERE customers_newsletter = '1'";
       $mail_result2 = $dbconn->Execute($sql);
 

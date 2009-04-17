@@ -1402,8 +1402,8 @@
 	$mail->ClearAddresses();
 	$mail->ClearAttachments();
 
-    $mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/';
-    $mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/language/' );
+    $mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/';
+    $mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/language/' );
 
     $mail->CharSet = CHARSET;
     $mail->IsMail();

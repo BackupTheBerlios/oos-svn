@@ -73,9 +73,9 @@
     exit;
   }
 
-  if (file_exists('../includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php')) {
-    require '../includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php';
-     require '../includes/classes/thirdparty/adodb/adodb.inc.php';
+  if (file_exists('../includes/lib/adodb/adodb-errorhandler.inc.php')) {
+    require '../includes/lib/adodb/adodb-errorhandler.inc.php';
+     require '../includes/lib/adodb/adodb.inc.php';
   } else {
     include '../' . OOS_ADODB . 'adodb-errorhandler.inc.php';
     include '../' .OOS_ADODB . 'adodb.inc.php';

@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: gv_queue.php,v 1.2.2.5 2003/05/05 12:46:52 wilt 
+   File: gv_queue.php,v 1.2.2.5 2003/05/05 12:46:52 wilt
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -49,15 +49,15 @@
         // Instantiate a new mail object
         $send_mail = new PHPMailer();
 
-        $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/';
+        $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/';
 
         $sLang = (isset($_SESSION['iso_639_1']) ? $_SESSION['iso_639_1'] : 'en');
-        $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/language/' );
+        $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/language/' );
 
         $send_mail->CharSet = CHARSET;
         $send_mail->IsMail();
 
-        $send_mail->From = STORE_OWNER_EMAIL_ADDRESS; 
+        $send_mail->From = STORE_OWNER_EMAIL_ADDRESS;
         $send_mail->FromName = STORE_OWNER;
         $send_mail->Mailer = EMAIL_TRANSPORT;
 
@@ -108,7 +108,7 @@
     }
   }
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

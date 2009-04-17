@@ -61,7 +61,7 @@
   require_once '../includes/functions/function_global.php';
   require_once '../includes/functions/function_kernel.php';
   require_once '../includes/functions/function_password.php';
-  require_once '../includes/classes/thirdparty/adodb/adodb.inc.php';
+  require_once '../includes/lib/adodb/adodb.inc.php';
 
   include_once 'modify_configure.php';
   include_once 'upgrade.php';

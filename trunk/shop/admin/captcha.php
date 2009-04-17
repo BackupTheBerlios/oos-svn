@@ -55,7 +55,7 @@
   }
 
   $_SESSION['oos_captcha_string'] = '';
-  require '../includes/classes/thirdparty/captcha/captcha.class.php';
+  require '../includes/lib/captcha/captcha.class.php';
 
   $captcha = new captcha();
   $_SESSION['oos_captcha_string'] = $captcha->getCaptcha();

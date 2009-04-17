@@ -68,10 +68,10 @@
         $send_mail = new PHPMailer();
 
 
-        $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/';
+        $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/';
 
         $sLang = (isset($_SESSION['iso_639_1']) ? $_SESSION['iso_639_1'] : 'en');
-        $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/language/' );
+        $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/language/' );
 
         $send_mail->CharSet = CHARSET;
         $send_mail->IsMail();
@@ -124,10 +124,10 @@
       //Let's build a message object using the email class
       $send_mail = new PHPMailer();
 
-      $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/';
+      $send_mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/';
 
       $sLang = (isset($_SESSION['iso_639_1']) ? $_SESSION['iso_639_1'] : 'en');
-      $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/phpmailer/language/' );
+      $send_mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/language/' );
 
       $send_mail->CharSet = CHARSET;
       $send_mail->IsMail();
@@ -163,7 +163,7 @@
       $insert_result = $dbconn->Execute("INSERT INTO $couponstable (coupon_code, coupon_type, coupon_amount, date_created) VALUES ('" . $id1 . "', 'G', '" . $_POST['amount'] . "', now())");
       $insert_id = $dbconn->Insert_ID();
       $coupon_email_tracktable = $oostable['coupon_email_track'];
-      $insert_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable (coupon_id, customer_id_sent, sent_firstname, emailed_to, date_sent) VALUES ('" . $insert_id ."', '0', 'Admin', '" . $_POST['email_to'] . "', now() )"); 
+      $insert_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable (coupon_id, customer_id_sent, sent_firstname, emailed_to, date_sent) VALUES ('" . $insert_id ."', '0', 'Admin', '" . $_POST['email_to'] . "', now() )");
     }
 
     oos_redirect_admin(oos_href_link_admin($aFilename['gv_mail'], 'mail_sent_to=' . urlencode($mail_sent_to)));
@@ -181,7 +181,7 @@
     $messageStack->add(sprintf(NOTICE_EMAIL_SENT_TO, $_GET['mail_sent_to']), 'notice');
   }
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -236,7 +236,7 @@
               </tr>
               <tr>
                 <td class="smallText"><b><?php echo TEXT_FROM_MAIL; ?></b><br /><?php echo htmlspecialchars(stripslashes($_POST['from_mail'])); ?></td>
-              </tr> 
+              </tr>
               <tr>
                 <td><?php echo oos_draw_separator('trans.gif', '1', '10'); ?></td>
               </tr>

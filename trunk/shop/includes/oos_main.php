@@ -102,7 +102,7 @@ require 'includes/classes/class_shopping_cart.php';
 require 'includes/classes/class_navigation_history.php';
 
 // require  the mail classes
-require 'includes/classes/thirdparty/phpmailer/class.phpmailer.php';
+require 'includes/lib/phpmailer/class.phpmailer.php';
 
 require 'includes/functions/function_session.php';
 
@@ -112,8 +112,8 @@ $adodb_logsqltable = $oostable['adodb_logsql'];
 if (!defined('ADODB_LOGSQL_TABLE')) {
     define('ADODB_LOGSQL_TABLE', $adodb_logsqltable);
 }
-require 'includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php';
-require 'includes/classes/thirdparty/adodb/adodb.inc.php';
+require 'includes/lib/adodb/adodb-errorhandler.inc.php';
+require 'includes/lib/adodb/adodb.inc.php';
 require 'includes/functions/function_db.php';
 
 // make a connection to the database... now

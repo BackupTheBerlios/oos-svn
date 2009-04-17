@@ -114,7 +114,7 @@
       $session_data = $dbconn->Execute("SELECT data FROM $sessionstable WHERE sesskey = '" . $info . "'");
 
       if (STORE_SESSIONS_CRYPT == '1') {
-        include_once '../includes/classes/thirdparty/adodb/session/crypt.inc.php';
+        include_once '../includes/lib/adodb/session/crypt.inc.php';
         $Crypt = new MD5Crypt;
         $session_data = rawurldecode($Crypt->Decrypt(reset($session_data->fields), crypt(ADODB_Session::encryptionKey(), $info)));
       } else {

@@ -53,7 +53,7 @@ define('OOS_FEEDS_EXPORT_PATH', OOS_ABSOLUTE_PATH . 'feed/');
 define('OOS_UPLOADS', OOS_ABSOLUTE_PATH . OOS_IMAGES . 'uploads/');
 define('OOS_WATERMARK_LOGO', OOS_ABSOLUTE_PATH . OOS_IMAGES . 'watermark.png');
 
-define('SMARTY_DIR', OOS_ABSOLUTE_PATH . 'includes/classes/thirdparty/smarty/libs/');
+define('SMARTY_DIR', OOS_ABSOLUTE_PATH . 'includes/lib/smarty/libs/');
 
 define('OOS_TEMP_PATH', '');
 define('ADODB_ERROR_LOG_DEST', OOS_TEMP_PATH . 'logs/adodb_error.log');

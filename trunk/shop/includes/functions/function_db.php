@@ -113,7 +113,7 @@ function oosDBInit()
 
     //$dbconn->debug = true;
     if (OOS_LOG_SQL == '1') {
-        include 'includes/classes/thirdparty/adodb/adodb-perf.inc.php';
+        include 'includes/lib/adodb/adodb-perf.inc.php';
         adodb_perf::table(ADODB_LOGSQL_TABLE);
 
         $dbconn->LogSQL();

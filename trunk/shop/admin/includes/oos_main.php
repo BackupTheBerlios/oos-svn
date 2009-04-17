@@ -98,10 +98,10 @@ if (is_readable('../includes/local/configure.php')) {
   if (!defined('ADODB_LOGSQL_TABLE')) {
     define('ADODB_LOGSQL_TABLE', $oostable['adodb_logsql']);
   }
-  require '../includes/classes/thirdparty/adodb/toexport.inc.php';
-  require '../includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php';
-  require '../includes/classes/thirdparty/adodb/adodb.inc.php';
-  require '../includes/classes/thirdparty/adodb/tohtml.inc.php';
+  require '../includes/lib/adodb/toexport.inc.php';
+  require '../includes/lib/adodb/adodb-errorhandler.inc.php';
+  require '../includes/lib/adodb/adodb.inc.php';
+  require '../includes/lib/adodb/tohtml.inc.php';
   require '../includes/functions/function_db.php';
 
   // make a connection to the database... now
@@ -189,7 +189,7 @@ require 'includes/classes/class_split_page_results.php';
 require 'includes/classes/class_object_info.php';
 
 // email classes
-require '../includes/classes/thirdparty/phpmailer/class.phpmailer.php';
+require '../includes/lib/phpmailer/class.phpmailer.php';
 
 // calculate category path
 $categories = $_GET['categories'];
