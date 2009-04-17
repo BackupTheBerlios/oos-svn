@@ -830,11 +830,11 @@ class MyOOS_Utilities {
      * @param int $start
      * @param int $length
      * @return string a multibyte safe substring of input value
-     * @deprecated Please use GalleryCoreApi::utf8Substring instead
+     * @deprecated Please use MyOOS_CoreApi::utf8Substring instead
      */
     function utf8Substring($string, $start, $length)
     {
-        return GalleryCoreApi::utf8Substring($string, $start, $length);
+        return MyOOS_CoreApi::utf8Substring($string, $start, $length);
     }
 
     /**
@@ -896,7 +896,7 @@ class MyOOS_Utilities {
      */
     function markup($text, $markupType=null)
     {
-        GalleryCoreApi::requireOnce('lib/smarty_plugins/modifier.markup.php');
+        MyOOS_CoreApi::requireOnce('lib/smarty_plugins/modifier.markup.php');
         return smarty_modifier_markup($text, $markupType);
     }
 
@@ -908,7 +908,7 @@ class MyOOS_Utilities {
      */
     function htmlSafe($html, $decode=false)
     {
-        GalleryCoreApi::requireOnce('lib/pear/HTML/Safe.php');
+        MyOOS_CoreApi::requireOnce('lib/pear/HTML/Safe.php');
         static $parser;
         if (!isset($parser)) {
             $parser =& new HTML_Safe();
@@ -1106,7 +1106,7 @@ class MyOOS_Utilities {
             /* To avoid looping if getPluginParameter calls guaranteeDirExists */
             GalleryDataCache::put($cacheKey, 0);
             list ($ret, $dirPerms) =
-            GalleryCoreApi::getPluginParameter('module', 'core', 'permissions.directory');
+            MyOOS_CoreApi::getPluginParameter('module', 'core', 'permissions.directory');
             /* Ignore error here, then recheck $dir in case it was created in nested call */
             GalleryDataCache::put($cacheKey, $dirPerms);
             if ($platform->file_exists($dir)) {
@@ -1217,7 +1217,7 @@ class MyOOS_Utilities {
         $pseudoFileName = $entity->getPathComponent();
     } else if (MyOOS_Utilities::isA($entity, 'GalleryDerivative')) {
         list ($ret, $parentEntity) =
-        GalleryCoreApi::loadEntitiesById($entity->getParentId(), 'GalleryEntity');
+        MyOOS_CoreApi::loadEntitiesById($entity->getParentId(), 'GalleryEntity');
         if ($ret) {
         return array($ret, null);
         }
@@ -1227,7 +1227,7 @@ class MyOOS_Utilities {
         if (!method_exists($parentEntity, 'getMimeType') ||
             $parentEntity->getMimeType() != $entity->getMimeType()) {
             list ($ret, $extensions) =
-            GalleryCoreApi::convertMimeToExtensions($entity->getMimeType());
+            MyOOS_CoreApi::convertMimeToExtensions($entity->getMimeType());
             if ($ret) {
             return array($ret, null);
             }

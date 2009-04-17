@@ -51,7 +51,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  * @author Bharat Mediratta <bharat@menalto.com>
  * @version Revision: 17580
  */
-class Gallery {
+class MyOOS {
 
     /**
      * The active GalleryUser instance
@@ -192,42 +192,42 @@ class Gallery {
 
 
     function Gallery() {
-	$this->_activeUser = null;
+    $this->_activeUser = null;
 
-	/* Set up a shutdown function to release any hanging locks */
-	register_shutdown_function(array(&$this, '_shutdown'));
+    /* Set up a shutdown function to release any hanging locks */
+    register_shutdown_function(array(&$this, '_shutdown'));
 
-	/* Default config settings (can be overridden via config.php or embedded environment) */
-	$this->_config = array(
-	    'login' => true,		/* Offer UserAdmin links (Login/Logout/Your Account) */
+    /* Default config settings (can be overridden via config.php or embedded environment) */
+    $this->_config = array(
+        'login' => true,        /* Offer UserAdmin links (Login/Logout/Your Account) */
 
-	    /* UrlGenerator parameters for redirect URL to login page. Can be overridden. */
-	    'loginRedirect' => array('view' => 'core.UserAdmin',
-				     'subView' => 'core.UserLogin', 'return' => true),
+        /* UrlGenerator parameters for redirect URL to login page. Can be overridden. */
+        'loginRedirect' => array('view' => 'core.UserAdmin',
+                     'subView' => 'core.UserLogin', 'return' => true),
 
-	    'link' => true,		 /* @deprecated - Allow item linking */
-					 /* (now unused, there is a separate replica module */
+        'link' => true,         /* @deprecated - Allow item linking */
+                     /* (now unused, there is a separate replica module */
 
-	    'showSidebarBlocks' => true, /* Can we allow themes to show the sidebar? */
+        'showSidebarBlocks' => true, /* Can we allow themes to show the sidebar? */
 
-	    'systemCharset' => null,     /* Specify system character set, skip autodetect */
-	    'defaultAlbumId' => null,    /* Initial album to display instead of root album */
-	    'breadcrumbRootId' => null,  /* Can omit parents above this id in fetchParentSequence */
-	    'anonymousUserId' => null,   /* Alternate user account for guest sessions */
-	);
+        'systemCharset' => null,     /* Specify system character set, skip autodetect */
+        'defaultAlbumId' => null,    /* Initial album to display instead of root album */
+        'breadcrumbRootId' => null,  /* Can omit parents above this id in fetchParentSequence */
+        'anonymousUserId' => null,   /* Alternate user account for guest sessions */
+    );
     }
 
     /**
      * @see GalleryStorage::search
      */
     function search($query, $data=array(), $options=array()) {
-	$storage =& $this->getStorage();
-	list ($ret, $results) = $storage->search($query, $data, $options);
-	if ($ret) {
-	    return array($ret, null);
-	}
+    $storage =& $this->getStorage();
+    list ($ret, $results) = $storage->search($query, $data, $options);
+    if ($ret) {
+        return array($ret, null);
+    }
 
-	return array(null, $results);
+    return array(null, $results);
     }
 
     /**
@@ -236,20 +236,20 @@ class Gallery {
      * @param GalleryUser $user the current user
      */
     function setActiveUser($user) {
-	$this->_activeUser = $user;
+    $this->_activeUser = $user;
 
-	/* It's possible for the session not to exist during bootstrap time */
-	$session =& $this->getSession();
-	if (isset($session)) {
-	    $activeUserId = $session->getUserId();
-	    if ($activeUserId != $user->getId()) {
-		$session->setUserId($user->getId());
-		$language = $user->getLanguage();
-		if (!empty($language)) {
-		    $session->put('core.language', $language);
-		}
-	    }
-	}
+    /* It's possible for the session not to exist during bootstrap time */
+    $session =& $this->getSession();
+    if (isset($session)) {
+        $activeUserId = $session->getUserId();
+        if ($activeUserId != $user->getId()) {
+        $session->setUserId($user->getId());
+        $language = $user->getLanguage();
+        if (!empty($language)) {
+            $session->put('core.language', $language);
+        }
+        }
+    }
     }
 
     /**
@@ -259,12 +259,12 @@ class Gallery {
      * @return int the id of the current user
      */
     function getActiveUserId() {
-	if (isset($this->_activeUser)) {
-	    return (int) $this->_activeUser->getId();
-	} else {
-	    $session =& $this->getSession();
-	    return (int) $session->getUserId();
-	}
+    if (isset($this->_activeUser)) {
+        return (int) $this->_activeUser->getId();
+    } else {
+        $session =& $this->getSession();
+        return (int) $session->getUserId();
+    }
     }
 
     /**
@@ -274,7 +274,7 @@ class Gallery {
      * @return GalleryUser the active user
      */
     function getActiveUser() {
-	return $this->_activeUser;
+    return $this->_activeUser;
     }
 
     /**
@@ -283,9 +283,10 @@ class Gallery {
      * @param string $key
      * @param mixed $value
      */
-    function setConfig($key, $value) {
-	assert('!empty($key)');
-	$this->_config[$key] = $value;
+    function setConfig($key, $value)
+    {
+        assert('!empty($key)');
+        $this->_config[$key] = $value;
     }
 
     /**
@@ -294,8 +295,8 @@ class Gallery {
      * @return mixed an arbitrary value
      */
     function getConfig($key) {
-	assert('!empty($key)');
-	return $this->_config[$key];
+    assert('!empty($key)');
+    return $this->_config[$key];
     }
 
     /**
@@ -304,24 +305,24 @@ class Gallery {
      * @return GalleryStatus a status code
      */
     function initSession() {
-	GalleryCoreApi::requireOnce('modules/core/classes/GallerySession.class');
-	if (empty($this->_session)) {
-	    $this->_session = new GallerySession();
-	    $ret = $this->_session->init();
-	    if ($ret) {
-		return $ret;
-	    }
-	}
+    MyOOS_CoreApi::requireOnce('modules/core/classes/GallerySession.class');
+    if (empty($this->_session)) {
+        $this->_session = new GallerySession();
+        $ret = $this->_session->init();
+        if ($ret) {
+        return $ret;
+        }
+    }
 
-	return null;
+    return null;
     }
 
     /**
      * Initialize an empty session.
      */
     function initEmptySession() {
-	GalleryCoreApi::requireOnce('modules/core/classes/GallerySession.class');
-	$this->_session = new GallerySession();
+    MyOOS_CoreApi::requireOnce('modules/core/classes/GallerySession.class');
+    $this->_session = new GallerySession();
     }
 
     /**
@@ -332,7 +333,7 @@ class Gallery {
      * @return GallerySession a session instance
      */
     function &getSession() {
-	return $this->_session;
+    return $this->_session;
     }
 
     /**
@@ -341,8 +342,8 @@ class Gallery {
      * @param GalleryPlatform $platform the Gallery platform object
      */
     function setPlatform(&$platform) {
-	unset($this->_platform);
-	$this->_platform =& $platform;
+    unset($this->_platform);
+    $this->_platform =& $platform;
     }
 
     /**
@@ -352,7 +353,7 @@ class Gallery {
      * @return GalleryPlatform the Gallery platform object
      */
     function &getPlatform() {
-	return $this->_platform;
+    return $this->_platform;
     }
 
     /**
@@ -363,41 +364,41 @@ class Gallery {
      *               GalleryLockSystem the lock implementation (reference)
      */
     function &getLockSystem($canInit=true) {
-	if (!isset($this->_lockSystem)) {
-	    if ($canInit) {
-		list ($ret, $which) =
-		    GalleryCoreApi::getPluginParameter('module', 'core', 'lock.system');
-		if ($ret) {
-		    $ret = array($ret, null);
-		    return $ret;
-		}
-	    } else {
-		$which = 'null';
-	    }
+    if (!isset($this->_lockSystem)) {
+        if ($canInit) {
+        list ($ret, $which) =
+            MyOOS_CoreApi::getPluginParameter('module', 'core', 'lock.system');
+        if ($ret) {
+            $ret = array($ret, null);
+            return $ret;
+        }
+        } else {
+        $which = 'null';
+        }
 
-	    switch($which) {
-	    case 'flock':
-		GalleryCoreApi::requireOnce('modules/core/classes/FlockLockSystem.class');
-		$this->_lockSystem = new FlockLockSystem();
-		break;
+        switch($which) {
+        case 'flock':
+        MyOOS_CoreApi::requireOnce('modules/core/classes/FlockLockSystem.class');
+        $this->_lockSystem = new FlockLockSystem();
+        break;
 
-	    case 'database':
-		GalleryCoreApi::requireOnce('modules/core/classes/DatabaseLockSystem.class');
-		$this->_lockSystem = new DatabaseLockSystem();
-		break;
+        case 'database':
+        MyOOS_CoreApi::requireOnce('modules/core/classes/DatabaseLockSystem.class');
+        $this->_lockSystem = new DatabaseLockSystem();
+        break;
 
-	    case 'null':
-		$this->_lockSystem = null;
-		break;
+        case 'null':
+        $this->_lockSystem = null;
+        break;
 
-	    default:
-		$ret = array(GalleryCoreApi::error(ERROR_BAD_PARAMETER), null);
-		return $ret;
-	    }
-	}
+        default:
+        $ret = array(MyOOS_CoreApi::error(ERROR_BAD_PARAMETER), null);
+        return $ret;
+        }
+    }
 
-	$ret = array(null, &$this->_lockSystem);
-	return $ret;
+    $ret = array(null, &$this->_lockSystem);
+    return $ret;
     }
 
     /**
@@ -407,24 +408,24 @@ class Gallery {
      * @access private
      */
     function _shutdown() {
-	if (isset($this->_lockSystem)) {
-	    /* Bitch about open locks */
-	    $lockIds = $this->_lockSystem->getLockIds();
-	    foreach ($lockIds as $lockId) {
-		if ($this->getDebug()) {
-		    $this->debug(sprintf('Lock id %d was left hanging!', $lockId));
-		}
-	    }
+    if (isset($this->_lockSystem)) {
+        /* Bitch about open locks */
+        $lockIds = $this->_lockSystem->getLockIds();
+        foreach ($lockIds as $lockId) {
+        if ($this->getDebug()) {
+            $this->debug(sprintf('Lock id %d was left hanging!', $lockId));
+        }
+        }
 
-	    /* Release all locks and ignore any errors */
-	    $this->_lockSystem->releaseAllLocks();
-	    $this->_lockSystem->releaseQueue();
-	}
+        /* Release all locks and ignore any errors */
+        $this->_lockSystem->releaseAllLocks();
+        $this->_lockSystem->releaseQueue();
+    }
 
-	/* Roll back any transactions */
-	if (isset($this->_storage)) {
-	    $this->_storage->rollbackTransaction();
-	}
+    /* Roll back any transactions */
+    if (isset($this->_storage)) {
+        $this->_storage->rollbackTransaction();
+    }
     }
 
     /**
@@ -433,58 +434,58 @@ class Gallery {
      * @return GalleryStorage a storage instance
      */
     function &getStorage() {
-	if (!isset($this->_storage)) {
-	    $config = $this->getConfig('storage.config');
-	    switch ($config['type']) {
-	    case 'mysql':
-	    case 'mysqlt':
-	    case 'mysqli':
-		GalleryCoreApi::requireOnce('modules/core/classes/GalleryStorage.class');
-		$this->_storage = new MySqlStorage($config);
-		break;
+    if (!isset($this->_storage)) {
+        $config = $this->getConfig('storage.config');
+        switch ($config['type']) {
+        case 'mysql':
+        case 'mysqlt':
+        case 'mysqli':
+        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryStorage.class');
+        $this->_storage = new MySqlStorage($config);
+        break;
 
-	    case 'postgres':
-	    case 'postgres7':
-		GalleryCoreApi::requireOnce(
-			'modules/core/classes/GalleryStorage/PostgreSqlStorage.class');
-		$this->_storage = new PostgreSqlStorage($config);
-		break;
+        case 'postgres':
+        case 'postgres7':
+        MyOOS_CoreApi::requireOnce(
+            'modules/core/classes/GalleryStorage/PostgreSqlStorage.class');
+        $this->_storage = new PostgreSqlStorage($config);
+        break;
 
-	    case 'db2':
-		GalleryCoreApi::requireOnce('modules/core/classes/GalleryStorage/Db2Storage.class');
-		$this->_storage = new Db2Storage($config);
-		break;
+        case 'db2':
+        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryStorage/Db2Storage.class');
+        $this->_storage = new Db2Storage($config);
+        break;
 
-	    case 'oci8':
-	    case 'oci805':
-	    case 'oci8po':
-	    case 'oracle':
-		GalleryCoreApi::requireOnce(
-			'modules/core/classes/GalleryStorage/OracleStorage.class');
-		$this->_storage = new OracleStorage($config);
-		break;
+        case 'oci8':
+        case 'oci805':
+        case 'oci8po':
+        case 'oracle':
+        MyOOS_CoreApi::requireOnce(
+            'modules/core/classes/GalleryStorage/OracleStorage.class');
+        $this->_storage = new OracleStorage($config);
+        break;
 
-	    case 'ado_mssql':
-		GalleryCoreApi::requireOnce(
-			'modules/core/classes/GalleryStorage/MSSqlStorage.class');
-		$this->_storage = new MSSqlStorage($config);
-		break;
+        case 'ado_mssql':
+        MyOOS_CoreApi::requireOnce(
+            'modules/core/classes/GalleryStorage/MSSqlStorage.class');
+        $this->_storage = new MSSqlStorage($config);
+        break;
 
-	    case 'pdo_sqlite':
-		GalleryCoreApi::requireOnce(
-			'modules/core/classes/GalleryStorage/SQLiteStorage.class');
-		$this->_storage = new SQLiteStorage($config);
-		break;
+        case 'pdo_sqlite':
+        MyOOS_CoreApi::requireOnce(
+            'modules/core/classes/GalleryStorage/SQLiteStorage.class');
+        $this->_storage = new SQLiteStorage($config);
+        break;
 
-	    default:
-		$this->debug('Unknown storage type');
-		$this->debug_r($config);
-		GalleryCoreApi::requireOnce('modules/core/classes/GalleryStorage.class', true);
-		$this->_storage = new GalleryStorage($config);
-	    }
-	}
+        default:
+        $this->debug('Unknown storage type');
+        $this->debug_r($config);
+        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryStorage.class', true);
+        $this->_storage = new GalleryStorage($config);
+        }
+    }
 
-	return $this->_storage;
+    return $this->_storage;
     }
 
     /**
@@ -493,7 +494,7 @@ class Gallery {
      * @return boolean
      */
     function isStorageInitialized() {
-	return isset($this->_storage);
+    return isset($this->_storage);
     }
 
     /**
@@ -502,8 +503,8 @@ class Gallery {
      * @param GalleryUrlGenerator $urlGenerator
      */
     function setUrlGenerator(&$urlGenerator) {
-	unset($this->_urlGenerator);
-	$this->_urlGenerator =& $urlGenerator;
+    unset($this->_urlGenerator);
+    $this->_urlGenerator =& $urlGenerator;
     }
 
     /**
@@ -512,7 +513,7 @@ class Gallery {
      * @return GalleryUrlGenerator
      */
     function &getUrlGenerator() {
-	return $this->_urlGenerator;
+    return $this->_urlGenerator;
     }
 
     /**
@@ -521,7 +522,7 @@ class Gallery {
      * @param string $view the view name
      */
     function setCurrentView($view) {
-	$this->_currentView = $view;
+    $this->_currentView = $view;
     }
 
     /**
@@ -530,7 +531,7 @@ class Gallery {
      * @return string the current view name
      */
     function getCurrentView() {
-	return $this->_currentView;
+    return $this->_currentView;
     }
 
     /**
@@ -539,7 +540,7 @@ class Gallery {
      * @return GalleryTranslator
      */
     function &getTranslator() {
-	return $this->_translator;
+    return $this->_translator;
     }
 
     /**
@@ -549,29 +550,29 @@ class Gallery {
      * @return GalleryStatus a status code
      */
     function initTranslator($dontUseDatabase=false) {
-	if (empty($this->_translator)) {
-	    /* Load the translator class */
-	    GalleryCoreApi::requireOnce('modules/core/classes/GalleryTranslator.class');
+    if (empty($this->_translator)) {
+        /* Load the translator class */
+        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryTranslator.class');
 
-	    /* Do we already have an activeLanguage for this session? */
-	    list ($ret, $language) = $this->getActiveLanguageCode();
-	    if ($ret) {
-		return $ret;
+        /* Do we already have an activeLanguage for this session? */
+        list ($ret, $language) = $this->getActiveLanguageCode();
+        if ($ret) {
+        return $ret;
 
-	    }
+        }
 
-	    $this->_translator = new GalleryTranslator();
-	    list ($ret, $languageCode) = $this->_translator->init($language, $dontUseDatabase);
-	    if ($ret) {
-		return $ret;
-	    }
-	    $ret = $this->setActiveLanguageCode($languageCode);
-	    if ($ret) {
-		return $ret;
-	    }
-	}
+        $this->_translator = new GalleryTranslator();
+        list ($ret, $languageCode) = $this->_translator->init($language, $dontUseDatabase);
+        if ($ret) {
+        return $ret;
+        }
+        $ret = $this->setActiveLanguageCode($languageCode);
+        if ($ret) {
+        return $ret;
+        }
+    }
 
-	return null;
+    return null;
     }
 
     /**
@@ -581,15 +582,15 @@ class Gallery {
      *               string language code
      */
     function getActiveLanguageCode() {
-	$session =& $this->getSession();
-	/* During installation, we don't have a session yet */
-	if (!empty($session)) {
-	    $language = $session->get('core.language');
-	} else {
-	    $language = '';
-	}
+    $session =& $this->getSession();
+    /* During installation, we don't have a session yet */
+    if (!empty($session)) {
+        $language = $session->get('core.language');
+    } else {
+        $language = '';
+    }
 
-	return array(null, $language);
+    return array(null, $language);
     }
 
     /**
@@ -599,13 +600,13 @@ class Gallery {
      * @return GalleryStatus a status code
      */
     function setActiveLanguageCode($language) {
-	$session =& $this->getSession();
-	/* During installation, we don't have a session yet */
-	if (!empty($session)) {
-	    $session->put('core.language', $language);
-	}
+    $session =& $this->getSession();
+    /* During installation, we don't have a session yet */
+    if (!empty($session)) {
+        $session->put('core.language', $language);
+    }
 
-	return null;
+    return null;
     }
 
     /**
@@ -616,27 +617,27 @@ class Gallery {
      * @param int $limit a time interval in seconds, must be greater than 0
      */
     function guaranteeTimeLimit($limit) {
-	if ($limit <= 0) {
-	    $limit = 30;
-	}
+    if ($limit <= 0) {
+        $limit = 30;
+    }
 
-	$now = time();
-	if (empty($this->_timeLimit) || ($this->_timeLimit - $now < $limit)) {
-	    $this->debug("[$now] can't guarantee $limit -- extending!");
+    $now = time();
+    if (empty($this->_timeLimit) || ($this->_timeLimit - $now < $limit)) {
+        $this->debug("[$now] can't guarantee $limit -- extending!");
 
-	    /* Make sure that we extend at least a minimum of 30 seconds */
-	    $this->_timeLimit = $now + max($limit, 30);
-	    set_time_limit($this->_timeLimit - $now);
+        /* Make sure that we extend at least a minimum of 30 seconds */
+        $this->_timeLimit = $now + max($limit, 30);
+        set_time_limit($this->_timeLimit - $now);
 
-	    /*
-	     * Then make sure our locks stick around.  Even though this returns a status code, we
-	     * really don't want to make guaranteeTimeLimit() return a status code since we want to
-	     * keep it lightweight.  So swallow the return code and don't sweat it for now.
-	     */
-	    if (isset($this->_lockSystem)) {
-		$this->_lockSystem->refreshLocks($this->_timeLimit);
-	    }
-	}
+        /*
+         * Then make sure our locks stick around.  Even though this returns a status code, we
+         * really don't want to make guaranteeTimeLimit() return a status code since we want to
+         * keep it lightweight.  So swallow the return code and don't sweat it for now.
+         */
+        if (isset($this->_lockSystem)) {
+        $this->_lockSystem->refreshLocks($this->_timeLimit);
+        }
+    }
     }
 
     /**
@@ -650,11 +651,11 @@ class Gallery {
      * @param mixed $profile array of profiling modes or boolean false
      */
     function setProfile($profile=array()) {
-	if ($profile === false) {
-	    $this->_profile = array();
-	} else {
-	    $this->_profile = $profile;
-	}
+    if ($profile === false) {
+        $this->_profile = array();
+    } else {
+        $this->_profile = $profile;
+    }
     }
 
     /**
@@ -664,7 +665,7 @@ class Gallery {
      * @return boolean
      */
     function isProfiling($type) {
-	return in_array($type, $this->_profile);
+    return in_array($type, $this->_profile);
     }
 
     /**
@@ -674,26 +675,26 @@ class Gallery {
      */
     function setDebug($debug=false) {
 
-	/* Try to do the right thing in the face of bogus input */
-	if ($debug === true) {
-	    $debug = 'buffered';
-	}
+    /* Try to do the right thing in the face of bogus input */
+    if ($debug === true) {
+        $debug = 'buffered';
+    }
 
-	$this->_debug = $debug;
-	if (!isset($this->_debugBuffer)) {
-	    $this->clearDebugBuffer();
-	}
-	if (!empty($this->_debug)) {
-	    /* PHP 6 includes E_STRICT in E_ALL. Hardcode since PHP 4 does not know that constant */
-	    error_reporting(E_ALL &~ 2048);
-	    ini_set('display_errors', 1);
-	    ini_set('log_errors', 1);
-	    ini_set('short_open_tag', false);
-	    ini_set('allow_call_time_pass_reference', false);
-	}
-	if (isset($this->_storage)) {
-	    $this->_storage->setDebug((bool)$debug);
-	}
+    $this->_debug = $debug;
+    if (!isset($this->_debugBuffer)) {
+        $this->clearDebugBuffer();
+    }
+    if (!empty($this->_debug)) {
+        /* PHP 6 includes E_STRICT in E_ALL. Hardcode since PHP 4 does not know that constant */
+        error_reporting(E_ALL &~ 2048);
+        ini_set('display_errors', 1);
+        ini_set('log_errors', 1);
+        ini_set('short_open_tag', false);
+        ini_set('allow_call_time_pass_reference', false);
+    }
+    if (isset($this->_storage)) {
+        $this->_storage->setDebug((bool)$debug);
+    }
     }
 
     /**
@@ -701,7 +702,7 @@ class Gallery {
      * @param string $debugLogFile a filename
      */
     function setDebugLogFile($debugLogFile) {
-	$this->_debugLogFile = $debugLogFile;
+    $this->_debugLogFile = $debugLogFile;
     }
 
     /**
@@ -709,13 +710,13 @@ class Gallery {
      * @return mixed the debug state
      */
     function getDebug() {
-	if ($this->_debug) {
-	    return $this->_debug;
-	}
-	if ($this->_debugSnippetActive) {
-	    return 'snippet';
-	}
-	return false;
+    if ($this->_debug) {
+        return $this->_debug;
+    }
+    if ($this->_debugSnippetActive) {
+        return 'snippet';
+    }
+    return false;
     }
 
     /**
@@ -723,25 +724,25 @@ class Gallery {
      * @return string the debug state
      */
     function getDebugBuffer() {
-	return $this->_debugBuffer;
+    return $this->_debugBuffer;
     }
 
     /**
      * Clear any buffered debug output
      */
     function clearDebugBuffer() {
-	$this->_debugBuffer = '';
+    $this->_debugBuffer = '';
     }
 
     /**
      * Start recording a debug snippet
      */
     function startRecordingDebugSnippet() {
-	$this->_debugSnippetActive = true;
-	$this->_debugSnippet = '';
-	if (isset($this->_storage) && !$this->_debug) {
-	    $this->_storage->setDebug(true);
-	}
+    $this->_debugSnippetActive = true;
+    $this->_debugSnippet = '';
+    if (isset($this->_storage) && !$this->_debug) {
+        $this->_storage->setDebug(true);
+    }
     }
 
     /**
@@ -749,13 +750,13 @@ class Gallery {
      * @return string the snippet
      */
     function stopRecordingDebugSnippet() {
-	$this->_debugSnippetActive = false;
-	$tmp = $this->_debugSnippet;
-	$this->_debugSnippet = '';
-	if (isset($this->_storage) && !$this->_debug) {
-	    $this->_storage->setDebug(false);
-	}
-	return $tmp;
+    $this->_debugSnippetActive = false;
+    $tmp = $this->_debugSnippet;
+    $this->_debugSnippet = '';
+    if (isset($this->_storage) && !$this->_debug) {
+        $this->_storage->setDebug(false);
+    }
+    return $tmp;
     }
 
     /**
@@ -763,34 +764,34 @@ class Gallery {
      * @param string $msg a message
      */
     function debug($msg) {
-	if (empty($msg)) {
-	    return;
-	}
+    if (empty($msg)) {
+        return;
+    }
 
-	if (!empty($this->_debug)) {
-	    if (!strcmp($this->_debug, 'buffered')) {
-		$this->_debugBuffer .= wordwrap($msg) . "\n";
-	    } else if (!strcmp($this->_debug, 'logged')) {
-		/* Don't use platform calls for these as they call debug internally! */
-		if ($fd = fopen($this->_debugLogFile, 'a')) {
-		    $date = date('Y-m-d H:i:s');
-		    $session =& $this->getSession();
-		    if (!empty($session)) {
-			$id = $session->getId();
-		    } else {
-			$id = '<no session id>';
-		    }
-		    fwrite($fd, "$date [" . $id . "] $msg\n");
-		    fclose($fd);
-		}
-	    } else if (!strcmp($this->_debug, 'immediate')) {
-		print "$msg\n";
-	    }
-	}
+    if (!empty($this->_debug)) {
+        if (!strcmp($this->_debug, 'buffered')) {
+        $this->_debugBuffer .= wordwrap($msg) . "\n";
+        } else if (!strcmp($this->_debug, 'logged')) {
+        /* Don't use platform calls for these as they call debug internally! */
+        if ($fd = fopen($this->_debugLogFile, 'a')) {
+            $date = date('Y-m-d H:i:s');
+            $session =& $this->getSession();
+            if (!empty($session)) {
+            $id = $session->getId();
+            } else {
+            $id = '<no session id>';
+            }
+            fwrite($fd, "$date [" . $id . "] $msg\n");
+            fclose($fd);
+        }
+        } else if (!strcmp($this->_debug, 'immediate')) {
+        print "$msg\n";
+        }
+    }
 
-	if ($this->_debugSnippetActive) {
-	    $this->_debugSnippet .= wordwrap($msg) . "\n";
-	}
+    if ($this->_debugSnippetActive) {
+        $this->_debugSnippet .= wordwrap($msg) . "\n";
+    }
     }
 
     /**
@@ -800,13 +801,13 @@ class Gallery {
      * @param boolean $escapeHtmlEntities true if the output should be run through htmlentities()
      */
     function debug_r($object, $escapeHtmlEntities=false) {
-	if (!empty($this->_debug)) {
-	    $buf = print_r($object, true);
-	    if ($escapeHtmlEntities) {
-		$buf = htmlentities($buf);
-	    }
-	    $this->debug($buf);
-	}
+    if (!empty($this->_debug)) {
+        $buf = print_r($object, true);
+        if ($escapeHtmlEntities) {
+        $buf = htmlentities($buf);
+        }
+        $this->debug($buf);
+    }
     }
 
     /**
@@ -815,12 +816,12 @@ class Gallery {
      * @return GalleryTemplateAdapter
      */
     function &getTemplateAdapter() {
-	if (!isset($this->_templateAdapter)) {
-	    GalleryCoreApi::requireOnce('modules/core/classes/GalleryTemplateAdapter.class');
-	    $this->_templateAdapter = new GalleryTemplateAdapter();
-	}
+    if (!isset($this->_templateAdapter)) {
+        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryTemplateAdapter.class');
+        $this->_templateAdapter = new GalleryTemplateAdapter();
+    }
 
-	return $this->_templateAdapter;
+    return $this->_templateAdapter;
     }
 
     /**
@@ -847,7 +848,7 @@ class Gallery {
      * @see GalleryPlugin::translate
      */
     function i18n($value) {
-	return is_array($value) ? $value['text'] : $value;  /* Just pass the text through */
+    return is_array($value) ? $value['text'] : $value;  /* Just pass the text through */
     }
 
     /**
@@ -861,46 +862,46 @@ class Gallery {
      * @return boolean true if we transferred the file successfully
      */
     function fastDownload($relativePath, $filename, $lastModified, $mimeType, $contentLength) {
-	global $gallery;
+    global $gallery;
 
-	/*
-	 * Note: don't use GalleryPlatform or GalleryUtilities here because this code is
-	 * a shortcut that is used before we load those classes.
-	 */
-	$fileNameParam = GALLERY_FORM_VARIABLE_PREFIX . 'fileName';
-	$requestFileName = isset($_GET[$fileNameParam]) ? $_GET[$fileNameParam] : null;
-	if (!empty($requestFileName) && $requestFileName != $filename) {
-	    return false;
-	}
+    /*
+     * Note: don't use GalleryPlatform or MyOOS_Utilities here because this code is
+     * a shortcut that is used before we load those classes.
+     */
+    $fileNameParam = GALLERY_FORM_VARIABLE_PREFIX . 'fileName';
+    $requestFileName = isset($_GET[$fileNameParam]) ? $_GET[$fileNameParam] : null;
+    if (!empty($requestFileName) && $requestFileName != $filename) {
+        return false;
+    }
 
-	/**
-	 * Try to prevent Apache's mod_deflate from gzipping this output since it's likely already
-	 * a binary file and broken versions of mod_deflate sometimes get the byte count wrong.
-	 */
-	if (function_exists('apache_setenv') && !@$gallery->getConfig('apacheSetenvBroken')) {
-	    apache_setenv('no-gzip', '1');
-	}
+    /**
+     * Try to prevent Apache's mod_deflate from gzipping this output since it's likely already
+     * a binary file and broken versions of mod_deflate sometimes get the byte count wrong.
+     */
+    if (function_exists('apache_setenv') && !@$gallery->getConfig('apacheSetenvBroken')) {
+        apache_setenv('no-gzip', '1');
+    }
 
-	$base = $this->getConfig('data.gallery.base');
-	$path = $base . $relativePath;
-	if (file_exists($path) && $fd = fopen($path, 'rb')) {
-	    header('Content-Disposition: inline; filename="' . $filename . '"');
-	    header('Last-Modified: ' . $lastModified);
-	    header('Content-type: ' . $mimeType);
-	    header('Content-length: ' . $contentLength);
-	    header('Expires: ' . $this->getHttpDate(2147483647));
-	    header('Cache-Control: public');
-	    set_magic_quotes_runtime(0);
-	    set_time_limit(0);
-	    while (!feof($fd)) {
-		print fread($fd, 4096);
-	    }
-	    fclose($fd);
+    $base = $this->getConfig('data.gallery.base');
+    $path = $base . $relativePath;
+    if (file_exists($path) && $fd = fopen($path, 'rb')) {
+        header('Content-Disposition: inline; filename="' . $filename . '"');
+        header('Last-Modified: ' . $lastModified);
+        header('Content-type: ' . $mimeType);
+        header('Content-length: ' . $contentLength);
+        header('Expires: ' . $this->getHttpDate(2147483647));
+        header('Cache-Control: public');
+        set_magic_quotes_runtime(0);
+        set_time_limit(0);
+        while (!feof($fd)) {
+        print fread($fd, 4096);
+        }
+        fclose($fd);
 
-	    return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
     }
 
     /**
@@ -912,21 +913,21 @@ class Gallery {
      * @return string a date-string conformant to the RFC 2616
      */
     function getHttpDate($time='') {
-	if ($time == '') {
-	    $time = time();
-	}
-	/* Use fixed list of weekdays and months, so we don't have to fiddle with locale stuff */
-	$months = array('01' => 'Jan', '02' => 'Feb', '03' => 'Mar',
-			'04' => 'Apr', '05' => 'May', '06' => 'Jun',
-			'07' => 'Jul', '08' => 'Aug', '09' => 'Sep',
-			'10' => 'Oct', '11' => 'Nov', '12' => 'Dec');
-	$weekdays = array('1' => 'Mon', '2' => 'Tue', '3' => 'Wed',
-			  '4' => 'Thu', '5' => 'Fri', '6' => 'Sat',
-			  '0' => 'Sun');
-	$dow = $weekdays[gmstrftime('%w', $time)];
-	$month = $months[gmstrftime('%m', $time)];
-	$out = gmstrftime('%%s, %d %%s %Y %H:%M:%S GMT', $time);
-	return sprintf($out, $dow, $month);
+    if ($time == '') {
+        $time = time();
+    }
+    /* Use fixed list of weekdays and months, so we don't have to fiddle with locale stuff */
+    $months = array('01' => 'Jan', '02' => 'Feb', '03' => 'Mar',
+            '04' => 'Apr', '05' => 'May', '06' => 'Jun',
+            '07' => 'Jul', '08' => 'Aug', '09' => 'Sep',
+            '10' => 'Oct', '11' => 'Nov', '12' => 'Dec');
+    $weekdays = array('1' => 'Mon', '2' => 'Tue', '3' => 'Wed',
+              '4' => 'Thu', '5' => 'Fri', '6' => 'Sat',
+              '0' => 'Sun');
+    $dow = $weekdays[gmstrftime('%w', $time)];
+    $month = $months[gmstrftime('%m', $time)];
+    $out = gmstrftime('%%s, %d %%s %Y %H:%M:%S GMT', $time);
+    return sprintf($out, $dow, $month);
     }
 
     /**
@@ -935,7 +936,7 @@ class Gallery {
      * @return boolean true if Gallery is in embedded mode, false otherwise
      */
     function isEmbedded() {
-	return GalleryDataCache::containsKey('G2_EMBED') && GalleryDataCache::get('G2_EMBED');
+    return GalleryDataCache::containsKey('G2_EMBED') && GalleryDataCache::get('G2_EMBED');
     }
 
     /**
@@ -945,44 +946,44 @@ class Gallery {
      * @param array $parameters
      */
     function addShutdownAction($callback, $parameters) {
-	if (!isset($this->_shutdownActions)) {
-	    $this->_shutdownActions = array();
-	}
-	$action = array($callback, $parameters);
-	/* Skip duplicate actions */
-	foreach ($this->_shutdownActions as $item) {
-	    if ($item == $action) {
-		$duplicate = true;
-		break;
-	    }
-	}
-	if (!isset($duplicate)) {
-	    $this->_shutdownActions[] = $action;
-	}
+    if (!isset($this->_shutdownActions)) {
+        $this->_shutdownActions = array();
+    }
+    $action = array($callback, $parameters);
+    /* Skip duplicate actions */
+    foreach ($this->_shutdownActions as $item) {
+        if ($item == $action) {
+        $duplicate = true;
+        break;
+        }
+    }
+    if (!isset($duplicate)) {
+        $this->_shutdownActions[] = $action;
+    }
     }
 
     /**
      * Process registered shutdown actions.
      */
     function performShutdownActions() {
-	if (isset($this->_shutdownActions)) {
-	    foreach ($this->_shutdownActions as $action) {
-		$ret = @call_user_func_array($action[0], $action[1]);
-		if ($this->getDebug() || class_exists('GalleryTestCase')) {
-		    /* Ignore errors unless debug is on */
-		    if (is_array($ret) && GalleryUtilities::isA($ret[0], 'GalleryStatus')) {
-			$ret = $ret[0];
-		    } else if (!GalleryUtilities::isA($ret, 'GalleryStatus')) {
-			$ret = null;
-		    }
-		    if (isset($ret) && $ret) {
-			$this->debug('Error from shutdown action:');
-			$this->debug_r($action);
-			$this->debug_r($ret);
-		    }
-		}
-	    }
-	}
+    if (isset($this->_shutdownActions)) {
+        foreach ($this->_shutdownActions as $action) {
+        $ret = @call_user_func_array($action[0], $action[1]);
+        if ($this->getDebug() || class_exists('GalleryTestCase')) {
+            /* Ignore errors unless debug is on */
+            if (is_array($ret) && MyOOS_Utilities::isA($ret[0], 'GalleryStatus')) {
+            $ret = $ret[0];
+            } else if (!MyOOS_Utilities::isA($ret, 'GalleryStatus')) {
+            $ret = null;
+            }
+            if (isset($ret) && $ret) {
+            $this->debug('Error from shutdown action:');
+            $this->debug_r($action);
+            $this->debug_r($ret);
+            }
+        }
+        }
+    }
     }
 
     /**
@@ -991,11 +992,10 @@ class Gallery {
      * @return GalleryPhpVm
      */
     function getPhpVm() {
-	if (!isset($this->_phpVm)) {
-	    GalleryCoreApi::requireOnce('modules/core/classes/GalleryPhpVm.class');
-	    $this->_phpVm = new GalleryPhpVm();
-	}
-	return $this->_phpVm;
+    if (!isset($this->_phpVm)) {
+        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryPhpVm.class');
+        $this->_phpVm = new GalleryPhpVm();
+    }
+    return $this->_phpVm;
     }
 }
-?>
