@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: MyOOS_Utilities Revision: 17582
+   File: GalleryUtilities.class Revision: 17582
    ----------------------------------------------------------------------
    Gallery - a web based photo album viewer and editor
    http://gallery.menalto.com/
