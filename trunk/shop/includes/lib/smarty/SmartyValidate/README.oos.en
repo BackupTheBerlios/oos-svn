@@ -11,11 +11,11 @@
 
 
 
-~/shop/includes/classes/thirdparty/smarty/libs/
+~/shop/includes/lib/smarty/libs/
         SmartyValidate.class.php
 
 
-~/shop/includes/classes/thirdparty/smarty/libs/plugins
+~/shop/includes/lib/smarty/libs/plugins
         validate_criteria.isRange.php
         validate_criteria.isFileSize.php
         validate_criteria.isDateOnOrBefore.php
@@ -45,7 +45,7 @@
         validate_transform.trim.php
 
 
-~/shop/includes/classes/thirdparty/smarty/SmartyValidate/
+~/shop/includes/lib/smarty/SmartyValidate/
         NEWS
         README
         README.oos.eng

@@ -15,7 +15,7 @@
         formtool.js
 
 
-~/shop/includes/classes/thirdparty/smarty/libs/plugins
+~/shop/includes/lib/smarty/libs/plugins
         function.formtool_moveup.php
         function.formtool_rename.php
         function.formtool_checkall.php
@@ -30,7 +30,7 @@
         function.formtool_movedown.php
 
 
-~/shop/includes/classes/thirdparty/smarty/SmartyValidate/
+~/shop/includes/lib/smarty/SmartyValidate/
         NEWS
         README
         README.oos.eng

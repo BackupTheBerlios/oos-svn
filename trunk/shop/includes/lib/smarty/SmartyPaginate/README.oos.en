@@ -11,11 +11,11 @@
 
 
 
-~/shop/includes/classes/thirdparty/smarty/libs/
+~/shop/includes/lib/smarty/libs/
         SmartyPaginate.class.php
 
 
-~/shop/includes/classes/thirdparty/smarty/libs/plugins
+~/shop/includes/lib/smarty/libs/plugins
         function.paginate_middle.php
         function.paginate_first.php
         function.paginate_prev.php
@@ -23,7 +23,7 @@
         function.paginate_last.php
 
 
-~/shop/includes/classes/thirdparty/smarty/SmartyPaginate/
+~/shop/includes/lib/smarty/SmartyPaginate/
         NEWS
         README
         README.oos.eng

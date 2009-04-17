@@ -11,11 +11,11 @@
 
 
 
-~/shop/includes/classes/thirdparty/smarty/libs/
+~/shop/includes/lib/smarty/libs/
         SmartyMenu.class.php
 
 
-~/shop/includes/classes/thirdparty/smarty/libs/plugins
+~/shop/includes/lib/smarty/libs/plugins
         function.menu_init.php
         function.menu.php
 
@@ -31,7 +31,7 @@
         SmartyMenus.js
 
 
-~/shop/includes/classes/thirdparty/smarty/SmartyMenu/
+~/shop/includes/lib/smarty/SmartyMenu/
         NEWS
         README
         README.oos.eng
