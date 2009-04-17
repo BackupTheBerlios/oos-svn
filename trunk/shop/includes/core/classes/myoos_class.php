@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: index.php 148 2009-04-02 01:14:08Z r23 $
+   $Id:$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -191,30 +191,31 @@ class MyOOS {
     var $_phpVm = null;
 
 
-    function Gallery() {
-    $this->_activeUser = null;
+    function MyOOS()
+    {
+        $this->_activeUser = null;
 
-    /* Set up a shutdown function to release any hanging locks */
-    register_shutdown_function(array(&$this, '_shutdown'));
+        /* Set up a shutdown function to release any hanging locks */
+        register_shutdown_function(array(&$this, '_shutdown'));
 
-    /* Default config settings (can be overridden via config.php or embedded environment) */
-    $this->_config = array(
-        'login' => true,        /* Offer UserAdmin links (Login/Logout/Your Account) */
+        /* Default config settings (can be overridden via config.php or embedded environment) */
+        $this->_config = array(
+            'login' => true,        /* Offer UserAdmin links (Login/Logout/Your Account) */
 
-        /* UrlGenerator parameters for redirect URL to login page. Can be overridden. */
-        'loginRedirect' => array('view' => 'core.UserAdmin',
-                     'subView' => 'core.UserLogin', 'return' => true),
+            /* UrlGenerator parameters for redirect URL to login page. Can be overridden. */
+            'loginRedirect' => array('view' => 'core.UserAdmin',
+                         'subView' => 'core.UserLogin', 'return' => true),
 
-        'link' => true,         /* @deprecated - Allow item linking */
-                     /* (now unused, there is a separate replica module */
+            'link' => true,         /* @deprecated - Allow item linking */
+                         /* (now unused, there is a separate replica module */
 
-        'showSidebarBlocks' => true, /* Can we allow themes to show the sidebar? */
+            'showSidebarBlocks' => true, /* Can we allow themes to show the sidebar? */
 
-        'systemCharset' => null,     /* Specify system character set, skip autodetect */
-        'defaultAlbumId' => null,    /* Initial album to display instead of root album */
-        'breadcrumbRootId' => null,  /* Can omit parents above this id in fetchParentSequence */
-        'anonymousUserId' => null,   /* Alternate user account for guest sessions */
-    );
+            'systemCharset' => null,     /* Specify system character set, skip autodetect */
+            'defaultAlbumId' => null,    /* Initial album to display instead of root album */
+            'breadcrumbRootId' => null,  /* Can omit parents above this id in fetchParentSequence */
+            'anonymousUserId' => null,   /* Alternate user account for guest sessions */
+        );
     }
 
     /**
@@ -861,47 +862,48 @@ class MyOOS {
      * @param int $contentLength the size of the file (used for the Content-length header)
      * @return boolean true if we transferred the file successfully
      */
-    function fastDownload($relativePath, $filename, $lastModified, $mimeType, $contentLength) {
-    global $gallery;
+    function fastDownload($relativePath, $filename, $lastModified, $mimeType, $contentLength)
+    {
+        global $gallery;
 
-    /*
-     * Note: don't use GalleryPlatform or MyOOS_Utilities here because this code is
-     * a shortcut that is used before we load those classes.
-     */
-    $fileNameParam = GALLERY_FORM_VARIABLE_PREFIX . 'fileName';
-    $requestFileName = isset($_GET[$fileNameParam]) ? $_GET[$fileNameParam] : null;
-    if (!empty($requestFileName) && $requestFileName != $filename) {
-        return false;
-    }
-
-    /**
-     * Try to prevent Apache's mod_deflate from gzipping this output since it's likely already
-     * a binary file and broken versions of mod_deflate sometimes get the byte count wrong.
-     */
-    if (function_exists('apache_setenv') && !@$gallery->getConfig('apacheSetenvBroken')) {
-        apache_setenv('no-gzip', '1');
-    }
-
-    $base = $this->getConfig('data.gallery.base');
-    $path = $base . $relativePath;
-    if (file_exists($path) && $fd = fopen($path, 'rb')) {
-        header('Content-Disposition: inline; filename="' . $filename . '"');
-        header('Last-Modified: ' . $lastModified);
-        header('Content-type: ' . $mimeType);
-        header('Content-length: ' . $contentLength);
-        header('Expires: ' . $this->getHttpDate(2147483647));
-        header('Cache-Control: public');
-        set_magic_quotes_runtime(0);
-        set_time_limit(0);
-        while (!feof($fd)) {
-        print fread($fd, 4096);
+        /*
+         * Note: don't use GalleryPlatform or MyOOS_Utilities here because this code is
+         * a shortcut that is used before we load those classes.
+         */
+        $fileNameParam = MYOOS_FORM_VARIABLE_PREFIX . 'fileName';
+        $requestFileName = isset($_GET[$fileNameParam]) ? $_GET[$fileNameParam] : null;
+        if (!empty($requestFileName) && $requestFileName != $filename) {
+            return false;
         }
-        fclose($fd);
 
-        return true;
-    }
+        /**
+         * Try to prevent Apache's mod_deflate from gzipping this output since it's likely already
+         * a binary file and broken versions of mod_deflate sometimes get the byte count wrong.
+         */
+        if (function_exists('apache_setenv') && !@$gallery->getConfig('apacheSetenvBroken')) {
+            apache_setenv('no-gzip', '1');
+        }
 
-    return false;
+        $base = $this->getConfig('data.gallery.base');
+        $path = $base . $relativePath;
+        if (file_exists($path) && $fd = fopen($path, 'rb')) {
+            header('Content-Disposition: inline; filename="' . $filename . '"');
+            header('Last-Modified: ' . $lastModified);
+            header('Content-type: ' . $mimeType);
+            header('Content-length: ' . $contentLength);
+            header('Expires: ' . $this->getHttpDate(2147483647));
+            header('Cache-Control: public');
+            set_magic_quotes_runtime(0);
+            set_time_limit(0);
+            while (!feof($fd)) {
+                print fread($fd, 4096);
+            }
+            fclose($fd);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -912,22 +914,23 @@ class MyOOS {
      *                empty if we want the current time
      * @return string a date-string conformant to the RFC 2616
      */
-    function getHttpDate($time='') {
-    if ($time == '') {
-        $time = time();
-    }
-    /* Use fixed list of weekdays and months, so we don't have to fiddle with locale stuff */
-    $months = array('01' => 'Jan', '02' => 'Feb', '03' => 'Mar',
-            '04' => 'Apr', '05' => 'May', '06' => 'Jun',
-            '07' => 'Jul', '08' => 'Aug', '09' => 'Sep',
-            '10' => 'Oct', '11' => 'Nov', '12' => 'Dec');
-    $weekdays = array('1' => 'Mon', '2' => 'Tue', '3' => 'Wed',
-              '4' => 'Thu', '5' => 'Fri', '6' => 'Sat',
-              '0' => 'Sun');
-    $dow = $weekdays[gmstrftime('%w', $time)];
-    $month = $months[gmstrftime('%m', $time)];
-    $out = gmstrftime('%%s, %d %%s %Y %H:%M:%S GMT', $time);
-    return sprintf($out, $dow, $month);
+    function getHttpDate($time='')
+    {
+        if ($time == '') {
+            $time = time();
+        }
+        /* Use fixed list of weekdays and months, so we don't have to fiddle with locale stuff */
+        $months = array('01' => 'Jan', '02' => 'Feb', '03' => 'Mar',
+                '04' => 'Apr', '05' => 'May', '06' => 'Jun',
+                '07' => 'Jul', '08' => 'Aug', '09' => 'Sep',
+                '10' => 'Oct', '11' => 'Nov', '12' => 'Dec');
+        $weekdays = array('1' => 'Mon', '2' => 'Tue', '3' => 'Wed',
+                  '4' => 'Thu', '5' => 'Fri', '6' => 'Sat',
+                  '0' => 'Sun');
+        $dow = $weekdays[gmstrftime('%w', $time)];
+        $month = $months[gmstrftime('%m', $time)];
+        $out = gmstrftime('%%s, %d %%s %Y %H:%M:%S GMT', $time);
+        return sprintf($out, $dow, $month);
     }
 
     /**
@@ -998,4 +1001,6 @@ class MyOOS {
     }
     return $this->_phpVm;
     }
+
 }
+

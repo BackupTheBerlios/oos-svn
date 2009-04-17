@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: index.php 148 2009-04-02 01:14:08Z r23 $
+   $Id: $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -124,7 +124,7 @@ class MyOOS_Utilities {
     {
         $file = array();
         if ($prefix) {
-            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+            $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
         }
         if (isset($_FILES[$key])) {
             /*
@@ -153,7 +153,7 @@ class MyOOS_Utilities {
     function getFormVariables($key, $prefix=true)
     {
         if ($prefix) {
-            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+            $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
         }
         $form = array();
         if (isset($_POST[$key]) && is_array($_POST[$key])) {
@@ -195,11 +195,11 @@ class MyOOS_Utilities {
     {
         $filter = array();
         foreach ($skip as $key) {
-            $filter[GALLERY_FORM_VARIABLE_PREFIX . $key] = true;
+            $filter[MYOOS_FORM_VARIABLE_PREFIX . $key] = true;
         }
 
         $values = array();
-        $prefixLength = strlen(GALLERY_FORM_VARIABLE_PREFIX);
+        $prefixLength = strlen(MYOOS_FORM_VARIABLE_PREFIX);
         foreach ($_GET as $key => $value) {
             if (empty($filter[$key])) {
                 $values[$prefix ? substr($key, $prefixLength) : $key] = $value;
@@ -255,7 +255,7 @@ class MyOOS_Utilities {
     {
         /* Remove all matching GET and POST variables */
         if ($prefix) {
-            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+            $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
         }
         unset($_POST[$key]);
         unset($_FILES[$key]);
@@ -273,7 +273,7 @@ class MyOOS_Utilities {
         $values = array();
         foreach (func_get_args() as $argName) {
             $values[] = MyOOS_Utilities::_getRequestVariable(
-            GALLERY_FORM_VARIABLE_PREFIX . $argName);
+            MYOOS_FORM_VARIABLE_PREFIX . $argName);
         }
 
         /* Sanitize the input */
@@ -292,15 +292,15 @@ class MyOOS_Utilities {
     function getAllRequestVariables()
     {
         $values = array();
-        $prefixLength = strlen(GALLERY_FORM_VARIABLE_PREFIX);
+        $prefixLength = strlen(MYOOS_FORM_VARIABLE_PREFIX);
         foreach ($_POST as $key => $value) {
-            if (substr($key, 0, $prefixLength) == GALLERY_FORM_VARIABLE_PREFIX) {
+            if (substr($key, 0, $prefixLength) == MYOOS_FORM_VARIABLE_PREFIX) {
                 $values[substr($key, $prefixLength)] = $value;
             }
         }
 
         foreach ($_GET as $key => $value) {
-            if (substr($key, 0, $prefixLength) == GALLERY_FORM_VARIABLE_PREFIX) {
+            if (substr($key, 0, $prefixLength) == MYOOS_FORM_VARIABLE_PREFIX) {
                 $values[substr($key, $prefixLength)] = $value;
             }
         }
@@ -343,7 +343,7 @@ class MyOOS_Utilities {
     function putRequestVariable($key, $value, $prefix=true)
     {
         if ($prefix) {
-            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+            $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
     }
 
         /* Simulate the damage caused by magic_quotes */
@@ -383,7 +383,7 @@ class MyOOS_Utilities {
     function hasRequestVariable($key, $prefix=true)
     {
         if ($prefix) {
-            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+            $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
         }
         $value = MyOOS_Utilities::_getRequestVariable($key);
         return !empty($value);
@@ -397,7 +397,7 @@ class MyOOS_Utilities {
     function removeRequestVariable($key, $prefix=true)
     {
         if ($prefix) {
-            $key = GALLERY_FORM_VARIABLE_PREFIX . $key;
+            $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
         }
         $keyPath = preg_split('/[\[\]]/', $key, -1, PREG_SPLIT_NO_EMPTY);
         MyOOS_Utilities::_internalRemoveRequestVariable($keyPath, $_GET);
@@ -435,7 +435,7 @@ class MyOOS_Utilities {
      */
     function prefixFormVariable($key)
     {
-        return GALLERY_FORM_VARIABLE_PREFIX . $key;
+        return MYOOS_FORM_VARIABLE_PREFIX . $key;
     }
 
     /**
@@ -458,84 +458,6 @@ class MyOOS_Utilities {
         }
 
         return $markers;
-    }
-
-    /**
-     * Convert a filesystem path inside the Gallery directory to an absolute URL.
-     *
-     * ie. /path/to/gallery/themes/classic/styles/style.css =>
-     *     http://example.com/gallery/themes/classic/styles/style.css
-     *
-     * @param string $path path to a file in the Gallery directory tree
-     * @param array $options (optional) options to pass to UrlGenerator
-     * @return string a URL
-     */
-    function convertPathToUrl($path, $options=array())
-    {
-        global $gallery;
-        $platform =& $gallery->getPlatform();
-        $dirbase = $platform->realpath(dirname(__FILE__) . '/../../..') . '/';
-
-        /*
-         * Factor the Gallery code base out of the path, accounting for differences in directory
-         * separators between platforms
-         */
-        $slash = $platform->getDirectorySeparator();
-        if ($slash != '/') {
-            $dirbase = str_replace($slash, '/', $dirbase);
-            $path = str_replace($slash, '/', $path);
-        }
-        $relativePath = str_replace($dirbase, '', $path);
-
-        /* Prepend the Gallery base URL */
-        $urlGenerator =& $gallery->getUrlGenerator();
-        return $urlGenerator->generateUrl(array('href' => $relativePath), $options);
-    }
-
-    /**
-     * Scale the given width/height to a new target size, maintaining aspect ratio, but only if the
-     * dimensions are already larger than the target (in other words, don't increase the
-     * dimensions).
-     * @param int $width
-     * @param int $height
-     * @param int $targetWidth target width
-     * @param int $targetHeight (optional) target height, defaults to same as width
-     * @return array(width, height)
-     */
-    function shrinkDimensionsToFit($width, $height, $targetWidth, $targetHeight=null)
-    {
-        if (!isset($targetHeight)) {
-            $targetHeight = $targetWidth;
-        }
-        if ($width > $targetWidth || $height > $targetHeight) {
-            list ($width, $height) = MyOOS_Utilities::scaleDimensionsToFit(
-                            $width, $height, $targetWidth, $targetHeight);
-        }
-        return array($width, $height);
-    }
-
-    /**
-     * Scale the given width/height to a new target size, maintaining aspect ratio.
-     * @param int $width
-     * @param int $height
-     * @param int $targetWidth target width
-     * @param int $targetHeight (optional) target height, defaults to same as width
-     * @return array(width, height)
-     */
-    function scaleDimensionsToFit($width, $height, $targetWidth, $targetHeight=null)
-    {
-        if (!isset($targetHeight)) {
-            $targetHeight = $targetWidth;
-        }
-        $aspect = $height / $width;
-        if ($aspect < $targetHeight / $targetWidth) {
-            $width = (int)$targetWidth;
-            $height = (int)round($targetWidth * $aspect);
-        } else {
-            $width = (int)round($targetHeight / $aspect);
-            $height = (int)$targetHeight;
-        }
-        return array($width, $height);
     }
 
     /**
@@ -767,7 +689,7 @@ class MyOOS_Utilities {
                 MyOOS_Utilities::sanitizeInputValues($value[$newKey]);
             }
         } else {
-        /*
+            /*
              * Simulate calling htmlspecialchars($value, ENT_COMPAT, 'UTF-8') We avoid using
              * htmlspecialchars directly because on some versions of PHP (notable PHP 4.1.2) it
              * changes the character set of the input data (in one environment it converted the
@@ -1085,172 +1007,10 @@ class MyOOS_Utilities {
         return $addr;
     }
 
-    /**
-     * Make sure that the given directory exists (creating it and parent directories if necessary).
-     * @param string $dir
-     * @return array boolean true if dir exists or was created successfully
-     *               array of directories that were created
-     */
-    function guaranteeDirExists($dir)
-    {
-        global $gallery;
-        $platform =& $gallery->getPlatform();
-        if ($platform->file_exists($dir)) {
-            return array($platform->is_dir($dir), array());
-        }
-
-        static $cacheKey = 'MyOOS_Utilities::guaranteeDirExists';
-        if (GalleryDataCache::containsKey($cacheKey)) {
-            $dirPerms = GalleryDataCache::get($cacheKey);
-        } else {
-            /* To avoid looping if getPluginParameter calls guaranteeDirExists */
-            GalleryDataCache::put($cacheKey, 0);
-            list ($ret, $dirPerms) =
-            MyOOS_CoreApi::getPluginParameter('module', 'core', 'permissions.directory');
-            /* Ignore error here, then recheck $dir in case it was created in nested call */
-            GalleryDataCache::put($cacheKey, $dirPerms);
-            if ($platform->file_exists($dir)) {
-                return array($platform->is_dir($dir), array());
-            }
-        }
-
-        $parentDir = dirname($dir);
-        if ($parentDir == $dir) {
-            return array(false, array());
-        }
-        list ($success, $created) = MyOOS_Utilities::guaranteeDirExists($parentDir);
-        if ($success) {
-            $success = !empty($dirPerms) ? $platform->mkdir($dir, $dirPerms)
-                         : $platform->mkdir($dir);
-            if ($success) {
-                $created[] = $dir;
-            }
-        }
-        return array($success, $created);
-    }
 
     /**
-     * Turn a set of albums into a depth tree suitable for display in a hierarchical format.
-     * @param array $albums the GalleryAlbumItem instances
-     * @return array an associative array of tree data.  Each node has a 'depth' element, and a
-     *               'data' element that contains all the members of the current album item.
-     */
-    function createAlbumTree($albums)
-    {
-        if (empty($albums)) {
-            $tree = array(); return $tree;  /* Help CodeAudit match up returns */
-        }
-
-        /* Index the albums by id */
-        $map = array();
-        foreach ($albums as $album) {
-            $albumId = $album->getId();
-            $parentId = $album->getParentId();
-            $map[$albumId]['instance'] = $album;
-            if (!empty($parentId)) {
-                $map[$albumId]['parent'] = $parentId;
-                $map[$parentId]['children'][] = $albumId;
-            }
-        }
-
-        /*
-         * Prune parents that don't exist.  This can occur if we have multiple roots (unusual) or an
-         * album in the middle of the hierarchy that is not viewable.
-         */
-        foreach ($map as $id => $info) {
-            if (isset($info['parent']) && !isset($map[$info['parent']]['instance'])) {
-                unset($map[$info['parent']]);
-            }
-        }
-
-        /* Find root albums */
-        foreach ($map as $id => $info) {
-            if (!isset($info['parent']) || !isset($map[$info['parent']])) {
-                $roots[] = $id;
-            }
-        }
-
-        /* Walk the root albums */
-        $tree = array();
-        foreach ($roots as $id) {
-            $tree = array_merge($tree, MyOOS_Utilities::_createDepthTree($map, $id));
-        }
-
-        return $tree;
-    }
-
-    /**
-     * Recursively walk a parent/child map and build the depth tree.
-     * @param array $map parent/child map
-     * @param int $id child id
-     * @param int $depth (optional) current depth
-     * @access private
-     */
-    function _createDepthTree(&$map, $id, $depth=0)
-    {
-        $data = array();
-        $data[] = array('depth' => $depth, 'data' => (array)$map[$id]['instance']);
-        if (isset($map[$id]['children'])) {
-            foreach ($map[$id]['children'] as $childId) {
-                $data = array_merge($data,
-                        MyOOS_Utilities::_createDepthTree($map, $childId, $depth + 1));
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * Return approximate filename of given GalleryEntity, or 'unknown' if we can't figure it out.
-     * @param GalleryEntity $entity
-     * @return array GalleryStatus a status code
-     *               string pseudoFileName a filename
-     */
-    function getPseudoFileName($entity) {
-    /*
-     * If our GalleryEntity is a GalleryFileSystemEntity, then we've got a path component so
-     * we're cool.  If it's a derivative, then get the pseudo filename of its parent and use
-     * that instead (but make sure the extension matches derivative, as parent mime type may
-     * differ).  If it's neither, then return 'unknown' for now.
-     */
-    if (MyOOS_Utilities::isA($entity, 'GalleryFileSystemEntity')) {
-        $pseudoFileName = $entity->getPathComponent();
-    } else if (MyOOS_Utilities::isA($entity, 'GalleryDerivative')) {
-        list ($ret, $parentEntity) =
-        MyOOS_CoreApi::loadEntitiesById($entity->getParentId(), 'GalleryEntity');
-        if ($ret) {
-        return array($ret, null);
-        }
-
-        if (MyOOS_Utilities::isA($parentEntity, 'GalleryFileSystemEntity')) {
-        $pseudoFileName = $parentEntity->getPathComponent();
-        if (!method_exists($parentEntity, 'getMimeType') ||
-            $parentEntity->getMimeType() != $entity->getMimeType()) {
-            list ($ret, $extensions) =
-            MyOOS_CoreApi::convertMimeToExtensions($entity->getMimeType());
-            if ($ret) {
-            return array($ret, null);
-            }
-            if (!empty($extensions)) {
-            if (method_exists($parentEntity, 'getMimeType')) {
-                /* Change extension for mime type of this derivative */
-                $pseudoFileName =
-                preg_replace('{\.[^.]+$}', '.' . $extensions[0], $pseudoFileName);
-            } else {
-                /* Non-item parent, like an album.  Add extension for this mime type. */
-                $pseudoFileName .= '.' . $extensions[0];
-            }
-            }
-        }
-        }
-    }
-    return array(null,
-             isset($pseudoFileName) ? $pseudoFileName : 'unknown');
-    }
-
-    /**
-     * Deprecated.  Use Gallery::getHttpDate instead.
-     * @see Gallery::getHttpDate
+     * Deprecated.  Use MyOOS::getHttpDate instead.
+     * @see MyOOS::getHttpDate
      * @deprecated
      */
     function getHttpDate($time='')
@@ -1500,9 +1260,6 @@ class MyOOS_Utilities {
             return null;
         }
 
-        /* Fix PHP HTTP_COOKIE header bug http://bugs.php.net/bug.php?id=32802 */
-        MyOOS_Utilities::fixCookieVars();
-
         $value = $_COOKIE[$key];
         MyOOS_Utilities::sanitizeInputValues($value);
         return $value;
@@ -1517,180 +1274,6 @@ class MyOOS_Utilities {
     {
         global $gallery;
         return $gallery->isEmbedded();
-    }
-
-    /**
-     * Fix the superglobal $_COOKIE to conform with RFC 2965
-     *
-     * We don't use $_COOKIE[$cookiename] because it doesn't conform to RFC 2965 (the cookie
-     * standard), ie. in $_COOKIE, we don't get the cookie with the most specific path for a given
-     * cookie name, we get the cookie with the least specific cookie path.  This function does it
-     * exactly the other way around, to a) fix our cookie/login problems and to b) conform with the
-     * RFC.  The PHP bug was already fixed in spring 2005, but we will have to deal with broken PHP
-     * versions for a long time.
-     * @see http://bugs.php.net/bug.php?id=32802
-     *
-     * Fixes also another PHP cookie bug.  PHP doesn't expect the cookie header to have
-     * quoted-strings, but they are perfectly legal according to RFC 2965.
-     *
-     * The third bug fixed here is an MS Internet Explorer (IE) bug.  When using default cookie
-     * domains (no leading dot, don't set the domain in set-cookie), IE is supposed to return only
-     * cookies that have the exact request-host as their domain.  Example:
-     * Cookies stored in the browser with cookie domains: .example.com, .www.example.com,
-     *          example.com, www.example.com
-     *          The request-host is www.example.com. Thus, IE should return all those cookies but
-     *          the example.com cookie, because it's a default domain cookie and it doesn't match
-     *          exactly the request-host. But IE returns the example.com cookie too.
-     * As MS decided that it returns the cookie with the best domain-match first (unspecified in RFC
-     * 2965), this wouldn't be a problem if PHP didn't select the last cookie in the HTTP_COOKIE
-     * header.  But with fixCookieVars(), this case is also fixed.
-     *
-     * This function reevaluates the HTTP Cookie header and populates $_COOKIE with the correct
-     * cookies.  We fix only non-array and non '[', ']' containing cookies for simplicity.  To fix
-     * our login problem, we'd have to fix only the GALLERYSID cookie anyway.
-     *
-     * @param boolean $force force the reevaluation of the HTTP header string Cookie
-     * @param boolean $unset unset static variable for testability
-     */
-    function fixCookieVars($force=false, $unset=false) {
-    static $fixed;
-    if (!isset($fixed) || $force) {
-        $fixed = true;
-        if (isset($_SERVER['HTTP_COOKIE']) && !empty($_SERVER['HTTP_COOKIE'])) {
-        /*
-         * Array to keep track of fixed cookies to not make the same mistake as PHP, ie.
-         * don't assign values to cookies that were already fixed/set before
-         */
-        $fixedCookies = array();
-        /* Check if the Cookie header contains quoted-strings */
-        if (strstr($_SERVER['HTTP_COOKIE'], '"') === false) {
-            /*
-             * Use fast method, no quoted-strings in the header.  Get rid of less specific
-             * cookies if multiple cookies with the same NAME are present. Do this by going
-             * from left/first cookie to right/last cookie.
-             */
-            $tok = strtok($_SERVER['HTTP_COOKIE'], ',;');
-            while ($tok) {
-            MyOOS_Utilities::_registerCookieAttr($tok, $fixedCookies);
-            $tok = strtok(',;');
-            }
-        } else {
-            /*
-             * We can't just tokenize the Cookie header string because there are
-             * quoted-strings and delimiters in quoted-string should be handled as values
-             * and not as delimiters.  Thus, we have to parse it character by character.
-             */
-            $quotedStringOpen = false;
-            $string = $_SERVER['HTTP_COOKIE'];
-            $len = strlen($string);
-            $i = 0;
-            $lastPos = 0;
-            while ($i < $len) {
-            switch ($string{$i}) {
-                /* Two attr-pair separators */
-            case ',':
-            case ';':
-                if ($quotedStringOpen) {
-                /* Ignore separators within quoted-strings */
-                } else {
-                /* An attr[=value] pair */
-                MyOOS_Utilities::_registerCookieAttr(substr($string, $lastPos,
-                                         $i - $lastPos),
-                                      $fixedCookies);
-                $lastPos = $i + 1; /* Next attr starts at next char */
-                }
-                break;
-            case '"':
-                $quotedStringOpen = !$quotedStringOpen;
-                break;
-            case '\\':
-                /* Escape the next character = jump over it */
-                $i++;
-                break;
-            }
-            $i++;
-            }
-            /* Register last attr in header, but only if the syntax is correct */
-            if (!$quotedStringOpen) {
-            MyOOS_Utilities::_registerCookieAttr(substr($string, $lastPos),
-                                  $fixedCookies);
-            }
-        }
-        }
-    }
-
-    /*
-     * To test methods that call fixCookieVars, we have to first unset the static $fixed
-     * variable to enable testability of these functions.  This way, fixCookieVars will
-     * repopulate $_COOKIE on the next call, ie. it simulates a case, where fixCookieVars has
-     * not been called before on the request.
-     */
-    if ($unset) {
-        $fixed = null;
-    }
-    }
-
-    /**
-     * Register a cookie variable safely.
-     *
-     * Creates an entry in $_COOKIE for $attr, which is a name=value pair.  We try to mimic the PHP
-     * source code here: make the entry binary safe, don't register non-NAME attributes (eg. cookie
-     * version, ...)
-     *
-     * The one thing we don't do here is treat array cookies correctly because it would but too
-     * involving.  But we gracefully just don't replace these array cookies in $_COOKIE, so if they
-     * are used somewhere, they will be left intact by fixCookieVars().
-     *
-     * @param string $attr the cookie var attr, NAME [=VALUE]
-     * @param array $fixedCookies (string already registered cookie name, ...)
-     * @access private
-     */
-    function _registerCookieAttr($attr, &$fixedCookies) {
-    global $gallery;
-    /* Split NAME [=VALUE], value is optional for all attributes but the cookie name */
-    if (($pos = strpos($attr, '=')) !== false) {
-        $val = substr($attr, $pos + 1);
-        $key = substr($attr, 0, $pos);
-    } else {
-        /* No cookie name=value attr, we can ignore it */
-        return null;
-    }
-    /* Urldecode header data (php-style of name = attr handling) */
-    $key = trim(urldecode($key));
-    /* Don't accept zero length key */
-    if (($len = strlen($key)) == 0) {
-        return null;
-    }
-    /* Don't fix cookies with '[', ']' or any array-cookies (for simplicity) */
-    $pos = strchr($key, '[');
-    if (strchr($key, '[') !== false || strchr($key, ']') !== false) {
-        return null;
-    }
-    /* Make it a binary safe variable name */
-    for ($i = 0; $i < $len; $i++) {
-        if ($key{$i} == ' ' || $key{$i} == '.') {
-        $key{$i} = '_';
-        }
-    }
-    /*
-     * Don't register non-NAME attributes like domain, path, ... which are all starting with a
-     * dollar sign according to RFC 2965
-     */
-    if (strpos($key, '$') === 0) {
-        return null;
-    }
-    /* Urldecode value */
-    $val = trim(urldecode($val));
-    /* Add slashes if magic_quotes_gpc is on */
-    $phpVm = $gallery->getPhpVm();
-    if ($phpVm->get_magic_quotes_gpc()) {
-        $key = addslashes($key);
-        $val = addslashes($val);
-    }
-    if (!isset($fixedCookies[$key])) {
-        $_COOKIE[$key] = $val;
-        $fixedCookies[$key] = true;
-    }
     }
 
     /**
