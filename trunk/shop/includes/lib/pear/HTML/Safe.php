@@ -11,7 +11,7 @@
  * @author     Roman Ivanov <thingol@mail.ru>
  * @copyright  2004-2005 Roman Ivanov
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id:$
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_Safe
  */
 

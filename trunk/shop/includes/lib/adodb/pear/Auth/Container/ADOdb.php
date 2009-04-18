@@ -17,7 +17,7 @@
 // |	Richard Tango-Lowy <richtl@arscognita.com>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: ADOdb.php 44 2009-03-06 10:34:19Z r23 $
+// $Id$
 //
 
 require_once 'Auth/Container.php';

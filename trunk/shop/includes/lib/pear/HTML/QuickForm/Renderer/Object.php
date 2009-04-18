@@ -17,7 +17,7 @@
  * @author      Ron McClain <ron@humaniq.com>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: Object.php,v 1.5 2007/05/29 18:34:36 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 

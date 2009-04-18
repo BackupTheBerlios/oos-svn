@@ -36,7 +36,7 @@
  * @author    Laurent Laville <pear@laurent-laville.org>
  * @copyright 2005-2009 Laurent Laville
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD
- * @version   CVS: $Id: advmultiselect.php,v 1.36 2009/04/05 07:03:39 farell Exp $
+ * @version   CVS: $Id$
  * @link      http://pear.php.net/package/HTML_QuickForm_advmultiselect
  * @since     File available since Release 0.4.0
  */

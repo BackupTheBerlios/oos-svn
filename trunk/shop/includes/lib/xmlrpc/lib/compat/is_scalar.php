@@ -13,7 +13,7 @@
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
 //
-// $Id: is_scalar.php 2 2009-03-16 20:22:51Z ggiunta $
+// $Id$
 
 
 /**

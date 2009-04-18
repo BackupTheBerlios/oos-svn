@@ -29,7 +29,7 @@
  * @version 2.0
  */
 
-/* $Id: GoogleMapAPI.class.php 44 2009-03-06 10:34:19Z r23 $ */
+/* $Id$ */
 
 /*
 
