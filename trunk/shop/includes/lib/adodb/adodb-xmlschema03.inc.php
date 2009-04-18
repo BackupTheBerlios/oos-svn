@@ -10,9 +10,9 @@
  * build a database on any ADOdb-supported platform using a simple
  * XML schema.
  *
- * Last Editor: $Author: r23 $
+ * Last Editor: $Author: jlim $
  * @author Richard Tango-Lowy & Dan Cech
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.62 $
  *
  * @package axmls
  * @tutorial getting_started.pkg
@@ -1310,7 +1310,7 @@ class dbQuerySet extends dbObject {
 * @tutorial getting_started.pkg
 *
 * @author Richard Tango-Lowy & Dan Cech
-* @version $Revision: 1.19 $
+* @version $Revision: 1.62 $
 *
 * @package axmls
 */
@@ -1498,7 +1498,7 @@ class adoSchema {
 					$mode = XMLS_MODE_INSERT;
 					break;
 				default:
-					$mode = XMLS_EXISITNG_DATA;
+					$mode = XMLS_EXISTING_DATA;
 					break;
 			}
 			$this->existingData = $mode;
