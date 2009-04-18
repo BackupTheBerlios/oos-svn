@@ -37,4 +37,4 @@ function smarty_validate_criteria_notEmpty($value, $empty, &$params, &$formvars)
     return strlen($value) > 0;
 }
 
-?>
+

@@ -53,4 +53,4 @@ function smarty_function_formtool_moveup($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>
+

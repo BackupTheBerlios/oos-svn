@@ -40,4 +40,4 @@ function smarty_validate_criteria_isPrice($value, $empty, &$params, &$formvars) 
     return preg_match('/^\d+(\.\d{1,2})?$/', $value);
 }
 
-?>
+

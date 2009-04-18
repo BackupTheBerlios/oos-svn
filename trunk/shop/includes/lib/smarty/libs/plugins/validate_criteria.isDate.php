@@ -41,4 +41,4 @@ function smarty_validate_criteria_isDate($value, $empty, &$params, &$formvars) {
     return $_ret != -1 && $_ret !== false;
 }
 
-?>
+

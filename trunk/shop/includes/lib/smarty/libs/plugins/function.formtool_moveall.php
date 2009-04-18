@@ -34,4 +34,4 @@ function smarty_function_formtool_moveall($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>
+

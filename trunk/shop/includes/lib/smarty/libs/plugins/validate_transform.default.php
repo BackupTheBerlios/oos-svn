@@ -46,4 +46,4 @@ function smarty_validate_transform_default($value, $params, &$formvars) {
     }
 }
 
-?>
+

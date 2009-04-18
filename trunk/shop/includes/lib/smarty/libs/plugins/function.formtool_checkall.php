@@ -53,4 +53,4 @@ function smarty_function_formtool_checkall($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>
+

@@ -37,4 +37,4 @@ function smarty_validate_criteria_dummyValid($value, $empty, &$params, &$formvar
     return true;
 }
 
-?>
+

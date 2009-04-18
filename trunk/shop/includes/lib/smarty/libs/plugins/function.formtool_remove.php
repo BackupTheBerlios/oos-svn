@@ -69,4 +69,4 @@ function smarty_function_formtool_remove($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>
+

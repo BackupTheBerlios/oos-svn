@@ -46,4 +46,4 @@ function smarty_function_formtool_count_chars($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>
+

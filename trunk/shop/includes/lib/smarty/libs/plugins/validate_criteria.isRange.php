@@ -40,7 +40,7 @@ function smarty_validate_criteria_isRange($value, $empty, &$params, &$formvars) 
         } elseif(isset($params['low'])) {
             $_low = $params['low'];
         } else {
-            trigger_error("SmartyValidate: [isRange] parameter 'low' is missing.");            
+            trigger_error("SmartyValidate: [isRange] parameter 'low' is missing.");
             return false;
         }
 
@@ -49,15 +49,15 @@ function smarty_validate_criteria_isRange($value, $empty, &$params, &$formvars) 
         } elseif(isset($params['high'])) {
             $_high = $params['high'];
         } else {
-            trigger_error("SmartyValidate: [isRange] parameter 'high' is missing.");            
+            trigger_error("SmartyValidate: [isRange] parameter 'high' is missing.");
             return false;
         }
-        
-                    
+
+
         if(strlen($value) == 0)
             return $empty;
-        
+
         return ($value >= $_low && $value <= $_high);
 }
 
-?>
+

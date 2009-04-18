@@ -36,4 +36,4 @@ function smarty_function_validate_init($params, &$smarty) {
     $smarty->assign('validate_init', $params);
 }
 
-?>
+

@@ -40,4 +40,4 @@ function smarty_validate_criteria_isFloat($value, $empty, &$params, &$formvars) 
     return preg_match('!^\d+\.\d+?$!', $value);
 }
 
-?>
+

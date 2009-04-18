@@ -53,4 +53,4 @@ function smarty_function_formtool_rename($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>
+

@@ -42,30 +42,30 @@ function smarty_validate_criteria_isFileSize($value, $empty, &$params, &$formvar
     if(!isset($_FILES[$_field]))
         // nothing in the form
         return false;
-    
+
     if($_FILES[$_field]['error'] == 4)
         // no file uploaded
         return $empty;
 
     if(!isset($_max)) {
-        trigger_error("SmartyValidate: [isFileSize] 'max' attribute is missing.");        
-        return false;           
+        trigger_error("SmartyValidate: [isFileSize] 'max' attribute is missing.");
+        return false;
     }
-    
+
     if(!preg_match('!^(\d+)([bkmg](b)?)?$!i', $_max, $_match)) {
-        trigger_error("SmartyValidate: [isFileSize] 'max' attribute is invalid.");        
-        return false;   
+        trigger_error("SmartyValidate: [isFileSize] 'max' attribute is invalid.");
+        return false;
     }
 
     $_size = $_match[1];
     $_type = strtolower($_match[2]);
-    
+
     switch($_type) {
         case 'k':
-            $_maxsize = $_size * 1024;            
+            $_maxsize = $_size * 1024;
             break;
         case 'm':
-            $_maxsize = $_size * 1024 * 1024;            
+            $_maxsize = $_size * 1024 * 1024;
             break;
         case 'g':
             $_maxsize = $_size * 1024 * 1024 * 1024;
@@ -73,10 +73,10 @@ function smarty_validate_criteria_isFileSize($value, $empty, &$params, &$formvar
         case 'b':
         default:
             $_maxsize = $_size;
-            break;   
+            break;
     }
-    
+
     return $_FILES[$_field]['size'] <= $_maxsize;
 }
 
-?>
+

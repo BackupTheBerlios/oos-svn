@@ -39,23 +39,23 @@ function smarty_validate_criteria_isDateBefore($value, $empty, &$params, &$formv
             return $empty;
 
         if(!isset($params['field2'])) {
-                trigger_error("SmartyValidate: [isDateAfter] parameter 'field2' is missing.");            
+                trigger_error("SmartyValidate: [isDateAfter] parameter 'field2' is missing.");
                 return false;
         }
-        
+
         $_date1 = strtotime($value);
         $_date2 = strtotime($formvars[$params['field2']]);
-        
+
         if($_date1 == -1 || !$_date1) {
-                trigger_error("SmartyValidate: [isDateAfter] parameter 'field' is not a valid date.");            
+                trigger_error("SmartyValidate: [isDateAfter] parameter 'field' is not a valid date.");
                 return false;
         }
         if($_date2 == -1 || !$_date2) {
-                trigger_error("SmartyValidate: [isDateAfter] parameter 'field2' is not a valid date.");            
+                trigger_error("SmartyValidate: [isDateAfter] parameter 'field2' is not a valid date.");
                 return false;
         }
-                
+
         return $_date1 < $_date2;
 }
 
-?>
+

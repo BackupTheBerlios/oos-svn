@@ -8,17 +8,17 @@
 //  by Patrick Griffiths and Dan Webb.
 //  http://htmldog.com/articles/suckerfish/dropdowns/
 //
-//  Copyright(c) 2004-2005 New Digital Group, Inc.. All rights reserved. 
+//  Copyright(c) 2004-2005 New Digital Group, Inc.. All rights reserved.
 //
 //  This library is free software; you can redistribute it and/or modify it
 //  under the terms of the GNU Lesser General Public License as published by
-//  the Free Software Foundation; either version 2.1 of the License, or (at 
+//  the Free Software Foundation; either version 2.1 of the License, or (at
 //  your option) any later version.
 //
 //  This library is distributed in the hope that it will be useful, but WITHOUT
 //  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 //  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
-//  License for more details. 
+//  License for more details.
 //------------------------------------------------------------------------------
 
 // number of chars to indent unordered list level
@@ -75,7 +75,7 @@ function smarty_function_menu($params, &$smarty)
     $_output = "<ul id=\"$_id\">\n";
 
     foreach($params['data'] as $_element) {
-        $_output .= smarty_function_menu_render_element($_element, 1);   
+        $_output .= smarty_function_menu_render_element($_element, 1);
     }
 
     $_output .= "</ul>\n";
@@ -85,4 +85,4 @@ function smarty_function_menu($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>
+

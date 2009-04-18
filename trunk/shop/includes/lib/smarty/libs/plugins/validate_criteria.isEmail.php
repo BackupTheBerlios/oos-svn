@@ -45,11 +45,11 @@ function smarty_validate_criteria_isEmail($value, $empty, &$params, &$formvars) 
     foreach($_addresses as $_address) {
 		$_is_valid = !(preg_match('!@.*@|\.\.|\,|\;!', $_address) ||
 	        !preg_match('!^.+\@(\[?)[a-zA-Z0-9\.\-]+\.([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$!', $_address));
-        
+
         if(!$_is_valid)
             return false;
     }
     return true;
 }
 
-?>
+

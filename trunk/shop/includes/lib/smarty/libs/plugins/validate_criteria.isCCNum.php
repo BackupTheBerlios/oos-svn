@@ -24,7 +24,7 @@
  * @author Monte Ohrt <monte at newdigitalgroup dot com>
  * @package SmartyValidate
  */
- 
+
  /**
  * test if a value is a valid credit card checksum
  *
@@ -67,4 +67,4 @@ function smarty_validate_criteria_isCCNum($value, $empty, &$params, &$formvars) 
 
 }
 
-?>
+

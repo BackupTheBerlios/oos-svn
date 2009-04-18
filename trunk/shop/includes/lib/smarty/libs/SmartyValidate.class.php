@@ -37,7 +37,7 @@ class SmartyValidate {
      */
     function SmartyValidate() { }
 
-    
+
     /**
      * initialize the validator
      *
@@ -52,7 +52,7 @@ class SmartyValidate {
             trigger_error("SmartyValidate: [connect] I need a valid Smarty object.");
             return false;
         }
-    }   
+    }
 
     /**
      * test if object is a valid smarty object
@@ -61,9 +61,9 @@ class SmartyValidate {
      */
     function is_valid_smarty_object(&$smarty_obj) {
         return (is_object($smarty_obj) && (strtolower(get_class($smarty_obj)) == 'smarty' || is_subclass_of($smarty_obj, 'smarty')));
-        
+
     }
-    
+
     /**
      * clear the entire SmartyValidate session
      *
@@ -71,8 +71,8 @@ class SmartyValidate {
     function disconnect() {
         unset($_SESSION['SmartyValidate']);
         SmartyValidate::_object_instance('-', $_dummy);
-    }    
-            
+    }
+
     /**
      * initialize the session data
      *
@@ -93,7 +93,7 @@ class SmartyValidate {
             return true;
         }
     }
-    
+
     /**
      * unregister a form from the session
      *
@@ -101,34 +101,34 @@ class SmartyValidate {
      */
     function unregister_form($form) {
         unset($_SESSION['SmartyValidate'][$form]);
-    }    
-    
+    }
+
     /**
      * test if the session data is initialized
      *
      * @param string $form the name of the form being validated
      */
-    function is_registered_form($form = SMARTY_VALIDATE_DEFAULT_FORM) {    
+    function is_registered_form($form = SMARTY_VALIDATE_DEFAULT_FORM) {
         return isset($_SESSION['SmartyValidate'][$form]);
     }
-    
+
     function _failed_fields(&$formvars, $form = SMARTY_VALIDATE_DEFAULT_FORM, $revalidate = false)
     {
         // keep track of failed fields
         static $_failed_fields = array();
-        
+
         if(isset($_failed_fields[$form]) && !$revalidate) {
             // already validated the form
             return $_failed_fields[$form];
         }
-        
+
         // failed fields for current pass
-        $_ret = array(); 
-        
+        $_ret = array();
+
         $_sess =& $_SESSION['SmartyValidate'][$form]['validators'];
-        
+
         foreach($_sess as $_key => $_val) {
-            
+
             if(isset($_SESSION['SmartyValidate'][$form]['page'])
                 && $_sess[$_key]['page'] != $_SESSION['SmartyValidate'][$form]['page']) {
                 // not on page, do not validate
@@ -143,17 +143,17 @@ class SmartyValidate {
             if(is_array($_ret) && in_array($_full_field, $_ret)) {
                 // already found failure, validate ok
                 $_sess[$_key]['valid'] = 1;
-                continue;   
+                continue;
             }
-            
+
             // field is name-keyed array, pull it apart
             if(($_lpos = strpos($_field, '[')) !== false && ($_rpos = strpos($_field, ']')) !== false) {
                 if (($_keylen = ($_rpos - $_lpos - 1)) > 0) {
                     $_field_key = substr($_field, $_lpos+1, $_keylen);
                 }
-                $_field = substr($_field, 0, $_lpos);                    
+                $_field = substr($_field, 0, $_lpos);
             }
-            
+
             if(isset($_sess[$_key]['transform'])) {
                 $_trans_names = preg_split('![\s,]+!', $_sess[$_key]['transform'], -1, PREG_SPLIT_NO_EMPTY);
                 if($_sess[$_key]['trim']) {
@@ -163,13 +163,13 @@ class SmartyValidate {
                 foreach($_trans_names as $_trans_name) {
                     if(substr($_trans_name,0,1) == '@') {
                         // transformation will apply to entire array
-                        $_trans_on_array = true;   
-                        $_trans_name = substr($_trans_name,1);   
+                        $_trans_on_array = true;
+                        $_trans_name = substr($_trans_name,1);
                     } else {
                         // transformation will apply to each array element
                         $_trans_on_array = false;
                     }
-                                        
+
                     if(strpos($_trans_name,':') !== false) {
                         // transform has parameters, put them in $formvars
                         $_trans_parts = explode(':', $_trans_name);
@@ -177,17 +177,17 @@ class SmartyValidate {
                         $_trans_index = 2;
                         foreach($_trans_parts as $_trans_param) {
                             $_trans_field = $_trans_name . $_trans_index;
-                            $_sess[$_key][$_trans_field] = $_trans_param; 
+                            $_sess[$_key][$_trans_field] = $_trans_param;
                             $_trans_index++;
                         }
                     }
-                    
+
                     if(is_array($formvars[$_field]) && !$_trans_on_array) {
                         if(isset($_field_key)) {
                             // only apply to given key
                             if(($_new_val = SmartyValidate::_execute_transform($_trans_name, $formvars[$_field][$_field_key], $_sess[$_key], $formvars, $form)) !== false)
                                 $formvars[$_field][$_field_key] = $_new_val;
-                            
+
                         } else {
                             // apply to all keys
                             foreach ($formvars[$_field] as $_fv_key => $_fv_value) {
@@ -212,13 +212,13 @@ class SmartyValidate {
             } else {
                 if(substr($_val['criteria'],0,1) == '@') {
                     // criteria will apply to entire array or given key
-                    $_criteria_on_array = true;   
+                    $_criteria_on_array = true;
                     $_val['criteria'] = substr($_val['criteria'],1);
                 } else {
                     // criteria will apply to each array element
                     $_criteria_on_array = false;
                 }
-                
+
                 if(is_array($formvars[$_field]) && !$_criteria_on_array) {
                     if(isset($_field_key)) {
                         // only apply to given key
@@ -229,26 +229,26 @@ class SmartyValidate {
                             if(! $_sess[$_key]['valid'] = SmartyValidate::_is_valid_criteria($_val['criteria'], $formvars[$_field][$_fv_key], $_empty, $_sess[$_key], $formvars, $form)) {
                                 // found invalid array element, exit for loop
                                 break;
-                            }   
+                            }
                         }
                     }
                 } else {
                     $_sess[$_key]['valid'] = SmartyValidate::_is_valid_criteria($_val['criteria'], $formvars[$_field], $_empty, $_sess[$_key], $formvars, $form);
                 }
             }
-            
+
             if(!$_sess[$_key]['valid']) {
                 $_ret[] = $_full_field;
                 if(isset($_sess[$_key]['halt']) && $_sess[$_key]['halt'])
                     break;
             }
         }
-        
+
         $_failed_fields[$form] = $_ret;
-        
+
         return $_ret;
-    }    
-            
+    }
+
     /**
      * validate the form
      *
@@ -256,19 +256,19 @@ class SmartyValidate {
      * @param string $form the name of the form being validated
      */
     function is_valid(&$formvars, $form = SMARTY_VALIDATE_DEFAULT_FORM) {
-        
+
         static $_is_valid = array();
-        
+
         if(isset($_is_valid[$form])) {
             // already validated the form
             return $_is_valid[$form];
         }
-        
+
         $_smarty_obj =& SmartyValidate::_object_instance('Smarty', $_dummy);
         if(!SmartyValidate::is_valid_smarty_object($_smarty_obj)) {
             trigger_error("SmartyValidate: [is_valid] No valid smarty object, call connect() first.");
-            return false;            
-        }        
+            return false;
+        }
 
         if(!SmartyValidate::is_registered_form($form)) {
             trigger_error("SmartyValidate: [is_valid] form '$form' is not registered.");
@@ -278,21 +278,21 @@ class SmartyValidate {
             return false;
         } elseif (count($_SESSION['SmartyValidate'][$form]['validators']) == 0) {
             // nothing to validate
-            return true;   
+            return true;
         }
-        
+
         // check for failed fields
         $_failed_fields = SmartyValidate::_failed_fields($formvars, $form);
         $_ret = is_array($_failed_fields) && count($_failed_fields) == 0;
-                               
+
         // set validation state of form
         $_SESSION['SmartyValidate'][$form]['is_error'] = !$_ret;
-        
+
         $_is_valid[$form] = $_ret;
-        
+
         return $_ret;
     }
-    
+
     /**
      * register a callable function for form verification
      *
@@ -304,8 +304,8 @@ class SmartyValidate {
             return false;
         }
         SmartyValidate::_object_instance($object_name, $object);
-    }    
-    
+    }
+
     /**
      * register a callable function for form verification
      *
@@ -314,7 +314,7 @@ class SmartyValidate {
     function is_registered_object($object_name) {
         $_object =& SmartyValidate::_object_instance($object_name, $_dummy);
         return is_object($_object);
-    }    
+    }
 
     /**
      * register a callable function for form verification
@@ -323,8 +323,8 @@ class SmartyValidate {
      */
     function register_criteria($name, $func_name, $form = SMARTY_VALIDATE_DEFAULT_FORM) {
         return SmartyValidate::_register_function('criteria', $name, $func_name, $form);
-    }    
-            
+    }
+
     /**
      * register a callable function for form verification
      *
@@ -332,21 +332,21 @@ class SmartyValidate {
      */
     function register_transform($name, $func_name, $form = SMARTY_VALIDATE_DEFAULT_FORM) {
         return SmartyValidate::_register_function('transform', $name, $func_name, $form);
-    }    
-        
+    }
+
     /**
      * test if a criteria function is registered
      *
      * @param string $var the value being booleanized
      */
-    function is_registered_criteria($name, $form = SMARTY_VALIDATE_DEFAULT_FORM) {  
+    function is_registered_criteria($name, $form = SMARTY_VALIDATE_DEFAULT_FORM) {
         if(!SmartyValidate::is_registered_form($form)) {
             trigger_error("SmartyValidate: [is_registered_criteria] form '$form' is not registered.");
             return false;
         }
         return isset($_SESSION['SmartyValidate'][$form]['registered_funcs']['criteria'][$name]);
     }
-    
+
     /**
      * test if a tranform function is registered
      *
@@ -358,7 +358,7 @@ class SmartyValidate {
             return false;
         }
         return isset($_SESSION['SmartyValidate'][$form]['registered_funcs']['transform'][$name]);
-    }    
+    }
 
     /**
      * register a validator
@@ -377,20 +377,20 @@ class SmartyValidate {
             return false;
         }
         SmartyValidate::unregister_validator($id,$form);
-        
+
         $_field = explode(':', $field);
         $_validator = array();
-                
+
         foreach($_field as $_key => $_val) {
             if($_key == 0)
                 $_validator['field'] = $_val;
             else {
                 $_field_name = 'field';
                 $_field_name .= $_key + 1;
-                $_validator[$_field_name] = $_val;   
+                $_validator[$_field_name] = $_val;
             }
         }
-        
+
         $_validator['id'] = $id;
         $_validator['criteria'] = $criteria;
         $_validator['message'] = '';
@@ -398,9 +398,9 @@ class SmartyValidate {
         $_validator['empty'] = $empty;
         $_validator['halt'] = $halt;
         $_validator['transform'] = $transform;
-               
+
         $_SESSION['SmartyValidate'][$form]['validators'][]  = $_validator;
-    }    
+    }
 
     /**
      * register a validator
@@ -410,27 +410,27 @@ class SmartyValidate {
      * @param string $form name of the form (optional)
      */
     function set_transform($id, $transform, $form = SMARTY_VALIDATE_DEFAULT_FORM) {
-                
+
         if(($_validator_key = SmartyValidate::is_registered_validator($id,$form)) === false) {
             trigger_error("SmartyValidate: [set_transform] validator '$id' is not registered.");
-            return false;               
+            return false;
         }
-                
+
         $_SESSION['SmartyValidate'][$form]['validators'][$_validator_key]['transform'] = $transform;
-    }    
-    
-    
+    }
+
+
     /**
      * test if a validator is registered
      *
      * @param string $id the validator to test
      */
-    function is_registered_validator($id, $form = SMARTY_VALIDATE_DEFAULT_FORM) {  
+    function is_registered_validator($id, $form = SMARTY_VALIDATE_DEFAULT_FORM) {
         if(!SmartyValidate::is_registered_form($form)) {
             trigger_error("SmartyValidate: [is_registered_validator] form '$form' is not registered.");
             return false;
         }
-        
+
         foreach($_SESSION['SmartyValidate'][$form]['validators'] as $_key => $_val) {
             if($_SESSION['SmartyValidate'][$form]['validators'][$_key]['id'] == $id) {
                 // return array index of validator
@@ -445,11 +445,11 @@ class SmartyValidate {
      *
      * @param string $id the validator to unregister
      */
-    function unregister_validator($id, $form = SMARTY_VALIDATE_DEFAULT_FORM) {  
+    function unregister_validator($id, $form = SMARTY_VALIDATE_DEFAULT_FORM) {
         if(!SmartyValidate::is_registered_form($form)) {
             return false;
         }
-        
+
         foreach($_SESSION['SmartyValidate'][$form]['validators'] as $_key => $_val) {
             if(isset($_SESSION['SmartyValidate'][$form]['validators'][$_key]['id'])
                     && $_SESSION['SmartyValidate'][$form]['validators'][$_key]['id'] == $id) {
@@ -458,7 +458,7 @@ class SmartyValidate {
             }
         }
 
-    }        
+    }
 
     /**
      * set the current page of the form
@@ -470,8 +470,8 @@ class SmartyValidate {
         $_SESSION['SmartyValidate'][$form]['page'] = $page;
         $_SESSION['SmartyValidate'][$form]['is_error'] = false;
         $_SESSION['SmartyValidate'][$form]['is_init'] = true;
-    }    
-            
+    }
+
     /**
      * return actual function name of registered func
      *
@@ -480,18 +480,18 @@ class SmartyValidate {
      * @param string $form the form name
      */
     function _execute_transform($name, $value, $params, &$formvars, $form) {
-        
+
         if(SmartyValidate::is_registered_transform($name, $form)) {
             $_func_name = SmartyValidate::_get_registered_func_name('transform', $name, $form);
         } else {
             $_func_name = 'smarty_validate_transform_' . $name;
-            if(!function_exists($_func_name)) {            
+            if(!function_exists($_func_name)) {
                 $_smarty_obj =& SmartyValidate::_object_instance('Smarty', $_dummy);
                 if($_plugin_file = $_smarty_obj->_get_plugin_filepath('validate_transform', $name)) {
                     include_once($_plugin_file);
                 } else {
                     trigger_error("SmartyValidate: [is_valid] transform function '$name' was not found.");
-                    return false;                    
+                    return false;
                 }
             }
         }
@@ -503,14 +503,14 @@ class SmartyValidate {
             $_object =& SmartyValidate::_object_instance($_object_name, $_dummy);
             if(!method_exists($_object, $_method_name)) {
                 trigger_error("SmartyValidate: [is_valid] method '$_method_name' is not valid for object '$_object_name'.");
-                return false;                
+                return false;
             }
             return $_object->$_method_name($value, $params, $formvars);
         } else {
-            return $_func_name($value, $params, $formvars);   
-        }        
-    }    
-    
+            return $_func_name($value, $params, $formvars);
+        }
+    }
+
     /**
      * register a callable function for form verification
      *
@@ -529,22 +529,22 @@ class SmartyValidate {
             $_object =& SmartyValidate::_object_instance($_object_name, $_dummy);
             if(!method_exists($_object, $_method_name)) {
                 trigger_error("SmartyValidate: [register_$type] method '$_method_name' is not valid for object '$_object_name'.");
-                return false;                
+                return false;
             }
         } elseif (strpos($func_name,'::') !== false) {
             // static method
             preg_match('!(\w+)::(\w+)!', $func_name, $_match);
             if(!is_callable(array($_match[1], $_match[2]))) {
                 trigger_error("SmartyValidate: [register_$type] static method '$func_name' does not exist.");
-                return false;                
-            }            
+                return false;
+            }
         } elseif(!function_exists($func_name)) {
             trigger_error("SmartyValidate: [register_$type] function '$func_name' does not exist.");
             return false;
         }
         $_SESSION['SmartyValidate'][$form]['registered_funcs'][$type][$name] = $func_name;
         return true;
-    }    
+    }
 
     /**
      * return actual function name of registered func
@@ -558,8 +558,8 @@ class SmartyValidate {
            ? $_SESSION['SmartyValidate'][$form]['registered_funcs'][$type][$name]
            : false;
     }
-    
-            
+
+
     /**
      * booleanize a value
      *
@@ -571,7 +571,7 @@ class SmartyValidate {
         }
         return false;
     }
-    
+
     /**
      * validate criteria for given value
      *
@@ -584,13 +584,13 @@ class SmartyValidate {
             $_func_name = SmartyValidate::_get_registered_func_name('criteria',$criteria, $form);
         } else {
             $_func_name = 'smarty_validate_criteria_' . $criteria;
-            if(!function_exists($_func_name)) {            
+            if(!function_exists($_func_name)) {
                 $_smarty_obj =& SmartyValidate::_object_instance('Smarty', $_dummy);
                 if($_plugin_file = $_smarty_obj->_get_plugin_filepath('validate_criteria', $criteria)) {
                     include_once($_plugin_file);
                 } else {
                     trigger_error("SmartyValidate: [is_valid] criteria function '$criteria' was not found.");
-                    return false;                    
+                    return false;
                 }
             }
         }
@@ -598,18 +598,18 @@ class SmartyValidate {
             // object method
             preg_match('!(\w+)->(\w+)!', $_func_name, $_match);
             $_object_name = $_match[1];
-            $_method_name = $_match[2];            
+            $_method_name = $_match[2];
             $_object =& SmartyValidate::_object_instance($_object_name, $_dummy);
             if(!method_exists($_object, $_method_name)) {
                 trigger_error("SmartyValidate: [is_valid] method '$_method_name' is not valid for object '$_object_name'.");
-                return false;                
+                return false;
             }
             return $_object->$_method_name($value, $empty, $params, $formvars);
         } else {
-            return $_func_name($value, $empty, $params, $formvars);   
+            return $_func_name($value, $empty, $params, $formvars);
         }
     }
-    
+
     /**
      * get or set an object instance
      *
@@ -632,32 +632,32 @@ class SmartyValidate {
             $_objects[$name] =& $object;
             return $object;
         }
-    }    
-    
+    }
+
     /**
      * get or set the smarty object instance
      *
      * @param string $value the value being tested
      */
     function _smarty_assign($vars = array()) {
-        
+
         $_smarty_obj =& SmartyValidate::_object_instance('Smarty', $_dummy);
-        
+
         if(!is_object($_smarty_obj)) {
             trigger_error("SmartyValidate: [assign] no valid smarty object found, call connect() first.");
             return false;
-        }              
-                        
+        }
+
         if(!empty($vars)) {
             $_smarty_obj->assign($vars);
         }
         foreach($_SESSION['SmartyValidate'] as $_key => $_val) {
-            $_info[$_key]['is_error'] = isset($_SESSION['SmartyValidate'][$_key]['is_error']) ? $_SESSION['SmartyValidate'][$_key]['is_error'] : null;        
+            $_info[$_key]['is_error'] = isset($_SESSION['SmartyValidate'][$_key]['is_error']) ? $_SESSION['SmartyValidate'][$_key]['is_error'] : null;
         }
         $_smarty_obj->assign('validate', $_info);
-        
-    }    
-        
+
+    }
+
 }
 
-?>
+

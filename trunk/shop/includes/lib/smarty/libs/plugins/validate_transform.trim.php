@@ -37,4 +37,3 @@ function smarty_validate_transform_trim($value, $params, &$formvars) {
     return trim($value);
 }
 
-?>

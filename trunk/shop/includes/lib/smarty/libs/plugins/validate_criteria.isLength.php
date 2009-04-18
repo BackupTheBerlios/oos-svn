@@ -38,21 +38,21 @@ function smarty_validate_criteria_isLength($value, $empty, &$params, &$formvars)
         if(isset($params['field2'])) {
             $_min = $params['field2'];
         } elseif(isset($params['min'])) {
-            $_min = $params['min'];   
+            $_min = $params['min'];
         } else {
-            $_min = -1;   
+            $_min = -1;
         }
 
         if(isset($params['field3'])) {
             $_max = $params['field3'];
         } elseif(isset($params['max'])) {
-            $_max = $params['max'];   
+            $_max = $params['max'];
         } else {
-            $_max = -1;   
+            $_max = -1;
         }
 
         $_length = strlen($value);
-                
+
         if(($_min == -1 || $_length >= $_min) && ($_max == -1 || $_length <= $_max))
             return true;
         elseif($_length == 0)
@@ -61,4 +61,4 @@ function smarty_validate_criteria_isLength($value, $empty, &$params, &$formvars)
             return false;
 }
 
-?>
+
