@@ -111,56 +111,27 @@ class language
             }
         }
 
-        $http_accept_language = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
         $browser_languages = array(
-           'af' => 'af|afrikaans',
-           'ar' => 'ar([-_][[:alpha:]]{2})?|arabic',
-           'az' => 'az|azerbaijani',
-           'bg' => 'bg|bulgarian',
-           'br' => 'pt[-_]br|brazilian portuguese',
-           'bs' => 'bs|bosnian',
-           'ca' => 'ca|catalan',
-           'cs' => 'cs|czech',
-           'da' => 'da|danish',
            'deu' => 'de([-_][[:alpha:]]{2})?|german',
-           'el' => 'el|greek',
            'eng' => 'en([-_][[:alpha:]]{2})?|english',
            'spa' => 'es([-_][[:alpha:]]{2})?|spanish',
-           'et' => 'et|estonian',
-           'fi' => 'fi|finnish',
            'fra' => 'fr([-_][[:alpha:]]{2})?|french',
-           'gl' => 'gl|galician',
-           'he' => 'he|hebrew',
-           'hu' => 'hu|hungarian',
-           'id' => 'id|indonesian',
            'ita' => 'it|italian',
-           'ja' => 'ja|japanese',
-           'ko' => 'ko|korean',
-           'ka' => 'ka|georgian',
-           'lt' => 'lt|lithuanian',
            'nld' => 'nl([-_][[:alpha:]]{2})?|dutch',
-           'no' => 'no|norwegian',
            'pol' => 'pl|polish',
-           'pt' => 'pt([-_][[:alpha:]]{2})?|portuguese',
-           'ro' => 'ro|romanian',
-           'rus' => 'ru|russian',
-           'sk' => 'sk|slovak',
-           'sr' => 'sr|serbian',
-           'sv' => 'sv|swedish',
-           'th' => 'th|thai',
-           'tr' => 'tr|turkish',
-           'uk' => 'uk|ukrainian',
-           'tw' => 'zh[-_]tw|chinese traditional',
-           'zh' => 'zh|chinese simplified');
+           'rus' => 'ru|russian');
 
-        foreach ($http_accept_language as $browser_language) {
-            foreach ($browser_languages as $key => $value) {
-                if (eregi('^(' . $value . ')(;q=[0-9]\\.[0-9])?$', $browser_language) && $this->exists($key)) {
-                    $this->set($key);
-                    return true;
+        $httpAcceptLanguage = MyOOS_Utilities::getServerVar('HTTP_ACCEPT_LANGUAGE');
+        if (!empty($httpAcceptLanguage)) {
+            foreach (explode(',', $httpAcceptLanguage) as $code) {
+                 foreach ($browser_languages as $key => $value) {
+                   if (eregi('^(' . $value . ')(;q=[0-9]\\.[0-9])?$', $code) && $this->exists($key)) {
+                         $this->set($key);
+                         return true;
+                     }
                 }
-            }
+           }
         }
 
         $this->set(DEFAULT_LANGUAGE);

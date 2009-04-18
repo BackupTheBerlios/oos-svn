@@ -56,6 +56,9 @@ require 'includes/oos_define.php';
 // Load server utilities
 require 'includes/functions/function_server.php';
 
+require 'includes/core/classes/utilities_class.php';
+require 'includes/core/classes/core_api_class.php';
+
 
 // redirect to the installation module if DB_SERVER is empty
 if (strlen(OOS_DB_TYPE) < 1) {

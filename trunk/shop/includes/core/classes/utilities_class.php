@@ -845,6 +845,39 @@ class MyOOS_Utilities {
         return $html;
     }
 
+
+    /**
+     * Strip out all potentially dangerous content within HTML.
+     * @param string $dirty_html HTML
+     * @param boolean $decode (optional) true to decode entities, process, then recode
+     * @return string safe HTML
+     */
+    function HTMLPurifier($dirty_html, $decode=false)
+    {
+
+        MyOOS_CoreApi::requireOnce('htmlpurifier/library/HTMLPurifier.auto.php');
+
+        static $purifier;
+        if (!isset($purifier)) {
+
+            $config = HTMLPurifier_Config::createDefault();
+            $config->set('Core', 'Encoding', 'ISO-8859-1'); // replace with your encoding
+            $config->set('HTML', 'Doctype', 'HTML 4.01 Transitional'); // replace with your doctype
+            $purifier = new HTMLPurifier($config);
+        }
+
+        if ($decode) {
+            MyOOS_Utilities::unsanitizeInputValues($dirty_html, false);
+        }
+        $clean_html = $purifier->purify($dirty_html);
+        if ($decode) {
+            MyOOS_Utilities::sanitizeInputValues($clean_html, false);
+        }
+        return $clean_html;
+    }
+
+
+
     /**
      * Return a specified request variable from the GET or POST vars.
      * @param string $key a single key

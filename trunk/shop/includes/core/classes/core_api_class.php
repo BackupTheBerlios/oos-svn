@@ -2841,15 +2841,18 @@ class MyOOS_CoreApi {
      * @param string $file
      * @param boolean $skipBaseDirectoryDetection deprecated
      */
-    function requireOnce($file, $skipBaseDirectoryDetection=false) {
-    static $loaded;
-    if (!isset($loaded[$file])) {
-        $loaded[$file] = 1;
-        if (strpos($file, '..') !== false) {
-        return;
+    function requireOnce($file, $skipBaseDirectoryDetection=false)
+    {
+        static $loaded;
+        if (!isset($loaded[$file])) {
+            $loaded[$file] = 1;
+            if (strpos($file, '..') !== false) {
+                return;
+            }
+            require_once(dirname(__FILE__) . '/../../' . $file);
+           // require_once(dirname(__FILE__) . '/../../../' . $file);
+
         }
-        require_once(dirname(__FILE__) . '/../../../' . $file);
-    }
     }
 
     /**
