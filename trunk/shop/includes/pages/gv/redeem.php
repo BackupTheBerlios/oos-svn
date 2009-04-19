@@ -63,7 +63,7 @@ if ( (isset($_GET['gv_no']) && !empty($_GET['gv_no'])) ) {
 
 if ( (!$bError) && (isset($_SESSION['customer_id'])) ) {
 // Update redeem status
-    $remote_addr = oos_server_get_remote();
+    $remote_addr = $_SESSION['session_ip_address'];
     $coupon_email_tracktable = $oostable['coupon_email_track'];
     $gv_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable
                             (coupon_id,

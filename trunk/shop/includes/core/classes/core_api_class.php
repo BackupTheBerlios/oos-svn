@@ -2827,7 +2827,7 @@ class MyOOS_CoreApi {
             if (strpos($file, '..') !== false) {
                 return;
             }
-            echo BP . DS . $file .'<br>';
+            // debug echo BP . DS . $file .'<br>';
             require BP . DS . $file;
         }
     }

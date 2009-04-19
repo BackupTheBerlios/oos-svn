@@ -129,7 +129,7 @@
           }
         } else {
          // GV_QUEUE is true - so queue the gv for release by store owner
-          $remote_addr = oos_server_get_remote();
+          $remote_addr = $_SESSION['session_ip_address'];
 
           $coupon_gv_queuetable = $oostable['coupon_gv_queue'];
           $gv_insert=$dbconn->Execute("INSERT INTO $coupon_gv_queuetable
@@ -237,7 +237,7 @@
           $gv_update = $dbconn->Execute("UPDATE $couponstable
                                          SET coupon_active = 'N'
                                          WHERE coupon_id = '" . $gv_result['coupon_id'] . "'");
-          $remote_addr = oos_server_get_remote();
+          $remote_addr = $_SESSION['session_ip_address'];
 
           $coupon_redeem_tracktable = $oostable['coupon_redeem_track'];
           $gv_redeem = $dbconn->Execute("INSERT INTO  $coupon_redeem_tracktable

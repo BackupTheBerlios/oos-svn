@@ -1112,7 +1112,7 @@
     $sServer = oos_server_get_host();
     $sProtocol = oos_server_get_protocol();
     $sUri = oos_server_get_var('REQUEST_URI');
-    $sRemoteIP = oos_server_get_remote();
+    $sRemoteIP = $_SESSION['session_ip_address'];
 
 
     $email_text = '';

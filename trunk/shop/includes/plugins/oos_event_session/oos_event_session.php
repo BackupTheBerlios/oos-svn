@@ -140,10 +140,10 @@
 
       // verify the IP address
       if (!isset($_SESSION['session_ip_address'])) {
-        $_SESSION['session_ip_address'] = oos_server_get_remote();
+        $_SESSION['session_ip_address'] = MyOOS_Utilities::getRemoteHostAddress();
       }
 
-      if ($_SESSION['session_ip_address'] != oos_server_get_remote()) {
+      if ($_SESSION['session_ip_address'] != MyOOS_Utilities::getRemoteHostAddress()) {
         unset($_SESSION['customer_id']);
         unset($_SESSION['session_ip_address']);
         $_SESSION['cart']->reset();

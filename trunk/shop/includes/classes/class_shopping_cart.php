@@ -119,7 +119,7 @@ class shoppingCart
 
 
             if (isset($_SESSION['gv_id'])) {
-                $remote = oos_server_get_remote();
+                $remote = $_SESSION['session_ip_address'];
                 $coupon_redeem_tracktable = $oostable['coupon_redeem_track'];
                 $gv_result = $dbconn->Execute("INSERT INTO $coupon_redeem_tracktable
                                               (coupon_id,

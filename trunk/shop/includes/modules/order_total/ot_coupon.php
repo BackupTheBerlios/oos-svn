@@ -407,7 +407,7 @@
    global $insert_id;
 
    $cc_id = intval($_SESSION['cc_id']);
-   $remote_addr = oos_server_get_remote();
+   $remote_addr = $_SESSION['session_ip_address'];
 
    if ($this->deduction !=0) {
       // Get database information

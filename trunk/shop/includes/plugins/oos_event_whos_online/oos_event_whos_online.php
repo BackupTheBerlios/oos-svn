@@ -65,7 +65,7 @@
       }
 
       $wo_session_id = oos_session_id();
-      $wo_ip_address = oos_server_get_remote();
+      $wo_ip_address = $_SESSION['session_ip_address'];
       $wo_last_page_url = addslashes(oos_server_get_var('REQUEST_URI'));
 
       $current_time = time();
