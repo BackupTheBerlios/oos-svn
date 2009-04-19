@@ -62,6 +62,7 @@
       if (!isset($_SESSION['language']) || isset($_GET['language'])) {
 
         MyOOS_CoreApi::requireOnce('classes/class_language.php');
+
         $oLang = new language();
 
         if (isset($_GET['language']) && oos_is_not_null($_GET['language'])) {
