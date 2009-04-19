@@ -26,8 +26,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
-define('BP', dirname(dirname(__FILE__)));
-
+define('BP', dirname(__FILE__));
 
 /**
  * Error reporting
@@ -35,15 +34,9 @@ define('BP', dirname(dirname(__FILE__)));
 error_reporting(E_ALL);
 //  error_reporting(0);
 
-
-// disable use_trans_sid as oos_href_link() does this manually
-if (function_exists('ini_set')) {
-    ini_set('arg_separator.output', '&amp;');
-}
-
 // Set the local configuration parameters - mainly for developers
 if (is_readable('includes/local/configure.php')) {
-    include('includes/local/configure.php');
+    require 'includes/local/configure.php';
 } else {
     require 'includes/configure.php';
 }
@@ -252,11 +245,3 @@ if (USE_DB_CACHE == '1') {
 
 $aOption = array();
 
-/*
-// Todo remove
-if (isset($_POST)) {
-    foreach ($_POST as $key=>$value) {
-        $$key = oos_prepare_input($value);
-    }
-}
-*/

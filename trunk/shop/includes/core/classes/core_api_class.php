@@ -74,18 +74,12 @@ class MyOOS_CoreApi {
      * @return array major number, minor number
      *
      * @todo for next major version bump:
-     * - remove GallerySession::getSessionId
-     * - remove GalleryPlatform::recursiveFixDirPermissions
-     * - remove MyOOS_Utilities::htmlEntityDecode
      * - remove GalleryUrlGenerator::getGalleryId
      * - remove GalleryStatus::wrap
      * - change MyOOS_CoreApi::error to only take error code and error message
      * - remove GalleryCapabilities (major bump of embed api too?)
      * - remove 'link' entry in Gallery.class constructor
-     * - remove MyOOS_CoreApi::getPluginBaseDirs();
-     * - remove MyOOS_CoreApi::getPluginBaseDir();
      * - remove MyOOS_CoreApi::isPluginInDefaultLocation();
-     * - remove $skipBaseDirectoryDetection from MyOOS_CoreApi::requireOnce();
      * - remove support for check[Sidebar|Album|Photo]Blocks deprecated params
      *   for ShouldShowEmergencyEditItemLink in Callbacks.inc
      *   and comment in blocks/EmergencyEditItemLink.tpl
@@ -100,19 +94,16 @@ class MyOOS_CoreApi {
      *   from GalleryTranslatorHelper_medium::installTranslationsForPlugin,
      *   and from getPackageNames() in lib/tools/repository/classes/RepositoryDescriptor.class
      * - remove resourceGetTemplateBaseDir from GalleryTemplate class
-     * - delete GalleryTestCase::failWithStatus
      * - loadEntitiesById and deleteEntityById: make optional $requiredEntityType mandatory
-     * - remove MyOOS_CoreApi::registerEventListener, GalleryModule::registerEventListeners
      *   and other code marked for removal in helpers/GalleryEventHelper_simple.class
      * - consider renaming everything using "languageCode" to "locale" for correct terminology
      *   (GalleryTranslator.class and Gallery.class)
      * - delete modules/core/templates/blocks/NavigationLinks.tpl
-     * - remove GalleryRepository::getLanguageDescription
      * - convert the contents of GALLERY_PERMISSION_SESSION_KEY to array indices instead of array
      *   of values.
      */
     function getApiVersion() {
-    return array(7, 54);
+        return array(2, 1);
     }
 
     /**
@@ -2238,18 +2229,6 @@ class MyOOS_CoreApi {
     return GalleryEventHelper_simple::newEvent($eventName);
     }
 
-    /**
-     * Register an event listener.
-     * @param string $eventName the name of the event, e.g. GalleryEntity::save
-     * @param GalleryEventListener $eventListener
-     * @param boolean $disableForUnitTests (optional) if true, disable event listener during tests
-     * @deprecated Use MyOOS_CoreApi::registerFactoryImplementation('GalleryEventListener', ...
-     */
-    function registerEventListener($eventName, &$eventListener, $disableForUnitTests=false) {
-    MyOOS_CoreApi::requireOnce('modules/core/classes/helpers/GalleryEventHelper_simple.class');
-    return GalleryEventHelper_simple::registerEventListener(
-        $eventName, $eventListener, $disableForUnitTests);
-    }
 
     /**
      * Deliver an event to anybody listening.
@@ -2831,7 +2810,7 @@ class MyOOS_CoreApi {
     }
 
     /**
-     * Require a file, but only once. All specified paths must be relative to the gallery2
+     * Require a file, but only once. All specified paths must be relative to the Shop
      * directory. Think of it as a virtual PHP include_path.
      *
      * Surprisingly, tracking what's been already loaded in a static variable is actually 10x+
@@ -2839,37 +2818,20 @@ class MyOOS_CoreApi {
      * to wrap it.
      *
      * @param string $file
-     * @param boolean $skipBaseDirectoryDetection deprecated
      */
-    function requireOnce($file, $skipBaseDirectoryDetection=false)
+    function requireOnce($file)
     {
         static $loaded;
         if (!isset($loaded[$file])) {
-            $loaded[$file] = 1;
+            $loaded[$file] = true;
             if (strpos($file, '..') !== false) {
                 return;
             }
-            require_once(dirname(__FILE__) . '/../../' . $file);
-           // require_once(dirname(__FILE__) . '/../../../' . $file);
-
+            echo BP . DS . $file .'<br>';
+            require BP . DS . $file;
         }
     }
 
-    /**
-     * Send an email using a smarty template for the message body
-     *
-     * @param string $file template file
-     * @param array $data data to pass to smarty template
-     * @param string $from from address (null allowed)
-     * @param string $to to address(es) (comma separated)
-     * @param string $subject email subject
-     * @param string $headers (optional) additional headers (\r\n separated)
-     * @return GalleryStatus a status code
-     */
-    function sendTemplatedEmail($file, $data, $from, $to, $subject, $headers='') {
-    MyOOS_CoreApi::requireOnce('modules/core/classes/helpers/MailHelper_simple.class');
-    return MailHelper_simple::sendTemplatedEmail($file, $data, $from, $to, $subject, $headers);
-    }
 
     /**
      * Return an error status.
@@ -2884,11 +2846,12 @@ class MyOOS_CoreApi {
      * @param string $errorMessage
      * @return GalleryStatus an error status
      */
-    function error($errorCode, $fileName='ignored', $lineNumber='ignored', $errorMessage=null) {
-    MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryStatus.class');
-    $status = new GalleryStatus(GALLERY_ERROR | $errorCode, $errorMessage);
-    $status->setStackTrace(debug_backtrace());
-    return $status;
+    function error($errorCode, $fileName='ignored', $lineNumber='ignored', $errorMessage=null)
+    {
+        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryStatus.class');
+        $status = new GalleryStatus(GALLERY_ERROR | $errorCode, $errorMessage);
+        $status->setStackTrace(debug_backtrace());
+        return $status;
     }
 
     /**
@@ -3309,9 +3272,10 @@ class MyOOS_CoreApi {
      * are still up to date. The result is cached in memory.
      * @return boolean false if the compiled templates should be used without any checking
      */
-    function shouldDoCompileCheck() {
-    MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryTemplate.class');
-    return GalleryTemplate::shouldDoCompileCheck();
+    function shouldDoCompileCheck()
+    {
+        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryTemplate.class');
+        return GalleryTemplate::shouldDoCompileCheck();
     }
 
     /**
@@ -3320,9 +3284,10 @@ class MyOOS_CoreApi {
      *               custom maintenance mode page.
      * @return GalleryStatus a status code
      */
-    function setMaintenanceMode($mode) {
-    MyOOS_CoreApi::requireOnce('modules/core/classes/helpers/MaintenanceHelper_simple.class');
-    return MaintenanceHelper_simple::setMaintenanceMode($mode);
+    function setMaintenanceMode($mode)
+    {
+        MyOOS_CoreApi::requireOnce('modules/core/classes/helpers/MaintenanceHelper_simple.class');
+        return MaintenanceHelper_simple::setMaintenanceMode($mode);
     }
 
     /**
@@ -3333,10 +3298,11 @@ class MyOOS_CoreApi {
      * @param string $detail the event details
      * @return GalleryStatus a status code
      */
-    function addEventLogEntry($type, $summary, $details) {
-    MyOOS_CoreApi::requireOnce(
-        'modules/core/classes/helpers/GalleryEventLogHelper_medium.class');
-    return GalleryEventLogHelper_medium::addEventLogEntry($type, $summary, $details);
+    function addEventLogEntry($type, $summary, $details)
+    {
+        MyOOS_CoreApi::requireOnce(
+            'modules/core/classes/helpers/GalleryEventLogHelper_medium.class');
+        return GalleryEventLogHelper_medium::addEventLogEntry($type, $summary, $details);
     }
 
 }

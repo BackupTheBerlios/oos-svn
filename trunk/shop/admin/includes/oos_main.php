@@ -22,6 +22,11 @@
   /** ensure this file is being required by a parent file */
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
+define('DS', DIRECTORY_SEPARATOR);
+define('PS', PATH_SEPARATOR);
+define('BP', dirname(dirname(__FILE__)));
+
+
 // debug
   $debug = '1';
 
@@ -65,6 +70,10 @@ if (is_readable('../includes/local/configure.php')) {
 
   require '../includes/functions/function_global.php';
   require 'includes/functions/function_kernel.php';
+
+require '../includes/core/classes/utilities_class.php';
+require '../includes/core/classes/core_api_class.php';
+
 
 // Load server utilities
   require '../includes/functions/function_server.php';

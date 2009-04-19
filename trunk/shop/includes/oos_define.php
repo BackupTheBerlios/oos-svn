@@ -21,15 +21,9 @@ define('USE_DB_CACHE_LEVEL_HIGH', '0');  // OOS SQL-Layer Cache HIGH
 define('WARN_INSTALL_EXISTENCE', '1');
 define('WARN_CONFIG_WRITEABLE', '1');
 
-if (strlen(ini_get("safe_mode"))< 1) {
-  define('WARN_SESSION_DIRECTORY_NOT_WRITEABLE', '1');
-  define('WARN_SESSION_AUTO_START', '1');
-  define('WARN_DOWNLOAD_DIRECTORY_NOT_READABLE', '1');
-} else {
-  define('WARN_SESSION_DIRECTORY_NOT_WRITEABLE', '0');
-  define('WARN_SESSION_AUTO_START', '0');
-  define('WARN_DOWNLOAD_DIRECTORY_NOT_READABLE', '0');
-}
+define('WARN_SESSION_DIRECTORY_NOT_WRITEABLE', '1');
+define('WARN_SESSION_AUTO_START', '1');
+define('WARN_DOWNLOAD_DIRECTORY_NOT_READABLE', '1');
 
 define('TIME_BASED_GREETING', '1');
 

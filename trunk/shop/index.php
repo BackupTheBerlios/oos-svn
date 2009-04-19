@@ -18,7 +18,7 @@
    ---------------------------------------------------------------------- */
 
 define('OOS_VALID_MOD', 'yes');
-require_once(dirname(__FILE__) . '/includes/oos_main.php');
+require(dirname(__FILE__) . '/includes/oos_main.php');
 
 $sMp = oos_var_prep_for_os($sMp);
 $sFile = oos_var_prep_for_os($sFile);
@@ -31,7 +31,7 @@ if (is_readable('includes/pages/' . $sMp . '/' . $sFile . '.php')) {
     } else {
         $_SESSION['navigation']->add_current_page();
     }
-    require_once(dirname(__FILE__) . '/includes/pages/' . $sMp . '/' . $sFile . '.php');
+    require(dirname(__FILE__) . '/includes/pages/' . $sMp . '/' . $sFile . '.php');
 
 } else {
     // Module not found
@@ -52,4 +52,4 @@ if (is_readable('includes/pages/' . $sMp . '/' . $sFile . '.php')) {
 
 }
 
-require_once(dirname(__FILE__) . '/includes/oos_nice_exit.php');
+require(dirname(__FILE__) . '/includes/oos_nice_exit.php');
