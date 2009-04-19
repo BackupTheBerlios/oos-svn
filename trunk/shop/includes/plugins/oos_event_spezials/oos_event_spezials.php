@@ -52,7 +52,7 @@
 
     function create_plugin_instance() {
 
-      include 'includes/functions/function_spezials.php';
+      MyOOS_CoreApi::requireOnce('functions/function_spezials.php');
       oos_expire_spezials();
 
       return true;

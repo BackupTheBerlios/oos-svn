@@ -52,7 +52,8 @@
     }
 
     function create_plugin_instance() {
-      include 'includes/classes/class_url_rewrite.php';
+
+      MyOOS_CoreApi::requireOnce('classes/class_url_rewrite.php');
 
       if (isset($_GET['rewrite'])) {
         $sUrl = oos_server_get_var('QUERY_STRING');

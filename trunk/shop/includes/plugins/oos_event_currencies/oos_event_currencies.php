@@ -56,7 +56,7 @@
     function create_plugin_instance() {
       global $oCurrencies;
 
-      include 'includes/classes/class_currencies.php';
+      MyOOS_CoreApi::requireOnce('classes/class_currencies.php');
       $oCurrencies = new currencies();
 
       // currency

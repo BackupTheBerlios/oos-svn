@@ -40,7 +40,7 @@
         return $source;
       }
     } else {
-      require_once('includes/classes/class_referrer.php');
+      MyOOS_CoreApi::requireOnce('classes/class_referrer.php');
       $referrer = new referrer();
       $highlight .= $referrer->getKeywords();
     }

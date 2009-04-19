@@ -44,8 +44,7 @@ function smarty_function_rss_load($params, &$smarty)
         return;
     }
 
-
-	require_once 'includes/classes/onyx/rss.php');
+    MyOOS_CoreApi::requireOnce('classes/onyx/rss.php');
 
 	if(class_exists('ONYX_RSS')) {
 

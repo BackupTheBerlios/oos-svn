@@ -60,7 +60,7 @@
       $aModules = oos_get_modules();
 
       // include the breadcrumb class and start the breadcrumb trail
-      include 'includes/classes/class_breadcrumb.php';
+      MyOOS_CoreApi::requireOnce('classes/class_breadcrumb.php');
       $oBreadcrumb = new breadcrumb;
 
       $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aModules['main'], $aFilename['main']));
