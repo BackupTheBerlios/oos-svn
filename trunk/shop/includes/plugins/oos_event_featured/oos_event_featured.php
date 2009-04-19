@@ -53,7 +53,7 @@
 
     function create_plugin_instance() {
 
-      include 'includes/functions/function_featured.php';
+      MyOOS_CoreApi::requireOnce('functions/function_featured.php');
       oos_expire_featured();
 
       return true;

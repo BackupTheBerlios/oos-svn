@@ -60,9 +60,9 @@
       $aModules = oos_get_modules();
 
       if (!isset($_SESSION['language']) || isset($_GET['language'])) {
-        // include the language class
-        include 'includes/classes/class_language.php';
-        $oLang = new language;
+
+        MyOOS_CoreApi::requireOnce('classes/class_language.php');
+        $oLang = new language();
 
         if (isset($_GET['language']) && oos_is_not_null($_GET['language'])) {
           $oLang->set($_GET['language']);

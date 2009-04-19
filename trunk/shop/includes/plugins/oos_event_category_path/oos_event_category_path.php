@@ -53,7 +53,7 @@
     function create_plugin_instance() {
       global $categories, $aCategoryPath, $nCurrentCategoryId;
 
-      include 'includes/classes/class_category_tree.php';
+      MyOOS_CoreApi::requireOnce('classes/class_category_tree.php');
 
       if (isset($_GET['categories'])) {
         $categories = oos_var_prep_for_os($_GET['categories']);

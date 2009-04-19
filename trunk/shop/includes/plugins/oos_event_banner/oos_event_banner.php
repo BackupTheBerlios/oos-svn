@@ -52,7 +52,7 @@
 
     function create_plugin_instance() {
 
-      include 'includes/functions/function_banner.php';
+      MyOOS_CoreApi::requireOnce('functions/function_banner.php');
 
       // auto activate and expire banners
       oos_activate_banners();
