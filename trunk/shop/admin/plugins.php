@@ -132,7 +132,7 @@
   if (is_dir($sLocaleDir)) {
     if ($dh = opendir($sLocaleDir)) {
       while (($file = readdir($dh)) !== false) {
-        if ($file == '.' || $file == '..' || $file == 'CVS' || $file == '.svn' || $file == 'thirdparty' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
+        if ($file == '.' || $file == '..' || $file == '.svn' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
         if (filetype(realpath($sLocaleDir . $file)) == 'dir') {
           $aDirectory[] = $file;
         }
