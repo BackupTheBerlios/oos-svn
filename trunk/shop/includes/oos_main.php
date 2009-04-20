@@ -97,9 +97,6 @@ require 'includes/classes/class_products_history.php';
 require 'includes/classes/class_shopping_cart.php';
 require 'includes/classes/class_navigation_history.php';
 
-// require  the mail classes
-require 'includes/lib/phpmailer/class.phpmailer.php';
-
 require 'includes/functions/function_session.php';
 
 
@@ -143,7 +140,7 @@ require 'includes/oos_debug.php';
 
 
 require 'includes/classes/class_plugin_event.php';
-$oEvent = new plugin_event;
+$oEvent = new plugin_event();
 $oEvent->getInstance();
 
 // set the language
@@ -186,7 +183,7 @@ if (!isset($_SESSION['products_history'])) {
 
 // initialize the message stack for output messages
 require 'includes/classes/class_message_stack.php';
-$oMessage = new messageStack;
+$oMessage = new messageStack();
 
 // templates selection
 if (!isset($_SESSION['theme']) || isset($_GET['template'])) {

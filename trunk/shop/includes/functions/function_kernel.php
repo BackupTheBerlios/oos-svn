@@ -1396,6 +1396,9 @@
 
     $sLang = (isset($_SESSION['iso_639_1']) ? $_SESSION['iso_639_1'] : 'en');
 
+    // require  the mail classes
+    MyOOS_CoreApi::requireOnce('lib/phpmailer/class.phpmailer.php');
+
     // Instantiate a new mail object
     $mail = new PHPMailer;
 	$mail->ClearAllRecipients();
