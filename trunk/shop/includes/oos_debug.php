@@ -13,7 +13,8 @@
   /** ensure this file is being included by a parent file */
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-
+define('WEBMASTER_NAME', STORE_OWNER);
+define('WEBMASTER_EMAIL_ADDRESS', STORE_OWNER_EMAIL_ADDRESS);
 
  /**
   * For debugging purposes
@@ -30,7 +31,7 @@
     ini_set('allow_call_time_pass_reference',1);
     ini_set('track_errors',1);
     ini_set('error_reporting',E_ALL & ~E_NOTICE);
-    ini_set('display_errors',1);
+    ini_set('display_errors',0);
     ini_set('log_errors',0);
   }
 
