@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: function.oos_add_tax.php 120 2009-03-28 08:37:06Z r23 $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

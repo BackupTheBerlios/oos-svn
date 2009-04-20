@@ -29,7 +29,7 @@
  * If a parameter is a directory, the template files within will be parsed.
  *
  * @package	smarty-gettext
- * @version	$Id: tsmarty2c.php 193 2009-04-18 22:25:46Z r23 $
+ * @version	$Id$
  * @link	http://smarty-gettext.sf.net/
  * @author	Sagi Bashari <sagi@boom.org.il>
  * @copyright 2004-2005 Sagi Bashari

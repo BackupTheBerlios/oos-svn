@@ -21,7 +21,7 @@
  * Installation: simply copy this file to the smarty plugins directory.
  *
  * @package	smarty-gettext
- * @version	$Id: block.t.php 193 2009-04-18 22:25:46Z r23 $
+ * @version	$Id$
  * @link	http://smarty-gettext.sourceforge.net/
  * @author	Sagi Bashari <sagi@boom.org.il>
  * @copyright 2004-2005 Sagi Bashari
