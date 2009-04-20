@@ -40,6 +40,10 @@ define('STORE_CITY', '');
 define('STORE_POSTCODE', '');
 define('STORE_ISO_639_2', '');
 
+define('WEBMASTER_NAME', STORE_OWNER);
+define('WEBMASTER_EMAIL_ADDRESS', STORE_OWNER_EMAIL_ADDRESS);
+
+
 define('OOS_PAGE_TYPE_MAINPAGE',  1);
 define('OOS_PAGE_TYPE_CATALOG',   2);
 define('OOS_PAGE_TYPE_PRODUCTS',  3);
@@ -49,3 +53,5 @@ define('OOS_PAGE_TYPE_CHECKOUT',  6);
 // 7 remove
 define('OOS_PAGE_TYPE_ACCOUNT',   8);
 define('OOS_PAGE_TYPE_REVIEWS',   9);
+
+

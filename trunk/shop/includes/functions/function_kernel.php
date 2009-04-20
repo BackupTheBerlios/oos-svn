@@ -1099,49 +1099,6 @@
 
 
  /**
-  * send error reporting email to admin
-  *
-  * @author    PostNuke Content Management System
-  * @copyright Copyright (C) 2001 by the Post-Nuke Development Team.
-  * @version Revision: 2.0  - changed by Author: r23  on Date: 2004/03/09 06:02:08
-  * @access private
-  */
-  function oos_error_reporting_mail() {
-    global $aLang;
-
-    $sServer = oos_server_get_host();
-    $sProtocol = oos_server_get_protocol();
-    $sUri = oos_server_get_var('REQUEST_URI');
-    $sRemoteIP = $_SESSION['session_ip_address'];
-
-
-    $email_text = '';
-    $email_text .= $aLang['error404_email_header'] . "\n\n" .
-                   $aLang['error404_email_text'] . ' ' .
-                   $remote . ' ' .
-                   $aLang['error404_email_date'] . ' ' . strftime(DATE_TIME_FORMAT) . "\n\n";
-
-    $email_text .= $aLang['error404_email_uri'] . "\n" .
-                   trim($sProtocol . $sServer . $sUri) . "\n\n";
-
-    if ($_SERVER["HTTP_REFERER"] != "") {
-      $email_text .= $aLang['error404_email_ref'] . "\n" .
-                     $_SERVER["HTTP_REFERER"] . "\n\n";
-    }
-
-    if (!defined('WEBMASTER_NAME')) {
-      define('WEBMASTER_NAME', STORE_OWNER);
-    }
-    if (!defined('WEBMASTER_EMAIL_ADDRESS')) {
-      define('WEBMASTER_EMAIL_ADDRESS', STORE_OWNER_EMAIL_ADDRESS);
-    }
-
-    # Send the mail message. This assumes mail() will work on your system!
-    oos_mail(WEBMASTER_NAME, WEBMASTER_EMAIL_ADDRESS, $aLang['error404_email_subject'], nl2br($email_text), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, '1');
-  }
-
-
- /**
   * Check if product has attributes
   *
   * @param $products_id
