@@ -65,24 +65,9 @@ class plugin_event
             $sName = oos_var_prep_for_os($sName);
 
 
-/* todo remove?
             if (is_readable('includes/plugins/' . $sPluginPath . '/' . $sName . '.php')) {
                 MyOOS_CoreApi::requireOnce('plugins/' . $sPluginPath . '/' . $sName . '.php');
             }
-*/
-
-            MyOOS_CoreApi::requireOnce('plugins/' . $sPluginPath . '/' . $sName . '.php');
-
-
-
-/* todo remove?
-            if (isset($_SESSION['language']) &&  is_readable('includes/plugins/' . $sPluginPath . '/lang/' . oos_var_prep_for_os($_SESSION['language']) . '.php')) {
-                include_once 'includes/plugins/' . $sPluginPath . '/lang/' . oos_var_prep_for_os($_SESSION['language']) . '.php';
-            } elseif (is_readable('includes/plugins/' . $sPluginPath . '/lang/' . DEFAULT_LANGUAGE . '.php')) {
-                include_once 'includes/plugins/' . $sPluginPath . '/lang/' . DEFAULT_LANGUAGE . '.php';
-            }
-*/
-
 
 
             if (!class_exists($sName)) {

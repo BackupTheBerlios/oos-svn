@@ -78,19 +78,18 @@
         oos_session_id($_GET[oos_session_name()]);
       }
 
-
       if (empty($user_agent) === false) {
-       $spider_agent = @parse_ini_file('includes/ini/spiders.ini');
+        $spider_agent = @parse_ini_file('includes/ini/spiders.ini');
 
         foreach ($spider_agent as $spider) {
-          if (empty($spider) === false) {
-            if (strpos($user_agent, trim($spider)) !== false) {
-              $spider_kill_sid = '1';
-              $spider_flag = true;
-              break;
-            }
-          }
-        }
+           if (empty($spider) === false) {
+             if (strpos($user_agent, trim($spider)) !== false) {
+                $spider_kill_sid = '1';
+                $spider_flag = true;
+                break;
+             }
+           }
+         }
       }
 
       if ($spider_flag === false) {

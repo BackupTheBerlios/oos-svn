@@ -1238,35 +1238,6 @@ class MyOOS_Utilities {
     }
 
     /**
-     * Return id of the search engine currently crawling the site by analyzing the current request.
-     * @return string the crawler id, or null if it's a regular user
-     */
-    function identifySearchEngine()
-    {
-        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-            return null;
-        }
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        if (strstr($userAgent, 'Google') || strstr($userAgent, 'gsa-crawler')) {
-            return 'google';
-        } else if (strstr($userAgent, 'Yahoo')) {
-            return 'yahoo';
-        } else if (strstr($userAgent, 'Ask Jeeves')) {
-            return 'askjeeves';
-        } else if (strstr($userAgent, 'msnbot')) {
-            return 'microsoft';
-        } else if (strstr($userAgent, 'Yandex')) {
-            return 'yandex';
-        } else if (strstr($userAgent, 'StackRambler')) {
-            return 'stackrambler';
-        } else if (strstr($userAgent, 'ConveraCrawler')) {
-            return 'convera';
-        }
-
-        return null;
-    }
-
-    /**
      * Return a sanitized version of the given variable from the _SERVER superglobal.
      * @param string $key the key in the _SERVER superglobal
      * @return string the value
@@ -1297,6 +1268,7 @@ class MyOOS_Utilities {
         MyOOS_Utilities::sanitizeInputValues($value);
         return $value;
     }
+
 
     /**
      * Deprecated.  Use Gallery::isEmbedded instead.
