@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: modules.php,v 1.44 2002/11/22 18:58:29 dgw_ 
+   File: modules.php,v 1.44 2002/11/22 18:58:29 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -19,8 +19,6 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-    ini_set('error_reporting',E_ALL & ~E_NOTICE);
-    ini_set('display_errors',1);
 
   define('OOS_VALID_MOD', 'yes');
   require 'includes/oos_main.php';
@@ -87,7 +85,7 @@
     }
   }
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -185,12 +183,12 @@
                 <td class="dataTableContent"><?php echo $module->title; ?></td>
                 <td class="dataTableContent" align="right"><?php if (is_numeric($module->sort_order)) echo $module->sort_order; ?></td>
                 <td class="dataTableContent" align="right">
-<?php 
-  if ($module->check() > 0) { 
-    echo '<a href="' . oos_href_link_admin($aFilename['modules'], 'set=' . $_GET['set'] . '&module=' . $class . '&action=remove') . '">' . oos_image(OOS_IMAGES . 'icon_status_green.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>'; 
-  } else { 
-    echo '<a href="' . oos_href_link_admin($aFilename['modules'], 'set=' . $_GET['set'] . '&module=' . $class . '&action=install') . '">' . oos_image(OOS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>'; 
-  } 
+<?php
+  if ($module->check() > 0) {
+    echo '<a href="' . oos_href_link_admin($aFilename['modules'], 'set=' . $_GET['set'] . '&module=' . $class . '&action=remove') . '">' . oos_image(OOS_IMAGES . 'icon_status_green.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>';
+  } else {
+    echo '<a href="' . oos_href_link_admin($aFilename['modules'], 'set=' . $_GET['set'] . '&module=' . $class . '&action=install') . '">' . oos_image(OOS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>';
+  }
 ?></td>
                 <td class="dataTableContent" align="right"><?php if (isset($mInfo) && is_object($mInfo) && ($class == $mInfo->code) ) { echo oos_image(OOS_IMAGES . 'icon_arrow_right.gif'); } else { echo '<a href="' . oos_href_link_admin($aFilename['modules'], 'set=' . $_GET['set'] . '&module=' . $class) . '">' . oos_image(OOS_IMAGES . 'icon_information.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
               </tr>

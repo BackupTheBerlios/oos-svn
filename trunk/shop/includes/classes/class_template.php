@@ -20,9 +20,10 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  * {@link http://smarty.incutio.com/ smarty wiki}
  * {@link http://smarty.net/resources.php?category=7 Mailing lists}
  */
-include SMARTY_DIR . 'Smarty.class.php';
-include SMARTY_DIR . 'SmartyValidate.class.php';
-
+if (!class_exists('Smarty')) {
+    MyOOS_CoreApi::requireOnce('lib/smarty/libs/Smarty.class.php');
+    // MyOOS_CoreApi::requireOnce('lib/smarty/libs/SmartyValidate.class.php');
+}
 
 /**
  * Class Smarty Template engine
@@ -41,7 +42,7 @@ class Template extends Smarty
     function Template()
     {
 
-        $this->Smarty();
+         $this->Smarty();
 
          $this->left_delimiter =  '{';
          $this->right_delimiter =  '}';
@@ -56,10 +57,13 @@ class Template extends Smarty
          $this->config_dir = $dir . 'shop/configs/';
          $this->cache_dir = $dir . 'shop/cache/';
 
-         array_push($this->plugins_dir, SMARTY_DIR . '/plugins');
-         array_push($this->plugins_dir, 'includes/plugins/thirdparty/smarty');
+         $this->plugins_dir = array (
+                'plugins', // the default under SMARTY_DIR
+                BP . DS . 'lib/smarty-plugins/gettext',
+                BP . DS . 'lib/smarty-plugins/myoos');
 
-         $this->use_sub_dirs = false;
+
+         $this->use_sub_dirs = true;
 
          $thstamp  = mktime(0, 0, 0, date ("m") , date ("d")+80, date("Y"));
          $oos_date = date("D,d M Y", $thstamp);
@@ -75,12 +79,3 @@ class Template extends Smarty
 
 }
 
-
-/**
- * @param $tpl_cource
- * @param $smarty
- */
-function oosAddHeaderComment($tpl_source, &$smarty)
-{
-     return "<?php echo \"<!-- Created by Smarty! -->\n\" ?>\n".$tpl_source;
-}
