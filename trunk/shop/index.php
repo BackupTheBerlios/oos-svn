@@ -17,8 +17,10 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
+
 define('OOS_VALID_MOD', 'yes');
 require(dirname(__FILE__) . '/includes/oos_main.php');
+
 
 $sMp = oos_var_prep_for_os($sMp);
 $sFile = oos_var_prep_for_os($sFile);
@@ -34,22 +36,7 @@ if (is_readable('includes/pages/' . $sMp . '/' . $sFile . '.php')) {
     require(dirname(__FILE__) . '/includes/pages/' . $sMp . '/' . $sFile . '.php');
 
 } else {
-    // Module not found
-    if (SEND_404_ERROR == 'true') {
-        switch (REPORTLEVEL_404) {
-           case 1:
-              if (eregi(oos_server_get_var('HTTP_HOST'), oos_server_get_var('HTTP_REFERER'))) {
-                  oos_error_reporting_mail();
-              }
-              break;
-
-          case 2:
-              oos_error_reporting_mail();
-              break;
-        }
-    }
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
-
+    oos_redirect(oos_href_link($aModules['error'], $aFilename['error404']));
 }
 
 require(dirname(__FILE__) . '/includes/oos_nice_exit.php');

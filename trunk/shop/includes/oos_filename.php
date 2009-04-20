@@ -42,6 +42,18 @@ $aFilename['admin_create_account'] = $prefix_filename . 'create_account';
 $aFilename['admin_create_account_process'] = $prefix_filename . 'create_account_process';
 $aFilename['admin_login'] = $prefix_filename . 'login';
 
+//includes/pages/checkout
+$aFilename['checkout_confirmation'] = $prefix_filename . 'confirmation';
+$aFilename['checkout_payment'] = $prefix_filename . 'payment';
+$aFilename['checkout_payment_address'] = $prefix_filename . 'payment_address';
+$aFilename['checkout_process'] = $prefix_filename . 'process';
+$aFilename['checkout_shipping'] = $prefix_filename . 'shipping';
+$aFilename['checkout_shipping_address'] = $prefix_filename . 'shipping_address';
+$aFilename['checkout_success'] = $prefix_filename . 'success';
+
+//includes/pages/error
+$aFilename['error404'] = $prefix_filename . 'error404';
+
 //includes/pages/gv
 $aFilename['gv_faq'] = $prefix_filename . 'faq';
 $aFilename['gv_redeem'] = $prefix_filename . 'redeem';
@@ -131,15 +143,6 @@ $aFilename['product_notifications'] = $prefix_filename . 'product_notifications'
 $aFilename['yourstore'] = $prefix_filename . 'yourstore';
 $aFilename['customers_image'] = $prefix_filename . 'customers_image';
 
-//includes/pages/checkout
-$aFilename['checkout_confirmation'] = $prefix_filename . 'confirmation';
-$aFilename['checkout_payment'] = $prefix_filename . 'payment';
-$aFilename['checkout_payment_address'] = $prefix_filename . 'payment_address';
-$aFilename['checkout_process'] = $prefix_filename . 'process';
-$aFilename['checkout_shipping'] = $prefix_filename . 'shipping';
-$aFilename['checkout_shipping_address'] = $prefix_filename . 'shipping_address';
-$aFilename['checkout_success'] = $prefix_filename . 'success';
-
 
 $aModules = array();
 $prefix_modules = '';
@@ -149,8 +152,9 @@ $aModules = array();
 $aModules['account'] = $prefix_modules . 'account';
 $aModules['admin'] = $prefix_modules . 'admin';
 $aModules['checkout'] = $prefix_modules . 'checkout';
-$aModules['info'] = $prefix_modules . 'info';
+$aModules['error'] = $prefix_modules . 'error';
 $aModules['gv'] = $prefix_modules . 'gv';
+$aModules['info'] = $prefix_modules . 'info';
 $aModules['main'] = $prefix_modules . 'main';
 $aModules['newsletters'] = $prefix_modules . 'newsletters';
 $aModules['products'] = $prefix_modules . 'products';
