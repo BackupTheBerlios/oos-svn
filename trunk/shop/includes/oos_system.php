@@ -22,7 +22,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 //smarty
 require 'includes/classes/class_template.php';
-$oSmarty =& new Template;
+$oSmarty =& new Template();
 
   //debug
 if ($oEvent->installed_plugin('debug')) {
@@ -80,21 +80,17 @@ $oSmarty->assign(
           'page_file'         => $sFile,
           'formid'            => $sFormid,
 
-
           'request_type'      => $request_type,
 
           'theme_set'         => $sTheme,
-          'theme_image'       => 'themes/' . $sTheme . '/images',
-          'theme_css'         => 'themes/' . $sTheme,
+          'theme_image'       => STATIC1_HTTP_SERVER . '/themes/' . $sTheme . '/images',
+          'theme_css'         => STATIC1_HTTP_SERVER . '/themes/' . $sTheme,
 
           'lang'              => $aLang,
           'language'          => $sLanguage,
 
           'pangv'             => $sPAngV,
           'products_units'    => $products_units,
-
-          'oos_session_name'  => oos_session_name(),
-          'oos_session_id'    => oos_session_id(),
 
           'pagetitle'         => $oos_pagetitle,
 

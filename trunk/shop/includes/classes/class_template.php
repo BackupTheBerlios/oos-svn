@@ -71,11 +71,14 @@ class Template extends Smarty
          $this->assign(
              array(
                  'oos_revision_date' => $oos_date,
-                 'oos_date_long'     => strftime(DATE_FORMAT_LONG)
+                 'oos_date_long'     => strftime(DATE_FORMAT_LONG),
+
+                 'oos_session_name'  => oos_session_name(),
+                 'oos_session_id'    => oos_session_id()
              )
          );
 
-      }
+    }
 
 }
 
