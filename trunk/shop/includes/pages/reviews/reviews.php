@@ -46,6 +46,10 @@ if (!defined('MAX_DISPLAY_NEW_REVIEWS')) {
     define('MAX_DISPLAY_NEW_REVIEWS', 5);
 }
 
+// split-page-results
+MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
+
+
 
 $aOption['template_main'] = $sTheme . '/modules/reviews.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

@@ -27,6 +27,9 @@ if (!isset($_SESSION['customer_id'])) {
     oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
+// split-page-results
+MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
+
 require 'includes/languages/' . $sLanguage . '/account_history.php';
 
 $orderstable = $oostable['orders'];

@@ -23,6 +23,10 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
+// split-page-results
+MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
+
+
 $aOption['template_main'] = $sTheme . '/products/products_new.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';

@@ -128,6 +128,7 @@ if (USE_DB_CACHE == '1') {
     $configuration_result = $dbconn->Execute($configuration_query);
 }
 
+
 while ($configuration = $configuration_result->fields)
 {
     define($configuration['cfg_key'], $configuration['cfg_value']);
@@ -218,21 +219,14 @@ if ( isset($_GET['action'])
        require 'includes/oos_cart_actions.php';
 }
 
-
-
-// split-page-results
-require 'includes/classes/class_split_page_results.php';
-
-// infobox
-require 'includes/classes/class_boxes.php';
+// infobox todo remove it and work with smarty
+MyOOS_CoreApi::requireOnce('classes/class_boxes.php');
 
 require 'includes/functions/function_coupon.php';
 
 
 $products_unitstable = $oostable['products_units'];
-$query = "SELECT products_units_id, products_unit_name
-          FROM $products_unitstable
-          WHERE languages_id = '" . intval($nLanguageID) . "'";
+$query = "SELECT products_units_id, products_unit_name FROM $products_unitstable WHERE languages_id = '" . intval($nLanguageID) . "'";
 if (USE_DB_CACHE == '1') {
     $products_units = $dbconn->CacheGetAssoc(3600, $query);
 } else {

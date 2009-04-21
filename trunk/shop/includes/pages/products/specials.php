@@ -27,6 +27,9 @@ if (!$oEvent->installed_plugin('spezials')) {
     oos_redirect(oos_href_link($aModules['main'], $aFilename['main'], 'history_back=true'));
 }
 
+// split-page-results
+MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
+
 require 'includes/languages/' . $sLanguage . '/products_specials.php';
 
 $aOption['template_main'] = $sTheme . '/products/specials.html';

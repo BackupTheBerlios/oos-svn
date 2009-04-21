@@ -20,11 +20,16 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  // define our listing functions
-  include 'includes/functions/function_listing.php';
+// split-page-results
+MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
+
+
+// define our listing functions
+include 'includes/functions/function_listing.php';
+
 
   $listing_numrows_sql = $listing_sql;
   $listing_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $listing_sql, $listing_numrows);
