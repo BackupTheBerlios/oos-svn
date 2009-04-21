@@ -18,8 +18,7 @@ function smarty_function_css_back_button($params, &$smarty)
 {
     global $oEvent, $spider_kill_sid;
 
-    require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
-
+    MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/shared.escape_special_chars.php');
 
     $title = '';
     $color = 'btnR green';
@@ -37,13 +36,6 @@ function smarty_function_css_back_button($params, &$smarty)
             break;
 
         default:
-/*
-          if(!is_array($_val)) {
-            $parameters .= $_key.'='.smarty_function_escape_special_chars($_val).'&amp;';
-          } else {
-            $smarty->trigger_error("css_back_button: parameters '$_key' cannot be an array", E_USER_NOTICE);
-          }
-*/
           break;
        }
     }

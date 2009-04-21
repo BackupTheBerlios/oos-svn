@@ -29,7 +29,7 @@
  */
 function smarty_function_swap_product_image($params, &$smarty)
 {
-    require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
+    MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/shared.escape_special_chars.php');
 
     $basedir = OOS_IMAGES;
     $height = SMALL_IMAGE_HEIGHT;

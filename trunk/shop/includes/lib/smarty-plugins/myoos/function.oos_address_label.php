@@ -43,7 +43,7 @@ function smarty_function_oos_address_label($params, &$smarty)
     $boln = '';
     $eoln = '<br>';
 
-    require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
+    MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/shared.escape_special_chars.php');
     require_once $smarty->_get_plugin_filepath('function','oos_address_format');
 
     foreach($params as $_key => $_val) {

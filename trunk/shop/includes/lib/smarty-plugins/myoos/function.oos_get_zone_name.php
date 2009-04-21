@@ -41,7 +41,7 @@ function smarty_function_oos_get_zone_name($params, &$smarty)
     $zone_id = '';
     $default_zone = '';
 
-    require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
+    MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/shared.escape_special_chars.php');
 
     foreach($params as $_key => $_val) {
       $$_key = smarty_function_escape_special_chars($_val);
