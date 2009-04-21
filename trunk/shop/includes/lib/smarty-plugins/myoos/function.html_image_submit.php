@@ -41,7 +41,7 @@ function smarty_function_html_image_submit($params, &$smarty)
     $sTheme = oos_var_prep_for_os($_SESSION['theme']);
     $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 
-    $basedir = 'themes/' . $sTheme . '/images/buttons/' . $sLanguage . '/';
+    $basedir = STATIC1_HTTP_SERVER . '/themes/' . $sTheme . '/images/buttons/' . $sLanguage . '/';
 
     foreach($params as $_key => $_val) {
         switch($_key) {

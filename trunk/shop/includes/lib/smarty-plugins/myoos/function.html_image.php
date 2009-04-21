@@ -47,6 +47,7 @@ function smarty_function_html_image($params, &$smarty)
 
     $server_vars = ($smarty->request_use_auto_globals) ? $_SERVER : $GLOBALS['HTTP_SERVER_VARS'];
     $basedir = isset($server_vars['DOCUMENT_ROOT']) ? $server_vars['DOCUMENT_ROOT'] : '';
+
     foreach($params as $_key => $_val) {
         switch($_key) {
             case 'file':
@@ -119,17 +120,6 @@ function smarty_function_html_image($params, &$smarty)
             $height = $_image_data[1];
         }
 
-    }
-
-    if(isset($params['dpi'])) {
-        if(strstr($server_vars['HTTP_USER_AGENT'], 'Mac')) {
-            $dpi_default = 72;
-        } else {
-            $dpi_default = 96;
-        }
-        $_resize = $dpi_default/$params['dpi'];
-        $width = round($width * $_resize);
-        $height = round($height * $_resize);
     }
 
     $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ' /' : '');

@@ -45,13 +45,7 @@ function smarty_function_html_image_button($params, &$smarty)
     $sTheme = oos_var_prep_for_os($_SESSION['theme']);
     $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 
-    $basedir = 'themes/' . $sTheme . '/images/buttons/' . $sLanguage . '/';
-
-    if(strstr($GLOBALS['HTTP_SERVER_VARS']['HTTP_USER_AGENT'], 'Mac')) {
-        $dpi_default = 72;
-    } else {
-        $dpi_default = 96;
-    }
+    $basedir = STATIC1_HTTP_SERVER . '/themes/' . $sTheme . '/images/buttons/' . $sLanguage . '/';
 
     foreach($params as $_key => $_val) {
         switch($_key) {
@@ -113,11 +107,6 @@ function smarty_function_html_image_button($params, &$smarty)
       }
     }
 
-    if(isset($params['dpi'])) {
-      $_resize = $dpi_default/$params['dpi'];
-      $width = round($width * $_resize);
-      $height = round($height * $_resize);
-    }
 
     $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ' /' : '');
 
