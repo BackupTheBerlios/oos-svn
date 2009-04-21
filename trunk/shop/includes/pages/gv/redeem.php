@@ -31,6 +31,8 @@ if (!isset($_SESSION['customer_id'])) {
     oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
+MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
+
 require 'includes/languages/' . $sLanguage . '/gv_redeem.php';
 
 $bError = true;

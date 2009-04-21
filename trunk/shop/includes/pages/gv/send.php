@@ -26,6 +26,8 @@
   /** ensure this file is being included by a parent file */
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
+  MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
+
   require 'includes/languages/' . $sLanguage . '/gv_send.php';
   require 'includes/classes/class_http_client.php';
 

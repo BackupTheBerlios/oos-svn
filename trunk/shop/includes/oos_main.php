@@ -220,9 +220,6 @@ if ( isset($_GET['action'])
 }
 
 
-require 'includes/functions/function_coupon.php';
-
-
 $products_unitstable = $oostable['products_units'];
 $query = "SELECT products_units_id, products_unit_name FROM $products_unitstable WHERE languages_id = '" . intval($nLanguageID) . "'";
 if (USE_DB_CACHE == '1') {

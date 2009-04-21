@@ -27,6 +27,8 @@ if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_
     oos_redirect(oos_href_link($aModules['user'], $aFilename['create_account']));
 }
 
+MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
+
 require 'includes/languages/' . $sLanguage . '/user_create_account_process.php';
 require 'includes/functions/function_validate_vatid.php';
 

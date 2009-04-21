@@ -119,6 +119,8 @@ class shoppingCart
 
 
             if (isset($_SESSION['gv_id'])) {
+                MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
+
                 $remote = $_SESSION['session_ip_address'];
                 $coupon_redeem_tracktable = $oostable['coupon_redeem_track'];
                 $gv_result = $dbconn->Execute("INSERT INTO $coupon_redeem_tracktable

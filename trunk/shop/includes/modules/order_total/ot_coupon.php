@@ -19,6 +19,8 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
+MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
+
   class ot_coupon {
     var $title, $output, $enabled = false;
 
