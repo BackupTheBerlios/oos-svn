@@ -219,8 +219,6 @@ if ( isset($_GET['action'])
        require 'includes/oos_cart_actions.php';
 }
 
-// infobox todo remove it and work with smarty
-MyOOS_CoreApi::requireOnce('classes/class_boxes.php');
 
 require 'includes/functions/function_coupon.php';
 
