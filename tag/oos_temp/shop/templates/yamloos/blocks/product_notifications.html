@@ -1,0 +1,18 @@
+{if $notifications_block eq '1'}
+<div class="block" id="block_notifications">
+	<h4>
+		<a href="{html_href_link modul=$modules.user file=$filename.product_notifications connection=SSL}">{$block_heading_notifications}</a>
+	</h4>
+	<div class="block_content">
+
+{if $notification_exists}
+		<p><a href="{html_href_link modul=$main_page file=$page_file oos_get=$get_params action=notify_remove connection=$request_type}">{html_oos_image basedir=$smarty.const.OOS_IMAGES image="box_products_notifications_remove.gif" alt=$lang.image_button_remove_notifications}</a><br />
+		<a href="{html_href_link modul=$main_page file=$page_file oos_get=$get_params action=notify_remove connection=$request_type}">{$products_name|string_format:$lang.block_notifications_notify_remove}</a>
+{else}
+		<p><a href="{html_href_link modul=$main_page file=$page_file oos_get=$get_params action=notify connection=$request_type}">{html_oos_image basedir=$smarty.const.OOS_IMAGES image="box_products_notifications.gif" alt=$lang.image_button_notifications}</a><br />
+		<a href="{html_href_link modul=$main_page file=$page_file oos_get=$get_params action=notify connection=$request_type}">{$products_name|string_format:$lang.block_notifications_notify}</a>
+{/if}
+
+	</div>
+</div>
+{/if}

@@ -1,0 +1,59 @@
+{*  $Id$ *}
+
+{$oosPageHeading}
+
+<div class="subcolumns">
+	<div class="c50l">
+		<div class="subcl">
+			{$sitemap}
+		</div>
+	</div>
+
+	<div class="c50r">
+		<div class="subcr">
+			<ul>
+				<li><a href="{html_href_link modul=$modules.main file=$filename.main_shopping_cart}" title="{$lang.page_shopping_cart}">{$lang.page_shopping_cart}</a></li>
+				<li><a href="{html_href_link modul=$modules.checkout file=$filename.checkout_shipping}" title="{$lang.page_checkout_shipping}">{$lang.page_checkout_shipping}</a></li>
+				<li><a href="{html_href_link modul=$modules.search file=$filename.advanced_search}" title="{$lang.page_advanced_search}">{$lang.page_advanced_search}</a></li>
+				<li><a href="{html_href_link modul=$modules.products file=$filename.products_new}" title="{$lang.page_products_new}">{$lang.page_products_new}</a></li>
+{if $oEvent->installed_plugin('spezials')}
+				<li><a href="{html_href_link modul=$modules.products file=$filename.specials}" title="{$lang.page_specials}">{$lang.page_specials}</a></li>
+{/if}
+{if $oEvent->installed_plugin('reviews')}
+				<li><a href="{html_href_link modul=$modules.reviews file=$filename.reviews_reviews}" title="{$lang.page_reviews}">{$lang.page_reviews}</a></li>
+{/if}
+
+
+				<li>{$lang.page_service}
+					<ul>
+{if $smarty.const.DISPLAY_NEWSFEED eq '1'}
+						<li><a href="{html_href_link modul=$modules.info file=$filename.info_newsfeed}" title="{$lang.block_service_newsfeed}">{$lang.block_service_newsfeed}</a></li>
+{/if}
+{if $smarty.const.MODULE_ORDER_TOTAL_GV_STATUS eq '1'}
+						<li><a href="{html_href_link modul=$modules.gv file=$filename.gv_faq}" title="{$lang.block_service_gv}">{$lang.block_service_gv}</a></li>
+{/if}
+						<li><a href="{html_href_link modul=$modules.info file=$filename.info_sitemap}" title="{$lang.block_service_sitemap}">{$lang.block_service_sitemap}</a></li>
+					</ul>
+				</li>
+
+				<li>{$lang.heading_information}
+					<ul>
+{if $oEvent->installed_plugin('gallery')}
+						<li><a href="{html_href_link modul=$modules.info file=$filename.info_gallery}" title="{$lang.block_information_gallery}">{$lang.block_information_gallery}</a></li>
+{/if}
+{foreach item=info from=$information}
+						<li><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}" title="{$info.information_name}">{$info.information_name}</a></li>
+{/foreach}
+						<li><a href="{html_href_link modul=$modules.main file=$filename.info_directions}" title="{$lang.block_information_mapquest}">{$lang.block_information_mapquest}</a></li>
+						<li><a href="{html_href_link modul=$modules.main file=$filename.contact_us}" title="{$lang.block_information_contact}">{$lang.block_information_contact}</a></li>
+						<li><a href="{html_href_link modul=$modules.info file=$filename.info_vcard}" title="{$lang.block_information_v_card}">{$lang.block_information_v_card}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<p>
+	{css_back_button title=$lang.image_button_back}
+</p>
