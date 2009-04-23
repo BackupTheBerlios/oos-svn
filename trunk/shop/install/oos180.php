@@ -235,7 +235,7 @@ if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
 
-$result = $db->Execute("ALTER TABLE " . $table . "  CHANGE `cc_number` `cc_number` VARCHAR( 64 ) DEFAULT NULL
+$result = $db->Execute("ALTER TABLE " . $table . "  CHANGE `cc_number` `cc_number` VARCHAR( 64 ) DEFAULT NULL");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 } else {

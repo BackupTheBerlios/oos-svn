@@ -76,6 +76,9 @@
   if (file_exists('../includes/lib/adodb/adodb-errorhandler.inc.php')) {
     require '../includes/lib/adodb/adodb-errorhandler.inc.php';
      require '../includes/lib/adodb/adodb.inc.php';
+  } elseif (file_exists('../includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php')) {
+     require '../includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php';
+     require '../includes/classes/thirdparty/adodb/adodb.inc.php';
   } else {
     include '../' . OOS_ADODB . 'adodb-errorhandler.inc.php';
     include '../' .OOS_ADODB . 'adodb.inc.php';
@@ -137,16 +140,16 @@
     default:
       include(SMARTY_DIR . 'Smarty.class.php');
 
-      $smarty = new Smarty;
+      $oSmarty = new Smarty;
       $dir = OOS_TEMP_PATH . 'shop/';
       if (substr($dir, -1) != "/") {
         $dir = $dir."/";
       }
 
-      $smarty->compile_dir = $dir . 'templates_c/';
-      $smarty->cache_dir = $dir . 'cache/';
-      $smarty->clear_all_cache();
-      $smarty->clear_compiled_tpl();
+      $oSmarty->compile_dir = $dir . 'templates_c/';
+      $oSmarty->cache_dir = $dir . 'cache/';
+      $oSmarty->clear_all_cache();
+      $oSmarty->clear_compiled_tpl();
 
       print_SelectOOS();
       break;

@@ -39,8 +39,6 @@ function smarty_function_html_image_button($params, &$smarty)
     $image = '';
     $alt = '';
     $border = 0;
-    $height = '';
-    $width = '';
     $extra = '';
 
     $sTheme = oos_var_prep_for_os($_SESSION['theme']);
@@ -80,38 +78,10 @@ function smarty_function_html_image_button($params, &$smarty)
 
     $_image_path = $basedir . $image;
 
-    if (!isset($params['width']) || !isset($params['height'])) {
-      if ($smarty->security &&
-        ($_params = array('resource_type' => 'file', 'resource_name' => $_image_path)) &&
-        (require_once(SMARTY_CORE_DIR . 'core.is_secure.php')) &&
-        (!smarty_core_is_secure($_params, $smarty)) ) {
-          $smarty->trigger_error("html_image_button:: (secure) '$_image_path' not in secure directory", E_USER_NOTICE);
-
-      } elseif (!$_image_data = @getimagesize($_image_path)) {
-        if(!file_exists($_image_path)) {
-          $smarty->trigger_error("html_image_button: unable to find '$_image_path'", E_USER_NOTICE);
-          return;
-        } elseif(!is_readable($_image_path)) {
-          $smarty->trigger_error("html_image_button: unable to read '$_image_path'", E_USER_NOTICE);
-          return;
-        } else {
-          $smarty->trigger_error("html_image_button: '$_image_path' is not a valid image button", E_USER_NOTICE);
-          return;
-        }
-      }
-
-      if (!isset($params['width'])) {
-        $width = $_image_data[0];
-      }
-      if (!isset($params['height'])) {
-        $height = $_image_data[1];
-      }
-    }
-
 
     $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ' /' : '');
 
-    return '<img src="'.$basedir.$image.'" alt="'.$alt.'" border="'.$border.'" width="'.$width.'" height="'.$height.'"'.$extra.$sSlash.'>';
+    return '<img src="'.$basedir.$image.'" alt="'.$alt.'" border="'.$border.'" .$extra.$sSlash.'>';
 
 }
 

@@ -11,7 +11,7 @@
    ---------------------------------------------------------------------- */
 
 define('OOS_VALID_MOD', 'yes');
-require dirname(__FILE__) . 'includes/oos_main.php';
+require(dirname(__FILE__) . '/includes/oos_main.php');
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 $sTheme = oos_var_prep_for_os($_SESSION['theme']);
