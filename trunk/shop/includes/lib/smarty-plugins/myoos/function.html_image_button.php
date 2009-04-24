@@ -76,12 +76,12 @@ function smarty_function_html_image_button($params, &$smarty)
         return;
     }
 
-    $_image_path = $basedir . $image;
+    $_image = $basedir . $image;
 
 
     $sSlash = (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ' /' : '');
 
-    return '<img src="'.$basedir.$image.'" alt="'.$alt.'" border="'.$border.'" .$extra.$sSlash.'>';
+    return '<img src="' . $_image . '" alt="' . $alt . '" border="' . $border . '" ' . $extra . $sSlash . '>';
 
 }
 
