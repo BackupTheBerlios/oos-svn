@@ -42,7 +42,7 @@ function installer_get_language() {
    global $currentlang;
 
    if (!isset($currentlang)) {
-     $currentlang = 'de_DE.iso-8859-15';
+     $currentlang = 'de_DE.utf-8';
    }
    if (file_exists($file="locales/$currentlang/global.php")) {
      @include $file;
@@ -60,7 +60,7 @@ function installer_get_language() {
       if (is_dir($locale_dir)) {
         if ($dh = opendir($locale_dir)) {
           while (($file = readdir($dh)) !== false) {
-            if ($file == '.' || $file == '..' || $file == 'CVS' || filetype($locale_dir . $file) == 'file' ) continue;
+            if ($file == '.' || $file == '..' || $file == '.svn' || filetype($locale_dir . $file) == 'file' ) continue;
             if (is_dir($locale_dir . $file) && @$lang[$file]) {
               $langlist[$file] = $lang[$file];
             }
@@ -95,8 +95,7 @@ function installer_get_language() {
 
       $lang['nl_NL.iso-8859-15'] = LANGUAGE_NLD . ' (nl_NL.iso-8859-15)'; // Dutch
       $lang['en_US.iso-8859-15'] = LANGUAGE_ENG . ' (en_US.iso-8859-15)'; // English
-           $lang['de_DE.utf-8'] = LANGUAGE_DEU . ' (de_DE.utf-8)'; // German
-      $lang['de_DE.iso-8859-15'] = LANGUAGE_DEU . ' (de_DE.iso-8859-15)'; // German
+      $lang['de_DE.utf-8'] = LANGUAGE_DEU . ' (de_DE.utf-8)'; // German
 
       $lang['ru_RU.CP1251'] = LANGUAGE_RUS . ' (ru_RU.CP1251)'; // Russian
 
