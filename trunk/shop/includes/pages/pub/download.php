@@ -132,7 +132,7 @@ if (DOWNLOAD_BY_REDIRECT == '1') {
     umask(0000);
     mkdir(OOS_DOWNLOAD_PATH_PUBLIC . $tempdir, 0777);
     symlink(OOS_DOWNLOAD_PATH . $downloads['orders_products_filename'], OOS_DOWNLOAD_PATH_PUBLIC . $tempdir . '/' . $downloads['orders_products_filename']);
-    oos_redirect(OOS_DOWNLOAD . $tempdir . '/' . $downloads['orders_products_filename']);
+    MyOOS_CoreApi::redirect(OOS_DOWNLOAD . $tempdir . '/' . $downloads['orders_products_filename']);
 } else {
     // This will work on all systems, but will need considerable resources
     // We could also loop with fread($fp, 4096) to save memory

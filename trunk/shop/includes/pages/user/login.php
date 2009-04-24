@@ -106,9 +106,9 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
                 $origin_href = oos_href_link($_SESSION['navigation']->snapshot['modules'], $_SESSION['navigation']->snapshot['file'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
                 $_SESSION['navigation']->clear_snapshot();
                 $_SESSION['navigation']->remove_last_page();
-                oos_redirect($origin_href);
+                MyOOS_CoreApi::redirect($origin_href);
             } else {
-                oos_redirect(oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
+                MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
             }
         }
     }

@@ -134,7 +134,7 @@
         $_SESSION['cart']->reset();
         $_SESSION['member']->default_member();
 
-        oos_redirect(oos_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_link($aModules['user'], $aFilename['login'], '', 'SSL'));
       }
 
       // verify the IP address
@@ -148,7 +148,7 @@
         $_SESSION['cart']->reset();
         $_SESSION['member']->default_member();
 
-        oos_redirect(oos_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_link($aModules['user'], $aFilename['login'], '', 'SSL'));
       }
 
       return true;

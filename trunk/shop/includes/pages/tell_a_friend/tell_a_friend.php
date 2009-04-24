@@ -31,7 +31,7 @@ if (isset($_SESSION['customer_id'])) {
     $account_values = $account->fields;
 } elseif (ALLOW_GUEST_TO_TELL_A_FRIEND == '0') {
     $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/tell_a_friend_tell_a_friend.php';

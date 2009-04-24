@@ -29,7 +29,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id']) && (isset($_GET['login']) && ($_GET['login'] == 'yes')) ) {
     $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 // split-page-results

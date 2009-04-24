@@ -15,7 +15,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('gallery')) {
     $_SESSION['navigation']->remove_current_page();
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 require 'includes/languages/' . $sLanguage . '/info_gallery.php';

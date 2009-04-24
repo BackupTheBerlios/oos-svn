@@ -56,7 +56,7 @@
       $aModules = oos_get_modules();
 
       if ($_GET['file'] != $aFilename['info_down_for_maintenance']) {
-        oos_redirect(oos_href_link($aModules['info'], $aFilename['info_down_for_maintenance'], '', 'NONSSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['info'], $aFilename['info_down_for_maintenance'], '', 'NONSSL', true, false));
       }
 
       return true;

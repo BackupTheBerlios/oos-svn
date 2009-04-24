@@ -24,11 +24,11 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id'])) {
   $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 if (!isset($_GET['order_id'])) {
-    oos_redirect(oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/account_history_info.php';
@@ -41,7 +41,7 @@ $sql = "SELECT customers_id
 $customer_number = $dbconn->GetOne($sql);
 
 if ($customer_number != $_SESSION['customer_id']) {
-    oos_redirect(oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'));
 }
 
 // links breadcrumb

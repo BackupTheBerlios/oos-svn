@@ -40,7 +40,7 @@ if (is_readable('includes/pages/' . $sMp . '/' . $sFile . '.php')) {
     require(dirname(__FILE__) . '/includes/pages/' . $sMp . '/' . $sFile . '.php');
 
 } else {
-    oos_redirect(oos_href_link($aModules['error'], $aFilename['error404']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['error'], $aFilename['error404']));
 }
 
 require(dirname(__FILE__) . '/includes/oos_nice_exit.php');

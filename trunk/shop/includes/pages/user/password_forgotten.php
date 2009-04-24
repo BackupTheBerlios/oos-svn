@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -49,9 +49,9 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
         oos_mail($check_customer['customers_firstname'] . " " . $check_customer['customers_lastname'], $email_address, $aLang['email_password_reminder_subject'], nl2br(sprintf($aLang['email_password_reminder_body'], $newpass)), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
         $_SESSION['info_message'] = $aLang['text_password_sent'];
-        oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL', true, false));
     } else {
-        oos_redirect(oos_href_link($aModules['user'], $aFilename['password_forgotten'], 'email=nonexistent', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['password_forgotten'], 'email=nonexistent', 'SSL'));
     }
 } else {
 

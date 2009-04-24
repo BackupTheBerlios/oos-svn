@@ -55,7 +55,7 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_SESSION['formid']) && ($_SESSION['formid'] != $_POST['formid'])) ) {
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 
@@ -98,7 +98,7 @@ $sql = "SELECT man_name, defined
           AND status = '1'";
 $login_result = $dbconn->Execute($sql);
 if (!$login_result->RecordCount()) {
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 
@@ -454,5 +454,5 @@ if ($bError == true) {
 // restore cart contents
     $_SESSION['cart']->restore_contents();
 
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['create_account_success'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['create_account_success'], '', 'SSL'));
 }

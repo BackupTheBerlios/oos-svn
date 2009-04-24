@@ -24,13 +24,13 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('reviews')) {
     $_SESSION['navigation']->remove_current_page();
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 } else {
-    oos_redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
 }
 
 require 'includes/languages/' . $sLanguage . '/reviews_product.php';
@@ -49,7 +49,7 @@ $sql = "SELECT pd.products_name, p.products_model
             AND p.products_status >= '1'
             AND pd.products_id = '" . intval($nProductsId) . "'";
 $product_info_result = $dbconn->Execute($sql);
-if (!$product_info_result->RecordCount()) oos_redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
+if (!$product_info_result->RecordCount()) MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
 $product_info = $product_info_result->fields;
 
 $reviewstable  = $oostable['reviews'];

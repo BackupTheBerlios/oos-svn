@@ -610,7 +610,7 @@ if ($category_depth == 'nested') {
 
 } else {
     // $category_depth = 'top';
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 // display the template

@@ -29,7 +29,7 @@ if (!defined('OOS_BASE_PRICE')) {
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 } else {
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 require 'includes/languages/' . $sLanguage . '/products_info.php';

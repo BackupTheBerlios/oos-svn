@@ -159,10 +159,10 @@
             $remote_host = @gethostbyaddr($remote_host);
           }
           if ($remote_host != 'secpay.com') {
-            oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], oos_session_name() . '=' . $_POST[oos_session_name()] . '&payment_error=' . $this->code, 'SSL', false, false));
+            MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], oos_session_name() . '=' . $_POST[oos_session_name()] . '&payment_error=' . $this->code, 'SSL', false, false));
           }
         } else {
-          oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], oos_session_name() . '=' . $_POST[oos_session_name()] . '&payment_error=' . $this->code, 'SSL', false, false));
+          MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], oos_session_name() . '=' . $_POST[oos_session_name()] . '&payment_error=' . $this->code, 'SSL', false, false));
         }
       }
     }

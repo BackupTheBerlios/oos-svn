@@ -41,7 +41,7 @@ function oos_get_random_picture_name($length = 24, $extension = 'jpg') {
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 if ( (isset($_POST['action']) && ($_POST['action'] == 'add_customers_image')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {

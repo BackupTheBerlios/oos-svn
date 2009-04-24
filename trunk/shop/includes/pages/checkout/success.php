@@ -25,7 +25,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 // if the customer is not logged on, redirect them to the shopping cart page
 if (!isset($_SESSION['customer_id'])) {
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
 }
 
 require 'includes/languages/' . $sLanguage . '/checkout_success.php';
@@ -52,7 +52,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'update')) {
             $result = $dbconn->Execute($sql);
         }
     }
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 // links breadcrumb

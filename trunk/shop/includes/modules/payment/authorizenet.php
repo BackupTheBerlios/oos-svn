@@ -210,7 +210,7 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
         $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&authorizenet_cc_owner=' . urlencode($_POST['authorizenet_cc_owner']) . '&authorizenet_cc_expires_month=' . $_POST['authorizenet_cc_expires_month'] . '&authorizenet_cc_expires_year=' . $_POST['authorizenet_cc_expires_year'];
         $aFilename = oos_get_filename();
         $aModules = oos_get_modules();
-        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
 
       $this->cc_card_type = $cc_validation->cc_type;
@@ -284,11 +284,11 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
       if ($_POST['x_response_code'] == '2') {
         $_SESSION['error_message'] = $aLang['module_payment_authorizenet_text_declined_message'];
 
-        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
       }
       // Code 3 is an error - but anything else is an error too (IMHO)
       $_SESSION['error_message'] = $aLang['module_payment_authorizenet_text_error_message'];
-      oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
+      MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
     }
 
     function after_process() {

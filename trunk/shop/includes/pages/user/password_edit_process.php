@@ -15,11 +15,11 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot(array('mode' => 'SSL', 'modules' => $aModules['user'], 'file' => $aFilename['password_edit']));
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_SESSION['formid']) && ($_SESSION['formid'] != $_POST['formid'])) ) {
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['password_edit'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['password_edit'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/user_password_edit_process.php';
@@ -204,6 +204,6 @@ if ($bError == true) {
         oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['owner_email_subject'], nl2br($email_owner), $name, $email_address);
     }
 
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
 }
 

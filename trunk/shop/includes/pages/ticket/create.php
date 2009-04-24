@@ -29,7 +29,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id']) && (isset($_GET['login']) && ($_GET['login'] == 'yes')) ) {
     $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/ticket_create.php';
@@ -170,7 +170,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
             // $ticket_email_message = $aLang['ticket_email_message_header'] . "\n\n" . oos_href_link($aModules['ticket'], $aFilename['ticket_view'], 'tlid=' . $ticket_link_id, 'NONSSL', false, false) . "\n\n" . $aLang['ticket_email_message_footer'] . "\n\n" . $enquiry;
             oos_mail('', SEND_EXTRA_ORDER_EMAILS_TO, $ticket_email_subject,nl2br($ticket_email_message), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, '1');
         }
-        oos_redirect(oos_href_link($aModules['ticket'], $aFilename['ticket_create'], 'action=success&amp;tlid=' . $ticket_link_id ));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['ticket'], $aFilename['ticket_create'], 'action=success&amp;tlid=' . $ticket_link_id ));
     }
 }
 

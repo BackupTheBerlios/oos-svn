@@ -83,7 +83,7 @@
             (eregi("<[^>]*cookie*\"?[^>]*>", $secvalue)) ||
             (eregi("\"", $secvalue))
             ) {
-              oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+              MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
           }
         }
       }
@@ -106,7 +106,7 @@
             (eregi("<[^>]*cookie*\"?[^>]*>", $secvalue)) ||
             (eregi("<[^>]*meta*\"?[^>]*>", $secvalue))
             ) {
-               oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+               MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
           }
         }
       }
@@ -133,7 +133,7 @@
             (eregi("<[^>]*cookie*\"?[^>]*>", $secvalue)) ||
             (eregi("<[^>]*img*\"?[^>]*>", $secvalue))
             ) {
-               oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+               MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
           }
         }
       }

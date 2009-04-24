@@ -25,12 +25,12 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('notify')) {
     $_SESSION['navigation']->remove_current_page();
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/user_product_notifications.php';
@@ -51,7 +51,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'update_notifications')) {
                                 products_id IN (" . implode(',', $aRemove) . ")");
     }
 
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['product_notifications'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['product_notifications'], '', 'SSL'));
 
 } elseif (isset($_GET['action']) && ($_GET['action'] == 'global_notify')) {
     if (isset($_POST['global']) && ($_POST['global'] == 'enable')) {
@@ -75,7 +75,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'update_notifications')) {
         }
     }
 
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['product_notifications'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['product_notifications'], '', 'SSL'));
 }
 
 // links breadcrumb

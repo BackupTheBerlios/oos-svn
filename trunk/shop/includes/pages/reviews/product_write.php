@@ -24,12 +24,12 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('reviews')) {
     $_SESSION['navigation']->remove_current_page();
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 
@@ -40,7 +40,7 @@ if (isset($_GET['products_id'])) {
    $get_parameters = 'products_id=' . oos_var_prep_for_os($_POST['products_id']);
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_POST['products_id']);
 } else {
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 require 'includes/languages/' . $sLanguage . '/reviews_product_write.php';
@@ -133,7 +133,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
        }
 
     }
-    oos_redirect(oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));
 }
 
 $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));

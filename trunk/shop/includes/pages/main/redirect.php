@@ -31,16 +31,16 @@ switch ($_GET['action']) {
                    if ($banner_result->RecordCount()) {
                        $banner = $banner_result->fields;
                        oos_update_banner_click_count($_GET['goto']);
-                       oos_redirect($banner['banners_url']);
+                       MyOOS_CoreApi::redirect($banner['banners_url']);
                    } else {
-                       oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+                       MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
                    }
                    break;
 
     case 'url':    if (isset($_GET['goto'])) {
-                       oos_redirect('http://' . $_GET['goto']);
+                       MyOOS_CoreApi::redirect('http://' . $_GET['goto']);
                    } else {
-                       oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+                       MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
                    }
                    break;
 
@@ -66,7 +66,7 @@ switch ($_GET['action']) {
                                   $manufacturer_result = $dbconn->Execute($sql);
                                   if (!$manufacturer_result->RecordCount()) {
                                       // no url exists, return to the site
-                                      oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+                                      MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
                                   } else {
                                       $manufacturer = $manufacturer_result->fields;
                                       $manufacturers_infotable = $oostable['manufacturers_info'];
@@ -79,13 +79,13 @@ switch ($_GET['action']) {
                                   $dbconn->Execute("UPDATE $manufacturers_infotable SET url_clicked = url_clicked+1, date_last_click = '" . date("Y-m-d H:i:s", time()) . "' WHERE manufacturers_id = '" . intval($manufacturers_id) . "' AND manufacturers_languages_id = '" .  intval($nLanguageID) . "'");
                               }
 
-                              oos_redirect($manufacturer['manufacturers_url']);
+                              MyOOS_CoreApi::redirect($manufacturer['manufacturers_url']);
                           } else {
-                              oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+                              MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
                           }
                           break;
 
-    default:       oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    default:       MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
                    break;
 }
 

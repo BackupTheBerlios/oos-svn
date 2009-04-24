@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('spezials')) {
     $_SESSION['navigation']->remove_current_page();
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main'], 'history_back=true'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main'], 'history_back=true'));
 }
 
 // split-page-results

@@ -42,30 +42,6 @@
 
 
  /**
-  * Redirect to another page or site
-  *
-  * @param $sUrl
-  * @return string
-  */
-  function oos_redirect($sUrl) {
-    if (ENABLE_SSL == '1'){
-      if (strtolower(oos_server_get_var('HTTPS')) == 'on' || (oos_server_get_var('HTTPS') == '1') || oos_server_has_var('SSL_PROTOCOL')) { // We are loading an SSL page
-        if (substr($sUrl, 0, strlen(OOS_HTTP_SERVER)) == OOS_HTTP_SERVER) { // NONSSL url
-          $sUrl = OOS_HTTPS_SERVER . substr($sUrl, strlen(OOS_HTTP_SERVER)); // Change it to SSL
-        }
-      }
-    }
-
-    // clean URL
-    if (strpos($sUrl, '&amp;') !== false) $sUrl = str_replace('&amp;', '&', $sUrl);
-    if (strpos($sUrl, '&&') !== false) $sUrl = str_replace('&&', '&', $sUrl);
-
-    header('Location: ' . $sUrl);
-    oos_exit();
-  }
-
-
- /**
   * Return a random row from a database query
   *
   * @param $query

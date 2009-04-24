@@ -28,7 +28,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
@@ -60,7 +60,7 @@ if ( (isset($_GET['gv_no']) && !empty($_GET['gv_no'])) ) {
         }
     }
 } else {
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
 if ( (!$bError) && (isset($_SESSION['customer_id'])) ) {

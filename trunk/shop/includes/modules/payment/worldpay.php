@@ -175,7 +175,7 @@
         $aFilename = oos_get_filename();
         $aModules = oos_get_modules();
 
-        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
     }
 

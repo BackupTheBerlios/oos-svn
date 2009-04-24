@@ -30,18 +30,18 @@ require 'includes/classes/class_http_client.php';
 // if the customer is not logged on, redirect them to the login page
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
 if ($_SESSION['cart']->count_contents() < 1) {
-    oos_redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
 }
 
 // check for maximum order
 if ($_SESSION['cart']->show_total() > 0) {
     if ($_SESSION['cart']->show_total() > $_SESSION['customer_max_order']) {
-        oos_redirect(oos_href_link($aModules['info'], $aFilename['info_max_order']));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['info'], $aFilename['info_max_order']));
     }
 }
 
@@ -76,7 +76,7 @@ $_SESSION['cartID'] = $_SESSION['cart']->cartID;
 if (($oOrder->content_type == 'virtual') || ($_SESSION['cart']->show_total() == 0) ) {
     $_SESSION['shipping'] = false;
     $_SESSION['sendto'] = false;
-    oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
 }
 
 $total_weight = $_SESSION['cart']->show_weight();
@@ -146,7 +146,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
                                                       'title' => (($free_shipping == true) ?  $quote[0]['methods'][0]['title'] : $quote[0]['module'] . ' (' . $quote[0]['methods'][0]['title'] . ')'),
                                                       'cost' => $quote[0]['methods'][0]['cost']);
 
-                        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+                        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
                     }
                 }
             } else {
@@ -156,7 +156,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
     } else {
         $_SESSION['shipping'] = false;
 
-        oos_redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
     }
 }
 

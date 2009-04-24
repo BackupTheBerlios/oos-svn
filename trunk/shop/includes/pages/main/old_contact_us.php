@@ -34,7 +34,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSI
 
     if (oos_validate_is_email(trim($email))) {
         oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['email_subject'], $enquiry, $name, $email);
-        oos_redirect(oos_href_link($aModules['main'], $aFilename['contact_us'], 'action=success'));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['contact_us'], 'action=success'));
     } else {
         $error = '1';
     }

@@ -103,7 +103,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
                           SET man_key = '',
                               man_key2 = ''
                           WHERE man_info_id = '1'");
-        oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
     }
 
     // Check if email exists
@@ -149,7 +149,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
 
 // restore cart contents
         $_SESSION['cart']->restore_contents();
-        oos_redirect(oos_href_link($aModules['main'], $aFilename['main']));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 
     }
 }

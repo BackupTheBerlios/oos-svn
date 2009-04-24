@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    oos_redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
 if ($_SESSION['navigation']->snapshot['file'] != $aFilename['account_address_book']) {
@@ -51,7 +51,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'remove') && oos_is_not_null($
                      customers_id = '" . intval($_SESSION['customer_id']) . "'";
     $dbconn->Execute($query);
 
-    oos_redirect(oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
 }
 
 
@@ -207,12 +207,12 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
               if (count($_SESSION['navigation']->snapshot) > 0) {
                   $origin_href = oos_href_link($_SESSION['navigation']->snapshot['modules'], $_SESSION['navigation']->snapshot['file'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
                   $_SESSION['navigation']->clear_snapshot();
-                  oos_redirect($origin_href);
+                  MyOOS_CoreApi::redirect($origin_href);
               }
           }
       }
 
-      oos_redirect(oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
+      MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
    }
 }
 

@@ -31,7 +31,7 @@
       $pwstr_check = strtolower(substr($_GET['keywords'], strlen($_GET['keywords'])-1, strlen($_GET['keywords'])));
       if ($pwstr_check == 's') {
         $pwstr_replace = substr($_GET['keywords'], 0, strlen($_GET['keywords'])-1);
-        oos_redirect(oos_href_link($aModules['search'], $aFilename['advanced_search_result'], 'search_in_description=1&s=1&keywords=' . urlencode($pwstr_replace) . '' ));
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['search'], $aFilename['advanced_search_result'], 'search_in_description=1&s=1&keywords=' . urlencode($pwstr_replace) . '' ));
       }
     }
 
@@ -139,7 +139,7 @@
   }
 
   if ($error == 1) {
-    oos_redirect(oos_href_link($aModules['search'], $aFilename['advanced_search'], 'errorno=' . $errorno . '&' . oos_get_all_get_parameters()));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['search'], $aFilename['advanced_search'], 'errorno=' . $errorno . '&' . oos_get_all_get_parameters()));
   } else {
     // links breadcrumb
     $oBreadcrumb->add($aLang['navbar_title1'], oos_href_link($aModules['search'], $aFilename['advanced_search']));
