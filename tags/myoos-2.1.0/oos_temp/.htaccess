@@ -1,0 +1,22 @@
+# $Id$
+
+<Files *.html.php>
+    deny from all
+</Files>
+
+<Files *.html>
+    deny from all
+</Files>
+
+<Files *.tpl>
+    deny from all
+</Files>
+
+<Files *.log>
+    deny from all
+</Files>
+
+
+<Files *.cache>
+    deny from all
+</Files>
