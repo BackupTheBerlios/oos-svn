@@ -226,7 +226,7 @@ class GoogleSitemap
                         products_last_modified as last_mod, products_ordered
                  FROM $productstable
                  WHERE products_status >= '1'
-                   AND p.products_access = '0'
+                   AND products_access = '0'
                  ORDER BY products_ordered DESC";
 
          if ( $products_query = $dbconn->Execute($sql) ){
