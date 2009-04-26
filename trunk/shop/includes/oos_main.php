@@ -34,6 +34,7 @@ define('BP', dirname(__FILE__));
 error_reporting(E_ALL);
 //  error_reporting(0);
 
+
 // Set the local configuration parameters - mainly for developers
 if (is_readable('includes/local/configure.php')) {
     require 'includes/local/configure.php';
@@ -79,6 +80,7 @@ require 'includes/oos_filename.php';
 require 'includes/oos_tables.php';
 
 // define general functions used application-wide
+require 'includes/functions/function_compatibility.php';
 require 'includes/functions/function_global.php';
 require 'includes/functions/function_kernel.php';
 require 'includes/functions/function_input.php';
@@ -179,7 +181,7 @@ if (isset($_GET['option'])) {
 
 // products history
 if (!isset($_SESSION['products_history'])) {
-    $_SESSION['products_history'] = new oosProductsHistory;
+    $_SESSION['products_history'] = new oosProductsHistory();
 }
 
 // initialize the message stack for output messages

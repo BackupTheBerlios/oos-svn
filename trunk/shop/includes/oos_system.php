@@ -82,6 +82,7 @@ $oSmarty->assign(
 
           'request_type'      => $request_type,
 
+          'is_xhtml'          => true,
           'theme_set'         => $sTheme,
           'theme_image'       => STATIC1_HTTP_SERVER . '/themes/' . $sTheme . '/images',
           'theme_css'         => STATIC1_HTTP_SERVER . '/themes/' . $sTheme,
@@ -92,10 +93,10 @@ $oSmarty->assign(
           'pangv'             => $sPAngV,
           'products_units'    => $products_units,
 
-          'pagetitle'         => $oos_pagetitle,
+          'pagetitle'         => htmlspecialchars($oos_pagetitle),
 
-          'meta_description'  => $oos_meta_description,
-          'meta_keywords'     => $oos_meta_keywords
+          'meta_description'  => htmlspecialchars($oos_meta_description),
+          'meta_keywords'     => htmlspecialchars($oos_meta_keywords)
       )
 );
 
