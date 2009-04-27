@@ -35,10 +35,10 @@ DirectoryIndex {PREFIX}{indexFile}
 
 <IfModule mod_php5.c>
   php_flag register_globals off
+  php_flag magic_quotes_gpc off
   php_value memory_limit 64M
   php_value max_execution_time 18000
   php_value session.use_trans_sid 0
-  php_value magic_quotes_gpc 1
   php_value allow_call_time_pass_reference 1
   php_value error_repoting 2039
   php_value display_errors 0
