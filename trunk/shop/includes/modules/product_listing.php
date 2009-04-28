@@ -41,7 +41,8 @@ include 'includes/functions/function_listing.php';
   $list_box_contents[] = array('params' => 'class="productListing-even"');
   $cur_row = count($list_box_contents) - 1;
 
-  for ($col=0, $n=count($column_list); $col<$n; $col++) {
+  $nArrayCountColumnList = count($column_list);
+  for ($col=0, $n=$nArrayCountColumnList; $col<$n; $col++) {
     switch ($column_list[$col]) {
       case 'PRODUCT_LIST_MODEL':
         $lc_text = $aLang['table_heading_model'];
@@ -138,7 +139,8 @@ include 'includes/functions/function_listing.php';
 
       $cur_row = count($list_box_contents) - 1;
 
-      for ($col=0, $n=count($column_list); $col<$n; $col++) {
+      $nArrayCountColumnList = count($column_list);
+      for ($col=0, $n=$nArrayCountColumnList; $col<$n; $col++) {
         $lc_align = '';
 
         switch ($column_list[$col]) {

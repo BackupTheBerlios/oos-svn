@@ -94,7 +94,8 @@ function smarty_function_quickform_fieldset($params, &$smarty)
         }
 
         //loop through fields to assemble html string for each element.
-        for($i = 0; $i < count($fields); $i++)
+        $nArrayCountFields = count($fields);
+        for($i = 0; $i < $nArrayCountFields; $i++)
         {
                 $el = $form[$fields[$i]];
                 if(! $el )

@@ -1047,7 +1047,8 @@
           // strpos()+1 to remove up to and including the first { which would create an empty array element in explode()
           $attributes = explode('{', substr($prid, strpos($prid, '{')+1));
 
-          for ($i=0, $n=count($attributes); $i<$n; $i++) {
+          $nAttributes = count($attributes);
+          for ($i=0, $n=$nAttributes; $i<$n; $i++) {
             $pair = explode('}', $attributes[$i]);
 
             if (is_numeric($pair[0]) && is_numeric($pair[1])) {
@@ -1106,7 +1107,8 @@
 
     $aModules = split(';', $modules);
 
-    for ($i=0, $n=count($aModules); $i<$n; $i++) {
+    $nArrayCountModules = count($aModules);
+    for ($i=0, $n=$nArrayCountModules; $i<$n; $i++) {
       $class = substr($aModules[$i], 0, strrpos($aModules[$i], '.'));
 
       if (is_object($GLOBALS[$class])) {
@@ -1266,7 +1268,8 @@
 
     // make sure no duplicate category IDs exist which could lock the server in a loop
     $aTmp = array();
-    for ($i=0, $n=count($aCategoryPath); $i<$n; $i++) {
+    $nArrayCountCategoryPath = count($aCategoryPath);
+    for ($i=0, $n=nArrayCountCategoryPath; $i<$n; $i++) {
       if (!in_array($aCategoryPath[$i], $aTmp)) {
         $aTmp[] = $aCategoryPath[$i];
       }

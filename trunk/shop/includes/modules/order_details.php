@@ -67,7 +67,8 @@ $shopping_cart_detail .= '    <td align="right" class="tableHeading">' . $aLang[
        '    <td colspan="' . $colspan . '">' . oos_black_line() . '</td>' . "\n" .
        '  </tr>' . "\n";
 
-for ($i=0, $n=count($products); $i<$n; $i++) {
+$nArrayCountProducts = count($products);
+for ($i=0, $n=$nArrayCountProducts; $i<$n; $i++) {
     $shopping_cart_detail .= '  <tr>' . "\n";
 
     if (SHOPPING_CART_IMAGE_ON == '1') {

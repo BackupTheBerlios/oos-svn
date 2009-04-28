@@ -291,7 +291,8 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
         // calculate ratio based on total net
         // for each product reduce tax group per product by ratio amount.
         $products = $_SESSION['cart']->get_products();
-        for ($i=0; $i<count($products); $i++) {
+        $nArrayCountProducts = count($products);
+        for ($i=0; $i<$nArrayCountProducts; $i++) {
           $t_prid = oos_get_product_id($products[$i]['id']);
 
           $productstable = $oostable['products'];
@@ -301,7 +302,8 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
 
           if ($get_result['restrict_to_products']) {
             $pr_ids = split("[,]", $get_result['restrict_to_products']);
-            for ($p = 0; $p < count($pr_ids); $p++) {
+            $nArrayCountProductsIds = count($pr_ids);
+            for ($p = 0; $p < $nArrayCountProductsIds; $p++) {
               if ($pr_ids[$p] == $t_prid) $valid_product = true;
             }
           }
@@ -340,7 +342,8 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
             $oOrder->info['tax_groups'][$tax_desc] -= $tod_amount;
             $oOrder->info['total'] -= $tod_amount;
           } else {
-            for ($p=0; $p<count($valid_array); $p++) {
+            $nArrayCountValid = count($valid_array);
+            for ($p=0; $p<$nArrayCountValid; $p++) {
               $tax_rate = oos_get_tax_rate($valid_array[$p]['products_tax_class'], $oOrder->delivery['country']['id'], $oOrder->delivery['zone_id']);
               $tax_desc = oos_get_tax_description($valid_array[$p]['products_tax_class'], $oOrder->delivery['country']['id'], $oOrder->delivery['zone_id']);
               if ($tax_rate > 0) {
@@ -432,7 +435,8 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
     $order_total = $oOrder->info['total'];
 // Check if gift voucher is in cart and adjust total
     $products = $_SESSION['cart']->get_products();
-    for ($i=0; $i<count($products); $i++) {
+    $nArrayCountProducts = count($products);
+    for ($i=0; $i<$nArrayCountProducts; $i++) {
       $t_prid = oos_get_product_id($products[$i]['id']);
 
       $productstable = $oostable['products'];
@@ -467,7 +471,8 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
      if ($get_result['restrict_to_categories']) {
        $cat_ids = split("[,]", $get_result['restrict_to_categories']);
        $in_cat=false;
-       for ($i = 0; $i < count($cat_ids); $i++) {
+       $nArrayCountCatIds = count($cat_ids);
+       for ($i = 0; $i <$nArrayCountCatIds; $i++) {
          if (is_array($this->contents)) {
            reset($this->contents);
            while (list($products_id, ) = each($this->contents)) {
@@ -490,7 +495,8 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
        $in_cart=false;
        $products_array = $_SESSION['cart']->get_products();
 
-       for ($i = 0; $i < count($pr_ids); $i++) {
+       $nArrayCountPrIds = count($pr_ids);
+       for ($i = 0; $i < $nArrayCountPrIds; $i++) {
          for ($ii = 1; $ii<=count($products_array); $ii++) {
            if (oos_get_product_id($products_array[$ii-1]['id']) == $pr_ids[$i]) {
              $in_cart=true;

@@ -68,7 +68,8 @@ class order_total
                     $GLOBALS[$class]->output = array();
                     $GLOBALS[$class]->process();
 
-                    for ($i=0, $n=sizeof($GLOBALS[$class]->output); $i<$n; $i++) {
+                    $nArrayCountClass = count($GLOBALS[$class]->output);
+                    for ($i=0, $n=$nArrayCountClass; $i<$n; $i++) {
                         if (oos_is_not_null($GLOBALS[$class]->output[$i]['title']) && oos_is_not_null($GLOBALS[$class]->output[$i]['text'])) {
                             $order_total_array[] = array('code' => $GLOBALS[$class]->code,
                                                          'title' => $GLOBALS[$class]->output[$i]['title'],

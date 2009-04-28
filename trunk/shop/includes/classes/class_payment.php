@@ -59,7 +59,9 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
             }
 
             $sLanguage = oos_var_prep_for_os($_SESSION['language']);
-            for ($i=0, $n=sizeof($include_modules); $i<$n; $i++) {
+
+            $nArrayCountModules = count($include_modules);
+            for ($i=0, $n=nArrayCountModules; $i<$n; $i++) {
                 include 'includes/languages/' . $sLanguage . '/modules/payment/' . $include_modules[$i]['file'];
                 include 'includes/modules/payment/' . $include_modules[$i]['file'];
 

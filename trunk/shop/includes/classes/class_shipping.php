@@ -57,7 +57,8 @@ class shipping
 
             $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 
-            for ($i=0, $n=count($include_modules); $i<$n; $i++) {
+            $nArrayCountModules = count($include_modules);
+            for ($i=0, $n=$nArrayCountModules; $i<$n; $i++) {
                 include 'includes/languages/' . $sLanguage . '/modules/shipping/' . $include_modules[$i]['file'];
                 include 'includes/modules/shipping/' . $include_modules[$i]['file'];
 

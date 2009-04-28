@@ -39,7 +39,8 @@
     $all_bin_chars = "";
     $cipher_data = "";
 
-    for ($i=0; $i<strlen($plain_data); $i++) {
+    $nStrlenPlainData = strlen($plain_data);
+    for ($i=0; $i<$nStrlenPlainData; $i++) {
       $p = substr($plain_data, $i, 1);   // p = plaintext
       $k = substr($key, $key_length, 1); // k = key
       $key_length++;
@@ -62,7 +63,8 @@
 
     $m = 0;
 
-    for ($j=0; $j<strlen($all_bin_chars); $j=$j+4) {
+    $nStrlenChars = strlen($all_bin_chars);
+    for ($j=0; $j<$nStrlenChars; $j=$j+4) {
       $four_bit = substr($all_bin_chars, $j, 4);     // split 8 bit to 4 bit
       $four_bit_dec = bindec($four_bit);
 

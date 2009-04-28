@@ -74,7 +74,8 @@
           if ($_SESSION['shipping']['id'] == 'certifiedmail_certifiedmail') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_CERTIFIEDMAIL);
           if ($_SESSION['shipping']['id'] == 'hermes_hermes') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_HERMES);
 
-            for ($i = 0; $i < count($cod_zones); $i++) {
+          $nArrayCountCodZones = count($cod_zones);
+          for ($i = 0; $i < $nArrayCountCodZones; $i++) {
             if ($cod_zones[$i] == $oOrder->billing['country']['iso_code_2']) {
                   $cod_cost = $cod_zones[$i + 1];
                   $cod_country = true;

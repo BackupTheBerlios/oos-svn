@@ -93,7 +93,8 @@
         $dp_cost = constant('MODULE_SHIPPING_DP_COST_' . $i);
 
         $dp_table = split("[:,]" , $dp_cost);
-        for ($i=0; $i<count($dp_table); $i+=2) {
+        $nArrayCountDP = count($dp_table)
+        for ($i=0; $i<$nArrayCountDP; $i+=2) {
           if ($shipping_weight <= $dp_table[$i]) {
             $shipping = $dp_table[$i+1];
             $shipping_method = $aLang['module_shipping_dp_text_way'] . ' ' . $dest_country . ': ';

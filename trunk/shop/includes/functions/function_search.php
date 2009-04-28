@@ -71,7 +71,8 @@
     $tmpstring = '';
     $flag = '';
 
-    for ($k=0; $k<count($pieces); $k++) {
+    $nArrayCountPieces = count($pieces);
+    for ($k=0; $k<$nArrayCountPieces; $k++) {
       while (substr($pieces[$k], 0, 1) == '(') {
         $objects[] = '(';
         if (strlen($pieces[$k]) > 1) {
@@ -97,7 +98,8 @@
       if ( (substr($pieces[$k], -1) != '"') && (substr($pieces[$k], 0, 1) != '"') ) {
         $objects[] = trim($pieces[$k]);
 
-        for ($j=0; $j<count($post_objects); $j++) {
+        $nArrayCountPostObjects = count($post_objects);
+        for ($j=0; $j<$nArrayCountPostObjects; $j++) {
           $objects[] = $post_objects[$j];
         }
       } else {
@@ -117,8 +119,8 @@
           $flag = 'off';
 
           $objects[] = trim($pieces[$k]);
-
-          for ($j=0; $j<count($post_objects); $j++) {
+          $nArrayCountPostObjects = count($post_objects);
+          for ($j=0; $j<$nArrayCountPostObjects; $j++) {
             $objects[] = $post_objects[$j];
           }
 
@@ -180,6 +182,7 @@
 
     // add default logical operators if needed
     $temp = array();
+
     for($i=0; $i<(count($objects)-1); $i++) {
       $temp[count($temp)] = $objects[$i];
 
@@ -200,7 +203,9 @@
     $keyword_count = 0;
     $operator_count = 0;
     $balance = 0;
-    for($i=0; $i<count($objects); $i++) {
+
+    $nArrayCountObjects = count($objects);
+    for($i=0; $i<$nArrayCountObjects; $i++) {
       if ($objects[$i] == '(') $balance --;
       if ($objects[$i] == ')') $balance ++;
       if ( ($objects[$i] == 'and') || ($objects[$i] == 'or') ) {

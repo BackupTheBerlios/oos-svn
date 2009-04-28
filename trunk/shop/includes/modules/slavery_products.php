@@ -42,7 +42,8 @@
 
   $select_column_list = '';
 
-  for ($col=0, $n=count($column_list); $col<$n; $col++) {
+  $nArrayCountColumnList = count($column_list);
+  for ($col=0, $n=$nArrayCountColumnList; $col<$n; $col++) {
     if ( ($column_list[$col] == 'PRODUCT_SLAVE_BUY_NOW')
         || ($column_list[$col] == 'PRODUCT_LIST_PRICE')
         || ($column_list[$col] == 'PRODUCT_LIST_UVP') ) {
@@ -117,7 +118,8 @@
                       pm.master_id = '" . intval($nProductsId) . "'";
 
   if ( (!isset($_GET['sort'])) || (!ereg('[1-8][ad]', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($column_list)) ) {
-    for ($col=0, $n=count($column_list); $col<$n; $col++) {
+    $nArrayCountColumnList = count($column_list);
+    for ($col=0, $n=$nArrayCountColumnList; $col<$n; $col++) {
       if ($column_list[$col] == 'PRODUCT_LIST_NAME') {
         $_GET['sort'] = $col+1 . 'a';
         $listing_sql .= " ORDER BY pd.products_name";

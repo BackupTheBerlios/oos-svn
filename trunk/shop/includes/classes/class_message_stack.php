@@ -48,7 +48,8 @@ class messageStack
 
         if (isset($_SESSION['messageToStack'])) {
             $messageToStack = $_SESSION['messageToStack'];
-            for ($i=0, $n=count($messageToStack); $i<$n; $i++) {
+            $nArrayCountMessages = count($messageToStack);
+            for ($i=0, $n=$nArrayCountMessages; $i<$n; $i++) {
                 $this->add($messageToStack[$i]['class'], $messageToStack[$i]['text'], $messageToStack[$i]['type']);
             }
             unset($_SESSION['messageToStack']);
@@ -87,7 +88,8 @@ class messageStack
     function output($class)
     {
         $output = array();
-        for ($i=0, $n=count($this->messages); $i<$n; $i++) {
+        $nArrayCountMessages = count($this->messages);
+        for ($i=0, $n=$nArrayCountMessages; $i<$n; $i++) {
             if ($this->messages[$i]['class'] == $class) {
                 $output[] = $this->messages[$i];
             }
@@ -101,7 +103,8 @@ class messageStack
     {
         $count = 0;
 
-        for ($i=0, $n=count($this->messages); $i<$n; $i++) {
+        $nArrayCountMessages = count($this->messages);
+        for ($i=0, $n=$nArrayCountMessages; $i<$n; $i++) {
             if ($this->messages[$i]['class'] == $class) {
                 $count++;
             }

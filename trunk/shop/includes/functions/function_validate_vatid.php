@@ -76,7 +76,8 @@
     $sVatno = strtoupper($sVatno);
 
     $aRemove = array(' ', '-', '/', '.', ':', ',', ';', '#');
-    for ($i=0, $n=count($aRemove); $i<$n; $i++) {
+    $nArrayCountRemove = count($aRemove);
+    for ($i=0, $n=$nArrayCountRemove; $i<$n; $i++) {
       $sVatno = str_replace($aRemove[$i], '', $sVatno);
     }
 

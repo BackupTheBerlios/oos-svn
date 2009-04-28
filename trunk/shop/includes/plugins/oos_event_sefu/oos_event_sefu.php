@@ -78,7 +78,8 @@
 
         $aGet = array();
 
-        for ($i=0, $n=sizeof($aVars); $i<$n; $i++) {
+        $nArrayCountVars = count($aVars);
+        for ($i=0, $n=$nArrayCountVars; $i<$n; $i++) {
           if (!isset($aVars[$i+1])) $aVars[$i+1] = '';
 
           if (strpos($aVars[$i], '[]')) {
