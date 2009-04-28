@@ -84,7 +84,8 @@ foreach ($block_result as $block) {
 }
 
 
-for ($i = 0, $n = count($aContentBlock); $i < $n; $i++) {
+$nArrayCountContentBlock = count( $aContentBlock );
+for ($i = 0, $n = $nArrayCountContentBlock; $i < $n; $i++) {
      switch ($aContentBlock[$i]['side']) {
 
          case 'left':

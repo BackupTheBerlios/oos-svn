@@ -52,7 +52,8 @@
   switch ($action) {
     case 'update_product' :
       // customer wants to update the product quantity in their shopping cart
-      for ($i=0; $i<count($_POST['products_id']);$i++) {
+      $nArrayCountProducts = count( $_POST['products_id'] );
+      for ($i=0; $i<$nArrayCountProducts; $i++) {
         if (in_array($_POST['products_id'][$i], (is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array())) or $_POST['cart_quantity'][$i] == 0) {
           $_SESSION['cart']->remove($_POST['products_id'][$i]);
         } else {
@@ -433,7 +434,8 @@
         $products_notificationstable = $oostable['products_notifications'];
 
         if (!is_array($notify)) $notify = array($notify);
-        for ($i=0, $n=count($notify); $i<$n; $i++) {
+        $nArrayCountNotify = count( $notify );
+        for ($i=0, $n=$nArrayCountNotify; $i<$n; $i++) {
           $check_sql = "SELECT COUNT(*) AS total
                         FROM $products_notificationstable
                         WHERE products_id = '" . intval($notify[$i]) . "'

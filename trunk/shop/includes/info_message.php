@@ -42,7 +42,8 @@ if ($oMessage->size('upload') > 0) {
 }
 
 
-for ($i = 0; $i < count($aInfoMessage); $i++) {
+$nArrayCountInfoMessage = count( $aInfoMessage );
+for ($i = 0; $i < $nArrayCountInfoMessage; $i++) {
    switch ($aInfoMessage[$i]['type']) {
        case 'warning':
            $oSmarty->append('oos_info_warning', array('text' => $aInfoMessage[$i]['text']));
