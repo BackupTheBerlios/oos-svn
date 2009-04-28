@@ -188,9 +188,8 @@ while ($aCategories = $categories_result->fields)
 if (oos_is_not_null($categories)) {
     $new_path = '';
     $id = split('_', $categories);
-    reset($id);
 
-    while (list($key, $value) = each($id)) {
+    foreach ($key as $value => $id) {
         unset($prev_id);
         unset($first_id);
 

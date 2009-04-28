@@ -213,7 +213,7 @@ function oos_db_perform($table, $data, $action = 'insert', $parameters = '')
         $query = substr($query, 0, -2) . ')';
     } elseif ($action == 'update') {
         $query = 'UPDATE ' . $table . ' set ';
-        while (list($columns, $value) = each($data)) {
+        foreach ($data as $columns => $value) {
             switch ((string)$value) {
               case 'now()':
                 $query .= $columns . ' = ' . date("Y-m-d H:i:s", time()) . ', ';
@@ -234,18 +234,17 @@ function oos_db_perform($table, $data, $action = 'insert', $parameters = '')
 }
 
 
-function oos_db_prepare_input($sStr)
+function oos_db_prepare_input($data)
 {
-    if (is_string($sStr)) {
-        return trim(stripslashes($sStr));
-    } elseif (is_array($sStr)) {
-        reset($sStr);
-        while (list($key, $value) = each($sStr)) {
-            $sStr[$key] = oos_db_prepare_input($value);
+    if (is_string($data)) {
+        return trim(stripslashes($data));
+    } elseif (is_array($data)) {
+        foreach ($data as $key => $value) {
+            $data[$key] = oos_db_prepare_input($value);
         }
-        return $sStr;
+        return $data;
     } else {
-        return $sStr;
+        return $data;
     }
 }
 

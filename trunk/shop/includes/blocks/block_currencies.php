@@ -27,13 +27,12 @@ if (isset($oCurrencies) && is_object($oCurrencies)) {
     reset($oCurrencies->currencies);
     $aCurrencies = array();
 
-    while (list($sKey, $value) = each($oCurrencies->currencies)) {
+    foreach ($oCurrencies->currencies as $sKey => $value) {
         $aCurrencies[] = array('id' => $sKey, 'text' => $value['title']);
     }
 
     $hidden_get_variables = '';
-    reset($_GET);
-    while (list($sKey, $value) = each($_GET)) {
+    foreach ($_GET as $sKey => $value) {
         if ( ($sKey != 'currency') && ($sKey != oos_session_name()) && ($sKey != 'x') && ($sKey != 'y') ) {
             $hidden_get_variables .= oos_draw_hidden_field($sKey, $value);
         }

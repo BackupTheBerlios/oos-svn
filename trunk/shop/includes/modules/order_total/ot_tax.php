@@ -37,13 +37,12 @@
     function process() {
       global $oOrder, $oCurrencies, $aLang;
 
-      reset($oOrder->info['tax_groups']);
       if ($_SESSION['member']->group['show_price_tax'] == 1) {
         $info = $aLang['module_order_total_included_tax'];
       } else {
         $info = $aLang['module_order_total_ex_tax'];
       }
-      while (list($key, $value) = each($oOrder->info['tax_groups'])) {
+      foreach ($oOrder->info['tax_groups'] as $key => $value) {
         if ($value > 0) {
           $this->output[] = array('title' => $info . $this->title . ' (' . number_format($key, 2) . '%):',
                                   'text' => $oCurrencies->format($value, true, $oOrder->info['currency'], $oOrder->info['currency_value']),

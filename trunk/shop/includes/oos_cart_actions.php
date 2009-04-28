@@ -155,8 +155,7 @@
                                                                     . $dbconn->qstr($wishlist_products_id) . ','
                                                                     . $dbconn->qstr(date("Y-m-d", time())) . ")");
             if (is_array($_POST['id'])) {
-              reset($_POST['id']);
-              while (list($option, $value) = each($_POST['id'])) {
+              foreach ($_POST['id'] as $option => $value) {
                 $contents[$wishlist_products_id]['attributes'][$option] = $value;
 
                 $customers_wishlist_attributestable = $oostable['customers_wishlist_attributes'];

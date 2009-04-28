@@ -539,8 +539,7 @@
 
     $sUrl = '';
     if (is_array($_GET) && (count($_GET) > 0)) {
-      reset($_GET);
-      while (list($sKey, $sValue) = each($_GET)) {
+      foreach ($_GET as $sKey => $sValue) {
         if (!empty($sValue)) {
           if ( ($sKey != oos_session_name()) && (!in_array($sKey, $aParameters)) && (!in_array($sKey, $aExclude)) ) {
             $sUrl .= $sKey . '=' . rawurlencode($sValue) . '&amp;';
@@ -567,8 +566,7 @@
 
     $sUrl = '';
     if (is_array($_POST) && (count($_POST) > 0)) {
-      reset($_POST);
-      while (list($sKey, $sValue) = each($_POST)) {
+      foreach ($_POST as $sKey => $sValue) {
         if ( (!empty($sValue)) && (!is_array($sValue)) ) {
           if ( ($sKey != oos_session_name())  && (!in_array($sKey, $aParameters))  && (!in_array($sKey, $aExclude)) ) {
             $sUrl .= $sKey . '=' . rawurlencode($sValue) . '&amp;';
@@ -1005,7 +1003,7 @@
   * Return a product ID with attributes
   *
   * @param $prid
-  * @param $params
+  * @param $parameters
   * @return string
   */
   function oos_get_uprid($prid, $parameters) {
@@ -1016,8 +1014,7 @@
         $attributes_check = true;
         $attributes_ids = '';
 
-        reset($parameters);
-        while (list($option, $sValue) = each($parameters)) {
+        foreach ($parameters as $option => $sValue) {
           if (is_numeric($option) && is_numeric($sValue)) {
             $attributes_ids .= '{' . intval($option) . '}' . intval($sValue);
           } elseif (strstr($option, TEXT_PREFIX)) {

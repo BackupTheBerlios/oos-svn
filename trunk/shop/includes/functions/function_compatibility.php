@@ -96,7 +96,7 @@ if (get_magic_quotes_gpc()) {
  * something ending in php.cgi for all requests
  */
 if (strpos(php_sapi_name(), 'cgi') !== false) {
-    $_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
+//   $_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
 }
 
 

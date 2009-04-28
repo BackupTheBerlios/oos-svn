@@ -221,8 +221,7 @@
         $dest_zip = str_replace(' ', '', $oOrder->delivery['postcode']);
         if ($oOrder->delivery['country']['iso_code_2'] == 'US') $dest_zip = substr($dest_zip, 0, 5);
 
-        reset($this->types);
-        while (list($key, $value) = each($this->types)) {
+        foreach ($this->types as $key => $value) {
           $request .= '<Package ID="' . $services_count . '">' .
                       '<Service>' . $key . '</Service>' .
                       '<ZipOrigination>' . STORE_ORIGIN_ZIP . '</ZipOrigination>' .

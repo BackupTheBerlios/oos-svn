@@ -361,8 +361,7 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
             $oOrder->info['tax_groups'][$tax_desc] -= $tod_amount;
           } else {
             $ratio1 = $od_amount/$amount;
-            reset($oOrder->info['tax_groups']);
-            while (list($key, $value) = each($oOrder->info['tax_groups'])) {
+            foreach ($oOrder->info['tax_groups'] as $key => $value) {
               $tax_rate = oos_get_tax_rate_from_desc($key);
               $net = $tax_rate * $oOrder->info['tax_groups'][$key];
               if ($net>0) {
@@ -381,8 +380,7 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
             $tod_amount = $oOrder->info['tax_groups'][$tax_desc] * $od_amount/100;
             $oOrder->info['tax_groups'][$tax_desc] -= $tod_amount;
           } else {
-            reset($oOrder->info['tax_groups']);
-            while (list($key, $value) = each($oOrder->info['tax_groups'])) {
+            foreach ($oOrder->info['tax_groups'] as $key => $value) {
               $god_amout=0;
               $tax_rate = oos_get_tax_rate_from_desc($key);
               $net = $tax_rate * $oOrder->info['tax_groups'][$key];

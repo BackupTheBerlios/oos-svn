@@ -133,8 +133,7 @@ for ($i=0, $n=count($products); $i<$n; $i++) {
 
     // Product options names
     if (isset($products[$i]['attributes']) && is_array($products[$i]['attributes'])) {
-        reset($products[$i]['attributes']);
-        while (list($option, $value) = each($products[$i]['attributes'])) {
+        foreach ($products[$i]['attributes'] as $option => $value) {
             $shopping_cart_detail .= '<br /><small><i> - ' . $products[$i][$option]['products_options_name'] . ' ' . $products[$i][$option]['products_options_values_name'] . '</i></small>';
         }
 
@@ -173,9 +172,7 @@ for ($i=0, $n=count($products); $i<$n; $i++) {
 
     // Product options prices
     if (isset($products[$i]['attributes']) && is_array($products[$i]['attributes'])) {
-        reset($products[$i]['attributes']);
-        while (list($option, $value) = each($products[$i]['attributes']))
-        {
+        foreach ($products[$i]['attributes'] as $option => $value) {
             if ($products[$i][$option]['options_values_price'] != 0) {
                 if ($sFile != $aFilename['account_history_info']) {
                     $shopping_cart_detail .= '<br /><small><i>' . $products[$i][$option]['price_prefix'] . $oCurrencies->display_price($products[$i][$option]['options_values_price'], oos_get_tax_rate($products[$i]['tax_class_id']), $products[$i]['quantity']) . '</i></small>';

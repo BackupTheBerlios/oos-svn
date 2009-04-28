@@ -403,8 +403,7 @@
 
     $sField = '';
     if (is_array($_GET) && (count($_GET) > 0)) {
-      reset($_GET);
-      while (list($sKey, $sValue) = each($_GET)) {
+      foreach ($_GET as $sKey => $sValue) {
         if (!empty($sValue)) {
           if ( ($sKey != oos_session_name()) && ($sKey != 'error') && ($sKey != 'p') && ($sKey != 'rewrite') && ($sKey != 'c') && ($sKey != 'm') && ($sKey != 'mp') && ($sKey != 'file') && ($sKey != 'index.php') && ($sKey != 'history_back') && (!in_array($sKey, $aExclude)) && ($sKey != 'x') && ($sKey != 'y') ) {
             $sField = '<input type="hidden" name="' . oos_output_string($sKey) . '"';

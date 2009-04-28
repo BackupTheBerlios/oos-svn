@@ -91,8 +91,7 @@ class shoppingCart
                                                                          '" . oos_db_input($qty) . "',
                                                                          '" . oos_db_input(date("Y-m-d", time())) . "')");
                     if (isset($this->contents[$products_id]['attributes'])) {
-                        reset($this->contents[$products_id]['attributes']);
-                        while (list($option, $value) = each($this->contents[$products_id]['attributes'])) {
+                        foreach ($this->contents[$products_id]['attributes'] as $option => $value) {
                             $attr_value = $this->contents[$products_id]['attributes_values'][$option];
                             $customers_basket_attributestable = $oostable['customers_basket_attributes'];
                             $dbconn->Execute("INSERT INTO $customers_basket_attributestable
@@ -271,8 +270,8 @@ class shoppingCart
 
 
                     if (is_array($attributes)) {
-                        reset($attributes);
-                        while (list($option, $value) = each($attributes)) {
+                        foreach ($attributes as $option => $value) {
+
                             $attr_value = NULL;
                             $blank_value = FALSE;
 
@@ -364,8 +363,7 @@ class shoppingCart
             }
 
             if (is_array($attributes)) {
-                reset($attributes);
-                while (list($option, $value) = each($attributes)) {
+                foreach ($attributes as $option => $value) {
                     $attr_value = NULL;
                     $blank_value = FALSE;
                     if (strstr($option, TEXT_PREFIX)) {
@@ -594,8 +592,8 @@ class shoppingCart
 
             // attributes price
             if (isset($this->contents[$products_id]['attributes'])) {
-                reset($this->contents[$products_id]['attributes']);
-                while (list($option, $value) = each($this->contents[$products_id]['attributes'])) {
+                foreach ($this->contents[$products_id]['attributes'] as $option => $value) {
+
                     $products_attributestable = $oostable['products_attributes'];
                     $sql = "SELECT options_values_price, price_prefix
                             FROM $products_attributestable
@@ -637,13 +635,13 @@ class shoppingCart
         $attributes_price = 0;
 
         if (isset($this->contents[$products_id]['attributes'])) {
-            reset($this->contents[$products_id]['attributes']);
 
             // Get database information
             $dbconn =& oosDBGetConn();
             $oostable =& oosDBGetTables();
 
-            while (list($option, $value) = each($this->contents[$products_id]['attributes'])) {
+            foreach ($this->contents[$products_id]['attributes'] as $option => $value) {
+
                 $products_attributestable = $oostable['products_attributes'];
                 $attribute_price_sql = "SELECT options_values_price, price_prefix
                                         FROM $products_attributestable
