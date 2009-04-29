@@ -52,7 +52,7 @@ include_once(ADODB_DIR.'/drivers/adodb-mssql.inc.php');
 
 class ADODB_mssql_n extends ADODB_mssql {
 	var $databaseType = "mssql_n";
-	
+
 	function ADODB_mssqlpo()
 	{
 		ADODB_mssql::ADODB_mssql();
@@ -168,4 +168,3 @@ class ADORecordset_mssql_n extends ADORecordset_mssql {
 		$this->ADORecordset_mssql($id,$mode);
 	}
 }
-?>
