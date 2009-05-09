@@ -70,7 +70,6 @@ if ($category_depth == 'nested') {
     if (!isset($option)) {
         require 'includes/info_message.php';
         require 'includes/oos_blocks.php';
-        require 'includes/oos_counter.php';
     }
 
     if ( (USE_CACHE == '1') && (!SID) ) {
@@ -219,7 +218,6 @@ if ($category_depth == 'nested') {
     if (!isset($option)) {
         require 'includes/info_message.php';
         require 'includes/oos_blocks.php';
-        require 'includes/oos_counter.php';
     }
 
     // index_products_heading.html

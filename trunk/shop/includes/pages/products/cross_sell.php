@@ -47,7 +47,6 @@ if (!$product_info_result->RecordCount()) {
     if (!isset($option)) {
         require 'includes/info_message.php';
         require 'includes/oos_blocks.php';
-        require 'includes/oos_counter.php';
     }
 
     // assign Smarty variables;
@@ -82,7 +81,6 @@ if (!$product_info_result->RecordCount()) {
     if (!isset($option)) {
         require 'includes/info_message.php';
         require 'includes/oos_blocks.php';
-        require 'includes/oos_counter.php';
     }
 
     $oSmarty->assign('oos_breadcrumb', $oBreadcrumb->trail(BREADCRUMB_SEPARATOR));

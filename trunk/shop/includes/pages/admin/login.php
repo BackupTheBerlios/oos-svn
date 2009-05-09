@@ -175,7 +175,6 @@ require 'includes/oos_system.php';
 if (!isset($option)) {
     require 'includes/info_message.php';
     require 'includes/oos_blocks.php';
-    require 'includes/oos_counter.php';
 }
 
 
@@ -214,4 +213,3 @@ $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
 // display the template
 require 'includes/oos_display.php';
-

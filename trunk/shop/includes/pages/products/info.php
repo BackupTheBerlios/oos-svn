@@ -69,7 +69,6 @@ if (!$product_info_result->RecordCount()) {
     if (!isset($option)) {
         require 'includes/info_message.php';
         require 'includes/oos_blocks.php';
-        require 'includes/oos_counter.php';
     }
 
     $oSmarty->assign(
@@ -158,7 +157,6 @@ if (!$product_info_result->RecordCount()) {
     if (!isset($option)) {
         require 'includes/info_message.php';
         require 'includes/oos_blocks.php';
-        require 'includes/oos_counter.php';
     }
 
     // products history

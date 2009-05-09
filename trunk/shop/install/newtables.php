@@ -323,23 +323,6 @@ $flds = "
 dosql($table, $flds);
 
 
-$table = $prefix_table . 'counter';
-$flds = "
-  startdate C(8),
-  counter I
-";
-dosql($table, $flds);
-
-
-
-$table = $prefix_table . 'counter_history';
-$flds = "
-  month C(8),
-  counter I
-";
-dosql($table, $flds);
-
-
 $table = $prefix_table . 'countries';
 $flds = "
   countries_id I NOTNULL AUTO PRIMARY,
