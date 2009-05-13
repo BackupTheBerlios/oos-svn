@@ -19,10 +19,10 @@
  *
  * For questions, help, comments, discussion, etc., please join the
  * Smarty mailing list. Send a blank e-mail to
- * smarty-discussion-subscribe@googlegroups.com
+ * smarty-discussion-subscribe@googlegroups.com 
  *
  * @link http://www.smarty.net/
- * @version 2.6.22
+ * @version 2.6.23
  * @copyright Copyright: 2001-2005 New Digital Group, Inc.
  * @author Andrei Zmievski <andrei@php.net>
  * @access public
@@ -301,7 +301,7 @@ class Config_File {
                         $vars = array();
                         continue;
                     }
-                } else {
+                } else {                    
                     $section_name = $match[1];
                 }
                 if (!isset($config_data['sections'][$section_name]))
@@ -390,4 +390,4 @@ class Config_File {
     /**#@-*/
 }
 
-
+?>

@@ -20,17 +20,17 @@
  *
  * For questions, help, comments, discussion, etc., please join the
  * Smarty mailing list. Send a blank e-mail to
- * smarty-discussion-subscribe@googlegroups.com
+ * smarty-discussion-subscribe@googlegroups.com 
  *
  * @link http://www.smarty.net/
  * @copyright 2001-2005 New Digital Group, Inc.
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
  * @package Smarty
- * @version 2.6.22
+ * @version 2.6.23
  */
 
-/* Id: Smarty.class.php 2785 2008-09-18 21:04:12Z Uwe.Tews  */
+/* $Id$ */
 
 /**
  * DIR_SEP isn't used anymore, but third party apps might
@@ -236,7 +236,8 @@ class Smarty
                                     'INCLUDE_ANY'     => false,
                                     'PHP_TAGS'        => false,
                                     'MODIFIER_FUNCS'  => array('count'),
-                                    'ALLOW_CONSTANTS'  => false
+                                    'ALLOW_CONSTANTS'  => false,
+                                    'ALLOW_SUPER_GLOBALS' => true
                                    );
 
     /**
@@ -464,7 +465,7 @@ class Smarty
      *
      * @var string
      */
-    var $_version              = '2.6.22';
+    var $_version              = '2.6.23';
 
     /**
      * current template inclusion depth
@@ -1057,7 +1058,7 @@ class Smarty
         } else {
             // var non-existant, return valid reference
             $_tmp = null;
-            return $_tmp;
+            return $_tmp;   
         }
     }
 
@@ -1116,7 +1117,7 @@ class Smarty
     function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         static $_cache_info = array();
-
+        
         $_smarty_old_error_level = $this->debugging ? error_reporting() : error_reporting(isset($this->error_reporting)
                ? $this->error_reporting : error_reporting() & ~E_NOTICE);
 
@@ -1548,7 +1549,7 @@ class Smarty
                         $params['source_content'] = $this->_read_file($_resource_name);
                     }
                     $params['resource_timestamp'] = filemtime($_resource_name);
-                    $_return = is_file($_resource_name);
+                    $_return = is_file($_resource_name) && is_readable($_resource_name);
                     break;
 
                 default:
@@ -1711,7 +1712,7 @@ class Smarty
      */
     function _read_file($filename)
     {
-        if ( file_exists($filename) && ($fd = @fopen($filename, 'rb')) ) {
+        if ( file_exists($filename) && is_readable($filename) && ($fd = @fopen($filename, 'rb')) ) {
             $contents = '';
             while (!feof($fd)) {
                 $contents .= fread($fd, 8192);
@@ -1932,10 +1933,10 @@ class Smarty
     {
         return eval($code);
     }
-
+    
     /**
      * Extracts the filter name from the given callback
-     *
+     * 
      * @param callback $function
      * @return string
      */
@@ -1950,10 +1951,52 @@ class Smarty
 			return $function;
 		}
 	}
-
+  
+    /**
+     * wrapper for super global access
+     * @return mixed
+     */
+    function _get_super($type,$name)
+    {
+        // don't display anything if not allowed
+        if($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
+          $this->trigger_error('security error: super global access not allowed');
+          return false;
+        }
+        if(empty($type)||empty($name))
+          return null;
+        switch($type) {
+            case 'get':
+              return $this->request_use_auto_globals ? $_GET[$name] : $GLOBALS['HTTP_GET_VARS'][$name];
+              break;
+            case 'post':
+              return $this->request_use_auto_globals ? $_POST[$name] : $GLOBALS['HTTP_POST_VARS'][$name];
+              break;
+            case 'server':
+              return $this->request_use_auto_globals ? $_SERVER[$name] : $GLOBALS['HTTP_SERVER_VARS'][$name];
+              break;
+            case 'session':
+              return $this->request_use_auto_globals ? $_SESSION[$name] : $GLOBALS['HTTP_SESSION_VARS'][$name];
+              break;        
+            case 'request':
+              return $this->request_use_auto_globals ? $_REQUEST[$name] : $GLOBALS['HTTP_REQUEST_VARS'][$name];
+              break;        
+            case 'cookies':
+              return $this->request_use_auto_globals ? $_COOKIE[$name] : $GLOBALS['HTTP_COOKIE_VARS'][$name];
+              break;        
+            case 'env':
+              return $this->request_use_auto_globals ? $_ENV[$name] : $GLOBALS['HTTP_ENV_VARS'][$name];
+              break;        
+            default:
+              return null;
+              break;
+        }
+    }
+    
     /**#@-*/
 
 }
 
 /* vim: set expandtab: */
 
+?>

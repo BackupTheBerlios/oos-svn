@@ -40,7 +40,7 @@
  */
 function smarty_function_html_checkboxes($params, &$smarty)
 {
-    MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/shared.escape_special_chars.php');
+    require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
 
     $name = 'checkbox';
     $values = null;
@@ -140,4 +140,4 @@ function smarty_function_html_checkboxes_output($name, $value, $output, $selecte
     return $_output;
 }
 
-
+?>
