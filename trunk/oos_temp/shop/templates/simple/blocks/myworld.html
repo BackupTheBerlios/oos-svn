@@ -22,10 +22,10 @@
           </tr>
   <tr>
     <td align="left" valign="top" class="boxText">
-{if (isset($smarty.session.customer_id)) }
+{php}if (isset($_SESSION['customer_id'])) { {/php}
   {$lang.text_date_account_created} {$account_created}<br>
   {$lang.entry_city} {$myworld.entry_city} / {$country_name}<br>
-{/if}
+{php} endif; {/php}
     </td>
   </tr>
   <tr>

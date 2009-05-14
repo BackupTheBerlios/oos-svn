@@ -69,13 +69,13 @@
 					<li {if $page_file eq $filename.ticket_create}id="current"{/if}><a href="{html_href_link modul=$modules.ticket file=$filename.ticket_create}">{$lang.block_information_contact}</a></li>
 					<li {if $page_file eq $filename.information}id="current"{/if}><a href="{html_href_link modul=$modules.info file=$filename.information information_id=4}">{$lang.block_information_imprint}</a></li>
 
-{if (isset($smarty.session.customer_id)) }
+{php}if (isset($_SESSION['customer_id'])) { {/php}
 					<li {if $page_file eq $filename.account_history}id="current"{/if}><a href="{html_href_link modul=$modules.account file=$filename.account_history connection=SSL}">{$lang.login_block_account_history}</a></li>
 					<li {if $page_file eq $filename.logoff}id="current"{/if}><a href="{html_href_link modul=$modules.user file=$filename.logoff connection=SSL}">{$lang.header_title_logoff}</a></li>
-{else}
+{php} } else { {/php}
 					<li {if $page_file eq $filename.create_account}id="current"{/if}><a href="{html_href_link modul=$modules.user file=$filename.create_account connection=SSL}">{$lang.login_block_new_customer}</a></li>
 					<li {if $page_file eq $filename.login}id="current"{/if}><a href="{html_href_link modul=$modules.user file=$filename.login connection=SSL}">{$lang.header_title_login}</a></li>
-{/if}
+{php} endif; {/php}
 				</ul>
 			</div>
 		</div>

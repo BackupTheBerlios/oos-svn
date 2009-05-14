@@ -94,11 +94,11 @@ function popupZoom(url) {
     <td class="oos-HeadNavi">&nbsp;&nbsp;{$oos_breadcrumb}</td>
     <td align="right" class="oos-HeadNavi">
 
-{if (isset($smarty.session.customer_id)) }
+{php}if (isset($_SESSION['customer_id'])) { {/php}
 <a href="{html_href_link modul=$modules.user file=$filename.logoff connection=SSL}" class="headerNavigation">{$lang.header_title_logoff}</a>&nbsp;
-{else}
+{php} } else { {/php}
 <a href="{html_href_link modul=$modules.user file=$filename.login connection=SSL}" class="headerNavigation">{$lang.header_title_login}</a>&nbsp;
-{/if}
+{php} endif; {/php}
 |&nbsp;<a href="{html_href_link modul=$modules.user file=$filename.account connection=SSL}" class="headerNavigation">{$lang.header_title_my_account}</a>&nbsp;
 |&nbsp;<a href="{html_href_link modul=$modules.main file=$filename.main_shopping_cart}" class="headerNavigation">{$lang.header_title_cart_contents}</a>&nbsp;
 |&nbsp;<a href="{html_href_link modul=$modules.checkout file=$filename.checkout_payment connection=SSL}" class="headerNavigation">{$lang.header_title_checkout}</a>&nbsp;&nbsp;
