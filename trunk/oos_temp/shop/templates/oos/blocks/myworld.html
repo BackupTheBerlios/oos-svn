@@ -21,7 +21,7 @@
 {php}if (isset($_SESSION['customer_id'])) { {/php}
   {$lang.text_date_account_created} {$account_created}<br>
   {$lang.entry_city} {$myworld.entry_city} / {$country_name}<br>
-{php} endif; {/php}
+{php} } {/php}
 <br>
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link modul=$modules.user file=$filename.yourstore connection=SSL}">{$lang.text_yourstore}</a><br>
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link modul=$modules.user file=$filename.account connection=SSL}">{$lang.login_block_my_account}</a><br>

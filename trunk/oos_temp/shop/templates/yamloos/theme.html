@@ -75,7 +75,7 @@
 {php} } else { {/php}
 					<li {if $page_file eq $filename.create_account}id="current"{/if}><a href="{html_href_link modul=$modules.user file=$filename.create_account connection=SSL}">{$lang.login_block_new_customer}</a></li>
 					<li {if $page_file eq $filename.login}id="current"{/if}><a href="{html_href_link modul=$modules.user file=$filename.login connection=SSL}">{$lang.header_title_login}</a></li>
-{php} endif; {/php}
+{php} } {/php}
 				</ul>
 			</div>
 		</div>
