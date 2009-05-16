@@ -1,9 +1,7 @@
-{if $smarty.const.LIGHTBOX eq '1'}
 <script type="text/javascript" src="js/lightbox/prototype.js"></script>
 <script type="text/javascript" src="js/lightbox/scriptaculous.js?load=effects"></script>
 <script type="text/javascript" src="js/lightbox/lightbox.js"></script>
 <link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
-{/if}
 
 <form name="cart_quantity" action="{html_get_link}" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="action" value="add_product">
@@ -34,19 +32,8 @@ document.write('<a href="javascript:void window.open(\'{html_href_link modul=$mo
     </td>
     <td align="right" valign="top" class="smallText">
 {if $product_info.products_image != '' }
-  {if $smarty.const.LIGHTBOX eq '1'}
-    <a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} ><img src="{$smarty.const.OOS_IMAGES}{$product_info.products_image}" alt={$product_info.products_name|escape:"quotes"} border="0"></a><br>
+    <a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} ><img src="{$smarty.const.OOS_IMAGES}{$product_info.products_image}" alt="{$product_info.products_name|escape:"quotes"}" border="0"></a><br>
     <br><br><a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} >{html_js_icon image="zoom.gif" alt=$lang.icon_button_zoom}{$lang.text_click_to_enlarge}</a>
-
-  {else}
-
-<script language="javascript"><!--
-document.write('<a href="javascript:popupWindow(\'{html_href_link modul=$modules.products file=$filename.popup_image pID=$product_info.products_id image=0}\')">{html_oos_image basedir=$smarty.const.OOS_IMAGES image=$product_info.products_image alt=$product_info.products_name|escape:"quotes" width=$smarty.const.SMALL_IMAGE_WIDTH height=$smarty.const.SMALL_IMAGE_HEIGHT hspace=5 vspace=5}<br />{$lang.text_click_to_enlarge}</a>');
-//--></script>
-<noscript>
- {html_oos_image basedir=$smarty.const.OOS_IMAGES image=$product_info.products_image alt=$product_info.products_name width=$smarty.const.SMALL_IMAGE_WIDTH height=$smarty.const.SMALL_IMAGE_HEIGHT hspace=5 vspace=5}<br />
-</noscript>
-  {/if}
 {/if}
 
 {if $product_info.products_zoomify != '' }
