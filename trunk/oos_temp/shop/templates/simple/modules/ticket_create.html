@@ -41,9 +41,9 @@
           <tr>
             <td width="150" class="main">{$lang.entry_name}&nbsp;</td>
             <td class="main">
-    {if isset($smarty.session.customer_id) }
+{php}if (isset($_SESSION['customer_id'])) { {/php}
       <input type="hidden" name="name" value="{$customer.customers_firstname} {$customer.customers_lastname}">{$customer.customers_firstname} {$customer.customers_lastname}
-    {else}
+{php} } else { {/php}
       <input type="text" name="name" value="{$smarty.post.name}">
       {if ($error_name) }
          &nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_error_no_name}</font></small>
@@ -51,22 +51,22 @@
     {/if}
             </td>
             <td class="main" align="left" width="100%" valign="top" rowspan="2">
-    {if !isset($smarty.session.customer_id) }
+{php}if (!isset($_SESSION['customer_id'])) { {/php}
       <a href="{html_href_link modul=$modules.ticket file=$filename.ticket_create login="yes"}">{$lang.text_login}</a>
-    {/if}
+{php} } {/php}
             &nbsp;</td>
           </tr>
           <tr>
             <td class="main">{$lang.entry_email}&nbsp;</td>
             <td class="main">
-    {if isset($smarty.session.customer_id) }
+{php}if (isset($_SESSION['customer_id'])) { {/php}
       <input type="hidden" name="email" value="{$customer.customers_email_address}">{$customer.customers_email_address}
-    {else}
+{php} } else { {/php}
        <input type="text" name="email" value="{$smarty.post.email}">
        {if ($error_email) }
          &nbsp;&nbsp;<small><font color="#FF0000">{$lang.entry_email_address_check_error}</font></small>
        {/if}
-    {/if}
+{php} } {/php}
             </td>
           </tr>
     {if $smarty.const.TICKET_USE_SUBJECT eq '1'}

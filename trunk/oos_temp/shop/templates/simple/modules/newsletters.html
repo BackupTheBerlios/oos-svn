@@ -6,7 +6,7 @@
       <tr>
         <td><img src="{$theme_image}trans.gif" border="0" alt=" " width="100%" height="10"></td>
       </tr>
-{if isset($smarty.get.email) && ($smarty.get.email eq 'nonexistent')}
+{if $smarty.get.email eq 'nonexistent'}
        <tr>
          <td class="smallText">{$lang.entry_email_address_check_error}</td>
        </tr>

@@ -27,7 +27,7 @@
       <tr>
         <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="1" height="5"></td>
       </tr>
-  {if isset($smarty.session.customer_id) }
+{php}if (isset($_SESSION['customer_id'])) { {/php}
      {if $customers_tickets_numrows > 0 }
       <tr>
         <td><table width="100%" border="0" cellspacing="0" cellpadding="5">
@@ -74,7 +74,7 @@
         </table></td>
       </tr>
     {/if}
-  {/if}
+{php} } {/php}
 {/if}
   {if isset($tlid) }
     {if $ticket.ticket_customers_id > 1 && $ticket.ticket_login_required eq '1' && !isset($smarty.session.customer_id) }

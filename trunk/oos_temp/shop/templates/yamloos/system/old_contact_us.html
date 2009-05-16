@@ -42,30 +42,30 @@
 			<span class="oneField">
 				<label for="entry_name" class="preField">{$lang.entry_name}</label>
 
-				{if isset($smarty.session.customer_id) }
+				{php}if (isset($_SESSION['customer_id'])) { {/php}
 					<input type="hidden" name="name" value="{$customer.customers_firstname} {$customer.customers_lastname}" />{$customer.customers_firstname} {$customer.customers_lastname}
-				{else}
+				{php} } else { {/php}
 					{if ($error_name) }
 						<input type="text" name="name" id="entry_name" value="" class="errFld" /><span class="reqMark">*</span>&nbsp;&nbsp;<span class="errMsg">{$lang.entry_error_no_name}<br /></span>
 					{else}
 						<input type="text" name="name" id="entry_name" value="{$smarty.post.name}" /><span class="reqMark">*</span><br />
 					{/if}
-				{/if}
+				{php} } {/php}
 			</span>
 
 
 			<span class="oneField">
 				<label for="entry_email" class="preField">{$lang.entry_email}</label>
 
-				{if isset($smarty.session.customer_id) }
+				{php}if (isset($_SESSION['customer_id'])) { {/php}
 					<input type="hidden" name="email" value="{$customer.customers_email_address}" />{$customer.customers_email_address}
-				{else}
+				{php} } else { {/php}
 					{if $error eq '1'}
 						<input type="text" name="email" id="entry_email" value="" class="errFld" /><span class="reqMark">*</span>&nbsp;&nbsp;<span class="errMsg">{$lang.entry_email_address_check_error}<br /></span>
 					{else}
 						<input type="text" name="email" id="entry_email" value="{$smarty.post.email}" /><span class="reqMark">*</span><br />
 					{/if}
-				{/if}
+				{php} } {/php}
 			</span>
 
 
