@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UserSettings.php 1101 2009-05-08 21:13:57Z matt $
+ * @version $Id: UserSettings.php 1125 2009-05-16 00:32:36Z matt $
  * 
  * @package Piwik_UserSettings
  */
@@ -31,7 +31,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	static public $browserType = array(
 		"ie"	=> array("IE"),
 		"gecko" => array("NS", "PX", "FF", "FB", "CA", "GA", "KM", "MO", "SM"),
-		"khtml" => array("SF", "KO", "OW", "CH"),
+		"khtml" => array("SF", "KO", "OW", "CH", "AR"),
 		"opera" => array("OP")
 	);
 
