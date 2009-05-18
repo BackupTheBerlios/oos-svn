@@ -66,7 +66,6 @@
 				<ul>
 					<li {if $page_file eq $filename.main}id="current"{/if}><a href="{html_href_link modul=$modules.main file=$filename.main}">{$lang.header_title_top}</a></li>
 					<li {if $page_file eq $filename.info_sitemap}id="current"{/if}><a href="{html_href_link modul=$modules.info file=$filename.info_sitemap}">{$lang.block_service_sitemap}</a></li>
-					<li {if $page_file eq $filename.ticket_create}id="current"{/if}><a href="{html_href_link modul=$modules.ticket file=$filename.ticket_create}">{$lang.block_information_contact}</a></li>
 					<li {if $page_file eq $filename.information}id="current"{/if}><a href="{html_href_link modul=$modules.info file=$filename.information information_id=4}">{$lang.block_information_imprint}</a></li>
 
 {php}if (isset($_SESSION['customer_id'])) { {/php}
@@ -76,6 +75,8 @@
 					<li {if $page_file eq $filename.create_account}id="current"{/if}><a href="{html_href_link modul=$modules.user file=$filename.create_account connection=SSL}">{$lang.login_block_new_customer}</a></li>
 					<li {if $page_file eq $filename.login}id="current"{/if}><a href="{html_href_link modul=$modules.user file=$filename.login connection=SSL}">{$lang.header_title_login}</a></li>
 {php} } {/php}
+                    <li {if $main_page eq $modules.checkout}id="current"{/if}><a href="{html_href_link modul=$modules.checkout file=$filename.checkout_shipping connection=SSL}"{$lang.header_title_checkout}</a></li>
+
 				</ul>
 			</div>
 		</div>
