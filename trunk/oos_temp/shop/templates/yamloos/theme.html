@@ -31,6 +31,7 @@
 <meta name="rating" content="General"/>
 <base href="{$oos_base}"/>
 <link rel="shortcut icon" href="{$oos_base}favicon.ico" type="image/x-icon"/>
+{$oos_head_jquery}
 <link href="{$theme_css}/css/stylesheet.css" rel="stylesheet" type="text/css"/>
 {literal}<!--[if lte IE 7]>{/literal}
 <link href="{$theme_css}/css/my_patches/patch_stylesheet.css" rel="stylesheet" type="text/css" />
@@ -39,6 +40,9 @@
 <link rel="contents" type="text/html" href="{html_href_link modul=$modules.info file=$filename.info_sitemap}"/>
 <link rel="search" type="text/html" href="{html_href_link modul=$modules.search file=$filename.advanced_search}"/>
 <link rel="bookmark" type="text/html" href="{html_href_link modul=$main_page file=$page_file oos_get=$get_params connection='NONSSL' add_session_id='0' search_engine_safe='0'}"/>
+{$oos_head_css}
+{$oos_head_script}
+
 {$oos_js}
 </head>
 <body>
