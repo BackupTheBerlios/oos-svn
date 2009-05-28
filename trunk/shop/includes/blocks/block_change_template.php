@@ -19,7 +19,7 @@ $aSkins = array();
 if (is_dir($sLocaleDir)) {
     if ($dh = opendir($sLocaleDir)) {
         while (($file = readdir($dh)) !== false) {
-            if ($file == '.' || $file == '..' || $file == 'CVS'|| $file == '.svn' || $file == 'default' || filetype($sLocaleDir . $file) == 'file' ) continue;
+            if ($file == '.' || $file == '..' || $file == 'CVS'|| $file == '.svn' || $file == 'default' || $file == 'jquery' || filetype($sLocaleDir . $file) == 'file' ) continue;
             if (filetype(realpath($sLocaleDir . $file)) == 'dir') {
                 $aSkins[] = $file;
             }
