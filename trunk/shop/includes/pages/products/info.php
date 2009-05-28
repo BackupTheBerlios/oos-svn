@@ -141,11 +141,17 @@ if (!$product_info_result->RecordCount()) {
         $oos_meta_keywords = $product_info['products_keywords_meta'];
     }
 
+    $aOption['head_jquery'] = 'jquery/product_info.tpl';
+    $aOption['head_css'] =    'jquery/product_info_css.tpl';
+    $aOption['head_script'] = 'jquery/product_info_script.tpl';
+
     $aOption['template_main'] =           $sTheme . '/products/product_info.html';
     $aOption['also_purchased_products'] = $sTheme . '/products/also_purchased_products.html';
     $aOption['xsell_products'] =          $sTheme . '/products/xsell_products.html';
     $aOption['up_sell_products'] =        $sTheme . '/products/up_sell_products.html';
     $aOption['page_heading'] =            $sTheme . '/products/product_heading.html';
+
+
 
     if (SOCIAL_BOOKMARKS == '1') {
         $aOption['social_bookmarks'] = 'default/products/social_bookmarks.html';
@@ -276,6 +282,12 @@ if (!$product_info_result->RecordCount()) {
         $oSmarty->caching = false;
     }
 
+
+    $oSmarty->caching = true;
+    $oSmarty->assign('oos_head_jquery', $oSmarty->fetch($aOption['head_jquery'], $oos_cache_id));
+    $oSmarty->assign('oos_head_css', $oSmarty->fetch($aOption['head_css'], $oos_cache_id));
+    $oSmarty->assign('oos_head_script', $oSmarty->fetch($aOption['head_script'], $oos_cache_id));
+    $oSmarty->caching = false;
 
 
     if ( (USE_CACHE == '1') && (!SID) ) {
