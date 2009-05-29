@@ -17,11 +17,20 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
+error_reporting(E_ALL);
+
+if (function_exists('ini_set')) {
+    ini_set('display_errors',1);
+    ini_set('magic_quotes_runtime', 0);
+    ini_set('session.save_handler', 'files');
+}
+
 
 define('OOS_VALID_MOD', 'yes');
 
 // MyOOS requires PHP 5.2+
 version_compare(PHP_VERSION, '5.2', '<') and exit('MyOOS requires PHP 5.2 or newer.');
+
 
 require(dirname(__FILE__) . '/includes/oos_main.php');
 

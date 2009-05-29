@@ -20,35 +20,37 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
- /**
-  * kernel
-  *
-  * @package kernel
-  * @copyright (C) 2005 by the OOS Development Team.
-  * @license GPL <http://www.gnu.org/licenses/gpl.html>
-  * @link http://www.oos-shop.de/
-  */
+/**
+ * kernel
+ *
+ * @package kernel
+ * @copyright (C) 2005 by the OOS Development Team.
+ * @license GPL <http://www.gnu.org/licenses/gpl.html>
+ * @link http://www.oos-shop.de/
+ */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
- /**
-  * Stop from parsing any further PHP code
-  */
-  function oos_exit() {
+/**
+ * Stop from parsing any further PHP code
+ */
+function oos_exit()
+{
    oos_session_close();
    exit();
-  }
+}
 
 
- /**
-  * Return a random row from a database query
-  *
-  * @param $query
-  * @param $limit
-  * @return string
-  */
-  function oos_random_select($query, $limit = '') {
+/**
+ * Return a random row from a database query
+ *
+ * @param $query
+ * @param $limit
+ * @return string
+ */
+function oos_random_select($query, $limit = '')
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -56,77 +58,81 @@
 
     $random_product = '';
     if (oos_is_not_null($limit)) {
-      if (USE_DB_CACHE == '1') {
-        $random_result = $dbconn->CacheSelectLimit(15, $query, $limit);
-      } else {
-        $random_result = $dbconn->SelectLimit($query, $limit);
-      }
+        if (USE_DB_CACHE == '1') {
+            $random_result = $dbconn->CacheSelectLimit(15, $query, $limit);
+        } else {
+            $random_result = $dbconn->SelectLimit($query, $limit);
+        }
     } else {
-      if (USE_DB_CACHE == '1') {
-        $random_result = $dbconn->CacheExecute(15, $query);
-      } else {
-        $random_result = $dbconn->Execute($query);
-      }
+        if (USE_DB_CACHE == '1') {
+            $random_result = $dbconn->CacheExecute(15, $query);
+        } else {
+            $random_result = $dbconn->Execute($query);
+        }
     }
     $num_rows = $random_result->RecordCount();
     if ($num_rows > 0) {
-      $random_row = oos_rand(0, ($num_rows - 1));
-      $random_result->Move($random_row);
-      $random_product = $random_result->fields;
+        $random_row = oos_rand(0, ($num_rows - 1));
+        $random_result->Move($random_row);
+        $random_product = $random_result->fields;
     }
 
     return $random_product;
-  }
+}
 
-  function oos_prepare_input($sStr) {
+
+function oos_prepare_input($sStr)
+{
     if (get_magic_quotes_gpc()) {
-      $sStr =& stripslashes($sStr);
+        $sStr =& stripslashes($sStr);
     }
     $sStr =& strip_tags($sStr);
     $sStr =& trim($sStr);
 
     return $sStr;
-  }
+}
 
 
 
- /**
-  * strip slashes
-  *
-  * stripslashes on multidimensional arrays.
-  * Used in conjunction with pnVarCleanFromInput
-  * @author    PostNuke Content Management System
-  * @copyright Copyright (C) 2001 by the Post-Nuke Development Team.
-  * @version Revision: 2.0  - changed by Author: r23  on Date: 2004/01/12 06:02:08
-  * @access private
-  * @param any variables or arrays to be stripslashed
-  */
-  function oos_stripslashes (&$value) {
+/**
+ * strip slashes
+ *
+ * stripslashes on multidimensional arrays.
+ * Used in conjunction with pnVarCleanFromInput
+ * @author    PostNuke Content Management System
+ * @copyright Copyright (C) 2001 by the Post-Nuke Development Team.
+ * @version Revision: 2.0  - changed by Author: r23  on Date: 2004/01/12 06:02:08
+ * @access private
+ * @param any variables or arrays to be stripslashed
+ */
+function oos_stripslashes (&$value)
+{
     if (!is_array($value)) {
-      $value = stripslashes($value);
+        $value = stripslashes($value);
     } else {
-      array_walk($value,'oos_stripslashes');
+        array_walk($value,'oos_stripslashes');
     }
-  }
+}
 
 
- /**
-  * ready operating system output
-  * <br />
-  * Gets a variable, cleaning it up such that any attempts
-  * to access files outside of the scope of the PostNuke
-  * system is not allowed
-  * @author    PostNuke Content Management System
-  * @copyright Copyright (C) 2001 by the Post-Nuke Development Team.
-  * @version Revision: 2.0  - changed by Author: r23  on Date: 2004/01/12 06:02:08
-  * @access private
-  * @param var variable to prepare
-  * @param ...
-  * @returns string/array
-  * @return prepared variable if only one variable passed
-  * in, otherwise an array of prepared variables
-  */
-  function oos_var_prep_for_os() {
+/**
+ * ready operating system output
+ * <br />
+ * Gets a variable, cleaning it up such that any attempts
+ * to access files outside of the scope of the PostNuke
+ * system is not allowed
+ * @author    PostNuke Content Management System
+ * @copyright Copyright (C) 2001 by the Post-Nuke Development Team.
+ * @version Revision: 2.0  - changed by Author: r23  on Date: 2004/01/12 06:02:08
+ * @access private
+ * @param var variable to prepare
+ * @param ...
+ * @returns string/array
+ * @return prepared variable if only one variable passed
+ * in, otherwise an array of prepared variables
+ */
+function oos_var_prep_for_os()
+{
     static $search = array('!\.\./!si', // .. (directory traversal)
                            '!^.*://!si', // .*:// (start of URL)
                            '!/!si',     // Forward slash (directory traversal)
@@ -139,34 +145,35 @@
 
     $resarray = array();
     foreach (func_get_args() as $ourvar) {
-      // Parse out bad things
-      $ourvar = preg_replace($search, $replace, $ourvar);
+        // Parse out bad things
+        $ourvar = preg_replace($search, $replace, $ourvar);
 
-      // Prepare var
-      if (!get_magic_quotes_runtime()) {
-        $ourvar = addslashes($ourvar);
-      }
+        // Prepare var
+        if (!get_magic_quotes_runtime()) {
+            $ourvar = addslashes($ourvar);
+        }
 
-      // Add to array
-      array_push($resarray, $ourvar);
+        // Add to array
+        array_push($resarray, $ourvar);
     }
 
     // Return vars
     if (func_num_args() == 1) {
-      return $resarray[0];
+        return $resarray[0];
     } else {
-      return $resarray;
+        return $resarray;
     }
-  }
+}
 
 
- /**
-  * Return Product's Name
-  *
-  * @param $nProductID
-  * @return string
-  */
-  function oos_get_products_name($nProductID) {
+/**
+ * Return Product's Name
+ *
+ * @param $nProductID
+ * @return string
+ */
+function oos_get_products_name($nProductID)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -182,16 +189,17 @@
     $products_name = $dbconn->GetOne($query);
 
     return $products_name;
-  }
+}
 
 
- /**
-  * Return Product description
-  *
-  * @param $nProductID
-  * @return array
-  */
-  function oos_get_product_description($nProductId) {
+/**
+ * Return Product description
+ *
+ * @param $nProductID
+ * @return array
+ */
+function oos_get_product_description($nProductId)
+{
 
     $nLanguageID = isset($_SESSION['language_id']) ? $_SESSION['language_id']+0 : 1;
 
@@ -218,16 +226,17 @@
     oos_db_perform($products_descriptiontable, $sql_data_array, 'update', 'products_id = \'' . intval($nProductsId) . '\' and products_languages_id = \'' . intval($nLanguageID) . '\'');
 
     return $product_description;
-  }
+}
 
 
- /**
-  * Return Categories description
-  *
-  * @param $nCurrentCategoryId
-  * @return array
-  */
-  function oos_get_categories_description($nCurrentCategoryId) {
+/**
+ * Return Categories description
+ *
+ * @param $nCurrentCategoryId
+ * @return array
+ */
+function oos_get_categories_description($nCurrentCategoryId)
+{
 
     $nLanguageID = isset($_SESSION['language_id']) ? $_SESSION['language_id']+0 : 1;
 
@@ -254,17 +263,18 @@
     oos_db_perform($categories_descriptiontable, $sql_data_array, 'update', 'categories_id = \'' . intval($nCurrentCategoryId) . '\' and categories_languages_id = \'' . intval($nLanguageID) . '\'');
 
     return $categories_description;
-  }
+}
 
 
 
- /**
-  * Return News Author Name
-  *
-  * @param $nNewsAuthorId
-  * @return string
-  */
-  function oos_get_news_author_name($nNewsAuthorId) {
+/**
+ * Return News Author Name
+ *
+ * @param $nNewsAuthorId
+ * @return string
+ */
+function oos_get_news_author_name($nNewsAuthorId)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -278,20 +288,18 @@
 
     $sAdminName = $result->fields['admin_firstname'] . ' ' . $result->fields['admin_lastname'];
 
-    // Close result set
-    $result->Close();
-
     return $sAdminName;
-  }
+}
 
 
- /**
-  * Return News Average Rating
-  *
-  * @param $nNewsId
-  * @return string
-  */
-  function oos_get_news_reviews($nNewsId) {
+/**
+ * Return News Average Rating
+ *
+ * @param $nNewsId
+ * @return string
+ */
+function oos_get_news_reviews($nNewsId)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -309,16 +317,17 @@
     $result->Close();
 
     return $sAverage;
-  }
+}
 
 
- /**
-  * Return Wishlist Customer Name
-  *
-  * @param $wlid
-  * @return string
-  */
-  function oos_get_wishlist_name($wlid) {
+/**
+ * Return Wishlist Customer Name
+ *
+ * @param $wlid
+ * @return string
+ */
+function oos_get_wishlist_name($wlid)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -332,20 +341,18 @@
 
     $sCustomersName = $result->fields['customers_firstname'] . ' ' . $result->fields['customers_lastname'];
 
-    // Close result set
-    $result->Close();
-
     return $sCustomersName;
-  }
+}
 
 
- /**
-  * Return Products Special Price
-  *
-  * @param $nProductID
-  * @return string
-  */
-  function oos_get_products_special_price($nProductID) {
+/**
+ * Return Products Special Price
+ *
+ * @param $nProductID
+ * @return string
+ */
+function oos_get_products_special_price($nProductID)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -359,16 +366,17 @@
     $specials_new_products_price = $dbconn->GetOne($query);
 
     return $specials_new_products_price;
-  }
+}
 
 
- /**
-  * Return Products Quantity
-  *
-  * @param $sProductsId
-  * @return string
-  */
-  function oos_get_products_stock($sProductsId) {
+/**
+ * Return Products Quantity
+ *
+ * @param $sProductsId
+ * @return string
+ */
+function oos_get_products_stock($sProductsId)
+{
 
     $nProductID = oos_get_product_id($sProductsId);
 
@@ -383,16 +391,17 @@
     $products_quantity = $dbconn->GetOne($query);
 
     return $products_quantity;
-  }
+}
 
 
- /**
-  * Return a product's minimum quantity
-  *
-  * @param $sProductsId
-  * @return string
-  */
-  function oos_get_products_quantity_order_min($sProductsId) {
+/**
+ * Return a product's minimum quantity
+ *
+ * @param $sProductsId
+ * @return string
+ */
+function oos_get_products_quantity_order_min($sProductsId)
+{
 
     $nProductID = oos_get_product_id($sProductsId);
 
@@ -407,16 +416,17 @@
     $products_quantity_order_min = $dbconn->GetOne($query);
 
     return $products_quantity_order_min;
-  }
+}
 
 
- /**
-  * Return a product's minimum unit order
-  *
-  * @param $sProductsId
-  * @return string
-  */
-  function oos_get_products_quantity_order_units($sProductsId) {
+/**
+ * Return a product's minimum unit order
+ *
+ * @param $sProductsId
+ * @return string
+ */
+function oos_get_products_quantity_order_units($sProductsId)
+{
 
     $nProductID = oos_get_product_id($sProductsId);
 
@@ -431,28 +441,29 @@
     $products_quantity_order_units = $dbconn->GetOne($query);
 
     if ($products_quantity_order_units == 0) {
-      $productstable = $oostable['products'];
-      $dbconn->Execute("UPDATE $productstable
-                    SET products_quantity_order_units = 1
-                    WHERE products_id = '" . intval($nProductID) . "'");
-      $products_quantity_order_units = 1;
+        $productstable = $oostable['products'];
+        $dbconn->Execute("UPDATE $productstable
+                          SET products_quantity_order_units = 1
+                          WHERE products_id = '" . intval($nProductID) . "'");
+        $products_quantity_order_units = 1;
     }
 
     return $products_quantity_order_units;
 
 
-  }
+}
 
 
- /**
-  * Find quantity discount
-  *
-  * @param $product_id
-  * @param $qty
-  * @param $current_price
-  * @return string
-  */
-  function oos_get_products_price_quantity_discount($product_id, $qty, $current_price = false) {
+/**
+ * Find quantity discount
+ *
+ * @param $product_id
+ * @param $qty
+ * @param $current_price
+ * @return string
+ */
+function oos_get_products_price_quantity_discount($product_id, $qty, $current_price = false)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -468,97 +479,100 @@
 
     switch ( true ) {
       case ( $qty==1 or ( $product_discounts['products_discount4_qty'] == 0 AND $product_discounts['products_discount3_qty'] == 0 AND $product_discounts['products_discount2_qty'] == 0 AND $product_discounts['products_discount1_qty'] == 0 ) ):
-        if ($current_price) {
-          $the_discount_price= $current_price;
-        } else {
-          $the_discount_price= $product_discounts['products_price'];
-        }
-        break;
+          if ($current_price) {
+              $the_discount_price= $current_price;
+          } else {
+              $the_discount_price= $product_discounts['products_price'];
+          }
+          break;
 
       case ($qty >= $product_discounts['products_discount4_qty'] and $product_discounts['products_discount4_qty'] !=0):
-        $the_discount_price= $product_discounts['products_discount4'];
-        break;
+          $the_discount_price= $product_discounts['products_discount4'];
+          break;
 
       case ($qty >= $product_discounts['products_discount3_qty'] and $product_discounts['products_discount3_qty'] !=0 ):
-        $the_discount_price= $product_discounts['products_discount3'];
-        break;
+          $the_discount_price= $product_discounts['products_discount3'];
+          break;
 
       case ($qty >= $product_discounts['products_discount2_qty'] and $product_discounts['products_discount2_qty'] !=0 ):
-        $the_discount_price= $product_discounts['products_discount2'];
-        break;
+          $the_discount_price= $product_discounts['products_discount2'];
+          break;
 
       case ($qty >= $product_discounts['products_discount1_qty'] and $product_discounts['products_discount1_qty'] !=0 ):
-        $the_discount_price= $product_discounts['products_discount1'];
-        break;
+          $the_discount_price= $product_discounts['products_discount1'];
+          break;
 
      default:
-       if ($current_price) {
-         $the_discount_price = $current_price;
-       } else {
-         $the_discount_price = $product_discounts['products_price'];
-       }
-       break;
+         if ($current_price) {
+             $the_discount_price = $current_price;
+         } else {
+             $the_discount_price = $product_discounts['products_price'];
+         }
+         break;
     }
     return $the_discount_price;
-  }
+}
 
 
 
- /**
-  * Check if the required stock is available
-  * If insufficent stock is available return an out of stock message
-  *
-  * @param $sProductsId
-  * @param $nProductsQuantity
-  * @return string
-  */
-  function oos_check_stock($sProductsId, $nProductsQuantity) {
+/**
+ * Check if the required stock is available
+ * If insufficent stock is available return an out of stock message
+ *
+ * @param $sProductsId
+ * @param $nProductsQuantity
+ * @return string
+ */
+function oos_check_stock($sProductsId, $nProductsQuantity)
+{
     global $aLang;
 
     $stock_left = oos_get_products_stock($sProductsId) - $nProductsQuantity;
 
     $sOutOfStock = '';
     if ($stock_left < 0) {
-      $sOutOfStock = '<span class="oos-MarkProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</span>';
+        $sOutOfStock = '<span class="oos-MarkProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</span>';
     }
 
     return $sOutOfStock;
-  }
+}
 
 
- /**
-  * Return all GET variables, except those passed as a parameter
-  *
-  * @param  $aExclude
-  * @return string
-  */
-  function oos_get_all_get_parameters($aExclude = '') {
+/**
+ * Return all GET variables, except those passed as a parameter
+ *
+ * @param  $aExclude
+ * @return string
+ */
+function oos_get_all_get_parameters($aExclude = '')
+{
 
     if (!is_array($aExclude)) $aExclude = array();
     $aParameters = array('p', 'error', 'rewrite', 'c', 'm', 'mp', 'file', 'infex.php', 'history_back', 'gclid', 'x', 'y');
 
     $sUrl = '';
     if (is_array($_GET) && (count($_GET) > 0)) {
-      foreach ($_GET as $sKey => $sValue) {
-        if (!empty($sValue)) {
-          if ( ($sKey != oos_session_name()) && (!in_array($sKey, $aParameters)) && (!in_array($sKey, $aExclude)) ) {
-            $sUrl .= $sKey . '=' . rawurlencode($sValue) . '&amp;';
-          }
+        foreach ($_GET as $sKey => $sValue) {
+            if (!empty($sValue)) {
+                if ( ($sKey != oos_session_name()) && (!in_array($sKey, $aParameters)) && (!in_array($sKey, $aExclude)) ) {
+                    $sUrl .= $sKey . '=' . rawurlencode($sValue) . '&amp;';
+                }
+            }
         }
-      }
     }
 
     return $sUrl;
-  }
+}
 
 
- /**
-  * Return all POST variables, except those passed as a parameter
-  *
-  * @param  $aExclude
-  * @return string
-  */
-  function oos_get_all_post_parameters($aExclude = '') {
+/**
+ * Return all POST variables, except those passed as a parameter
+ *
+ * @param  $aExclude
+ * @return string
+ */
+function oos_get_all_post_parameters($aExclude = '')
+{
 
     if (!is_array($aExclude)) $aExclude = array();
 
@@ -566,68 +580,70 @@
 
     $sUrl = '';
     if (is_array($_POST) && (count($_POST) > 0)) {
-      foreach ($_POST as $sKey => $sValue) {
-        if ( (!empty($sValue)) && (!is_array($sValue)) ) {
-          if ( ($sKey != oos_session_name())  && (!in_array($sKey, $aParameters))  && (!in_array($sKey, $aExclude)) ) {
-            $sUrl .= $sKey . '=' . rawurlencode($sValue) . '&amp;';
-          }
+        foreach ($_POST as $sKey => $sValue) {
+            if ( (!empty($sValue)) && (!is_array($sValue)) ) {
+                if ( ($sKey != oos_session_name())  && (!in_array($sKey, $aParameters))  && (!in_array($sKey, $aExclude)) ) {
+                    $sUrl .= $sKey . '=' . rawurlencode($sValue) . '&amp;';
+                }
+            }
         }
-      }
     }
 
     return $sUrl;
-  }
+}
 
 
 
- /**
-  * Returns an array with countries
-  *
-  * @param $countries_id
-  * @param $bWithIsoCodes
-  * @return array
-  */
-  function oos_get_countries($countries_id = '', $bWithIsoCodes = false) {
+/**
+ * Returns an array with countries
+ *
+ * @param $countries_id
+ * @param $bWithIsoCodes
+ * @return array
+ */
+function oos_get_countries($countries_id = null, $bWithIsoCodes = false)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
     $aCountries = array();
-    if (oos_is_not_null($countries_id)) {
-      if ($bWithIsoCodes == true) {
-        $countriestable = $oostable['countries'];
-        $query = "SELECT countries_name, countries_iso_code_2, countries_iso_code_3
-                  FROM $countriestable
-                  WHERE countries_id = '" . intval($countries_id) . "'
-                  ORDER BY countries_name";
-        $aCountries = $dbconn->GetRow($query);
-      } else {
-        $countriestable = $oostable['countries'];
-        $query = "SELECT countries_name
-                  FROM $countriestable
-                  WHERE countries_id = '" . intval($countries_id) . "'";
-        $aCountries = $dbconn->GetRow($query);
-      }
+    if (!empty($countries_id)) {
+        if ($bWithIsoCodes == true) {
+            $countriestable = $oostable['countries'];
+            $query = "SELECT countries_name, countries_iso_code_2, countries_iso_code_3
+                      FROM $countriestable
+                      WHERE countries_id = '" . intval($countries_id) . "'
+                      ORDER BY countries_name";
+            $aCountries = $dbconn->GetRow($query);
+        } else {
+            $countriestable = $oostable['countries'];
+            $query = "SELECT countries_name
+                      FROM $countriestable
+                      WHERE countries_id = '" . intval($countries_id) . "'";
+            $aCountries = $dbconn->GetRow($query);
+        }
     } else {
-      $countriestable = $oostable['countries'];
-      $query = "SELECT countries_id, countries_name
-                FROM $countriestable
-                ORDER BY countries_name";
-      $aCountries = $dbconn->GetAll($query);
+        $countriestable = $oostable['countries'];
+        $query = "SELECT countries_id, countries_name
+                  FROM $countriestable
+                  ORDER BY countries_name";
+        $aCountries = $dbconn->GetAll($query);
     }
 
     return $aCountries;
-  }
+}
 
 
- /**
-  * Returns the country name
-  *
-  * @param $country_id
-  * @return string
-  */
-  function oos_get_country_name($country_id) {
+/**
+ * Returns the country name
+ *
+ * @param $country_id
+ * @return string
+ */
+function oos_get_country_name($country_id)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -640,18 +656,19 @@
     $countries_name = $dbconn->GetOne($query);
 
     return $countries_name;
-  }
+}
 
 
- /**
-  * Returns the zone (State/Province) name
-  *
-  * @param $country_id
-  * @param $zone_id
-  * @param $default_zone
-  * @return string
-  */
-  function oos_get_zone_name($country_id, $zone_id, $default_zone) {
+/**
+ * Returns the zone (State/Province) name
+ *
+ * @param $country_id
+ * @param $zone_id
+ * @param $default_zone
+ * @return string
+ */
+function oos_get_zone_name($country_id, $zone_id, $default_zone)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -664,21 +681,22 @@
                     zone_id = '" . intval($zone_id) . "'";
     $zone = $dbconn->Execute($query);
     if ($zone->RecordCount() > 0) {
-      return $zone->fields['zone_name'];
+        return $zone->fields['zone_name'];
     } else {
-      return $default_zone;
+        return $default_zone;
     }
-  }
+}
 
 
- /**
-  * Return Campaign Name
-  *
-  * @param $campaigns_id
-  * @param $language
-  * @return string
-  */
-  function oos_get_campaigns_name($campaigns_id) {
+/**
+ * Return Campaign Name
+ *
+ * @param $campaigns_id
+ * @param $language
+ * @return string
+ */
+function oos_get_campaigns_name($campaigns_id)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -692,32 +710,33 @@
     $campaigns_name = $dbconn->GetOne($query);
 
     return $campaigns_name;
-  }
+}
 
 
 
- /**
-  * Returns the tax rate for a zone / class
-  *
-  * @param $class_id
-  * @param $country_id
-  * @param $zone_id
-  */
-  function oos_get_tax_rate($class_id, $country_id = -1, $zone_id = -1) {
+/**
+ * Returns the tax rate for a zone / class
+ *
+ * @param $class_id
+ * @param $country_id
+ * @param $zone_id
+ */
+function oos_get_tax_rate($class_id, $country_id = -1, $zone_id = -1)
+{
 
     if (isset($_SESSION['customers_vat_id_status']) && ($_SESSION['customers_vat_id_status'] == 1)) {
-      return 0;
+        return 0;
     }
 
 
     if ( ($country_id == -1) && ($zone_id == -1) ) {
-      if (!isset($_SESSION['customer_id'])) {
-        $country_id = STORE_COUNTRY;
-        $zone_id = STORE_ZONE;
-      } else {
-        $country_id = $_SESSION['customer_country_id'];
-        $zone_id = $_SESSION['customer_zone_id'];
-      }
+        if (!isset($_SESSION['customer_id'])) {
+            $country_id = STORE_COUNTRY;
+            $zone_id = STORE_ZONE;
+        } else {
+            $country_id = $_SESSION['customer_country_id'];
+            $zone_id = $_SESSION['customer_zone_id'];
+        }
     }
 
     // Get database information
@@ -739,39 +758,40 @@
                      tr.tax_class_id = '" . intval($class_id) . "'
             GROUP BY tr.tax_priority";
     if (USE_DB_CACHE_LEVEL_HIGH == '1') {
-      $tax_result = $dbconn->CacheExecute(30, $query);
+        $tax_result = $dbconn->CacheExecute(30, $query);
     } else {
-      $tax_result = $dbconn->Execute($query);
+        $tax_result = $dbconn->Execute($query);
     }
     if (!$tax_result) {return 0;}
 
     if ($tax_result->RecordCount() > 0) {
-      $tax_multiplier = 0;
-      while ($tax = $tax_result->fields)
-      {
-        $tax_multiplier += $tax['tax_rate'];
-        // Move that ADOdb pointer!
-        $tax_result->MoveNext();
-      }
-      // Close result set
-      $tax_result->Close();
+        $tax_multiplier = 0;
+        while ($tax = $tax_result->fields)
+        {
+            $tax_multiplier += $tax['tax_rate'];
+            // Move that ADOdb pointer!
+            $tax_result->MoveNext();
+        }
+        // Close result set
+        $tax_result->Close();
 
-      return $tax_multiplier;
+        return $tax_multiplier;
     } else {
-      return 0;
+        return 0;
     }
-  }
+}
 
 
 
- /**
-  * Add tax to a products price
-  *
-  * @param $class_id
-  * @param $country_id
-  * @param $zone_id
-  */
-  function oos_get_tax_description($class_id, $country_id, $zone_id) {
+/**
+ * Add tax to a products price
+ *
+ * @param $class_id
+ * @param $country_id
+ * @param $zone_id
+ */
+function oos_get_tax_description($class_id, $country_id, $zone_id)
+{
     global $aLang;
 
     // Get database information
@@ -796,69 +816,72 @@
     $tax_result = $dbconn->Execute($query);
 
     if (USE_DB_CACHE == '1') {
-      $dbconn->cacheSecs = 3600; // cache 1 hours
-      $tax_result = $dbconn->CacheExecute($query);
+        $dbconn->cacheSecs = 3600; // cache 1 hours
+        $tax_result = $dbconn->CacheExecute($query);
     } else {
-      $tax_result = $dbconn->Execute($query);
+        $tax_result = $dbconn->Execute($query);
     }
 
 
     if ($tax_result->RecordCount() > 0) {
-      $tax_description = '';
-      while ($tax = $tax_result->fields)
-      {
-        $tax_description .= $tax['tax_description'] . ' + ';
+        $tax_description = '';
+        while ($tax = $tax_result->fields)
+        {
+            $tax_description .= $tax['tax_description'] . ' + ';
 
-        // Move that ADOdb pointer!
-        $tax_result->MoveNext();
-      }
+            // Move that ADOdb pointer!
+            $tax_result->MoveNext();
+        }
 
-      // Close result set
-      $tax_result->Close();
+        // Close result set
+        $tax_result->Close();
 
-      $tax_description = substr($tax_description, 0, -3);
+        $tax_description = substr($tax_description, 0, -3);
 
-      return $tax_description;
+        return $tax_description;
     } else {
-      return $aLang['text_unknown_tax_rate'];
+        return $aLang['text_unknown_tax_rate'];
     }
-  }
+}
 
 
- /**
-  * Add tax to a products price
-  *
-  * @param $price
-  * @param $tax
-  */
-  function oos_add_tax($price, $tax) {
+/**
+ * Add tax to a products price
+ *
+ * @param $price
+ * @param $tax
+ */
+function oos_add_tax($price, $tax) {
 
-    if( ($_SESSION['member']->group['show_price_tax'] == 1) && ($tax > 0) ) {
-      return $price + oos_calculate_tax($price, $tax);
+    if( ($_SESSION['member']->group['show_price_tax'] == 1) && ($tax > 0) )
+    {
+        return $price + oos_calculate_tax($price, $tax);
     } else {
-      return $price;
+        return $price;
     }
-  }
+}
 
 
- /**
-  * Calculates Tax rounding the result
-  *
-  * @param $price
-  * @param $tax
-  */
-  function oos_calculate_tax($price, $tax) {
+/**
+ * Calculates Tax rounding the result
+ *
+ * @param $price
+ * @param $tax
+ */
+function oos_calculate_tax($price, $tax)
+{
 
     if ($tax > 0) {
-      return $price * $tax / 100;
+        return $price * $tax / 100;
     } else {
-      return 0;
+        return 0;
     }
 
-  }
+}
 
 
-  function oos_get_categories($aCategories = '', $parent_id = '0', $indent = '') {
+function oos_get_categories($aCategories = '', $parent_id = '0', $indent = '')
+{
 
     $parent_id = oos_db_prepare_input($parent_id);
     $nGroupID = intval($_SESSION['member']->group['id']);
@@ -886,31 +909,32 @@
 
     while ($categories = $result->fields)
     {
-      $aCategories[] = array('id' => $categories['categories_id'],
-                             'text' => $indent . $categories['categories_name']);
+        $aCategories[] = array('id' => $categories['categories_id'],
+                               'text' => $indent . $categories['categories_name']);
 
-      if ($categories['categories_id'] != $parent_id) {
-        $aCategories = oos_get_categories($aCategories, $categories['categories_id'], $indent . '&nbsp;&nbsp;');
-      }
+        if ($categories['categories_id'] != $parent_id) {
+            $aCategories = oos_get_categories($aCategories, $categories['categories_id'], $indent . '&nbsp;&nbsp;');
+        }
 
-      // Move that ADOdb pointer!
-      $result->MoveNext();
+        // Move that ADOdb pointer!
+        $result->MoveNext();
     }
 
     // Close result set
     $result->Close();
 
     return $aCategories;
-  }
+}
 
 
- /**
-  * Recursively go through the categories and retreive all parent categories IDs
-  *
-  * @param $categories
-  * @param $categories_id
-  */
-  function oos_get_parent_categories(&$categories, $categories_id) {
+/**
+ * Recursively go through the categories and retreive all parent categories IDs
+ *
+ * @param $categories
+ * @param $categories_id
+ */
+function oos_get_parent_categories(&$categories, $categories_id)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -924,27 +948,28 @@
 
     while ($parent_categories = $result->fields)
     {
-      if ($parent_categories['parent_id'] == 0) return true;
-      $categories[count($categories)] = $parent_categories['parent_id'];
-      if ($parent_categories['parent_id'] != $categories_id) {
-        oos_get_parent_categories($categories, $parent_categories['parent_id']);
-      }
+        if ($parent_categories['parent_id'] == 0) return true;
+        $categories[count($categories)] = $parent_categories['parent_id'];
+        if ($parent_categories['parent_id'] != $categories_id) {
+            oos_get_parent_categories($categories, $parent_categories['parent_id']);
+        }
 
-      // Move that ADOdb pointer!
-      $result->MoveNext();
+        // Move that ADOdb pointer!
+        $result->MoveNext();
     }
     // Close result set
     $result->Close();
-  }
+}
 
 
- /**
-  * Construct a category path to the product
-  *
-  * @param $products_id
-  * @return string
-  */
-  function oos_get_product_path($products_id) {
+/**
+ * Construct a category path to the product
+ *
+ * @param $products_id
+ * @return string
+ */
+function oos_get_product_path($products_id)
+{
 
     $sCategoryPath = '';
 
@@ -959,126 +984,128 @@
     $cat_count_data = $dbconn->Execute($query);
 
     if ($cat_count_data->fields['total'] > 0) {
-      $categories = array();
-      $products_to_categoriestable = $oostable['products_to_categories'];
-      $query = "SELECT categories_id
-                FROM $products_to_categoriestable
-                WHERE products_id = '" . intval($products_id) . "'";
-      $cat_id_sql = $dbconn->Execute($query);
-      $cat_id_data = $cat_id_sql->fields;
+        $categories = array();
+        $products_to_categoriestable = $oostable['products_to_categories'];
+        $query = "SELECT categories_id
+                  FROM $products_to_categoriestable
+                  WHERE products_id = '" . intval($products_id) . "'";
+        $cat_id_sql = $dbconn->Execute($query);
+        $cat_id_data = $cat_id_sql->fields;
 
-      oos_get_parent_categories($categories, $cat_id_data['categories_id']);
+        oos_get_parent_categories($categories, $cat_id_data['categories_id']);
 
-      $size = count($categories)-1;
-      for ($i = $size; $i >= 0; $i--) {
+        $size = count($categories)-1;
+        for ($i = $size; $i >= 0; $i--) {
+            if ($sCategoryPath != '') $sCategoryPath .= '_';
+            $sCategoryPath .= $categories[$i];
+        }
         if ($sCategoryPath != '') $sCategoryPath .= '_';
-        $sCategoryPath .= $categories[$i];
-      }
-      if ($sCategoryPath != '') $sCategoryPath .= '_';
-      $sCategoryPath .= $cat_id_data['categories_id'];
+        $sCategoryPath .= $cat_id_data['categories_id'];
     }
 
     return $sCategoryPath;
-  }
+}
 
 
 
 
 
- /**
-  * Return string (without trailing &  &amp;)
-  *
-  * @param $sParameters
-  * @return string
-  */
-  function oos_remove_trailing($sParameters) {
+/**
+ * Return string (without trailing &  &amp;)
+ *
+ * @param $sParameters
+ * @return string
+ */
+function oos_remove_trailing($sParameters) {
     if (substr($sParameters, -5) == '&amp;') $sParameters = substr($sParameters, 0, -5);
     if (substr($sParameters, -1) == '&') $sParameters = substr($sParameters, 0, -1);
 
     return $sParameters;
-  }
+}
 
 
- /**
-  * Return a product ID with attributes
-  *
-  * @param $prid
-  * @param $parameters
-  * @return string
-  */
-  function oos_get_uprid($prid, $parameters) {
+/**
+ * Return a product ID with attributes
+ *
+ * @param $prid
+ * @param $parameters
+ * @return string
+ */
+function oos_get_uprid($prid, $parameters)
+{
     if (is_numeric($prid)) {
-      $uprid = $prid;
+        $uprid = $prid;
 
-      if (is_array($parameters) && (count($parameters) > 0)) {
-        $attributes_check = true;
-        $attributes_ids = '';
+        if (is_array($parameters) && (count($parameters) > 0)) {
+            $attributes_check = true;
+            $attributes_ids = '';
 
-        foreach ($parameters as $option => $sValue) {
-          if (is_numeric($option) && is_numeric($sValue)) {
-            $attributes_ids .= '{' . intval($option) . '}' . intval($sValue);
-          } elseif (strstr($option, TEXT_PREFIX)) {
-            $text_option = substr($option, strlen(TEXT_PREFIX));
-            $sLen = strlen($sValue);
-            $attributes_ids .= '{' . intval($text_option) . '}' . intval($sLen);
-          } elseif (strstr($option, TEXTAREA_PREFIX)) {
-            $text_option = substr($option, strlen(TEXTAREA_PREFIX));
-            $sLen = strlen($sValue);
-            $attributes_ids .= '{' . intval($text_option) . '}' . intval($sLen);
-          } elseif (strstr($option, UPLOAD_PREFIX)) {
-            $text_option = substr($option, strlen(UPLOAD_PREFIX));
-            $sLen = strlen($sValue);
-            $attributes_ids .= '{' . intval($text_option) . '}' . intval($sLen);
-          }
-        }
-
-        if ($attributes_check == true) {
-          $uprid .= $attributes_ids;
-        }
-      }
-    } else {
-      $uprid = oos_get_product_id($prid);
-
-      if (is_numeric($uprid)) {
-        if (strpos($prid, '{') !== false) {
-          $attributes_check = true;
-          $attributes_ids = '';
-
-          // strpos()+1 to remove up to and including the first { which would create an empty array element in explode()
-          $attributes = explode('{', substr($prid, strpos($prid, '{')+1));
-
-          $nAttributes = count($attributes);
-          for ($i=0, $n=$nAttributes; $i<$n; $i++) {
-            $pair = explode('}', $attributes[$i]);
-
-            if (is_numeric($pair[0]) && is_numeric($pair[1])) {
-              $attributes_ids .= '{' . intval($pair[0]) . '}' . intval($pair[1]);
-            } else {
-              $attributes_check = false;
-              break;
+            foreach ($parameters as $option => $sValue) {
+                if (is_numeric($option) && is_numeric($sValue)) {
+                    $attributes_ids .= '{' . intval($option) . '}' . intval($sValue);
+                } elseif (strstr($option, TEXT_PREFIX)) {
+                    $text_option = substr($option, strlen(TEXT_PREFIX));
+                    $sLen = strlen($sValue);
+                    $attributes_ids .= '{' . intval($text_option) . '}' . intval($sLen);
+                } elseif (strstr($option, TEXTAREA_PREFIX)) {
+                    $text_option = substr($option, strlen(TEXTAREA_PREFIX));
+                    $sLen = strlen($sValue);
+                    $attributes_ids .= '{' . intval($text_option) . '}' . intval($sLen);
+                } elseif (strstr($option, UPLOAD_PREFIX)) {
+                    $text_option = substr($option, strlen(UPLOAD_PREFIX));
+                    $sLen = strlen($sValue);
+                    $attributes_ids .= '{' . intval($text_option) . '}' . intval($sLen);
+                }
             }
-          }
 
-          if ($attributes_check == true) {
-            $uprid .= $attributes_ids;
-          }
+            if ($attributes_check == true) {
+                $uprid .= $attributes_ids;
+            }
         }
-      } else {
-        return false;
-      }
+    } else {
+        $uprid = oos_get_product_id($prid);
+
+        if (is_numeric($uprid)) {
+            if (strpos($prid, '{') !== false) {
+                $attributes_check = true;
+                $attributes_ids = '';
+
+                // strpos()+1 to remove up to and including the first { which would create an empty array element in explode()
+                $attributes = explode('{', substr($prid, strpos($prid, '{')+1));
+
+                $nAttributes = count($attributes);
+                for ($i=0, $n=$nAttributes; $i<$n; $i++) {
+                    $pair = explode('}', $attributes[$i]);
+
+                    if (is_numeric($pair[0]) && is_numeric($pair[1])) {
+                        $attributes_ids .= '{' . intval($pair[0]) . '}' . intval($pair[1]);
+                    } else {
+                        $attributes_check = false;
+                        break;
+                    }
+                }
+
+                if ($attributes_check == true) {
+                    $uprid .= $attributes_ids;
+                }
+            }
+        } else {
+            return false;
+        }
     }
 
     return $uprid;
-  }
+}
 
 
- /**
-  * Check if product has attributes
-  *
-  * @param $products_id
-  * @return boolean
-  */
-  function oos_has_product_attributes($products_id) {
+/**
+ * Check if product has attributes
+ *
+ * @param $products_id
+ * @return boolean
+ */
+function oos_has_product_attributes($products_id)
+{
 
     $products_id = oos_get_product_id($products_id);
 
@@ -1092,14 +1119,15 @@
               WHERE products_id = '" . intval($products_id) . "'";
     $attributes = $dbconn->Execute($query);
     if ($attributes->fields['total'] > 0) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
-  }
+}
 
 
-  function oos_count_modules($modules = '') {
+function oos_count_modules($modules = '')
+{
 
     $nCount = 0;
 
@@ -1109,82 +1137,89 @@
 
     $nArrayCountModules = count($aModules);
     for ($i=0, $n=$nArrayCountModules; $i<$n; $i++) {
-      $class = substr($aModules[$i], 0, strrpos($aModules[$i], '.'));
+        $class = substr($aModules[$i], 0, strrpos($aModules[$i], '.'));
 
-      if (is_object($GLOBALS[$class])) {
-        if ($GLOBALS[$class]->enabled) {
-          $nCount++;
+        if (is_object($GLOBALS[$class])) {
+            if ($GLOBALS[$class]->enabled) {
+                $nCount++;
+            }
         }
-      }
     }
 
     return $nCount;
-  }
+}
 
-  function oos_count_payment_modules() {
+function oos_count_payment_modules()
+{
     return oos_count_modules($_SESSION['member']->group['payment']);
-  }
+}
 
-  function oos_count_shipping_modules() {
+function oos_count_shipping_modules()
+{
     return oos_count_modules(MODULE_SHIPPING_INSTALLED);
-  }
+}
 
 
 
-  function oos_output_string($sStr, $bTranslate = false, $bProtected = false) {
+function oos_output_string($sStr, $bTranslate = false, $bProtected = false)
+{
     if ($bProtected == true) {
-      return htmlspecialchars($sStr);
+        return htmlspecialchars($sStr);
     } else {
-      if ($bTranslate == false) {
-        return oos_parse_input_field_data($sStr, array('"' => '&quot;'));
-      } else {
-        return oos_parse_input_field_data($sStr, $bTranslate);
-      }
+        if ($bTranslate == false) {
+            return oos_parse_input_field_data($sStr, array('"' => '&quot;'));
+        } else {
+            return oos_parse_input_field_data($sStr, $bTranslate);
+        }
     }
-  }
+}
 
- /**
-  * Parse the data used in the html tags to ensure the tags will not break
-  *
-  * @param $data
-  * @param $parse
-  * @return string
-  */
-  function oos_parse_input_field_data($data, $parse) {
+/**
+ * Parse the data used in the html tags to ensure the tags will not break
+ *
+ * @param $data
+ * @param $parse
+ * @return string
+ */
+function oos_parse_input_field_data($data, $parse)
+{
     return strtr(trim($data), $parse);
-  }
+}
 
 
- /**
-  * Strip forbidden tags
-  *
-  * @param string
-  * @return string
-  */
-  function oos_remove_tags($source) {
+/**
+ * Strip forbidden tags
+ *
+ * @param string
+ * @return string
+ */
+function oos_remove_tags($source)
+{
 
     $allowedTags = '<h1><b><i><a><ul><li><pre><hr><br><blockquote>';
     $source = strip_tags($source, $allowedTags);
 
     return $source;
-  }
+}
 
 
- /**
-  * Replace international chars
-  *
-  * @param string
-  * @return string
-  */
-  function oos_replace_chars ($sStr) {
+/**
+ * Replace international chars
+ *
+ * @param string
+ * @return string
+ */
+function oos_replace_chars ($sStr)
+{
     return oos_make_filename($sStr);
-  }
+}
 
 
- /**
-  * Checks to see if the currency code exists as a currency
-  */
-  function oos_currency_exits($code) {
+/**
+ * Checks to see if the currency code exists as a currency
+ */
+function oos_currency_exits($code)
+{
 
     // Get database information
     $dbconn =& oosDBGetConn();
@@ -1197,72 +1232,76 @@
     $result =& $dbconn->Execute($query);
 
     if ($result->RecordCount() > 0) {
-      return $code;
+        return $code;
     } else {
-      return false;
+        return false;
     }
-  }
+}
 
 
- /**
-  * Checks to see if the tempalte exists
-  */
-  function oos_template_exits($sStr) {
+/**
+ * Checks to see if the tempalte exists
+ */
+function oos_template_exits($sStr)
+{
 
     $sDir = OOS_TEMP_PATH;
     if (substr($sDir, -1) != "/") {
-      $sDir = $sDir."/";
+        $sDir = $sDir."/";
     }
 
     $sDir .= 'shop/';
 
     if (is_readable($sDir . 'templates/' . oos_var_prep_for_os($sStr) . '/theme.html')) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
-  }
+}
 
 
- /**
-  * Return secure string
-  *
-  * @param $sStr
-  * @return string
-  */
-  function oos_string_to_int($sStr) {
+/**
+ * Return secure string
+ *
+ * @param $sStr
+ * @return string
+ */
+function oos_string_to_int($sStr)
+{
     return intval($sStr);
-  }
+}
 
 
- /**
-  * Return $aFilename
-  */
-  function oos_get_filename() {
+/**
+ * Return $aFilename
+ */
+function oos_get_filename()
+{
     GLOBAL $aFilename;
 
     return $aFilename;
-  }
+}
 
 
- /**
-  * Return $aModules
-  */
-  function oos_get_modules() {
+/**
+ * Return $aModules
+ */
+function oos_get_modules()
+{
     GLOBAL $aModules;
 
     return $aModules;
-  }
+}
 
 
 
- /**
-  * Parse and secure the categories parameter values
-  *
-  * @param $sCategories
-  * @return array
-  */
-  function oos_parse_category_path($sCategories) {
+/**
+ * Parse and secure the categories parameter values
+ *
+ * @param $sCategories
+ * @return array
+ */
+function oos_parse_category_path($sCategories) {
     // make sure the category IDs are integers
     $aCategoryPath = array_map('oos_string_to_int', explode('_', $sCategories));
 
@@ -1270,24 +1309,25 @@
     $aTmp = array();
     $nArrayCountCategoryPath = count($aCategoryPath);
     for ($i=0, $n=nArrayCountCategoryPath; $i<$n; $i++) {
-      if (!in_array($aCategoryPath[$i], $aTmp)) {
-        $aTmp[] = $aCategoryPath[$i];
-      }
+        if (!in_array($aCategoryPath[$i], $aTmp)) {
+            $aTmp[] = $aCategoryPath[$i];
+        }
     }
 
     return $aTmp;
-  }
+}
 
 
 
 
- /**
-  * Return File Extension
-  *
-  * @param $filename
-  * @return string
-  */
-  function oos_get_extension($filename) {
+/**
+ * Return File Extension
+ *
+ * @param $filename
+ * @return string
+ */
+function oos_get_extension($filename)
+{
 
     $filename  = strtolower($filename);
     $extension = split("[/\\.]", $filename);
@@ -1295,27 +1335,29 @@
     $extension = $extension[$n];
 
     return $extension;
-  }
+}
 
 
- /**
-  * Strip non-alpha & non-numeric except ._-:
-  *
-  * @param $sStr
-  * @return string
-  */
-  function oos_strip_all ($sStr) {
+/**
+ * Strip non-alpha & non-numeric except ._-:
+ *
+ * @param $sStr
+ * @return string
+ */
+function oos_strip_all ($sStr)
+{
     $sStr =& trim($sStr);
     $sStr =& strtolower($sStr);
 
     return ereg_replace("[^[:alnum:]._-]", "", $sStr);
-  }
+}
 
 
-  /**
-   * Mail function (uses phpMailer)
-   */
-  function oos_mail($to_name, $to_email_address, $email_subject, $email_text, $from_email_name, $from_email_address, $add_attachment = false) {
+/**
+  * Mail function (uses phpMailer)
+ */
+function oos_mail($to_name, $to_email_address, $email_subject, $email_text, $from_email_name, $from_email_address, $add_attachment = false)
+{
 
     global $oEvent;
 
@@ -1350,17 +1392,18 @@
 
     // Add smtp values if needed
     if ( EMAIL_TRANSPORT == 'smtp' ) {
-      $mail->IsSMTP(); // set mailer to use SMTP
-      $mail->SMTPAuth = OOS_SMTPAUTH; // turn on SMTP authentication
-      $mail->Username = OOS_SMTPUSER; // SMTP username
-      $mail->Password = OOS_SMTPPASS; // SMTP password
-      $mail->Host     = OOS_SMTPHOST; // specify main and backup server
+        $mail->IsSMTP(); // set mailer to use SMTP
+        $mail->SMTPAuth = OOS_SMTPAUTH; // turn on SMTP authentication
+        $mail->Username = OOS_SMTPUSER; // SMTP username
+        $mail->Password = OOS_SMTPPASS; // SMTP password
+        $mail->Host     = OOS_SMTPHOST; // specify main and backup server
     } else
-      // Set sendmail path
-      if ( EMAIL_TRANSPORT == 'sendmail' ) {
-        if (!oos_empty(OOS_SENDMAIL)) {
-          $mail->Sendmail = OOS_SENDMAIL;
-          $mail->IsSendmail();
+        // Set sendmail path
+        if ( EMAIL_TRANSPORT == 'sendmail' ) {
+            if (!oos_empty(OOS_SENDMAIL)) {
+               $mail->Sendmail = OOS_SENDMAIL;
+               $mail->IsSendmail();
+             }
         }
     }
 
@@ -1372,43 +1415,42 @@
     // Build the text version
     $text = strip_tags($email_text);
     if (EMAIL_USE_HTML == '1') {
-      $mail->IsHTML(true);
-      $mail->Body = $email_text;
-      $mail->AltBody = $text;
+        $mail->IsHTML(true);
+        $mail->Body = $email_text;
+        $mail->AltBody = $text;
     } else {
-      $mail->Body = $text;
+        $mail->Body = $text;
     }
 
     if ($add_attachment === true) {
 
-      // Get database information
-      $dbconn =& oosDBGetConn();
-      $oostable =& oosDBGetTables();
+        // Get database information
+        $dbconn =& oosDBGetConn();
+        $oostable =& oosDBGetTables();
 
-      $files_uploadedtable = $oostable['files_uploaded'];
-      $query = "SELECT files_uploaded_id, files_uploaded_name
-                FROM $files_uploadedtable
-                WHERE sesskey = '" . oos_session_id() . "'";
-      $files_uploaded_result = $dbconn->Execute($query);
+        $files_uploadedtable = $oostable['files_uploaded'];
+        $query = "SELECT files_uploaded_id, files_uploaded_name
+                  FROM $files_uploadedtable
+                  WHERE sesskey = '" . oos_session_id() . "'";
+        $files_uploaded_result = $dbconn->Execute($query);
 
-      if ($files_uploaded_result->RecordCount() > 0) {
-        while ($files_uploaded = $files_uploaded_result->fields)
-        {
+        if ($files_uploaded_result->RecordCount() > 0) {
+            while ($files_uploaded = $files_uploaded_result->fields)
+            {
 
-          $sDir = OOS_UPLOADS;
-          if (substr($sDir, -1) != '/') $sDir .= '/';
-          $sFile = $sDir. $files_uploaded['files_uploaded_id'] . $files_uploaded['files_uploaded_name'];
-          $mail->AddAttachment($sFile, $files_uploaded['files_uploaded_name']);
+                $sDir = OOS_UPLOADS;
+                if (substr($sDir, -1) != '/') $sDir .= '/';
+                $sFile = $sDir. $files_uploaded['files_uploaded_id'] . $files_uploaded['files_uploaded_name'];
+                $mail->AddAttachment($sFile, $files_uploaded['files_uploaded_name']);
 
-          // Move that ADOdb pointer!
-          $files_uploaded_result->MoveNext();
+                // Move that ADOdb pointer!
+               $files_uploaded_result->MoveNext();
+            }
         }
-      }
     }
 
 
     // Send message
     $mail->Send();
-  }
-
+}
 
