@@ -60,7 +60,7 @@
 define('HTML_PARAMS','dir="ltr" lang="ru"');
 
 // charset for web pages and emails
-define('CHARSET', 'windows-1251');
+define('CHARSET', 'UTF-8');
 
 // page title
 define('TITLE', 'OSIS Online Shop');
@@ -472,4 +472,3 @@ define('ORDERS_STATUS_UPDATED_VALUE','4'); // set to the Updated status to updat
 require('includes/languages/' . $_SESSION['language'] . '/quantity_control.php');
 require('includes/languages/' . $_SESSION['language'] . '/mo_pics.php');
 
-?>

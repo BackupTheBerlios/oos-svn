@@ -60,7 +60,7 @@
 define('HTML_PARAMS','dir="ltr" lang="nl"');
 
 // charset for web pages and emails
-define('CHARSET', 'iso-8859-1');
+define('CHARSET', 'UTF-8');
 
 // page title
 define('TITLE', 'Bos Ruitersport Webwinkel');
@@ -471,4 +471,3 @@ define('ORDERS_STATUS_UPDATED_VALUE','4'); // set to the Updated status to updat
 require('includes/languages/' . $_SESSION['language'] . '/quantity_control.php');
 require('includes/languages/' . $_SESSION['language'] . '/mo_pics.php');
 
-?>

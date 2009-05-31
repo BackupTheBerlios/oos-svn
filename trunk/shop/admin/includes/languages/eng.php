@@ -60,7 +60,7 @@
 define('HTML_PARAMS','dir="ltr" lang="en"');
 
 // charset for web pages and emails
-define('CHARSET', 'iso-8859-1');
+define('CHARSET', 'UTF-8');
 
 // page title
 define('TITLE', 'OSIS Online Shop');
