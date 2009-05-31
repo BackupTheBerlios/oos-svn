@@ -27,7 +27,7 @@
   $heading[] = array('text'  => BOX_HEADING_EXPORT,
                      'link'  => oos_href_link_admin(basename($_SERVER['PHP_SELF']), oos_get_all_get_params(array('selected_box')) . 'selected_box=export'));
 
-  if ($_SESSION['selected_box'] == 'export' || $menu_dhtml == true) {
+  if ($_SESSION['selected_box'] == 'export') {
     $contents[] = array('text'  => oos_admin_files_boxes('export_stampit', BOX_CUSTOMERS_EXPORT_STAMPIT) .
                                    oos_admin_files_boxes('export_googlebase', BOX_EXPORT_GOOGLEBASE) .
                                    oos_admin_files_boxes('export_kelkoo', BOX_EXPORT_KELKOO) .

@@ -121,9 +121,6 @@ require '../includes/core/classes/core_api_class.php';
   $dbconn =& oosDBGetConn();
   oosDB_importTables($oostable);
 
-// customization for the design layout
-  define('MENU_DHTML', false);
-  (MENU_DHTML == true) ? define('BOX_WIDTH', 0) : define('BOX_WIDTH', 125);
 
 // Define how do we update currency exchange rates
 // Possible values are 'oanda' 'xe' or ''

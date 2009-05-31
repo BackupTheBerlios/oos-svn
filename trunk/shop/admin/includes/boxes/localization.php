@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: localization.php,v 1.15 2002/03/16 00:20:11 hpdl 
+   File: localization.php,v 1.15 2002/03/16 00:20:11 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -29,7 +29,7 @@
   $heading[] = array('text'  => BOX_HEADING_LOCALIZATION,
                      'link'  => oos_href_link_admin(basename($_SERVER['PHP_SELF']), oos_get_all_get_params(array('selected_box')) . 'selected_box=localization'));
 
-  if ($_SESSION['selected_box'] == 'localization' || $menu_dhtml == true) {
+  if ($_SESSION['selected_box'] == 'localization') {
     $contents[] = array('text'  => oos_admin_files_boxes('currencies', BOX_LOCALIZATION_CURRENCIES) .
                                    oos_admin_files_boxes('languages', BOX_LOCALIZATION_LANGUAGES));
   }

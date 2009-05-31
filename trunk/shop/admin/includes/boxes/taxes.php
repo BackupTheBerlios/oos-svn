@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -29,7 +29,7 @@
   $heading[] = array('text'  => BOX_HEADING_LOCATION_AND_TAXES,
                      'link'  => oos_href_link_admin(basename($_SERVER['PHP_SELF']), oos_get_all_get_params(array('selected_box')) . 'selected_box=taxes'));
 
-  if ($_SESSION['selected_box'] == 'taxes' || $menu_dhtml == true) {
+  if ($_SESSION['selected_box'] == 'taxes') {
     $contents[] = array('text'  => oos_admin_files_boxes('countries', BOX_TAXES_COUNTRIES) .
                                    oos_admin_files_boxes('zones', BOX_TAXES_ZONES) .
                                    oos_admin_files_boxes('geo_zones', BOX_TAXES_GEO_ZONES) .

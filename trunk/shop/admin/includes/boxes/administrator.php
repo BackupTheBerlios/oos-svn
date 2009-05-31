@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -29,7 +29,7 @@
   $heading[] = array('text'  => BOX_HEADING_ADMINISTRATOR,
                      'link'  => oos_href_link_admin(basename($_SERVER['PHP_SELF']), oos_get_all_get_params(array('selected_box')) . 'selected_box=administrator'));
 
-  if ($_SESSION['selected_box'] == 'administrator' || $menu_dhtml == true) {
+  if ($_SESSION['selected_box'] == 'administrator') {
     $contents[] = array('text'  => oos_admin_files_boxes('admin_members', BOX_ADMINISTRATOR_MEMBERS) .
                                    oos_admin_files_boxes('admin_files', BOX_ADMINISTRATOR_BOXES));
   }

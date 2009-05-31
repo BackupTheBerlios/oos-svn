@@ -29,7 +29,7 @@
   $heading[] = array('text'  => BOX_HEADING_CATALOG,
                      'link'  => oos_href_link_admin(basename($_SERVER['PHP_SELF']), oos_get_all_get_params(array('selected_box')) . 'selected_box=catalog'));
 
-  if ($_SESSION['selected_box'] == 'catalog' || $menu_dhtml == true) {
+  if ($_SESSION['selected_box'] == 'catalog') {
     $contents[] = array('text'  => oos_admin_files_boxes('categories', BOX_CATALOG_CATEGORIES_PRODUCTS));
 
     if (MULTIPLE_CATEGORIES_USE == '1') {

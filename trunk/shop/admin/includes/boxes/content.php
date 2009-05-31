@@ -27,7 +27,7 @@
   $heading[] = array('text'  => BOX_HEADING_CONTENT,
                      'link'  => oos_href_link_admin(basename($_SERVER['PHP_SELF']), oos_get_all_get_params(array('selected_box')) . 'selected_box=content'));
 
-  if ($_SESSION['selected_box'] == 'content' || $menu_dhtml == true) {
+  if ($_SESSION['selected_box'] == 'content') {
     $contents[] = array('text'  => oos_admin_files_boxes('content_block', BOX_CONTENT_BLOCK) .
                                    oos_admin_files_boxes('content_page_type', BOX_CONTENT_PAGE_TYPE));
   }

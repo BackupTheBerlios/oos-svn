@@ -27,7 +27,7 @@
       "http://www.w3.org/TR/html4/strict.dtd">
 <html <?php echo HTML_PARAMS; ?>>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset="<?php echo CHARSET; ?>>
+  <meta http-equiv="Content-Type" content="text/html; charset="<?php echo CHARSET; ?>">
   <title><?php echo TITLE; ?></title>
   <meta http-equiv="expires" content="0" >
 

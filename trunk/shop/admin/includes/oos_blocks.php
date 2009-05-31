@@ -19,64 +19,61 @@
    Released under the GNU General Public License
    ----------------------------------------------------------------------  */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-
-  if (MENU_DHTML == true) return false;
-
-  if (oos_admin_check_boxes('administrator.php') == true) {
+if (oos_admin_check_boxes('administrator.php') == true) {
     include 'includes/boxes/administrator.php';
-  }
-  if (oos_admin_check_boxes('configuration.php') == true) {
+}
+
+if (oos_admin_check_boxes('configuration.php') == true) {
     include 'includes/boxes/configuration.php';
-  }
-  if (oos_admin_check_boxes('catalog.php') == true) {
+}
+if (oos_admin_check_boxes('catalog.php') == true) {
     include 'includes/boxes/catalog.php';
-  }
-  if (oos_admin_check_boxes('content.php') == true) {
+}
+if (oos_admin_check_boxes('content.php') == true) {
     include 'includes/boxes/content.php';
-  }
-  if (oos_admin_check_boxes('newsfeed.php') == true) {
+}
+if (oos_admin_check_boxes('newsfeed.php') == true) {
     include 'includes/boxes/newsfeed.php';
-  }
-  if (oos_admin_check_boxes('modules.php') == true) {
+}
+if (oos_admin_check_boxes('modules.php') == true) {
     include 'includes/boxes/modules.php';
-  }
-  if (oos_admin_check_boxes('plugins.php') == true) {
+}
+if (oos_admin_check_boxes('plugins.php') == true) {
     include 'includes/boxes/plugins.php';
-  }
-  if (oos_admin_check_boxes('customers.php') == true) {
+}
+if (oos_admin_check_boxes('customers.php') == true) {
     include 'includes/boxes/customers.php';
-  }
-  if (oos_admin_check_boxes('ticket.php') == true) {
+}
+if (oos_admin_check_boxes('ticket.php') == true) {
     include 'includes/boxes/ticket.php';
-  }
-  if (oos_admin_check_boxes('taxes.php') == true) {
+}
+if (oos_admin_check_boxes('taxes.php') == true) {
     include 'includes/boxes/taxes.php';
-  }
-  if (oos_admin_check_boxes('localization.php') == true) {
+}
+if (oos_admin_check_boxes('localization.php') == true) {
     include 'includes/boxes/localization.php';
-  }
+}
 
-  if (oos_admin_check_boxes('reports.php') == true) {
+if (oos_admin_check_boxes('reports.php') == true) {
     include 'includes/boxes/reports.php';
-  }
-  if (oos_admin_check_boxes('tools.php') == true) {
+}
+if (oos_admin_check_boxes('tools.php') == true) {
     include 'includes/boxes/tools.php';
-  }
+}
 
-  if (oos_admin_check_boxes('gv_admin.php') == true) {
+if (oos_admin_check_boxes('gv_admin.php') == true) {
     include 'includes/boxes/gv_admin.php';
-  }
-  if ( (oos_admin_check_boxes('rss_admin.php') == true)  && (DISPLAY_NEWSFEED == '1') ) {
+}
+if ( (oos_admin_check_boxes('rss_admin.php') == true)  && (DISPLAY_NEWSFEED == '1') ) {
     include 'includes/boxes/rss_admin.php';
-  }
-  if (oos_admin_check_boxes('export.php') == true) {
+}
+if (oos_admin_check_boxes('export.php') == true) {
     include 'includes/boxes/export.php';
-  }
-  if (oos_admin_check_boxes('information.php') == true) {
+}
+if (oos_admin_check_boxes('information.php') == true) {
     include 'includes/boxes/information.php';
-  }
+}
 
-?>

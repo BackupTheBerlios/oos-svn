@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: ticket.php,v 1.5 2003/04/25 21:37:11 hook 
+   File: ticket.php,v 1.5 2003/04/25 21:37:11 hook
    ----------------------------------------------------------------------
    OSC-SupportTicketSystem
    Copyright (c) 2003 Henri Schmidhuber IN-Solution
@@ -34,7 +34,7 @@
   $heading[] = array('text'  => BOX_HEADING_TICKET,
                      'link'  => oos_href_link_admin(basename($_SERVER['PHP_SELF']), oos_get_all_get_params(array('selected_box')) . 'selected_box=ticket'));
 
-  if ($_SESSION['selected_box'] == 'ticket' || $menu_dhtml == true) {
+  if ($_SESSION['selected_box'] == 'ticket') {
     $contents[] = array('text'  => oos_admin_files_boxes('ticket_view', BOX_TICKET_VIEW) .
                                    oos_admin_files_boxes('ticket_reply', BOX_TEXT_REPLY) .
                                    oos_admin_files_boxes('ticket_admin', BOX_TEXT_ADMIN) .

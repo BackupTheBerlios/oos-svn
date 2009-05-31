@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: tools.php,v 1.20 2002/03/16 00:20:11 hpdl 
+   File: tools.php,v 1.20 2002/03/16 00:20:11 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -29,7 +29,7 @@
   $heading[] = array('text'  => BOX_HEADING_TOOLS,
                      'link'  => oos_href_link_admin(basename($_SERVER['PHP_SELF']), oos_get_all_get_params(array('selected_box')) . 'selected_box=tools'));
 
-  if ($_SESSION['selected_box'] == 'tools' || $menu_dhtml == true) {
+  if ($_SESSION['selected_box'] == 'tools') {
     $contents[] = array('text'  => '<a href="' . OOS_HTTP_SERVER . OOS_SHOP . 'administrator/mysqldumper/index.php' . '" class="menuBoxContentLink">' . BOX_TOOLS_BACKUP . '</a><br />' .
                                    oos_admin_files_boxes('box_content', BOX_TOOLS_CONTENT) .
                                    oos_admin_files_boxes('banner_manager', BOX_TOOLS_BANNER_MANAGER) .
