@@ -64,7 +64,7 @@ define('HTML_PARAMS','dir="LTR" lang="nl"');
 define('XML_PARAMS','xml:lang="nl" lang="nl"');
 
 // charset for web pages and emails
-define('CHARSET', 'iso-8859-15');
+define('CHARSET', 'UTF-8');
 
 //text in oos_temp/templates/oos/system/user_navigation.html
 $aLang['header_title_create_account'] = 'Nieuwe rekening';
@@ -466,4 +466,4 @@ $aLang['price_from'] = 'from';
 $aLang['price_info'] = 'Alle Preise pro St&uuml;ck in &euro; inkl. der gesetzlichen Mehrwertsteuer, zzgl. <a href="' . oos_href_link($aModules['info'], $aFilename['information'], 'information_id=1') . '">Versandkostenpauschale</a>.';
 $aLang['support_info'] = 'Haben Sie noch Fragen? Sie erreichen uns &uuml;ber unser <a href="' . oos_href_link($aModules['ticket'], $aFilename['ticket_create']) . '">Kontaktformular</a>.';
 
-?>
+

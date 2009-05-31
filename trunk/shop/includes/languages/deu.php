@@ -64,7 +64,7 @@ define('HTML_PARAMS','dir="LTR" lang="de"');
 define('XML_PARAMS','xml:lang="de" lang="de"');
 
 // charset for web pages and emails
-define('CHARSET', 'iso-8859-15');
+define('CHARSET', 'UTF-8');
 
 //text in oos_temp/templates/oos/system/user_navigation.html
 $aLang['header_title_create_account'] = 'Neues Konto';

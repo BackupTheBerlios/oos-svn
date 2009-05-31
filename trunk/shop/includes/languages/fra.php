@@ -64,7 +64,7 @@ define('HTML_PARAMS','dir="LTR" lang="fr"');
 define('XML_PARAMS','xml:lang="fr" lang="fr"');
 
 // charset for web pages and emails
-define('CHARSET', 'iso-8859-15');
+define('CHARSET', 'UTF-8');
 
 //text in oos_temp/templates/oos/system/user_navigation.html
 $aLang['header_title_create_account'] = 'Nouveau compte';
@@ -458,4 +458,4 @@ $aLang['price_from'] = 'from';
 $aLang['price_info'] = 'Tous les prix par pièce en CHF ; T.V.A obligatoire incluse, plus <a href="' . oos_href_link($aModules['info'], $aFilename['information'], 'Information_id=1') . '">Frais </a> d\'expédition forfaitaires d\'uniquement 3.95... par commande.';
 $aLang['support_info'] = 'Avez-vous encore des questions? Vous pouvez nous joindre par notre <a href="' . oos_href_link($aModules['ticket'], $aFilename['ticket_create']) . '">formulaire de contact</a>.';
 
-?>
+
