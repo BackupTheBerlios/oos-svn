@@ -128,10 +128,13 @@ $aKeys = array('affiliate',
 $db->Execute("DELETE FROM " . $table . " WHERE block_file in ('" . implode("', '", $aKeys) . "')");
 
 
+// products_edit_attributes.php
+$result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('products_edit_attributes', 0, 3, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
 
 // export_stampit.php
 $result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('export_stampit', 0, 6, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
 
+// export_kelkoo.php
 $result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('export_kelkoo', 0, 18, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
 
 echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $prefix_table . "admin_files " . UPDATED .'</font>';

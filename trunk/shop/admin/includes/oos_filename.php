@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: application_top.php,v 1.155 2003/02/17 16:54:11 hpdl 
+   File: application_top.php,v 1.155 2003/02/17 16:54:11 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -81,8 +81,8 @@
   $aFilename['modules'] = $prefix_filename . 'modules.php';
   $aFilename['newsletters'] = $prefix_filename . 'newsletters.php';
   $aFilename['newsfeed_manager'] = $prefix_filename . 'newsfeed_manager.php';
-  $aFilename['newsfeed_categories'] = $prefix_filename . 'newsfeed_categories.php'; 
-  $aFilename['newsfeed_view'] = $prefix_filename . 'popup_newsfeed_view.php'; 
+  $aFilename['newsfeed_categories'] = $prefix_filename . 'newsfeed_categories.php';
+  $aFilename['newsfeed_view'] = $prefix_filename . 'popup_newsfeed_view.php';
   $aFilename['orders'] = $prefix_filename . 'orders.php';
   $aFilename['orders_status'] = $prefix_filename . 'orders_status.php';
   $aFilename['packingslip'] = $prefix_filename . 'packingslip.php';
@@ -97,6 +97,7 @@
   $aFilename['products'] = $prefix_filename . 'products.php';
   $aFilename['products_attributes'] = $prefix_filename . 'products_attributes.php';
   $aFilename['products_attributes_add'] = $prefix_filename . 'products_attributes_add.php';
+  $aFilename['products_edit_attributes'] = $prefix_filename . 'products_edit_attributes.php';
   $aFilename['products_expected'] = $prefix_filename . 'products_expected.php';
   $aFilename['products_status'] = $prefix_filename . 'products_status.php';
   $aFilename['products_units'] = $prefix_filename . 'products_units.php';
