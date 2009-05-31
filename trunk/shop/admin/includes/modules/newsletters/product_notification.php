@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -281,7 +281,6 @@ function selectAll(FormName, SelectBox) {
       }
 
       $newsletter_id = oos_db_prepare_input($newsletter_id);
-      $dbconn->Execute("UPDATE " . $oostable['newsletters'] . " SET date_sent = now(), status = '1' WHERE newsletters_id = '" . oos_db_input($newsletter_id) . "'");
+      $dbconn->Execute("UPDATE " . $oostable['newsletters'] . " SET date_sent = '" . date("Y-m-d H:i:s", time()) . "', status = '1' WHERE newsletters_id = '" . oos_db_input($newsletter_id) . "'");
     }
   }
-?>

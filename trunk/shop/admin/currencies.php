@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: currencies.php,v 1.45 2002/11/18 20:50:50 dgw_ 
+   File: currencies.php,v 1.45 2002/11/18 20:50:50 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -83,7 +83,7 @@
             $rate = $quote_function($currency['code']);
           }
           if (oos_is_not_null($rate)) {
-            $dbconn->Execute("UPDATE " . $oostable['currencies'] . " SET value = '" . $rate . "', last_updated = now() WHERE currencies_id = '" . $currency['currencies_id'] . "'");
+            $dbconn->Execute("UPDATE " . $oostable['currencies'] . " SET value = '" . $rate . "', last_updated = '" . date("Y-m-d H:i:s", time()) . "' WHERE currencies_id = '" . $currency['currencies_id'] . "'");
           }
           // Move that ADOdb pointer!
           $currency_result->MoveNext();
@@ -134,9 +134,9 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $currency_result_raw = "SELECT currencies_id, title, code, symbol_left, symbol_right, decimal_point, 
-                                 thousands_point, decimal_places, last_updated, value 
-                          FROM " . $oostable['currencies'] . " 
+  $currency_result_raw = "SELECT currencies_id, title, code, symbol_left, symbol_right, decimal_point,
+                                 thousands_point, decimal_places, last_updated, value
+                          FROM " . $oostable['currencies'] . "
                           ORDER BY title";
   $currency_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $currency_result_raw, $currency_result_numrows);
   $currency_result = $dbconn->Execute($currency_result_raw);

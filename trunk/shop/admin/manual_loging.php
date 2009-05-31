@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -17,13 +17,13 @@
    Copyright (c) 2002 - 2003 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
-   ---------------------------------------------------------------------- 
+   ----------------------------------------------------------------------
    P&G Shipping Module Version 0.4 12/03/2002
    osCommerce Shipping Management Module
    Copyright (c) 2002  - Oliver Baelde
    http://www.francecontacts.com
    dev@francecontacts.com
-   - eCommerce Solutions development and integration - 
+   - eCommerce Solutions development and integration -
 
    osCommerce, Open Source E-Commerce Solutions
    Copyright (c) 2002 osCommerce
@@ -32,7 +32,7 @@
    IMPORTANT NOTE:
    This script is not part of the official osCommerce distribution
    but an add-on contributed to the osCommerce community. Please
-   read the README and  INSTALL documents that are provided 
+   read the README and  INSTALL documents that are provided
    with this file for further information and installation notes.
 
    LICENSE:
@@ -61,9 +61,9 @@
     $oostable = oosDBGetTables();
 
     if ($status == '1') {
-      return $dbconn->Execute("UPDATE " . $oostable['manual_info'] . " SET status = '1', expires_date = NULL, manual_last_modified = now(), date_status_change =now() WHERE man_info_id = '" . $man_info_id . "'");
+      return $dbconn->Execute("UPDATE " . $oostable['manual_info'] . " SET status = '1', expires_date = NULL, manual_last_modified = '" . date("Y-m-d H:i:s", time()) . "', date_status_change ='" . date("Y-m-d H:i:s", time()) . "' WHERE man_info_id = '" . $man_info_id . "'");
     } elseif ($status == '0') {
-      return $dbconn->Execute("UPDATE " . $oostable['manual_info'] . " SET status = '0', man_key = '', man_key2 = '', manual_last_modified = now() WHERE man_info_id = '" . $man_info_id . "'");
+      return $dbconn->Execute("UPDATE " . $oostable['manual_info'] . " SET status = '0', man_key = '', man_key2 = '', manual_last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE man_info_id = '" . $man_info_id . "'");
     } else {
       return -1;
     }
@@ -79,7 +79,7 @@
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 
@@ -183,12 +183,12 @@
           </tr>
         </table></td>
       </tr>
-<?php   
+<?php
       $login_result = $dbconn->Execute("SELECT man_key, status, defined FROM " . $oostable['manual_info'] . " WHERE status = '0'");
       $login = $login_result->fields;
       require 'includes/modules/spg_shipping/key_generate.php';
       if ($login['status'] != '0') {
-        $email_address = ""; 
+        $email_address = "";
 ?>
        <tr><td width="100%" align="center"><br /><?php echo oos_draw_login_form('login', $oosModules['admin'], $oosCatalogFilename['login_admin'], 'action=login_admin','POST', 'target=_blank'); ?>
           <table border="0" cellspacing="0" cellpadding="2" width="70%">
@@ -222,7 +222,7 @@
            <td class="dataTableContenta" align="center"><?php echo oos_image_swap_submits('login','login_off.gif', IMAGE_LOGIN);  ?></td>
          </tr></form>
         </table></td>
-        </tr> 
+        </tr>
         <tr><td width="100%" align="center"><br />
 <?php
     echo oos_draw_login_form('login', $oosModules['admin'], $oosCatalogFilename['create_account_admin'], 'action=login_admin','POST', 'target=_blank');
@@ -234,7 +234,7 @@
           </tr>
           <tr class="dataTableRow">
             <td class="dataTableContenta" align="left"><?php echo HEADING_CREATE_ORDER_EXPLAIN; ?></td>
-          </tr>     
+          </tr>
            <tr class="dataTableRow">
             <td class="dataTableContenta" align="center"><?php echo oos_image_swap_submits('create_order','create_order_off.gif', IMAGE_CREATE_ORDER); ?></td>
           </tr>

@@ -378,7 +378,7 @@
     $productstable = $oostable['products'];
     $query = "UPDATE $productstable
               SET products_status = '" . intval($status) . "',
-                  products_last_modified = now()
+                  products_last_modified = '" . date("Y-m-d H:i:s", time()) . "'
               WHERE products_id = '" . intval($products_id) . "'";
     $result =& $dbconn->Execute($query);
 

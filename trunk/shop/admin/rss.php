@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -41,14 +41,14 @@
         $sql_data_array = array('newsfeed_type' => $newsfeed_type);
 
         if ($action == 'insert') {
-          $insert_sql_data = array('date_added' => 'now()');
+          $insert_sql_data = array('date_added' => '" . date("Y-m-d H:i:s", time()) . "');
 
           $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
 
           oos_db_perform($oostable['newsfeed'], $sql_data_array);
           $newsfeed_id = $dbconn->Insert_ID();
         } elseif ($action == 'save') {
-          $update_sql_data = array('last_modified' => 'now()');
+          $update_sql_data = array('last_modified' => '" . date("Y-m-d H:i:s", time()) . "');
 
           $sql_data_array = array_merge($sql_data_array, $update_sql_data);
 
@@ -118,7 +118,7 @@
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -151,7 +151,7 @@
                               n.newsfeed_image, n.newsfeed_type, n.date_added, n.last_modified
                        FROM $newsfeedtable n,
                             $newsfeed_infotable ni
-                       WHERE n.newsfeed_id = ni.newsfeed_id 
+                       WHERE n.newsfeed_id = ni.newsfeed_id
                          AND ni.newsfeed_languages_id = '" . intval($_SESSION['language_id']) . "'
                        ORDER BY newsfeed_name";
   $newsfeed_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $newsfeed_sql_raw, $newsfeed_numrows);

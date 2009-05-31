@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -49,7 +49,7 @@
                                   'admin_lastname' => oos_db_prepare_input($_POST['admin_lastname']),
                                   'admin_email_address' => oos_db_prepare_input($_POST['admin_email_address']),
                                   'admin_password' => $crypted_password,
-                                  'admin_created' => 'now()');
+                                  'admin_created' => '" . date("Y-m-d H:i:s", time()) . "');
 
           oos_db_perform($oostable['admin'], $sql_data_array);
           $admin_id = $dbconn->Insert_ID();
@@ -82,7 +82,7 @@
                                   'admin_firstname' => oos_db_prepare_input($_POST['admin_firstname']),
                                   'admin_lastname' => oos_db_prepare_input($_POST['admin_lastname']),
                                   'admin_email_address' => oos_db_prepare_input($_POST['admin_email_address']),
-                                  'admin_modified' => 'now()');
+                                  'admin_modified' => '" . date("Y-m-d H:i:s", time()) . "');
 
           oos_db_perform($oostable['admin'], $sql_data_array, 'update', 'admin_id = \'' . $admin_id . '\'');
 

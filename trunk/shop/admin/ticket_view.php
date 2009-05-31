@@ -110,12 +110,12 @@
                                   'ticket_status_id' => $status,
                                   'ticket_priority_id' => $priority,
                                   'ticket_department_id' => $department,
-                                  'ticket_date_modified' => 'now()',
+                                  'ticket_date_modified' => '" . date("Y-m-d H:i:s", time()) . "',
                                   'ticket_customer_notified' => '0',
                                   'ticket_edited_by' => $ticket_admin_array[$admin],
                                   'ticket_comments' => $enquiry);
           oos_db_perform($oostable['ticket_status_history'], $sql_data_array);
-          $sql_data_array = array('ticket_date_last_modified' => 'now()',
+          $sql_data_array = array('ticket_date_last_modified' => '" . date("Y-m-d H:i:s", time()) . "',
                                   'ticket_status_id' => $status,
                                   'ticket_priority_id' => $priority,
                                   'ticket_department_id' => $department,

@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: geo_zones.php,v 1.25 2002/04/17 23:09:03 hpdl 
+   File: geo_zones.php,v 1.25 2002/04/17 23:09:03 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -63,7 +63,7 @@
         $zone_id = oos_db_prepare_input($_POST['zone_id']);
 
         $zones_to_geo_zonestable = $oostable['zones_to_geo_zones'];
-        $dbconn->Execute("INSERT INTO $zones_to_geo_zonestable (zone_country_id, zone_id, geo_zone_id, date_added) VALUES ('" . oos_db_input($zone_country_id) . "', '" . oos_db_input($zone_id) . "', '" . oos_db_input($zID) . "', now())");
+        $dbconn->Execute("INSERT INTO $zones_to_geo_zonestable (zone_country_id, zone_id, geo_zone_id, date_added) VALUES ('" . oos_db_input($zone_country_id) . "', '" . oos_db_input($zone_id) . "', '" . oos_db_input($zID) . "', '" . date("Y-m-d H:i:s", time()) . "')");
         $new_subzone_id = $dbconn->Insert_ID();
 
         oos_redirect_admin(oos_href_link_admin($aFilename['geo_zones'], 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $new_subzone_id));
@@ -76,7 +76,7 @@
         $zone_id = oos_db_prepare_input($_POST['zone_id']);
 
         $zones_to_geo_zonestable = $oostable['zones_to_geo_zones'];
-        $dbconn->Execute("UPDATE $zones_to_geo_zonestable SET geo_zone_id = '" . oos_db_input($zID) . "', zone_country_id = '" . oos_db_input($zone_country_id) . "', zone_id = " . ((oos_db_input($zone_id)) ? "'" . oos_db_input($zone_id) . "'" : 'null') . ", last_modified = now() WHERE association_id = '" . oos_db_input($sID) . "'");
+        $dbconn->Execute("UPDATE $zones_to_geo_zonestable SET geo_zone_id = '" . oos_db_input($zID) . "', zone_country_id = '" . oos_db_input($zone_country_id) . "', zone_id = " . ((oos_db_input($zone_id)) ? "'" . oos_db_input($zone_id) . "'" : 'null') . ", last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE association_id = '" . oos_db_input($sID) . "'");
 
         oos_redirect_admin(oos_href_link_admin($aFilename['geo_zones'], 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $_GET['sID']));
         break;
@@ -95,13 +95,13 @@
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (!empty($action)) {
-    switch ($action) { 
+    switch ($action) {
       case 'insert_zone':
         $geo_zone_name = oos_db_prepare_input($_POST['geo_zone_name']);
         $geo_zone_description = oos_db_prepare_input($_POST['geo_zone_description']);
 
         $geo_zonestable = $oostable['geo_zones'];
-        $dbconn->Execute("INSERT INTO $geo_zonestable (geo_zone_name, geo_zone_description, date_added) VALUES ('" . oos_db_input($geo_zone_name) . "', '" . oos_db_input($geo_zone_description) . "', now())");
+        $dbconn->Execute("INSERT INTO $geo_zonestable (geo_zone_name, geo_zone_description, date_added) VALUES ('" . oos_db_input($geo_zone_name) . "', '" . oos_db_input($geo_zone_description) . "', '" . date("Y-m-d H:i:s", time()) . "')");
         $new_zone_id = $dbconn->Insert_ID();
 
         oos_redirect_admin(oos_href_link_admin($aFilename['geo_zones'], 'zpage=' . $_GET['zpage'] . '&zID=' . $new_zone_id));
@@ -113,7 +113,7 @@
         $geo_zone_description = oos_db_prepare_input($_POST['geo_zone_description']);
 
         $geo_zonestable = $oostable['geo_zones'];
-        $dbconn->Execute("UPDATE $geo_zonestable SET geo_zone_name = '" . oos_db_input($geo_zone_name) . "', geo_zone_description = '" . oos_db_input($geo_zone_description) . "', last_modified = now() WHERE geo_zone_id = '" . oos_db_input($zID) . "'");
+        $dbconn->Execute("UPDATE $geo_zonestable SET geo_zone_name = '" . oos_db_input($geo_zone_name) . "', geo_zone_description = '" . oos_db_input($geo_zone_description) . "', last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE geo_zone_id = '" . oos_db_input($zID) . "'");
 
         oos_redirect_admin(oos_href_link_admin($aFilename['geo_zones'], 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID']));
         break;
@@ -172,7 +172,7 @@ function update_zone(theForm) {
     <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
         <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr> 
+          <tr>
             <td class="pageHeading"><?php echo HEADING_TITLE; if (isset($_GET['zone'])) echo '<br /><span class="smallText">' . oosGetGeoZoneName($_GET['zone']) . '</span>'; ?></td>
             <td class="pageHeading" align="right"><?php echo oos_draw_separator('trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
           </tr>
@@ -241,7 +241,7 @@ function update_zone(theForm) {
               </tr>
 <?php
     $geo_zonestable = $oostable['geo_zones'];
-    $zones_result_raw = "SELECT geo_zone_id, geo_zone_name, geo_zone_description, last_modified, date_added 
+    $zones_result_raw = "SELECT geo_zone_id, geo_zone_name, geo_zone_description, last_modified, date_added
                         FROM $geo_zonestable
                         ORDER BY geo_zone_name";
     $zones_split = new splitPageResults($_GET['zpage'], MAX_DISPLAY_SEARCH_RESULTS, $zones_result_raw, $zones_result_numrows);

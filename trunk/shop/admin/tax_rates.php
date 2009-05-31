@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: tax_rates.php,v 1.27 2002/06/07 01:17:46 hpdl 
+   File: tax_rates.php,v 1.27 2002/06/07 01:17:46 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -66,7 +66,7 @@
   * @param $parameters
   * @param $selected
   * @return string
-  */ 
+  */
   function oosGeoZonesPullDown($parameters, $selected = '') {
 
     $select_string = '<select ' . $parameters . '>';
@@ -104,7 +104,7 @@
     switch ($action) {
       case 'insert':
         $tax_ratestable = $oostable['tax_rates'];
-        $dbconn->Execute("INSERT INTO $tax_ratestable (tax_zone_id, tax_class_id, tax_rate, tax_description, date_added) VALUES ('" . oos_db_input($tax_zone_id) . "', '" . oos_db_input($tax_class_id) . "', '" . oos_db_input($tax_rate) . "', '" . oos_db_input($tax_description) . "', now())");
+        $dbconn->Execute("INSERT INTO $tax_ratestable (tax_zone_id, tax_class_id, tax_rate, tax_description, date_added) VALUES ('" . oos_db_input($tax_zone_id) . "', '" . oos_db_input($tax_class_id) . "', '" . oos_db_input($tax_rate) . "', '" . oos_db_input($tax_description) . "', '" . date("Y-m-d H:i:s", time()) . "')");
         oos_redirect_admin(oos_href_link_admin($aFilename['tax_rates']));
         break;
 
@@ -112,7 +112,7 @@
         $tax_rates_id = oos_db_prepare_input($_GET['tID']);
 
         $tax_ratestable = $oostable['tax_rates'];
-        $dbconn->Execute("UPDATE $tax_ratestable SET tax_rates_id = '" . oos_db_input($tax_rates_id) . "', tax_zone_id = '" . oos_db_input($tax_zone_id) . "', tax_class_id = '" . oos_db_input($tax_class_id) . "', tax_rate = '" . oos_db_input($tax_rate) . "', tax_description = '" . oos_db_input($tax_description) . "', tax_priority = '" . oos_db_input($tax_priority) . "', last_modified = now() WHERE tax_rates_id = '" . oos_db_input($tax_rates_id) . "'");
+        $dbconn->Execute("UPDATE $tax_ratestable SET tax_rates_id = '" . oos_db_input($tax_rates_id) . "', tax_zone_id = '" . oos_db_input($tax_zone_id) . "', tax_class_id = '" . oos_db_input($tax_class_id) . "', tax_rate = '" . oos_db_input($tax_rate) . "', tax_description = '" . oos_db_input($tax_description) . "', tax_priority = '" . oos_db_input($tax_priority) . "', last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE tax_rates_id = '" . oos_db_input($tax_rates_id) . "'");
         oos_redirect_admin(oos_href_link_admin($aFilename['tax_rates'], 'page=' . $_GET['page'] . '&tID=' . $tax_rates_id));
         break;
 
@@ -125,7 +125,7 @@
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

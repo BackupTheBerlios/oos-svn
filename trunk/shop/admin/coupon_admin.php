@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -195,8 +195,8 @@
                                   'restrict_to_categories' => oos_db_prepare_input($_POST['coupon_categories']),
                                   'coupon_start_date' => $_POST['coupon_startdate'],
                                   'coupon_expire_date' => $_POST['coupon_finishdate'],
-                                  'date_created' => 'now()',
-                                  'date_modified' => 'now()');
+                                  'date_created' => '" . date("Y-m-d H:i:s", time()) . "',
+                                  'date_modified' => '" . date("Y-m-d H:i:s", time()) . "');
           $languages = oos_get_languages();
           for ($i = 0, $n = count($languages); $i < $n; $i++) {
             $lang_id = $languages[$i]['id'];

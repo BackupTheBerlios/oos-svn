@@ -264,7 +264,7 @@
                                   );
 
           if ($action == 'insert_product') {
-            $insert_sql_data = array('products_date_added' => 'now()');
+            $insert_sql_data = array('products_date_added' => '" . date("Y-m-d H:i:s", time()) . "');
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
 
@@ -277,7 +277,7 @@
             }
 
           } elseif ($action == 'update_product') {
-            $update_sql_data = array('products_last_modified' => 'now()');
+            $update_sql_data = array('products_last_modified' => '" . date("Y-m-d H:i:s", time()) . "');
 
             $sql_data_array = array_merge($sql_data_array, $update_sql_data);
 

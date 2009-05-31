@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: manufacturers.php,v 1.51 2003/01/29 23:21:48 hpdl 
+   File: manufacturers.php,v 1.51 2003/01/29 23:21:48 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -47,14 +47,14 @@
         $sql_data_array = array('manufacturers_name' => $manufacturers_name);
 
         if ($action == 'insert') {
-          $insert_sql_data = array('date_added' => 'now()');
+          $insert_sql_data = array('date_added' => '" . date("Y-m-d H:i:s", time()) . "');
 
           $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
 
           oos_db_perform($oostable['manufacturers'], $sql_data_array);
           $manufacturers_id = $dbconn->Insert_ID();
         } elseif ($action == 'save') {
-          $update_sql_data = array('last_modified' => 'now()');
+          $update_sql_data = array('last_modified' => '" . date("Y-m-d H:i:s", time()) . "');
 
           $sql_data_array = array_merge($sql_data_array, $update_sql_data);
 
@@ -135,7 +135,7 @@
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

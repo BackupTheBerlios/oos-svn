@@ -114,7 +114,7 @@
 
           if ($action == 'insert_category') {
             $insert_sql_data = array('parent_id' => $current_category_id,
-                                     'date_added' => 'now()',
+                                     'date_added' => '" . date("Y-m-d H:i:s", time()) . "',
                                      'categories_status' => DEFAULT_CATEGORIES_STATUS);
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
@@ -123,7 +123,7 @@
 
             $categories_id = $dbconn->Insert_ID();
           } elseif ($action == 'update_category') {
-            $update_sql_data = array('last_modified' => 'now()');
+            $update_sql_data = array('last_modified' => '" . date("Y-m-d H:i:s", time()) . "');
 
             $sql_data_array = array_merge($sql_data_array, $update_sql_data);
 
@@ -240,7 +240,7 @@
       case 'move_category_confirm':
         if ( ($_POST['categories_id']) && ($_POST['categories_id'] != $_POST['move_to_category_id']) ) {
           $new_parent_id = $move_to_category_id;
-          $dbconn->Execute("UPDATE " . $oostable['categories'] . " SET parent_id = '" . oos_db_input($new_parent_id) . "', last_modified = now() WHERE categories_id = '" . oos_db_input($categories_id) . "'");
+          $dbconn->Execute("UPDATE " . $oostable['categories'] . " SET parent_id = '" . oos_db_input($new_parent_id) . "', last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE categories_id = '" . oos_db_input($categories_id) . "'");
         }
 
         oos_redirect_admin(oos_href_link_admin($aFilename['categories'], 'categories=' . $new_parent_id . '&cID=' . $categories_id));
@@ -348,7 +348,7 @@
                                   '" . $product['products_price'] . "',
                                   '" . $product['products_base_price'] . "',
                                   '" . $product['products_base_unit'] . "',
-                                  now(),
+                                  '" . date("Y-m-d H:i:s", time()) . "',
                                   '" . $product['products_date_available'] . "',
                                   '" . $product['products_weight'] . "', '0',
                                   '" . $product['products_tax_class_id'] . "',

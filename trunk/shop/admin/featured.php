@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -41,8 +41,8 @@
     $query = "SELECT p.products_id, pd.products_name, p.products_price
               FROM $productsstable p,
                    $products_descriptionstable pd
-              WHERE p.products_status >= '1' AND 
-                    p.products_id = pd.products_id AND 
+              WHERE p.products_status >= '1' AND
+                    p.products_id = pd.products_id AND
                    pd.products_languages_id = '" . intval($_SESSION['language_id']) . "'
               ORDER BY products_name";
     $result =& $dbconn->Execute($query);
@@ -74,10 +74,10 @@
 
     if ($status == '1') {
       $featuredtable = $oostable['featured'];
-      return $dbconn->Execute("UPDATE $featuredtable SET status = '1', expires_date = NULL, date_status_change = now() WHERE featured_id = '" . (int)$featured_id . "'");
+      return $dbconn->Execute("UPDATE $featuredtable SET status = '1', expires_date = NULL, date_status_change = '" . date("Y-m-d H:i:s", time()) . "' WHERE featured_id = '" . (int)$featured_id . "'");
     } elseif ($status == '0') {
       $featuredtable = $oostable['featured'];
-      return $dbconn->Execute("UPDATE $featuredtable SET status = '0', date_status_change = now() WHERE featured_id = '" . (int)$featured_id . "'");
+      return $dbconn->Execute("UPDATE $featuredtable SET status = '0', date_status_change = '" . date("Y-m-d H:i:s", time()) . "' WHERE featured_id = '" . (int)$featured_id . "'");
     } else {
       return -1;
     }
@@ -111,7 +111,7 @@
         }
 
         $featuredtable = $oostable['featured'];
-        $dbconn->Execute("INSERT INTO $featuredtable (products_id, featured_date_added, expires_date, status) VALUES ('" . $_POST['products_id'] . "', now(), '" . $expires_date . "', '1')");
+        $dbconn->Execute("INSERT INTO $featuredtable (products_id, featured_date_added, expires_date, status) VALUES ('" . $_POST['products_id'] . "', '" . date("Y-m-d H:i:s", time()) . "', '" . $expires_date . "', '1')");
         oos_redirect_admin(oos_href_link_admin($aFilename['featured'], 'page=' . $_GET['page']));
         break;
 
@@ -124,7 +124,7 @@
         }
 
         $featuredtable = $oostable['featured'];
-        $dbconn->Execute("UPDATE $featuredtable SET featured_last_modified = now(), expires_date = '" . $expires_date . "' WHERE featured_id = '" . $_POST['featured_id'] . "'");
+        $dbconn->Execute("UPDATE $featuredtable SET featured_last_modified = '" . date("Y-m-d H:i:s", time()) . "', expires_date = '" . $expires_date . "' WHERE featured_id = '" . $_POST['featured_id'] . "'");
         oos_redirect_admin(oos_href_link_admin($aFilename['featured'], 'page=' . $_GET['page'] . '&fID=' . $featured_id));
         break;
 
@@ -318,7 +318,7 @@
 <?php
   if (empty($action)) {
 ?>
-                  <tr> 
+                  <tr>
                     <td colspan="2" align="right"><?php echo '<a href="' . oos_href_link_admin($aFilename['featured'], 'page=' . $_GET['page'] . '&action=new') . '">' . oos_image_swap_button('new_product','new_product_off.gif', IMAGE_NEW_PRODUCT) . '</a>'; ?></td>
                   </tr>
 <?php

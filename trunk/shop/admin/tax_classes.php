@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: tax_classes.php,v 1.19 2002/03/17 18:04:54 harley_vb 
+   File: tax_classes.php,v 1.19 2002/03/17 18:04:54 harley_vb
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -28,7 +28,7 @@
     switch ($action) {
       case 'insert':
         $tax_classtable = $oostable['tax_class'];
-        $dbconn->Execute("INSERT INTO $tax_classtable (tax_class_title, tax_class_description, date_added) VALUES ('" . oos_db_input($tax_class_title) . "', '" . oos_db_input($tax_class_description) . "', now())");
+        $dbconn->Execute("INSERT INTO $tax_classtable (tax_class_title, tax_class_description, date_added) VALUES ('" . oos_db_input($tax_class_title) . "', '" . oos_db_input($tax_class_description) . "', '" . date("Y-m-d H:i:s", time()) . "')");
         oos_redirect_admin(oos_href_link_admin($aFilename['tax_classes']));
         break;
 
@@ -36,7 +36,7 @@
         $tax_class_id = oos_db_prepare_input($_GET['tID']);
 
         $tax_classtable = $oostable['tax_class'];
-        $dbconn->Execute("UPDATE $tax_classtable SET tax_class_id = '" . oos_db_input($tax_class_id) . "', tax_class_title = '" . oos_db_input($tax_class_title) . "', tax_class_description = '" . oos_db_input($tax_class_description) . "', last_modified = now() WHERE tax_class_id = '" . oos_db_input($tax_class_id) . "'");
+        $dbconn->Execute("UPDATE $tax_classtable SET tax_class_id = '" . oos_db_input($tax_class_id) . "', tax_class_title = '" . oos_db_input($tax_class_title) . "', tax_class_description = '" . oos_db_input($tax_class_description) . "', last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE tax_class_id = '" . oos_db_input($tax_class_id) . "'");
         oos_redirect_admin(oos_href_link_admin($aFilename['tax_classes'], 'page=' . $_GET['page'] . '&tID=' . $tax_class_id));
         break;
 
@@ -49,7 +49,7 @@
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

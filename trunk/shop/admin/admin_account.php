@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: admin_account.php,v 1.29 2002/03/17 17:52:23 harley_vb 
+   File: admin_account.php,v 1.29 2002/03/17 17:52:23 harley_vb
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -68,7 +68,7 @@
                                   'admin_lastname' => oos_db_prepare_input($_POST['admin_lastname']),
                                   'admin_email_address' => oos_db_prepare_input($_POST['admin_email_address']),
                                   'admin_password' => oos_encrypt_password(oos_db_prepare_input($_POST['admin_password'])),
-                                  'admin_modified' => 'now()');
+                                  'admin_modified' => '" . date("Y-m-d H:i:s", time()) . "');
 
           oos_db_perform($oostable['admin'], $sql_data_array, 'update', 'admin_id = \'' . $admin_id . '\'');
 
@@ -91,7 +91,7 @@
 <!-- body_text //-->
     <td width="100%" valign="top">
       <?php if ($action == 'edit_process') { echo oos_draw_form('account', $aFilename['admin_account'], 'action=save_account', 'post', 'enctype="multipart/form-data"'); } elseif ($action == 'check_account') { echo oos_draw_form('account', $aFilename['admin_account'], 'action=check_password', 'post', 'enctype="multipart/form-data"'); } else { echo oos_draw_form('account', $aFilename['admin_account'], 'action=check_account', 'post', 'enctype="multipart/form-data"'); } ?>
-      <table border="0" width="100%" cellspacing="0" cellpadding="2">     
+      <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
         <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
@@ -230,7 +230,7 @@
           </tr>
         </table></td>
       </tr>
-    </table></form></td>  
+    </table></form></td>
 <!-- body_text_eof //-->
   </tr>
 </table>

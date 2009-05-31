@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: configuration.php,v 1.40 2002/12/29 16:55:01 dgw_ 
+   File: configuration.php,v 1.40 2002/12/29 16:55:01 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -20,7 +20,7 @@
    ---------------------------------------------------------------------- */
 
   define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php'; 
+  require 'includes/oos_main.php';
   require 'includes/functions/function_modules.php';
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
@@ -31,7 +31,7 @@
         $configuration_value = oos_db_prepare_input($_POST['configuration_value']);
         $cID = oos_db_prepare_input($_GET['cID']);
 
-        $dbconn->Execute("UPDATE " . $oostable['configuration'] . " SET configuration_value = '" . oos_db_input($configuration_value) . "', last_modified = now() WHERE configuration_id = '" . oos_db_input($cID) . "'");
+        $dbconn->Execute("UPDATE " . $oostable['configuration'] . " SET configuration_value = '" . oos_db_input($configuration_value) . "', last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE configuration_id = '" . oos_db_input($cID) . "'");
         oos_redirect_admin(oos_href_link_admin($aFilename['configuration'], 'gID=' . $_GET['gID'] . '&cID=' . $cID));
         break;
     }

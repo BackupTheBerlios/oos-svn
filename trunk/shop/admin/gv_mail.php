@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -105,10 +105,10 @@
 
         // Now create the coupon main and email entry
         $couponstable = $oostable['coupons'];
-        $insert_result = $dbconn->Execute("INSERT INTO $couponstable (coupon_code, coupon_type, coupon_amount, date_created) VALUES ('" . $id1 . "', 'G', '" . $_POST['amount'] . "', now())");
+        $insert_result = $dbconn->Execute("INSERT INTO $couponstable (coupon_code, coupon_type, coupon_amount, date_created) VALUES ('" . $id1 . "', 'G', '" . $_POST['amount'] . "', '" . date("Y-m-d H:i:s", time()) . "')");
         $insert_id = $dbconn->Insert_ID();
         $coupon_email_tracktable = $oostable['coupon_email_track'];
-        $insert_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable (coupon_id, customer_id_sent, sent_firstname, emailed_to, date_sent) VALUES ('" . $insert_id ."', '0', 'Admin', '" . $mail['customers_email_address'] . "', now() )");
+        $insert_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable (coupon_id, customer_id_sent, sent_firstname, emailed_to, date_sent) VALUES ('" . $insert_id ."', '0', 'Admin', '" . $mail['customers_email_address'] . "', '" . date("Y-m-d H:i:s", time()) . "' )");
         // Move that ADOdb pointer!
         $mail_result->MoveNext();
       }
@@ -160,10 +160,10 @@
       $send_mail->ClearAttachments();
       // Now create the coupon email entry
       $couponstable = $oostable['coupons'];
-      $insert_result = $dbconn->Execute("INSERT INTO $couponstable (coupon_code, coupon_type, coupon_amount, date_created) VALUES ('" . $id1 . "', 'G', '" . $_POST['amount'] . "', now())");
+      $insert_result = $dbconn->Execute("INSERT INTO $couponstable (coupon_code, coupon_type, coupon_amount, date_created) VALUES ('" . $id1 . "', 'G', '" . $_POST['amount'] . "', '" . date("Y-m-d H:i:s", time()) . "')");
       $insert_id = $dbconn->Insert_ID();
       $coupon_email_tracktable = $oostable['coupon_email_track'];
-      $insert_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable (coupon_id, customer_id_sent, sent_firstname, emailed_to, date_sent) VALUES ('" . $insert_id ."', '0', 'Admin', '" . $_POST['email_to'] . "', now() )");
+      $insert_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable (coupon_id, customer_id_sent, sent_firstname, emailed_to, date_sent) VALUES ('" . $insert_id ."', '0', 'Admin', '" . $_POST['email_to'] . "', '" . date("Y-m-d H:i:s", time()) . "' )");
     }
 
     oos_redirect_admin(oos_href_link_admin($aFilename['gv_mail'], 'mail_sent_to=' . urlencode($mail_sent_to)));

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -57,7 +57,7 @@
 
           //$date_now = date('Ymd');
           $dbconn->Execute("UPDATE " . $oostable['admin'] . "
-                        SET admin_logdate = now(), admin_lognum = admin_lognum+1
+                        SET admin_logdate = '" . date("Y-m-d H:i:s", time()) . "', admin_lognum = admin_lognum+1
                         WHERE admin_id = '" . $_SESSION['login_id'] . "'");
 
           if (($login_lognum == 0) || !($login_logdate) || ($login_email_address == 'admin@localhost') || ($login_modified == '0000-00-00 00:00:00')) {

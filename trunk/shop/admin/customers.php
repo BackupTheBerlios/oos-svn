@@ -77,7 +77,7 @@
                                                     date_created) VALUES ('" . $coupon_code . "',
                                                                           'G',
                                                                           '" . NEW_SIGNUP_GIFT_VOUCHER_AMOUNT . "',
-                                                                          now())");
+                                                                          '" . date("Y-m-d H:i:s", time()) . "')");
                      $insert_id = $dbconn->Insert_ID();
 
                      $coupon_email_tracktable = $oostable['coupon_email_track'];
@@ -90,7 +90,7 @@
                                                                        '0',
                                                                        'Admin',
                                                                        '" . $email_address . "',
-                                                                       now() )");
+                                                                       '" . date("Y-m-d H:i:s", time()) . "' )");
 
                      $email_text .= sprintf(EMAIL_GV_INCENTIVE_HEADER, $currencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
                                     sprintf(EMAIL_GV_REDEEM, $coupon_code) . "\n\n" .
@@ -125,7 +125,7 @@
                                                                            '0',
                                                                            'Admin',
                                                                            '" . $email_address . "',
-                                                                           now() )");
+                                                                           '" . date("Y-m-d H:i:s", time()) . "' )");
                      $email_text .= EMAIL_COUPON_INCENTIVE_HEADER .  "\n\n" .
                                     $coupon_desc['coupon_description'] .
                                     sprintf(EMAIL_COUPON_REDEEM, $coupon['coupon_code']) . "\n\n" .
@@ -170,7 +170,7 @@
                             customer_notified) VALUES ('" . intval($customers_id) . "',
                                                        '" . intval($pdm_status) . "',
                                                        '" . intval($customers_status) . "',
-                                                       now(),
+                                                       '" . date("Y-m-d H:i:s", time()) . "',
                                                        '" . $customer_notified . "')");
         }
         oos_redirect_admin(oos_href_link_admin($aFilename['customers'], 'selected_box=customers&page=' . $_GET['page'] . '&cID=' . $_GET['cID']));
@@ -197,7 +197,7 @@
         oos_db_perform($oostable['customers'], $sql_data_array, 'update', "customers_id = '" . intval($customers_id) . "'");
 
         $customers_infotable = $oostable['customers_info'];
-        $dbconn->Execute("UPDATE $customers_infotable SET customers_info_date_account_last_modified = now() WHERE customers_info_id = '" . intval($customers_id) . "'");
+        $dbconn->Execute("UPDATE $customers_infotable SET customers_info_date_account_last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE customers_info_id = '" . intval($customers_id) . "'");
 
         if ($entry_zone_id > 0) $entry_state = '';
 

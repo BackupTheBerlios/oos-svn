@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: reviews.php,v 1.39 2002/03/17 17:49:46 harley_vb 
+   File: reviews.php,v 1.39 2002/03/17 17:49:46 harley_vb
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -30,7 +30,7 @@
         $reviews_id = oos_db_prepare_input($_GET['rID']);
 
         $reviewstable = $oostable['reviews'];
-        $dbconn->Execute("UPDATE $reviewstable SET reviews_rating = '" . oos_db_input($reviews_rating) . "', last_modified = now() WHERE reviews_id = '" . oos_db_input($reviews_id) . "'");
+        $dbconn->Execute("UPDATE $reviewstable SET reviews_rating = '" . oos_db_input($reviews_rating) . "', last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE reviews_id = '" . oos_db_input($reviews_id) . "'");
         $reviews_descriptiontable = $oostable['reviews_description'];
         $dbconn->Execute("UPDATE $reviews_descriptiontable SET reviews_text = '" . oos_db_input($reviews_text) . "' WHERE reviews_id = '" . oos_db_input($reviews_id) . "'");
 
@@ -49,7 +49,7 @@
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -201,7 +201,7 @@
               </tr>
 <?php
     $reviewstable = $oostable['reviews'];
-    $reviews_result_raw = "SELECT reviews_id, products_id, date_added, last_modified, reviews_rating 
+    $reviews_result_raw = "SELECT reviews_id, products_id, date_added, last_modified, reviews_rating
                            FROM $reviewstable
                            ORDER BY date_added DESC";
     $reviews_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $reviews_result_raw, $reviews_result_numrows);

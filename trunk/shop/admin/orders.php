@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -118,7 +118,7 @@
 
         if ($check_status['orders_status'] != $status || $comments != '' || ($status == DOWNLOADS_ORDERS_STATUS_UPDATED_VALUE) ) {
           $orderstable = $oostable['orders'];
-          $dbconn->Execute("UPDATE $orderstable SET orders_status = '" . oos_db_input($status) . "', last_modified = now() WHERE orders_id = '" . oos_db_input($oID) . "'");
+          $dbconn->Execute("UPDATE $orderstable SET orders_status = '" . oos_db_input($status) . "', last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE orders_id = '" . oos_db_input($oID) . "'");
 
           $orderstable = $oostable['orders'];
           $check_status_result2 = $dbconn->Execute("SELECT customers_name, customers_email_address, orders_status, date_purchased FROM $orderstable WHERE orders_id = '" . oos_db_input($oID) . "'");
@@ -172,7 +172,7 @@
           }
 
           $orders_status_historytable = $oostable['orders_status_history'];
-          $dbconn->Execute("INSERT INTO $orders_status_historytable (orders_id, orders_status_id, date_added, customer_notified, comments) VALUES ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', now(), '" . $customer_notified . "', '" . oos_db_input($comments)  . "')");
+          $dbconn->Execute("INSERT INTO $orders_status_historytable (orders_id, orders_status_id, date_added, customer_notified, comments) VALUES ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', '" . date("Y-m-d H:i:s", time()) . "', '" . $customer_notified . "', '" . oos_db_input($comments)  . "')");
 
           $order_updated = true;
         }

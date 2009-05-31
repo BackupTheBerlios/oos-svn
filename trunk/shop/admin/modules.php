@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -203,11 +203,11 @@
     $check = $check_result->fields;
     if ($check['configuration_value'] != implode(';', $installed_modules)) {
       $configurationtable = $oostable['configuration'];
-      $dbconn->Execute("UPDATE $configurationtable SET configuration_value = '" . implode(';', $installed_modules) . "', last_modified = now() WHERE configuration_key = '" . $module_key . "'");
+      $dbconn->Execute("UPDATE $configurationtable SET configuration_value = '" . implode(';', $installed_modules) . "', last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE configuration_key = '" . $module_key . "'");
     }
   } else {
     $configurationtable = $oostable['configuration'];
-    $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('" . $module_key . "', '" . implode(';', $installed_modules) . "', '6', '0', now())");
+    $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('" . $module_key . "', '" . implode(';', $installed_modules) . "', '6', '0', '" . date("Y-m-d H:i:s", time()) . "')");
   }
 ?>
               <tr>

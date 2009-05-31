@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -179,7 +179,7 @@
   }
 
  /**
-  * Return News 
+  * Return News
   *
   * @param $news_id
   * @param $language
@@ -309,8 +309,8 @@
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
-    $query = "SELECT news_categories_id 
-              FROM " . $oostable['news_categories'] . " 
+    $query = "SELECT news_categories_id
+              FROM " . $oostable['news_categories'] . "
               WHERE parent_id = '" . (int)$news_categories_id . "'";
     $result =& $dbconn->Execute($query);
 
@@ -342,7 +342,7 @@
 
     if ($status == '1') {
       $query = "UPDATE " . $oostable['news_categories'] . "
-                   SET news_categories_status = '1' 
+                   SET news_categories_status = '1'
                 WHERE news_categories_id = '" . $news_categories_id . "'";
       $result =& $dbconn->Execute($query);
 
@@ -378,9 +378,9 @@
     $oostable =& oosDBGetTables();
 
     if ($status == '1') {
-      $query = "UPDATE " . $oostable['news'] . " 
+      $query = "UPDATE " . $oostable['news'] . "
                    SET news_status = '1',
-                       news_last_modified = now()
+                       news_last_modified = '" . date("Y-m-d H:i:s", time()) . "'
                 WHERE news_id = '" . $news_id . "'";
       $result =& $dbconn->Execute($query);
 
@@ -389,9 +389,9 @@
 
       return;
     } elseif ($status == '0') {
-      $query = "UPDATE " . $oostable['news'] . " 
-                   SET news_status = '2', 
-                       news_last_modified = now()
+      $query = "UPDATE " . $oostable['news'] . "
+                   SET news_status = '2',
+                       news_last_modified = '" . date("Y-m-d H:i:s", time()) . "'
                 WHERE news_id = '" . $news_id . "'";
       $result =& $dbconn->Execute($query);
 
@@ -448,9 +448,9 @@
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
-    $query = "SELECT news_name 
-              FROM " . $oostable['news_description'] . " 
-              WHERE news_id = '" . $news_id . "' 
+    $query = "SELECT news_name
+              FROM " . $oostable['news_description'] . "
+              WHERE news_id = '" . $news_id . "'
                 AND news_languages_id = '" . intval($lang_id) . "'";
     $result =& $dbconn->Execute($query);
 
@@ -492,7 +492,7 @@
           $news_category_query = "SELECT ncd.news_categories_name, nc.parent_id
                                   FROM " . $oostable['news_categories'] . " nc,
                                        " . $oostable['news_categories_description'] . " ncd
-                                 WHERE nc.news_categories_id = '" . $news_categories['news_categories_id'] . "' 
+                                 WHERE nc.news_categories_id = '" . $news_categories['news_categories_id'] . "'
                                    AND nc.news_categories_id = ncd.news_categories_id
                                    AND ncd.news_categories_languages_id = '" . intval($_SESSION['language_id']) . "'";
           $news_category_result =& $dbconn->Execute($news_categories_query);

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -58,7 +58,7 @@
                                 'block_status' => $block_status,
                                 'block_login_flag' => $block_login_flag);
         if ($action == 'insert') {
-          $insert_sql_data = array('date_added' => 'now()',
+          $insert_sql_data = array('date_added' => '" . date("Y-m-d H:i:s", time()) . "',
                                    'set_function' => 'oos_block_select_option(array(\'left\', \'right\'),');
 
           $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
@@ -66,7 +66,7 @@
           oos_db_perform($oostable['block'], $sql_data_array);
           $block_content_id = $dbconn->Insert_ID();
         } elseif ($action == 'save') {
-          $update_sql_data = array('last_modified' => 'now()');
+          $update_sql_data = array('last_modified' => '" . date("Y-m-d H:i:s", time()) . "');
 
           $sql_data_array = array_merge($sql_data_array, $update_sql_data);
 
@@ -120,7 +120,7 @@
     }
   }
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

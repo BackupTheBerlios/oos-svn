@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: newsletters.php,v 1.15 2002/11/22 14:45:47 dgw_ 
+   File: newsletters.php,v 1.15 2002/11/22 14:45:47 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -57,7 +57,7 @@
                                   'module' => $newsletter_module);
 
           if ($action == 'insert') {
-            $sql_data_array['date_added'] = 'now()';
+            $sql_data_array['date_added'] = '" . date("Y-m-d H:i:s", time()) . "';
             $sql_data_array['status'] = '0';
             $sql_data_array['locked'] = '0';
 
@@ -106,7 +106,7 @@
     }
   }
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

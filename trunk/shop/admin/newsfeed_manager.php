@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -55,17 +55,17 @@
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (!empty($action)) {
-    switch ($action) { 
+    switch ($action) {
       case 'setflag':
         $nmID = oos_db_prepare_input($_GET['nmID']);
 
         if ($_GET['statusflag'] == '0') {
-          $dbconn->Execute("UPDATE " . $oostable['newsfeed_manager'] . " 
-                        SET newsfeed_manager_status = '0' 
+          $dbconn->Execute("UPDATE " . $oostable['newsfeed_manager'] . "
+                        SET newsfeed_manager_status = '0'
                         WHERE newsfeed_manager_id = '" . oos_db_input($nmID) . "'");
         } elseif ($_GET['statusflag'] == '1') {
-          $dbconn->Execute("UPDATE " . $oostable['newsfeed_manager'] . " 
-                        SET newsfeed_manager_status = '1' 
+          $dbconn->Execute("UPDATE " . $oostable['newsfeed_manager'] . "
+                        SET newsfeed_manager_status = '1'
                         WHERE newsfeed_manager_id = '" . oos_db_input($nmID) . "'");
         }
         oos_redirect_admin(oos_href_link_admin($aFilename['newsfeed_manager'], 'selected_box=newsfeed_manager&page=' . $_GET['page'] . '&nmID=' . $_GET['nmID']));
@@ -78,7 +78,7 @@
         $check_status = $check_status_result->fields;
         if ($check_status['newsfeed_manager_status'] != $status) {
           $dbconn->Execute("UPDATE " . $oostable['newsfeed_manager'] . " SET newsfeed_manager_status = '" . oos_db_input($status) . "' WHERE newsfeed_manager_id = '" . oos_db_input($nmID) . "'");
-          $dbconn->Execute("INSERT INTO " . $oostable['newsfeed_manager_status_history'] . " (newsfeed_manager_id, new_value, old_value, date_added, customer_notified) values ('" . oos_db_input($nmID) . "', '" . oos_db_input($status) . "', '" . $check_status['newsfeed_manager_status'] . "', now(), '" . $customer_notified . "')");
+          $dbconn->Execute("INSERT INTO " . $oostable['newsfeed_manager_status_history'] . " (newsfeed_manager_id, new_value, old_value, date_added, customer_notified) values ('" . oos_db_input($nmID) . "', '" . oos_db_input($status) . "', '" . $check_status['newsfeed_manager_status'] . "', '" . date("Y-m-d H:i:s", time()) . "', '" . $customer_notified . "')");
           $customer_updated = true;
         }
         break;
@@ -87,7 +87,7 @@
       case 'update':
         $newsfeed_manager_id = oos_db_prepare_input($_GET['nmID']);
 
-        $sql_data_array = array('newsfeed_categories_id' => $newsfeed_categories_id, 
+        $sql_data_array = array('newsfeed_categories_id' => $newsfeed_categories_id,
                                 'newsfeed_manager_name' => $newsfeed_manager_name,
                                 'newsfeed_manager_link' => $newsfeed_manager_link,
                                 'newsfeed_manager_languages_id' => $newsfeed_manager_languages_id,
@@ -95,13 +95,13 @@
                                 'newsfeed_manager_refresh' => $newsfeed_manager_refresh);
 
         if ($action == 'insert') {
-          $insert_sql_data = array('newsfeed_manager_date_added' => 'now()');
+          $insert_sql_data = array('newsfeed_manager_date_added' => '" . date("Y-m-d H:i:s", time()) . "');
 
           $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
 
           oos_db_perform($oostable['newsfeed_manager'], $sql_data_array);
         } elseif ($action == 'update') {
-          $update_sql_data = array('newsfeed_manager_last_modified' => 'now()');
+          $update_sql_data = array('newsfeed_manager_last_modified' => '" . date("Y-m-d H:i:s", time()) . "');
 
           $sql_data_array = array_merge($sql_data_array, $update_sql_data);
 
@@ -112,7 +112,7 @@
       case 'deleteconfirm':
         $newsfeed_manager_id = oos_db_prepare_input($_GET['nmID']);
         $dbconn->Execute("DELETE FROM " . $oostable['newsfeed_manager'] . " WHERE newsfeed_manager_id = '" . oos_db_input($newsfeed_manager_id) . "'");
-        oos_redirect_admin(oos_href_link_admin($aFilename['newsfeed_manager'], oos_get_all_get_params(array('nmID', 'action')))); 
+        oos_redirect_admin(oos_href_link_admin($aFilename['newsfeed_manager'], oos_get_all_get_params(array('nmID', 'action'))));
         break;
     }
   }
@@ -135,14 +135,14 @@ function popupImageWindow(url) {
 <?php
   if ($action == 'new' || $action == 'edit') {
     if (isset($_GET['nmID'])) {
-      $newsfeed_manager_result = $dbconn->Execute("SELECT 
+      $newsfeed_manager_result = $dbconn->Execute("SELECT
                                                   newsfeed_manager_id, newsfeed_categories_id, newsfeed_manager_name,
                                                   newsfeed_manager_link, newsfeed_manager_languages_id, newsfeed_manager_numarticles,
                                                   newsfeed_manager_refresh, newsfeed_manager_status, newsfeed_manager_date_added,
                                                   newsfeed_manager_last_modified, newsfeed_manager_sort_order
-                                              FROM 
-                                                  " . $oostable['newsfeed_manager'] . " 
-                                              WHERE 
+                                              FROM
+                                                  " . $oostable['newsfeed_manager'] . "
+                                              WHERE
                                                   newsfeed_manager_id = '" . $_GET['nmID'] . "'");
       $newsfeed_manager = $newsfeed_manager_result->fields;
       $nmInfo = new objectInfo($newsfeed_manager);
@@ -162,10 +162,10 @@ function popupImageWindow(url) {
         <td><?php echo oos_draw_separator('trans.gif', '1', '10'); ?></td>
       </tr>
       <tr>
-<?php 
+<?php
     $form_action = ($_GET['nmID']) ? 'update' : 'insert';
 
-    echo oos_draw_form($form_action, $aFilename['newsfeed_manager'], oos_get_all_get_params(array('action')) . 'action='. $form_action, 'post') . oos_draw_hidden_field('newsfeed_manager_status', $nmInfo->newsfeed_manager_status); 
+    echo oos_draw_form($form_action, $aFilename['newsfeed_manager'], oos_get_all_get_params(array('action')) . 'action='. $form_action, 'post') . oos_draw_hidden_field('newsfeed_manager_status', $nmInfo->newsfeed_manager_status);
 ?>
          <td><table border="0" cellspacing="0" cellpadding="2">
              <tr>
@@ -222,13 +222,13 @@ function popupImageWindow(url) {
         </tr>
       <tr>
         <td align="right" class="main">
-<?php 
+<?php
       if (isset($_GET['nmID'])) {
         echo oos_image_swap_submits('update','update_off.gif', IMAGE_UPDATE);
       } else {
         echo oos_image_swap_submits('insert','insert_off.gif', IMAGE_INSERT);
       }
-      echo ' <a href="' . oos_href_link_admin($aFilename['newsfeed_manager'], oos_get_all_get_params(array('action'))) .'">' . oos_image_swap_button('cancel','cancel_off.gif', IMAGE_CANCEL) . '</a>'; 
+      echo ' <a href="' . oos_href_link_admin($aFilename['newsfeed_manager'], oos_get_all_get_params(array('action'))) .'">' . oos_image_swap_button('cancel','cancel_off.gif', IMAGE_CANCEL) . '</a>';
 ?></td>
       </tr></form>
 <?php
@@ -266,14 +266,14 @@ function popupImageWindow(url) {
       $categories = oos_db_prepare_input($_GET['categories']);
       $search ="WHERE newsfeed_categories_id = '". $categories . "'";
     }
-    $newsfeed_manager_result_raw = "SELECT 
+    $newsfeed_manager_result_raw = "SELECT
                                        newsfeed_manager_id, newsfeed_categories_id, newsfeed_manager_name,
                                        newsfeed_manager_link, newsfeed_manager_languages_id, newsfeed_manager_numarticles,
                                        newsfeed_manager_refresh, newsfeed_manager_status, newsfeed_manager_date_added,
                                        newsfeed_manager_last_modified, newsfeed_manager_sort_order
-                                   FROM 
-                                      " . $oostable['newsfeed_manager'] . " 
-                                      " . $search . " 
+                                   FROM
+                                      " . $oostable['newsfeed_manager'] . "
+                                      " . $search . "
                                    ORDER BY
                                       newsfeed_manager_name";
     $newsfeed_manager_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $newsfeed_manager_result_raw, $newsfeed_manager_result_numrows);
@@ -345,7 +345,7 @@ function popupImageWindow(url) {
       if (isset($nmInfo) && is_object($nmInfo)) {
         $heading[] = array('text' => '<b>' . $nmInfo->newsfeed_manager_name . '</b>');
 
-        $contents[] = array('align' => 'center', 'text' => '<a href="' . oos_href_link_admin($aFilename['newsfeed_manager'], oos_get_all_get_params(array('nmID', 'action')) . 'nmID=' . $nmInfo->newsfeed_manager_id . '&action=edit') . '">' . oos_image_swap_button('edit','edit_off.gif', IMAGE_EDIT) . '</a> <a href="' . oos_href_link_admin($aFilename['newsfeed_manager'], oos_get_all_get_params(array('nmID', 'action')) . 'nmID=' . $nmInfo->newsfeed_manager_id . '&action=confirm') . '">' . oos_image_swap_button('delete','delete_off.gif', IMAGE_DELETE) . '</a>'); 
+        $contents[] = array('align' => 'center', 'text' => '<a href="' . oos_href_link_admin($aFilename['newsfeed_manager'], oos_get_all_get_params(array('nmID', 'action')) . 'nmID=' . $nmInfo->newsfeed_manager_id . '&action=edit') . '">' . oos_image_swap_button('edit','edit_off.gif', IMAGE_EDIT) . '</a> <a href="' . oos_href_link_admin($aFilename['newsfeed_manager'], oos_get_all_get_params(array('nmID', 'action')) . 'nmID=' . $nmInfo->newsfeed_manager_id . '&action=confirm') . '">' . oos_image_swap_button('delete','delete_off.gif', IMAGE_DELETE) . '</a>');
         $contents[] = array('text' => '<br />' . TEXT_INFO_URL . ' ' . $nmInfo->newsfeed_manager_link);
         $contents[] = array('text' => '<br />' . TEXT_DATE_ADDED . ' ' . oos_date_short($nmInfo->newsfeed_manager_date_added));
         $contents[] = array('text' => '<br />' . TEXT_LAST_MODIFIED . ' ' . oos_date_short($nmInfo->newsfeed_manager_last_modified));

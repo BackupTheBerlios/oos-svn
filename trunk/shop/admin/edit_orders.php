@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -83,7 +83,7 @@ $order_result = $dbconn->Execute("SELECT products_id, products_quantity FROM " .
     $status = oos_db_prepare_input($_POST['status']);
 
     // Update Order Info
-    $UpdateOrders = "update " . $oostable['orders'] . " set 
+    $UpdateOrders = "update " . $oostable['orders'] . " set
       customers_name = '" . oos_db_input(stripslashes($update_customer_name)) . "',
       customers_company = '" . oos_db_input(stripslashes($update_customer_company)) . "',
       customers_street_address = '" . oos_db_input(stripslashes($update_customer_street_address)) . "',
@@ -156,34 +156,34 @@ $order_result = $dbconn->Execute("SELECT products_id, products_quantity FROM " .
         $customer_notified = '1';
       }
 
-      // "Status History" table has gone through a few 
+      // "Status History" table has gone through a few
       // different changes, so here are different versions of
-      // the status update. 
+      // the status update.
 
-      // NOTE: Theoretically, there shouldn't be a 
-      //       orders_status field in the ORDERS table. It 
-      //       should really just use the latest value from 
+      // NOTE: Theoretically, there shouldn't be a
+      //       orders_status field in the ORDERS table. It
+      //       should really just use the latest value from
       //       this status history table.
 
       if($CommentsWithStatus)
       {
-      $dbconn->Execute("insert into " . $oostable['orders_status_history'] . " 
-        (orders_id, orders_status_id, date_added, customer_notified, comments) 
-        values ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', now(), " . oos_db_input($customer_notified) . ", '" . oos_db_input($comments)  . "')");
+      $dbconn->Execute("insert into " . $oostable['orders_status_history'] . "
+        (orders_id, orders_status_id, date_added, customer_notified, comments)
+        values ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', '" . date("Y-m-d H:i:s", time()) . "', " . oos_db_input($customer_notified) . ", '" . oos_db_input($comments)  . "')");
       }
       else
       {
         if($OldNewStatusValues)
         {
-        $dbconn->Execute("insert into " . $oostable['orders_status_history'] . " 
-          (orders_id, new_value, old_value, date_added, customer_notified) 
-          values ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', '" . $order->info['orders_status'] . "', now(), " . oos_db_input($customer_notified) . ")");
+        $dbconn->Execute("insert into " . $oostable['orders_status_history'] . "
+          (orders_id, new_value, old_value, date_added, customer_notified)
+          values ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', '" . $order->info['orders_status'] . "', '" . date("Y-m-d H:i:s", time()) . "', " . oos_db_input($customer_notified) . ")");
         }
         else
         {
-        $dbconn->Execute("insert into " . $oostable['orders_status_history'] . " 
-          (orders_id, orders_status_id, date_added, customer_notified) 
-          values ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', now(), " . oos_db_input($customer_notified) . ")");
+        $dbconn->Execute("insert into " . $oostable['orders_status_history'] . "
+          (orders_id, orders_status_id, date_added, customer_notified)
+          values ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', '" . date("Y-m-d H:i:s", time()) . "', " . oos_db_input($customer_notified) . ")");
         }
       }
     }
@@ -428,7 +428,7 @@ $order_result = $dbconn->Execute("SELECT products_id, products_quantity FROM " .
       for ($i=0; $i < count($order->products); $i++)
       {
       $RunningSubTotal += ($order->products[$i]['qty'] * $order->products[$i]['final_price']);
-      $RunningTax += (($order->products[$i]['tax'] / 100) * ($order->products[$i]['qty'] * $order->products[$i]['final_price']));     
+      $RunningTax += (($order->products[$i]['tax'] / 100) * ($order->products[$i]['qty'] * $order->products[$i]['final_price']));
       }
 
 
@@ -475,7 +475,7 @@ $order_result = $dbconn->Execute("SELECT products_id, products_quantity FROM " .
       $messageStack->add(sprintf(ERROR_ORDER_DOES_NOT_EXIST, $oID), 'error');
     }
   }
-  
+
   require 'includes/oos_header.php';
 ?>
 <!-- body //-->
@@ -659,7 +659,7 @@ $order_result = $dbconn->Execute("SELECT products_id, products_quantity FROM " .
     <tr>
       <td class="main"><b><?php echo ENTRY_PAYMENT_METHOD; ?></b></td>
       <td class="main"><input name='update_info_payment_method' size='20' value='<?php echo $order->info['payment_method']; ?>'>
-      <?php 
+      <?php
       if($order->info['payment_method'] != "Credit Card")
       echo ENTRY_UPDATE_TO_CC;
       ?></td>
@@ -750,7 +750,7 @@ $order_result = $dbconn->Execute("SELECT products_id, products_quantity FROM " .
     $RowStyle = "dataTableContent";
 
     echo '    <tr class="dataTableRow">' . "\n" .
-       '      <td class="' . $RowStyle . '" valign="top" align="right">' . "<input name='update_products[$orders_products_id][qty]' size='2' value='" . $order->products[$i]['qty'] . "'>&nbsp;x</td>\n" . 
+       '      <td class="' . $RowStyle . '" valign="top" align="right">' . "<input name='update_products[$orders_products_id][qty]' size='2' value='" . $order->products[$i]['qty'] . "'>&nbsp;x</td>\n" .
        '      <td class="' . $RowStyle . '" valign="top">' . "<input name='update_products[$orders_products_id][name]' size='25' value='" . $order->products[$i]['name'] . "'>";
 
     // Has Attributes?
@@ -765,8 +765,8 @@ $order_result = $dbconn->Execute("SELECT products_id, products_quantity FROM " .
     echo '      </td>' . "\n" .
          '      <td class="' . $RowStyle . '" valign="top">' . "<input name='update_products[$orders_products_id][model]' size='12' value='" . $order->products[$i]['model'] . "'>" . '</td>' . "\n" .
          '      <td class="' . $RowStyle . '" align="center" valign="top">' . "<input name='update_products[$orders_products_id][tax]' size='3' value='" . oos_display_tax_value($order->products[$i]['tax']) . "'>" . '%</td>' . "\n" .
-         '      <td class="' . $RowStyle . '" align="right" valign="top">' . "<input name='update_products[$orders_products_id][final_price]' size='5' value='" . number_format($order->products[$i]['final_price'], 2, '.', '') . "'>" . '</td>' . "\n" . 
-         '      <td class="' . $RowStyle . '" align="right" valign="top">' . $currencies->format($order->products[$i]['final_price'] * $order->products[$i]['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</td>' . "\n" . 
+         '      <td class="' . $RowStyle . '" align="right" valign="top">' . "<input name='update_products[$orders_products_id][final_price]' size='5' value='" . number_format($order->products[$i]['final_price'], 2, '.', '') . "'>" . '</td>' . "\n" .
+         '      <td class="' . $RowStyle . '" align="right" valign="top">' . $currencies->format($order->products[$i]['final_price'] * $order->products[$i]['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</td>' . "\n" .
          '    </tr>' . "\n";
   }
   ?>
@@ -802,10 +802,10 @@ $order_result = $dbconn->Execute("SELECT products_id, products_quantity FROM " .
       echo  '       <tr>' . "\n" .
         '   <td class="main" align="right"><b>' . $TotalDetails["Name"] . '</b></td>' .
         '   <td class="main"><b>' . $TotalDetails["Price"] .
-            "<input name='update_totals[$TotalIndex][title]' type='hidden' value='" . trim($TotalDetails["Name"]) . "' size='" . strlen($TotalDetails["Name"]) . "' >" . 
-            "<input name='update_totals[$TotalIndex][value]' type='hidden' value='" . $TotalDetails["Price"] . "' size='6' >" . 
-            "<input name='update_totals[$TotalIndex][class]' type='hidden' value='" . $TotalDetails["Class"] . "'>\n" . 
-            "<input type='hidden' name='update_totals[$TotalIndex][total_id]' value='" . $TotalDetails["TotalID"] . "'>" . '</b></td>' . 
+            "<input name='update_totals[$TotalIndex][title]' type='hidden' value='" . trim($TotalDetails["Name"]) . "' size='" . strlen($TotalDetails["Name"]) . "' >" .
+            "<input name='update_totals[$TotalIndex][value]' type='hidden' value='" . $TotalDetails["Price"] . "' size='6' >" .
+            "<input name='update_totals[$TotalIndex][class]' type='hidden' value='" . $TotalDetails["Class"] . "'>\n" .
+            "<input type='hidden' name='update_totals[$TotalIndex][total_id]' value='" . $TotalDetails["TotalID"] . "'>" . '</b></td>' .
         '       </tr>' . "\n";
     }
     elseif($TotalDetails["Class"] == "ot_tax")
@@ -813,18 +813,18 @@ $order_result = $dbconn->Execute("SELECT products_id, products_quantity FROM " .
       echo  '       <tr>' . "\n" .
         '   <td align="right" class="' . $TotalStyle . '">' . "<input name='update_totals[$TotalIndex][title]' size='" . strlen(trim($TotalDetails["Name"])) . "' value='" . trim($TotalDetails["Name"]) . "'>" . '</td>' . "\n" .
         '   <td class="main"><b>' . $TotalDetails["Price"] .
-            "<input name='update_totals[$TotalIndex][value]' type='hidden' value='" . $TotalDetails["Price"] . "' size='6' >" . 
-            "<input name='update_totals[$TotalIndex][class]' type='hidden' value='" . $TotalDetails["Class"] . "'>\n" . 
-            "<input type='hidden' name='update_totals[$TotalIndex][total_id]' value='" . $TotalDetails["TotalID"] . "'>" . '</b></td>' . 
+            "<input name='update_totals[$TotalIndex][value]' type='hidden' value='" . $TotalDetails["Price"] . "' size='6' >" .
+            "<input name='update_totals[$TotalIndex][class]' type='hidden' value='" . $TotalDetails["Class"] . "'>\n" .
+            "<input type='hidden' name='update_totals[$TotalIndex][total_id]' value='" . $TotalDetails["TotalID"] . "'>" . '</b></td>' .
         '       </tr>' . "\n";
     }
     else
     {
       echo  '       <tr>' . "\n" .
         '   <td align="right" class="' . $TotalStyle . '">' . "<input name='update_totals[$TotalIndex][title]' size='" . strlen(trim($TotalDetails["Name"])) . "' value='" . trim($TotalDetails["Name"]) . "'>" . '</td>' . "\n" .
-        '   <td align="right" class="' . $TotalStyle . '">' . "<input name='update_totals[$TotalIndex][value]' size='6' value='" . $TotalDetails["Price"] . "'>" . 
-            "<input type='hidden' name='update_totals[$TotalIndex][class]' value='" . $TotalDetails["Class"] . "'>" . 
-            "<input type='hidden' name='update_totals[$TotalIndex][total_id]' value='" . $TotalDetails["TotalID"] . "'>" . 
+        '   <td align="right" class="' . $TotalStyle . '">' . "<input name='update_totals[$TotalIndex][value]' size='6' value='" . $TotalDetails["Price"] . "'>" .
+            "<input type='hidden' name='update_totals[$TotalIndex][class]' value='" . $TotalDetails["Class"] . "'>" .
+            "<input type='hidden' name='update_totals[$TotalIndex][total_id]' value='" . $TotalDetails["TotalID"] . "'>" .
             '</td>' . "\n" .
         '       </tr>' . "\n";
     }

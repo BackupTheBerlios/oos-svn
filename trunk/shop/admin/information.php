@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: information.php,v 1.51 2003/01/29 23:21:48 hpdl 
+   File: information.php,v 1.51 2003/01/29 23:21:48 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -33,11 +33,11 @@
          $lID = oos_db_prepare_input($_GET['lID']);
 
          if ($_GET['flag'] == '0') {
-           $dbconn->Execute("UPDATE " . $oostable['information'] . " 
+           $dbconn->Execute("UPDATE " . $oostable['information'] . "
                          SET status = '0'
                          WHERE information_id = '" . intval($lID) . "'");
          } elseif ($_GET['flag'] == '1') {
-           $dbconn->Execute("UPDATE " . $oostable['information'] . " 
+           $dbconn->Execute("UPDATE " . $oostable['information'] . "
                          SET status = '1'
                          WHERE information_id = '" . intval($lID) . "'");
          }
@@ -51,14 +51,14 @@
         $sql_data_array_sort = array('sort_order' => $sort_order);
 
         if ($action == 'insert') {
-          $insert_sql_data = array('date_added' => 'now()');
+          $insert_sql_data = array('date_added' => '" . date("Y-m-d H:i:s", time()) . "');
 
           $sql_data_array = array_merge($insert_sql_data, $sql_data_array_sort);
 
           oos_db_perform($oostable['information'], $sql_data_array);
           $information_id = $dbconn->Insert_ID();
         } elseif ($action == 'save') {
-          $update_sql_data = array('last_modified' => 'now()');
+          $update_sql_data = array('last_modified' => '" . date("Y-m-d H:i:s", time()) . "');
 
           $sql_data_array = array_merge($update_sql_data, $sql_data_array_sort);
 
@@ -138,7 +138,7 @@
 
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -168,7 +168,7 @@
 <?php
   $informationtable = $oostable['information'];
   $information_descriptiontable = $oostable['information_description'];
-  $information_result_raw = "SELECT i.information_id, id.information_name, i.information_image, i.sort_order, i.date_added, i.last_modified, status 
+  $information_result_raw = "SELECT i.information_id, id.information_name, i.information_image, i.sort_order, i.date_added, i.last_modified, status
                               FROM $informationtable i,
                                    $information_descriptiontable id
                               WHERE i.information_id = id.information_id AND

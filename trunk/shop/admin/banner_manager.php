@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: banner_manager.php,v 1.69 2002/10/26 22:32:36 dgw_ 
+   File: banner_manager.php,v 1.69 2002/10/26 22:32:36 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -82,7 +82,7 @@
                                   'banners_html_text' => $html_text);
 
           if ($action == 'insert') {
-            $insert_sql_data = array('date_added' => 'now()',
+            $insert_sql_data = array('date_added' => '" . date("Y-m-d H:i:s", time()) . "',
                                       'status' => '1');
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
@@ -332,11 +332,11 @@ function popupImageWindow(url) {
               </tr>
 <?php
     $banners_result_raw = "SELECT
-                              banners_id, banners_title, banners_image, banners_group, status, expires_date, 
-                              expires_impressions, date_status_change, date_scheduled, date_added 
-                          FROM 
-                              " . $oostable['banners'] . " 
-                          ORDER BY 
+                              banners_id, banners_title, banners_image, banners_group, status, expires_date,
+                              expires_impressions, date_status_change, date_scheduled, date_added
+                          FROM
+                              " . $oostable['banners'] . "
+                          ORDER BY
                               banners_title, banners_group";
     $banners_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $banners_result_raw, $banners_result_numrows);
     $banners_result = $dbconn->Execute($banners_result_raw);

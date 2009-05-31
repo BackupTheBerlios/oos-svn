@@ -638,7 +638,7 @@
       $bannerstable = $oostable['banners'];
       $query = "UPDATE $bannerstable
                    SET status = '0',
-                       date_status_change = now()
+                       date_status_change = '" . date("Y-m-d H:i:s", time()) . "'
                  WHERE banners_id = '" . $banners_id . "'";
       $result =& $dbconn->Execute($query);
 
