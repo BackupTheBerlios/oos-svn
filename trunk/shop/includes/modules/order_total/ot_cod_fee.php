@@ -73,6 +73,8 @@
           if ($_SESSION['shipping']['id'] == 'chp_URG') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_CHP);
           if ($_SESSION['shipping']['id'] == 'certifiedmail_certifiedmail') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_CERTIFIEDMAIL);
           if ($_SESSION['shipping']['id'] == 'hermes_hermes') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_HERMES);
+          if ($_SESSION['shipping']['id'] == 'free_free') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_FREE);
+
 
           $nArrayCountCodZones = count($cod_zones);
           for ($i = 0; $i < $nArrayCountCodZones; $i++) {
@@ -133,7 +135,7 @@
     }
 
     function keys() {
-      return array('MODULE_ORDER_TOTAL_COD_STATUS', 'MODULE_ORDER_TOTAL_COD_SORT_ORDER', 'MODULE_ORDER_TOTAL_COD_FEE_FLAT', 'MODULE_ORDER_TOTAL_COD_FEE_ITEM', 'MODULE_ORDER_TOTAL_COD_FEE_TABLE', 'MODULE_ORDER_TOTAL_COD_FEE_ZONES', 'MODULE_ORDER_TOTAL_COD_FEE_AP', 'MODULE_ORDER_TOTAL_COD_FEE_DP', 'MODULE_ORDER_TOTAL_COD_FEE_CERTIFIEDMAIL', 'MODULE_ORDER_TOTAL_COD_FEE_HERMES', 'MODULE_ORDER_TOTAL_COD_TAX_CLASS');
+      return array('MODULE_ORDER_TOTAL_COD_STATUS', 'MODULE_ORDER_TOTAL_COD_SORT_ORDER', 'MODULE_ORDER_TOTAL_COD_FEE_FLAT', 'MODULE_ORDER_TOTAL_COD_FEE_ITEM', 'MODULE_ORDER_TOTAL_COD_FEE_TABLE', 'MODULE_ORDER_TOTAL_COD_FEE_ZONES', 'MODULE_ORDER_TOTAL_COD_FEE_AP', 'MODULE_ORDER_TOTAL_COD_FEE_DP', 'MODULE_ORDER_TOTAL_COD_FEE_CERTIFIEDMAIL', 'MODULE_ORDER_TOTAL_COD_FEE_HERMES', 'MODULE_ORDER_TOTAL_COD_FEE_FREE', 'MODULE_ORDER_TOTAL_COD_TAX_CLASS');
     }
 
     function install() {
@@ -154,6 +156,7 @@
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_FEE_CHP', 'CH:15.00,00:15.00', '6', '0', '" . date("Y-m-d H:i:s", time()) . "')");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_FEE_CERTIFIEDMAIL', 'AT:3.00,DE:3.58,00:9.99', '6', '0', '" . date("Y-m-d H:i:s", time()) . "')");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_FEE_HERMES', 'AT:3.00,DE:3.58,00:9.99', '6', '0', '" . date("Y-m-d H:i:s", time()) . "')");
+      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_FEE_FREE', 'AT:3.00,DE:3.60,00:9.99', '6', '0', '" . date("Y-m-d H:i:s", time()) . "')");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('MODULE_ORDER_TOTAL_COD_TAX_CLASS', '0', '6', '0', 'oos_cfg_get_tax_class_title', 'oos_cfg_pull_down_tax_classes(', '" . date("Y-m-d H:i:s", time()) . "')");
     }
 

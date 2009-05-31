@@ -1404,7 +1404,6 @@ function oos_mail($to_name, $to_email_address, $email_subject, $email_text, $fro
                $mail->Sendmail = OOS_SENDMAIL;
                $mail->IsSendmail();
              }
-        }
     }
 
 
