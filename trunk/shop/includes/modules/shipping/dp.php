@@ -93,7 +93,7 @@
         $dp_cost = constant('MODULE_SHIPPING_DP_COST_' . $i);
 
         $dp_table = split("[:,]" , $dp_cost);
-        $nArrayCountDP = count($dp_table)
+        $nArrayCountDP = count($dp_table);
         for ($i=0; $i<$nArrayCountDP; $i+=2) {
           if ($shipping_weight <= $dp_table[$i]) {
             $shipping = $dp_table[$i+1];

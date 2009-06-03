@@ -41,12 +41,12 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
     {
         global $aLang;
 
-        if (defined('MODULE_PAYMENT_INSTALLED') && oos_is_not_null($_SESSION['member']->group['payment'])) {
+        if (defined('MODULE_PAYMENT_INSTALLED') && !empty($_SESSION['member']->group['payment'])) {
             $this->modules = explode(';', $_SESSION['member']->group['payment']);
 
             $include_modules = array();
 
-            if ( (oos_is_not_null($module)) && (in_array($module . '.' . substr($_SERVER['PHP_SELF'], (strrpos($_SERVER['PHP_SELF'], '.')+1)), $this->modules)) ) {
+            if ( (!empty($module)) && (in_array($module . '.' . substr($_SERVER['PHP_SELF'], (strrpos($_SERVER['PHP_SELF'], '.')+1)), $this->modules)) ) {
                 $this->selected_module = $module;
 
                 $include_modules[] = array('class' => $module, 'file' => $module . '.php');
@@ -61,7 +61,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
             $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 
             $nArrayCountModules = count($include_modules);
-            for ($i=0, $n=nArrayCountModules; $i<$n; $i++) {
+            for ($i=0, $n = $nArrayCountModules; $i<$n; $i++) {
                 include 'includes/languages/' . $sLanguage . '/modules/payment/' . $include_modules[$i]['file'];
                 include 'includes/modules/payment/' . $include_modules[$i]['file'];
 
@@ -74,7 +74,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
                 $_SESSION['payment'] = $include_modules[0]['class'];
             }
 
-            if ( (oos_is_not_null($module)) && (in_array($module, $this->modules)) && (isset($GLOBALS[$module]->form_action_url)) ) {
+            if ( (!empty($module)) && (in_array($module, $this->modules)) && (isset($GLOBALS[$module]->form_action_url)) ) {
                 $this->form_action_url = $GLOBALS[$module]->form_action_url;
             }
         }
