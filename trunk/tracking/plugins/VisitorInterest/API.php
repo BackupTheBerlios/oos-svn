@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1049 2009-04-06 22:12:25Z matt $
+ * @version $Id: API.php 1158 2009-05-31 11:31:14Z matt $
  * 
  * @package Piwik_VisitorInterest
  */
@@ -32,22 +32,22 @@ class Piwik_VisitorInterest_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort',array(Piwik_Archive::INDEX_NB_VISITS));
-		$dataTable->queuefilter('ReplaceColumnNames');
-		$dataTable->queuefilter('Sort', array('label', 'asc', true));
+		$dataTable->queueFilter('ReplaceColumnNames');
+		$dataTable->queueFilter('Sort', array('label', 'asc', true));
 		return $dataTable;
 	}
 	
 	public function getNumberOfVisitsPerVisitDuration( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('VisitorInterest_timeGap', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getDurationLabel'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getDurationLabel'));
 		return $dataTable;
 	}
 
 	public function getNumberOfVisitsPerPage( $idSite, $period, $date )
 	{
 		$dataTable = $this->getDataTable('VisitorInterest_pageGap', $idSite, $period, $date);
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getPageGapLabel'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getPageGapLabel'));
 		return $dataTable;
 	}
 }

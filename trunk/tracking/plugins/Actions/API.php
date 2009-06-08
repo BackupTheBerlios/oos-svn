@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1049 2009-04-06 22:12:25Z matt $
+ * @version $Id: API.php 1158 2009-05-31 11:31:14Z matt $
  * 
  * @package Piwik_Actions
  */
@@ -47,7 +47,7 @@ class Piwik_Actions_API
 			$dataTable = $archive->getDataTable($name, $idSubtable);
 		}
 		$dataTable->filter('Sort', array('nb_visits', 'desc', $naturalSort = false, $expanded));
-		$dataTable->queuefilter('ReplaceSummaryRowLabel');
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 	

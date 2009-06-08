@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1040 2009-03-29 22:53:44Z matt $
+ * @version $Id: API.php 1138 2009-05-18 04:43:56Z matt $
  * 
  * @package Piwik_UsersManager
  */
@@ -387,7 +387,7 @@ class Piwik_UsersManager_API
 	static public function userExists( $userLogin )
 	{
 		Piwik::checkUserHasSomeAdminAccess();
-		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
+		$count = Piwik_FetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE login = ?", $userLogin);
 		return $count != 0;
@@ -401,7 +401,7 @@ class Piwik_UsersManager_API
 	static public function userEmailExists( $userEmail )
 	{
 		Piwik::checkUserHasSomeAdminAccess();
-		$count = Zend_Registry::get('db')->fetchOne("SELECT count(*) 
+		$count = Piwik_FetchOne("SELECT count(*) 
 													FROM ".Piwik::prefixTable("user"). " 
 													WHERE email = ?", $userEmail);
 		return $count != 0;	

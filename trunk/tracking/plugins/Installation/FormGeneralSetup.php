@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FormGeneralSetup.php 909 2009-02-19 02:04:32Z matt $
+ * @version $Id: FormGeneralSetup.php 1155 2009-05-30 06:02:36Z vipsoft $
  * 
  * @package Piwik_Installation
  */
@@ -19,8 +19,8 @@ class Piwik_Installation_FormGeneralSetup extends Piwik_Form
 {
 	function init()
 	{
-		$urlToGoAfter = Piwik_Url::getCurrentUrl();			
-		
+		$urlToGoAfter = Piwik_Url::getCurrentQueryString();
+
 		$formElements = array(
 			array('text', 'login', Piwik_Translate('Installation_SuperUserLogin')),
 			array('password', 'password', Piwik_Translate('Installation_Password')),

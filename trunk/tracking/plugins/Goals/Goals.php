@@ -4,12 +4,12 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Goals.php 1110 2009-05-12 08:22:55Z mauser $
+ * @version $Id: Goals.php 1150 2009-05-27 22:45:25Z vipsoft $
  * 
  * @package Piwik_Referers
  */
 	
-require_once "core/Tracker/GoalManager.php";
+require_once "Tracker/GoalManager.php";
 
 /**
  * TODO Goals plugin

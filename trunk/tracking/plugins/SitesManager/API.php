@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1010 2009-03-23 22:39:57Z matt $
+ * @version $Id: API.php 1138 2009-05-18 04:43:56Z matt $
  * 
  * @package Piwik_SitesManager
  */
@@ -104,7 +104,7 @@ class Piwik_SitesManager_API
 	static public function getAllSitesId()
 	{
 		Piwik::checkUserIsSuperUser();
-		$result = Zend_Registry::get('db')->fetchAll("SELECT idsite FROM ".Piwik::prefixTable('site'));
+		$result = Piwik_FetchAll("SELECT idsite FROM ".Piwik::prefixTable('site'));
 		$idSites = array();
 		foreach($result as $idSite)
 		{

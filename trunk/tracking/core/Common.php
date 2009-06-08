@@ -94,7 +94,7 @@ class Piwik_Common
 			require_once "Zend/Auth.php";
 			require_once "Timer.php";
 			require_once "PluginsManager.php";
-			require_once "core/Piwik.php";
+			require_once "Piwik.php";
 			require_once "Access.php";
 			require_once "Auth.php";
 			require_once "API/Proxy.php";
@@ -351,7 +351,7 @@ class Piwik_Common
 		}
 		elseif(is_string($value))
 		{
-			$value = htmlspecialchars($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+			$value = self::sanitizeInputValue($value);
 
 			// Undo the damage caused by magic_quotes -- only before php 5.3 as it is now deprecated
 			if ( version_compare(phpversion(), '5.3') === -1 
@@ -383,6 +383,16 @@ class Piwik_Common
 		return $value;
 	}
 
+	static public function sanitizeInputValue($value)
+	{
+		return htmlspecialchars($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+	}
+	
+	static public function unsanitizeInputValue($value)
+	{
+		return htmlspecialchars_decode($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE);
+	}
+	
 	/**
 	 * Returns a sanitized variable value from the $_GET and $_POST superglobal.
 	 * If the variable doesn't have a value or an empty value, returns the defaultValue if specified.
@@ -498,11 +508,21 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns the best possible IP of the current user, in the format A.B.C.D
+	 * Convert dotted IP to a stringified integer representation
 	 *
 	 * @return string ip
 	 */
 	static public function getIp()
+	{
+		return sprintf("%u", ip2long(self::getIpString()));
+	}
+
+	/**
+	 * Returns the best possible IP of the current user, in the format A.B.C.D
+	 *
+	 * @return string ip
+	 */
+	static public function getIpString()
 	{
 		if(isset($_SERVER['HTTP_CLIENT_IP'])
 		&& ($ip = Piwik_Common::getFirstIpFromList($_SERVER['HTTP_CLIENT_IP']))
@@ -798,9 +818,9 @@ class Piwik_Common
 		}
 		
 		if(function_exists('iconv') 
-			&& isset($GLOBALS['Piwik_SearchEngines'][$refererHost][2]))
+			&& isset($GLOBALS['Piwik_SearchEngines'][$refererHost][3]))
 		{
-			$charset = trim($GLOBALS['Piwik_SearchEngines'][$refererHost][2]);
+			$charset = trim($GLOBALS['Piwik_SearchEngines'][$refererHost][3]);
 			if(!empty($charset)) 
 			{
 				$key = @iconv($charset, 'utf-8//IGNORE', $key);

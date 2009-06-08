@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UserSettings.php 1125 2009-05-16 00:32:36Z matt $
+ * @version $Id: UserSettings.php 1149 2009-05-27 22:35:19Z vipsoft $
  * 
  * @package Piwik_UserSettings
  */
@@ -183,7 +183,6 @@ class Piwik_UserSettings extends Piwik_Plugin
 	{
 		$toSelect = "sum(case config_pdf when 1 then 1 else 0 end) as pdf, 
 							sum(case config_flash when 1 then 1 else 0 end) as flash, 
-				 			sum(case config_java when 1 then 1 else 0 end) as java, 
 							sum(case config_director when 1 then 1 else 0 end) as director,
 							sum(case config_realplayer when 1 then 1 else 0 end) as realplayer,
 							sum(case config_windowsmedia when 1 then 1 else 0 end) as windowsmedia,

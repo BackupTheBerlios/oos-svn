@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: piwik.php 1071 2009-04-25 23:31:03Z vipsoft $
+ * @version $Id: piwik.php 1150 2009-05-27 22:45:25Z vipsoft $
  */
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false; 
@@ -18,11 +18,12 @@ error_reporting(E_ALL|E_NOTICE);
 define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
 @ignore_user_abort(true);
 
-set_include_path(PIWIK_INCLUDE_PATH 
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/core'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs/'
-					. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins/'
-					. PATH_SEPARATOR . get_include_path() );
+if((@include "Version.php") === false || !class_exists('Piwik_Version')) {
+	set_include_path(PIWIK_INCLUDE_PATH . '/core'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins'
+		. PATH_SEPARATOR . get_include_path());
+}
 
 require_once "Common.php";
 require_once "PluginsManager.php";

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1072 2009-04-27 04:18:16Z matt $
+ * @version $Id: API.php 1138 2009-05-18 04:43:56Z matt $
  * 
  * @package Piwik_VisitsSummary
  */
@@ -27,7 +27,7 @@ class Piwik_Goals_API
 	
 	static public function getGoals( $idSite )
 	{
-		$goals = Zend_Registry::get('db')->fetchAll("SELECT * 
+		$goals = Piwik_FetchAll("SELECT * 
 											FROM ".Piwik_Common::prefixTable('goal')." 
 											WHERE idsite = ?
 												AND deleted = 0", $idSite);
@@ -114,7 +114,7 @@ class Piwik_Goals_API
 	public function deleteGoal( $idSite, $idGoal )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
-		Zend_Registry::get('db')->query("UPDATE ".Piwik::prefixTable('goal')."
+		Piwik_Query("UPDATE ".Piwik::prefixTable('goal')."
 										SET deleted = 1
 										WHERE idsite = ? 
 											AND idgoal = ?",

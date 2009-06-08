@@ -13,6 +13,13 @@ require_once "Zend/Auth/Result.php";
 
 interface Piwik_Auth {
 	/**
+	 * Authentication module's name, e.g., "Login"
+	 *
+	 * @return string
+	 */
+	public function getName();
+
+	/**
 	 * @return Piwik_Auth_Result
 	 */
 	public function authenticate();

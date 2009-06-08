@@ -1,7 +1,7 @@
 /*
 	jQuery Plugin spy (leftlogic.com/info/articles/jquery_spy2)
 	(c) 2006 Remy Sharp (leftlogic.com)
-	$Id: spy.js 840 2008-12-17 17:31:24Z matt $
+	$Id: spy.js 1141 2009-05-20 23:43:55Z vipsoft $
 */
 var spyRunning = 1;
 
@@ -117,7 +117,7 @@ $.fn.spy = function(settings) {
 	return this.each(function() {
 		var e = this;
 		var lr = ''; // last ajax return
-		var parameters = new Object;
+		var parameters = {};
 		spy.ajaxTimer = window.setInterval(function() {
 			if (spyRunning && (!spy.parsing)) {
 			    var customParameterValue = o.customParameterValueCallback.call();

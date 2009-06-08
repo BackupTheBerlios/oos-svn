@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1006 2009-03-23 02:41:16Z matt $
+ * @version $Id: Controller.php 1156 2009-05-30 17:54:12Z vipsoft $
  * 
  * @package Piwik_Installation
  */
@@ -209,7 +209,6 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			Piwik::createTables();
 			Piwik::createAnonymousUser();
-			require_once "Version.php";
 			require_once "Updater.php";
 			$updater = new Piwik_Updater();
 			$updater->recordComponentSuccessfullyUpdated('core', Piwik_Version::VERSION);
@@ -370,7 +369,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$_SESSION['currentStepDone'] = __FUNCTION__;		
 		$view->showNextStep = false;
 		
-	    setcookie(session_name(), session_id(), 1, '/');
+		setcookie(session_name(), session_id(), 1, '/');
 		@session_destroy();	
 		echo $view->render();
 	}

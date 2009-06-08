@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Provider.php 1072 2009-04-27 04:18:16Z matt $
+ * @version $Id: Provider.php 1138 2009-05-18 04:43:56Z matt $
  * 
  * @package Piwik_Provider
  */
@@ -48,7 +48,7 @@ class Piwik_Provider extends Piwik_Plugin
 		
 		// if the column already exist do not throw error. Could be installed twice...
 		try {
-			Zend_Registry::get('db')->query($query);
+			Piwik_Query($query);
 		}
 		catch(Exception $e){}
 	}
@@ -57,7 +57,7 @@ class Piwik_Provider extends Piwik_Plugin
 	{
 		// add column hostname / hostname ext in the visit table
 		$query = "ALTER TABLE `".Piwik::prefixTable('log_visit')."` DROP `location_provider`";
-		Zend_Registry::get('db')->query($query);
+		Piwik_Query($query);
 	}
 	
 	function addWidget()

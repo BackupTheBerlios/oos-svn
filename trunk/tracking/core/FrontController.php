@@ -22,7 +22,7 @@ require_once "Zend/Auth.php";
  */
 require_once "Timer.php";
 require_once "PluginsManager.php";
-require_once "core/Piwik.php";
+require_once "Piwik.php";
 require_once "Access.php";
 require_once "Auth.php";
 require_once "API/Proxy.php";
@@ -36,6 +36,7 @@ require_once "Url.php";
 require_once "Controller.php";
 require_once "Option.php";
 require_once "View.php";
+require_once "Version.php";
 require_once "UpdateCheck.php";
 
 
@@ -121,7 +122,7 @@ class Piwik_FrontController
 		$controllerClassName = "Piwik_".$module."_Controller";
 		if(!class_exists($controllerClassName))
 		{
-			$moduleController = "plugins/" . $module . "/Controller.php";
+			$moduleController = $module . "/Controller.php";
 			if( !Zend_Loader::isReadable($moduleController))
 			{
 				throw new Exception("Module controller $moduleController not found!");

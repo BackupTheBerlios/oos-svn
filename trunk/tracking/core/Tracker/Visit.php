@@ -287,7 +287,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_resolution' 	=> $userInfo['config_resolution'],
 			'config_pdf' 			=> $userInfo['config_pdf'],
 			'config_flash' 			=> $userInfo['config_flash'],
-			'config_java' 			=> $userInfo['config_java'],
 			'config_director' 		=> $userInfo['config_director'],
 			'config_realplayer' 	=> $userInfo['config_realplayer'],
 			'config_windowsmedia' 	=> $userInfo['config_windowsmedia'],
@@ -528,7 +527,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$plugin_RealPlayer 		= Piwik_Common::getRequestVar( 'realp', 0, 'int', $this->request);
 		$plugin_Pdf 			= Piwik_Common::getRequestVar( 'pdf', 0, 'int', $this->request);
 		$plugin_WindowsMedia 	= Piwik_Common::getRequestVar( 'wma', 0, 'int', $this->request);
-		$plugin_Java 			= Piwik_Common::getRequestVar( 'java', 0, 'int', $this->request);
 		$plugin_Cookie 			= Piwik_Common::getRequestVar( 'cookie', 0, 'int', $this->request);
 		
 		$userAgent		= Piwik_Common::sanitizeInputValues(@$_SERVER['HTTP_USER_AGENT']);
@@ -543,7 +541,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$resolution		= Piwik_Common::getRequestVar('res', 'unknown', 'string', $this->request);
 
 		$ip				= Piwik_Common::getIp();
-		$ip 			= ip2long($ip);
 
 		$browserLang	= Piwik_Common::getBrowserLanguage();
 		
@@ -557,7 +554,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 												$plugin_RealPlayer,
 												$plugin_Pdf,
 												$plugin_WindowsMedia,
-												$plugin_Java,
 												$plugin_Cookie,
 												$ip,
 												$browserLang);
@@ -570,7 +566,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_resolution' 	=> $resolution,
 			'config_pdf' 			=> $plugin_Pdf,
 			'config_flash' 			=> $plugin_Flash,
-			'config_java' 			=> $plugin_Java,
 			'config_director' 		=> $plugin_Director,
 			'config_realplayer' 	=> $plugin_RealPlayer,
 			'config_windowsmedia' 	=> $plugin_WindowsMedia,
@@ -873,9 +868,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * Returns a MD5 of all the configuration settings
 	 * @return string
 	 */
-	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Java, $plugin_Cookie, $ip, $browserLang)
+	protected function getConfigHash( $os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Director, $plugin_RealPlayer, $plugin_Pdf, $plugin_WindowsMedia, $plugin_Cookie, $ip, $browserLang)
 	{
-		return md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Java . $plugin_Cookie . $ip . $browserLang );
+		return md5( $os . $browserName . $browserVersion . $resolution . $plugin_Flash . $plugin_Director . $plugin_RealPlayer . $plugin_Pdf . $plugin_WindowsMedia . $plugin_Cookie . $ip . $browserLang );
 	}
 	
 	/**

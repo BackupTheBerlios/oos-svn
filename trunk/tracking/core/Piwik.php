@@ -616,7 +616,6 @@ class Piwik
 							  config_resolution VARCHAR(9) NOT NULL,
 							  config_pdf TINYINT(1) NOT NULL,
 							  config_flash TINYINT(1) NOT NULL,
-							  config_java TINYINT(1) NOT NULL,
 							  config_director TINYINT(1) NOT NULL,
 							  config_realplayer TINYINT(1) NOT NULL,
 							  config_windowsmedia TINYINT(1) NOT NULL,
@@ -906,7 +905,6 @@ class Piwik
 	static public function displayScreenForCoreAndPluginsUpdatesIfNecessary()
 	{
 		require_once "Updater.php";
-		require_once "Version.php";
 		$updater = new Piwik_Updater();
 		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
 		
@@ -1184,13 +1182,13 @@ class Piwik
 		{
 			$dbName = Zend_Registry::get('config')->database->dbname;
 		}
-		Zend_Registry::get('db')->query("CREATE DATABASE IF NOT EXISTS ".$dbName);
+		Piwik_Query("CREATE DATABASE IF NOT EXISTS ".$dbName);
 	}
 	
 	static public function dropDatabase()
 	{
 		$dbName = Zend_Registry::get('config')->database->dbname;
-		Zend_Registry::get('db')->query("DROP DATABASE IF EXISTS " . $dbName);
+		Piwik_Query("DROP DATABASE IF EXISTS " . $dbName);
 	}
 	
 	static public function createDatabaseObject( $dbInfos = null )
@@ -1226,7 +1224,7 @@ class Piwik
 	
 	static public function getMysqlVersion()
 	{
-		return Zend_Registry::get('db')->fetchOne("SELECT VERSION()");
+		return Piwik_FetchOne("SELECT VERSION()");
 	}
 
 	static public function createLogObject()
@@ -1369,7 +1367,7 @@ class Piwik
 		$tablesAlreadyInstalled = self::getTablesInstalled($forceReload = true);
 		foreach($tablesAlreadyInstalled as $table) 
 		{
-			Zend_Registry::get('db')->query("TRUNCATE `$table`");
+			Piwik_Query("TRUNCATE `$table`");
 		}
 	}
 	

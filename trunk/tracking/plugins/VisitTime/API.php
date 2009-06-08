@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1049 2009-04-06 22:12:25Z matt $
+ * @version $Id: API.php 1158 2009-05-31 11:31:14Z matt $
  * 
  * @package Piwik_VisitTime
  */
@@ -33,8 +33,8 @@ class Piwik_VisitTime_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array('label', 'asc', true));
-		$dataTable->queuefilter('ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
-		$dataTable->queuefilter('ReplaceColumnNames');
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
+		$dataTable->queueFilter('ReplaceColumnNames');
 		return $dataTable;
 	}
 	

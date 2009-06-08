@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Form.php 870 2009-01-14 03:40:55Z matt $
+ * @version $Id: Form.php 1155 2009-05-30 06:02:36Z vipsoft $
  * 
  * @package Piwik_Login
  */
@@ -27,10 +27,11 @@ class Piwik_Login_Form extends Piwik_Form
 	function init()
 	{
 		// if form_url is not defined go to current url
-		$urlToGoAfter = Piwik_Common::getRequestVar('form_url', Piwik_Url::getCurrentUrl(), 'string');
+		$currentUrl = Piwik_Url::getCurrentQueryString();
+		$urlToGoAfter = Piwik_Common::getRequestVar('form_url', $currentUrl, 'string');
 		
 		// if the current url to redirect contains module=login we insteaed redirect to the referer url
-		if(stripos($urlToGoAfter,'module=login') !== false)
+		if(stripos($urlToGoAfter, 'module=Login') !== false)
 		{
 			$urlToGoAfter = Piwik_Url::getReferer();
 		}
