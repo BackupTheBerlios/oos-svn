@@ -12,9 +12,9 @@
 	<div class="c50r">
 		<div class="subcr">
 			<ul>
-				<li><a href="{html_href_link modul=$modules.main file=$filename.main_shopping_cart}" title="{$lang.page_shopping_cart}">{$lang.page_shopping_cart}</a></li>
-				<li><a href="{html_href_link modul=$modules.checkout file=$filename.checkout_shipping}" title="{$lang.page_checkout_shipping}">{$lang.page_checkout_shipping}</a></li>
-				<li><a href="{html_href_link modul=$modules.search file=$filename.advanced_search}" title="{$lang.page_advanced_search}">{$lang.page_advanced_search}</a></li>
+				<li><a href="{html_href_link modul=$modules.main file=$filename.main_shopping_cart}" title="{$lang.page_shopping_cart}" rel="nofollow">{$lang.page_shopping_cart}</a></li>
+				<li><a href="{html_href_link modul=$modules.checkout file=$filename.checkout_shipping}" title="{$lang.page_checkout_shipping}" rel="nofollow">{$lang.page_checkout_shipping}</a></li>
+				<li><a href="{html_href_link modul=$modules.search file=$filename.advanced_search}" title="{$lang.page_advanced_search}" rel="nofollow">{$lang.page_advanced_search}</a></li>
 				<li><a href="{html_href_link modul=$modules.products file=$filename.products_new}" title="{$lang.page_products_new}">{$lang.page_products_new}</a></li>
 {if $oEvent->installed_plugin('spezials')}
 				<li><a href="{html_href_link modul=$modules.products file=$filename.specials}" title="{$lang.page_specials}">{$lang.page_specials}</a></li>
@@ -42,7 +42,7 @@
 						<li><a href="{html_href_link modul=$modules.info file=$filename.info_gallery}" title="{$lang.block_information_gallery}">{$lang.block_information_gallery}</a></li>
 {/if}
 {foreach item=info from=$information}
-						<li><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}" title="{$info.information_name}">{$info.information_name}</a></li>
+						<li><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}" title="{$info.information_name}" rel="nofollow">{$info.information_name}</a></li>
 {/foreach}
 						<li><a href="{html_href_link modul=$modules.main file=$filename.info_directions}" title="{$lang.block_information_mapquest}">{$lang.block_information_mapquest}</a></li>
 						<li><a href="{html_href_link modul=$modules.main file=$filename.contact_us}" title="{$lang.block_information_contact}">{$lang.block_information_contact}</a></li>

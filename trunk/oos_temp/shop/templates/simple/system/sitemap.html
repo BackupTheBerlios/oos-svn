@@ -11,9 +11,9 @@
             <td width="50%" class="main" valign="top">{$sitemap}</td>
             <td width="50%" class="main" valign="top">
               <ul>
-<li><a href="{html_href_link modul=$modules.main file=$filename.main_shopping_cart}">{$lang.page_shopping_cart}</a></li>
-<li><a href="{html_href_link modul=$modules.checkout file=$filename.checkout_shipping}">{$lang.page_checkout_shipping}</a></li>
-<li><a href="{html_href_link modul=$modules.search file=$filename.advanced_search}">{$lang.page_advanced_search}</a></li>
+<li><a href="{html_href_link modul=$modules.main file=$filename.main_shopping_cart}" rel="nofollow">{$lang.page_shopping_cart}</a></li>
+<li><a href="{html_href_link modul=$modules.checkout file=$filename.checkout_shipping}" rel="nofollow">{$lang.page_checkout_shipping}</a></li>
+<li><a href="{html_href_link modul=$modules.search file=$filename.advanced_search}" rel="nofollow">{$lang.page_advanced_search}</a></li>
 <li><a href="{html_href_link modul=$modules.products file=$filename.products_new}">{$lang.page_products_new}</a></li>
 {if $oEvent->installed_plugin('spezials')}
 <li><a href="{html_href_link modul=$modules.products file=$filename.specials}">{$lang.page_specials}</a></li>
@@ -40,7 +40,7 @@
                     <li><a href="{html_href_link modul=$modules.info file=$filename.info_gallery}">{$lang.block_information_gallery}</a></li>
 {/if}
 {foreach item=info from=$information}
-                    <li><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}">{$info.information_name}</a></li>
+                    <li><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}" title="{$info.information_name}" rel="nofollow">{$info.information_name}</a></li>
 {/foreach}
                     <li><a href="{html_href_link modul=$modules.main file=$filename.info_directions}">{$lang.block_information_mapquest}</a></li>
                     <li><a href="{html_href_link modul=$modules.main file=$filename.contact_us}">{$lang.block_information_contact}</a></li>

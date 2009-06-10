@@ -19,7 +19,7 @@
   <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.info file=$filename.info_gallery}">{$lang.block_information_gallery}</a><br />
 {/if}
 {foreach item=info from=$information}
-  <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}">{$info.information_name}</a><br />
+  <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}" title="{$info.information_name}" rel="nofollow">{$info.information_name}</a><br />
 {/foreach}
 <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.main file=$filename.contact_us}">{$lang.block_information_contact}</a><br />
 	</td>
