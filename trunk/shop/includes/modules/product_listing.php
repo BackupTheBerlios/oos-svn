@@ -152,19 +152,19 @@ include 'includes/functions/function_listing.php';
           case 'PRODUCT_LIST_NAME':
             $lc_align = '';
             if (isset($_GET['manufacturers_id'])) {
-              $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a>';
+              $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>';
             } else {
               if ($oEvent->installed_plugin('sefu')) {
-                $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a>&nbsp;';
+                $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>&nbsp;';
               } else {
-                $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a>&nbsp;';
+                $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>&nbsp;';
               }
             }
             break;
 
           case 'PRODUCT_LIST_MANUFACTURER':
             $lc_align = '';
-            $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['main'], $aFilename['shop'], 'manufacturers_id=' . $listing['manufacturers_id']) . '">' . $listing['manufacturers_name'] . '</a>&nbsp;';
+            $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['main'], $aFilename['shop'], 'manufacturers_id=' . $listing['manufacturers_id']) . '" title="' . $listing['manufacturers_name'] . '">' . $listing['manufacturers_name'] . '</a>&nbsp;';
             break;
 
           case 'PRODUCT_LIST_UVP':
@@ -258,12 +258,12 @@ include 'includes/functions/function_listing.php';
           case 'PRODUCT_LIST_IMAGE':
             $lc_align = 'center';
             if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
-              $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '">';
+              $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
             } else {
               if ($oEvent->installed_plugin('sefu')) {
-                $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '">';
+                $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
               } else {
-                $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '">';
+                $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
               }
             }
 

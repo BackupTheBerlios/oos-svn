@@ -29,13 +29,13 @@ MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
 // define our listing functions
 include 'includes/functions/function_listing.php';
 
-  $listing_numrows_sql = $listing_sql;
-  $listing_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $listing_sql, $listing_numrows);
-  // fix counted products
-  $listing_numrows = $dbconn->Execute($listing_numrows_sql);
-  $listing_numrows = $listing_numrows->RecordCount();
+$listing_numrows_sql = $listing_sql;
+$listing_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $listing_sql, $listing_numrows);
+// fix counted products
+$listing_numrows = $dbconn->Execute($listing_numrows_sql);
+$listing_numrows = $listing_numrows->RecordCount();
 
-  if ($listing_numrows > 0) {
+if ($listing_numrows > 0) {
 
     $list_box_contents = array();
     $list_box_contents[] = array('params' => 'class="productListing-even"');
@@ -94,7 +94,7 @@ include 'includes/functions/function_listing.php';
       }
 
       if ( ($column_list[$col] != 'PRODUCT_SLAVE_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
-        $lc_text = oos_create_sort_heading($_GET['sort'], $col+1, $lc_text);
+          $lc_text = oos_create_sort_heading($_GET['sort'], $col+1, $lc_text);
       }
 
       $list_box_contents[$cur_row][] = array('align' => $lc_align,
@@ -137,19 +137,19 @@ include 'includes/functions/function_listing.php';
             case 'PRODUCT_LIST_NAME':
               $lc_align = '';
               if (isset($_GET['manufacturers_id'])) {
-                $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a>';
+                $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>';
               } else {
                 if ($oEvent->installed_plugin('sefu')) {
-                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a>&nbsp;';
+                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>&nbsp;';
                 } else {
-                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a>&nbsp;';
+                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>&nbsp;';
                 }
               }
               break;
 
             case 'PRODUCT_LIST_MANUFACTURER':
               $lc_align = '';
-              $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['main'], $aFilename['shop'], 'manufacturers_id=' . $listing['manufacturers_id']) . '">' . $listing['manufacturers_name'] . '</a>&nbsp;';
+              $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['main'], $aFilename['shop'], 'manufacturers_id=' . $listing['manufacturers_id']) . '" title="' . $listing['manufacturers_name'] . '">' . $listing['manufacturers_name'] . '</a>&nbsp;';
               break;
 
             case 'PRODUCT_LIST_UVP':
@@ -241,12 +241,12 @@ include 'includes/functions/function_listing.php';
             case 'PRODUCT_LIST_IMAGE':
               $lc_align = 'center';
               if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
-                $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '">';
+                $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
               } else {
                 if ($oEvent->installed_plugin('sefu')) {
-                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '">';
+                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
                 } else {
-                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '">';
+                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
                 }
               }
 
@@ -288,7 +288,7 @@ include 'includes/functions/function_listing.php';
                  $lc_text .= oos_image_submit('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']);
                  $lc_text .= '</form>';
                } else {
-                 $lc_text = '<a href="' . oos_href_link($sMp, $sFile, $all_get_listing . 'action=buy_slave&amp;slave_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
+                 $lc_text = '<a href="' . oos_href_link($sMp, $sFile, $all_get_listing . 'action=buy_slave&amp;slave_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '" title="' . $listing['products_name'] . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
                }
 
             } else {
@@ -308,11 +308,15 @@ include 'includes/functions/function_listing.php';
 
     }
 
-    $oSmarty->assign(array('oos_page_split' => $listing_split->display_count($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], $aLang['text_display_number_of_products']),
-                           'oos_display_links' => $listing_split->display_links($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_parameters(array('page', 'info'))),
-                           'oos_page_numrows' => $listing_numrows));
+    $oSmarty->assign(
+          array(
+              'oos_page_split' => $listing_split->display_count($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], $aLang['text_display_number_of_products']),
+              'oos_display_links' => $listing_split->display_links($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_parameters(array('page', 'info'))),
+              'oos_page_numrows' => $listing_numrows
+           )
+    );
 
     $oSmarty->assign('list_box_contents', $list_box_contents);
 
-  }
+}
 
