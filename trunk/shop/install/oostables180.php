@@ -43,5 +43,16 @@ function idxsql($idxname, $table, $idxflds) {
    $dict->ExecuteSQLArray($sqlarray);
 }
 
+function setutf8($table) {
+   GLOBAL $db;
+
+
+   $result = $db->Execute("ALTER TABLE " . $table . "  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
+   if ($result === false) {
+       echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+   } else {
+       echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
+   }
+}
 
 ?>
