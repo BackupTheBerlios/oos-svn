@@ -2,11 +2,11 @@
   <tr>
     <td width="450" align="left" valign="middle" class="tbl_header">&nbsp;&nbsp;{$oos_heading_title}</td>
     <td align="right" valign="middle" class="tbl_header">
-{php}if (!isset($_GET['option'])) { {/php}
+{if !isset($smarty.get.option)}
 	<script language="javascript"><!--
 		document.write('<a href="javascript:void window.open(\'{html_href_link modul=$main_page file=$page_file oos_get=$get_params option=print}\', \'win2\', \'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no\');" title="{$lang.icon_button_print}">{html_js_icon image="print.gif" alt=$lang.icon_button_print}</a>');
 	//--></script>
-{php} } {/php}
+{/if}
     </td>
     <td align="left" valign="middle" class="tbl_header"><img src="{$theme_image}/trans.gif" alt=" " width="2" height="22"></td>
   </tr>

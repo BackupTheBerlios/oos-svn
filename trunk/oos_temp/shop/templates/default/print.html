@@ -11,7 +11,7 @@
 </head>
 <body class="contentpane">
 
-{php}if (!isset($_GET['pdf'])) { {/php}
+{if !isset($smarty.get.pdf)}
     <table class="contentpaneopen">
     <tbody><tr>
         <td class="contentheading" width="100%">{$product_info.products_name}</td>
@@ -25,7 +25,7 @@
     </tr>
     <tr><td height="15"></td></tr>
     </tbody></table>
-{php} } {/php}
+{/if}
 
     <table cellspacing="0" cellpadding="0">
     <tbody><tr>
@@ -36,13 +36,13 @@
     </tbody></table>
     </table>
 
-{php}if (!isset($_GET['pdf'])) { {/php}
+{if !isset($smarty.get.pdf)}
      <div align="right" style="margin-top: 30px; margin-bottom: 30px;">
          <a href='javascript:window.close();'>
          <span class="small">{$lang.text_close_window}</span>
         </a>
      </div>
-{php} } {/php}
+{/if}
 
 </body>
 </html>
