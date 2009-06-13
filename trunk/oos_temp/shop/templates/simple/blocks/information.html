@@ -21,7 +21,7 @@
 {foreach item=info from=$information}
   <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}" title="{$info.information_name}" rel="nofollow">{$info.information_name}</a><br />
 {/foreach}
-<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.main file=$filename.contact_us}">{$lang.block_information_contact}</a><br />
+<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.main file=$filename.contact_us}" rel="nofollow">{$lang.block_information_contact}</a><br />
 	</td>
   </tr>
 </table>	</td>

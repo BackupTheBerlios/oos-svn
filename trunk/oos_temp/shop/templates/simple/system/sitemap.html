@@ -42,9 +42,9 @@
 {foreach item=info from=$information}
                     <li><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}" title="{$info.information_name}" rel="nofollow">{$info.information_name}</a></li>
 {/foreach}
-                    <li><a href="{html_href_link modul=$modules.main file=$filename.info_directions}">{$lang.block_information_mapquest}</a></li>
-                    <li><a href="{html_href_link modul=$modules.main file=$filename.contact_us}">{$lang.block_information_contact}</a></li>
-                    <li><a href="{html_href_link modul=$modules.info file=$filename.info_vcard}">{$lang.block_information_v_card}</a></li>
+                    <li><a href="{html_href_link modul=$modules.main file=$filename.info_directions}" rel="nofollow">{$lang.block_information_mapquest}</a></li>
+                    <li><a href="{html_href_link modul=$modules.main file=$filename.contact_us}" rel="nofollow">{$lang.block_information_contact}</a></li>
+                    <li><a href="{html_href_link modul=$modules.info file=$filename.info_vcard}" rel="nofollow">{$lang.block_information_v_card}</a></li>
                   </ul>
                 </li>
               </ul>
