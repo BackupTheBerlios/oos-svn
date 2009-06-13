@@ -12,12 +12,12 @@
 			<a href="{html_href_link modul=$modules.user file=$filename.customers_image connection=SSL}" title="{$lang.edit_yourimage}">{$lang.edit_yourimage}</a>
 		</p>
 
-{php}if (isset($_SESSION['customer_id'])) { {/php}
+{if (isset($smarty.session.customer_id)) }
 		<p>
 			{$lang.text_date_account_created} {$account_created}<br />
 			{$lang.entry_city} {$myworld.entry_city} / {$country_name}
 		</p>
-{php} } {/php}
+{/if}
 
 		<ul>
 			<li><a href="{html_href_link modul=$modules.user file=$filename.yourstore connection=SSL}" title="{$lang.text_yourstore}">{$lang.text_yourstore}</a></li>

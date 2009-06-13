@@ -96,14 +96,13 @@ function popupZoom(url) {
   <tr class="oos-HeadNavi">
     <td class="oos-HeadNavi">&nbsp;&nbsp;{$oos_breadcrumb}</td>
     <td align="right" class="oos-HeadNavi">
-
-{php}if (isset($_SESSION['customer_id'])) { {/php}
+{if (isset($smarty.session.customer_id)) }
 <a href="{html_href_link modul=$modules.user file=$filename.logoff connection=SSL}" class="headerNavigation" rel="nofollow">{$lang.header_title_logoff}</a>&nbsp;
-{php} } else { {/php}
+{else}
 <a href="{html_href_link modul=$modules.user file=$filename.login connection=SSL}" class="headerNavigation" rel="nofollow">{$lang.header_title_login}</a>&nbsp;
-{php} } {/php}
+{/if}
 |&nbsp;<a href="{html_href_link modul=$modules.user file=$filename.account connection=SSL}" class="headerNavigation" rel="nofollow">{$lang.header_title_my_account}</a>&nbsp;
-|&nbsp;<a href="{html_href_link modul=$modules.main file=$filename.main_shopping_cart}" class="headerNavigation"> rel="nofollow"{$lang.header_title_cart_contents}</a>&nbsp;
+|&nbsp;<a href="{html_href_link modul=$modules.main file=$filename.main_shopping_cart}" class="headerNavigation" rel="nofollow">{$lang.header_title_cart_contents}</a>&nbsp;
 |&nbsp;<a href="{html_href_link modul=$modules.checkout file=$filename.checkout_shipping connection=SSL}" class="headerNavigation" rel="nofollow">{$lang.header_title_checkout}</a>&nbsp;&nbsp;
 
     </td>

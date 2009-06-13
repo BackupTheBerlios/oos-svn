@@ -26,7 +26,7 @@
       <tr>
         <td height="5"></td>
       </tr>
-{php}if (isset($_SESSION['customer_id'])) { {/php}
+{if (isset($smarty.session.customer_id)) }
 
      {if $customers_tickets_numrows > 0 }
       <tr>
@@ -74,7 +74,7 @@
         </table></td>
       </tr>
     {/if}
-{php} } {/php}
+{/if}
 {/if}
   {if isset($tlid) }
     {if $ticket.ticket_customers_id > 1 && $ticket.ticket_login_required eq '1' && !isset($smarty.session.customer_id) }

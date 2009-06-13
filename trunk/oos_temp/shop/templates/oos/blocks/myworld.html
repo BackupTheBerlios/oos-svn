@@ -18,10 +18,10 @@
           </tr>
           <tr>
             <td align="left" valign="top" class="block_content">
-{php}if (isset($_SESSION['customer_id'])) { {/php}
+{if (isset($smarty.session.customer_id)) }
   {$lang.text_date_account_created} {$account_created}<br>
   {$lang.entry_city} {$myworld.entry_city} / {$country_name}<br>
-{php} } {/php}
+{/if}
 <br>
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link modul=$modules.user file=$filename.yourstore connection=SSL}">{$lang.text_yourstore}</a><br>
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link modul=$modules.user file=$filename.account connection=SSL}">{$lang.login_block_my_account}</a><br>
