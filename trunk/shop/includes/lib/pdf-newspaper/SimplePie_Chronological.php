@@ -1,4 +1,8 @@
 <?php
+
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 class SimplePie_Chronological extends SimplePie
 {
 	function sort_items($a, $b) {
@@ -149,4 +153,4 @@ class SimplePie_Chronological extends SimplePie
 		}
 	}
 }
-?>
+

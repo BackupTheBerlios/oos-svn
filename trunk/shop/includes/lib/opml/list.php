@@ -1,4 +1,8 @@
 <?php
+
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 require_once('iam_opml_parser.php');
 
 $opml_url = 'http://www.scripting.com/feeds/top100.opml';
@@ -14,4 +18,3 @@ foreach($links as $feed)
 		print "<li><a href=\"$link\">{$feed[names]}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"{$feed[feeds]}\">RSS Feed</a></li>";
 }
 print "</ul>";
-?>

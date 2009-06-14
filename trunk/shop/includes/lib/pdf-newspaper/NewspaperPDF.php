@@ -23,6 +23,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 class NewspaperPDF extends TCPDF
 {
 	//number of columns
@@ -1547,4 +1550,3 @@ class NewspaperPDF extends TCPDF
 		return $info['i'];
 	}
 }
-?>
