@@ -1,11 +1,11 @@
 <?php
 //============================================================+
-// File name   : example_044.php
-// Begin       : 2009-01-02
-// Last Update : 2009-04-23
+// File name   : example_052.php
+// Begin       : 2009-05-07
+// Last Update : 2009-05-07
 // 
-// Description : Example 044 for TCPDF class
-//               Move and delete pages
+// Description : Example 052 for TCPDF class
+//               Certification Signature (experimental)
 // 
 // Author: Nicola Asuni
 // 
@@ -22,24 +22,24 @@
 /**
  * Creates an example PDF TEST document using TCPDF
  * @package com.tecnick.tcpdf
- * @abstract TCPDF - Example: Move and delete pages
+ * @abstract TCPDF - Example: Certification Signature (experimental)
  * @author Nicola Asuni
- * @copyright 2004-2008 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
+ * @copyright 2004-2009 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
  * @link http://tcpdf.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
- * @since 2009-01-02
+ * @since 2009-05-07
  */
 
 require_once('../config/lang/eng.php');
 require_once('../tcpdf.php');
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('TCPDF Example 044');
+$pdf->SetTitle('TCPDF Example 052');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -69,49 +69,33 @@ $pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
+// set certificate file
+$certificate = 'file://../tcpdf.pem';
+
+// set additional information
+$info = array(
+	'Name' => 'TCPDF',
+	'Location' => 'Office',
+	'Reason' => 'Testing TCPDF',
+	'ContactInfo' => 'http://www.tcpdf.org',
+	);
+
+// set document signature
+$pdf->setSignature($certificate, $certificate, '', '', 2, $info);
+
 // set font
-$pdf->SetFont('helvetica', '', 18);
+$pdf->SetFont('helvetica', '', 10);
+
+// add a page
+$pdf->AddPage();
 
 // print a line using Cell()
-$pdf->AddPage();
-$pdf->Cell(0, 10, 'PAGE A', 0, 1, 'L');
-
-$pdf->AddPage();
-$pdf->Cell(0, 10, 'PAGE B', 0, 1, 'L');
-
-$pdf->AddPage();
-$pdf->Cell(0, 10, 'PAGE D', 0, 1, 'L');
-
-$pdf->AddPage();
-$pdf->Cell(0, 10, 'PAGE E', 0, 1, 'L');
-
-$pdf->AddPage();
-$pdf->Cell(0, 10, 'PAGE E-2', 0, 1, 'L');
-
-$pdf->AddPage();
-$pdf->Cell(0, 10, 'PAGE F', 0, 1, 'L');
-
-$pdf->AddPage();
-$pdf->Cell(0, 10, 'PAGE C', 0, 1, 'L');
-
-$pdf->AddPage();
-$pdf->Cell(0, 10, 'PAGE G', 0, 1, 'L');
-
-// Move page 7 to page 3
-$pdf->movePage(7, 3);
-
-// Delete page 6
-$pdf->deletePage(6);
-
-$pdf->AddPage();
-$pdf->Cell(0, 10, 'PAGE H', 0, 1, 'L');
-
-// NOTE: to insert a page to a previous position, you can add a new page to the end of document and then move it using movePage().
+$pdf->Cell(0, 12, 'Signed Document', 1, 1, 'C');
 
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('example_044.pdf', 'I');
+$pdf->Output('example_052.pdf', 'I');
 
 //============================================================+
 // END OF FILE                                                 
