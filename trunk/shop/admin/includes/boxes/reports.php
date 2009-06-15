@@ -36,6 +36,7 @@
                                      oos_admin_files_boxes('stats_products_purchased', BOX_REPORTS_PRODUCTS_PURCHASED) .
                                      oos_admin_files_boxes('stats_low_stock', BOX_REPORTS_STOCK_LEVEL) .
                                      oos_admin_files_boxes('stats_customers', BOX_REPORTS_ORDERS_TOTAL) .
+                                     oos_admin_files_boxes('stats_register_customer_no_purchase', BOX_REPORTS_CUSTOMER_NO_PURCHASE) .
                                      oos_admin_files_boxes('stats_sales_report2', BOX_REPORTS_SALES_REPORT2) .
                                      oos_admin_files_boxes('stats_recover_cart_sales', BOX_REPORTS_RECOVER_CART_SALES));
   }

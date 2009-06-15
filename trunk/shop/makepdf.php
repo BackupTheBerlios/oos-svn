@@ -31,22 +31,27 @@ if (function_exists('ini_set')) {
 
 define('OOS_VALID_MOD', 'yes');
 
+// MyOOS requires PHP 5.2+
+version_compare(PHP_VERSION, '5.2', '<') and exit('MyOOS requires PHP 5.2 or newer.');
+
+
+require(dirname(__FILE__) . '/includes/oos_main.php');
 
 
 // Include OPML parser for OPML support
-require(dirname(__FILE__) . '/includes/lib/opml/iam_opml_parser.php');
+require_once(dirname(__FILE__) . '/includes/lib/opml/iam_opml_parser.php');
 // Include SimplePie for RSS/Atom support
-require(dirname(__FILE__) . '/includes/lib/simplepie/simplepie.php');
-require(dirname(__FILE__) . '/includes/lib/pdf-newspaper/SimplePie_Chronological.php');
+require_once(dirname(__FILE__) . '/includes/lib/simplepie/simplepie.php');
+require_once(dirname(__FILE__) . '/includes/lib/pdf-newspaper/SimplePie_Chronological.php');
 // Include HTML Purifier to clean up and filter HTML input
-require(dirname(__FILE__) . '/includes/htmlpurifier/library/HTMLPurifier.auto.php');
+require_once(dirname(__FILE__) . '/includes/htmlpurifier/library/HTMLPurifier.auto.php');
 // Include SmartyPants to make pretty, curly quotes
-require(dirname(__FILE__) . '/includes/lib/smartypants/smartypants.php');
+require_once(dirname(__FILE__) . '/includes/lib/smartypants/smartypants.php');
 // Include TCPDF to turn all this into a PDF
 require_once(dirname(__FILE__) . '/includes/lib/tcpdf/config/lang/eng.php');
-require(dirname(__FILE__) . '/includes/lib/tcpdf/tcpdf.php');
+require_once(dirname(__FILE__) . '/includes/lib/tcpdf/tcpdf.php');
 // Include NewspaperPDF to let us add stories to our PDF easily
-require(dirname(__FILE__) . '/includes/lib/pdf-newspaper/NewspaperPDF.php');
+require_once(dirname(__FILE__) . '/includes/lib/pdf-newspaper/NewspaperPDF.php');
 
 ////////////////////////////////
 // Check for feed URL
@@ -211,7 +216,7 @@ $pdf->SetSubject('Non-corporate news');
 //$pdf->setPrintFooter(false);
 
 // set default header data
-$pdf->SetHeaderData('../../../images/five_filters.jpg', 85, '', '');
+// $pdf->SetHeaderData('../../../images/five_filters.jpg', 85, '', '');
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
 
 // set header and footer fonts

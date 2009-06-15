@@ -109,6 +109,7 @@
   $aFilename['shipping_modules'] = $prefix_filename . 'shipping_modules.php';
   $aFilename['specials'] = $prefix_filename . 'specials.php';
   $aFilename['stats_customers'] = $prefix_filename . 'stats_customers.php';
+  $aFilename['stats_register_customer_no_purchase'] = $prefix_filename . 'stats_register_customer_no_purchase.php';
   $aFilename['stats_keywords'] = $prefix_filename . 'stats_keywords.php';
   $aFilename['stats_low_stock'] = $prefix_filename . 'stats_low_stock.php';
   $aFilename['stats_products_purchased'] = $prefix_filename . 'stats_products_purchased.php';
