@@ -807,6 +807,7 @@ $flds = "
   orders_id I NOTNULL AUTO PRIMARY,
   customers_id I NOTNULL,
   customers_name C(64) NOTNULL,
+  customers_number C(16),
   customers_company C(32),
   customers_street_address C(64) NOTNULL,
   customers_suburb C(32),

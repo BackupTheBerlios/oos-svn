@@ -222,6 +222,10 @@ echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;
 
 
 $table = $prefix_table . 'orders';
+$result = $db->Execute("ALTER TABLE " . $table . " ADD `customers_number` VARCHAR(16) AFTER `customers_name`");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+}
 $result = $db->Execute("ALTER TABLE " . $table . " ADD cc_start varchar(4) default NULL AFTER cc_expires");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';

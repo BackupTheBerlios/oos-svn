@@ -67,7 +67,7 @@ class order
         $oostable =& oosDBGetTables();
 
         $orderstable = $oostable['orders'];
-        $sql = "SELECT customers_id, customers_name, customers_company, customers_street_address,
+        $sql = "SELECT customers_id, customers_name, customers_number, customers_company, customers_street_address,
                        customers_suburb, customers_city, customers_postcode, customers_state,
                        customers_country, customers_telephone, customers_email_address,
                        customers_address_format_id, delivery_name, delivery_company,
@@ -136,6 +136,7 @@ class order
 
         $this->customer = array('id' => $order['customers_id'],
                                 'name' => $order['customers_name'],
+                                'number' => $order['customers_number'],
                                 'company' => $order['customers_company'],
                                 'street_address' => $order['customers_street_address'],
                                 'suburb' => $order['customers_suburb'],
