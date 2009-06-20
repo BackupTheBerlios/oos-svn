@@ -674,14 +674,21 @@ function popupGoogleMap(url) {
                 <td class="dataTableHeadingContent">*</td>
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_LASTNAME; ?></td>
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_FIRSTNAME; ?></td>
+<?php
+    if (ACCOUNT_NUMBER == '1') {
+?>
+                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_NUMBER; ?></td>
+<?php
+    }
+?>
                 <td class="dataTableHeadingContent" align="left"><?php echo HEADING_TITLE_STATUS; ?></td>
                 <td class="dataTableHeadingContent" align="center"><?php echo HEADING_TITLE_LOGIN; ?></td>
 <?php
-      if (defined('GOOGLE_MAP_API_KEY')) {
+    if (defined('GOOGLE_MAP_API_KEY')) {
 ?>
                 <td class="dataTableHeadingContent" align="center">Google Map</td>
 <?php
-      }
+    }
 ?>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACCOUNT_CREATED; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
@@ -690,7 +697,7 @@ function popupGoogleMap(url) {
     $search = '';
     if (isset($_GET['search']) && oos_is_not_null($_GET['search'])) {
       $keywords = oos_db_input(oos_db_prepare_input($_GET['search']));
-      $search = "WHERE c.customers_lastname like '%" . $keywords . "%' or c.customers_firstname like '%" . $keywords . "%' or c.customers_email_address like '%" . $keywords . "'";
+      $search = "WHERE c.customers_lastname like '%" . $keywords . "%' or c.customers_firstname like '%" . $keywords . "%' or c.customers_number like '%" . $keywords . "%' or c.customers_email_address like '%" . $keywords . "'";
     }
     if (isset($_GET['status'])) {
       $status = oos_db_prepare_input($_GET['status']);
@@ -699,7 +706,7 @@ function popupGoogleMap(url) {
 
     $customerstable = $oostable['customers'];
     $address_booktable = $oostable['address_book'];
-    $customers_result_raw = "SELECT c.customers_id, c.customers_lastname, c.customers_firstname, c.customers_email_address,
+    $customers_result_raw = "SELECT c.customers_id, c.customers_lastname, c.customers_firstname, c.customers_number, c.customers_email_address,
                                     c.customers_wishlist_link_id, c.customers_status, c.customers_login, c.customers_max_order,
                                     a.entry_country_id, a.entry_city
                              FROM $customerstable c LEFT JOIN
@@ -749,6 +756,13 @@ function popupGoogleMap(url) {
                 <td class="dataTableContent"><?php if ($customers_statuses_array[$customers['customers_status']]['cs_image'] != '') { echo oos_image(OOS_SHOP_IMAGES . 'icons/' . $customers_statuses_array[$customers['customers_status']]['cs_image'], ''); } ?>&nbsp;</td>
                 <td class="dataTableContent"><?php echo $customers['customers_lastname']; ?></td>
                 <td class="dataTableContent"><?php echo $customers['customers_firstname']; ?></td>
+<?php
+    if (ACCOUNT_NUMBER == '1') {
+?>
+                <td class="dataTableContent"><?php echo $customers['customers_number']; ?></td>
+<?php
+    }
+?>
                 <td class="dataTableContent" align="left"><?php echo $customers_statuses_array[$customers['customers_status']]['text'] . '(' . $customers['customers_status'] . ')' ; ?></td>
                 <td class="dataTableContent" align="center">
 <?php
@@ -779,7 +793,7 @@ function popupGoogleMap(url) {
 
 ?>
               <tr>
-                <td colspan="7"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+<?php echo (ACCOUNT_NUMBER == '1' ? '                <td colspan="8">' : '                <td colspan="7">'); ?><table border="0" width="100%" cellspacing="0" cellpadding="2">
                   <tr>
                     <td class="smallText" valign="top"><?php echo $customers_split->display_count($customers_result_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_CUSTOMERS); ?></td>
                     <td class="smallText" align="right"><?php echo $customers_split->display_links($customers_result_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_params(array('page', 'info', 'x', 'y', 'cID'))); ?></td>

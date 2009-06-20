@@ -627,6 +627,14 @@ function popupGoogleMap(url) {
           <tr>
             <td valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr class="dataTableHeadingRow">
+<?php
+    if (ACCOUNT_NUMBER == '1') {
+?>
+                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_NUMBER; ?></td>
+<?php
+    }
+?>
+
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_CUSTOMERS; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ORDER_TOTAL; ?></td>
                 <td class="dataTableHeadingContent" align="center"><?php echo TABLE_HEADING_DATE_PURCHASED; ?></td>
@@ -640,7 +648,7 @@ function popupGoogleMap(url) {
       $orderstable = $oostable['orders'];
       $orders_totaltable = $oostable['orders_total'];
       $orders_statustable = $oostable['orders_status'];
-      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.customers_id, o.payment_method, o.date_purchased,
+      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.customers_number, o.customers_id, o.payment_method, o.date_purchased,
                                    o.last_modified, o.currency, o.currency_value, s.orders_status_name, ot.text AS order_total
                              FROM  $orderstable o LEFT JOIN
                                    $orders_totaltable ot
@@ -657,7 +665,7 @@ function popupGoogleMap(url) {
       $orderstable = $oostable['orders'];
       $orders_totaltable = $oostable['orders_total'];
       $orders_statustable = $oostable['orders_status'];
-      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.payment_method, o.date_purchased, o.last_modified,
+      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.customers_number, o.payment_method, o.date_purchased, o.last_modified,
                                    o.currency, o.currency_value, s.orders_status_name, ot.text as order_total
                              FROM $orderstable o LEFT JOIN
                                   $orders_totaltable ot
@@ -672,7 +680,7 @@ function popupGoogleMap(url) {
       $orderstable = $oostable['orders'];
       $orders_totaltable = $oostable['orders_total'];
       $orders_statustable = $oostable['orders_status'];
-      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.payment_method, o.date_purchased, o.last_modified,
+      $orders_result_raw = "SELECT o.orders_id, o.customers_name, o.customers_number, o.payment_method, o.date_purchased, o.last_modified,
                                    o.currency, o.currency_value, s.orders_status_name, ot.text as order_total
                              FROM $orderstable o LEFT JOIN
                                   $orders_totaltable ot
@@ -695,7 +703,14 @@ function popupGoogleMap(url) {
       } else {
         echo '              <tr class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\';this.style.cursor=\'hand\'" onmouseout="this.className=\'dataTableRow\'" onclick="document.location.href=\'' . oos_href_link_admin($aFilename['orders'], oos_get_all_get_params(array('oID')) . 'oID=' . $orders['orders_id']) . '\'">' . "\n";
       }
+
+      if (ACCOUNT_NUMBER == '1') {
 ?>
+                <td class="dataTableContent" align="right"><?php echo strip_tags($orders['customers_number']); ?></td>
+<?php
+    }
+?>
+
                 <td class="dataTableContent"><?php echo '<a href="' . oos_href_link_admin($aFilename['orders'], oos_get_all_get_params(array('oID', 'action')) . 'oID=' . $orders['orders_id'] . '&action=edit') . '">' . oos_image(OOS_IMAGES . 'icons/preview.gif', ICON_PREVIEW) . '</a>&nbsp;' . $orders['customers_name']; ?></td>
                 <td class="dataTableContent" align="right"><?php echo strip_tags($orders['order_total']); ?></td>
                 <td class="dataTableContent" align="center"><?php echo oos_datetime_short($orders['date_purchased']); ?></td>
@@ -708,7 +723,7 @@ function popupGoogleMap(url) {
     }
 ?>
               <tr>
-                <td colspan="5"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+<?php echo (ACCOUNT_NUMBER == '1' ? '                <td colspan="6">' : '                <td colspan="5">'); ?><table border="0" width="100%" cellspacing="0" cellpadding="2">
                   <tr>
                     <td class="smallText" valign="top"><?php echo $orders_split->display_count($orders_result_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ORDERS); ?></td>
                     <td class="smallText" align="right"><?php echo $orders_split->display_links($orders_result_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_params(array('page', 'oID', 'action'))); ?></td>
