@@ -485,7 +485,13 @@ if ($result === false) {
   echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
 }
 
-
+$table = $prefix_table . 'orders_status_history';
+$result = $db->Execute("ALTER TABLE " . $table . " ADD `editor` VARCHAR(64 ) NULL AFTER `orders_status_id`");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+} else {
+  echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
+}
 
 $table = $prefix_table . 'block';
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_block_select_option(array(\'left\', \'right\'),' WHERE set_function = 'oosBlockSelectOption(array(\'left\', \'right\',),'");

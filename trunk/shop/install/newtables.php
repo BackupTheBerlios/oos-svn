@@ -895,6 +895,7 @@ $flds = "
    orders_status_history_id I NOTNULL AUTO PRIMARY,
    orders_id I NOTNULL,
    orders_status_id I2 NOTNULL,
+   editor C(64) NOTNULL,
    date_added T,
    customer_notified I1 DEFAULT '0',
    comments X

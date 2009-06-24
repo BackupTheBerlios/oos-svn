@@ -171,8 +171,18 @@
             $customer_notified = '1';
           }
 
+          // editors
+          $admintable = $oostable['admin'];
+          $editor_sql_result = "SELECT admin_firstname, admin_lastname
+                                FROM admintable
+                                WHERE admin_id = " . intval($_SESSION['login_id']) . . "'";
+
+          $editor_sql_raw = $dbconn->Execute($editor_sql_result);
+          $editor_raw = $editor_sql_raw->fields;
+          $editor = $editor_raw['admin_firstname'] . " " . $editor_raw['admin_lastname'];
+
           $orders_status_historytable = $oostable['orders_status_history'];
-          $dbconn->Execute("INSERT INTO $orders_status_historytable (orders_id, orders_status_id, date_added, customer_notified, comments) VALUES ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', '" . date("Y-m-d H:i:s", time()) . "', '" . $customer_notified . "', '" . oos_db_input($comments)  . "')");
+          $dbconn->Execute("INSERT INTO $orders_status_historytable (orders_id, orders_status_id, editor, date_added, customer_notified, comments) VALUES ('" . oos_db_input($oID) . "', '" . oos_db_input($status) . "', '" . oos_db_input($editor) . "', '" . date("Y-m-d H:i:s", time()) . "', '" . $customer_notified . "', '" . oos_db_input($comments)  . "')");
 
           $order_updated = true;
         }
@@ -540,17 +550,19 @@ function popupGoogleMap(url) {
         <td class="main"><table border="1" cellspacing="0" cellpadding="5">
           <tr>
             <td class="smallText" align="center"><b><?php echo TABLE_HEADING_DATE_ADDED; ?></b></td>
+            <td class="smallText" align="center"><b><?php echo TABLE_HEADING_EDITOR; ?></b></td>
             <td class="smallText" align="center"><b><?php echo TABLE_HEADING_CUSTOMER_NOTIFIED; ?></b></td>
             <td class="smallText" align="center"><b><?php echo TABLE_HEADING_STATUS; ?></b></td>
             <td class="smallText" align="center"><b><?php echo TABLE_HEADING_COMMENTS; ?></b></td>
           </tr>
 <?php
     $orders_status_historytable = $oostable['orders_status_history'];
-    $orders_history_result = $dbconn->Execute("SELECT orders_status_id, date_added, customer_notified, comments FROM $orders_status_historytable WHERE orders_id = '" . oos_db_input($oID) . "' ORDER BY date_added");
+    $orders_history_result = $dbconn->Execute("SELECT orders_status_id, editor, date_added, customer_notified, comments FROM $orders_status_historytable WHERE orders_id = '" . oos_db_input($oID) . "' ORDER BY date_added");
     if ($orders_history_result->RecordCount()) {
       while ($orders_history = $orders_history_result->fields) {
         echo '          <tr>' . "\n" .
              '            <td class="smallText" align="center">' . oos_datetime_short($orders_history['date_added']) . '</td>' . "\n" .
+             '            <td class="smallText">' . oosDBOutput($orders_history['editor']) . '</td>' . "\n" .
              '            <td class="smallText" align="center">';
         if ($orders_history['customer_notified'] == '1') {
           echo oos_image(OOS_IMAGES . 'icons/tick.gif', ICON_TICK) . "</td>\n";
@@ -591,8 +603,8 @@ function popupGoogleMap(url) {
                 <td colspan="2" class="main"><b><?php echo ENTRY_STATUS; ?></b> <?php echo oos_draw_pull_down_menu('status', $orders_statuses, $order->info['orders_status']); ?></td>
               </tr>
               <tr>
-                <td class="main"><b><?php echo ENTRY_NOTIFY_CUSTOMER; ?></b> <?php echo oos_draw_checkbox_field('notify', '', true); ?></td>
-                <td class="main"><b><?php echo ENTRY_NOTIFY_COMMENTS; ?></b> <?php echo oos_draw_checkbox_field('notify_comments', '', true); ?></td>
+                <td class="main"><b><?php echo ENTRY_NOTIFY_CUSTOMER; ?></b> <?php echo oos_draw_checkbox_field('notify', '', false); ?></td>
+                <td class="main"><b><?php echo ENTRY_NOTIFY_COMMENTS; ?></b> <?php echo oos_draw_checkbox_field('notify_comments', '', false); ?></td>
               </tr>
 
             </table></td>

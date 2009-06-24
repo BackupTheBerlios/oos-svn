@@ -230,27 +230,34 @@ $result = $db->Execute("ALTER TABLE " . $table . " ADD cc_start varchar(4) defau
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
-
 $result = $db->Execute("ALTER TABLE " . $table . " ADD cc_issue varchar(3) default NULL AFTER cc_start");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
-
 $result = $db->Execute("ALTER TABLE " . $table . " ADD cc_cvv varchar(4) default NULL AFTER cc_issue");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
-
 $result = $db->Execute("ALTER TABLE " . $table . " ADD `products_access` INT( 11 ) DEFAULT '0' NOT NULL AFTER `cc_expires`");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
-
 $result = $db->Execute("ALTER TABLE " . $table . "  CHANGE `cc_number` `cc_number` VARCHAR( 64 ) DEFAULT NULL");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 } else {
   echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
 }
+
+
+$table = $prefix_table . 'orders_status_history';
+$result = $db->Execute("ALTER TABLE " . $table . " ADD `editor` VARCHAR(64 ) NULL AFTER `orders_status_id`");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+} else {
+  echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
+}
+
+
 
 ?>
