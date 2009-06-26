@@ -33,7 +33,7 @@
 // |         Stephan Schmidt <schst@php.net>                               |
 // +-----------------------------------------------------------------------+
 //
-// $Id: Notification.php 1035 2009-03-27 05:53:48Z matt $
+// $Id: Notification.php 1230 2009-06-16 04:42:53Z vipsoft $
 
 /**
  * Default state of the notification

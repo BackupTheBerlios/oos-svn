@@ -18,7 +18,7 @@
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: text.php 870 2009-01-14 03:40:55Z matt $
+ * @version     CVS: $Id: text.php 1230 2009-06-16 04:42:53Z vipsoft $
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 

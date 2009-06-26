@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1138 2009-05-18 04:43:56Z matt $
+ * @version $Id: API.php 1204 2009-06-11 05:21:40Z vipsoft $
  * 
  * @package Piwik_VisitsSummary
  */
@@ -119,7 +119,7 @@ class Piwik_Goals_API
 										WHERE idsite = ? 
 											AND idgoal = ?",
 									array($idSite, $idGoal));
-		$db->query("DELETE FROM ".Piwik::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
+		Zend_Registry::get('db')->query("DELETE FROM ".Piwik::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 	

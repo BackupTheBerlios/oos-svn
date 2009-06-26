@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1155 2009-05-30 06:02:36Z vipsoft $
+ * @version $Id: Controller.php 1244 2009-06-19 16:26:41Z matt $
  *
  * @package Piwik_Login
  */
@@ -156,16 +156,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$login = $user['login'];
 			$email = $user['email'];
 			$randomPassword = Piwik_Common::getRandomString(8);
-			
-			if($isSuperUser)
-			{
-				$user['password'] = md5($randomPassword);
-				Zend_Registry::get('config')->superuser = $user;
-			}
-			else
-			{
-				Piwik_UsersManager_API::updateUser($login, $randomPassword);
-			}
 
 			// send email with new password
 			try
@@ -192,6 +182,16 @@ class Piwik_Login_Controller extends Piwik_Controller
 				$fromEmailAddress = str_replace('{DOMAIN}', $piwikHost, $fromEmailAddress);
 				$mail->setFrom($fromEmailAddress, $fromEmailName);
 				@$mail->send();
+			
+				if($isSuperUser)
+				{
+					$user['password'] = md5($randomPassword);
+					Zend_Registry::get('config')->superuser = $user;
+				}
+				else
+				{
+					Piwik_UsersManager_API::updateUser($login, $randomPassword);
+				}
 			}
 			catch(Exception $e)
 			{

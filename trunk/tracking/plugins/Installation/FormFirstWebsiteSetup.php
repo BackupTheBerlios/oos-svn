@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FormFirstWebsiteSetup.php 1155 2009-05-30 06:02:36Z vipsoft $
+ * @version $Id: FormFirstWebsiteSetup.php 1210 2009-06-12 12:04:28Z vipsoft $
  * 
  * @package Piwik_Installation
  */
@@ -19,7 +19,7 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_Form
 {
 	function init()
 	{
-		$urlToGoAfter = Piwik_Url::getCurrentQueryString();
+		$urlToGoAfter = 'index.php' . Piwik_Url::getCurrentQueryString();
 
 		$urlExample = 'http://example.org';
 		$javascriptOnClickUrlExample = "\"javascript:if(this.value=='$urlExample'){this.value='http://';} this.style.color='black';\"";

@@ -16,7 +16,7 @@
  * @package    Zend_Registry
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Registry.php 974 2009-03-09 19:05:13Z matt $
+ * @version    $Id: Registry.php 1230 2009-06-16 04:42:53Z vipsoft $
  */
 
 /**

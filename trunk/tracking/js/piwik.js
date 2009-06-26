@@ -21,10 +21,8 @@
  */
 
 // Guard against loading the script twice
-var Piwik;
-try {
-	if (Piwik.getTracker) { }
-} catch (e) {
+var Piwik, piwik_log, piwik_track;
+if (!this.Piwik) {
 	// Piwik singleton and namespace
 	Piwik = (function () {
 		/************************************************************
@@ -406,7 +404,7 @@ try {
 */
 
 			/*
-			 * Send image request to Piwik server using GET.
+			 * Send image request to Piwik server using GET
 			 */
 			function getImage(url, delay) {
 				var now = new Date(),
@@ -499,73 +497,86 @@ try {
 				return navigatorAlias.cookieEnabled ? '1' : '0';
 			}
 
+			/*
+			 * Returns the URL to call piwik.php, 
+			 * with the standard parameters (plugins, resolution, url, referer, etc.)
+			 */
+			function getRequest() {
+				var i, now, request;
+				now = new Date();
+				request = 'idsite=' + configTrackerSiteId +
+				        '&url=' + escapeWrapper(documentAlias.location.href) +
+				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
+				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
+				        '&cookie=' + browserHasCookies +
+				        '&urlref=' + escapeWrapper(pageReferrer) +
+				        '&rand=' + Math.random();
+				// plugin data
+				for (i in pluginMap) {
+					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][3];
+				}
+
+				request =  configTrackerUrl + '?' + request;
+				return request;
+			}
 
 			/*
 			 * Get the web bug image (transparent single pixel, 1x1, image) to log visit in Piwik
 			 */
 			function getWebBug() {
-				var i, customDataString, pluginString, extraString, now, request, query;
+				var request = getRequest();
+				request += '&action_name=' + escapeWrapper(configTitle); // refs #530;
 
-				/*
-				 * encode custom vars
-				 */
-				customDataString = '';
+				// encode custom data
 				if (isDefined(configCustomData)) {
-					customDataString = '&data=' + escapeWrapper(stringify(configCustomData));
+					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
 
-				/*
-				 * encode plugin data
-				 */
-				pluginString = '';
-				for (i in pluginMap) {
-					pluginString += '&' + pluginMap[i][0] + '=' + pluginMap[i][3];
-				}
-
-				extraString = executePluginMethod('log');
-
-				now = new Date();
-
-				query = 'idsite=' + configTrackerSiteId +
-				        '&url=' + escapeWrapper(documentAlias.location.href) +
-				        '&action_name=' + escapeWrapper(configTitle) + // refs #530
-				        '&res=' + screenAlias.width + 'x' + screenAlias.height +
-				        '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
-				        '&cookie=' + browserHasCookies +
-				        '&urlref=' + escapeWrapper(pageReferrer) +
-				        pluginString + customDataString + extraString;
-
-				request =  configTrackerUrl + '?' + query;
-
+				request += executePluginMethod('log');
 				getImage(request, configTrackerPause);
 			}
+			
+			/*
+			 * Log the goal with the server
+			 */
+			function logGoal(idGoal, customRevenue, customData) {
+				var request = getRequest();
+				request += '&idgoal=' + idGoal;
 
+				if (isDefined(customRevenue)) {
+					request += '&revenue=' + customRevenue;
+				}
+
+				// encode custom data
+				if (isDefined(customData)) {
+					request += '&data=' + escapeWrapper(stringify(customData));
+				} else if (isDefined(configCustomData)) {
+					request += '&data=' + escapeWrapper(stringify(configCustomData));
+				}
+
+				request += executePluginMethod('goal');
+				getImage(request, configTrackerPause);
+			}
+			
 			/*
 			 * Log the click with the server
 			 */
 			function logClick(url, linkType, customData) {
-				var customDataString, extraString, request, query;
+				var request;
+				request = 'idsite=' + configTrackerSiteId +
+				          '&' + linkType + '=' + escapeWrapper(url) +
+				          '&rand=' + Math.random() +
+				          '&redirect=0';
 
-				/*
-				 * encode custom data
-				 */
-				customDataString = '';
+				// encode custom data
 				if (isDefined(customData)) {
-					customDataString = '&data=' + escapeWrapper(stringify(customData));
+					request += '&data=' + escapeWrapper(stringify(customData));
 				} else if (isDefined(configCustomData)) {
-					customDataString = '&data=' + escapeWrapper(stringify(configCustomData));
+					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
 
-				extraString = executePluginMethod('click');
-
-				query = 'idsite=' + configTrackerSiteId +
-				        '&' + linkType + '=' + escapeWrapper(url) +
-				        '&rand=' + Math.random() +
-				        '&redirect=0' +
-				        customDataString + extraString;
-
-				request = configTrackerUrl + '?' + query;
-
+				request += executePluginMethod('click');
+				request = configTrackerUrl + '?' + request;
 				getImage(request, configTrackerPause);
 			}
 
@@ -644,7 +655,7 @@ try {
 			 * Handle click event
 			 */
 			function clickHandler(clickEvent) {
-				var sourceElement, tag, linkType;
+				var sourceElement, parentElement, tag, linkType;
 
 				if (!isDefined(clickEvent)) {
 					clickEvent = windowAlias.event;
@@ -655,11 +666,12 @@ try {
 				} else if (isDefined(clickEvent.srcElement)) {
 					sourceElement = clickEvent.srcElement;
 				} else {
-					return true;
+					return;
 				}
 
-				while ((tag = sourceElement.tagName) != 'A' && tag != 'AREA') {
-					sourceElement = sourceElement.parentNode;
+				while ((parentElement = sourceElement.parentNode) &&
+				       ((tag = sourceElement.tagName) != 'A' && tag != 'AREA')) {
+					sourceElement = parentElement;
 				}
 
 				if (isDefined(sourceElement.href)) {
@@ -678,9 +690,6 @@ try {
 						}
 					}
 				}
-
-				// Returns true so href isn't cancelled
-				return true;
 			}
 
 			/*
@@ -909,7 +918,14 @@ try {
 				},
 
 				/*
-				 * Manually log a click from your own code.
+				 * Trigger a goal
+				 */
+				trackGoal: function (idGoal, customRevenue, customData) {
+					logGoal(idGoal, customRevenue, customData);
+				},
+
+				/*
+				 * Manually log a click from your own code
 				 */
 				trackLink: function (sourceUrl, linkType, customData) {
 					logClick(sourceUrl, linkType, customData);
@@ -964,15 +980,11 @@ try {
 	 *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
 	 */
 
-	/*
-	 * Track click manually (function is defined below)
-	 */
-	var piwik_track;
 
 	/*
 	 * Track page visit
 	 */
-	function piwik_log(documentTitle, siteId, piwikUrl, customData) {
+	piwik_log = function (documentTitle, siteId, piwikUrl, customData) {
 
 		function getOption(optionName) {
 			try {
@@ -1001,7 +1013,9 @@ try {
 		// default is to install the link tracker
 		if (getOption('install_tracker') !== false) {
 
-			// set-up click handler
+			/*
+			 * Track click manually (function is defined below)
+			 */
 			piwik_track = function (sourceUrl, siteId, piwikUrl, linkType) {
 				piwikTracker.setSiteId(siteId);
 				piwikTracker.setTrackerUrl(piwikUrl);
@@ -1011,5 +1025,5 @@ try {
 			// set-up link tracking
 			piwikTracker.enableLinkTracking();
 		}
-	}
+	};
 }

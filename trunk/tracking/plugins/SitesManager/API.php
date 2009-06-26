@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1138 2009-05-18 04:43:56Z matt $
+ * @version $Id: API.php 1224 2009-06-15 15:35:51Z vipsoft $
  * 
  * @package Piwik_SitesManager
  */

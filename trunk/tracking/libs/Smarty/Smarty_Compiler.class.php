@@ -26,7 +26,7 @@
  * @package Smarty
  */
 
-/* $Id: Smarty_Compiler.class.php 1143 2009-05-25 14:00:09Z vipsoft $ */
+/* $Id: Smarty_Compiler.class.php 1230 2009-06-16 04:42:53Z vipsoft $ */
 
 /**
  * Template compiling class

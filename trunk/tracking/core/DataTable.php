@@ -327,7 +327,7 @@ class Piwik_DataTable
 	 */
 	public function filter( $className, $parameters = array() )
 	{
-		if(!class_exists($className))
+		if(!class_exists($className, false))
 		{
 			$className = "Piwik_DataTable_Filter_" . $className;
 		}
@@ -1081,7 +1081,7 @@ class Piwik_DataTable
 				{
 					if(is_array($subRow))
 					{
-						throw $e;						
+						throw $e;
 					}
 				}
 				$row = new Piwik_DataTable_Row( array( Piwik_DataTable_Row::COLUMNS => $row ) );		

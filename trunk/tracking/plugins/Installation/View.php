@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: View.php 1006 2009-03-23 02:41:16Z matt $
+ * @version $Id: View.php 1220 2009-06-15 00:20:08Z vipsoft $
  * 
  * @package Piwik_Installation
  */
@@ -13,7 +13,7 @@
  * 
  * @package Piwik_Installation
  */
-class Piwik_Install_View extends Piwik_View
+class Piwik_Installation_View extends Piwik_View
 {
 	protected $mainTemplate = 'Installation/templates/structure.tpl';
 	

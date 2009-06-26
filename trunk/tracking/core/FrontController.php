@@ -9,36 +9,9 @@
  * @package Piwik
  */
 
-
-/**
- * Zend classes
- */
-require_once "Zend/Exception.php";
-require_once "Zend/Loader.php"; 
-require_once "Zend/Auth.php";
-
-/**
- * Piwik classes
- */
-require_once "Timer.php";
 require_once "PluginsManager.php";
-require_once "Piwik.php";
-require_once "Access.php";
-require_once "Auth.php";
-require_once "API/Proxy.php";
-require_once "Archive.php";
-require_once "Site.php";
-require_once "Date.php";
-require_once "DataTable.php";
 require_once "Translate.php";
-require_once "Mail.php";
-require_once "Url.php";
-require_once "Controller.php";
 require_once "Option.php";
-require_once "View.php";
-require_once "Version.php";
-require_once "UpdateCheck.php";
-
 
 /**
  * Front controller.
@@ -116,11 +89,13 @@ class Piwik_FrontController
 		
 		if( ! Piwik_PluginsManager::getInstance()->isPluginActivated( $module )) 
 		{
-			throw new Exception_PluginDeactivated($module);
+			throw new Piwik_FrontController_PluginDeactivatedException($module);
 		}
 				
 		$controllerClassName = "Piwik_".$module."_Controller";
-		if(!class_exists($controllerClassName))
+
+		// FrontController's autoloader
+		if(!class_exists($controllerClassName, false))
 		{
 			$moduleController = $module . "/Controller.php";
 			if( !Zend_Loader::isReadable($moduleController))
@@ -288,7 +263,7 @@ class Piwik_FrontController
  *
  * @package Piwik
  */
-class Exception_PluginDeactivated extends Exception
+class Piwik_FrontController_PluginDeactivatedException extends Exception
 {
 	function __construct($module)
 	{

@@ -78,7 +78,7 @@ class Piwik
 				'/tmp',
 				'/tmp/templates_c',
 				'/tmp/cache',
-				'/tmp/latest/',
+				'/tmp/latest',
 			); 
 		}
 		
@@ -163,8 +163,8 @@ class Piwik
 	
 	static public function log($message = '')
 	{
-		Zend_Registry::get('logger_message')->log($message);
-		Zend_Registry::get('logger_message')->log( "<br>" . PHP_EOL);
+		Zend_Registry::get('logger_message')->logEvent($message);
+		Zend_Registry::get('logger_message')->logEvent( "<br>" . PHP_EOL);
 	}
 	
 	
@@ -635,8 +635,8 @@ class Piwik
 									  `visitor_idcookie` char(32) NOT NULL,
 									  `server_time` datetime NOT NULL,
 									  `visit_server_date` date NOT NULL,
-									  `idaction` int(11) NOT NULL,
-									  `idlink_va` int(11) NOT NULL,
+									  `idaction` int(11) default NULL,
+									  `idlink_va` int(11) default NULL,
 									  `referer_idvisit` int(10) unsigned default NULL,
 									  `referer_visit_server_date` date default NULL,
 									  `referer_type` int(10) unsigned default NULL,
@@ -892,8 +892,7 @@ class Piwik
 			||  $currentAction != $newAction )
 		{
 			
-			$newUrl = Piwik_URL::getCurrentUrlWithoutQueryString() 
-				. Piwik_Url::getCurrentQueryStringWithParametersModified(
+			$newUrl = 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified(
 						array('module' => $newModule, 'action' => $newAction)
 				);
 	

@@ -17,7 +17,7 @@
  * @subpackage Filter
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Interface.php 870 2009-01-14 03:40:55Z matt $
+ * @version    $Id: Interface.php 1230 2009-06-16 04:42:53Z vipsoft $
  */
 
 /**
@@ -26,7 +26,7 @@
  * @subpackage Filter
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Interface.php 870 2009-01-14 03:40:55Z matt $
+ * @version    $Id: Interface.php 1230 2009-06-16 04:42:53Z vipsoft $
  */ 
 interface Zend_Log_Filter_Interface
 {

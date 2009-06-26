@@ -114,8 +114,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
 		$pathToLibraryOpenChart = 'libs/open-flash-chart/';
 		$pathToLibrarySwfObject = 'libs/swfobject/';
-		
-		$url = Piwik_Url::getCurrentUrlWithoutQueryString() . $url;
+	
+		$url = 'index.php' . $url;
 		// escape the & and stuff:
 		$url = urlencode($url);
 
@@ -124,9 +124,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		// - Export as Image feature from Open Flash Chart
 		// - Using library for auto-enabling Flash object on IE, disabled-Javascript proof
 		$return = '
-			<div id="'. $this->chartDivId .'">
+			<div><div id="'. $this->chartDivId .'">
 				Displaying Graphs in Piwik requires Flash >= '. $requiredFlashVersion .'. <a target="_blank" href="misc/redirectToUrl.php?url='. urlencode('http://piwik.org/faq/troubleshooting/#faq_53') .'">More information about displaying graphs in Piwik.</a>
-			</div>
+			</div></div>
 			<script type="text/javascript">
 				OFC = {};
 				OFC.jquery = {
@@ -134,7 +134,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 					rasterize: function (src, dst) { $("#"+ dst).replaceWith(Control.OFC.image(src)); },
 					image: function (src) { return "<img title=\'Piwik Graph\' src=\'data:image/png;base64," + $("#"+src)[0].get_img_binary() + "\' />"; },
 					popup: function (src) {
-						var img_win = window.open("", "Charts: Export as Image");
+						var img_win = window.open("", "ExportChartAsImage");
 						img_win.document.write("<html><head><title>'. Piwik_Translate('General_ExportAsImage') .'<\/title><\/head><body>" + Control.OFC.image(src) + "<br><br><p>'. htmlentities(Piwik_Translate('General_SaveImageOnYourComputer')) .'<\/p><\/body><\/html>");
 					}
 				};
@@ -144,7 +144,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 				function save_image() { OFC.jquery.popup("'. $this->chartDivId .'"); }
 
 				swfobject.embedSWF(
-					"'. $pathToLibraryOpenChart .'open-flash-chart.swf?v2i",
+					"'. $pathToLibraryOpenChart .'open-flash-chart.swf?piwik='. Piwik_Version::VERSION .'",
 					"'. $this->chartDivId .'",
 					"'. $width . '", "' . $height . '",
 					"'. $requiredFlashVersion .'",
@@ -154,7 +154,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 						"loading":"'. htmlspecialchars(Piwik_Translate('General_Loading')) .'"
 					},
 					{
-						"allowScriptAccess":"sameDomain",
+						"allowScriptAccess":"always",
 						"wmode":"opaque"
 					}, 
 					{"bgcolor":"#FFFFFF"}
