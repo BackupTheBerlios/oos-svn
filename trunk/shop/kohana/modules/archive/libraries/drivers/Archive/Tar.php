@@ -2,7 +2,7 @@
 /**
  * Archive library tar driver.
  *
- * $Id: Tar.php 4134 2009-03-28 04:37:54Z zombor $
+ * $Id: Tar.php 3769 2008-12-15 00:48:56Z zombor $
  *
  * @package    Archive
  * @author     Kohana Team

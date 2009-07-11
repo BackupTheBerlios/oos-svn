@@ -3,7 +3,7 @@
  * Gmaps module demo controller. This controller should NOT be used in production.
  * It is for demonstration purposes only!
  *
- * $Id: gmaps_demo.php 4134 2009-03-28 04:37:54Z zombor $
+ * $Id: gmaps_demo.php 3769 2008-12-15 00:48:56Z zombor $
  *
  * @package    Gmaps
  * @author     Woody Gilk

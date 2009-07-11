@@ -2,7 +2,7 @@
 /**
  * Archive library.
  *
- * $Id: Archive.php 4134 2009-03-28 04:37:54Z zombor $
+ * $Id: Archive.php 4367 2009-05-27 21:23:57Z samsoir $
  *
  * @package    Archive
  * @author     Kohana Team
@@ -76,7 +76,7 @@ class Archive_Core {
 				while (($file = readdir($dir)) !== FALSE)
 				{
 					// Do not add hidden files or directories
-					if (substr($file, 0, 1) === '.')
+					if ($file[0] === '.')
 						continue;
 
 					// Add directory contents

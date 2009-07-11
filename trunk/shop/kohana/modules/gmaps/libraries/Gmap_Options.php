@@ -2,7 +2,7 @@
 /**
  * GMaps options container.
  *
- * $Id: Gmap_Options.php 4134 2009-03-28 04:37:54Z zombor $
+ * $Id: Gmap_Options.php 4179 2009-04-07 23:39:20Z zombor $
  *
  * @package    Gmaps
  * @author     Kohana Team
@@ -60,7 +60,7 @@ class Gmap_Options_Core {
 			else
 			{
 				// Add a disable
-				$output[] = 'map.disable'.$options.'();';
+				$output[] = 'map.disable'.$option.'();';
 			}
 		}
 

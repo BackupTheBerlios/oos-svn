@@ -33,6 +33,28 @@ $config['url_suffix'] = '';
 $config['internal_cache'] = FALSE;
 
 /**
+ * Internal cache directory.
+ */
+$config['internal_cache_path'] = APPPATH.'cache/';
+
+/**
+ * Enable internal cache encryption - speed/processing loss
+ * is neglible when this is turned on. Can be turned off
+ * if application directory is not in the webroot.
+ */
+$config['internal_cache_encrypt'] = FALSE;
+
+/**
+ * Encryption key for the internal cache, only used
+ * if internal_cache_encrypt is TRUE.
+ *
+ * Make sure you specify your own key here!
+ *
+ * The cache is deleted when/if the key changes.
+ */
+$config['internal_cache_key'] = 'foobar-changeme';
+
+/**
  * Enable or disable gzip output compression. This can dramatically decrease
  * server bandwidth usage, at the cost of slightly higher CPU usage. Set to
  * the compression level (1-9) that you want to use, or FALSE to disable.

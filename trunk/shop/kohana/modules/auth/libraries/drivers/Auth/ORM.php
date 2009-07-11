@@ -2,7 +2,7 @@
 /**
  * ORM Auth driver.
  *
- * $Id: ORM.php 4134 2009-03-28 04:37:54Z zombor $
+ * $Id: ORM.php 4331 2009-05-06 23:30:40Z kiall $
  *
  * @package    Auth
  * @author     Kohana Team
@@ -179,10 +179,18 @@ class Auth_ORM_Driver extends Auth_Driver {
 	 */
 	public function logout($destroy)
 	{
-		if (cookie::get('authautologin'))
+		if ($token = cookie::get('authautologin'))
 		{
 			// Delete the autologin cookie to prevent re-login
 			cookie::delete('authautologin');
+			
+			// Clear the autologin token from the database
+			$token = ORM::factory('user_token', $token);
+			
+			if ($token->loaded)
+			{
+				$token->delete();
+			}
 		}
 
 		return parent::logout($destroy);
@@ -212,7 +220,7 @@ class Auth_ORM_Driver extends Auth_Driver {
 	 * @param   object   user model object
 	 * @return  void
 	 */
-	protected function complete_login(User_Model $user)
+	protected function complete_login($user)
 	{
 		// Update the number of logins
 		$user->logins += 1;

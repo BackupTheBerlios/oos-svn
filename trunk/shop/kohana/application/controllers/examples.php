@@ -5,7 +5,7 @@
  * This controller should NOT be used in production. It is for demonstration
  * purposes only!
  *
- * $Id: examples.php 4134 2009-03-28 04:37:54Z zombor $
+ * $Id: examples.php 4298 2009-04-30 17:06:05Z kiall $
  *
  * @package    Core
  * @author     Kohana Team
@@ -74,7 +74,7 @@ class Examples_Controller extends Controller {
 	function rss()
 	{
 		// Parse an external atom feed
-		$feed = feed::parse('http://trac.kohanaphp.com/timeline?changeset=on&format=rss');
+		$feed = feed::parse('http://dev.kohanaphp.com/projects/kohana2/activity.atom');
 
 		// Show debug info
 		echo Kohana::debug($feed);
