@@ -30,7 +30,6 @@ define('TIME_BASED_GREETING', '1');
 define('PRODUCT_LISTING_WITH_QTY', '1');
 
 define('LIGHTBOX', '1'); // Lightbox on the products info page
-define('SOCIAL_BOOKMARKS', '1'); // SOCIAL_BOOKMARKS Links on the products info page
 
 define('UNITS_DELIMITER', '&nbsp;/&nbsp;');
 define('OOS_XHTML', '1');

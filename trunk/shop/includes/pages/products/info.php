@@ -152,11 +152,6 @@ if (!$product_info_result->RecordCount()) {
     $aOption['page_heading'] =            $sTheme . '/products/product_heading.html';
 
 
-
-    if (SOCIAL_BOOKMARKS == '1') {
-        $aOption['social_bookmarks'] = 'default/products/social_bookmarks.html';
-    }
-
     $nPageType = OOS_PAGE_TYPE_PRODUCTS;
 
     require 'includes/oos_system.php';
