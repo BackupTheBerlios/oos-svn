@@ -102,6 +102,7 @@ $aFilename['products_rss'] = $prefix_filename . 'rss';
 $aFilename['product_zoom'] = $prefix_filename . 'zoom';
 $aFilename['product_movie'] = $prefix_filename . 'movie';
 $aFilename['specials'] = $prefix_filename . 'specials';
+$aFilename['top_viewed'] = $prefix_filename . 'top_viewed';
 $aFilename['popup_image'] = $prefix_filename . 'popup_image';
 $aFilename['popup_print'] = $prefix_filename . 'popup_print';
 
