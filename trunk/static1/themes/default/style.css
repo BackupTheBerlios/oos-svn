@@ -71,6 +71,43 @@ body {
 	width: 165px;
 }
 
+
+/* @group breadcrumb */
+#breadcrumb {
+	padding: 6px;
+	height: 16px;
+}
+
+#breadcrumb * {
+	color: #929292;
+	display: inline;
+}
+
+#breadcrumb ol {
+	margin-left: 0; 
+	padding-left: 0; 
+}
+
+#breadcrumb h1 {
+	font-size: .75em;
+	font-weight: normal;
+}
+
+#breadcrumb li {
+	font-size: .75em;
+}
+
+#breadcrumb li a,#breadcrumb li span,#breadcrumb li strong {
+	padding: 0 .5em;
+	border-left: 1px solid #D3D3D3;
+}
+
+#breadcrumb li strong {
+	border-right: 1px solid #D3D3D3;
+}
+
+
+
 .clr {
     clear:both;
 }
