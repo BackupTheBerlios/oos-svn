@@ -95,12 +95,10 @@ function popupZoom(url) {
 <table width="870" border="0" align="center" cellspacing="0" cellpadding="1">
   <tr class="oos-HeadNavi">
     <td>
-<!-- breadcrumb -->
-	<div id="breadcrumb">
-	<h1>Du bist hier:</h1>
-	{$oos_breadcrumb}
-	</div>
-<!-- ende breadcrumb -->
+<!-- start breadcrumb -->
+{$oosBreadcrumb}
+<!-- stop breadcrumb-->
+
     </td>
     <td align="right" class="oos-HeadNavi">
 {if (isset($smarty.session.customer_id)) }
