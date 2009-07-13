@@ -94,7 +94,14 @@ function popupZoom(url) {
 
 <table width="870" border="0" align="center" cellspacing="0" cellpadding="1">
   <tr class="oos-HeadNavi">
-    <td class="oos-HeadNavi">&nbsp;&nbsp;{$oos_breadcrumb}</td>
+    <td>
+<!-- breadcrumb -->
+	<div id="breadcrumb">
+	<h1>Du bist hier:</h1>
+	{$oos_breadcrumb}
+	</div>
+<!-- ende breadcrumb -->
+    </td>
     <td align="right" class="oos-HeadNavi">
 {if (isset($smarty.session.customer_id)) }
 <a href="{html_href_link modul=$modules.user file=$filename.logoff connection=SSL}" class="headerNavigation" rel="nofollow">{$lang.header_title_logoff}</a>&nbsp;

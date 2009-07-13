@@ -153,7 +153,10 @@ if (efa_fontSize) efa_fontSize.efaInit();
   <tr>
     <td width="700" ALIGN="left" VALIGN="MIDDLE" class="uppercase">
 <!-- start breadcrumb -->
-<a href="{html_href_link modul=$modules.main file=$filename.main}" target="_self"><img src="{$theme_image}/icons/home.gif" alt="Home" title="Home" width="13" height="13" border="0"></a> :: {$oos_breadcrumb}
+<a href="{html_href_link modul=$modules.main file=$filename.main}" target="_self"><img src="{$theme_image}/icons/home.gif" alt="Home" title="Home" width="13" height="13" border="0"></a> ::
+<div id="breadcrumb">
+	{$oos_breadcrumb}
+</div>
 <!-- stop breadcrumb -->
 	</td>
     <td width="2" ALIGN="left" VALIGN="MIDDLE"><img src="{$theme_image}/trans.gif" alt=" " width="2" height="30"></td>
@@ -237,9 +240,6 @@ Zoom:<script type="text/javascript">
   </tr>
 </table>
 <!-- stop body -->
-
-
-
 
 <!-- start footer -->
 <table border="0" width="870" cellspacing="0" cellpadding="1" align="center">
