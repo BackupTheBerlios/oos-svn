@@ -346,6 +346,7 @@ $oSmarty->assign('country_name', $country_name);
 $state = oos_get_zone_name($country, $zone_id, $state);
 $oSmarty->assign('state', $state);
 
+$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

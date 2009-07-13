@@ -138,6 +138,7 @@ if (isset($_SESSION['navigation']->path[$back])) {
     $oSmarty->assign('back_link', $back_link);
 }
 
+$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

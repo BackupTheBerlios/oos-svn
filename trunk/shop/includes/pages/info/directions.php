@@ -56,6 +56,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     );
 
 }
+$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
 $oSmarty->caching = false;

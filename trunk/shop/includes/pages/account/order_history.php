@@ -169,7 +169,7 @@ $oSmarty->assign(
      )
 );
 
-
+$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));

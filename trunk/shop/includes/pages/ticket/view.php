@@ -233,6 +233,7 @@ $oSmarty->assign('ticket_status_array', $ticket_status_array);
 $oSmarty->assign('ticket_department_array', $ticket_department_array);
 $oSmarty->assign('ticket_priority_array', $ticket_priority_array);
 
+$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

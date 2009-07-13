@@ -358,6 +358,7 @@ if ($bError == true) {
     $oSmarty->assign('newsletter_ids', array(0,1));
     $oSmarty->assign('newsletter', array($aLang['entry_newsletter_no'],$aLang['entry_newsletter_yes']));
 
+    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

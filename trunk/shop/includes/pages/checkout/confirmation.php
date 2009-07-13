@@ -183,6 +183,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
     $oSmarty->assign('payment_modules_process_button', $oPaymentModules_process_button);
     $oSmarty->assign('order', $oOrder);
 
+    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

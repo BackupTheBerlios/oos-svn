@@ -122,6 +122,7 @@ $sql = "SELECT pd.products_id, pd.products_name
         ORDER BY pd.products_name";
 $oSmarty->assign('products_array', $dbconn->GetAll($sql));
 
+$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

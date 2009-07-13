@@ -419,6 +419,7 @@
     $oSmarty->assign('pw_string', $pw_string);
     $oSmarty->assign('oos_get_all_get_params', oos_get_all_get_parameters(array('sort', 'page')));
 
+    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
     $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation']));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
