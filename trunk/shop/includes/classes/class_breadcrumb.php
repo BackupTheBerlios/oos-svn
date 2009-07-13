@@ -54,20 +54,24 @@ class breadcrumb
 
     function trail($separator = ' - ')
     {
-        $trail_string = '';
+
+        $trail_string = '<ol>' . "\n";
 
         for ($i=0, $n=sizeof($this->_trail); $i<$n; $i++) {
             if (isset($this->_trail[$i]['link']) && oos_is_not_null($this->_trail[$i]['link'])) {
-                $trail_string .= '<a href="' . $this->_trail[$i]['link'] . '" title="' . $this->_trail[$i]['title'] . '" class="headerNavigation">' . $this->_trail[$i]['title'] . '</a>';
+                $trail_string .= '<li><a class="page_item-' . $i . '" href="' . $this->_trail[$i]['link'] . '" title="' . $this->_trail[$i]['title'] . '">' . $this->_trail[$i]['title'] . '</a></li>' . "\n";
             } else {
-                $trail_string .= $this->_trail[$i]['title'];
+                $trail_string .= '<li><strong>' . $this->_trail[$i]['title'] . '</strong></li>' . "\n";
             }
 
-            if (($i+1) < $n) $trail_string .= $separator;
         }
+
+        $trail_string .= '</ol>'. "\n";
+
 
         return $trail_string;
     }
+
 
 
     function trail_title($separator = ' - ')
