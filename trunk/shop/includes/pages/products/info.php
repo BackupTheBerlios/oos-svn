@@ -62,6 +62,7 @@ if (!$product_info_result->RecordCount()) {
 
     $aOption['template_main'] = $sTheme . '/system/info.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_PRODUCTS;
 

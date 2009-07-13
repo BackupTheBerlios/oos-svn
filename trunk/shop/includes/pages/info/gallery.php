@@ -25,6 +25,7 @@ $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFil
 
 $aOption['template_main'] = $sTheme .  '/system/gallery.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 

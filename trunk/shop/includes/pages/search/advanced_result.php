@@ -394,6 +394,7 @@
     $aOption['template_main'] = $sTheme . '/modules/advanced_search_result.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
     $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_CATALOG;
 

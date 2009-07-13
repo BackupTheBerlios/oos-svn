@@ -61,6 +61,7 @@ if ($category_depth == 'nested') {
 
     $aOption['template_main'] = $sTheme . '/system/nested.html';
     $aOption['page_heading'] = $sTheme . '/system/nested_heading.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_CATALOG;
 
@@ -204,6 +205,7 @@ if ($category_depth == 'nested') {
     $aOption['template_main'] = $sTheme . '/system/products.html';
     $aOption['page_heading'] = $sTheme . '/system/index_products_heading.html';
     $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_CATALOG;
 

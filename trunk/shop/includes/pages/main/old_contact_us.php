@@ -45,6 +45,7 @@ $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['main'], $aFil
 
 $aOption['template_main'] = $sTheme . '/system/old_contact_us.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 

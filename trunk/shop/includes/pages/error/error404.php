@@ -22,6 +22,7 @@ require 'includes/languages/' . $sLanguage . '/error_error404.php';
 
 $aOption['template_main'] = $sTheme . '/system/info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 $contents_cache_id = $sTheme . '|error404|' . $sLanguage;

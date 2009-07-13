@@ -69,6 +69,7 @@ $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $a
 
 $aOption['template_main'] = $sTheme . '/modules/product_reviews_info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_REVIEWS;
 

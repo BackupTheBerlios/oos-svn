@@ -176,6 +176,7 @@ $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['checkout'],
 
 $aOption['template_main'] = $sTheme . '/modules/checkout_shipping.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CHECKOUT;
 

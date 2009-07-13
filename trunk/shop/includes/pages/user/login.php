@@ -126,6 +126,7 @@ if (isset($_GET['login']) && ($_GET['login'] == 'fail')) {
 
 $aOption['template_main'] = $sTheme . '/modules/user_login.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_SERVICE;
 

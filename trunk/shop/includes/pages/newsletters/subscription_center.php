@@ -65,6 +65,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
 
     $aOption['template_main'] = $sTheme . '/modules/subscription_center.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_SERVICE;
 

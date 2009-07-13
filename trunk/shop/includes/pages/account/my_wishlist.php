@@ -159,6 +159,7 @@ $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['account'], $a
 $aOption['template_main'] = $sTheme . '/modules/my_wishlist.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 

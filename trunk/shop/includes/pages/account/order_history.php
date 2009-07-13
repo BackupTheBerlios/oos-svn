@@ -35,6 +35,7 @@ require 'includes/languages/' . $sLanguage . '/account_order_history.php';
 $aOption['template_main'] = $sTheme . '/modules/account_order_history.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 

@@ -236,6 +236,8 @@ if ($bError == true) {
 
     $aOption['template_main'] = $sTheme . '/modules/user_create_account_process.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
+
     $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
     require 'includes/oos_system.php';

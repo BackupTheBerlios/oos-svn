@@ -25,6 +25,7 @@ $oos_meta_keywords = $aLang['meta_keywords'];
 $aOption['template_main'] = $sTheme . '/products/top_viewed.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 

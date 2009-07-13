@@ -114,6 +114,7 @@ if (!isset($_GET['action']) && ($_GET['action'] != 'login_admin')) {
 
         $aOption['template_main'] = $sTheme . '/modules/create_account_admin.html';
         $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+        $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
         $nPageType = OOS_PAGE_TYPE_SERVICE;
         $read = '0';

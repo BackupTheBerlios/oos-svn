@@ -138,6 +138,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
     $aOption['template_main'] = $sTheme . '/modules/checkout_confirmation.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_CHECKOUT;
 

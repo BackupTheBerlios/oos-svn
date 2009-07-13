@@ -261,6 +261,7 @@ if ($bError == true) {
 
     $aOption['template_main'] = $sTheme . '/modules/create_account_admin_process.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_SERVICE;
 

@@ -54,6 +54,7 @@ $oOrder = new order($_GET['order_id']);
 
 $aOption['template_main'] = $sTheme . '/modules/account_history_info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 if (DOWNLOAD_ENABLED == '1') {
   $aOption['download'] = $sTheme . '/modules/download.html';

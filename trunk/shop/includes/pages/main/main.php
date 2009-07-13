@@ -67,6 +67,7 @@ if ($oEvent->installed_plugin('featured')) $aOption['featured'] = $sTheme . '/mo
 if ($oEvent->installed_plugin('manufacturers')) $aOption['mod_manufacturers'] = $sTheme . '/modules/products/manufacturers.html';
 $aOption['new_products'] = $sTheme . '/modules/products/new_products.html';
 $aOption['upcoming_products'] = $sTheme . '/modules/products/upcoming_products.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 

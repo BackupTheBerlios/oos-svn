@@ -95,6 +95,7 @@ if ($bError) {
 
 $aOption['template_main'] = $sTheme . '/modules/redeem.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 

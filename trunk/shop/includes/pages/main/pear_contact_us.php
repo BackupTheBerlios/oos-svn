@@ -24,6 +24,7 @@
 
   // $aOption['template_main'] = $sTheme . '/system/contact_us.html';
   $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+  $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
   $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 

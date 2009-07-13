@@ -40,6 +40,7 @@ if (!$product_info_result->RecordCount()) {
 
     $aOption['template_main'] = $sTheme . '/system/info.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_PRODUCTS;
 
@@ -74,6 +75,7 @@ if (!$product_info_result->RecordCount()) {
     $aOption['xsell_products'] = $sTheme . '/products/xsell_products.html';
     $aOption['up_sell_products'] = $sTheme . '/products/up_sell_products.html';
     $aOption['featured'] = $sTheme . '/modules/products/featured.html';
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_PRODUCTS;
 

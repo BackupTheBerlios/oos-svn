@@ -121,6 +121,7 @@ $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFil
 
 $aOption['template_main'] = $sTheme .  '/modules/customers_image.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 

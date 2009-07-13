@@ -62,6 +62,7 @@ $_SESSION['member']->default_member();
 
 $aOption['template_main'] = $sTheme . '/system/success.html';
 $aOption['page_heading'] = $sTheme . '/heading/success_page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 

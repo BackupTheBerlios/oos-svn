@@ -93,6 +93,7 @@ if ($global['global_product_notifications'] != '1') {
 
 $aOption['template_main'] = $sTheme . '/modules/checkout_success.html';
 $aOption['page_heading'] = $sTheme . '/modules/checkout_success_page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CHECKOUT;
 

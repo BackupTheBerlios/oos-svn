@@ -44,6 +44,7 @@ ob_end_clean();
 
 $aOption['template_main'] = $sTheme . '/modules/user_password_edit.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 

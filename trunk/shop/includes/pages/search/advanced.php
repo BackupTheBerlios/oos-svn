@@ -93,6 +93,7 @@ $options_box .= '  <tr>' . "\n" .
 
 $aOption['template_main'] = $sTheme . '/modules/advanced_search.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 
