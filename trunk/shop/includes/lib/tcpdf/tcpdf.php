@@ -2,9 +2,9 @@
 //============================================================+
 // File name   : tcpdf.php
 // Begin       : 2002-08-03
-// Last Update : 2009-06-11
+// Last Update : 2009-07-13
 // Author      : Nicola Asuni - info@tecnick.com - http://www.tcpdf.org
-// Version     : 4.6.015
+// Version     : 4.6.019
 // License     : GNU LGPL (http://www.gnu.org/copyleft/lesser.html)
 // 	----------------------------------------------------------------------------
 //  Copyright (C) 2002-2009  Nicola Asuni - Tecnick.com S.r.l.
@@ -126,7 +126,7 @@
  * @copyright 2002-2009 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
  * @link http://www.tcpdf.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
- * @version 4.6.015
+ * @version 4.6.019
  */
 
 /**
@@ -150,14 +150,14 @@ if (!class_exists('TCPDF', false)) {
 	/**
 	 * define default PDF document producer
 	 */ 
-	define('PDF_PRODUCER', 'TCPDF 4.6.015 (http://www.tcpdf.org)');
+	define('PDF_PRODUCER', 'TCPDF 4.6.019 (http://www.tcpdf.org)');
 	
 	/**
 	* This is a PHP class for generating PDF documents without requiring external extensions.<br>
 	* TCPDF project (http://www.tcpdf.org) has been originally derived in 2002 from the Public Domain FPDF class by Olivier Plathey (http://www.fpdf.org), but now is almost entirely rewritten.<br>
 	* @name TCPDF
 	* @package com.tecnick.tcpdf
-	* @version 4.6.015
+	* @version 4.6.019
 	* @author Nicola Asuni - info@tecnick.com
 	* @link http://www.tcpdf.org
 	* @license http://www.gnu.org/copyleft/lesser.html LGPL
@@ -1292,7 +1292,7 @@ if (!class_exists('TCPDF', false)) {
 		 * @access protected
 		 * @since 4.6.006 (2009-04-28)
 		 */
-		protected $re_spaces = '/[\s\p{Z}\p{Lo}]/';
+		protected $re_spaces = '/[\s]/';
 
 		//------------------------------------------------------------
 		// METHODS
@@ -1419,7 +1419,8 @@ if (!class_exists('TCPDF', false)) {
 				// \p{Z} or \p{Separator}: any kind of Unicode whitespace or invisible separator.
 				// \p{Lo} or \p{Other_Letter}: a Unicode letter or ideograph that does not have lowercase and uppercase variants.
 				// \p{Lo} is needed because Chinese characters are packed next to each other without spaces in between.
-				$this->re_spaces = '/[\s\p{Z}\p{Lo}]/';
+				//$this->re_spaces = '/[\s\p{Z}\p{Lo}]/';
+				$this->re_spaces = '/[\s\p{Z}]/';
 			} else {
 				// PCRE unicode support is turned OFF
 				$this->re_spaces = '/[\s]/';
@@ -1595,7 +1596,21 @@ if (!class_exists('TCPDF', false)) {
 			// store page dimensions
 			$this->pagedim[$this->page] = array('w' => $this->wPt, 'h' => $this->hPt, 'wk' => $this->w, 'hk' => $this->h, 'tm' => $this->tMargin, 'bm' => $bottommargin, 'lm' => $this->lMargin, 'rm' => $this->rMargin, 'pb' => $autopagebreak, 'or' => $this->CurOrientation, 'olm' => $this->original_lMargin, 'orm' => $this->original_rMargin);
 		}
-				
+		
+		/**
+		 * Set regular expression to detect withespaces or word separators.
+		 * @param string $re regular expression (leave empty for default).
+		 * @access public
+		 * @since 4.6.016 (2009-06-15)
+		 */
+		public function setSpacesRE($re='/[\s]/') {
+			// if PCRE unicode support is turned ON:
+			// 	\p{Z} or \p{Separator}: any kind of Unicode whitespace or invisible separator.
+			// 	\p{Lo} or \p{Other_Letter}: a Unicode letter or ideograph that does not have lowercase and uppercase variants.
+			// 	\p{Lo} is needed because Chinese characters are packed next to each other without spaces in between.
+			$this->re_spaces = $re;
+		}
+			
 		/**
 		 * Enable or disable Right-To-Left language mode
 		 * @param Boolean $enable if true enable Right-To-Left language mode.
@@ -2493,6 +2508,8 @@ if (!class_exists('TCPDF', false)) {
 			}
 			if (!$this->empty_string($this->thead)) {
 				// set margins
+				$prev_lMargin = $this->lMargin;
+				$prev_rMargin = $this->rMargin;
 				$this->lMargin = $this->pagedim[$this->page]['olm'];
 				$this->rMargin = $this->pagedim[$this->page]['orm'];
 				$this->cMargin = $this->theadMargins['cmargin'];
@@ -2505,6 +2522,8 @@ if (!class_exists('TCPDF', false)) {
 				$this->tMargin = $this->y;
 				$this->pagedim[$this->page]['tm'] = $this->tMargin;
 				$this->lasth = 0;
+				$this->lMargin = $prev_lMargin;
+				$this->rMargin = $prev_rMargin;
 			}
 		}
 		
@@ -3308,31 +3327,34 @@ if (!class_exists('TCPDF', false)) {
 		* Add page if needed.
 		* @param float $h Cell height. Default value: 0.
 		* @param mixed $y starting y position, leave empty for current position.
+		* @param boolean $addpage if true add a page, otherwise only return the true/false state
 		* @return boolean true in case of page break, false otherwise.
 		* @since 3.2.000 (2008-07-01)
 		* @access protected
 		*/
-		protected function checkPageBreak($h=0, $y='') {
+		protected function checkPageBreak($h=0, $y='', $addpage=true) {
 			if ($this->empty_string($y)) {
 				$y = $this->y;
 			}
 			if ((($y + $h) > $this->PageBreakTrigger) AND (!$this->InFooter) AND ($this->AcceptPageBreak())) {
-				//Automatic page break
-				$x = $this->x;
-				$this->AddPage($this->CurOrientation);
-				$this->y = $this->tMargin;
-				$oldpage = $this->page - 1;
-				if ($this->rtl) {
-					if ($this->pagedim[$this->page]['orm'] != $this->pagedim[$oldpage]['orm']) {
-						$this->x = $x - ($this->pagedim[$this->page]['orm'] - $this->pagedim[$oldpage]['orm']);
+				if ($addpage) {
+					//Automatic page break
+					$x = $this->x;
+					$this->AddPage($this->CurOrientation);
+					$this->y = $this->tMargin;
+					$oldpage = $this->page - 1;
+					if ($this->rtl) {
+						if ($this->pagedim[$this->page]['orm'] != $this->pagedim[$oldpage]['orm']) {
+							$this->x = $x - ($this->pagedim[$this->page]['orm'] - $this->pagedim[$oldpage]['orm']);
+						} else {
+							$this->x = $x;
+						}
 					} else {
-						$this->x = $x;
-					}
-				} else {
-					if ($this->pagedim[$this->page]['olm'] != $this->pagedim[$oldpage]['olm']) {
-						$this->x = $x + ($this->pagedim[$this->page]['olm'] - $this->pagedim[$oldpage]['olm']);
-					} else {
-						$this->x = $x;
+						if ($this->pagedim[$this->page]['olm'] != $this->pagedim[$oldpage]['olm']) {
+							$this->x = $x + ($this->pagedim[$this->page]['olm'] - $this->pagedim[$oldpage]['olm']);
+						} else {
+							$this->x = $x;
+						}
 					}
 				}
 				return true;
@@ -3633,8 +3655,8 @@ if (!class_exists('TCPDF', false)) {
 		* @param string $align Allows to center or align the text. Possible values are:<ul><li>L or empty string: left align</li><li>C: center</li><li>R: right align</li><li>J: justification (default value when $ishtml=false)</li></ul>
 		* @param int $fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
 		* @param int $ln Indicates where the current position should go after the call. Possible values are:<ul><li>0: to the right</li><li>1: to the beginning of the next line [DEFAULT]</li><li>2: below</li></ul>
-		* @param int $x x position in user units
-		* @param int $y y position in user units
+		* @param float $x x position in user units
+		* @param float $y y position in user units
 		* @param boolean $reseth if true reset the last cell height (default true).
 		* @param int $stretch stretch carachter mode: <ul><li>0 = disabled</li><li>1 = horizontal scaling only if necessary</li><li>2 = forced horizontal scaling</li><li>3 = character spacing only if necessary</li><li>4 = forced character spacing</li></ul>
 		* @param boolean $ishtml set to true if $txt is HTML content (default = false).
@@ -6195,23 +6217,30 @@ if (!class_exists('TCPDF', false)) {
 		* @access protected
 		*/
 		protected function _putinfo() {
-			if (!$this->empty_string($this->title)) {
-				$this->_out('/Title '.$this->_textstring($this->title));
+			if ($this->empty_string($this->title)) {
+				$this->title = '?';
 			}
-			if (!$this->empty_string($this->author)) {
-				$this->_out('/Author '.$this->_textstring($this->author));
+			$this->_out('/Title '.$this->_textstring($this->title));
+			if ($this->empty_string($this->author)) {
+				$this->author = '?';
 			}
-			if (!$this->empty_string($this->subject)) {
-				$this->_out('/Subject '.$this->_textstring($this->subject));
+			$this->_out('/Author '.$this->_textstring($this->author));
+			if ($this->empty_string($this->subject)) {
+				$this->subject = '?';
 			}
-			if (!$this->empty_string($this->keywords)) {
-				$this->_out('/Keywords '.$this->_textstring($this->keywords));
+			$this->_out('/Subject '.$this->_textstring($this->subject));
+			if ($this->empty_string($this->keywords)) {
+				$this->keywords = '?';
 			}
-			if (!$this->empty_string($this->creator)) {
-				$this->_out('/Creator '.$this->_textstring($this->creator));
+			$this->_out('/Keywords '.$this->_textstring($this->keywords));
+			if ($this->empty_string($this->creator)) {
+				$this->creator = '?';
 			}
+			$this->_out('/Creator '.$this->_textstring($this->creator));
 			if (defined('PDF_PRODUCER')) {
 				$this->_out('/Producer '.$this->_textstring(PDF_PRODUCER));
+			} else {
+				$this->_out('/Producer '.$this->_textstring('TCPDF'));
 			}
 			$this->_out('/CreationDate '.$this->_datastring('D:'.date('YmdHis')));
 			$this->_out('/ModDate '.$this->_datastring('D:'.date('YmdHis')));	
@@ -7499,7 +7528,9 @@ if (!class_exists('TCPDF', false)) {
 			//Set line width
 			$this->LineWidth = $width;
 			$this->linestyleWidth = sprintf('%.2F w', ($width * $this->k));
-			$this->_out($this->linestyleWidth);
+			if ($this->page > 0) {
+				$this->_out($this->linestyleWidth);
+			}
 		}
 		
 		/**
@@ -8317,6 +8348,41 @@ if (!class_exists('TCPDF', false)) {
 				$this->_out($op);
 			}
 		}
+		
+		/**
+		* Draws a grahic arrow.
+		* @parameter float $x0 Abscissa of first point.
+		* @parameter float $y0 Ordinate of first point.
+		* @parameter float $x0 Abscissa of second point.
+		* @parameter float $y1 Ordinate of second point.
+		* @parameter int $head_style (0 = draw only arrowhead arms, 1 = draw closed arrowhead, but no fill, 2 = closed and filled arrowhead)
+		* @parameter float $arm_size length of arrowhead arms
+		* @parameter int $arm_angle angle between an arm and the shaft
+		* @author Piotr Galecki, Nicola Asuni
+		* @since 4.6.018 (2009-07-10)
+		*/
+		public function Arrow($x0, $y0, $x1, $y1, $head_style=0, $arm_size=5, $arm_angle=15) {
+			//main arrow line / shaft
+			$this->Line($x0, $y0, $x1, $y1);
+			//getting arrow direction angle
+			$dir_angle = rad2deg(atan2(($y0 - $y1), ($x0 - $x1)));
+			//0 angle is when both arms go along X axis. angle grows clockwise.
+			//left arrowhead arm tip
+			$x2L = $x1 + ($arm_size * cos(deg2rad($dir_angle + $arm_angle)));
+			$y2L = $y1 + ($arm_size * sin(deg2rad($dir_angle + $arm_angle)));
+			//right arrowhead arm tip
+			$x2R = $x1 + ($arm_size * cos(deg2rad($dir_angle - $arm_angle)));
+			$y2R = $y1 + ($arm_size * sin(deg2rad($dir_angle - $arm_angle)));
+			if($head_style > 0) {
+				//closed arrowhead
+				$this->Polygon(array($x1, $y1, $x2L, $y2L, $x2R, $y2R), (($head_style === 1) ? 'D' : 'DF'), array(), array());
+			} else { //just arms
+				//left arm
+				$this->Line($x1, $y1, $x2L, $y2L);
+				//right arm
+				$this->Line($x1, $y1, $x2R, $y2R);
+			}
+		} 
 		
 		// END GRAPHIC FUNCTIONS SECTION -----------------------
 		
@@ -9653,7 +9719,7 @@ if (!class_exists('TCPDF', false)) {
 		}
 		
 		/*
-		* Set the height of cell repect font height.
+		* Set the height of the cell (line height) respect the font height.
 		* @param int $h cell proportion respect font height (typical value = 1.25).
 		* @access public
 		* @since 3.0.014 (2008-06-04)
@@ -12602,7 +12668,7 @@ if (!class_exists('TCPDF', false)) {
 							$this->cMargin = $this->oldcMargin;
 						}
 						$this->lasth = $this->FontSize * $this->cell_height_ratio;
-						if (!empty($this->theadMargins)) {
+						if (isset($this->theadMargins['top'])) {
 							// restore top margin
 							$this->tMargin = $this->theadMargins['top'];
 							$this->pagedim[$this->page]['tm'] = $this->tMargin;
