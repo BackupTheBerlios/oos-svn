@@ -308,22 +308,22 @@ foreach ($items as $item) {
 	$config = HTMLPurifier_Config::createDefault();
 	// these are the HTML elements/attributes that will be preserved
 	if ($get_images) {
-		$config->set('HTML', 'Allowed', 'div,p,b,strong,em,a[href],i,ul,li,ol,blockquote,br,h1,h2,h3,h4,h5,h6,code,pre,sub,sup,del,img[src]');
+		$config->set('HTML.Allowed', 'div,p,b,strong,em,a[href],i,ul,li,ol,blockquote,br,h1,h2,h3,h4,h5,h6,code,pre,sub,sup,del,img[src]');
 	} else {
-		$config->set('HTML', 'Allowed', 'div,p,b,strong,em,a[href],i,ul,li,ol,blockquote,br,h1,h2,h3,h4,h5,h6,code,pre,sub,sup,del');
+		$config->set('HTML.Allowed', 'div,p,b,strong,em,a[href],i,ul,li,ol,blockquote,br,h1,h2,h3,h4,h5,h6,code,pre,sub,sup,del');
 	}
 	// Attempt to autoparagraph when 2 linebreaks are detected -- we use feature after we run HTML through Tidy and replace double <br>s with linebreaks (\n\n)
-	$config->set('AutoFormat', 'AutoParagraph', true);
+	$config->set('AutoFormat.AutoParagraph', true);
 	// Remove empty elements - TCPDF still applies padding/vertical spacing rules to empty elements
-	$config->set('AutoFormat', 'RemoveEmpty', true);
+	$config->set('AutoFormat.RemoveEmpty', true);
 	// disable cache
-	$config->set('Cache', 'DefinitionImpl', null);
-	//$config->set('Output', 'TidyFormat', false);
-	//$config->set('HTML', 'TidyLevel', 'heavy');
-	$config->set('URI', 'Base', $item->get_permalink());
-	$config->set('URI', 'MakeAbsolute', true);
-	$config->set('HTML', 'DefinitionID', 'extra-transforms');
-	$config->set('HTML', 'DefinitionRev', 1);
+	$config->set('Cache.DefinitionImpl', null);
+	//$config->set('Output.TidyFormat', false);
+	//$config->set('HTML.TidyLevel', 'heavy');
+	$config->set('URI.Base', $item->get_permalink());
+	$config->set('URI.MakeAbsolute', true);
+	$config->set('HTML.DefinitionID', 'extra-transforms');
+	$config->set('HTML.DefinitionRev', 1);
 	$def = $config->getHTMLDefinition(true);
 	// Change <div> elements to <p> elements - We don't want <div><p>Bla bla bla</p></div> (makes it easier for TCPDF)
 	$def->info_tag_transform['div'] = new HTMLPurifier_TagTransform_Simple('p');
