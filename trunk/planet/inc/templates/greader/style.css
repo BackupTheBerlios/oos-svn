@@ -1,0 +1,183 @@
+/*
+Theme Name: gReader
+Theme URI: http://getlilina.org/
+Author: Jon Hicks (adapted for Lilina by Ryan McCue)
+Description: Based on Jon Hicks' gReader styles for Google Reader
+*/
+html, body {
+	height: 100%;
+}
+
+body { 
+	font-family: Lucida Grande, Helvetica, Arial, sans-serif;
+	font-size: 62.5%;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: none; 
+}
+
+#navigation {
+	top: 0;
+	padding: 8px 0 0 0  !important;
+	overflow: hidden;
+	right: 0;
+	left: 470px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-align: right;
+	position:absolute;
+	z-index: 10;
+	color: #666 !important;
+	font-size: 11px;
+}
+
+#navigation .site-name {
+	font-weight: bold;
+}
+
+#navigation a {
+	margin: 0 3px;
+	color: #333 !important;
+	padding: 0 4px;
+	line-height: 15px;
+}
+
+#navigation a:hover {
+	background: #999;
+	color: #fff;
+}
+
+#logo { 
+	display: block;
+	width: auto;
+	background: #dddddc url("bar-grey.png")  repeat-x 0 -2px;
+	padding: 4px 0 0 10px;
+	z-index: 1;
+	position: relative;
+	height: 26px;
+	border-bottom: 1px solid #999;
+}
+
+#logo a {
+	position: absolute;
+	left: 8px;
+	width: 470px;
+	text-align: right;
+}
+
+#page-title {
+	padding: 7px 5px 5px 8px;
+	margin: 0;
+	color: #fff;
+	font-size: 1.4em;
+	background: #0000ff url("bar-blue.gif") repeat-x;
+}
+
+#main {
+	float: right;
+
+	height: 100%;
+	width: 100%;
+	margin: -31px 0 0 -242px;
+}
+
+#wrapper {
+	margin-top: 31px;
+}
+
+#content {
+	margin-left: 240px;
+	border-left: 1px solid #939393;
+	height: 100%;
+	overflow:auto;
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+
+#content>ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.item {
+	color: #666666;
+}
+
+.item .title-bar {
+	
+}
+
+#sidebar {
+	/* The reason we use pixels is because we can't use margin-left: 24% + 1px */
+	width: 240px;
+	/*overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;*/
+	margin-top: -31px;
+	height: 100%;
+	float: left;
+	z-index: -1;
+	background-color: #E5EDF7;
+	border-right: 1px solid #939393;
+	
+}
+
+#sidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#sidebar > ul {
+	margin: 0;
+	margin-top: 31px;
+	padding: 0;
+	list-style-type: none;
+}
+
+#sidebar li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	overflow: auto;
+	padding: 0 1em;
+}
+
+#sidebar li h3 {
+	text-transform: uppercase;
+	font-size: 1.1em;
+	color: #606e80;
+	margin: 0.5em 0;
+}
+
+#sidebar li a img {
+	border: 0;
+}
+
+#sources li {
+	margin: 0.2em 0;
+}
+/* Not currently used */
+#sources li.current {
+	background: url("bar-purple.gif") repeat-x left center;
+}
+#sources li a {
+	color: #696969;
+	font-size: 1.1em;
+}
+#sources li.current a {
+	color: #fff;
+}
+#sources li img {
+	float: left;
+}
+#sources li .title {
+	padding: 2px 0;
+	margin-left: 2em;
+	display: block;
+}
