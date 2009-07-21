@@ -143,7 +143,7 @@
   } else {
     // links breadcrumb
     $oBreadcrumb->add($aLang['navbar_title1'], oos_href_link($aModules['search'], $aFilename['advanced_search']));
-    $oBreadcrumb->add($aLang['navbar_title2'], oos_href_link($aModules['search'], $aFilename['advanced_search_result'], 'keywords=' . $_GET['keywords'] . '&search_in_description=' . $_GET['search_in_description'] . '&categories_id=' . $_GET['categories_id'] . '&inc_subcat=' . $_GET['inc_subcat'] . '&manufacturers_id=' . $_GET['manufacturers_id'] . '&pfrom=' . $_GET['pfrom'] . '&pto=' . $_GET['pto'] . '&dfrom=' . $_GET['dfrom'] . '&dto=' . $_GET['dto']));
+    $oBreadcrumb->add($aLang['navbar_title2'], oos_href_link($aModules['search'], $aFilename['advanced_search_result'], 'keywords=' . oos_var_prep_for_os($_GET['keywords']) . '&search_in_description=' . oos_var_prep_for_os($_GET['search_in_description']) . '&categories_id=' . intval($_GET['categories_id']) . '&inc_subcat=' . intval($_GET['inc_subcat']) . '&manufacturers_id=' . intval($_GET['manufacturers_id']) . '&pfrom=' . oos_var_prep_for_os($_GET['pfrom']) . '&pto=' . oos_var_prep_for_os($_GET['pto']) . '&dfrom=' . oos_var_prep_for_os($_GET['dfrom']) . '&dto=' . oos_var_prep_for_os($_GET['dto'])), bookmark);
 
     // Search enhancement mod start
     $search_keywords = oos_var_prep_for_os($_GET['keywords']);

@@ -50,7 +50,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     $oSitemap->setShowCategoryProductCount(false);
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_sitemap']));
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_sitemap']), bookmark);
 
     // assign Smarty variables;
     $oSmarty->assign(

@@ -80,7 +80,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'update_notifications')) {
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['user'], $aFilename['product_notifications'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['user'], $aFilename['product_notifications'], '', 'SSL'), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/user_product_notifications.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

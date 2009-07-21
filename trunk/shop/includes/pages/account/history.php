@@ -74,7 +74,7 @@ if ($history_result->RecordCount()) {
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/account_history.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

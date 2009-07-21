@@ -154,7 +154,7 @@ while ($wishlist = $wishlist_result->fields)
 
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['account'], $aFilename['account_my_wishlist']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['account'], $aFilename['account_my_wishlist']), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/my_wishlist.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

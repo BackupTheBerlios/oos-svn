@@ -157,7 +157,7 @@ if ($orders_result->RecordCount()) {
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['header_title_catalog'], oos_href_link($aModules['main'], $aFilename['shop']));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['account'], $aFilename['account_order_history']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['account'], $aFilename['account_order_history']), bookmark);
 
 
 // assign Smarty variables;

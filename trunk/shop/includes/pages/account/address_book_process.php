@@ -240,9 +240,9 @@ $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aF
 $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
 
 if ( (isset($_GET['action']) && ($_GET['action'] == 'modify')) || (isset($_POST['action']) && ($_POST['action'] == 'update') && oos_is_not_null($_POST['entry_id'])) ) {
-    $oBreadcrumb->add($aLang['navbar_title_modify_entry'], oos_href_link($aModules['account'], $aFilename['account_address_book_process'], 'action=modify&amp;entry_id=' . ((isset($_GET['entry_id'])) ? $_GET['entry_id'] : $_POST['entry_id']), 'SSL'));
+    $oBreadcrumb->add($aLang['navbar_title_modify_entry'], oos_href_link($aModules['account'], $aFilename['account_address_book_process'], 'action=modify&amp;entry_id=' . ((isset($_GET['entry_id'])) ? intval($_GET['entry_id']) : intval($_POST['entry_id'])), 'SSL'), bookmark);
 } else {
-    $oBreadcrumb->add($aLang['navbar_title_add_entry'], oos_href_link($aModules['account'], $aFilename['account_address_book_process'], '', 'SSL'));
+    $oBreadcrumb->add($aLang['navbar_title_add_entry'], oos_href_link($aModules['account'], $aFilename['account_address_book_process'], '', 'SSL'), bookmark);
 }
 
 if (count($_SESSION['navigation']->snapshot) > 0) {
@@ -252,7 +252,7 @@ if (count($_SESSION['navigation']->snapshot) > 0) {
 }
 
 if (isset($_GET['entry_id'])) {
-    $entry_id = oos_var_prep_for_os($_GET['entry_id']);
+    $entry_id = intval($_GET['entry_id']);
 }
 
 ob_start();

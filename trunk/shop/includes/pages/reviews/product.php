@@ -71,7 +71,7 @@ while ($reviews = $reviews_result->fields)
 
 // links breadcrumb
 $oBreadcrumb->add($product_info['products_name'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_params));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_params), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/product_reviews.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

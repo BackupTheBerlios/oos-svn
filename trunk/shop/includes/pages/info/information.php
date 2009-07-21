@@ -57,7 +57,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     $information = $dbconn->GetRow($sql);
 
     // links breadcrumb
-    $oBreadcrumb->add($information['information_heading_title'], oos_href_link($aModules['info'], $aFilename['information'], 'information_id=' . intval($nInformationsID)));
+    $oBreadcrumb->add($information['information_heading_title'], oos_href_link($aModules['info'], $aFilename['information'], 'information_id=' . intval($nInformationsID)), bookmark);
 
     // assign Smarty variables;
     $oSmarty->assign(

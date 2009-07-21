@@ -251,7 +251,7 @@ if ($bError == true) {
     $show_password = false;
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['admin'], $aFilename['admin_create_account']));
+    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['admin'], $aFilename['admin_create_account']), bookmark);
     $oBreadcrumb->add($aLang['navbar_title_2']);
 
     ob_start();

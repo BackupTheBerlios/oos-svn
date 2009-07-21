@@ -36,7 +36,7 @@ if ($account['customers_gender'] == 'm') {
 
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['yourstore'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['yourstore'], '', 'SSL'), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/user_yourstore.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

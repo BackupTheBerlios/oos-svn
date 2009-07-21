@@ -195,7 +195,7 @@ if (isset($tlid)) {
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['ticket'], $aFilename['ticket_create']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['ticket'], $aFilename['ticket_create']), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/ticket_view.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

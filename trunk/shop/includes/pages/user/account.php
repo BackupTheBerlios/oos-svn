@@ -58,7 +58,7 @@ if ($account['customers_newsletter'] == '1') {
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/user_account.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

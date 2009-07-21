@@ -155,7 +155,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'), bookmark);
 
 $info_message = '';
 if (isset($_GET['login']) && ($_GET['login'] == 'fail')) {

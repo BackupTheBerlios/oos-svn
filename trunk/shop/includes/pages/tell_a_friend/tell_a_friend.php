@@ -132,7 +132,7 @@ if (isset($_GET['send_to'])) {
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['tell_a_friend'], $aFilename['tell_a_friend'], 'send_to=' . $friendemail . '&amp;products_id=' . $_GET['products_id']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['tell_a_friend'], $aFilename['tell_a_friend'], 'send_to=' . $friendemail . '&amp;products_id=' . intval($_GET['products_id'])), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/tell_a_friend.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

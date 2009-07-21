@@ -97,7 +97,7 @@ while ($address_book = $address_book_result->fields)
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/address_book.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

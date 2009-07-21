@@ -61,7 +61,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
     MyOOS_CoreApi::redirect(oos_href_link($aModules['newsletters'], $aFilename['subscription_center'], 'email=nonexistent', 'SSL'));
 } else {
 
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['newsletters'], $aFilename['newsletters']));
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['newsletters'], $aFilename['newsletters']), bookmark);
 
     $aOption['template_main'] = $sTheme . '/modules/subscription_center.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

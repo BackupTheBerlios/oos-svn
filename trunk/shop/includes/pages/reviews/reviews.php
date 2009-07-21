@@ -111,7 +111,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     }
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']), bookmark);
 
     $oSmarty->assign(
           array(

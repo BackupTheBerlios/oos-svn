@@ -100,7 +100,7 @@ if (!isset($_GET['action']) && ($_GET['action'] != 'login_admin')) {
     if (($login_result_values['man_key2'] = $newkey2) && ($login_result_values['status'] !=0))  {
 
         // links breadcrumb
-        $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['admin'], $aFilename['admin_create_account'], '', 'NONSSL'));
+        $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['admin'], $aFilename['admin_create_account'], '', 'NONSSL'), bookmark);
 
         ob_start();
         require 'js/form_check.js.php';

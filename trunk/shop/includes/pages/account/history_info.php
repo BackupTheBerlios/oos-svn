@@ -47,7 +47,7 @@ if ($customer_number != $_SESSION['customer_id']) {
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
 $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_3'], oos_href_link($aModules['account'], $aFilename['account_history_info'], 'order_id=' . $_GET['order_id'], 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_3'], oos_href_link($aModules['account'], $aFilename['account_history_info'], 'order_id=' . intval($_GET['order_id']), 'SSL'), bookmark);
 
 require 'includes/classes/class_order.php';
 $oOrder = new order($_GET['order_id']);

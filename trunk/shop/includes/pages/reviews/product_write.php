@@ -136,7 +136,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
     MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));
 }
 
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters), bookmark);
 
 $customerstable = $oostable['customers'];
 $sql = "SELECT customers_firstname, customers_lastname

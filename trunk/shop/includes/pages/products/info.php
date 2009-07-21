@@ -128,10 +128,10 @@ if (!$product_info_result->RecordCount()) {
 
 
     // links breadcrumb
-    $oBreadcrumb->add($product_info['products_name'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId));
+    $oBreadcrumb->add($product_info['products_name'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId), bookmark);
 
     // $oos_pagetitle = OOS_META_TITLE . ' // ' . $oBreadcrumb->trail_title(' &raquo; ');
-    $oos_pagetitle = OOS_META_TITLE . ' - ' . $product_info['products_name'];
+    $oos_pagetitle =  $product_info['products_name'] . ' - ' . OOS_META_TITLE;
 
 
     // todo multilanguage support
@@ -151,7 +151,7 @@ if (!$product_info_result->RecordCount()) {
     $aOption['xsell_products'] =          $sTheme . '/products/xsell_products.html';
     $aOption['up_sell_products'] =        $sTheme . '/products/up_sell_products.html';
     $aOption['page_heading'] =            $sTheme . '/products/product_heading.html';
-
+    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_PRODUCTS;
 

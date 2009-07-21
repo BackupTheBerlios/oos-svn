@@ -20,7 +20,7 @@
 
 
   // links breadcrumb
-  $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['main'], $aFilename['contact_us']));
+  $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['main'], $aFilename['contact_us']), bookmark);
 
   // $aOption['template_main'] = $sTheme . '/system/contact_us.html';
   $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

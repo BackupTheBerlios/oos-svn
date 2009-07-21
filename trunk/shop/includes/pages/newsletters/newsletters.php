@@ -76,7 +76,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
     }
 } else {
 
-    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['newsletters'], $aFilename['newsletters'], '', 'SSL'));
+    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['newsletters'], $aFilename['newsletters'], '', 'SSL'), bookmark);
 
     $aOption['template_main'] = $sTheme . '/modules/newsletters.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

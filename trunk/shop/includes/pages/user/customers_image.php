@@ -117,7 +117,7 @@ $sAccountCreated = oos_date_short($myworld['date_account_created']);
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['text_yourstore'], oos_href_link($aModules['user'], $aFilename['yourstore']));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['customers_image']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['customers_image']), bookmark);
 
 $aOption['template_main'] = $sTheme .  '/modules/customers_image.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

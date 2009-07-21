@@ -57,7 +57,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
 
     // links breadcrumb
     $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
-    $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['user'], $aFilename['password_forgotten'], '', 'SSL'));
+    $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['user'], $aFilename['password_forgotten'], '', 'SSL'), bookmark);
 
     $aOption['template_main'] = $sTheme . '/modules/user_password_forgotten.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

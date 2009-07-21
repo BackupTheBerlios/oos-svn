@@ -51,7 +51,7 @@ $show_password = true;
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['user'], $aFilename['account_edit'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['user'], $aFilename['account_edit'], '', 'SSL'), bookmark);
 
 ob_start();
 require 'js/form_check.js.php';

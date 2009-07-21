@@ -65,7 +65,7 @@ $dbconn->Execute("UPDATE " . $oostable['reviews'] . "
 
 // links breadcrumb
 $oBreadcrumb->add($reviews['products_name'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $reviews['products_id']));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/product_reviews_info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

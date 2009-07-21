@@ -71,7 +71,7 @@
     }
   }
 
-  if ($action == 'process') {
+if ($action == 'process') {
     $id1 = oos_create_coupon_code($mail['customers_email_address']);
 
     $coupon_gv_customertable = $oostable['coupon_gv_customer'];
@@ -83,72 +83,72 @@
 
     $new_amount = round($gv_result['amount'], $oCurrencies->currencies[DEFAULT_CURRENCY]['decimal_places'])-$amount;
     if ($new_amount<0) {
-      $error = '1';
-      $error_amount = $aLang['error_entry_amount_check'];
-      $action = 'send';
+        $error = '1';
+        $error_amount = $aLang['error_entry_amount_check'];
+        $action = 'send';
     } else {
-      $coupon_gv_customertable = $oostable['coupon_gv_customer'];
-      $gv_result=$dbconn->Execute("UPDATE $coupon_gv_customertable
-                               SET amount = '" . oos_db_input($new_amount) . "'
-                               WHERE customer_id = '" . intval($_SESSION['customer_id']) . "'");
+        $coupon_gv_customertable = $oostable['coupon_gv_customer'];
+        $gv_result=$dbconn->Execute("UPDATE $coupon_gv_customertable
+                                     SET amount = '" . oos_db_input($new_amount) . "'
+                                     WHERE customer_id = '" . intval($_SESSION['customer_id']) . "'");
 
 
-      $customerstable = $oostable['customers'];
-      $sql = "SELECT customers_firstname, customers_lastname
-              FROM $customerstable
-              WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'";
-      $gv_result = $dbconn->Execute($sql);
-      $gv_customer = $gv_result->fields;
+        $customerstable = $oostable['customers'];
+        $sql = "SELECT customers_firstname, customers_lastname
+                FROM $customerstable
+                WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'";
+        $gv_result = $dbconn->Execute($sql);
+        $gv_customer = $gv_result->fields;
 
-      $couponstable = $oostable['coupons'];
-      $gv_result = $dbconn->Execute("INSERT INTO $couponstable
-                                (coupon_type,
-                                 coupon_code,
-                                 date_created,
-                                 coupon_amount) VALUES ('G',
-                                                        '" . oos_db_input($id1) . "',
-                                                         '" . date("Y-m-d H:i:s", time()) . "',
-                                                        '" . oos_db_input($amount) . "')");
-      $insert_id = $dbconn->Insert_ID();
+        $couponstable = $oostable['coupons'];
+        $gv_result = $dbconn->Execute("INSERT INTO $couponstable
+                                      (coupon_type,
+                                       coupon_code,
+                                       date_created,
+                                       coupon_amount) VALUES ('G',
+                                                              '" . oos_db_input($id1) . "',
+                                                              '" . date("Y-m-d H:i:s", time()) . "',
+                                                              '" . oos_db_input($amount) . "')");
+        $insert_id = $dbconn->Insert_ID();
 
-      $coupon_email_tracktable = $oostable['coupon_email_track'];
-      $gv_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable
-                                (coupon_id,
-                                 customer_id_sent,
-                                 sent_firstname,
-                                 sent_lastname,
-                                 emailed_to,
-                                 date_sent) VALUES ('" . intval($insert_id) . "',
-                                                    '" . intval($_SESSION['customer_id']) . "',
-                                                    '" . $gv_customer['customers_firstname'] . "',
-                                                    '" . $gv_customer['customers_lastname'] . "',
-                                                    '" . oos_db_input($email) . "',
-                                                    '" . date("Y-m-d H:i:s", time()) . "')");
+        $coupon_email_tracktable = $oostable['coupon_email_track'];
+        $gv_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable
+                                       (coupon_id,
+                                        customer_id_sent,
+                                        sent_firstname,
+                                        sent_lastname,
+                                        emailed_to,
+                                        date_sent) VALUES ('" . intval($insert_id) . "',
+                                                           '" . intval($_SESSION['customer_id']) . "',
+                                                           '" . $gv_customer['customers_firstname'] . "',
+                                                           '" . $gv_customer['customers_lastname'] . "',
+                                                           '" . oos_db_input($email) . "',
+                                                           '" . date("Y-m-d H:i:s", time()) . "')");
 
-      $gv_email = STORE_NAME . "\n" .
-              $aLang['email_separator'] . "\n" .
-              sprintf($aLang['email_gv_text_header'], $oCurrencies->format($amount)) . "\n" .
-              $aLang['email_separator'] . "\n" .
-              sprintf($aLang['email_gv_from'], $send_name) . "\n";
-      if (isset($_POST['message'])) {
-        $gv_email .= $aLang['email_gv_message'] . "\n";
-        if (isset($to_name)) {
-          $gv_email .= sprintf($aLang['email_gv_send_to'], $to_name) . "\n\n";
+        $gv_email = STORE_NAME . "\n" .
+                    $aLang['email_separator'] . "\n" .
+                    sprintf($aLang['email_gv_text_header'], $oCurrencies->format($amount)) . "\n" .
+                    $aLang['email_separator'] . "\n" .
+                    sprintf($aLang['email_gv_from'], $send_name) . "\n";
+        if (isset($_POST['message'])) {
+            $gv_email .= $aLang['email_gv_message'] . "\n";
+            if (isset($to_name)) {
+                $gv_email .= sprintf($aLang['email_gv_send_to'], $to_name) . "\n\n";
+            }
+            $gv_email .= stripslashes($message) . "\n\n";
         }
-        $gv_email .= stripslashes($message) . "\n\n";
-      }
-      $gv_email .= sprintf($aLang['email_gv_redeem'], $id1) . "\n\n";
-      $gv_email .= $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $id1, 'NONSSL', false, false);
-      $gv_email .= "\n\n";
-      $gv_email .= $aLang['email_gv_fixed_footer'] . "\n\n";
-      $gv_email .= $aLang['email_gv_shop_footer'] . "\n\n";
-      // $gv_email_subject = sprintf($aLang['email_gv_text_subject'], $send_name);
-      oos_mail('', $email, $aLang['email_subject'], nl2br($gv_email), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, '');
+        $gv_email .= sprintf($aLang['email_gv_redeem'], $id1) . "\n\n";
+        $gv_email .= $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $id1, 'NONSSL', false, false);
+        $gv_email .= "\n\n";
+        $gv_email .= $aLang['email_gv_fixed_footer'] . "\n\n";
+        $gv_email .= $aLang['email_gv_shop_footer'] . "\n\n";
+        // $gv_email_subject = sprintf($aLang['email_gv_text_subject'], $send_name);
+        oos_mail('', $email, $aLang['email_subject'], nl2br($gv_email), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, '');
 
     }
-  }
+}
 
-  if ($action == 'send' && $error == '0') {
+if ($action == 'send' && $error == '0') {
     // validate entries
     $gv_amount = (double) $gv_amount;
     $customerstable = $oostable['customers'];
@@ -158,30 +158,30 @@
     $gv_result = $dbconn->Execute($sql);
     $gv = $gv_result->fields;
     $send_name = $gv['customers_firstname'] . ' ' . $gv['customers_lastname'];
-  }
+}
 
-  $back = count($_SESSION['navigation']->path)-2;
-  if (isset($_SESSION['navigation']->path[$back])) {
+$back = count($_SESSION['navigation']->path)-2;
+if (isset($_SESSION['navigation']->path[$back])) {
     $back_link = oos_href_link($_SESSION['navigation']->path[$back]['modules'], $_SESSION['navigation']->path[$back]['file'], $_SESSION['navigation']->path[$back]['get'], $_SESSION['navigation']->path[$back]['mode']);
-  }
+}
 
-  // links breadcrumb
-  $oBreadcrumb->add($aLang['navbar_title']);
+// links breadcrumb
+$oBreadcrumb->add($aLang['navbar_title']);
 
-  $aOption['template_main'] = $sTheme . '/modules/send.html';
-  $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-  $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
+$aOption['template_main'] = $sTheme . '/modules/send.html';
+$aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
-  $nPageType = OOS_PAGE_TYPE_MAINPAGE;
+$nPageType = OOS_PAGE_TYPE_MAINPAGE;
 
-  require 'includes/oos_system.php';
-  if (!isset($option)) {
+require 'includes/oos_system.php';
+if (!isset($option)) {
     require 'includes/info_message.php';
     require 'includes/oos_blocks.php';
-  }
+}
 
-  // assign Smarty variables;
-  $oSmarty->assign(
+// assign Smarty variables;
+$oSmarty->assign(
       array(
           'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
           'oos_heading_title' => $aLang['heading_title'],
@@ -201,13 +201,13 @@
           'main_message'      => sprintf($aLang['main_message'], $oCurrencies->format($amount), $to_name, $email, $to_name, $oCurrencies->format($amount), $send_name)
 
       )
-  );
+);
 
 
-  $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
-  $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
-  $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
+$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
+$oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
+$oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
-  // display the template
-  require 'includes/oos_display.php';
+// display the template
+require 'includes/oos_display.php';
 

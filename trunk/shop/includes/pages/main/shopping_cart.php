@@ -27,7 +27,7 @@ $_SESSION['navigation']->remove_current_page();
 require 'includes/languages/' . $sLanguage . '/main_shopping_cart.php';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['main'], $aFilename['main_shopping_cart']), bookmark);
 
 $aOption['template_main'] = $sTheme . '/system/shopping_cart.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
