@@ -1305,10 +1305,12 @@ function oos_parse_category_path($sCategories) {
     // make sure the category IDs are integers
     $aCategoryPath = array_map('oos_string_to_int', explode('_', $sCategories));
 
+
     // make sure no duplicate category IDs exist which could lock the server in a loop
     $aTmp = array();
     $nArrayCountCategoryPath = count($aCategoryPath);
-    for ($i=0, $n=nArrayCountCategoryPath; $i<$n; $i++) {
+
+    for ($i=0, $n=$nArrayCountCategoryPath; $i<$n; $i++) {
         if (!in_array($aCategoryPath[$i], $aTmp)) {
             $aTmp[] = $aCategoryPath[$i];
         }
