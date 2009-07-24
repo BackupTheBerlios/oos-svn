@@ -743,12 +743,12 @@ function popupImageWindow(url) {
 
       echo oos_image_swap_submits('back', 'back_off.gif', IMAGE_BACK, 'name="edit"') . '&nbsp;&nbsp;';
 
-      if (isset($_GET['cID'])) {
+      if (isset($_GET['categories'])) {
         echo oos_image_swap_submits('update', 'update_off.gif', IMAGE_UPDATE);
       } else {
         echo oos_image_swap_submits('insert', 'insert_off.gif', IMAGE_INSERT);
       }
-      echo '&nbsp;&nbsp;<a href="' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&cID=' . $_GET['cID']) . '">' . oos_image_swap_button('cancel', 'cancel_off.gif', IMAGE_CANCEL) . '</a>';
+      echo '&nbsp;&nbsp;<a href="' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&cID=' . $_GET['categories']) . '">' . oos_image_swap_button('cancel', 'cancel_off.gif', IMAGE_CANCEL) . '</a>';
 ?></td>
       </form></tr>
 <?php
@@ -808,40 +808,40 @@ function popupImageWindow(url) {
       $categories_descriptiontable = $oostable['categories_description'];
       $categories_result = $dbconn->Execute("SELECT c.categories_id, cd.categories_name, c.categories_image, c.parent_id, c.sort_order, c.date_added, c.last_modified, c.access, c.categories_status FROM $categoriestable c, $categories_descriptiontable cd WHERE c.parent_id = '" . $current_category_id . "' and c.categories_id = cd.categories_id and cd.categories_languages_id = '" . intval($_SESSION['language_id']) . "' ORDER BY c.sort_order, cd.categories_name");
     }
-    while ($categories = $categories_result->fields) {
+    while ($aCategories = $categories_result->fields) {
       $categories_count++;
       $rows++;
 
 // Get parent_id for subcategories if search
-      if (isset($_GET['search'])) $categories= $categories['parent_id'];
+      if (isset($_GET['search'])) $categories= $aCategories['parent_id'];
 
-      if ((!isset($_GET['cID']) && !isset($_GET['pID']) || (isset($_GET['cID']) && ($_GET['cID'] == $categories['categories_id']))) && !isset($cInfo) && (substr($action, 0, 3) != 'new')) {
-        $category_childs = array('childs_count' => oos_childs_in_category_count($categories['categories_id']));
-        $category_products = array('products_count' => oos_products_in_category_count($categories['categories_id']));
+      if ((!isset($_GET['cID']) && !isset($_GET['pID']) || (isset($_GET['cID']) && ($_GET['cID'] == $aCategories['categories_id']))) && !isset($cInfo) && (substr($action, 0, 3) != 'new')) {
+        $category_childs = array('childs_count' => oos_childs_in_category_count($aCategories['categories_id']));
+        $category_products = array('products_count' => oos_products_in_category_count($aCategories['categories_id']));
 
-        $cInfo_array = array_merge($categories, $category_childs, $category_products);
+        $cInfo_array = array_merge($aCategories, $category_childs, $category_products);
         $cInfo = new objectInfo($cInfo_array);
       }
 
-      if (isset($cInfo) && is_object($cInfo) && ($categories['categories_id'] == $cInfo->categories_id) ) {
-        echo '              <tr class="dataTableRowSelected" onmouseover="this.style.cursor=\'hand\'" onclick="document.location.href=\'' . oos_href_link_admin($aFilename['categories'], oos_get_path($categories['categories_id'])) . '\'">' . "\n";
+      if (isset($cInfo) && is_object($cInfo) && ($aCategories['categories_id'] == $cInfo->categories_id) ) {
+        echo '              <tr class="dataTableRowSelected" onmouseover="this.style.cursor=\'hand\'" onclick="document.location.href=\'' . oos_href_link_admin($aFilename['categories'], oos_get_path($aCategories['categories_id'])) . '\'">' . "\n";
       } else {
-        echo '              <tr class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\';this.style.cursor=\'hand\'" onmouseout="this.className=\'dataTableRow\'" onclick="document.location.href=\'' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&cID=' . $categories['categories_id']) . '\'">' . "\n";
+        echo '              <tr class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\';this.style.cursor=\'hand\'" onmouseout="this.className=\'dataTableRow\'" onclick="document.location.href=\'' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&cID=' . $aCategories['categories_id']) . '\'">' . "\n";
       }
 ?>
-                <td class="dataTableContent"><?php echo '<a href="' . oos_href_link_admin($aFilename['categories'], oos_get_path($categories['categories_id'])) . '">' . oos_image(OOS_IMAGES . 'icons/folder.gif', ICON_FOLDER) . '</a>&nbsp;<b>' . ' #' . $categories['categories_id'] . ' ' . $categories['categories_name'] . '</b>'; ?></td>
+                <td class="dataTableContent"><?php echo '<a href="' . oos_href_link_admin($aFilename['categories'], oos_get_path($aCategories['categories_id'])) . '">' . oos_image(OOS_IMAGES . 'icons/folder.gif', ICON_FOLDER) . '</a>&nbsp;<b>' . ' #' . $aCategories['categories_id'] . ' ' . $aCategories['categories_name'] . '</b>'; ?></td>
                 <td class="dataTableContent" align="center">&nbsp;</td>
-                <td class="dataTableContent" align="center">&nbsp;<?php echo oos_get_customer_status_name($categories['access']); ?>&nbsp;</td>
+                <td class="dataTableContent" align="center">&nbsp;<?php echo oos_get_customer_status_name($aCategories['access']); ?>&nbsp;</td>
                 <td class="dataTableContent" align="center">
  <?php
-       if ($categories['categories_status'] == '1') {
-         echo '<a href="' . oos_href_link_admin($aFilename['categories'], 'action=setflag&flag=0&cID=' . $categories['categories_id'] . '&categories=' . $categories) . '">' . oos_image(OOS_IMAGES . 'icon_status_green.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>';
+       if ($aCategories['categories_status'] == '1') {
+         echo '<a href="' . oos_href_link_admin($aFilename['categories'], 'action=setflag&flag=0&cID=' . $aCategories['categories_id'] . '&categories=' . $categories) . '">' . oos_image(OOS_IMAGES . 'icon_status_green.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>';
        } else {
-         echo '<a href="' . oos_href_link_admin($aFilename['categories'], 'action=setflag&flag=1&cID=' . $categories['categories_id'] . '&categories=' . $categories) . '">' . oos_image(OOS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>';
+         echo '<a href="' . oos_href_link_admin($aFilename['categories'], 'action=setflag&flag=1&cID=' . $aCategories['categories_id'] . '&categories=' . $categories) . '">' . oos_image(OOS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>';
        }
 ?></td>
-                <td class="dataTableContent" align="center">&nbsp;<?php echo $categories['sort_order']; ?>&nbsp;</td>
-                <td class="dataTableContent" align="right"><?php if (isset($cInfo) && is_object($cInfo) && ($categories['categories_id'] == $cInfo->categories_id) ) { echo oos_image(OOS_IMAGES . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&cID=' . $categories['categories_id']) . '">' . oos_image(OOS_IMAGES . 'icon_information.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
+                <td class="dataTableContent" align="center">&nbsp;<?php echo $aCategories['sort_order']; ?>&nbsp;</td>
+                <td class="dataTableContent" align="right"><?php if (isset($cInfo) && is_object($cInfo) && ($aCategories['categories_id'] == $cInfo->categories_id) ) { echo oos_image(OOS_IMAGES . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&cID=' . $aCategories['categories_id']) . '">' . oos_image(OOS_IMAGES . 'icon_information.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
               </tr>
 <?php
       // Move that ADOdb pointer!
