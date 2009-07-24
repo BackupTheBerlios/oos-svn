@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: PatternRecursive.php 519 2008-06-09 01:59:24Z matt $
+ * @version $Id: PatternRecursive.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_DataTable
  */
@@ -77,4 +77,3 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 		return $table->getRowsCount();
 	}
 }
-

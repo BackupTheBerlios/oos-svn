@@ -1,4 +1,13 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: DocumentationGenerator.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * 
+ * @package Piwik_API
+ */
 
 class Piwik_API_DocumentationGenerator
 {
@@ -14,7 +23,7 @@ class Piwik_API_DocumentationGenerator
 		{		
 			$plugin = Piwik::unprefixClass($plugin);
 			try {
-				Piwik_API_Proxy::getInstance()->registerClass("Piwik_".$plugin."_API");
+				Piwik_API_Proxy::getInstance()->registerClass('Piwik_'.$plugin.'_API');
 			}
 			catch(Exception $e){
 			}
@@ -58,7 +67,7 @@ class Piwik_API_DocumentationGenerator
 					if($exampleUrl !== false)
 					{
 						$lastNUrls = '';
-						if( ereg('(&period)|(&date)',$exampleUrl))
+						if( preg_match('/(&period)|(&date)/',$exampleUrl))
 						{
 							$exampleUrlRss1 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last10') + $parametersToSet) ;
 							$exampleUrlRss2 = $prefixUrls . $this->getExampleUrl($class, $methodName, array('date' => 'last5','period' => 'week',) + $parametersToSet );

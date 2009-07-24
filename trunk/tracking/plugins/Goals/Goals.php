@@ -4,13 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Goals.php 1150 2009-05-27 22:45:25Z vipsoft $
+ * @version $Id: Goals.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_Referers
  */
 	
-require_once "Tracker/GoalManager.php";
-
 /**
  * TODO Goals plugin
  * - clean API especially int methods
@@ -50,7 +48,6 @@ class Piwik_Goals extends Piwik_Plugin
 
 	function fetchGoalsFromDb($notification)
 	{
-		require_once "Goals/API.php";
 		$idsite = $notification->getNotificationInfo();
 		
 		// add the 'goal' entry in the website array

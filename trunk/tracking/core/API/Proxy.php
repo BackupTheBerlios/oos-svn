@@ -4,11 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Proxy.php 581 2008-07-27 23:07:52Z matt $
+ * @version $Id: Proxy.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_API
  */
-
 
 /**
  * Proxy is a singleton that has the knowledge of every method available, their parameters 
@@ -135,7 +134,7 @@ class Piwik_API_Proxy
 			$this->checkParametersAreNotNull($className, $methodName, $finalParameters);
 
 			// start the timer
-			$timer = new Piwik_Timer;
+			$timer = new Piwik_Timer();
 			
 			// call the method
 			$returnedValue = call_user_func_array(array($object, $methodName), $finalParameters);
@@ -225,20 +224,13 @@ class Piwik_API_Proxy
 	private function includeApiFile($fileName)
 	{
 		$module = self::getModuleNameFromClassName($fileName);
-		$potentialPaths = array( $module ."/API.php", );
-		
-		$found = false;
-		foreach($potentialPaths as $path)
+		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/API.php';
+
+		if(Zend_Loader::isReadable($path))
 		{
-			if(Zend_Loader::isReadable($path))
-			{
-				require_once $path;
-				$found = true;
-				break;
-			}
+			require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 		}
-		
-		if(!$found)
+		else
 		{
 			throw new Exception("API module $module not found.");
 		}

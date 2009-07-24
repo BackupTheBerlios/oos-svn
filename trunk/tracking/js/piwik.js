@@ -3,7 +3,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id$
+ * @version $Id: piwik.js 1320 2009-07-23 03:30:43Z vipsoft $
  */
 
 /*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false */
@@ -183,10 +183,10 @@ if (!this.Piwik) {
 			configIgnoreClasses = [],
 
 			// Download class name
-			configDownloadClass = 'piwik_download',
+			configDownloadClasses = [],
 
 			// (Out) Link class name
-			configLinkClass = 'piwik_link',
+			configLinkClasses = [],
 
 			// Maximum delay to wait for web bug image to be fetched (in milliseconds)
 			configTrackerPause = 500,
@@ -198,23 +198,21 @@ if (!this.Piwik) {
 			browserHasCookies = '0',
 			pageReferrer,
 
-			// Plugin, Parameter name, MIME type, ActiveX progid, detected, version
+			// Plugin, Parameter name, MIME type, detected
 			pluginMap = {
-				director:    ['dir',   'application/x-director',
-				                        ['SWCtl.SWctl.1'],
-				                        '0', ''],
-				flash:       ['fla',   'application/x-shockwave-flash',
-				                        ['ShockwaveFlash.ShockwaveFlash.1'],
-				                        '0', ''],
-				pdf:         ['pdf',   'application/pdf',
-				                        ['AcroPDF.PDF.1', 'PDF.PdfCtrl.6', 'PDF.PdfCtrl.5', 'PDF.PdfCtrl.1'],
-				                        '0', ''],
-				realplayer:  ['realp', 'audio/x-pn-realaudio-plugin',
-				                        ['rmocx.RealPlayer G2 Control.1', 'RealPlayer.RealPlayer(tm) ActiveX Control (32-bit)'],
-				                        '0', ''],
-				wma:         ['wma',   'application/x-mplayer2',
-				                        ['WMPlayer.OCX', 'MediaPlayer.MediaPlayer.1'],
-				                        '0', '']
+				// document types
+				pdf:         ['pdf',   'application/pdf',               '0'],
+				// media players
+				quicktime:   ['qt',    'video/quicktime',               '0'],
+				realplayer:  ['realp', 'audio/x-pn-realaudio-plugin',   '0'],
+				wma:         ['wma',   'application/x-mplayer2',        '0'],
+				// interactive multimedia 
+				director:    ['dir',   'application/x-director',        '0'],
+				flash:       ['fla',   'application/x-shockwave-flash', '0'],
+				// RIA
+				java:        ['java',  'application/x-java-vm',         '0'],
+				gears:       ['gears', 'application/x-googlegears',     '0'],
+				silverlight: ['ag',    'application/x-silverlight',     '0']
 			},
 
 			// Guard against installing the link tracker more than once per Tracker instance
@@ -348,16 +346,6 @@ if (!this.Piwik) {
 			registeredHooks = {};
 
 			/*
-			 * Platform test for Internet Explorer on Windows
-			 */
-			function isWindowsIE() {
-				var agent = navigatorAlias.userAgent.toLowerCase();
-
-				return (agent.indexOf('msie') != -1) && (agent.indexOf('opera') == -1) &&
-				       ((agent.indexOf('win') != -1) || (agent.indexOf('32bit') != -1));
-			}
-
-			/*
 			 * Set cookie value
 			 */
 			function setCookie(cookieName, value, daysToExpire, path, domain, secure) {
@@ -420,43 +408,25 @@ if (!this.Piwik) {
 			 * Browser plugin tests
 			 */
 			function detectBrowserPlugins() {
-				var i, mimeTypes = '';
+				var i, mimeType;
 
-				function setPluginInfo(pluginName, mimeType) {
-					if (mimeTypes.indexOf(mimeType) != -1 && navigatorAlias.mimeTypes[mimeType].enabledPlugin !== null) {
-						pluginMap[pluginName][3] = '1';
-					}
+				// Safari and Opera
+				// IE6: typeof navigator.javaEnabled == 'unknown'
+				if (typeof navigatorAlias.javaEnabled !== 'undefined' && navigatorAlias.javaEnabled()) {
+					pluginMap.java[2] = '1';
 				}
 
-				/*
-				 * Note: an ActiveXObject object has no intrinsic properties or methods;
-				 *       thus, no standard means of getting a plugin's version number
-				 */
-				function setIEPluginInfo(pluginName, progids) {
-					if (progids !== null && isDefined(windowAlias.ActiveXObject)) {
-						for (var j = 0; j < progids.length; j++) {
-							try {
-								if (new ActiveXObject(progids[j])) {
-									pluginMap[pluginName][3] = '1';
-									break;
-								}
-							} catch (e) { }
+				// Firefox
+				if (typeof windowAlias.GearsFactory === 'function') {
+					pluginMap.gears[2] = '1';
+				}
+
+				if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
+					for (i in pluginMap) {
+						mimeType = navigatorAlias.mimeTypes[pluginMap[i][1]];
+						if (mimeType && mimeType.enabledPlugin) {
+							pluginMap[i][2] = '1';
 						}
-					}
-				}
-
-				// Begin detection of browser plugins
-				if (isWindowsIE()) {
-					for (i in pluginMap) {
-						setIEPluginInfo(i, pluginMap[i][2]);
-					}
-				} else {
-					for (i = 0; i < navigatorAlias.mimeTypes.length; i++) {
-						mimeTypes += navigatorAlias.mimeTypes[i].type.toLowerCase();
-					}
-
-					for (i in pluginMap) {
-						setPluginInfo(i, pluginMap[i][1]);
 					}
 				}
 			}
@@ -513,7 +483,7 @@ if (!this.Piwik) {
 				        '&rand=' + Math.random();
 				// plugin data
 				for (i in pluginMap) {
-					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][3];
+					request += '&' + pluginMap[i][0] + '=' + pluginMap[i][2];
 				}
 
 				request =  configTrackerUrl + '?' + request;
@@ -543,13 +513,15 @@ if (!this.Piwik) {
 				var request = getRequest();
 				request += '&idgoal=' + idGoal;
 
-				if (isDefined(customRevenue)) {
+				if (isDefined(customRevenue) && customRevenue !== null) {
 					request += '&revenue=' + customRevenue;
 				}
 
 				// encode custom data
 				if (isDefined(customData)) {
-					request += '&data=' + escapeWrapper(stringify(customData));
+					if (customData !== null) {
+						request += '&data=' + escapeWrapper(stringify(customData));
+					}
 				} else if (isDefined(configCustomData)) {
 					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
@@ -570,7 +542,9 @@ if (!this.Piwik) {
 
 				// encode custom data
 				if (isDefined(customData)) {
-					request += '&data=' + escapeWrapper(stringify(customData));
+					if (customData !== null) {
+						request += '&data=' + escapeWrapper(stringify(customData));
+					}
 				} else if (isDefined(configCustomData)) {
 					request += '&data=' + escapeWrapper(stringify(configCustomData));
 				}
@@ -609,6 +583,22 @@ if (!this.Piwik) {
 			}
 
 			/*
+			 * Construct regular expression of classes
+			 */
+			function getClassesRegExp(configClasses, defaultClass) {
+				var i, classesRegExp = '(^| )(piwik_' + defaultClass;
+
+				if (isDefined(configClasses)) {
+					for (i = 0; i < configClasses.length; i++) {
+						classesRegExp += '|' + configClasses[i];
+					}
+				}
+				classesRegExp += ')( |$)';
+
+				return new RegExp(classesRegExp);
+			}
+
+			/*
 			 * Link or Download?
 			 */
 			function getLinkType(className, href, isInLink) {
@@ -618,27 +608,24 @@ if (!this.Piwik) {
 				}
 
 				// does class indicate whether it is an (explicit/forced) outlink or a download?
-				var downloadOrLinkPattern = new RegExp('(^| )(' + configDownloadClass + '|' + configLinkClass + ')( |$)'),
-				match = downloadOrLinkPattern.exec(className),
+				var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
+				linkPattern = getClassesRegExp(configLinkClasses, 'link'),
 
 				// does file extension indicate that it is a download?
 				downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions + ')$', 'i');
 
-				// optimization of the nested if..elseif..else construct below
-				return match ? (match[2] == configDownloadClass ? 'download' : 'link') :
-					    (downloadExtensionsPattern.test(href) ? 'download' : 0);
+				// optimization of the if..elseif..else construct below
+				return linkPattern.test(className) ? 'link' : (downloadPattern.test(className) || downloadExtensionsPattern.test(href) ? 'download' : 0);
 
 /*
 				var linkType;
 
-				if (match) {
-					if (match[2] == configDownloadClass) {
-						// class attribute contains 'piwik_download' (or user's override)
-						linkType = 'download';
-					} else {
-						// class attribute contains 'piwik_link' (or user's override)
-						linkType = 'link';
-					}
+				if (linkPattern.test(className)) {
+					// class attribute contains 'piwik_link' (or user's override)
+					linkType = 'link';
+				} else if (downloadPattern.test(className)) {
+					// class attribute contains 'piwik_download' (or user's override)
+					linkType = 'download';
 				} else if (downloadExtensionsPattern.test(sourceHref)) {
 					// file extension matches a defined download extension
 					linkType = 'download';
@@ -693,22 +680,6 @@ if (!this.Piwik) {
 			}
 
 			/*
-			 * Construct regular expression of classes to be ignored
-			 */
-			function getIgnoreRegExp() {
-				var i, ignoreRegExp = '(^| )(piwik_ignore';
-
-				if (isDefined(configIgnoreClasses)) {
-					for (i = 0; i < configIgnoreClasses.length; i++) {
-						ignoreRegExp += '|' + configIgnoreClasses[i];
-					}
-				}
-				ignoreRegExp += ')( |$)';
-
-				return new RegExp(ignoreRegExp);
-			}
-
-			/*
 			 * Add click listener to a DOM element
 			 */
 			function addClickListener(element) {
@@ -724,7 +695,7 @@ if (!this.Piwik) {
 
 					// iterate through anchor elements with href and AREA elements
 
-					var i, ignorePattern = getIgnoreRegExp(), linkElements = documentAlias.links;
+					var i, ignorePattern = getClassesRegExp(configIgnoreClasses, 'ignore'), linkElements = documentAlias.links;
 
 					if (linkElements) {
 						for (i = 0; i < linkElements.length; i++) {
@@ -875,20 +846,44 @@ if (!this.Piwik) {
 				},
 
 				/*
+				 * Set array of classes to be treated as downloads
+				 */
+				setDownloadClasses: function (downloadClasses) {
+					if (typeof downloadClasses == 'object' && downloadClasses instanceof Array) {
+						configDownloadClasses = downloadClasses;
+					} else if (typeof downloadClasses == 'string') {
+						configDownloadClasses = [downloadClasses];
+					}
+				},
+
+				/*
 				 * Set download class name (i.e., override default: piwik_download)
+				 * (deprecated)
 				 */
 				setDownloadClass: function (className) {
-					if (typeof className == 'string' && className.length > 0) {
-						configDownloadClass = className;
+					if (typeof className == 'string') {
+						configDownloadClasses = [className];
+					}
+				},
+
+				/*
+				 * Set array of classes to be treated as outlinks
+				 */
+				setLinkClasses: function (linkClasses) {
+					if (typeof linkClasses == 'object' && linkClasses instanceof Array) {
+						configLinkClasses = linkClasses;
+					} else if (typeof linkClasses == 'string') {
+						configLinkClasses = [linkClasses];
 					}
 				},
 
 				/*
 				 * Set outlink class name (i.e., override default: piwik_link)
+				 * (deprecated)
 				 */
 				setLinkClass: function (className) {
-					if (typeof className == 'string' && className.length > 0) {
-						configLinkClass = className;
+					if (typeof className == 'string') {
+						configLinkClasses = [className];
 					}
 				},
 

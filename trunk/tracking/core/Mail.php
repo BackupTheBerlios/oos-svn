@@ -4,12 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id$
+ * @version $Id: Mail.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik
  */
-
-require_once "Zend/Mail.php";
 
 /**
  * Class for sending mails, for more information see: 

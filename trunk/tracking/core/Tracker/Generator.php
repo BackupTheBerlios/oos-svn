@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Generator.php 492 2008-05-23 01:08:12Z matt $
+ * @version $Id: Generator.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_Tracker
  */
@@ -303,7 +303,7 @@ class Piwik_Tracker_Generator
 		 */
 		// we load some real referers to be used by the generator
 		$referers = array();
-		require_once PIWIK_INCLUDE_PATH . "/misc/generateVisitsData/Referers.php";
+		require_once PIWIK_INCLUDE_PATH . '/misc/generateVisitsData/Referers.php';
 
 		$this->addParam('urlref',$referers);
 
@@ -312,8 +312,8 @@ class Piwik_Tracker_Generator
 		
 		// load some user agent and accept language
 		$userAgent = $acceptLanguages = array();
-		require_once PIWIK_INCLUDE_PATH . "/misc/generateVisitsData/UserAgent.php";
-		require_once PIWIK_INCLUDE_PATH . "/misc/generateVisitsData/AcceptLanguage.php";
+		require_once PIWIK_INCLUDE_PATH . '/misc/generateVisitsData/UserAgent.php';
+		require_once PIWIK_INCLUDE_PATH . '/misc/generateVisitsData/AcceptLanguage.php';
 		$this->userAgents=$userAgent;
 		$this->acceptLanguage=$acceptLanguages;
 	}
@@ -386,10 +386,14 @@ class Piwik_Tracker_Generator
 		$this->setCurrentRequest( 'm' ,$this->getRandom('m'));
 		$this->setCurrentRequest( 's' ,$this->getRandom('s'));
 		$this->setCurrentRequest( 'fla' ,$this->getRandom01());
+		$this->setCurrentRequest( 'java' ,$this->getRandom01());
 		$this->setCurrentRequest( 'dir' ,$this->getRandom01());
+		$this->setCurrentRequest( 'qt' ,$this->getRandom01());
 		$this->setCurrentRequest( 'realp' ,$this->getRandom01());
 		$this->setCurrentRequest( 'pdf' ,$this->getRandom01());
 		$this->setCurrentRequest( 'wma' ,$this->getRandom01());
+		$this->setCurrentRequest( 'gears' ,$this->getRandom01());
+		$this->setCurrentRequest( 'ag' ,$this->getRandom01());
 		$this->setCurrentRequest( 'cookie',$this->getRandom01());
 
 		$_SERVER['HTTP_CLIENT_IP'] = mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255);
@@ -638,11 +642,9 @@ class Piwik_Tracker_Generator
 	protected function saveVisit()
 	{
 		$this->setFakeRequest();
-		$process = new Piwik_Tracker_Generator_Tracker;
+		$process = new Piwik_Tracker_Generator_Tracker();
 		$process->main();
 		unset($process);
 	}
 	
 }
-require_once "Generator/Tracker.php";
-require_once "Generator/Visit.php";

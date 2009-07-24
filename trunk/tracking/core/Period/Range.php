@@ -1,4 +1,13 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: Range.php 1287 2009-07-06 06:18:39Z vipsoft $
+ * 
+ * @package Piwik_Period
+ */
 
 /**
  * from a starting date to an ending date
@@ -103,7 +112,7 @@ class Piwik_Period_Range extends Piwik_Period
 		}
 		parent::generate();
 		
-		if(ereg('(last|previous)([0-9]*)', $this->strDate, $regs))
+		if(preg_match('/(last|previous)([0-9]*)/', $this->strDate, $regs))
 		{
 			$lastN = $regs[2];
 			$lastOrPrevious = $regs[1];
@@ -132,7 +141,7 @@ class Piwik_Period_Range extends Piwik_Period
 			
 			$startDate = $this->removePeriod($endDate, $lastN);
 		}
-		elseif(ereg('([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})', $this->strDate, $regs))
+		elseif(preg_match('/([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}),([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2})/', $this->strDate, $regs))
 		{
 			$strDateStart = $regs[1];
 			$strDateEnd = $regs[2];

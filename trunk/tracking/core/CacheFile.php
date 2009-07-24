@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: CacheFile.php 997 2009-03-22 21:36:22Z matt $
+ * @version $Id: CacheFile.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik
  */
@@ -24,8 +24,7 @@ class Piwik_CacheFile
     
     function __construct($directory)
     {
-    	$this->cachePath = PIWIK_INCLUDE_PATH . "/tmp/cache/";
-    	$this->cachePath .= $directory . "/";
+    	$this->cachePath = PIWIK_INCLUDE_PATH . '/tmp/cache/' . $directory . '/';
 //    	echo $this->cachePath;exit;
     }
     
@@ -41,7 +40,7 @@ class Piwik_CacheFile
 	    $content = '';
 	
 	    // We are assuming that most of the time cache will exists
-	    $ok = @include($this->cachePath . $id . ".php");
+	    $ok = @include($this->cachePath . $id . '.php');
 	
 	    if ($ok && $cache_complete == true) {
 	        return $content;
@@ -67,7 +66,7 @@ class Piwik_CacheFile
 	        return false;
 	    }
 	
-	    $id = $this->cachePath . $id . ".php";
+	    $id = $this->cachePath . $id . '.php';
 	
 	    $cache_literal  = "<"."?php\n\n";
 	    $cache_literal .= "$"."content   = ".var_export($content, true).";\n\n";
@@ -95,7 +94,6 @@ class Piwik_CacheFile
 	    return false;
 	}
 
-    
     /**
      * A function to delete a single cache entry
      *
@@ -104,7 +102,7 @@ class Piwik_CacheFile
      */
     function delete($id)
     {
-        $filename = $this->cachePath . $id . ".php";
+        $filename = $this->cachePath . $id . '.php';
         if (file_exists($filename)) {
             @unlink ($filename);
             return true;

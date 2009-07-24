@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1093 2009-05-05 23:26:59Z matt $
+ * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  */
 
@@ -101,7 +101,7 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 	
 	function sparklines()
 	{
-		require_once "SmartyPlugins/function.sparkline.php";
+		require_once PIWIK_INCLUDE_PATH . '/core/SmartyPlugins/function.sparkline.php';
 		$srcSparkline1 = Piwik_Url::getCurrentQueryStringWithParametersModified(array('action'=>'generateSparkline', 'server' => 'server1', 'rand'=>rand()));
 		$htmlSparkline1 = smarty_function_sparkline(array('src' => $srcSparkline1));
 		echo "<div class='sparkline'>$htmlSparkline1 Evolution of temperature for server piwik.org</div>";

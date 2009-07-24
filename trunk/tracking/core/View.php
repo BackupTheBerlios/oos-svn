@@ -4,12 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: View.php 450 2008-04-20 22:33:27Z matt $
+ * @version $Id: View.php 1297 2009-07-08 04:58:45Z vipsoft $
  * 
  * @package Piwik_Visualization
  */
-
-require_once "iView.php";
 
 /**
  * 
@@ -24,7 +22,6 @@ class Piwik_View implements Piwik_iView
 	
 	public function __construct( $templateFile, $smConf = array())
 	{
-		require_once "Smarty.php";
 		$this->template = $templateFile;
 		$this->smarty = new Piwik_Smarty();
 
@@ -120,9 +117,9 @@ class Piwik_View implements Piwik_iView
 			$this->totalNumberOfQueries = 0;
 		}
  
-		header('Content-Type: text/html; charset=utf-8');
-		header("Pragma: ");
-		header("Cache-Control: no-store, must-revalidate");
+		@header('Content-Type: text/html; charset=utf-8');
+		@header("Pragma: ");
+		@header("Cache-Control: no-store, must-revalidate");
 		
 		return $this->smarty->fetch($this->template);
 	}
@@ -130,7 +127,7 @@ class Piwik_View implements Piwik_iView
 	public function addForm( $form )
 	{
 		// Create the renderer object	
-		$renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty);
+		$renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, false, false);
 		
 		// build the HTML for the form
 		$form->accept($renderer);
@@ -179,6 +176,9 @@ class Piwik_View implements Piwik_iView
 
 	static public function addPiwikPath(&$value, $key)
 	{
-		$value = PIWIK_INCLUDE_PATH ."/$value";
+		if($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR)
+		{
+			$value = PIWIK_INCLUDE_PATH ."/$value";
+		}
 	}
 }

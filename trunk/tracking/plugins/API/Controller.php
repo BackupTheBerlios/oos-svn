@@ -4,13 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1085 2009-05-04 22:55:35Z matt $
+ * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_API
  */
-
-require_once "API/Request.php";
-require_once "API/DocumentationGenerator.php";
 
 /**
  * 

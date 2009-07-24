@@ -1,4 +1,14 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: functions.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * 
+ * @package Piwik_Referers
+ */
+
 function Piwik_getPathFromUrl($url)
 {
 	$path = Piwik_Common::getPathAndQueryFromUrl($url);
@@ -11,7 +21,7 @@ function Piwik_getPathFromUrl($url)
 
 function Piwik_getSearchEngineUrlFromName($name)
 {
-	require_once "DataFiles/SearchEngines.php";
+	require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 	if(isset($GLOBALS['Piwik_SearchEngines_NameToUrl'][$name]))
 	{
 		$url = 'http://'.$GLOBALS['Piwik_SearchEngines_NameToUrl'][$name];
@@ -42,7 +52,7 @@ function Piwik_getSearchEngineHostFromUrl($url)
 
 function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 {
-	require_once "DataFiles/SearchEngines.php";
+	require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 	$keyword = urlencode($keyword);
 	$keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);
 	$path = @$GLOBALS['Piwik_SearchEngines'][Piwik_getSearchEngineHostFromUrl($url)][2];

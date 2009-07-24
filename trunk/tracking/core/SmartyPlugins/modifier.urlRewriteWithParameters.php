@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: modifier.sumtime.php 168 2008-01-14 05:26:43Z matt $
+ * @version $Id: modifier.urlRewriteWithParameters.php 1270 2009-07-01 06:53:34Z vipsoft $
  * 
  * @package SmartyPlugins
  */

@@ -4,13 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 241 2008-01-26 01:30:37Z matt $
+ * @version $Id: DBStats.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_DBStats
  * 
  */
-
-require_once "DBStats/API.php" ;
 
 class Piwik_DBStats extends Piwik_Plugin
 {

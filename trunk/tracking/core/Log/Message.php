@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Message.php 492 2008-05-23 01:08:12Z matt $
+ * @version $Id: Message.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_Log
  * @subpackage Piwik_Log_Message
@@ -24,8 +24,8 @@ class Piwik_Log_Message extends Piwik_Log
 		$logToFileFilename = self::ID;
 		$logToDatabaseTableName = self::ID;
 		$logToDatabaseColumnMapping = null;
-		$screenFormatter = new Piwik_Log_Message_Formatter_ScreenFormatter;
-		$fileFormatter = new Piwik_Log_Formatter_FileFormatter;
+		$screenFormatter = new Piwik_Log_Message_Formatter_ScreenFormatter();
+		$fileFormatter = new Piwik_Log_Formatter_FileFormatter();
 		
 		parent::__construct($logToFileFilename, 
 							$fileFormatter,
@@ -72,4 +72,3 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     	return parent::format($message);
     }
 }
-

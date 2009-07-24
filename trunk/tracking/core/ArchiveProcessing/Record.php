@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Record.php 444 2008-04-11 13:38:22Z johmathe $
+ * @version $Id: Record.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_ArchiveProcessing
  */
@@ -39,6 +39,3 @@ abstract class Piwik_ArchiveProcessing_Record
 		destroy($this->value);
 	}
 }
-
-
-

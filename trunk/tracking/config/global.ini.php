@@ -19,6 +19,7 @@ dbname			=
 tables_prefix	= 
 port			= 3306
 adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
+;unix_socket		=
 
 [database_tests]
 host 			= localhost
@@ -28,6 +29,7 @@ dbname			= piwik_tests
 tables_prefix	= piwiktests_
 port			= 3306
 adapter 		= PDO_MYSQL
+;unix_socket		=
  
 [Debug]
 ; if set to 1, the archiving process will always be triggered, even if the archive has already been computed
@@ -38,6 +40,10 @@ always_archive_data_day = 0;
 ; if set to 1, all the SQL queries will be recorded by the profiler 
 ; and a profiling summary will be printed at the end of the request
 enable_sql_profiler = 0
+
+; if set to 1, a Piwik tag will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1
+; this is useful for Piwik developers as an easy way to create data in their local Piwik
+track_visits_inside_piwik_ui = 0
 
 [General]
 ; Time in seconds after which an archive will be computed again. 
@@ -69,7 +75,8 @@ enable_browser_archiving_triggering = 1
 action_category_delimiter = /
 
 ; currency used by default when reporting money in Piwik
-default_currency = "$"
+; the trailing space is required for php 5.2.x vs 5.3 compatibility
+default_currency = "$ "
 
 ; if you want all your users to use Piwik in only one language, disable the LanguagesManager
 ; plugin, and set this default_language (users won't see the language drop down) 
@@ -187,9 +194,9 @@ logger_message[]		= screen
 logger_error[]			= screen
 logger_exception[]		= screen
 
-; if configured to log in files, log files will be created in this relative path
-; eg. if the value is tmp/logs files will be created in /path/to/piwik/tmp/logs/ 
-logger_file_path		= tmp/logs/
+; if configured to log in files, log files will be created in this path
+; eg. if the value is tmp/logs files will be created in /path/to/piwik/tmp/logs/
+logger_file_path		= tmp/logs
 
 ; all calls to the API (method name, parameters, execution time, caller IP, etc.)
 ; disabled by default as it can cause serious overhead and should only be used wisely

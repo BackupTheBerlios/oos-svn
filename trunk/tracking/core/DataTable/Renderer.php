@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Renderer.php 519 2008-06-09 01:59:24Z matt $
+ * @version $Id: Renderer.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_DataTable
  */
@@ -74,13 +74,13 @@ abstract class Piwik_DataTable_Renderer
 	static public function factory( $name )
 	{
 		$name = ucfirst(strtolower($name));
-		$path = "DataTable/Renderer/".$name.".php";
+		$path = PIWIK_INCLUDE_PATH .'/core/DataTable/Renderer/'.$name.'.php';
 		$className = 'Piwik_DataTable_Renderer_' . $name;
 		
 		if( Piwik_Common::isValidFilename($name)
 			&& Zend_Loader::isReadable($path) )
 		{
-			require_once $path;
+			require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 			return new $className;			
 		}
 		else
@@ -89,4 +89,3 @@ abstract class Piwik_DataTable_Renderer
 		}		
 	}	
 }
-

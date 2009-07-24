@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: TablePartitioning.php 386 2008-03-18 19:27:54Z julien $
+ * @version $Id: TablePartitioning.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik
  */
@@ -86,7 +86,7 @@ abstract class Piwik_TablePartitioning
 		}
 	}
 	
-	protected function __toString()
+	public function __toString()
 	{
 		return $this->getTableName();
 	}
@@ -134,4 +134,3 @@ class Piwik_TablePartitioning_Daily extends Piwik_TablePartitioning
 	}
 		
 }
-

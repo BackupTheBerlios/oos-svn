@@ -4,15 +4,10 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1244 2009-06-19 16:26:41Z matt $
+ * @version $Id: Controller.php 1321 2009-07-23 04:29:38Z vipsoft $
  *
  * @package Piwik_Login
  */
-
-require_once "UsersManager/API.php";
-require_once "Login/Form.php";
-require_once "Login/PasswordForm.php";
-require_once "View.php";
 
 /**
  * @package Piwik_Login
@@ -26,7 +21,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 	function login( $messageNoAccess = null )
 	{
-		$form = new Piwik_Login_Form;
+		$form = new Piwik_Login_Form();
 
 		// get url from POSTed form or GET parameter (getting back from password remind form)
 		$currentUrl = 'index.php'.Piwik_Url::getCurrentQueryString();
@@ -102,7 +97,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	
 	function lostPassword($messageNoAccess = null)
 	{
-		$form = new Piwik_Login_PasswordForm;
+		$form = new Piwik_Login_PasswordForm();
 		$currentUrl = 'index.php';
 		$urlToRedirect = Piwik_Common::getRequestVar('form_url', htmlspecialchars($currentUrl), 'string');
 

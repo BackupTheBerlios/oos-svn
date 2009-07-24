@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 482 2008-05-18 17:22:35Z matt $
+ * @version $Id: API.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_ExamplePlugin
  */
@@ -36,7 +36,6 @@ class Piwik_ExampleAPI_API
 	public function getPiwikVersion()
 	{
 		Piwik::checkUserHasSomeViewAccess();
-		require_once "Version.php";
 		return Piwik_Version::VERSION;
 	}
 
@@ -70,7 +69,7 @@ class Piwik_ExampleAPI_API
 	{
 		$dataTable = new Piwik_DataTable();
 		
-		$row1 = new Piwik_DataTable_Row;
+		$row1 = new Piwik_DataTable_Row();
 		$row1->setColumns( array('name' => 'piwik', 'license' => 'GPL'));
 		$dataTable->addRow($row1);
 		

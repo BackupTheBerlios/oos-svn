@@ -4,12 +4,12 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Chart.php 579 2008-07-27 00:32:59Z matt $
+ * @version $Id: Chart.php 1306 2009-07-15 14:12:15Z vipsoft $
  * 
  * @package Piwik_Visualization
  */
 
-require_once "open-flash-chart/php-ofc-library/open-flash-chart.php";
+require_once PIWIK_INCLUDE_PATH . '/libs/open-flash-chart/php-ofc-library/open-flash-chart.php';
 
 /**
  * Generates the data in the Open Flash Chart format, from the given data.
@@ -119,6 +119,8 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	
 	public function render()
 	{
+		@header("Pragma: ");
+		@header("Cache-Control: no-store, must-revalidate");
 		return $this->chart->toPrettyString();
 	}
 	
@@ -166,7 +168,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		{
 			$this->maxValue = 1;
 		}
-		$this->y->set_range( $this->minValue, $this->maxValue, $stepsEveryNLabel);
+                $this->y->set_range( $this->minValue, (int) $this->maxValue, (int) $stepsEveryNLabel);
 		$dataSetsToDisplay = $this->getDataSetsToDisplay();
 		if($dataSetsToDisplay != false)
 		{

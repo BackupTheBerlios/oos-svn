@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: MetadataCallbackAddMetadata.php 515 2008-06-08 20:03:21Z matt $
+ * @version $Id: MetadataCallbackAddMetadata.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_DataTable
  */
@@ -45,4 +45,3 @@ class Piwik_DataTable_Filter_MetadataCallbackAddMetadata extends Piwik_DataTable
 		}
 	}
 }
-

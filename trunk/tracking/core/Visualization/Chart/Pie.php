@@ -4,11 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ChartPie.php 459 2008-05-06 22:39:42Z matt $
+ * @version $Id: Pie.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_Visualization
  */
-require_once "Visualization/Chart.php";
 
 /**
  * Customize & set values for the Flash Pie chart 

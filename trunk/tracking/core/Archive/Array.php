@@ -4,14 +4,12 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Request.php 380 2008-03-17 14:59:24Z matt $
+ * @version $Id: Array.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * 
  * @package Piwik_Archive
  */
 
-require_once "DataTable/Simple.php";
-require_once "DataTable/Array.php";
 /**
  * Piwik_Archive_Array is used to store multiple archives, 
  * for example one archive for a given day for each Piwik website
@@ -54,7 +52,7 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 	 */
 	protected function getNewDataTableArray()
 	{
-		$table = new Piwik_DataTable_Array;
+		$table = new Piwik_DataTable_Array();
 		$table->setKeyName($this->getIndexName());
 		return $table;
 	}

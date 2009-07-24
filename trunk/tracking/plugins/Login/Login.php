@@ -4,13 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Login.php 994 2009-03-20 07:39:09Z matt $
+ * @version $Id: Login.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_Login
  */
-
-require_once "Cookie.php";
-require_once "Login/Auth.php";
 
 /**
  * 
@@ -45,8 +42,7 @@ class Piwik_Login extends Piwik_Plugin
 		$exception  = $notification->getNotificationObject();
 		$exceptionMessage = $exception->getMessage(); 
 
-		require "Login/Controller.php";
-		$controller = new Piwik_Login_Controller;
+		$controller = new Piwik_Login_Controller();
 		$controller->login($exceptionMessage);
 	}
 	
@@ -60,14 +56,14 @@ class Piwik_Login extends Piwik_Plugin
 	function initAuthenticationObject($notification)
 	{
 		$auth = new Piwik_Login_Auth();
-     	Zend_Registry::set('auth', $auth);
-		
-     	$action = Piwik::getAction();
-     	if(Piwik::getModule() === 'API' 
-     		&& (empty($action) || $action == 'index'))
-     	{
-     		return;
-     	}
+		Zend_Registry::set('auth', $auth);
+
+		$action = Piwik::getAction();
+		if(Piwik::getModule() === 'API' 
+			&& (empty($action) || $action == 'index'))
+		{
+			return;
+		}
      		
 		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
 		$authCookieExpiry = time() + Zend_Registry::get('config')->General->login_cookie_expire;

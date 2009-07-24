@@ -15,9 +15,9 @@
  * @category    HTML
  * @package     HTML_Common
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
- * @copyright   2001-2007 The PHP Group
+ * @copyright   2001-2009 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: Common.php 1230 2009-06-16 04:42:53Z vipsoft $
+ * @version     CVS: $Id: Common.php 1297 2009-07-08 04:58:45Z vipsoft $
  * @link        http://pear.php.net/package/HTML_Common/
  */ 
 
@@ -27,7 +27,7 @@
  * @category    HTML
  * @package     HTML_Common
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
- * @version     Release: 1.2.4
+ * @version     Release: 1.2.5
  * @abstract
  */
 class HTML_Common
@@ -179,9 +179,10 @@ class HTML_Common
                         $arrAttr[strtolower(trim($name))] = strtolower(trim($name));
                     } else {
                         if (substr($value, 0, 1) == "\"" || substr($value, 0, 1) == "'") {
-                            $value = substr($value, 1, -1);
+                            $arrAttr[strtolower(trim($name))] = substr($value, 1, -1);
+                        } else {
+                            $arrAttr[strtolower(trim($name))] = trim($value);
                         }
-                        $arrAttr[strtolower(trim($name))] = trim($value);
                     }
                 }
                 return $arrAttr;

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Url.php 498 2008-05-29 03:08:13Z matt $
+ * @version $Id: Url.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_Helper
  */
@@ -15,7 +15,6 @@
  */
 class Piwik_Url 
 {
-
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
@@ -262,4 +261,3 @@ class Piwik_Url
 	}
 
 }
-

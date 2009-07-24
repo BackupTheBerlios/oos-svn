@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Request.php 380 2008-03-17 14:59:24Z matt $
+ * @version $Id: Single.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * 
  * @package Piwik_Archive
@@ -394,7 +394,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 */
 	public function getDataTableFromNumeric( $fields )
 	{
-		require_once "DataTable/Simple.php";
 		if(!is_array($fields))
 		{
 			$fields = array($fields);
@@ -406,7 +405,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$values[$field] = $this->getNumeric($field);
 		}
 		
-		$table = new Piwik_DataTable_Simple;
+		$table = new Piwik_DataTable_Simple();
 		$table->addRowsFromArray($values);
 		return $table;
 	}
@@ -428,7 +427,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		
 		$data = $this->get($name, 'blob');
 		
-		$table = new Piwik_DataTable;
+		$table = new Piwik_DataTable();
 		
 		if($data !== false)
 		{

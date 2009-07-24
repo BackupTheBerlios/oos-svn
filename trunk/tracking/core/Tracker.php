@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Tracker.php 575 2008-07-26 23:08:32Z matt $
+ * @version $Id: Tracker.php 1311 2009-07-19 15:09:27Z vipsoft $
  * 
  * @package Piwik_Tracker
  */
@@ -138,11 +138,7 @@ class Piwik_Tracker
 			// before 0.2.4 there is no port specified in config file
 			$configDb['port'] = '3306';  
 		}
-		$db = new Piwik_Tracker_Db( 	$configDb['host'], 
-										$configDb['username'], 
-										$configDb['password'], 
-										$configDb['dbname'],
-										$configDb['port'] );
+		$db = new Piwik_Tracker_Db( $configDb );
 		$db->connect();
 		
 		return $db;
@@ -177,6 +173,7 @@ class Piwik_Tracker
 		if(isset(self::$db))
 		{
 			self::$db->disconnect();
+			self::$db = null;
 		}
 	}
 
@@ -267,11 +264,12 @@ class Piwik_Tracker
 
 		if( !empty($urlDownload) )
 		{
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
+			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_redirect_var_name'];
+			if( Piwik_Common::getRequestVar( $redirectVariableName, 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
+				$this->setUrlToRedirect ( $urlDownload );
 			}
-			$this->setUrlToRedirect ( $urlDownload );
 		}
 	}
 	
@@ -283,11 +281,11 @@ class Piwik_Tracker
 		if( !empty($urlOutlink) )
 		{
 			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_redirect_var_name'];
-			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
+			if( Piwik_Common::getRequestVar( $redirectVariableName, 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
+				$this->setUrlToRedirect ( $urlOutlink);
 			}
-			$this->setUrlToRedirect ( $urlOutlink);
 		}
 	}
 	

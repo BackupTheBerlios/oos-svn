@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: modifier.sumtime.php 168 2008-01-14 05:26:43Z matt $
+ * @version $Id: modifier.urlRewriteBasicView.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package SmartyPlugins
  */
@@ -37,4 +37,3 @@ function smarty_modifier_urlRewriteBasicView($parameters)
 	$url = $url . '&amp;module=CoreHome&amp;action=showInContext';
 	return htmlspecialchars($url);
 }
-

@@ -4,16 +4,12 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Piwik.php 581 2008-07-27 23:07:52Z matt $
+ * @version $Id: Piwik.php 1313 2009-07-20 04:33:36Z vipsoft $
  * 
  * @package Piwik
  */
 
-require_once "Config.php";
-require_once "Zend/Db.php";
-require_once "Zend/Db/Table.php";
-require_once "Log.php";
-require_once "Translate.php";
+require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 
 /**
  * Main piwik helper class.
@@ -85,7 +81,7 @@ class Piwik
 		$resultCheck = array();
 		foreach($directoriesToCheck as $directoryToCheck)
 		{
-			if( !ereg('^'.preg_quote(PIWIK_INCLUDE_PATH), $directoryToCheck) )
+			if( !preg_match('/^'.preg_quote(PIWIK_INCLUDE_PATH, '/').'/', $directoryToCheck) )
 			{
 				$directoryToCheck = PIWIK_INCLUDE_PATH . $directoryToCheck;
 			}
@@ -396,7 +392,7 @@ class Piwik
 		static $symbol = null;
 		if(is_null($symbol))
 		{
-			$symbol = Zend_Registry::get('config')->General->default_currency;
+			$symbol = trim(Zend_Registry::get('config')->General->default_currency);
 		}
 		return $symbol;
 	}
@@ -616,9 +612,13 @@ class Piwik
 							  config_resolution VARCHAR(9) NOT NULL,
 							  config_pdf TINYINT(1) NOT NULL,
 							  config_flash TINYINT(1) NOT NULL,
+							  config_java TINYINT(1) NOT NULL,
 							  config_director TINYINT(1) NOT NULL,
+							  config_quicktime TINYINT(1) NOT NULL,
 							  config_realplayer TINYINT(1) NOT NULL,
 							  config_windowsmedia TINYINT(1) NOT NULL,
+							  config_gears TINYINT(1) NOT NULL,
+							  config_silverlight TINYINT(1) NOT NULL,
 							  config_cookie TINYINT(1) NOT NULL,
 							  location_ip BIGINT(11) NOT NULL,
 							  location_browser_lang VARCHAR(20) NOT NULL,
@@ -903,7 +903,6 @@ class Piwik
 	
 	static public function displayScreenForCoreAndPluginsUpdatesIfNecessary()
 	{
-		require_once "Updater.php";
 		$updater = new Piwik_Updater();
 		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
 		
@@ -919,7 +918,6 @@ class Piwik
 			return;
 		}
 			
-		require_once "CoreUpdater/Controller.php";
 		$updaterController = new Piwik_CoreUpdater_Controller();
 		$updaterController->runUpdaterAndExit($updater, $componentsWithUpdateFile);
 	}
@@ -1228,11 +1226,6 @@ class Piwik
 
 	static public function createLogObject()
 	{
-		require_once "Log/APICall.php";
-		require_once "Log/Exception.php";
-		require_once "Log/Error.php";
-		require_once "Log/Message.php";
-		
 		$configAPI = Zend_Registry::get('config')->log;
 		
 		$aLoggers = array(
@@ -1299,14 +1292,14 @@ class Piwik
 		$tablesAlreadyInstalled = self::getTablesInstalled();
 		$db = Zend_Registry::get('db');
 		
-		$doNotDeletePattern = "(".implode("|",$doNotDelete).")";
+		$doNotDeletePattern = '/('.implode('|',$doNotDelete).')/';
 		
 		foreach($tablesAlreadyInstalled as $tableName)
 		{
 			
 			if( count($doNotDelete) == 0
 				|| (!in_array($tableName,$doNotDelete)
-					&& !ereg($doNotDeletePattern,$tableName)
+					&& !preg_match($doNotDeletePattern,$tableName)
 					)
 				)
 			{

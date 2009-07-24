@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Actions.php 1072 2009-04-27 04:18:16Z matt $
+ * @version $Id: Actions.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_Actions
  */
@@ -99,8 +99,6 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		//TODO Actions should use integer based keys like other archive in piwik
 		$archiveProcessing = $notification->getNotificationObject();
-		
-		require_once "Tracker/Action.php";
 		
 		$this->actionsTablesByType = array(
 			Piwik_Tracker_Action::TYPE_ACTION => array(),

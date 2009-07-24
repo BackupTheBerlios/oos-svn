@@ -1,5 +1,14 @@
 <?php
-require_once "ViewDataTable/GenerateGraphData.php";
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: ChartEvolution.php 1321 2009-07-23 04:29:38Z vipsoft $
+ * 
+ * @package Piwik_ViewDataTable
+ */
+
 /**
  * Piwik_ViewDataTable_GenerateGraphData for the Evolution graph (eg. Last 30 days visits) using Piwik_Visualization_Chart_Evolution
  * 
@@ -15,8 +24,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	
 	function __construct()
 	{
-		require_once "Visualization/Chart/Evolution.php";
-		$this->view = new Piwik_Visualization_Chart_Evolution;
+		$this->view = new Piwik_Visualization_Chart_Evolution();
 	}
 	
 	protected function guessUnitFromRequestedColumnNames($requestedColumnNames)

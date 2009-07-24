@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExamplePlugin.php 169 2008-01-14 05:41:15Z matt $
+ * @version $Id: LanguagesManager.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_LanguageManager
  */
@@ -33,7 +33,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
 	function css()
 	{
-		echo '<link rel="stylesheet" type="text/css" href="plugins/LanguagesManager/templates/styles.css" />';
+		echo '<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />';
 	}
 	
 	function showLanguagesSelector()
@@ -47,7 +47,6 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	
 	function getLanguageToLoad($notification)
 	{
-		require_once "LanguagesManager/API.php";
 		$language =& $notification->getNotificationObject();
 		$language = self::getLanguageCodeForCurrentUser();
 	}
@@ -68,7 +67,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
-			if(ereg('1050',$e->getMessage()))
+			if(preg_match('/1050/', $e->getMessage()))
 			{
 				return;
 			}
@@ -127,9 +126,10 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	static protected function getLanguageFromPreferences()
 	{
-		if(isset($_SESSION['language']))
+		$session = new Zend_Session_Namespace("LanguagesManager");
+		if(isset($session->language))
 		{
-			return $_SESSION['language'];
+			return $session->language;
 		}
 		
 		try {

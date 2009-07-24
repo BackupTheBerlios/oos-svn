@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Record.php 180 2008-01-17 16:32:37Z matt $
+ * @version $Id: Numeric.php 1270 2009-07-01 06:53:34Z vipsoft $
  * 
  * @package Piwik_ArchiveProcessing
  */

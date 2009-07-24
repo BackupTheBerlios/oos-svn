@@ -1,5 +1,15 @@
 <?php
 /**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: API.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * 
+ * @package Piwik_LanguagesManager
+ */
+
+/**
  * @package Piwik_LanguagesManager
  */
 class Piwik_LanguagesManager_API 
@@ -43,7 +53,7 @@ class Piwik_LanguagesManager_API
 
 	static public function getAvailableLanguagesInfo()
 	{
-		require PIWIK_INCLUDE_PATH . "/lang/en.php";
+		require PIWIK_INCLUDE_PATH . '/lang/en.php';
 		$englishTranslation = $translations;
 		$filenames = self::getAvailableLanguages();
 		$languagesInfo = array();

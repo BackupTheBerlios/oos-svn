@@ -4,11 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Generator.php 404 2008-03-23 01:09:59Z matt $
+ * @version $Id: Tracker.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_Tracker
  */
-
 
 /**
  * Fake Piwik_Tracker that:

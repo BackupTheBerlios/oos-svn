@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Limit.php 168 2008-01-14 05:26:43Z matt $
+ * @version $Id: AddSummaryRow.php 1308 2009-07-16 03:33:31Z vipsoft $
  *
  * @package Piwik_DataTable
  */
@@ -68,5 +68,6 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 		$newRow->setColumns(array('label' => $this->labelSummaryRow) + $newRow->getColumns());
 		$this->table->filter('Limit', array(0, $this->startRowToSummarize));
 		$this->table->addSummaryRow($newRow);
+		unset($rows);
 	}
 }

@@ -4,12 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Xml.php 558 2008-07-20 23:10:38Z matt $
+ * @version $Id: Xml.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_DataTable
  */
 
-require_once "DataTable/Renderer/Php.php";
 /**
  * XML export of a given DataTable.
  * See the tests cases for more information about the XML format (/tests/core/DataTable/Renderer.test.php)

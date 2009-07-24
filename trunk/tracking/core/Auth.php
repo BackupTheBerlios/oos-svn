@@ -4,12 +4,10 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Auth.php 581 2008-07-27 23:07:52Z matt $
+ * @version $Id: Auth.php 1296 2009-07-08 04:19:14Z vipsoft $
  *
  * @package Piwik
  */
-
-require "Zend/Auth/Result.php";
 
 interface Piwik_Auth {
 	/**

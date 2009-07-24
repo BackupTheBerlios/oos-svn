@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UserSettings.php 1149 2009-05-27 22:35:19Z vipsoft $
+ * @version $Id: UserSettings.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_UserSettings
  */
@@ -71,7 +71,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	
 	function archiveDay( $notification )
 	{
-		require_once "UserSettings/functions.php";
+		require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 		
 		$archiveProcessing = $notification->getNotificationObject();
 		$this->archiveProcessing = $archiveProcessing;
@@ -147,13 +147,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 			$name = Piwik_getScreenTypeFromResolution($resolution);
 			if(!isset($nameToRow[$name]))
 			{
-				$nameToRow[$name] = new Piwik_DataTable_Row;
+				$nameToRow[$name] = new Piwik_DataTable_Row();
 				$nameToRow[$name]->addColumn('label', $name);
 			}
 			
 			$nameToRow[$name]->sumRow( $row );
 		}
-		$tableWideScreen = new Piwik_DataTable;
+		$tableWideScreen = new Piwik_DataTable();
 		$tableWideScreen->addRowsFromArray($nameToRow);
 		
 		return $tableWideScreen;
@@ -168,13 +168,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 			$familyNameToUse = Piwik_getBrowserFamily($browserLabel);
 			if(!isset($nameToRow[$familyNameToUse]))
 			{
-				$nameToRow[$familyNameToUse] = new Piwik_DataTable_Row;
+				$nameToRow[$familyNameToUse] = new Piwik_DataTable_Row();
 				$nameToRow[$familyNameToUse]->addColumn('label',$familyNameToUse);
 			}
 			$nameToRow[$familyNameToUse]->sumRow( $row );
 		}
 		
-		$tableBrowserType = new Piwik_DataTable;
+		$tableBrowserType = new Piwik_DataTable();
 		$tableBrowserType->addRowsFromArray($nameToRow);
 		return $tableBrowserType;
 	}
@@ -183,9 +183,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 	{
 		$toSelect = "sum(case config_pdf when 1 then 1 else 0 end) as pdf, 
 							sum(case config_flash when 1 then 1 else 0 end) as flash, 
+							sum(case config_java when 1 then 1 else 0 end) as java, 
 							sum(case config_director when 1 then 1 else 0 end) as director,
+							sum(case config_quicktime when 1 then 1 else 0 end) as quicktime,
 							sum(case config_realplayer when 1 then 1 else 0 end) as realplayer,
 							sum(case config_windowsmedia when 1 then 1 else 0 end) as windowsmedia,
+							sum(case config_gears when 1 then 1 else 0 end) as gears,
+							sum(case config_silverlight when 1 then 1 else 0 end) as silverlight,
 							sum(case config_cookie when 1 then 1 else 0 end) as cookie	";
 		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
 	}

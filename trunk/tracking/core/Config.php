@@ -4,13 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Config.php 546 2008-07-02 07:13:16Z matt $
+ * @version $Id: Config.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_Helper
  */
-
-require_once "Zend/Config/Ini.php";
-require_once "Zend/Registry.php";
 
 /**
  * This class is used to access configuration files values.
@@ -168,7 +165,7 @@ class Piwik_Config
 	
 	/**
 	 * Called when setting configuration values eg. 
-	 * 	Zend_Registry::get('config')->superuser = $_SESSION['superuser_infos'];
+	 * 	Zend_Registry::get('config')->MyConfigSection = 'foobar';
 	 *
 	 * The values will be saved in the configuration file at the end of the script @see __destruct()
 	 * 

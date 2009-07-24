@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExceptionHandler.php 444 2008-04-11 13:38:22Z johmathe $
+ * @version $Id: ExceptionHandler.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_Helper
  */
@@ -28,7 +28,7 @@ function Piwik_ExceptionHandler(Exception $exception)
 		$event['errline'] 	= $exception->getLine();
 		$event['backtrace'] = $exception->getTraceAsString();
 
-		$formatter = new Piwik_Log_Exception_Formatter_ScreenFormatter;
+		$formatter = new Piwik_Log_Exception_Formatter_ScreenFormatter();
 		
 		$message = $formatter->format($event);
 		$message .= "<br><br>And this exception raised another exception \"". $e->getMessage()."\"";
@@ -36,4 +36,3 @@ function Piwik_ExceptionHandler(Exception $exception)
 		Piwik::exitWithErrorMessage( $message );
 	}
 }
-

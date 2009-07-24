@@ -4,12 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 561 2008-07-21 00:00:35Z matt $
+ * @version $Id: Controller.php 1327 2009-07-23 19:08:08Z matt $
  * 
  * @package Piwik
  */
 
-require_once "ViewDataTable.php";
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
  * It defines some helper functions controllers can use.
@@ -126,7 +125,6 @@ abstract class Piwik_Controller
 	 */
 	protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
 	{
-		require_once "ViewDataTable/GenerateGraphHTML.php";
 		$view = Piwik_ViewDataTable::factory('graphEvolution');
 		$view->init( $currentModuleName, $currentControllerAction, $apiMethod );
 		
@@ -249,6 +247,7 @@ abstract class Piwik_Controller
 			$view->minDateYear = $minDate->toString('Y');
 			$view->minDateMonth = $minDate->toString('m');
 			$view->minDateDay = $minDate->toString('d');
+			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
 			
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
@@ -272,7 +271,7 @@ abstract class Piwik_Controller
 			'week' => array('singular' => Piwik_Translate('CoreHome_PeriodWeek'), 'plural' => Piwik_Translate('CoreHome_PeriodWeeks')),
 			'month' => array('singular' => Piwik_Translate('CoreHome_PeriodMonth'), 'plural' => Piwik_Translate('CoreHome_PeriodMonths')),
 			'year' => array('singular' => Piwik_Translate('CoreHome_PeriodYear'), 'plural' => Piwik_Translate('CoreHome_PeriodYears')),
-			);
+		);
 		
 		$found = array_search($currentPeriod,$availablePeriods);
 		if($found !== false)

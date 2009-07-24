@@ -1,5 +1,13 @@
 <?php
-require_once "ViewDataTable.php";
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: Controller.php 1301 2009-07-09 08:10:25Z mauser $
+ * 
+ * @package Piwik_VisitsSummary
+ */
 
 class Piwik_VisitsSummary_Controller extends Piwik_Controller 
 {
@@ -60,7 +68,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		
 		$dataTableVisit = self::getVisitsSummary();
 		$dataRow = $dataTableVisit->getFirstRow();
-		if($view->period == 'day')
+		if($view->period != 'year')
 		{
 			$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_uniq_visitors')));
 			$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');

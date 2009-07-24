@@ -1,8 +1,18 @@
 <?php
-require_once "Referers/functions.php";
-require_once "UserCountry/functions.php";
-require_once "UserSettings/functions.php";
-require_once "Provider/functions.php";
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: Visitor.php 1313 2009-07-20 04:33:36Z vipsoft $
+ * 
+ * @package Piwik_Live
+ */
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 class Piwik_Live_Visitor
 {
@@ -181,9 +191,13 @@ class Piwik_Live_Visitor
 		$plugins = array( 
 	 		'config_pdf',
 	 		'config_flash',
+	 		'config_java',
 	 		'config_director',
+	 		'config_quicktime',
 	 		'config_realplayer',
-	 		'config_windowsmedia'
+	 		'config_windowsmedia',
+	 		'config_gears',
+	 		'config_silverlight',
 		);
 		$return = array();
 		foreach($plugins as $plugin)

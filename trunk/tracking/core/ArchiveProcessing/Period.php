@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Period.php 536 2008-06-27 01:32:25Z matt $
+ * @version $Id: Period.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_ArchiveProcessing
  */
@@ -115,6 +115,10 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		$records = array();
 		foreach($results as $name => $value)
 		{
+			if($name == 'nb_uniq_visitors' && ($this->periodId == Piwik::$idPeriods['week'] || $this->periodId == Piwik::$idPeriods['month']))
+			{
+			    $value = (float) $this->computeNbUniqVisitors();
+			}
 			$records[$name] = new Piwik_ArchiveProcessing_Record_Numeric(
 													$name, 
 													$value
@@ -194,7 +198,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	 */
 	protected function getRecordDataTableSum( $name, $invalidSummedColumnNameToRenamedName )
 	{
-		$table = new Piwik_DataTable;
+		$table = new Piwik_DataTable();
 		foreach($this->archives as $archive)
 		{
 			$archive->preFetchBlob($name);
@@ -233,7 +237,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		// we first compute every subperiod of the archive
 		foreach($this->period->getSubperiods() as $period)
 		{
-			$archivePeriod = new Piwik_Archive_Single;
+			$archivePeriod = new Piwik_Archive_Single();
 			$archivePeriod->setSite( $this->site );
 			$archivePeriod->setPeriod( $period );
 			$archivePeriod->prepareArchive();
@@ -275,6 +279,14 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		$this->setNumberOfVisits($nbVisits);
 		$this->setNumberOfVisitsConverted($nbVisitsConverted);
 		Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);		
+	}
+
+	protected function computeNbUniqVisitors()
+	{
+		$query = "SELECT count(distinct visitor_idcookie) as nb_uniq_visitors FROM ".$this->logTable."
+			  WHERE visit_server_date >= ? AND visit_server_date <= ? AND idsite = ?";
+
+		return Zend_Registry::get('db')->fetchOne($query, array( $this->strDateStart, $this->strDateEnd, $this->idsite ));
 	}
 	
 	/**
@@ -328,6 +340,5 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 			destroy($archive);
 		}
 		$this->archives = array();
-	}
-	
+	}	
 }

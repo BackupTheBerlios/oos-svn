@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Db.php 522 2008-06-11 00:31:03Z matt $
+ * @version $Id: Db.php 1311 2009-07-19 15:09:27Z vipsoft $
  * 
  * @package Piwik_Tracker
  */
@@ -25,22 +25,22 @@ class Piwik_Tracker_Db
 	static private $profiling = false;
 
 	protected $queriesProfiling = array();
-	
+
 	/**
 	 * Builds the DB object
 	 */
-	public function __construct( $host, $username, $password, $dbname, $port, $driverName = 'mysql') 
+	public function __construct( $dbInfo, $driverName = 'mysql') 
 	{
-		if($host[0] == '/')
+		if(isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/')
 		{
-			$this->dsn = $driverName.":dbname=$dbname;unix_socket=$host";
+			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};unix_socket=${dbInfo['unix_socket']}";
 		}
 		else
 		{
-			$this->dsn = $driverName.":dbname=$dbname;host=$host;port=$port";
+			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};host=${dbInfo['host']};port=${dbInfo['port']}";
 		}
-		$this->username = $username;
-		$this->password = $password;
+		$this->username = $dbInfo['username'];
+		$this->password = $dbInfo['password'];
 	}
 
 	public function __destruct() 
@@ -214,7 +214,6 @@ class Piwik_Tracker_Db
 	
 	protected function initProfiler()
 	{
-		require_once "Timer.php";
 		return new Piwik_Timer;
 	}
 	
@@ -267,5 +266,3 @@ class Piwik_Tracker_Db
 		self::$profiling = true;
 	}
 }
-
-

@@ -1,4 +1,4 @@
-{if ereg('http://127.0.0.1|http://localhost|http://piwik.org', $url)}
+{if $piwikUrl == 'http://piwik.org/demo/' || $debugTrackVisitsInsidePiwikUI}
 <div style="clear:both"></div>
 {literal}
 <!-- Piwik -->

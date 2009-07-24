@@ -1,4 +1,13 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: ExampleFeedburner.php 1287 2009-07-06 06:18:39Z vipsoft $
+ * 
+ * @package Piwik_ExampleFeedburner
+ */
 
 class Piwik_ExampleFeedburner extends Piwik_Plugin
 {
@@ -20,7 +29,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1060: column already exists
 			// if there is another error we throw the exception, otherwise it is OK as we are simply reinstalling the plugin
-			if(!ereg('1060',$e->getMessage()))
+			if(!preg_match('/1060/', $e->getMessage()))
 			{
 				throw $e;
 			}

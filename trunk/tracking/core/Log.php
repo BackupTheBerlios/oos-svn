@@ -4,17 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Log.php 558 2008-07-20 23:10:38Z matt $
+ * @version $Id: Log.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_Log
  */
-
-require_once "Zend/Log.php";
-require_once "Zend/Log/Formatter/Interface.php";
-require_once "Zend/Log/Writer/Stream.php";
-require_once "Zend/Log/Writer/Db.php";
-
-require_once "Common.php";
 
 /**
  * 
@@ -35,7 +28,14 @@ abstract class Piwik_Log extends Zend_Log
 							$logToDatabaseColumnMapping )
 	{
 		parent::__construct();
-		$this->logToFileFilename = PIWIK_INCLUDE_PATH . '/' . Zend_Registry::get('config')->log->logger_file_path . $logToFileFilename;
+
+		$log_dir = Zend_Registry::get('config')->log->logger_file_path;
+		if($log_dir[0] != '/' && $log_dir[0] != DIRECTORY_SEPARATOR)
+		{
+			$log_dir = PIWIK_INCLUDE_PATH . '/' . $log_dir;
+		}
+		$this->logToFileFilename = $log_dir . '/' . $logToFileFilename;
+
 		$this->fileFormatter = $fileFormatter;
 		$this->screenFormatter = $screenFormatter;
 		$this->logToDatabaseTableName = Piwik::prefixTable($logToDatabaseTableName);
@@ -160,4 +160,3 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 		return $string;
 	}
 }
-

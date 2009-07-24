@@ -4,14 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Request.php 506 2008-06-06 01:18:47Z matt $
+ * @version $Id: Request.php 1300 2009-07-08 18:28:22Z matt $
  * 
  * 
  * @package Piwik_API
  */
-
-require_once "API/ResponseBuilder.php";
-require_once "API/DataTableGenericFilter.php";
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -60,13 +57,7 @@ class Piwik_API_Request
 			$request = trim($request);
 			$request = str_replace(array("\n","\t"),'', $request);
 			parse_str($request, $requestArray);
-
-			// if a token_auth is specified in the API request, we load the right permissions
-			if(isset($requestArray['token_auth']))
-			{
-				Piwik_PostEvent('API.Request.authenticate', $requestArray['token_auth']);
-				Zend_Registry::get('access')->reloadAccess();
-			}
+		
 			$requestArray = $requestArray + $defaultRequest;
 		}
 		
@@ -109,6 +100,14 @@ class Piwik_API_Request
 			}
 			$module = "Piwik_" . $module . "_API";
 
+			// if a token_auth is specified in the API request, we load the right permissions
+			$token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string', $this->request);
+			if($token_auth)
+			{
+				Piwik_PostEvent('API.Request.authenticate', $token_auth);
+				Zend_Registry::get('access')->reloadAccess();
+			}
+			
 			// call the method 
 			$returnedValue = Piwik_API_Proxy::getInstance()->call($module, $method, $this->request);
 			
@@ -134,5 +133,4 @@ class Piwik_API_Request
 		}
 		return $a;
 	}
-
 }

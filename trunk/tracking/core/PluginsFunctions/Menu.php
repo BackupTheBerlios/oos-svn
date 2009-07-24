@@ -1,24 +1,13 @@
 <?php
-function Piwik_GetMenu()
-{
-	return Piwik_Menu::getInstance()->get();
-}
-
-function Piwik_AddMenu( $mainMenuName, $subMenuName, $url )
-{
-	Piwik_Menu::getInstance()->add($mainMenuName, $subMenuName, $url);
-}
-
-function Piwik_RenameMenuEntry($mainMenuOriginal, $subMenuOriginal, 
-								$mainMenuRenamed, $subMenuRenamed)
-{
-	Piwik_Menu::getInstance()->rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed);
-}
-
-function Piwik_EditMenuUrl( $mainMenuToEdit, $subMenuToEdit, $newUrl )
-{
-	Piwik_Menu::getInstance()->editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl);
-} 
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: Menu.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * 
+ * @package Piwik
+ */
 
 class Piwik_Menu
 {
@@ -155,8 +144,8 @@ class Piwik_Menu
 				// we want to move some submenus in the first position
 				foreach($element as $nameSubmenu => $submenu)
 				{
-					if(ereg('Evolution', $nameSubmenu) !== false
-						|| ereg('Overview', $nameSubmenu) !== false)
+					if(preg_match('/Evolution/', $nameSubmenu)
+						|| preg_match('/Overview/', $nameSubmenu))
 					{
 						$newElement = array($nameSubmenu => $submenu);
 						unset($element[$nameSubmenu]);
@@ -168,4 +157,25 @@ class Piwik_Menu
 			}
 		}
 	}
+}
+
+function Piwik_GetMenu()
+{
+	return Piwik_Menu::getInstance()->get();
+}
+
+function Piwik_AddMenu( $mainMenuName, $subMenuName, $url )
+{
+	Piwik_Menu::getInstance()->add($mainMenuName, $subMenuName, $url);
+}
+
+function Piwik_RenameMenuEntry($mainMenuOriginal, $subMenuOriginal, 
+								$mainMenuRenamed, $subMenuRenamed)
+{
+	Piwik_Menu::getInstance()->rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed);
+}
+
+function Piwik_EditMenuUrl( $mainMenuToEdit, $subMenuToEdit, $newUrl )
+{
+	Piwik_Menu::getInstance()->editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl);
 }

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: index.php 1221 2009-06-15 02:17:33Z vipsoft $
+ * @version $Id: Loader.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik
  */
@@ -42,7 +42,7 @@ class Piwik_Loader
 				$path = PIWIK_INCLUDE_PATH . self::$dirs[$i] . $classPath . '.php';
 				if(file_exists($path))
 				{
-					require_once($path);
+					require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 					if(class_exists($class, false) || interface_exists($class, false))
 					{
 						return;

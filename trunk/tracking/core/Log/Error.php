@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Error.php 485 2008-05-19 22:29:55Z matt $
+ * @version $Id: Error.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_Log
  * @subpackage Piwik_Log_Error
@@ -24,8 +24,8 @@ class Piwik_Log_Error extends Piwik_Log
 		$logToFileFilename = self::ID;
 		$logToDatabaseTableName = self::ID;
 		$logToDatabaseColumnMapping = null;
-		$screenFormatter = new Piwik_Log_Error_Formatter_ScreenFormatter;
-		$fileFormatter = new Piwik_Log_Formatter_FileFormatter;
+		$screenFormatter = new Piwik_Log_Error_Formatter_ScreenFormatter();
+		$fileFormatter = new Piwik_Log_Formatter_FileFormatter();
 		
 		parent::__construct($logToFileFilename, 
 							$fileFormatter,
@@ -116,5 +116,3 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
 	    return parent::format($strReturned);
     }
 }
-
-

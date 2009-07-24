@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Common.php 168 2008-01-14 05:26:43Z matt $
+ * @version $Id: testMinimumPhpVersion.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik
  */
@@ -85,4 +85,4 @@ if(isset($piwik_errorMessage))
 
 // we now include the upgradephp package to define some functions used in piwik 
 // that may not be defined in the current php version
-require_once PIWIK_INCLUDE_PATH . "/libs/upgradephp/upgrade.php";
+require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';

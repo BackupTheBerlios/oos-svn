@@ -1,5 +1,15 @@
 <?php
-require_once "Option.php";
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: Updater.php 1319 2009-07-21 04:44:23Z vipsoft $
+ * 
+ * @package Piwik
+ */
+
+require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
 class Piwik_Updater
 {
@@ -60,10 +70,11 @@ class Piwik_Updater
 	public function update($name)
 	{
 		$warningMessages = array();
-		foreach($this->componentsWithUpdateFile[$name] as $file)
+		foreach($this->componentsWithUpdateFile[$name] as $fileVersion => $file)
 		{
 			try {
-				require_once $file;
+				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
+				$this->recordComponentSuccessfullyUpdated($name, $fileVersion);
 			} catch( Piwik_Updater_UpdateErrorException $e) {
 				throw $e;
 			} catch( Exception $e) {
@@ -106,14 +117,14 @@ class Piwik_Updater
 				$fileVersion = basename($file, '.php');
 				if(version_compare($currentVersion, $fileVersion) == -1)
 				{
-					$componentsWithUpdateFile[$name][] = $file;
+					$componentsWithUpdateFile[$name][$fileVersion] = $file;
 				}
 			}
 			
 			if(isset($componentsWithUpdateFile[$name]))
 			{
 				// order the update files by version asc
-				usort($componentsWithUpdateFile[$name], "version_compare");
+				uasort($componentsWithUpdateFile[$name], "version_compare");
 			}
 			else
 			{
@@ -144,8 +155,16 @@ class Piwik_Updater
 			try {
 				$currentVersion = Piwik_GetOption('version_'.$name);
 			} catch( Exception $e) {
-				// case when the option table is not yet created (before 0.2.10)
-				$currentVersion = false;
+				if(preg_match('/1146/', $e->getMessage()))
+				{
+					// case when the option table is not yet created (before 0.2.10)
+					$currentVersion = false;
+				}
+				else
+				{
+					// failed for some other reason
+					throw $e;
+				}
 			}
 			if($currentVersion === false)
 			{

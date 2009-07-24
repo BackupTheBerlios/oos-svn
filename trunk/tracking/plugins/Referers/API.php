@@ -4,12 +4,12 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1158 2009-05-31 11:31:14Z matt $
+ * @version $Id: API.php 1296 2009-07-08 04:19:14Z vipsoft $
  *
  * @package Piwik_Referers
  */
 
-require_once "Referers/functions.php";
+require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 
 /**
  *

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Simple.php 168 2008-01-14 05:26:43Z matt $
+ * @version $Id: Array.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_DataTable
  */
@@ -36,7 +36,7 @@ class Piwik_DataTable_Array
 	/**
 	 * This is the label used to index the tables.
 	 * For example if the tables are indexed using the timestamp of each period
-	 * eg. $this->array[1045886960] = new Piwik_DataTable;
+	 * eg. $this->array[1045886960] = new Piwik_DataTable();
 	 * the keyName would be 'timestamp'.
 	 * 
 	 * This label is used in the Renderer (it becomes a column name or the XML description tag)
@@ -170,5 +170,3 @@ class Piwik_DataTable_Array
 		}
 	}
 }
-
-

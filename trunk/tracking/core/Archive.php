@@ -4,15 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Archive.php 585 2008-07-28 00:56:50Z matt $
+ * @version $Id: Archive.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik
  */
-
-require_once 'Period.php';
-require_once 'Date.php';
-require_once 'ArchiveProcessing.php';
-require_once 'Archive/Single.php';
 
 /**
  * The archive object is used to query specific data for a day or a period of statistics for a given website.
@@ -135,19 +130,17 @@ abstract class Piwik_Archive
 		if( count($sites) > 1 
 			|| $idSite === 'all' )
 		{
-			require_once 'Archive/Array/IndexedBySite.php';
 			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate);
 		}
 		// if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
 		elseif(is_string($strDate) 
 			&& (
-				ereg('^(last|previous){1}([0-9]*)$', $strDate, $regs)
-				|| ereg('^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$', $strDate, $regs)
+				preg_match('/^(last|previous){1}([0-9]*)$/', $strDate, $regs)
+				|| preg_match('/^([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}),([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2})$/', $strDate, $regs)
 				)
 			)
 		{
 			$oSite = new Piwik_Site($idSite);
-			require_once 'Archive/Array/IndexedByDate.php';
 			$archive = new Piwik_Archive_Array_IndexedByDate($oSite, $period, $strDate);
 		}
 		// case we request a single archive
@@ -266,11 +259,5 @@ abstract class Piwik_Archive
 	public function getIdSite()
 	{
 		return $this->site->getId();
-	}
-	
+	}	
 }
-
-
-
-
-

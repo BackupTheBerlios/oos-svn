@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Row.php 519 2008-06-09 01:59:24Z matt $
+ * @version $Id: Row.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_DataTable
  */
@@ -224,7 +224,7 @@ class Piwik_DataTable_Row
 		$thisSubtableID = $this->getIdSubDataTable();
 		if($thisSubtableID === null)
 		{
-			$thisSubTable = new Piwik_DataTable;
+			$thisSubTable = new Piwik_DataTable();
 			$this->addSubtable($thisSubTable);
 		}
 		else
@@ -435,5 +435,3 @@ class Piwik_DataTable_Row
 		return true;
 	}
 }
-
-require_once "Row/DataTableSummary.php";

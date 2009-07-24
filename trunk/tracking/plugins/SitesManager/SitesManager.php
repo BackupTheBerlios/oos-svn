@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: SitesManager.php 1041 2009-03-30 02:22:03Z matt $
+ * @version $Id: SitesManager.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_SitesManager
  */
@@ -30,14 +30,19 @@ class Piwik_SitesManager extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
+			'template_css_import' => 'css',
 			'AdminMenu.add' => 'addMenu',
 			'Common.fetchWebsiteAttributes' => 'recordWebsiteHostsInCache',
 		);
 	}
 	
+	function css()
+	{
+		echo '<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />';
+	}
+	
 	function recordWebsiteHostsInCache($notification)
 	{
-		require_once "SitesManager/API.php";
 		$idsite = $notification->getNotificationInfo();
 		// add the 'hosts' entry in the website array
 		$array =& $notification->getNotificationObject();

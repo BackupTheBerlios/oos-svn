@@ -4,12 +4,11 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Exception.php 583 2008-07-28 00:37:19Z matt $
+ * @version $Id: Exception.php 1321 2009-07-23 04:29:38Z vipsoft $
  *
  * @package Piwik_Log
  * @subpackage Piwik_Log_Exception
  */
-require_once "Log.php";
 
 /**
  * Class used to log an exception event.
@@ -26,8 +25,8 @@ class Piwik_Log_Exception extends Piwik_Log
 		$logToFileFilename = self::ID;
 		$logToDatabaseTableName = self::ID;
 		$logToDatabaseColumnMapping = null;
-		$screenFormatter = new Piwik_Log_Exception_Formatter_ScreenFormatter;
-		$fileFormatter = new Piwik_Log_Formatter_FileFormatter;
+		$screenFormatter = new Piwik_Log_Exception_Formatter_ScreenFormatter();
+		$fileFormatter = new Piwik_Log_Formatter_FileFormatter();
 
 		parent::__construct($logToFileFilename,
 							$fileFormatter,
@@ -57,7 +56,6 @@ class Piwik_Log_Exception extends Piwik_Log
 	}
 }
 
-
 /**
  * Format an exception event to be displayed on the screen.
  *
@@ -81,15 +79,9 @@ class Piwik_Log_Exception_Formatter_ScreenFormatter extends Piwik_Log_Formatter_
 		$errline = $event['errline'] ;
 		$backtrace = $event['backtrace'] ;
 
-		require_once "API/ResponseBuilder.php";
 		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'html', 'string'));
 		$response = new Piwik_API_ResponseBuilder(null, $outputFormat);
 		$message = $response->getResponseException(new Exception($errstr));
 		return parent::format($message);
 	}
 }
-
-
-
-
-

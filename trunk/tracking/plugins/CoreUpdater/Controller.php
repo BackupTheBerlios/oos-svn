@@ -1,4 +1,14 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * 
+ * @package Piwik_CoreUpdater
+ */
+
 class Piwik_CoreUpdater_Controller extends Piwik_Controller
 {
 	const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
@@ -74,7 +84,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Unpack()
 	{
-		require_once 'PclZip/pclzip.lib.php';
+		require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
 		$archive = new PclZip($this->pathPiwikZip);
 
 		$pathExtracted = PIWIK_INCLUDE_PATH.self::PATH_TO_EXTRACT_LATEST_VERSION;

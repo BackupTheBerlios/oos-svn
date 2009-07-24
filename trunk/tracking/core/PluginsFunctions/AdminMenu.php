@@ -1,18 +1,13 @@
 <?php
-function Piwik_GetAdminMenu()
-{
-	return Piwik_AdminMenu::getInstance()->get();
-}
-
-function Piwik_AddAdminMenu( $adminMenuName, $url )
-{
-	return Piwik_AdminMenu::getInstance()->add($adminMenuName, $url);
-}
-
-function Piwik_RenameAdminMenuEntry($adminMenuOriginal, $adminMenuRenamed)
-{
-	Piwik_AdminMenu::getInstance()->rename($adminMenuOriginal, $adminMenuRenamed);
-}
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: AdminMenu.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * 
+ * @package Piwik
+ */
 
 class Piwik_AdminMenu
 {
@@ -74,4 +69,19 @@ class Piwik_AdminMenu
 		unset($this->adminMenu[$adminMenuOriginal]);
 		$this->adminMenu[$adminMenuRenamed] = $save;
 	}
+}
+
+function Piwik_GetAdminMenu()
+{
+	return Piwik_AdminMenu::getInstance()->get();
+}
+
+function Piwik_AddAdminMenu( $adminMenuName, $url )
+{
+	return Piwik_AdminMenu::getInstance()->add($adminMenuName, $url);
+}
+
+function Piwik_RenameAdminMenuEntry($adminMenuOriginal, $adminMenuRenamed)
+{
+	Piwik_AdminMenu::getInstance()->rename($adminMenuOriginal, $adminMenuRenamed);
 }

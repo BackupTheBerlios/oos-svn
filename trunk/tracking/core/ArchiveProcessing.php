@@ -4,16 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ArchiveProcessing.php 536 2008-06-27 01:32:25Z matt $
+ * @version $Id: ArchiveProcessing.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_ArchiveProcessing
  */
-
-require_once 'TablePartitioning.php';
-require_once 'ArchiveProcessing/Record.php';
-require_once 'ArchiveProcessing/RecordArray.php';
-require_once "ArchiveProcessing/Record/Numeric.php";
-require_once 'DataTable.php';
 
 /**
  * The ArchiveProcessing module is a module that reads the Piwik logs from the DB and
@@ -199,14 +193,12 @@ abstract class Piwik_ArchiveProcessing
 		switch($name)
 		{
 			case 'day':
-				require_once 'ArchiveProcessing/Day.php';			
 				$process = new Piwik_ArchiveProcessing_Day();
 			break;
 			
 			case 'week':
 			case 'month':
 			case 'year':
-				require_once 'ArchiveProcessing/Period.php';	
 				$process = new Piwik_ArchiveProcessing_Period();
 			break;
 			

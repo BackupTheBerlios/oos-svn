@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Action.php 558 2008-07-20 23:10:38Z matt $
+ * @version $Id: Action.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_Tracker
  */
@@ -262,7 +262,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$split = array_map('trim', $split);
 			
 			// remove empty categories
-			$split = array_filter($split);
+			$split = array_filter($split, 'strlen');
 			
 			// rebuild the name from the array of cleaned categories
 			$actionName = implode($actionCategoryDelimiter, $split);
@@ -282,4 +282,3 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		);
 	}
 }
-

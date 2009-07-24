@@ -4,12 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: function.url.php 168 2008-01-14 05:26:43Z matt $
+ * @version $Id: function.postEvent.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package SmartyPlugins
  */
-
-require_once "Url.php";
 
 /**
  * Posts an event from a smarty template. This event can then be hooked by another plugin.

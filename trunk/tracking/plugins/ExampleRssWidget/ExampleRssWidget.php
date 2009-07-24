@@ -1,4 +1,13 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: ExampleRssWidget.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * 
+ * @package Piwik_ExampleRssWidget
+ */
 
 class Piwik_ExampleRssWidget extends Piwik_Plugin
 {
@@ -69,7 +78,6 @@ class Piwik_ExampleRssWidget_Rss
 	}
 	function get() 
 	{
-		require_once 'Zend/Feed.php';
 		try {
 		    $rss = Zend_Feed::import($this->url);
 		} catch (Zend_Feed_Exception $e) {

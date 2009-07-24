@@ -4,16 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: DataTable.php 578 2008-07-27 00:15:21Z matt $
+ * @version $Id: DataTable.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik_DataTable
  */
-
-require_once "DataTable/Renderer.php";
-require_once "DataTable/Renderer/Console.php";
-require_once "DataTable/Filter.php";
-require_once "DataTable/Row.php";
-require_once "DataTable/Manager.php";
 
 /**
  * 
@@ -90,7 +84,7 @@ require_once "DataTable/Manager.php";
  * 	
  * ---- Code example
  * 
- * $table = new DataTable;
+ * $table = new DataTable();
  * $table->addRowsFromArray( array(...) );
  * 
  * # sort the table by visits asc
@@ -1165,4 +1159,3 @@ class Piwik_DataTable
 	}
 
 }
-

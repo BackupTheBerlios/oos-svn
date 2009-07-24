@@ -15,9 +15,9 @@
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Matteo Di Giovinazzo <matteodg@infinito.it>
- * @copyright   2001-2007 The PHP Group
+ * @copyright   2001-2009 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: autocomplete.php 1230 2009-06-16 04:42:53Z vipsoft $
+ * @version     CVS: $Id: autocomplete.php 1297 2009-07-08 04:58:45Z vipsoft $
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -47,7 +47,7 @@ require_once 'HTML/QuickForm/text.php';
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Matteo Di Giovinazzo <matteodg@infinito.it>
- * @version     Release: 3.2.9
+ * @version     Release: 3.2.11
  * @since       3.2
  */
 class HTML_QuickForm_autocomplete extends HTML_QuickForm_text

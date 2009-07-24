@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExamplePlugin.php 169 2008-01-14 05:41:15Z matt $
+ * @version $Id: Dashboard.php 1287 2009-07-06 06:18:39Z vipsoft $
  * 
  * @package Piwik_ExamplePlugin
  */
@@ -58,7 +58,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
-			if(ereg('1050',$e->getMessage()))
+			if(preg_match('/1050/', $e->getMessage()))
 			{
 				return;
 			}

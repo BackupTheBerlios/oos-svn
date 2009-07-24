@@ -1,5 +1,13 @@
 <?php
-require_once "ViewDataTable.php";
+/**
+ * Piwik - Open source web analytics
+ * 
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
+ * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * 
+ * @package Piwik_Actions
+ */
 
 class Piwik_Actions_Controller extends Piwik_Controller 
 {
@@ -116,7 +124,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		if(Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string' ) != '0')
 		{
 			// computing minimum value to exclude
-			require_once "VisitsSummary/Controller.php";
 			$visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary();
 			$visitsInfo = $visitsInfo->getFirstRow();
 			$nbActions = $visitsInfo->getColumn('nb_actions');

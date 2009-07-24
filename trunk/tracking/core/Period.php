@@ -4,13 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Period.php 540 2008-06-29 22:44:13Z matt $
+ * @version $Id: Period.php 1296 2009-07-08 04:19:14Z vipsoft $
  * 
  * @package Piwik_Helper
  */
 
-require_once "Period/Day.php";
-require_once "Period/Range.php";
 /**
  * Creating a new Piwik_Period subclass: 
  * 
@@ -53,17 +51,14 @@ abstract class Piwik_Period
 				break;
 		
 			case 'week':
-				require_once "Period/Week.php";
 				return new Piwik_Period_Week($date); 
 				break;
 				
 			case 'month':
-				require_once "Period/Month.php";
 				return new Piwik_Period_Month($date); 
 				break;
 				
 			case 'year':
-				require_once "Period/Year.php";
 				return new Piwik_Period_Year($date); 
 				break;
 				
@@ -242,5 +237,3 @@ abstract class Piwik_Period
 	abstract public function getLocalizedShortString();
 	abstract public function getLocalizedLongString();
 }
-
-	

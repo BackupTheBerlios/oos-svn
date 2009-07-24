@@ -4,22 +4,15 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: PluginsManager.php 583 2008-07-28 00:37:19Z matt $
+ * @version $Id: PluginsManager.php 1321 2009-07-23 04:29:38Z vipsoft $
  * 
  * @package Piwik
  */
 
-require_once "Plugin.php";
-require_once "Event/Dispatcher.php";
-require_once "PluginsFunctions/Menu.php";
-require_once "PluginsFunctions/AdminMenu.php";
-require_once "PluginsFunctions/WidgetsList.php";
-require_once "PluginsFunctions/Sql.php";
-
-require_once "Zend/Exception.php";
-require_once "Zend/Loader.php"; 
-require_once "Auth.php";
-require_once "Controller.php";
+require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Menu.php';
+require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/AdminMenu.php';
+require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/WidgetsList.php';
+require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Sql.php';
 
 /**
  * @package Piwik
@@ -85,7 +78,7 @@ class Piwik_PluginsManager
 	 */
 	public function readPluginsDirectory()
 	{
-		$pluginsName = glob( PIWIK_INCLUDE_PATH . "/plugins/*", GLOB_ONLYDIR);
+		$pluginsName = glob( PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
 		$pluginsName = array_map('basename', $pluginsName);
 		return $pluginsName;
 	}
@@ -262,8 +255,8 @@ class Piwik_PluginsManager
 		{
 			return $this->loadedPlugins[$pluginName];
 		}
-		$pluginFileName = $pluginName . '/' . $pluginName . ".php";
-		$pluginClassName = "Piwik_".$pluginName;
+		$pluginFileName = $pluginName . '/' . $pluginName . '.php';
+		$pluginClassName = 'Piwik_'.$pluginName;
 		
 		if( !Piwik_Common::isValidFilename($pluginName))
 		{
@@ -274,21 +267,18 @@ class Piwik_PluginsManager
 
 		if(!file_exists($path))
 		{
-			throw new Exception("The plugin '$pluginName' is enabled, but the file '$path' couldn't be found.
-							To continue, please disable the plugin manually by removing the line 
-							<pre>Plugins[] = $pluginName</pre>
-							in the configuration file <code>config/config.ini.php</code>");
+			throw new Exception("Unable to load plugin '$pluginName' because '$path' couldn't be found.");
 		}
 
 		// Don't remove this.
 		// Our autoloader can't find plugins/PluginName/PluginName.php
-		require_once $path;
+		require_once $path; // prefixed by PIWIK_INCLUDE_PATH
 		
 		if(!class_exists($pluginClassName, false))
 		{
 			throw new Exception("The class $pluginClassName couldn't be found in the file '$path'");
 		}
-		$newPlugin = new $pluginClassName;
+		$newPlugin = new $pluginClassName();
 		
 		if(!($newPlugin instanceof Piwik_Plugin))
 		{
@@ -401,7 +391,7 @@ class Piwik_PluginsManager
 		
 		$pluginName = $plugin->getClassName();
 		
-		$path = PIWIK_INCLUDE_PATH . "/plugins/" . $pluginName ."/lang/%s.php";
+		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName .'/lang/%s.php';
 		
 		$defaultLangPath = sprintf($path, $langCode);
 		$defaultEnglishLangPath = sprintf($path, 'en');
@@ -512,18 +502,21 @@ function Piwik_AddAction( $hookName, $function )
 class Piwik_Event_Notification extends Event_Notification
 {
 	static $showProfiler = false;
-	function increaseNotificationCount(/* $className, $method */) {
+	function increaseNotificationCount(/* array($className|object, $method) */) {
 		parent::increaseNotificationCount();
-		if(self::$showProfiler && func_num_args() == 2)
+		if(self::$showProfiler && func_num_args() == 1)
 		{
-			$className = func_get_arg(0);
-			$method = func_get_arg(1);
-			echo "after $className -> $method <br>";
-			echo "-"; Piwik::printTimer();
-			echo "<br>";
-			echo "-"; Piwik::printMemoryLeak();
-			echo "<br>";
+			$callback = func_get_arg(0);
+			if(is_array($callback)) {
+				$className = is_object($callback[0]) ? get_class($callback[0]) : $callback[0];
+				$method = $callback[1];
+
+				echo "after $className -> $method <br>";
+				echo "-"; Piwik::printTimer();
+				echo "<br>";
+				echo "-"; Piwik::printMemoryLeak();
+				echo "<br>";
+			}
 		}
 	}
 }
-
