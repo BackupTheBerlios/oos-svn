@@ -54,9 +54,6 @@ if (isset($categories) && oos_is_not_null($categories)) {
     }
 }
 
-
-
-
 if ($category_depth == 'nested') {
 
     $aOption['template_main'] = $sTheme . '/system/nested.html';
@@ -182,6 +179,7 @@ if ($category_depth == 'nested') {
         $new_products_category_id = $nCurrentCategoryId;
         require 'includes/modules/new_products.php';
 
+
         // assign Smarty variables;
         if ( (ALLOW_CATEGORY_DESCRIPTIONS == '1') && (oos_is_not_null($category['categories_heading_title'])) ) {
             $oSmarty->assign('oos_heading_title', $category['categories_heading_title']);
@@ -195,12 +193,15 @@ if ($category_depth == 'nested') {
               )
         );
     }
+
+    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
     $oSmarty->caching = false;
 
 
 } elseif ($category_depth == 'products' || isset($_GET['manufacturers_id'])) {
+
 
     $aOption['template_main'] = $sTheme . '/system/products.html';
     $aOption['page_heading'] = $sTheme . '/system/index_products_heading.html';
@@ -282,8 +283,8 @@ if ($category_depth == 'nested') {
         }
 
         $select_column_list = '';
-
-        for ($col=0, $n=count($column_list); $col<$n; $col++) {
+        $nArrayCountColumnList = count($column_list);
+        for ($col=0, $n=$nArrayCountColumnList; $col<$n; $col++) {
             if ( ($column_list[$col] == 'PRODUCT_LIST_BUY_NOW')
                   || ($column_list[$col] == 'PRODUCT_LIST_PRICE')
                   || ($column_list[$col] == 'PRODUCT_LIST_UVP') ) {

@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 require 'includes/classes/class_template.php';
 $oSmarty =& new Template();
 
-  //debug
+//debug
 if ($oEvent->installed_plugin('debug')) {
     $oSmarty->force_compile   = true;
     $oSmarty->debugging       = true;

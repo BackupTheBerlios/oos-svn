@@ -19,8 +19,8 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being required by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being required by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
@@ -28,20 +28,20 @@ define('BP', dirname(dirname(__FILE__)));
 
 
 // debug
-  $debug = '1';
+$debug = '1';
 
 // Start the clock for the page parse time log
-  define('PAGE_PARSE_START_TIME', microtime());
+define('PAGE_PARSE_START_TIME', microtime());
 
 // for debug set the level of error reporting
-   error_reporting(E_ALL & ~E_NOTICE);
+ error_reporting(E_ALL & ~E_NOTICE);
 //   error_reporting(0);
 
 
 // Disable use_trans_sid as oos_href_link_admin() does this manually
-  if (function_exists('ini_set')) {
+if (function_exists('ini_set')) {
     ini_set('session.use_trans_sid', 0);
-  }
+}
 
 // Set the local configuration parameters - mainly for developers
 if (is_readable('../includes/local/configure.php')) {
@@ -51,7 +51,7 @@ if (is_readable('../includes/local/configure.php')) {
 }
 
 // Include application configuration parameters
-  require 'includes/oos_define.php';
+require 'includes/oos_define.php';
 
  /**
   * Complete software version string
@@ -60,117 +60,115 @@ if (is_readable('../includes/local/configure.php')) {
 
 
 // Used in the "Backup Manager" to compress backups
-  define('LOCAL_EXE_GZIP', '/usr/bin/gzip');
-  define('LOCAL_EXE_GUNZIP', '/usr/bin/gunzip');
-  define('LOCAL_EXE_ZIP', '/usr/local/bin/zip');
-  define('LOCAL_EXE_UNZIP', '/usr/local/bin/unzip');
+define('LOCAL_EXE_GZIP', '/usr/bin/gzip');
+define('LOCAL_EXE_GUNZIP', '/usr/bin/gunzip');
+define('LOCAL_EXE_ZIP', '/usr/local/bin/zip');
+define('LOCAL_EXE_UNZIP', '/usr/local/bin/unzip');
 
-  require 'includes/oos_filename.php';
-  require '../includes/oos_tables.php';
+require 'includes/oos_filename.php';
+require '../includes/oos_tables.php';
 
-  require '../includes/functions/function_global.php';
-  require 'includes/functions/function_kernel.php';
+require '../includes/functions/function_global.php';
+require 'includes/functions/function_kernel.php';
 
 require '../includes/core/classes/utilities_class.php';
 require '../includes/core/classes/core_api_class.php';
 
 
 // Load server utilities
-  require '../includes/functions/function_server.php';
+require '../includes/functions/function_server.php';
 
 
-  if (isset($_POST)) {
+if (isset($_POST)) {
     foreach ($_POST as $key=>$value) {
       $$key = oos_prepare_input($value);
     }
-  }
+}
 
 // define how the session functions will be used
-  require '../includes/functions/function_session.php';
+require '../includes/functions/function_session.php';
 
 // set the session ID if it exists
-  if (isset($_POST[oos_session_name()])) {
+if (isset($_POST[oos_session_name()])) {
     oos_session_id($_POST[oos_session_name()]);
-  } elseif (isset($_GET[oos_session_name()])) {
+} elseif (isset($_GET[oos_session_name()])) {
     oos_session_id($_GET[oos_session_name()]);
-  }
+}
 
-  oos_session_name('OOSADMINSID');
-  oos_session_start();
+oos_session_name('OOSADMINSID');
+oos_session_start();
 
-  if (!isset($_SESSION)) {
+if (!isset($_SESSION)) {
     $_SESSION = array();
-  }
+}
 
 
-  // require the database functions
-  if (!defined('ADODB_LOGSQL_TABLE')) {
+// require the database functions
+if (!defined('ADODB_LOGSQL_TABLE')) {
     define('ADODB_LOGSQL_TABLE', $oostable['adodb_logsql']);
-  }
-  require '../includes/lib/adodb/toexport.inc.php';
-  require '../includes/lib/adodb/adodb-errorhandler.inc.php';
-  require '../includes/lib/adodb/adodb.inc.php';
-  require '../includes/lib/adodb/tohtml.inc.php';
-  require '../includes/functions/function_db.php';
+}
+require '../includes/lib/adodb/toexport.inc.php';
+require '../includes/lib/adodb/adodb-errorhandler.inc.php';
+require '../includes/lib/adodb/adodb.inc.php';
+require '../includes/lib/adodb/tohtml.inc.php';
+require '../includes/functions/function_db.php';
 
-  // make a connection to the database... now
-  if (!oosDBInit()) {
+// make a connection to the database... now
+if (!oosDBInit()) {
     die('Unable to connect to database server!');
-  }
+}
 
-  $dbconn =& oosDBGetConn();
-  oosDB_importTables($oostable);
+$dbconn =& oosDBGetConn();
+oosDB_importTables($oostable);
 
 
 // Define how do we update currency exchange rates
 // Possible values are 'oanda' 'xe' or ''
-  define('CURRENCY_SERVER_PRIMARY', 'oanda');
-  define('CURRENCY_SERVER_BACKUP', 'xe');
+define('CURRENCY_SERVER_PRIMARY', 'oanda');
+define('CURRENCY_SERVER_BACKUP', 'xe');
 
 
 // set application wide parameters
-  $configurationtable = $oostable['configuration'];
-  $configuration_query = "SELECT configuration_key AS cfg_key, configuration_value AS cfg_value
+$configurationtable = $oostable['configuration'];
+$configuration_query = "SELECT configuration_key AS cfg_key, configuration_value AS cfg_value
                           FROM $configurationtable";
-  if (USE_DB_CACHE == '1') {
+if (USE_DB_CACHE == '1') {
     $configuration_result = $dbconn->CacheExecute(3600, $configuration_query);
-  } else {
+} else {
     $configuration_result = $dbconn->Execute($configuration_query);
-  }
+}
 
-  while ($configuration = $configuration_result->fields) {
+while ($configuration = $configuration_result->fields) {
     define($configuration['cfg_key'], $configuration['cfg_value']);
     // Move that ADOdb pointer!
     $configuration_result->MoveNext();
-  }
-  // Close result set
-  $configuration_result->Close();
+}
 
 
 // initialize the logger class
-  require '../includes/classes/class_logger.php';
+require '../includes/classes/class_logger.php';
 
 
 // some code to solve compatibility issues
-  require 'includes/functions/function_compatibility.php';
+require 'includes/functions/function_compatibility.php';
 
- // language
-  if (!isset($_SESSION['language']) || isset($_GET['language'])) {
+// language
+if (!isset($_SESSION['language']) || isset($_GET['language'])) {
     // require the language class
    require '../includes/classes/class_language.php';
    $oLang = new language;
 
    if (isset($_GET['language']) && oos_is_not_null($_GET['language'])) {
-     $oLang->set($_GET['language']);
+       $oLang->set($_GET['language']);
    } else {
-     $oLang->get_browser_language();
+       $oLang->get_browser_language();
    }
- }
+}
 
 // require the language translations
 require 'includes/languages/' . $_SESSION['language'] . '.php';
 $current_page = split('\?', basename($_SERVER['PHP_SELF'])); $current_page = $current_page[0]; // for BadBlue(Win32) webserver compatibility
-  if (file_exists('includes/languages/' . $_SESSION['language'] . '/' . $current_page)) {
+if (file_exists('includes/languages/' . $_SESSION['language'] . '/' . $current_page)) {
     require 'includes/languages/' . $_SESSION['language'] . '/' . $current_page;
 }
 
@@ -235,4 +233,3 @@ if (basename($_SERVER['PHP_SELF']) != $aFilename['login']
     oos_admin_check_login();
 }
 
-?>

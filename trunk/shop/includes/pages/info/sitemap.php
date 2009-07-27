@@ -46,6 +46,8 @@ if ( (USE_CACHE == '1') && (!SID) ) {
 
 if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
 
+    MyOOS_CoreApi::requireOnce('classes/class_category_tree.php');
+
     $oSitemap = new oosCategoryTree;
     $oSitemap->setShowCategoryProductCount(false);
 

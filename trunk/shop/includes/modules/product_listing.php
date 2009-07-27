@@ -132,14 +132,7 @@ if ($listing_numrows > 0) {
     while ($listing = $listing_result->fields)
     {
 
-/*
-        if ( (!oos_is_not_null($listing['products_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
-            $product_description = oos_get_product_description($listing['products_id']);
-            $listing = array_merge($listing, $product_description);
-        }
-*/
-
-// $sProductListLink
+        // $sProductListLink
         if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
             $sProductListLink = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
         } else {
@@ -150,14 +143,14 @@ if ($listing_numrows > 0) {
             }
         }
 
-// $sProductListUVP
+        // $sProductListUVP
         if ($listing['products_price_list'] > 0) {
-            sProductListUVP = $oCurrencies->display_price($listing['products_price_list'], oos_get_tax_rate($listing['products_tax_class_id']));
+            $sProductListUVP = $oCurrencies->display_price($listing['products_price_list'], oos_get_tax_rate($listing['products_tax_class_id']));
         }
 
 
 
-// $sProductListPrice
+        // $sProductListPrice
         $sUnits = UNITS_DELIMITER . $products_units[$listing['products_units_id']];
         $pl_product_price = $oCurrencies->display_price($listing['products_price'], oos_get_tax_rate($listing['products_tax_class_id']));
 
@@ -224,7 +217,7 @@ if ($listing_numrows > 0) {
 
 
 
-// sProductListBuyNow:
+         // sProductListBuyNow:
          if ($_SESSION['member']->group['show_price'] == 1) {
 
              if (DECIMAL_CART_QUANTITY == '1') {
@@ -242,8 +235,10 @@ if ($listing_numrows > 0) {
                  $sProductListBuyNow .= '<input type="hidden" name="categories" value="' . $categories .'">';
                  $sProductListBuyNow .= '<input type="hidden" name="formid" value="' . $sFormid .'">';
                  $sProductListBuyNow .= oos_hide_session_id();
+
 // todo remove oos_get_all_as_hidden_field
 $sProductListBuyNow .= oos_get_all_as_hidden_field(array('action'));
+
                  $sProductListBuyNow .= $aLang['products_order_qty_text'];
                  $sProductListBuyNow .= ' <input type="text" name="cart_quantity" value="' . $order_min . '" size="3" /><br />';
                  $sProductListBuyNow .= oos_image_submit('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']);
@@ -266,12 +261,12 @@ $sProductListBuyNow .= oos_get_all_as_hidden_field(array('action'));
                                 'manufacturers_name' => $listing['manufacturers_name'],
                                 'products_quantity' => $listing['products_quantity'],
                                 'products_weight' => $listing['products_weight'],
+                                'product_list_sort_order' => $listing['products_sort_order'],
                                 'product_list_link' => $sProductListLink,
                                 'products_description' => oos_remove_tags($listing['products_description']),
                                 'product_list_uvp' => $sProductListUVP,
                                 'product_list_price' =>  $sProductListPrice,
-                                'product_list_buy_now' => $sProductListBuyNow,
-                                'product_list_sort_order' => $listing['products_sort_order']
+                                'product_list_buy_now' => $sProductListBuyNow
                               );
 
       // Move that ADOdb pointer!
