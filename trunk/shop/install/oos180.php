@@ -151,10 +151,33 @@ $table = $prefix_table . 'configuration';
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oos_cfg_select_option(array(\'true\', \'false\'),'");
 $result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE set_function = 'oos_cfg_select_option(array(\'True\', \'False\'),'");
 
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE configuration_key = 'PRODUCT_LIST_IMAGE'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE configuration_key = 'PRODUCT_LIST_MANUFACTURER'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE configuration_key = 'PRODUCT_LIST_MODEL'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE configuration_key = 'PRODUCT_LIST_UVP'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE configuration_key = 'PRODUCT_LIST_PRICE'");
+
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE configuration_key = 'PRODUCT_LIST_QUANTITY'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE configuration_key = 'PRODUCT_LIST_WEIGHT'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE configuration_key = 'PRODUCT_LIST_BUY_NOW'");
+$result = $db->Execute("UPDATE " . $table . " SET set_function = 'oos_cfg_select_option(array(\'1\', \'0\'),' WHERE configuration_key = 'PRODUCT_LIST_FILTER'");
+
+
 $result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_value = 'true'");
 $result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_value = 'True'");
 $result = $db->Execute("UPDATE " . $table . " SET configuration_value = '0' WHERE configuration_value = 'false'");
 $result = $db->Execute("UPDATE " . $table . " SET configuration_value = '0' WHERE configuration_value = 'False'");
+
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_key = 'PRODUCT_LIST_IMAGE'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_key = 'PRODUCT_LIST_MANUFACTURER'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_key = 'PRODUCT_LIST_MODEL'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '0' WHERE configuration_key = 'PRODUCT_LIST_UVP'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_key = 'PRODUCT_LIST_PRICE'");
+
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '0' WHERE configuration_key = 'PRODUCT_LIST_QUANTITY'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '0' WHERE configuration_key = 'PRODUCT_LIST_WEIGHT'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_key = 'PRODUCT_LIST_BUY_NOW'");
+$result = $db->Execute("UPDATE " . $table . " SET configuration_value = '1' WHERE configuration_key = 'PRODUCT_LIST_FILTER'");
 
 
 $result = $db->Execute("INSERT INTO " . $table . " (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('OOS_FCKEDITOR', '1', 29, '2', NULL, " . $db->DBTimeStamp($today) . ", NULL, 'oos_cfg_select_option(array(\'1\', \'0\'),')") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
