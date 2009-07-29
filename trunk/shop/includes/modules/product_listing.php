@@ -53,11 +53,6 @@ $list_box_contents[] = array('params' => 'class="productListing-even"');
         $lc_align = '';
         break;
 
-      case 'PRODUCT_LIST_NAME':
-        $lc_text = $aLang['table_heading_products'];
-        $lc_align = '';
-        break;
-
       case 'PRODUCT_LIST_MANUFACTURER':
         $lc_text = $aLang['table_heading_manufacturer'];
         $lc_align = '';
@@ -106,10 +101,6 @@ $list_box_contents[] = array('params' => 'class="productListing-even"');
         $lc_align = 'center';
         break;
 
-      case 'PRODUCT_LIST_SORT_ORDER':
-        $lc_text = $aLang['table_heading_product_sort'];
-        $lc_align = 'center';
-        break;
     }
 
     if ( ($column_list[$col] != 'PRODUCT_LIST_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
@@ -134,12 +125,12 @@ if ($listing_numrows > 0) {
 
         // $sProductListLink
         if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
-            $sProductListLink = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
+            $sProductListLink = oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']);
         } else {
             if ($oEvent->installed_plugin('sefu')) {
-                $sProductListLink = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
+                $sProductListLink = oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']);
             } else {
-                $sProductListLink = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
+                $sProductListLink = oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']);
             }
         }
 

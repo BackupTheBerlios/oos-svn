@@ -103,8 +103,9 @@ if ($category_depth == 'nested') {
 
         if (isset($categories) && strpos('_', $categories)) {
             // check to see if there are deeper categories within the current category
-            $category_links = array_reverse($aCategoryPath);
-            for ($i=0, $n=count($category_links); $i<$n; $i++) {
+            $aCategoryLinks = array_reverse($aCategoryPath);
+            $nArrayCountCategoryLinks = count($aCategoryLinks);
+            for ($i=0, $n=$nArrayCountCategoryLinks; $i<$n; $i++) {
                 $categoriestable = $oostable['categories'];
                 $categories_descriptiontable = $oostable['categories_description'];
                 $sql = "SELECT c.categories_id, c.categories_image, c.parent_id, c.categories_status, cd.categories_name, p.parent_id as gparent_id
@@ -113,10 +114,10 @@ if ($category_depth == 'nested') {
                              $categories_descriptiontable cd
                         WHERE c.categories_status = '1'
                           AND ( c.access = '0' OR c.access = '" . intval($nGroupID) . "' )
-                          AND c.parent_id = '" . intval($category_links[$i]) . "'
+                          AND c.parent_id = '" . intval($aCategoryLinks[$i]) . "'
                           AND c.categories_id = cd.categories_id
                           AND cd.categories_languages_id = '" .  intval($nLanguageID) . "'
-                          AND p.categories_id = '" . intval($category_links[$i]) . "'
+                          AND p.categories_id = '" . intval($aCategoryLinks[$i]) . "'
                         ORDER BY c.sort_order, cd.categories_name";
                 $categories_result = $dbconn->Execute($sql);
                 if ($categories_result->RecordCount() < 1) {
@@ -148,11 +149,6 @@ if ($category_depth == 'nested') {
 
         while ($categories = $categories_result->fields) {
             $rows++;
-
-            if ( (!oos_is_not_null($categories['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
-                $categories_description = oos_get_categories_description($categories['categories_id']);
-                $categories = array_merge($categories, $categories_description);
-            }
 
             $categories_new = oos_get_path($categories['categories_id'], $categories['parent_id'], $categories['gparent_id']);
             $width = (int)(100 / MAX_DISPLAY_CATEGORIES_PER_ROW) . '%';
@@ -262,77 +258,24 @@ if ($category_depth == 'nested') {
 
     if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
 
-// create column list
-        $define_list = array('PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
-                             'PRODUCT_LIST_NAME' => PRODUCT_LIST_NAME,
+        // create column list
+        $aDefineList = array('PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
                              'PRODUCT_LIST_MANUFACTURER' => PRODUCT_LIST_MANUFACTURER,
                              'PRODUCT_LIST_UVP' => PRODUCT_LIST_UVP,
                              'PRODUCT_LIST_PRICE' => PRODUCT_LIST_PRICE,
                              'PRODUCT_LIST_QUANTITY' => PRODUCT_LIST_QUANTITY,
                              'PRODUCT_LIST_WEIGHT' => PRODUCT_LIST_WEIGHT,
                              'PRODUCT_LIST_IMAGE' => PRODUCT_LIST_IMAGE,
-                             'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW,
-                             'PRODUCT_LIST_SORT_ORDER' => PRODUCT_LIST_SORT_ORDER);
+                             'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW);
         asort($define_list);
+        $oSmarty->assign('define_list', $aDefineList);
+
 
         $column_list = array();
-        reset($define_list);
+        reset($aDefineList);
 
-        while (list($column, $value) = each($define_list)) {
-            if ($value) $column_list[] = $column;
-        }
-
-        $select_column_list = '';
-        $nArrayCountColumnList = count($column_list);
-        for ($col=0, $n=$nArrayCountColumnList; $col<$n; $col++) {
-            if ( ($column_list[$col] == 'PRODUCT_LIST_BUY_NOW')
-                  || ($column_list[$col] == 'PRODUCT_LIST_PRICE')
-                  || ($column_list[$col] == 'PRODUCT_LIST_UVP') ) {
-                continue;
-            }
-
-            if (oos_is_not_null($select_column_list)) {
-                $select_column_list .= ', ';
-            }
-
-            switch ($column_list[$col]) {
-                case 'PRODUCT_LIST_MODEL':
-                  $select_column_list .= 'p.products_model';
-                  break;
-
-                case 'PRODUCT_LIST_NAME':
-                  $select_column_list .= 'pd.products_name';
-                  break;
-
-                case 'PRODUCT_LIST_MANUFACTURER':
-                  $select_column_list .= 'm.manufacturers_name';
-                  break;
-
-                case 'PRODUCT_LIST_QUANTITY':
-                  $select_column_list .= 'p.products_quantity';
-                  break;
-
-                case 'PRODUCT_LIST_IMAGE':
-                  $select_column_list .= 'p.products_image';
-                  break;
-
-                case 'PRODUCT_LIST_WEIGHT':
-                  $select_column_list .= 'p.products_weight';
-                  break;
-
-                case 'PRODUCT_LIST_SORT_ORDER':
-                  $select_column_list .= 'p.products_sort_order';
-                  break;
-
-                default:
-                  $select_column_list .= "pd.products_name";
-                  break;
-
-            }
-        }
-
-        if (oos_is_not_null($select_column_list)) {
-           $select_column_list .= ', ';
+        foreach ($aDefineList as $column => $value) {
+           if ($value) $column_list[] = $column;
         }
 
 // show the products of a specified manufacturer
@@ -345,7 +288,7 @@ if ($category_depth == 'nested') {
                 $manufacturerstable = $oostable['manufacturers'];
                 $products_to_categoriestable = $oostable['products_to_categories'];
                 $specialstable = $oostable['specials'];
-                $listing_sql = "SELECT " . $select_column_list . " p.products_id, p.manufacturers_id,
+                $listing_sql = "SELECT p.products_id, p.products_model, p.products_image, p.products_quantity, p.products_weight, p.products_sort_order, p.manufacturers_id, pd.products_name,
                                        p.products_price, p.products_price_list, p.products_base_price, p.products_base_unit, p.products_quantity_order_min,
                                        p.products_discount_allowed, p.products_discount1, p.products_discount2, p.products_discount3,
                                        p.products_discount4, p.products_discount1_qty, p.products_discount2_qty, p.products_discount3_qty,
@@ -371,7 +314,7 @@ if ($category_depth == 'nested') {
                 $products_descriptiontable = $oostable['products_description'];
                 $manufacturerstable = $oostable['manufacturers'];
                 $specialstable = $oostable['specials'];
-                $listing_sql = "SELECT " . $select_column_list . " p.products_id, p.manufacturers_id,
+                $listing_sql = "SELECT p.products_id, p.products_model, p.products_image, p.products_quantity, p.products_weight, p.products_sort_order, p.manufacturers_id, pd.products_name,
                                        p.products_price, p.products_price_list, p.products_base_price, p.products_base_unit, p.products_quantity_order_min,
                                        p.products_discount_allowed, p.products_discount1, p.products_discount2, p.products_discount3,
                                        p.products_discount4, p.products_discount1_qty, p.products_discount2_qty, p.products_discount3_qty,
@@ -417,7 +360,7 @@ if ($category_depth == 'nested') {
                 $manufacturerstable = $oostable['manufacturers'];
                 $products_to_categoriestable = $oostable['products_to_categories'];
                 $specialstable = $oostable['specials'];
-                $listing_sql = "SELECT " . $select_column_list . " p.products_id, p.manufacturers_id,
+                $listing_sql = "SELECT p.products_id, p.products_model, p.products_image, p.products_quantity, p.products_weight, p.products_sort_order, p.manufacturers_id, pd.products_name,
                                        p.products_price, p.products_price_list, p.products_base_price, p.products_base_unit, p.products_quantity_order_min,
                                        p.products_discount_allowed, p.products_discount1, p.products_discount2, p.products_discount3,
                                        p.products_discount4, p.products_discount1_qty, p.products_discount2_qty, p.products_discount3_qty,
@@ -444,7 +387,7 @@ if ($category_depth == 'nested') {
                 $manufacturerstable = $oostable['manufacturers'];
                 $products_to_categoriestable = $oostable['products_to_categories'];
                 $specialstable = $oostable['specials'];
-                $listing_sql = "SELECT " . $select_column_list . " p.products_id, p.manufacturers_id,
+                $listing_sql = "SELECT p.products_id, p.products_model, p.products_image, p.products_quantity, p.products_weight, p.products_sort_order, p.manufacturers_id, pd.products_name,
                                        p.products_price, p.products_price_list, p.products_base_price, p.products_base_unit, p.products_quantity_order_min,
                                        p.products_discount_allowed, p.products_discount1, p.products_discount2, p.products_discount3,
                                        p.products_discount4, p.products_discount1_qty, p.products_discount2_qty, p.products_discount3_qty,
@@ -481,13 +424,8 @@ if ($category_depth == 'nested') {
         }
 
         if ( (!isset($_GET['sort'])) || (!ereg('[1-8][ad]', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($column_list)) ) {
-            for ($col=0, $n=count($column_list); $col<$n; $col++) {
-                if ($column_list[$col] == 'PRODUCT_LIST_NAME') {
-                    $_GET['sort'] = 'products_sort_order';
-                    $listing_sql .= " ORDER BY p.products_sort_order asc";
-                    break;
-                }
-            }
+          $_GET['sort'] = 'products_sort_order';
+          $listing_sql .= " ORDER BY p.products_sort_order, pd.products_name";
         } else {
             $sort_col = substr($_GET['sort'], 0 , 1);
             $sort_order = substr($_GET['sort'], 1);
@@ -496,10 +434,6 @@ if ($category_depth == 'nested') {
             switch ($column_list[$sort_col-1]) {
                 case 'PRODUCT_LIST_MODEL':
                   $listing_sql .= "p.products_model " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-                  break;
-
-                case 'PRODUCT_LIST_NAME':
-                  $listing_sql .= "pd.products_name " . ($sort_order == 'd' ? 'desc' : '');
                   break;
 
                 case 'PRODUCT_LIST_MANUFACTURER':
@@ -522,10 +456,6 @@ if ($category_depth == 'nested') {
                   $listing_sql .= "final_price " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
                   break;
 
-                case 'PRODUCT_LIST_SORT_ORDER':
-                  $listing_sql .= "p.products_sort_order " . ($sort_order == 'd' ? "desc" : '') . ", pd.products_name";
-                  break;
-
                 default:
                   $listing_sql .= "pd.products_name";
                   break;
@@ -546,7 +476,7 @@ if ($category_depth == 'nested') {
                 } else {
                     $arguments = 'categories=' . $categories;
                 }
-                $arguments .= '&amp;sort=' . $_GET['sort'];
+                $arguments .= '&amp;sort=' . oos_var_prep_for_os($_GET['sort']);
 
                 $option_url = oos_href_link($aModules['main'], $aFilename['shop'], $arguments);
 

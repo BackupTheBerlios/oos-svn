@@ -158,8 +158,7 @@
     // Search enhancement mod end
 
     // create column list
-    $define_list = array('PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
-                         'PRODUCT_LIST_NAME' => PRODUCT_LIST_NAME,
+    $aDefineList = array('PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
                          'PRODUCT_LIST_MANUFACTURER' => PRODUCT_LIST_MANUFACTURER,
                          'PRODUCT_LIST_UVP' => PRODUCT_LIST_UVP,
                          'PRODUCT_LIST_PRICE' => PRODUCT_LIST_PRICE,
@@ -167,59 +166,16 @@
                          'PRODUCT_LIST_WEIGHT' => PRODUCT_LIST_WEIGHT,
                          'PRODUCT_LIST_IMAGE' => PRODUCT_LIST_IMAGE,
                          'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW);
-    asort($define_list);
+    asort($aDefineList);
 
     $column_list = array();
-    reset($define_list);
-    while (list($column, $value) = each($define_list)) {
-      if ($value) $column_list[] = $column;
+    reset($aDefineList);
+    foreach ($aDefineList as $column => $value) {
+       if ($value) $column_list[] = $column;
     }
 
-    $select_column_list = '';
 
-    for ($col=0, $n=count($column_list); $col<$n; $col++) {
-      if ( ($column_list[$col] == 'PRODUCT_LIST_BUY_NOW')
-          || ($column_list[$col] == 'PRODUCT_LIST_NAME')
-          || ($column_list[$col] == 'PRODUCT_LIST_PRICE') ) {
-        continue;
-      }
-
-      if (oos_is_not_null($select_column_list)) {
-        $select_column_list .= ', ';
-      }
-
-      switch ($column_list[$col]) {
-        case 'PRODUCT_LIST_MODEL':
-          $select_column_list .= 'p.products_model';
-          break;
-
-        case 'PRODUCT_LIST_MANUFACTURER':
-          $select_column_list .= 'm.manufacturers_name';
-          break;
-
-        case 'PRODUCT_LIST_QUANTITY':
-          $select_column_list .= 'p.products_quantity';
-          break;
-
-        case 'PRODUCT_LIST_IMAGE':
-          $select_column_list .= 'p.products_image';
-          break;
-
-        case 'PRODUCT_LIST_WEIGHT':
-          $select_column_list .= 'p.products_weight';
-          break;
-
-        default:
-          $select_column_list .= "pd.products_name";
-          break;
-      }
-    }
-
-    if (oos_is_not_null($select_column_list)) {
-      $select_column_list .= ', ';
-    }
-
-    $select_str = "SELECT DISTINCT " . $select_column_list . " m.manufacturers_id, p.products_id, pd.products_name,
+    $select_str = "SELECT DISTINCT pd.products_name, p.products_model, m.manufacturers_name, p.products_quantity, p.products_image, p.products_weight, m.manufacturers_id, p.products_id, pd.products_name,
                           p.products_discount1, p.products_discount2, p.products_discount3, p.products_discount4,
                           p.products_discount1_qty, p.products_discount2_qty, p.products_discount3_qty,
                           p.products_discount4_qty, p.products_tax_class_id, p.products_units_id, p.products_quantity_order_min,
@@ -342,13 +298,10 @@
     }
 
     if ( (!isset($_GET['sort'])) || (!ereg('[1-8][ad]', $_GET['sort'])) || (substr($_GET['sort'], 0 , 1) > count($column_list)) ) {
-      for ($col=0, $n=count($column_list); $col<$n; $col++) {
-        if ($column_list[$col] == 'PRODUCT_LIST_NAME') {
-          $_GET['sort'] = $col+1 . 'a';
-          $order_str = ' ORDER BY pd.products_name';
-          break;
-        }
-      }
+// Todo ceck $col = 1
+       $col = 0
+       $_GET['sort'] = $col+1 . 'a';
+       $order_str = ' ORDER BY pd.products_name';
     } else {
       $sort_col = substr($_GET['sort'], 0 , 1);
       $sort_order = substr($_GET['sort'], 1);
@@ -415,6 +368,7 @@
 
     require 'includes/modules/product_listing.php';
 
+    $oSmarty->assign('define_list', $aDefineList);
     $oSmarty->assign('pw_mispell', $pw_mispell);
     $oSmarty->assign('pw_string', $pw_string);
     $oSmarty->assign('oos_get_all_get_params', oos_get_all_get_parameters(array('sort', 'page')));

@@ -49,7 +49,8 @@ if ($listing_numrows > 0) {
           $lc_align = '';
           break;
 
-        case 'PRODUCT_LIST_NAME':
+// todo
+case 'PRODUCT_LIST_NAME':
           $lc_text = $aLang['table_heading_products'];
           $lc_align = '';
           break;
@@ -134,7 +135,8 @@ if ($listing_numrows > 0) {
               $lc_text = '&nbsp;' . $listing['products_model'] . '&nbsp;';
               break;
 
-            case 'PRODUCT_LIST_NAME':
+// todo
+case 'PRODUCT_LIST_NAME':
               $lc_align = '';
               if (isset($_GET['manufacturers_id'])) {
                 $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>';
