@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: checkout_payment_address.php,v 1.7 2003/02/13 04:23:22 hpdl 
+   File: checkout_payment_address.php,v 1.7 2003/02/13 04:23:22 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -56,7 +56,7 @@ function rowOutEffect(object) {
 
 function check_form() {
   var error = 0;
-  var error_message = "<?php echo $aLang['js_error']; ?>";
+  var error_message = "<?php echo decode($aLang['js_error']); ?>";
 
   var firstname = document.checkout_address.firstname.value;
   var lastname = document.checkout_address.lastname.value;
