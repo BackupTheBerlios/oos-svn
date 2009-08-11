@@ -13,14 +13,24 @@ $daysToCompute = 5;
 
 //-----------------------------------------------------------------------------
 error_reporting(E_ALL|E_NOTICE);
-define('PIWIK_INCLUDE_PATH', '..');
+if(file_exists('../bootstrap.php'))
+{
+	require_once '../bootstrap.php';
+}
+if(!defined('PIWIK_INCLUDE_PATH'))
+{
+	define('PIWIK_INCLUDE_PATH', '..');
+}
 ignore_user_abort(true);
 set_time_limit(0);
 
-if((@include "Version.php") === false || !class_exists('Piwik_Version', false)) {
-	ini_set('include_path', PIWIK_INCLUDE_PATH . '/core'
-	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
+{
+	define('PIWIK_INCLUDE_SEARCH_PATH', PIWIK_INCLUDE_PATH . '/core'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+	@ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
+	@set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 }
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;

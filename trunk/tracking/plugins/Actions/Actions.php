@@ -4,12 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Actions.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Actions.php 1362 2009-08-04 14:03:17Z vipsoft $
  * 
  * @package Piwik_Actions
  */
 	
 /**
+ * Actions plugin
+ *
+ * Reports about the page views, the outlinks and downloads.
+ *
  * @package Piwik_Actions
  */
 class Piwik_Actions extends Piwik_Plugin

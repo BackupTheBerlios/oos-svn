@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Pattern.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Pattern.php 1377 2009-08-08 21:19:47Z vipsoft $
  * 
  * @package Piwik_DataTable
  */
@@ -34,7 +34,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	
 	static public function getPatternQuoted( $pattern )
 	{
-		return "/". str_replace('/','\/', $pattern) ."/";
+		return '/'. str_replace('/', '\/', $pattern) .'/';
 	}
 	
 	/*

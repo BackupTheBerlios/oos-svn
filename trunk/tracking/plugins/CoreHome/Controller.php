@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Controller.php 1337 2009-07-28 01:41:05Z vipsoft $
  * 
  * @package Piwik_CoreHome
  * 
@@ -31,12 +31,6 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		parent::redirectToIndex('CoreHome', 'index');
 	}
 	
-	protected function setGeneralVariablesView($view)
-	{
-		parent::setGeneralVariablesView($view);
-		$view->menu = Piwik_GetMenu();
-	}
-
 	public function showInContext()
 	{
 		$controllerName = Piwik_Common::getRequestVar('moduleToLoad');
@@ -51,6 +45,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View('CoreHome/templates/index.tpl');
 		$this->setGeneralVariablesView($view);
+		$view->menu = Piwik_GetMenu();
 		$view->content = '';
 		return $view;
 	}

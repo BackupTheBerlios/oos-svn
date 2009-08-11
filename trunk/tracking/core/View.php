@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: View.php 1297 2009-07-08 04:58:45Z vipsoft $
+ * @version $Id: View.php 1375 2009-08-08 06:52:41Z vipsoft $
  * 
  * @package Piwik_Visualization
  */
@@ -20,7 +20,7 @@ class Piwik_View implements Piwik_iView
 	private $smarty = false;
 	private $variables = array();
 	
-	public function __construct( $templateFile, $smConf = array())
+	public function __construct( $templateFile, $smConf = array(), $filter = true )
 	{
 		$this->template = $templateFile;
 		$this->smarty = new Piwik_Smarty();
@@ -50,9 +50,12 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->error_reporting = $smConf->error_reporting;
 
 		$this->smarty->assign('tag', 'piwik=' . Piwik_Version::VERSION);
-		$this->smarty->load_filter('output', 'cachebuster');
+		if($filter)
+		{
+			$this->smarty->load_filter('output', 'cachebuster');
 
-		$this->smarty->load_filter('output', 'trimwhitespace');
+			$this->smarty->load_filter('output', 'trimwhitespace');
+		}
 		
 		// global value accessible to all templates: the piwik base URL for the current request
 		$this->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();

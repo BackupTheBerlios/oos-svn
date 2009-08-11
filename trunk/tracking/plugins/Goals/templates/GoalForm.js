@@ -19,10 +19,19 @@ function showEditGoals()
 function initGoalForm(goalMethodAPI, submitText, goalName, matchAttribute, pattern, patternType, caseSensitive, revenue, goalId)
 {
 	$('#goal_name').val(goalName);
-	$('input[@name=match_attribute][value='+matchAttribute+']').attr('checked', true);
+	if(matchAttribute == 'manually') {
+		$('select[name=trigger_type] option[value=manually]').attr('selected', true);
+		$('input[name=match_attribute]').attr('disabled', true);
+		$('#match_attribute_section').hide();
+		$('#manual_trigger_section').show();
+		matchAttribute = 'url';
+	} else {
+		$('select[name=trigger_type] option[value=visitors]').attr('selected', true);
+	}
+	$('input[name=match_attribute][value='+matchAttribute+']').attr('checked', true);
 	$('#match_attribute_name').html(mappingMatchTypeName[matchAttribute]);
 	$('#examples_pattern').html(mappingMatchTypeExamples[matchAttribute]);
-	$('option[value='+patternType+']').attr('selected', true);
+	$('select[name=pattern_type] option[value='+patternType+']').attr('selected', true);
 	$('input[name=pattern]').val(pattern);
 	$('#case_sensitive').attr('checked', caseSensitive);
 	$('input[name=revenue]').val(revenue);
@@ -38,9 +47,23 @@ function initAndShowAddGoalForm()
 	initGoalForm('Goals.addGoal', 'Add Goal', '', 'url', '', 'contains', false, '0');
 	return showAddNewGoal(); 
 }
+
 function bindGoalForm()
 {
-	$('input[@name=match_attribute]').click( function() {
+	$('select[name=trigger_type]').click( function() {
+		var triggerTypeId = $(this).attr('value');
+		if(triggerTypeId == "manually") {
+			$('input[name=match_attribute]').attr('disabled', true);
+			$('#match_attribute_section').hide();
+			$('#manual_trigger_section').show();
+		} else {
+			$('input[name=match_attribute]').removeAttr('disabled');
+			$('#match_attribute_section').show();
+			$('#manual_trigger_section').hide();
+		}
+	});
+
+	$('input[name=match_attribute]').click( function() {
 		var matchTypeId = $(this).attr('value');
 		$('#match_attribute_name').html(mappingMatchTypeName[matchTypeId]);
 		$('#examples_pattern').html(mappingMatchTypeExamples[matchTypeId]);
@@ -70,12 +93,12 @@ function bindListGoalEdit()
 	
 	$('a[name=linkDeleteGoal]').click( function() {
 		var goalId = $(this).attr('id');
-		var goalName = 'test goal';//piwik.goals[goalId][name]
-		if(confirm(sprintf('Are you sure you want to delete the Goal %s?','"'+goalName+'"')))
+		var goal = piwik.goals[goalId];
+		if(confirm(sprintf("Are you sure you want to delete the Goal '%s'?", goal.name)))
 		{
 			$.ajax( getAjaxDeleteGoal( goalId ) );
-			return false;
 		}
+		return false;
 	});
 
 	$('a[name=linkEditGoals]').click( function(){ 
@@ -107,10 +130,18 @@ function getAjaxAddGoal()
 	
 	parameters.idSite = piwik.idSite;
 	parameters.name = encodeURIComponent( $('#goal_name').val() );
-	parameters.matchAttribute = $('input[name=match_attribute][checked]').val();
-	parameters.patternType = $('[name=pattern_type]').val();
-	parameters.pattern = encodeURIComponent( $('input[name=pattern]').val() );
-	parameters.caseSensitive = $('#case_sensitive').attr('checked') == true ? 1: 0;
+
+	if($('[name=trigger_type]').val() == 'manually') {
+		parameters.matchAttribute = 'manually';
+		parameters.patternType = 'regex';
+		parameters.pattern = '.*';
+		parameters.caseSensitive = 0;
+	} else {
+		parameters.matchAttribute = $('input[name=match_attribute][checked]').val();
+		parameters.patternType = $('[name=pattern_type]').val();
+		parameters.pattern = encodeURIComponent( $('input[name=pattern]').val() );
+		parameters.caseSensitive = $('#case_sensitive').attr('checked') == true ? 1: 0;
+	}
 	parameters.revenue = $('input[name=revenue]').val();
 	
  	parameters.idGoal =  $('input[name=goalIdUpdate]').val();

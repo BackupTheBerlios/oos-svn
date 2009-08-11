@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Dashboard.php 1287 2009-07-06 06:18:39Z vipsoft $
+ * @version $Id: Dashboard.php 1380 2009-08-09 03:28:00Z vipsoft $
  * 
  * @package Piwik_ExamplePlugin
  */
@@ -41,7 +41,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 
 	function css()
 	{
-		echo '<link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />';
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/Dashboard/templates/dashboard.css\" />\n";
 	}
 	
 	public function install()
@@ -49,7 +49,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 		// we catch the exception
 		try{
 			$sql = "CREATE TABLE ". Piwik::prefixTable('user_dashboard')." (
-					login VARCHAR( 20 ) NOT NULL ,
+					login VARCHAR( 100 ) NOT NULL ,
 					iddashboard INT NOT NULL ,
 					layout TEXT NOT NULL,
 					PRIMARY KEY ( login , iddashboard )

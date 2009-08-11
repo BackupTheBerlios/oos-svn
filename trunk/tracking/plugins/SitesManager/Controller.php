@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1039 2009-03-29 20:09:59Z matt $
+ * @version $Id: Controller.php 1337 2009-07-28 01:41:05Z vipsoft $
  * 
  * @package Piwik_SitesManager
  */
@@ -24,6 +24,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 			$site['alias_urls'] = Piwik_SitesManager_API::getSiteUrlsFromId($site['idsite']);
 		}
 		$view->adminSites = $sites;
+		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}

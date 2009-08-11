@@ -4,25 +4,32 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: piwik.php 1326 2009-07-23 19:07:20Z matt $
+ * @version $Id: piwik.php 1357 2009-08-02 18:54:21Z vipsoft $
  */
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false; 
-if(defined('PIWIK_ENABLE_TRACKING') && !PIWIK_ENABLE_TRACKING)
-{
-	return;
-}
 
 define('PIWIK_TRACKER_MODE', true);
 error_reporting(E_ALL|E_NOTICE);
-define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
+
+if(file_exists('bootstrap.php'))
+{
+	require_once 'bootstrap.php';
+}
+if(!defined('PIWIK_INCLUDE_PATH'))
+{
+	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
+}
+
 @ignore_user_abort(true);
 
-if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
+if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 {
-	ini_set('include_path', PIWIK_INCLUDE_PATH . '/core'
-	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+	define('PIWIK_INCLUDE_SEARCH_PATH', PIWIK_INCLUDE_PATH . '/core'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+	@ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
+	@set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 }
 
 require_once PIWIK_INCLUDE_PATH .'/libs/Event/Dispatcher.php';
@@ -43,8 +50,8 @@ session_cache_limiter('nocache');
 ob_start();
 if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 {	
-    require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 	@date_default_timezone_set(date_default_timezone_get());
+	require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 	require_once PIWIK_INCLUDE_PATH .'/core/ErrorHandler.php';
 	require_once PIWIK_INCLUDE_PATH .'/core/ExceptionHandler.php';
 	set_error_handler('Piwik_ErrorHandler');
@@ -55,7 +62,10 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	Piwik::createLogObject();
 }
 
-$process = new Piwik_Tracker();
-$process->main();
-ob_end_flush();
-printDebug($_COOKIE);
+if(!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING)
+{
+	$process = new Piwik_Tracker();
+	$process->main();
+	ob_end_flush();
+	printDebug($_COOKIE);
+}

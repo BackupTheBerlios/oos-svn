@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: LanguagesManager.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: LanguagesManager.php 1380 2009-08-09 03:28:00Z vipsoft $
  * 
  * @package Piwik_LanguageManager
  */
@@ -33,7 +33,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
 	function css()
 	{
-		echo '<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />';
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
 	}
 	
 	function showLanguagesSelector()
@@ -59,7 +59,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		// we catch the exception
 		try{
 			$sql = "CREATE TABLE ". Piwik::prefixTable('user_language')." (
-					login VARCHAR( 20 ) NOT NULL ,
+					login VARCHAR( 100 ) NOT NULL ,
 					language VARCHAR( 10 ) NOT NULL ,
 					PRIMARY KEY ( login )
 					)  DEFAULT CHARSET=utf8 " ;

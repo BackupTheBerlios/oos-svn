@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1224 2009-06-15 15:35:51Z vipsoft $
+ * @version $Id: API.php 1377 2009-08-08 21:19:47Z vipsoft $
  * 
  * @package Piwik_UsersManager
  */
@@ -210,7 +210,7 @@ class Piwik_UsersManager_API
 		$l = strlen($userLogin);
 		if(!($l >= $loginMinimumLength 
 				&& $l <= $loginMaximumLength
-				&& (preg_match('/^[A-Za-z0-9\_\.-]*$/', $userLogin) > 0))
+				&& (preg_match('/^[A-Za-z0-9_.-]*$/', $userLogin) > 0))
 		)
 		{
 			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));

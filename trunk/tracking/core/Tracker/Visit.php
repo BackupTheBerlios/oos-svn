@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Visit.php 1313 2009-07-20 04:33:36Z vipsoft $
+ * @version $Id: Visit.php 1377 2009-08-08 21:19:47Z vipsoft $
  * 
  * @package Piwik_Tracker
  */
@@ -50,8 +50,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $refererUrlParse;
 	protected $currentUrlParse;
 
-	function __construct()
+	function setRequest($requestArray)
 	{
+		$this->request = $requestArray;
+
 		$idsite = Piwik_Common::getRequestVar('idsite', 0, 'int', $this->request);
 		if($idsite <= 0)
 		{
@@ -59,15 +61,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		$this->idsite = $idsite;
 	}
-	function setRequest($requestArray)
-	{
-		$this->request = $requestArray;
-	}
 	
 	/**
-	 *	Main algorith to handle the visit. 
+	 *	Main algorithm to handle the visit. 
 	 *
-	 *  Once we have the visitor information, we have to define if the visit is a new or a known visit.
+	 *  Once we have the visitor information, we have to determine if the visit is a new or a known visit.
 	 * 
 	 * 1) When the last action was done more than 30min ago, 
 	 * 	  or if the visitor is new, then this is a new visit.
@@ -251,6 +249,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		// will be updated in cookie
 		$this->visitorInfo['time_spent_ref_action'] = $serverTime - $this->visitorInfo['visit_last_action_time'];
 		$this->visitorInfo['visit_last_action_time'] = $serverTime;
+
+		Piwik_PostEvent('Tracker.knownVisitorInformation', $this->visitorInfo);
 	}
 	
 	/**
@@ -279,10 +279,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$country = Piwik_Common::getCountry($userInfo['location_browser_lang'], $enableLanguageToCountryGuess = Piwik_Tracker_Config::getInstance()->Tracker['enable_language_to_country_guess']);	
 		$refererInfo = $this->getRefererInformation();
 		
-		// if the referer is Live! we check if the IP comes from microsoft 
+		// if the referer is Live! or Bing we check if the IP comes from microsoft 
 		// we don't count their cloak checks requests (which really is "Live referer spam") see #686
-		if($refererInfo['referer_name'] == "Live"
-			&& preg_match("/^65\.55/", long2ip($userInfo['location_ip'])))
+		if( in_array($refererInfo['referer_name'], array("Live", "Bing"))
+			&& preg_match('/^65\.55/', long2ip($userInfo['location_ip'])))
 		{
 			throw new Piwik_Tracker_Visit_Excluded("Spam Live bot, go away, you're making me cry");
 		}

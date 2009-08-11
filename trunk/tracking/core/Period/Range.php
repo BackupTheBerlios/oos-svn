@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Range.php 1287 2009-07-06 06:18:39Z vipsoft $
+ * @version $Id: Range.php 1377 2009-08-08 21:19:47Z vipsoft $
  * 
  * @package Piwik_Period
  */
@@ -141,7 +141,7 @@ class Piwik_Period_Range extends Piwik_Period
 			
 			$startDate = $this->removePeriod($endDate, $lastN);
 		}
-		elseif(preg_match('/([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}),([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2})/', $this->strDate, $regs))
+		elseif(preg_match('/([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})/', $this->strDate, $regs))
 		{
 			$strDateStart = $regs[1];
 			$strDateEnd = $regs[2];

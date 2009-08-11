@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: index.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: index.php 1357 2009-08-02 18:54:21Z vipsoft $
  * 
  * @package Piwik
  */
@@ -18,16 +18,23 @@ if(ini_get('session.save_handler') == 'user')
 	@ini_set('session.save_path', '');
 }
 
+if(file_exists('bootstrap.php'))
+{
+	require_once 'bootstrap.php';
+}
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
 }
+define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__));
 
-if((@include "Version.php") === false || !class_exists('Piwik_Version', false))
+if(!defined('PIWIK_INCLUDE_SEARCH_PATH'))
 {
-	ini_set('include_path', PIWIK_INCLUDE_PATH . '/core'
-	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
-	     . PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+	define('PIWIK_INCLUDE_SEARCH_PATH', PIWIK_INCLUDE_PATH . '/core'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/libs'
+		. PATH_SEPARATOR . PIWIK_INCLUDE_PATH . '/plugins');
+	@ini_set('include_path', PIWIK_INCLUDE_SEARCH_PATH);
+	@set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
@@ -37,6 +44,11 @@ require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 session_cache_limiter('nocache');
 @date_default_timezone_set(date_default_timezone_get());
 require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
+
+if(!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START)
+{
+	Zend_Session::start();
+}
 
 if(!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER)
 {

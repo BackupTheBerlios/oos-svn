@@ -4,10 +4,13 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FrontController.php 1321 2009-07-23 04:29:38Z vipsoft $
+ * @version $Id: FrontController.php 1381 2009-08-10 18:47:18Z vipsoft $
  * 
  * @package Piwik
  */
+
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
 
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
@@ -124,7 +127,7 @@ class Piwik_FrontController
 	
 	/**
 	 * Often plugins controller display stuff using echo/print.
-	 * Using this function instead of dispath() returns the output string form the actions calls.
+	 * Using this function instead of dispatch() returns the output string form the actions calls.
 	 *
 	 * @param string $controllerName
 	 * @param string $actionName
@@ -140,8 +143,8 @@ class Piwik_FrontController
 		{
 			$output = ob_get_contents();
 		}
-	    ob_end_clean();
-	    return $output;
+		ob_end_clean();
+		return $output;
 	}
 	
 	/**

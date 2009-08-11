@@ -4,10 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: API.php 1335 2009-07-27 02:23:37Z vipsoft $
  * 
  * @package Piwik_Provider
  */
+
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
 
 /**

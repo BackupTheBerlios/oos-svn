@@ -4,10 +4,13 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Visitor.php 1313 2009-07-20 04:33:36Z vipsoft $
+ * @version $Id: Visitor.php 1335 2009-07-27 02:23:37Z vipsoft $
  * 
  * @package Piwik_Live
  */
+
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';

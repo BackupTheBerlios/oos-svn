@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1270 2009-07-01 06:53:34Z vipsoft $
+ * @version $Id: API.php 1379 2009-08-09 01:44:51Z vipsoft $
  * 
  * @package Piwik_CorePluginsAdmin
  */
@@ -15,7 +15,7 @@ class Piwik_API extends Piwik_Plugin
 	{
 		return array(
 			'name' => 'API',
-			'description' => 'All the data in Piwik is available through simple APIs. This plugin is the web service entry point, that you can call to get your Web Analytics data in xml, json, php, csv, etc. Discover the <a href=http://dev.piwik.org/trac/wiki/API/Reference>Piwik APIs</a>.',
+			'description' => 'All the data in Piwik is available through simple APIs. This plugin is the web service entry point, that you can call to get your Web Analytics data in xml, json, php, csv, etc. Discover the <a href="http://dev.piwik.org/trac/wiki/API/Reference">Piwik APIs</a>.',
 			'author' => 'Piwik',
 			'homepage' => 'http://piwik.org/',
 			'version' => '0.1',

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Archive.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Archive.php 1377 2009-08-08 21:19:47Z vipsoft $
  * 
  * @package Piwik
  */
@@ -136,7 +136,7 @@ abstract class Piwik_Archive
 		elseif(is_string($strDate) 
 			&& (
 				preg_match('/^(last|previous){1}([0-9]*)$/', $strDate, $regs)
-				|| preg_match('/^([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}),([0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2})$/', $strDate, $regs)
+				|| preg_match('/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}),([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', $strDate, $regs)
 				)
 			)
 		{

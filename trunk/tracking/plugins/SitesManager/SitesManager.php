@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: SitesManager.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: SitesManager.php 1380 2009-08-09 03:28:00Z vipsoft $
  * 
  * @package Piwik_SitesManager
  */
@@ -38,7 +38,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	
 	function css()
 	{
-		echo '<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />';
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
 	}
 	
 	function recordWebsiteHostsInCache($notification)

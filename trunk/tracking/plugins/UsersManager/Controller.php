@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 870 2009-01-14 03:40:55Z matt $
+ * @version $Id: Controller.php 1337 2009-07-28 01:41:05Z vipsoft $
  * 
  * @package Piwik_UsersManager
  */
@@ -65,6 +65,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
 		$view->formUrl = Piwik_Url::getCurrentUrl();
 		$view->websites = Piwik_SitesManager_API::getSitesWithAdminAccess();
+		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}

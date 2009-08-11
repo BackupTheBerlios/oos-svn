@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Controller.php 1335 2009-07-27 02:23:37Z vipsoft $
  * 
  * @package Piwik_CoreHome
  * 
@@ -19,7 +19,11 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	{
 		$view = new Piwik_View($template);
 		$this->setGeneralVariablesView($view);
+
+		// layout was JSON.stringified
 		$layout = html_entity_decode($this->getLayout());
+		$layout = str_replace("\\\"", "\"", $layout);
+
 		if(!empty($layout)
 			&& strstr($layout, '[[') == false) {
 			$layout = "'$layout'";

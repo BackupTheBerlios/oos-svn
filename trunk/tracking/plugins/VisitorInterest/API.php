@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1158 2009-05-31 11:31:14Z matt $
+ * @version $Id: API.php 1346 2009-08-01 01:04:51Z vipsoft $
  * 
  * @package Piwik_VisitorInterest
  */
@@ -78,7 +78,7 @@ function Piwik_getDurationLabel($label)
 	}
 	$time = intval($label) / 60;
 	$plusXMin = Piwik_Translate('VisitorInterest_PlusXMin');
-	return sprintf($plusXMin, '+' . $time);
+	return sprintf($plusXMin, $time . urlencode('+'));
 }
 
 function Piwik_getPageGapLabel($label)

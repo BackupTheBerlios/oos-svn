@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GoalManager.php 1259 2009-06-28 05:59:07Z vipsoft $
+ * @version $Id: GoalManager.php 1366 2009-08-04 19:27:54Z vipsoft $
  * 
  * @package Piwik_Tracker
  */
@@ -83,6 +83,7 @@ class Piwik_Tracker_GoalManager
 			if(		($actionType == Piwik_Tracker_Action::TYPE_ACTION && $attribute != 'url')
 				||	($actionType == Piwik_Tracker_Action::TYPE_DOWNLOAD && $attribute != 'file')
 				||	($actionType == Piwik_Tracker_Action::TYPE_OUTLINK && $attribute != 'external_website')
+				||	($attribute == 'manually')
 				)
 			{
 				continue;

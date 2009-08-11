@@ -4,10 +4,13 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Updater.php 1319 2009-07-21 04:44:23Z vipsoft $
+ * @version $Id: Updater.php 1365 2009-08-04 16:01:05Z vipsoft $
  * 
  * @package Piwik
  */
+
+// no direct access
+defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
 
 require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
@@ -54,7 +57,7 @@ class Piwik_Updater
 	/**
 	 * Returns a list of components (core | plugin) that need to run through the upgrade process.
 	 *
-	 * @return array( componentName => array( updateFile1, [...]), [...])
+	 * @return array( componentName => array( file1 => version1, [...]), [...])
 	 */
 	public function getComponentsWithUpdateFile()
 	{
@@ -70,10 +73,25 @@ class Piwik_Updater
 	public function update($name)
 	{
 		$warningMessages = array();
-		foreach($this->componentsWithUpdateFile[$name] as $fileVersion => $file)
+		foreach($this->componentsWithUpdateFile[$name] as $file => $fileVersion)
 		{
 			try {
 				require_once $file; // prefixed by PIWIK_INCLUDE_PATH
+
+				if($name == 'core')
+				{
+					$className = 'Piwik_Updates_' . str_replace('.', '_', $fileVersion);
+				}
+				else
+				{
+					$className = 'Piwik_'. $name .'_Updates_' . str_replace('.', '_', $fileVersion);
+				}
+
+				if(class_exists($className, false))
+				{
+					call_user_func( array($className, 'update') );
+				}
+
 				$this->recordComponentSuccessfullyUpdated($name, $fileVersion);
 			} catch( Piwik_Updater_UpdateErrorException $e) {
 				throw $e;
@@ -88,7 +106,7 @@ class Piwik_Updater
 	}
 	
 	/**
-	 * @return array array( componentName => array( file1, [...]), [...])
+	 * @return array( componentName => array( file1 => version1, [...]), [...])
 	 */
 	private function loadComponentsWithUpdateFile()
 	{
@@ -100,11 +118,11 @@ class Piwik_Updater
 			
 			if($name == 'core')
 			{
-				$pathToUpdates = $this->pathUpdateFileCore . '*';
+				$pathToUpdates = $this->pathUpdateFileCore . '*.php';
 			}
 			else
 			{
-				$pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*';
+				$pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
 			}
 			
 			$files = glob( $pathToUpdates );
@@ -117,7 +135,7 @@ class Piwik_Updater
 				$fileVersion = basename($file, '.php');
 				if(version_compare($currentVersion, $fileVersion) == -1)
 				{
-					$componentsWithUpdateFile[$name][$fileVersion] = $file;
+					$componentsWithUpdateFile[$name][$file] = $fileVersion;
 				}
 			}
 			
@@ -194,6 +212,35 @@ class Piwik_Updater
 		}
 		return $componentsToUpdate;
 	}
+
+	/**
+	 * Performs database update(s)
+	 */
+	static function updateDatabase($file, $sqlarray)
+	{
+		foreach($sqlarray as $update => $ignoreError)
+		{
+			try {
+				Piwik_Query( $update );
+			} catch(Exception $e) {
+				if(($ignoreError === false) || !preg_match($ignoreError, $e->getMessage()))
+				{
+					$message =  $file .":\nError trying to execute the query '". $update ."'.\nThe error was: ". $e->getMessage();
+					throw new Piwik_Updater_UpdateErrorException($message);
+				}
+			}
+		}
+	}
 }
+
+// If you encountered an error during the database update:
+// - correct the source of the problem
+// - execute the remaining queries in the update that failed
+// - manually update the `option` table in your Piwik database, setting the value of version_core to the version of the failed update
+// - re-run the updater (through the browser or command-line) to continue with the remaining updates
+//
+// If the source of the problem is:
+// - insufficient memory:  increase memory_limit
+// - browser timeout: increase max_execution_time or run the updater from the command-line (shell)
 
 class Piwik_Updater_UpdateErrorException extends Exception {}

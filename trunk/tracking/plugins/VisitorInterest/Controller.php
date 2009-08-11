@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Controller.php 1345 2009-07-31 18:50:30Z vipsoft $
  * 
  * @package Piwik_VisitorInterest
  */
@@ -25,6 +25,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerVisitDuration" );
 		
 		$view->setColumnsToDisplay( array('label','nb_visits') );
+		$view->setSortedColumn( 'label', 'asc' );
 		$view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnVisitDuration'));
 		$view->disableSort();
 		$view->disableExcludeLowPopulation();

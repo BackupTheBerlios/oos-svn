@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Controller.php 1375 2009-08-08 06:52:41Z vipsoft $
  * 
  * @package Piwik_CoreUpdater
  */
@@ -130,6 +130,10 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private function oneClick_Copy()
 	{
 		Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
+		if(PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT)
+		{
+			Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT, true);
+		}
 		Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);
 	}
 	
@@ -142,53 +146,81 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		if(empty($componentsWithUpdateFile)) {
 			return;
 		}
-		if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
+		if(Piwik::isPhpCliMode())
 		{
-			$this->doExecuteUpdates($updater, $componentsWithUpdateFile);
+			@set_time_limit(0);
+
+			$view = new Piwik_View('CoreUpdater/templates/cli_update_welcome.tpl', null, false);
+			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
+
+			if(!$this->coreError)
+			{
+				$view = new Piwik_View('CoreUpdater/templates/cli_update_database_done.tpl', null, false);
+				$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
+			}
+		}
+		else if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
+		{
+			$view = new Piwik_View('CoreUpdater/templates/update_database_done.tpl');
+			$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 		}
 		else
 		{
-			$this->doWelcomeUpdates($componentsWithUpdateFile);
+			$view = new Piwik_View('CoreUpdater/templates/update_welcome.tpl');
+			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 		}
 		exit;
 	}
-	
-	private function doWelcomeUpdates($componentsWithUpdateFile)
+
+	private function doWelcomeUpdates($view, $componentsWithUpdateFile)
 	{
-		$view = new Piwik_View('CoreUpdater/templates/update_welcome.tpl');
 		$view->new_piwik_version = Piwik_Version::VERSION;
-		try {
-			$currentVersion = Piwik_GetOption('version_core');
-		} catch( Exception $e) {
-			$currentVersion = '<= 0.2.9';
-		}
-		$view->current_piwik_version = $currentVersion;
-	
+
 		$pluginNamesToUpdate = array();
 		$coreToUpdate = false;
-		foreach($componentsWithUpdateFile as $name => $filenames)
+
+		// handle case of existing database with no tables
+		$tablesInstalled = Piwik::getTablesInstalled();
+		if(count($tablesInstalled) == 0)
 		{
-			if($name == 'core')
-			{
-				$coreToUpdate = true;
+			$this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Zend_Registry::get('config')->database->dbname);
+			$this->coreError = true;
+			$currentVersion = 'N/A';
+		}
+		else
+		{
+			$this->errorMessages = array();
+			try {
+				$currentVersion = Piwik_GetOption('version_core');
+			} catch( Exception $e) {
+				$currentVersion = '<= 0.2.9';
 			}
-			else
+	
+			foreach($componentsWithUpdateFile as $name => $filenames)
 			{
-				$pluginNamesToUpdate[] = $name;
+				if($name == 'core')
+				{
+					$coreToUpdate = true;
+				}
+				else
+				{
+					$pluginNamesToUpdate[] = $name;
+				}
 			}
 		}
-
+		$view->coreError = $this->coreError;
+		$view->errorMessages = $this->errorMessages;
+		$view->current_piwik_version = $currentVersion;
 		$view->pluginNamesToUpdate = $pluginNamesToUpdate;
 		$view->coreToUpdate = $coreToUpdate; 
 		$view->clearCompiledTemplates();
 		echo $view->render();
 	}
 
-	private function doExecuteUpdates($updater, $componentsWithUpdateFile)
+	private function doExecuteUpdates($view, $updater, $componentsWithUpdateFile)
 	{
 		$this->loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile);
-		
-		$view = new Piwik_View('CoreUpdater/templates/update_database_done.tpl');
+
 		$view->coreError = $this->coreError;
 		$view->warningMessages = $this->warningMessages;
 		$view->errorMessages = $this->errorMessages;

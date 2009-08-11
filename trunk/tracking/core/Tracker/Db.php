@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Db.php 1311 2009-07-19 15:09:27Z vipsoft $
+ * @version $Id: Db.php 1367 2009-08-05 03:51:03Z vipsoft $
  * 
  * @package Piwik_Tracker
  */
@@ -34,6 +34,10 @@ class Piwik_Tracker_Db
 		if(isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/')
 		{
 			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};unix_socket=${dbInfo['unix_socket']}";
+		}
+		else if ($dbInfo['port'][0] == '/')
+		{
+			$this->dsn = $driverName.":dbname=${dbInfo['dbname']};unix_socket=${dbInfo['port']}";
 		}
 		else
 		{

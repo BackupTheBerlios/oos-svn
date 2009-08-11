@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1204 2009-06-11 05:21:40Z vipsoft $
+ * @version $Id: API.php 1383 2009-08-10 23:56:34Z matt $
  * 
  * @package Piwik_VisitsSummary
  */
@@ -35,6 +35,11 @@ class Piwik_Goals_API
 		foreach($goals as &$goal)
 		{
 			unset($goal['idsite']);
+			if($goal['match_attribute'] == 'manually') {
+			    unset($goal['pattern']);
+			    unset($goal['pattern_type']);
+			    unset($goal['case_sensitive']);
+			}
 			$cleanedGoals[$goal['idgoal']] = $goal;
 		}
 		return $cleanedGoals;
