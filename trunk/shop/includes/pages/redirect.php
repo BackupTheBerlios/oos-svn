@@ -33,14 +33,14 @@ switch ($_GET['action']) {
                        oos_update_banner_click_count($_GET['goto']);
                        MyOOS_CoreApi::redirect($banner['banners_url']);
                    } else {
-                       MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+                       MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
                    }
                    break;
 
     case 'url':    if (isset($_GET['goto'])) {
                        MyOOS_CoreApi::redirect('http://' . $_GET['goto']);
                    } else {
-                       MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+                       MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
                    }
                    break;
 
@@ -66,7 +66,7 @@ switch ($_GET['action']) {
                                   $manufacturer_result = $dbconn->Execute($sql);
                                   if (!$manufacturer_result->RecordCount()) {
                                       // no url exists, return to the site
-                                      MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+                                      MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
                                   } else {
                                       $manufacturer = $manufacturer_result->fields;
                                       $manufacturers_infotable = $oostable['manufacturers_info'];
@@ -81,11 +81,11 @@ switch ($_GET['action']) {
 
                               MyOOS_CoreApi::redirect($manufacturer['manufacturers_url']);
                           } else {
-                              MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+                              MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
                           }
                           break;
 
-    default:       MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    default:       MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
                    break;
 }
 

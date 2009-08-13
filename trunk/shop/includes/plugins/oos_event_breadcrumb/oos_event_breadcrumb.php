@@ -59,17 +59,16 @@ class oos_event_breadcrumb
         $dbconn =& oosDBGetConn();
         $oostable =& oosDBGetTables();
 
-        $aFilename = oos_get_filename();
-        $aModules = oos_get_modules();
+        $aPages = oos_get_pages();
 
         // include the breadcrumb class and start the breadcrumb trail
         MyOOS_CoreApi::requireOnce('classes/class_breadcrumb.php');
         $oBreadcrumb = new breadcrumb();
 
         if (isset($_GET['file']) && ($_GET['file'] == $aFilename['main']) || !isset($_GET['file']) ){
-            $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aModules['main'], $aFilename['main']), bookmark);
+            $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']), bookmark);
         } else{
-            $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aModules['main'], $aFilename['main']));
+            $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']));
         }
 
         // add category names or the manufacturer name to the breadcrumb trail
@@ -90,9 +89,9 @@ class oos_event_breadcrumb
                 $categories = $dbconn->Execute($categories_sql);
                 if ($categories->RecordCount() > 0) {
                     if (isset($_GET['file']) && ($_GET['file'] == $aFilename['shop']) && ($nCount == 0) ){
-                        $oBreadcrumb->add($categories->fields['categories_name'], oos_href_link($aModules['main'], $aFilename['shop'], 'cPath=' . implode('_', array_slice($aCategoryPath, 0, ($i+1)))), bookmark);
+                        $oBreadcrumb->add($categories->fields['categories_name'], oos_href_link($aPages['shop'], 'categories=' . implode('_', array_slice($aCategoryPath, 0, ($i+1)))), bookmark);
                     } else {
-                        $oBreadcrumb->add($categories->fields['categories_name'], oos_href_link($aModules['main'], $aFilename['shop'], 'categories=' . implode('_', array_slice($aCategoryPath, 0, ($i+1)))));
+                        $oBreadcrumb->add($categories->fields['categories_name'], oos_href_link($aPages['shop'], 'categories=' . implode('_', array_slice($aCategoryPath, 0, ($i+1)))));
                     }
                 } else {
                     break;
@@ -108,8 +107,8 @@ class oos_event_breadcrumb
             $manufacturers = $dbconn->Execute($manufacturers_sql);
 
             if ($manufacturers->RecordCount() > 0) {
-                $oBreadcrumb->add($aLang['header_title_catalog'], oos_href_link($aModules['main'], $aFilename['shop']));
-                $oBreadcrumb->add($manufacturers->fields['manufacturers_name'], oos_href_link($aModules['main'], $aFilename['shop'], 'manufacturers_id=' . intval($_GET['manufacturers_id'])), bookmark);
+                $oBreadcrumb->add($aLang['header_title_catalog'], oos_href_link($aPages['shop']));
+                $oBreadcrumb->add($manufacturers->fields['manufacturers_name'], oos_href_link($aPages['shop'], 'manufacturers_id=' . intval($_GET['manufacturers_id'])), bookmark);
             }
         }
 

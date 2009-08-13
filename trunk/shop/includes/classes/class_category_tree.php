@@ -118,8 +118,7 @@ class oosCategoryTree
     {
         $result = $this->parent_group_start_string;
 
-        $aFilename = oos_get_filename();
-        $aModules = oos_get_modules();
+        $aPages = oos_get_pages();
 
         if (isset($this->data[$parent_id])) {
             foreach ($this->data[$parent_id] as $category_id => $category) {
@@ -129,7 +128,7 @@ class oosCategoryTree
                     $category_link = $category_id;
                 }
 
-                $sLink = '<a href="' . oos_href_link($aModules['main'], $aFilename['shop'], 'categories=' . $category_link) . '" title="' . $category['name'] . '">';
+                $sLink = '<a href="' . oos_href_link($aPages['shop'], 'categories=' . $category_link) . '" title="' . $category['name'] . '">';
 
 
                 $result .= $this->child_start_string;

@@ -21,8 +21,7 @@ function smarty_function_tooltip($params, &$smarty)
 
     require_once $smarty->_get_plugin_filepath('function','html_href_link');
 
-    $aModules = oos_get_modules();
-    $aFilename =  oos_get_filename();
+    $aPages = oos_get_pages();
 
 
     $basedir = OOS_IMAGES;

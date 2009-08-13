@@ -153,7 +153,7 @@ if ($category_depth == 'nested') {
             $categories_new = oos_get_path($categories['categories_id'], $categories['parent_id'], $categories['gparent_id']);
             $width = (int)(100 / MAX_DISPLAY_CATEGORIES_PER_ROW) . '%';
 
-            $categories_box .= '                <td align="center" class="smallText" style="width: ' . $width . '" valign="top"><a href="' . oos_href_link($aModules['main'], $aFilename['shop'], $categories_new) . '">';
+            $categories_box .= '                <td align="center" class="smallText" style="width: ' . $width . '" valign="top"><a href="' . oos_href_link($aPages['shop'], $categories_new) . '">';
 
             if (oos_is_not_null($categories['categories_image'])) {
                 $categories_box .= oos_image(OOS_IMAGES . $categories['categories_image'], $categories['categories_name'], SUBCATEGORY_IMAGE_WIDTH, SUBCATEGORY_IMAGE_HEIGHT) . '<br />';
@@ -478,7 +478,7 @@ if ($category_depth == 'nested') {
                 }
                 $arguments .= '&amp;sort=' . oos_var_prep_for_os($_GET['sort']);
 
-                $option_url = oos_href_link($aModules['main'], $aFilename['shop'], $arguments);
+                $option_url = oos_href_link($aPages['shop'], $arguments);
 
                 if (!isset($_GET['filter_id'])) {
                      $product_filter_select .= '<option value="' . $option_url . '" selected="selected">' . $aLang['text_all'] . '</option>';
@@ -489,7 +489,7 @@ if ($category_depth == 'nested') {
                 $product_filter_select .= '<option value="">---------------</option>';
                 while ($filterlist = $filterlist_result->fields)
                 {
-                    $option_url = oos_href_link($aModules['main'], $aFilename['shop'], $arguments . '&amp;filter_id=' . $filterlist['id']);
+                    $option_url = oos_href_link($aPages['shop'], $arguments . '&amp;filter_id=' . $filterlist['id']);
                     if (isset($_GET['filter_id']) && ($_GET['filter_id'] == $filterlist['id'])) {
                         $product_filter_select .= '<option value="' . $option_url . '" selected="selected">' . $filterlist['name'] . '</option>';
                     } else {
@@ -542,7 +542,7 @@ if ($category_depth == 'nested') {
 
 } else {
     // $category_depth = 'top';
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
 // display the template

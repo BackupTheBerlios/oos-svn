@@ -236,8 +236,8 @@
 
       if ( ($result == false) || ($result < 1) ) {
         $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&cc_owner=' . urlencode($_POST['cc_owner']) . '&cc_expires_month=' . $_POST['cc_expires_month'] . '&cc_expires_year=' . $_POST['cc_expires_year'];
-        $aFilename = oos_get_filename();
-        $aModules = oos_get_modules();
+
+        $aPages = oos_get_pages();
         MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
 

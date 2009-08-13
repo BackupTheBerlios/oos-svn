@@ -52,8 +52,7 @@
 
     function create_plugin_instance() {
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
 
       if ( ($_GET['file'] != $aFilename['login'])
         && !isset($_SESSION['customer_id']) ) {

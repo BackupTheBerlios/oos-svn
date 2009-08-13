@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!$oEvent->installed_plugin('reviews')) {
     $_SESSION['navigation']->remove_current_page();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
 if (!isset($_SESSION['customer_id'])) {
@@ -40,7 +40,7 @@ if (isset($_GET['products_id'])) {
    $get_parameters = 'products_id=' . oos_var_prep_for_os($_POST['products_id']);
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_POST['products_id']);
 } else {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
 require 'includes/languages/' . $sLanguage . '/reviews_product_write.php';

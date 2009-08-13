@@ -110,8 +110,7 @@
 
       $worldpay_cardId = oos_session_name() . '=' . oos_session_id();
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
 
       $callback_url = oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL', true);
       $worldpay_callback = explode('http://', $callback_url);
@@ -172,8 +171,7 @@
         $error = $aLang['module_payment_worldpay_text_error_1'];
         $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error);
 
-        $aFilename = oos_get_filename();
-        $aModules = oos_get_modules();
+        $aPages = oos_get_pages();
 
         MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }

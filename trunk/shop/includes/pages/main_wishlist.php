@@ -38,7 +38,7 @@ $wishlist_split = new splitPageResults($_GET['page'], MAX_DISPLAY_WISHLIST_PRODU
 $wishlist_result = $dbconn->Execute($wishlist_result_raw);
 
 if (!$wishlist_result->RecordCount()) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main'], '', 'NONSSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main'], '', 'NONSSL'));
 }
 
 
@@ -47,7 +47,7 @@ $sql = "SELECT customers_firstname, customers_lastname
         WHERE customers_wishlist_link_id = '" . oos_db_input($wlid) . "'";
 $customer_result = $dbconn->Execute($sql);
 if (!$customer_result->RecordCount()) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main'], '', 'NONSSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main'], '', 'NONSSL'));
 }
 $customer_info = $customer_result->fields;
 $customer = $customer_info['customers_firstname'] . ' ' . $customer_info['customers_lastname'] . ': ';

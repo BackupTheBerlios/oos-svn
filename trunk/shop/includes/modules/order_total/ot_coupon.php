@@ -104,8 +104,7 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
-    $aFilename = oos_get_filename();
-    $aModules = oos_get_modules();
+    $aPages = oos_get_pages();
 
     if ($_POST['gv_redeem_code']) {
       // get some info from the coupon table

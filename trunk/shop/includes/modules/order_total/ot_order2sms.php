@@ -32,7 +32,7 @@
 
     function sendSMS() {
 
-      $aFilename = oos_get_filename();
+      $aPages = oos_get_pages();
 
       if ((isset($_GET['file'])) && ($_GET['file'] == $aFilename['checkout_process'])) {
         $referer = OOS_HTTP_SERVER;

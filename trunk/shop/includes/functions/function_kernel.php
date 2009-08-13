@@ -1271,26 +1271,14 @@ function oos_string_to_int($sStr)
     return intval($sStr);
 }
 
-
 /**
- * Return $aFilename
+ * Return $aPages
  */
-function oos_get_filename()
+function oos_get_pages()
 {
-    GLOBAL $aFilename;
+    GLOBAL $aPages;
 
-    return $aFilename;
-}
-
-
-/**
- * Return $aModules
- */
-function oos_get_modules()
-{
-    GLOBAL $aModules;
-
-    return $aModules;
+    return $aPages;
 }
 
 

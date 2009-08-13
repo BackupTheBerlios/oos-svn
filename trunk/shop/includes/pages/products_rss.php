@@ -21,7 +21,7 @@
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
   if (DISPLAY_NEWSFEED != '1') {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
   }
 
   $newsfeedtable = $oostable['newsfeed'];
@@ -36,7 +36,7 @@
   $newsfeed_info_result = $dbconn->Execute($newsfeed_info_sql);
 
   if (!$newsfeed_info_result->RecordCount()) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
   } else {
     $newsfeed_info = $newsfeed_info_result->fields;
     $newsfeed_infotable = $oostable['newsfeed_info'];

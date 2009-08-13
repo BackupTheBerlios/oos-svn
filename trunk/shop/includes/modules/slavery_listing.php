@@ -151,7 +151,7 @@ case 'PRODUCT_LIST_NAME':
 
             case 'PRODUCT_LIST_MANUFACTURER':
               $lc_align = '';
-              $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['main'], $aFilename['shop'], 'manufacturers_id=' . $listing['manufacturers_id']) . '" title="' . $listing['manufacturers_name'] . '">' . $listing['manufacturers_name'] . '</a>&nbsp;';
+              $lc_text = '&nbsp;<a href="' . oos_href_link($aPages['shop'], 'manufacturers_id=' . $listing['manufacturers_id']) . '" title="' . $listing['manufacturers_name'] . '">' . $listing['manufacturers_name'] . '</a>&nbsp;';
               break;
 
             case 'PRODUCT_LIST_UVP':

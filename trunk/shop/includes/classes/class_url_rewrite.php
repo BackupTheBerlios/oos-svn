@@ -38,8 +38,7 @@ class url_rewrite{
 
         $url_array = explode('/', $path);
 
-        $aFilename = oos_get_filename();
-        $aModules = oos_get_modules();
+        $aPages = oos_get_pages();
 
         if ( (in_array('categories', $url_array)) || (in_array($aFilename['product_info'], $url_array) && in_array($aModules['products'], $url_array)) ) {
 

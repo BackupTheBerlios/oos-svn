@@ -16,7 +16,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 } else {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
 require 'includes/languages/' . $sLanguage . '/products_cross_sell.php';

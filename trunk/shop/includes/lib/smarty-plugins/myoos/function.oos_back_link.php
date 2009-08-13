@@ -22,8 +22,7 @@
 function smarty_function_oos_back_link($params, &$smarty)
 {
 
-  $aModules = oos_get_modules();
-  $aFilename =  oos_get_filename();
+  $aPages = oos_get_pages();
 
   if (count($_SESSION['navigation']->path)-2 > 0) {
     $back = count($_SESSION['navigation']->path)-2;
@@ -32,7 +31,7 @@ function smarty_function_oos_back_link($params, &$smarty)
     if (isset($_SERVER['HTTP_REFERER']) && strstr(HTTP_SERVER, $_SERVER['HTTP_REFERER'])) {
       $link = $_SERVER['HTTP_REFERER'];
     } else {
-      $link = oos_href_link($aModules['main'], $aFilename['main']);
+      $link = oos_href_link($aPages['main']);
     }
   }
 

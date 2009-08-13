@@ -55,8 +55,7 @@
   */
   function oos_secure_input() {
 
-    $aFilename = oos_get_filename();
-    $aModules = oos_get_modules();
+    $aPages = oos_get_pages();
 
    # Cross-Site Scripting attack defense - Sent by larsneo
    # some syntax checking against injected javascript
@@ -83,7 +82,7 @@
             (eregi("<[^>]*cookie*\"?[^>]*>", $secvalue)) ||
             (eregi("\"", $secvalue))
             ) {
-              MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+              MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
           }
         }
       }
@@ -106,7 +105,7 @@
             (eregi("<[^>]*cookie*\"?[^>]*>", $secvalue)) ||
             (eregi("<[^>]*meta*\"?[^>]*>", $secvalue))
             ) {
-               MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+               MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
           }
         }
       }
@@ -133,7 +132,7 @@
             (eregi("<[^>]*cookie*\"?[^>]*>", $secvalue)) ||
             (eregi("<[^>]*img*\"?[^>]*>", $secvalue))
             ) {
-               MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+               MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
           }
         }
       }

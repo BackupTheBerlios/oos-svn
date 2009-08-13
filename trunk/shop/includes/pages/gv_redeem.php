@@ -60,7 +60,7 @@ if ( (isset($_GET['gv_no']) && !empty($_GET['gv_no'])) ) {
         }
     }
 } else {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
 if ( (!$bError) && (isset($_SESSION['customer_id'])) ) {

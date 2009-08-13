@@ -26,7 +26,7 @@ if (count($_SESSION['navigation']->snapshot) > 0) {
     $origin_href = oos_href_link($_SESSION['navigation']->snapshot['modules'], $_SESSION['navigation']->snapshot['file'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
     $_SESSION['navigation']->clear_snapshot();
 } else {
-    $origin_href = oos_href_link($aModules['main'], $aFilename['main']);
+    $origin_href = oos_href_link($aPages['main']);
 }
 
 require 'includes/languages/' . $sLanguage . '/user_create_account_success.php';

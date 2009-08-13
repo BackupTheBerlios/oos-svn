@@ -34,8 +34,7 @@ require 'includes/functions/function_default.php';
 function oos_customer_greeting() {
     global $aLang;
 
-    $aFilename = oos_get_filename();
-    $aModules = oos_get_modules();
+    $aPages = oos_get_pages();
 
     $personal_text = '';
     if ( (isset($_SESSION['customer_lastname'])) && (ACCOUNT_GENDER == '1') ) {

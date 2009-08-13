@@ -56,8 +56,7 @@
       $dbconn =& oosDBGetConn();
       $oostable =& oosDBGetTables();
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
 
       if (!isset($_SESSION['language']) || isset($_GET['language'])) {
 

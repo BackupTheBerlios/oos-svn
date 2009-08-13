@@ -218,8 +218,7 @@ class GoogleSitemap
          $dbconn =& oosDBGetConn();
          $oostable =& oosDBGetTables();
 
-         $aFilename = oos_get_filename();
-         $aModules = oos_get_modules();
+         $aPages = oos_get_pages();
 
          $productstable  = $oostable['products'];
          $sql = "SELECT products_id as pID, products_date_added as date_added,
@@ -281,8 +280,7 @@ class GoogleSitemap
          $dbconn =& oosDBGetConn();
          $oostable =& oosDBGetTables();
 
-         $aFilename = oos_get_filename();
-         $aModules = oos_get_modules();
+         $aPages = oos_get_pages();
 
          $categoriestable = $oostable['categories'];
          $sql = "SELECT categories_id as cID, date_added, last_modified as last_mod
@@ -298,7 +296,7 @@ class GoogleSitemap
              $number = 0;
              while( $result = $categories_query->fields )
              {
-                 $location = oos_href_link($aModules['main'], $aFilename['shop'], 'categories=' . $this->GetFullcategories($result['cID']), 'NONSSL', false, true);
+                 $location = oos_href_link($aPages['shop'], 'categories=' . $this->GetFullcategories($result['cID']), 'NONSSL', false, true);
                  $lastmod = oos_is_not_null($result['last_mod']) ? $result['last_mod'] : $result['date_added'];
 
                  $changefreq = GOOGLE_SITEMAP_CAT_CHANGE_FREQ;

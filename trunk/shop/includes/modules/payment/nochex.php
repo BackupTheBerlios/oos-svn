@@ -97,8 +97,7 @@
     function process_button() {
       global $oOrder, $oCurrencies;
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
 
       $process_button_string = oos_draw_hidden_field('cmd', '_xclick') .
                                oos_draw_hidden_field('email', MODULE_PAYMENT_NOCHEX_ID) .

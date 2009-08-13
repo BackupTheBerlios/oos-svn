@@ -118,8 +118,7 @@
         $_SESSION['error_cart_msg'] = '';
       }
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
 
       // verify the browser user agent
       $http_user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';

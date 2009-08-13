@@ -33,7 +33,7 @@ if (!isset($_SESSION['customer_id'])) {
 }
 
 if (oos_empty($_SESSION['member']->group['payment'])) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page

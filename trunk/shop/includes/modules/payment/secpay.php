@@ -119,8 +119,7 @@
           break;
       }
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
       $process_button_string = oos_draw_hidden_field('merchant', MODULE_PAYMENT_SECPAY_MERCHANT_ID) .
                                oos_draw_hidden_field('trans_id', STORE_NAME . date('Ymdhis')) .
                                oos_draw_hidden_field('amount', number_format($oOrder->info['total'] * $oCurrencies->get_value($sec_currency), $oCurrencies->currencies[$sec_currency]['decimal_places'], '.', '')) .
@@ -150,8 +149,7 @@
 
     function before_process() {
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+     $aPages = oos_get_pages();
 
       if ($_POST['valid'] == '1') {
         if ($remote_host = oos_server_get_var('REMOTE_HOST')) {

@@ -139,7 +139,7 @@ function oos_display_banner($action, $identifier)
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
-    $aFilename = oos_get_filename();
+    $aFilename = oos_get_pages();
     $aModules = oos_get_modules();
 
     if ($action == 'dynamic') {

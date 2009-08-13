@@ -208,8 +208,9 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
 
       if ( ($result == false) || ($result < 1) ) {
         $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&authorizenet_cc_owner=' . urlencode($_POST['authorizenet_cc_owner']) . '&authorizenet_cc_expires_month=' . $_POST['authorizenet_cc_expires_month'] . '&authorizenet_cc_expires_year=' . $_POST['authorizenet_cc_expires_year'];
-        $aFilename = oos_get_filename();
-        $aModules = oos_get_modules();
+
+        $aPages = oos_get_pages();
+
         MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
 
@@ -237,8 +238,7 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
       global $oOrder;
 
       $sequence = rand(1, 1000);
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
 
       $process_button_string = oos_draw_hidden_field('x_Login', MODULE_PAYMENT_AUTHORIZENET_LOGIN) .
                                oos_draw_hidden_field('x_Card_Num', $this->cc_card_number) .
@@ -277,8 +277,7 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
     function before_process() {
       global $aLang;
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
 
       if ($_POST['x_response_code'] == '1') return;
       if ($_POST['x_response_code'] == '2') {

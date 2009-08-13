@@ -15,7 +15,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 require 'includes/languages/' . $sLanguage . '/newsletters_unsubscribe_success.php';
 
-$origin_href = oos_href_link($aModules['main'], $aFilename['main']);
+$origin_href = oos_href_link($aPages['main']);
 
 
 // links breadcrumb

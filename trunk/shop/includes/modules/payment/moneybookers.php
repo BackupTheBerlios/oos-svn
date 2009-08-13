@@ -80,8 +80,8 @@
         $my_currency = 'EUR';
       }
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
+
       $process_button_string = oos_draw_hidden_field('pay_to_email', MODULE_PAYMENT_MONEYBOOKERS_ID) .
                                oos_draw_hidden_field('language', $my_language) .
                                oos_draw_hidden_field('amount', number_format($oOrder->info['total'] * $oCurrencies->get_value($my_currency), $oCurrencies->get_decimal_places($my_currency))) .

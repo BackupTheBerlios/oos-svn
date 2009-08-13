@@ -89,11 +89,11 @@ $login_result = $dbconn->Execute("SELECT man_key2, man_key3, status FROM $manual
 if (!$login_result->RecordCount()) {
     $manual_infotable = $oostable['manual_info'];
     $dbconn->Execute("UPDATE $manual_infotable SET man_key = '', man_key2 = '' WHERE man_info_id = '1' ");
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
 if (!isset($_GET['action']) && ($_GET['action'] != 'login_admin')) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 } else {
     $login_result_values = $login_result->fields;
 

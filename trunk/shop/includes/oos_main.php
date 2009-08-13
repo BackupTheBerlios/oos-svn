@@ -205,7 +205,7 @@ if ($_SESSION['member']->group['show_price'] == 1) {
     }
 
     $sPAngV .= (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ', <br />' : ', <br>');
-    $sPAngV .= sprintf($aLang['text_shipping'], oos_href_link($aModules['info'], $aFilename['information'], 'information_id=1'));
+    $sPAngV .= sprintf($aLang['text_shipping'], oos_href_link($aPages['information'], 'information_id=1'));
 }
 
 

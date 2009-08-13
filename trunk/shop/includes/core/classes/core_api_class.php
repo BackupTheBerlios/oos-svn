@@ -1186,9 +1186,8 @@ class MyOOS_CoreApi {
     function redirect($sUrl)
     {
         if ( ( strpos($sUrl, "\n") !== false ) || ( strpos($sUrl, "\r") !== false ) ) {
-            $aFilename = oos_get_filename();
-            $aModules = oos_get_modules();
-	        $sUrl = oos_href_link($aModules['main'], $aFilename['main'], null, 'NONSSL', false);
+            $aPages = oos_get_pages();
+	        $sUrl = oos_href_link($aPages['main'], null, 'NONSSL', false);
         }
 
         if ( strpos($sUrl, '&amp;') !== false ) {

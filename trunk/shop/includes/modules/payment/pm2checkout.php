@@ -144,8 +144,9 @@
 
       if ( ($result == false) || ($result < 1) ) {
         $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&pm_2checkout_cc_owner_firstname=' . urlencode($_POST['pm_2checkout_cc_owner_firstname']) . '&pm_2checkout_cc_owner_lastname=' . urlencode($_POST['pm_2checkout_cc_owner_lastname']) . '&pm_2checkout_cc_expires_month=' . $_POST['pm_2checkout_cc_expires_month'] . '&pm_2checkout_cc_expires_year=' . $_POST['pm_2checkout_cc_expires_year'];
-        $aFilename = oos_get_filename();
-        $aModules = oos_get_modules();
+
+        $aPages = oos_get_pages();
+
         MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
 
@@ -172,8 +173,7 @@
     function process_button() {
       global $oOrder;
 
-      $aFilename = oos_get_filename();
-      $aModules = oos_get_modules();
+      $aPages = oos_get_pages();
 
       $process_button_string = oos_draw_hidden_field('x_login', MODULE_PAYMENT_2CHECKOUT_LOGIN) .
                                oos_draw_hidden_field('x_amount', number_format($oOrder->info['total'], 2)) .
@@ -208,8 +208,7 @@
       global $aLang;
 
       if ($_POST['x_response_code'] != '1') {
-        $aFilename = oos_get_filename();
-        $aModules = oos_get_modules();
+        $aPages = oos_get_pages();
         $_SESSION['error_message'] = $aLang['module_payment_2checkout_text_error_message'];
         MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
       }
