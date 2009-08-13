@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: create_account_process.php 305 2009-07-13 17:33:27Z r23 $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
