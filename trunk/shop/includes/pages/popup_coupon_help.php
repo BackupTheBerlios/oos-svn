@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: popup_coupon_help.php 121 2009-03-28 08:49:02Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
