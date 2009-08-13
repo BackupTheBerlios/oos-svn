@@ -28,8 +28,7 @@
 {/literal}
 
 <form name="templateform" action="{html_get_link}" method="get">
-	<input type="hidden" name="mp" value="{$main_page}" />
-	<input type="hidden" name="file" value="{$page_file}" />
+	<input type="hidden" name="page" value="{$page_file}" />
 	<input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}" />
 	<input type="hidden" name="formid" value="{$formid}" />
 	<select name="template" onchange="showimage()">

@@ -8,7 +8,7 @@
 	{foreach item=order_products_history from=$order_history}
 		<p>
 			<a href="{product_info_link products_id=$order_products_history.products_id}" title="{$order_products_history.products_name}">{$order_products_history.products_name}</a>
-			<a href="{html_href_link modul=$main_page file=$page_file oos_get=$get_params action=cust_order pid=$order_products_history.products_id}">{html_image_button image="cart.gif" alt=$lang.icon_cart}</a>
+			<a href="{html_href_link page=$page_file oos_get=$get_params action=cust_order pid=$order_products_history.products_id}">{html_image_button image="cart.gif" alt=$lang.icon_cart}</a>
 		</p>
 	{/foreach}
 

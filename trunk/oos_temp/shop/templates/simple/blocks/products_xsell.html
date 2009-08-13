@@ -22,7 +22,7 @@
   {else}
     <td class="boxText"><a href="{product_info_link products_id=$xsell_products.products_id}">{$xsell_products.products_name|truncate:14:"":true|close_tags}</a></td>
   {/if}
-    <td class="boxText">{if $smarty.session.member->group.show_price eq 1 }<a href="{html_href_link modul=$main_page file=$page_file action=buy_now products_id=$xsell_products.products_id}">{html_image_button image="cart.gif" alt=$lang.icon_cart}</a>{/if}</td>
+    <td class="boxText">{if $smarty.session.member->group.show_price eq 1 }<a href="{html_href_link page=$page_file action=buy_now products_id=$xsell_products.products_id}">{html_image_button image="cart.gif" alt=$lang.icon_cart}</a>{/if}</td>
   </tr>
   <tr>
     <td colspan="3"><img src="{$theme_image}/trans.gif" alt=" " width="100%" height="3" /></td>
