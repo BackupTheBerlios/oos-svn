@@ -1,20 +1,11 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: directions.php 312 2009-07-21 14:59:24Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
    Copyright (c) 2003 - 2009 by the OOS Development Team.
-   ----------------------------------------------------------------------
-   Based on:
-
-   File: sitemap.php,v 1.1 2004/02/16 07:13:17 hpdl
-   ----------------------------------------------------------------------
-   osCommerce, Open Source E-Commerce Solutions
-   http://www.oscommerce.com
-
-   Copyright (c) 2001 - 2004 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -22,16 +13,13 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-require 'includes/languages/' . $sLanguage . '/info_sitemap.php';
-
-$aOption['template_main'] = $sTheme . '/system/sitemap.html';
+$aOption['template_main'] = $sTheme . '/modules/directions.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 
-$sGroup = trim($_SESSION['member']->group['text']);
-$contents_cache_id = $sTheme . '|info|' . $sGroup . '|sitemap|' . $sLanguage;
+$contents_cache_id = $sTheme . '|info|directions|' . $sLanguage;
 
 require 'includes/oos_system.php';
 if (!isset($option)) {
@@ -41,31 +29,33 @@ if (!isset($option)) {
 
 if ( (USE_CACHE == '1') && (!SID) ) {
     $oSmarty->caching = 2;
-    $oSmarty->cache_lifetime = 20 * 24 * 3600;
+    $oSmarty->cache_lifetime = 24 * 3600;
 }
 
 if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
 
-    MyOOS_CoreApi::requireOnce('classes/class_category_tree.php');
-
-    $oSitemap = new oosCategoryTree;
-    $oSitemap->setShowCategoryProductCount(false);
+    $sMapquest = 'http://www.mapquest.de/mq/maps/linkToMap.do?' .
+                 'address=' . urlencode(strtoupper(STORE_STREET_ADDRESS)) .
+                 '&amp;city=' . urlencode(strtoupper(STORE_CITY)) .
+                 '&amp;Postcode=' . urlencode(strtoupper(STORE_POSTCODE)) .
+                 '&amp;country=' . urlencode(strtoupper(STORE_ISO_639_2)) .
+                 '&amp;cid=lfmaplink';
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_sitemap']), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_directions']), bookmark);
 
     // assign Smarty variables;
     $oSmarty->assign(
         array(
             'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
             'oos_heading_title' => $aLang['heading_title'],
-            'oos_heading_image' => 'specials.gif'
+            'oos_heading_image' => 'specials.gif',
+
+            'mapquest'          => $sMapquest
         )
     );
 
-    $oSmarty->assign('sitemap', $oSitemap->buildTree());
 }
-
 $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));

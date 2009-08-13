@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: newsfeed.php 312 2009-07-21 14:59:24Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -9,9 +9,10 @@
    ----------------------------------------------------------------------
    Based on:
 
-   WebMakers.com Added: Down for Maintenance No Store
-   Written by Linda McGrath osCOMMERCE@WebMakers.com
-   http://www.thewebmakerscorner.com
+   osCommerce, Open Source E-Commerce Solutions
+   http://www.oscommerce.com
+
+   Copyright (c) 2001 - 2003 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -19,19 +20,19 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-if (!$oEvent->installed_plugin('down_for_maintenance')) {
+if (DISPLAY_NEWSFEED != '1') {
     $_SESSION['navigation']->remove_current_page();
     MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main']));
 }
 
-require 'includes/languages/' . $sLanguage . '/info_down_for_maintenance.php';
+require 'includes/languages/' . $sLanguage . '/info_newsfeed.php';
 
 $aOption['template_main'] = $sTheme . '/system/info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
-$contents_cache_id = $sTheme . '|down_for_maintenance|' . $sLanguage;
+$contents_cache_id = $sTheme . '|info|newsfeed|' . $sLanguage;
 
 require 'includes/oos_system.php';
 if (!isset($option)) {
@@ -41,13 +42,12 @@ if (!isset($option)) {
 
 if ( (USE_CACHE == '1') && (!SID) ) {
     $oSmarty->caching = 2;
-    $oSmarty->cache_lifetime = 3 * 3600;
+    $oSmarty->cache_lifetime = 30 * 24 * 3600;
 }
 
 if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
-
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_down_for_maintenance']), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_newsfeed']), bookmark);
 
     // assign Smarty variables;
     $oSmarty->assign(

@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: skype.php 312 2009-07-21 14:59:24Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -13,13 +13,13 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-$aOption['template_main'] = $sTheme . '/modules/directions.html';
+$aOption['template_main'] = $sTheme . '/modules/skype.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 
-$contents_cache_id = $sTheme . '|info|directions|' . $sLanguage;
+$contents_cache_id = $sTheme . '|info|skype|' . $sLanguage;
 
 require 'includes/oos_system.php';
 if (!isset($option)) {
@@ -33,16 +33,8 @@ if ( (USE_CACHE == '1') && (!SID) ) {
 }
 
 if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
-
-    $sMapquest = 'http://www.mapquest.de/mq/maps/linkToMap.do?' .
-                 'address=' . urlencode(strtoupper(STORE_STREET_ADDRESS)) .
-                 '&amp;city=' . urlencode(strtoupper(STORE_CITY)) .
-                 '&amp;Postcode=' . urlencode(strtoupper(STORE_POSTCODE)) .
-                 '&amp;country=' . urlencode(strtoupper(STORE_ISO_639_2)) .
-                 '&amp;cid=lfmaplink';
-
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_directions']), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_skype']), bookmark);
 
     // assign Smarty variables;
     $oSmarty->assign(
@@ -50,12 +42,11 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
             'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
             'oos_heading_title' => $aLang['heading_title'],
             'oos_heading_image' => 'specials.gif',
-
-            'mapquest'          => $sMapquest
         )
     );
 
 }
+
 $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));

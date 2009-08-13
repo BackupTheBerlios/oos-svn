@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: old_contact_us.php 312 2009-07-21 14:59:24Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -9,14 +9,12 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: max_order.php v1.00 2003/04/27 JOHNSON
+   File: contact_us.php,v 1.39 2003/02/14 05:51:15 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
 
-   Copyright (c) 2001 - 2003 osCommerce
-
-   Max Order - 2003/04/27 JOHNSON - Copyright (c) 2003 Matti Ressler - mattifinn@optusnet.com.au
+   Copyright (c) 2003 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -24,14 +22,28 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-require 'includes/languages/' . $sLanguage . '/info_max_order.php';
+require 'includes/languages/' . $sLanguage . '/main_contact_us.php';
 
-$_SESSION['navigation']->remove_current_page();
+$error = '0';
+
+if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
+
+    $name = oos_prepare_input($_POST['name']);
+    $email = oos_prepare_input($_POST['email']);
+    $enquiry = oos_prepare_input($_POST['enquiry']);
+
+    if (oos_validate_is_email(trim($email))) {
+        oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['email_subject'], $enquiry, $name, $email);
+        MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['contact_us'], 'action=success'));
+    } else {
+        $error = '1';
+    }
+}
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_max_order']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['main'], $aFilename['contact_us']), bookmark);
 
-$aOption['template_main'] = $sTheme .  '/system/info.html';
+$aOption['template_main'] = $sTheme . '/system/old_contact_us.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
@@ -48,9 +60,12 @@ $oSmarty->assign(
       array(
           'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
           'oos_heading_title' => $aLang['heading_title'],
-          'oos_heading_image' => 'contact_us.gif'
+          'oos_heading_image' => 'contact_us.gif',
+
+          'error'             => $error
       )
 );
+
 
 $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));

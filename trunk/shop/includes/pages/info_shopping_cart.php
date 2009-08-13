@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: info_shopping_cart.php 121 2009-03-28 08:49:02Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -9,30 +9,29 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: info_autologon.php,v 1.01 2002/10/08 12:00:00
+   File: info_shopping_cart.php,v 1.19 2003/02/13 03:01:48 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
 
-   Copyright (c) 2002 osCommerce
-   Copyright (c) 2002 HMCservices
+   Copyright (c) 2003 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
 $_SESSION['navigation']->remove_current_page();
 
-$aOption['info_autologon'] = $sTheme . '/system/info_autologon.html';
+$aOption['info_shopping_cart'] = $sTheme . '/system/info_shopping_cart.html';
 
 //smarty
 require 'includes/classes/class_template.php';
 $oSmarty =& new Template;
 
 $oSmarty->caching = true;
-$info_autologon_id = $sTheme . '|info_autologon|' . $sLanguage;
+$info_shopping_cart_id = $sTheme . '|info_shopping_cart|' . $sLanguage;
 
-if (!$oSmarty->is_cached($aOption['info_autologon'], $info_autologon_id )) {
-    require 'includes/languages/' . $sLanguage . '/main_info_autologon.php';
+if (!$oSmarty->is_cached($aOption['info_shopping_cart'], $info_shopping_cart_id )) {
+    require 'includes/languages/' . $sLanguage . '/main_info_shopping_cart.php';
 
     // assign Smarty variables;
     $oSmarty->assign('oos_base', (($request_type == 'SSL') ? OOS_HTTPS_SERVER : OOS_HTTP_SERVER) . OOS_SHOP);
@@ -42,5 +41,5 @@ if (!$oSmarty->is_cached($aOption['info_autologon'], $info_autologon_id )) {
 }
 
 // display the template
-$oSmarty->display($aOption['info_autologon'], $info_autologon_id);
+$oSmarty->display($aOption['info_shopping_cart'], $info_shopping_cart_id);
 
