@@ -17,8 +17,7 @@
 <form name="product_reviews_write" action="{html_get_link connection=SSL}" method="post" onSubmit="return checkForm();">
     <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
     <input type="hidden" name="formid" value="{$formid}">
-    <input type="hidden" name="mp" value="{$modules.reviews}">
-    <input type="hidden" name="file" value="{$filename.product_reviews_write}">
+    <input type="hidden" name="page" value="{$pages.product_reviews_write}">
     <input type="hidden" name="action" value="process">
     <input type="hidden" name="products_id" value="{$smarty.get.products_id}">
 

@@ -68,16 +68,16 @@
 			<a id="navigation" name="navigation"></a>
 			<div id="nav_main">
 				<ul>
-					<li {if $page_file eq $filename.main}id="current"{/if}><a href="{html_href_link page=$pages.main}">{$lang.header_title_top}</a></li>
-					<li {if $page_file eq $filename.info_sitemap}id="current"{/if}><a href="{html_href_link page=$pages.info_sitemap}">{$lang.block_service_sitemap}</a></li>
-					<li {if $page_file eq $filename.information}id="current"{/if}><a href="{html_href_link page=$pages.information information_id=4}" rel="nofollow">{$lang.block_information_imprint}</a></li>
+					<li {if $page_file eq $pages.main}id="current"{/if}><a href="{html_href_link page=$pages.main}">{$lang.header_title_top}</a></li>
+					<li {if $page_file eq $pages.info_sitemap}id="current"{/if}><a href="{html_href_link page=$pages.info_sitemap}">{$lang.block_service_sitemap}</a></li>
+					<li {if $page_file eq $pages.information}id="current"{/if}><a href="{html_href_link page=$pages.information information_id=4}" rel="nofollow">{$lang.block_information_imprint}</a></li>
 
 {if (isset($smarty.session.customer_id)) }
-					<li {if $page_file eq $filename.account_history}id="current"{/if}><a href="{html_href_link page=$pages.account_history connection=SSL}" rel="nofollow">{$lang.login_block_account_history}</a></li>
-					<li {if $page_file eq $filename.logoff}id="current"{/if}><a href="{html_href_link page=$pages.logoff connection=SSL}" rel="nofollow">{$lang.header_title_logoff}</a></li>
+					<li {if $page_file eq $pages.account_history}id="current"{/if}><a href="{html_href_link page=$pages.account_history connection=SSL}" rel="nofollow">{$lang.login_block_account_history}</a></li>
+					<li {if $page_file eq $pages.logoff}id="current"{/if}><a href="{html_href_link page=$pages.logoff connection=SSL}" rel="nofollow">{$lang.header_title_logoff}</a></li>
 {else}
-					<li {if $page_file eq $filename.create_account}id="current"{/if}><a href="{html_href_link page=$pages.create_account connection=SSL}" rel="nofollow">{$lang.login_block_new_customer}</a></li>
-					<li {if $page_file eq $filename.login}id="current"{/if}><a href="{html_href_link page=$pages.login connection=SSL}" rel="nofollow">{$lang.header_title_login}</a></li>
+					<li {if $page_file eq $pages.create_account}id="current"{/if}><a href="{html_href_link page=$pages.create_account connection=SSL}" rel="nofollow">{$lang.login_block_new_customer}</a></li>
+					<li {if $page_file eq $pages.login}id="current"{/if}><a href="{html_href_link page=$pages.login connection=SSL}" rel="nofollow">{$lang.header_title_login}</a></li>
 {/if}
                     <li {if $main_page eq $modules.checkout}id="current"{/if}><a href="{html_href_link page=$pages.checkout_shipping connection=SSL}" rel="nofollow">{$lang.header_title_checkout}</a></li>
 

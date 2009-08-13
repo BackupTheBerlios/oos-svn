@@ -115,8 +115,7 @@ if (efa_fontSize) efa_fontSize.efaInit();
     <TD ALIGN="RIGHT" VALIGN="TOP">
       <!-- start search -->
 <form name="quick_find" action="{html_href_link page=$pages.advanced_search_result}" method="get">
-<input type="hidden" name="mp" value="{$modules.search}">
-<input type="hidden" name="file" value="{$filename.advanced_search_result}">
+<input type="hidden" name="page" value="{$pages.advanced_search_result}">
 <input type="text" name="keywords" size="10" maxlength="30">
 <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
 {html_image_submit image="quick_find.gif" alt=$block_heading_search}

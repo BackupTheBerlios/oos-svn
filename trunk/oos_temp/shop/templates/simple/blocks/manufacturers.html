@@ -22,7 +22,7 @@
 {/foreach}
 {else}
 <form name="manufacturers" action="{html_get_link}" method="get">
- <input type="hidden" name="page" value="{$filename.shop}">
+ <input type="hidden" name="page" value="{$pages.shop}">
  <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
  <input type="hidden" name="formid" value="{$formid}">
  <select name="manufacturers_id" onChange="this.form.submit();" size="{$smarty.const.MAX_MANUFACTURERS_LIST}">{html_options values=$manufacturers_values selected=$select_manufacturers output=$manufacturers_names}</select>
