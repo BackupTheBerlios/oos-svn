@@ -16,9 +16,9 @@
 	<table width="100%"  border="0" cellspacing="3" cellpadding="0">
           <tr>
             <td align="center" class="boxText">
-<a href="{html_href_link modul=$modules.user file=$filename.customers_image connection=SSL}">{customers_image image=$myworld.customers_image}</a><br />
+<a href="{html_href_link page=$pages.customers_image connection=SSL}">{customers_image image=$myworld.customers_image}</a><br />
 <br />
-<a href="{html_href_link modul=$modules.user file=$filename.customers_image connection=SSL}">{$lang.edit_yourimage}</a></td>
+<a href="{html_href_link page=$pages.customers_image connection=SSL}">{$lang.edit_yourimage}</a></td>
           </tr>
   <tr>
     <td align="left" valign="top" class="boxText">
@@ -30,16 +30,16 @@
   </tr>
   <tr>
     <td>
-	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.user file=$filename.yourstore connection=SSL}">{$lang.text_yourstore}</a><br />
-	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.user file=$filename.account connection=SSL}">{$lang.login_block_my_account}</a><br />
-	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.user file=$filename.account_edit connection=SSL}">{$lang.login_block_account_edit}</a><br />
-	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.account file=$filename.account_history connection=SSL}">{$lang.login_block_account_history}</a><br />
-	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.account file=$filename.account_order_history connection=SSL}">{$lang.login_block_order_history}</a><br />
-	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.account file=$filename.account_address_book connection=SSL}">{$lang.login_block_address_book}</a><br />
+	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.yourstore connection=SSL}">{$lang.text_yourstore}</a><br />
+	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.account connection=SSL}">{$lang.login_block_my_account}</a><br />
+	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.account_edit connection=SSL}">{$lang.login_block_account_edit}</a><br />
+	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.account_history connection=SSL}">{$lang.login_block_account_history}</a><br />
+	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.account_order_history connection=SSL}">{$lang.login_block_order_history}</a><br />
+	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.account_address_book connection=SSL}">{$lang.login_block_address_book}</a><br />
 {if $oEvent->installed_plugin('notify')}
-	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.user file=$filename.product_notifications connection=SSL}">{$lang.login_block_product_notifications}</a><br />
+	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.product_notifications connection=SSL}">{$lang.login_block_product_notifications}</a><br />
 {/if}
-	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.user file=$filename.logoff connection=SSL}">{$lang.login_block_logoff}</a>
+	<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.logoff connection=SSL}">{$lang.login_block_logoff}</a>
 	</td>
   </tr>
 </table>

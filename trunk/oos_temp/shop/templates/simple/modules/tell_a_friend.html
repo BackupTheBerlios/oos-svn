@@ -30,13 +30,13 @@
         </table></td>
       </tr>
       <tr>
-        <td align="right" class="main"><br /><a href="{html_href_link modul=$modules.products file=$filename.product_info products_id=$smarty.get.products_id}">{html_image_button image="continue.gif" alt=$lang.image_button_continue}</a></td>
+        <td align="right" class="main"><br /><a href="{html_href_link page=$pages.product_info products_id=$smarty.get.products_id}">{html_image_button image="continue.gif" alt=$lang.image_button_continue}</a></td>
       </tr>
     {else}
       <tr>
         <td>
 
-<form name="email_friend" action="{html_href_link modul=$modules.tell_a_friend file=$filename.tell_a_friend action=process products_id=$smarty.get.products_id}" method="post">
+<form name="email_friend" action="{html_href_link page=$pages.tell_a_friend action=process products_id=$smarty.get.products_id}" method="post">
 	<input type="hidden" name="products_name" value="{$product_info.products_name}">
 	<input type="hidden" name="formid" value="{$formid}">
 

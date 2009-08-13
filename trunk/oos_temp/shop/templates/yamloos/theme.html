@@ -73,7 +73,7 @@
 					<li {if $page_file eq $filename.information}id="current"{/if}><a href="{html_href_link page=$pages.information information_id=4}" rel="nofollow">{$lang.block_information_imprint}</a></li>
 
 {if (isset($smarty.session.customer_id)) }
-					<li {if $page_file eq $filename.account_history}id="current"{/if}><a href="{html_href_link modul=$modules.account file=$filename.account_history connection=SSL}" rel="nofollow">{$lang.login_block_account_history}</a></li>
+					<li {if $page_file eq $filename.account_history}id="current"{/if}><a href="{html_href_link page=$pages.account_history connection=SSL}" rel="nofollow">{$lang.login_block_account_history}</a></li>
 					<li {if $page_file eq $filename.logoff}id="current"{/if}><a href="{html_href_link page=$pages.logoff connection=SSL}" rel="nofollow">{$lang.header_title_logoff}</a></li>
 {else}
 					<li {if $page_file eq $filename.create_account}id="current"{/if}><a href="{html_href_link page=$pages.create_account connection=SSL}" rel="nofollow">{$lang.login_block_new_customer}</a></li>

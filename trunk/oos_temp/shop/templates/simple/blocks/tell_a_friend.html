@@ -16,9 +16,8 @@
 	<table width="100%"  border="0" cellspacing="3" cellpadding="0">
   <tr>
     <td>
-<form name="tell_a_friend" action="{html_href_link modul=$modules.tell_a_friend file=$filename.tell_a_friend connection='NONSSL' add_session_id='0'}" method="get">
-<input type="hidden" name="mp" value="{$modules.tell_a_friend}">
-<input type="hidden" name="file" value="{$filename.tell_a_friend}">
+<form name="tell_a_friend" action="{html_href_link page=$pages.tell_a_friend connection='NONSSL' add_session_id='0'}" method="get">
+<input type="hidden" name="page" value="{$filename.tell_a_friend}">
 <input type="text" name="send_to" size="10">&nbsp;{html_image_submit image="tell_a_friend.gif" alt=$block_heading_tell_a_friend}
 <input type="hidden" name="products_id" value="{$tell_products_id}">
 <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">

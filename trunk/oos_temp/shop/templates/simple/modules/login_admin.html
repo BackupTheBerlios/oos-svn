@@ -18,7 +18,7 @@
 {if ( $login_result_values.man_key2 eq $newkey2 and $login_result_values.status != 0 ) }
     <tr>
       <td>
-<form name="login" method="post" action="{html_href_link modul=$modules.admin file=$filename.admin_login action=login_process connection=SSL}">
+<form name="login" method="post" action="{html_href_link page=$pages.admin_login action=login_process connection=SSL}">
 	<input type="hidden" name="formid" value="{$formid}">
 
 

@@ -187,7 +187,7 @@
         <td height="10"></td>
       </tr>
       <tr>
-        <td><a href="{html_href_link modul=$modules.checkout file=$filename.checkout_payment_address connection=SSL}">{html_image_button image="back.gif" alt=$lang.image_button_back}</a></td>
+        <td><a href="{html_href_link page=$pages.checkout_payment_address connection=SSL}">{html_image_button image="back.gif" alt=$lang.image_button_back}</a></td>
       </tr>
 {/if}
       <tr>
@@ -218,7 +218,7 @@
             </table></td>
           </tr>
           <tr>
-            <td align="center" width="25%" class="checkoutBarFrom"><a href="{html_href_link modul=$modules.checkout file=$filename.checkout_shipping connection=SSL}" class="checkoutBarFrom">{$lang.checkout_bar_delivery}</a></td>
+            <td align="center" width="25%" class="checkoutBarFrom"><a href="{html_href_link page=$pages.checkout_shipping connection=SSL}" class="checkoutBarFrom">{$lang.checkout_bar_delivery}</a></td>
             <td align="center" width="25%" class="checkoutBarCurrent">{$lang.checkout_bar_payment}</td>
             <td align="center" width="25%" class="checkoutBarTo">{$lang.checkout_bar_confirmation}</td>
             <td align="center" width="25%" class="checkoutBarTo">{$lang.checkout_bar_finished}</td>

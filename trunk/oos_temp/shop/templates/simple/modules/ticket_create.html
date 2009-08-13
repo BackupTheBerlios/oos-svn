@@ -17,7 +17,7 @@
             <td class="main">{$lang.text_your_ticket_id} {$smarty.get.tlid}</td>
           </tr>
           <tr>
-            <td class="main">{$lang.text_check_your_ticket}<br /><a href="{html_href_link modul=$modules.ticket file=$filename.ticket_view tlid=$smarty.get.tlid connection='NONSSL' add_session_id='0' search_engine_safe='0'}">{html_href_link modul=$modules.ticket file=$filename.ticket_view tlid=$smarty.get.tlid connection='NONSSL' add_session_id='0' search_engine_safe=flase}</a></td>
+            <td class="main">{$lang.text_check_your_ticket}<br /><a href="{html_href_link page=$pages.ticket_view tlid=$smarty.get.tlid connection='NONSSL' add_session_id='0' search_engine_safe='0'}">{html_href_link page=$pages.ticket_view tlid=$smarty.get.tlid connection='NONSSL' add_session_id='0' search_engine_safe=flase}</a></td>
           </tr>
           <tr>
             <td valign ="bottom" align="right"><br /><a href="{html_href_link page=$pages.main}">{html_image_button image="continue.gif" alt=$lang.image_button_continue}</a></td>
@@ -52,7 +52,7 @@
             </td>
             <td class="main" align="left" width="100%" valign="top" rowspan="2">
 {if (!isset($smarty.session.customer_id)) }
-      <a href="{html_href_link modul=$modules.ticket file=$filename.ticket_create login="yes"}">{$lang.text_login}</a>
+      <a href="{html_href_link page=$pages.ticket_create login="yes"}">{$lang.text_login}</a>
 {/if}
             &nbsp;</td>
           </tr>

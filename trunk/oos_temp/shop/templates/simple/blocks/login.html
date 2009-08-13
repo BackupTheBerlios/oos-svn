@@ -32,8 +32,8 @@
 {/if}
 {html_image_submit image="login.gif" border="0" alt=$lang.image_button_login}
 </form>
-<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.user file=$filename.create_account connection=SSL}">{$lang.login_block_new_customer}</a><br />
-<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.user file=$filename.password_forgotten connection=SSL}">{$lang.text_password_info}</a>
+<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.create_account connection=SSL}">{$lang.login_block_new_customer}</a><br />
+<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.password_forgotten connection=SSL}">{$lang.text_password_info}</a>
 	</td>
   </tr>
 </table>	</td>

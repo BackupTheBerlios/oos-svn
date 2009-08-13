@@ -13,8 +13,8 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="4" class="oos-BoxContents">
   <tr>
   {/if}
-    <td align="center" valign="top"><a href="{html_href_link modul=$modules.products file=$filename.product_info products_id=$history_products[i].products_id}">{html_oos_image basedir=$smarty.const.OOS_IMAGES image=$history_products[i].products_image alt=$history_products[i].products_name height=$smarty.const.SMALL_IMAGE_HEIGHT width=$smarty.const.SMALL_IMAGE_WIDTH}</a><br />
-    <a href="{html_href_link modul=$modules.products file=$filename.product_info products_id=$history_products[i].products_id}">{$history_products[i].products_name}</a></td>
+    <td align="center" valign="top"><a href="{html_href_link page=$pages.product_info products_id=$history_products[i].products_id}">{html_oos_image basedir=$smarty.const.OOS_IMAGES image=$history_products[i].products_image alt=$history_products[i].products_name height=$smarty.const.SMALL_IMAGE_HEIGHT width=$smarty.const.SMALL_IMAGE_WIDTH}</a><br />
+    <a href="{html_href_link page=$pages.product_info products_id=$history_products[i].products_id}">{$history_products[i].products_name}</a></td>
   {if $smarty.section.i.rownum is div by 3}
   </tr>
     <tr>
