@@ -16,7 +16,7 @@
  *         - products_id
  *
  * Examples: <{product_info_link products_id=17}>
- * Output:   http:// ... index.php?mp=products&amp;file=info&amp;products_id=17
+ * Output:   http:// ... index.php?page=product_info&amp;products_id=17
  * @author   r23 <info@r23.de>
  * @version  1.0
  * @param array
@@ -33,8 +33,7 @@ function smarty_function_product_info_link($params, &$smarty)
 
   $result = array();
   $link_params = array();
-  $link_params = array('modul' => $aModules['products'],
-                       'file' => $aFilename['product_info']);
+  $link_params = array('page' => $aPages['product_info']);
 
   if (is_array($params)) {
     $result = array_merge($link_params, $params);

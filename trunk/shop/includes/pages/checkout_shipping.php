@@ -41,7 +41,7 @@ if ($_SESSION['cart']->count_contents() < 1) {
 // check for maximum order
 if ($_SESSION['cart']->show_total() > 0) {
     if ($_SESSION['cart']->show_total() > $_SESSION['customer_max_order']) {
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['info'], $aFilename['info_max_order']));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['info_max_order']));
     }
 }
 

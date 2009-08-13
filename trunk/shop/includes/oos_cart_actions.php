@@ -384,7 +384,7 @@ MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
             $quickie_result = $dbconn->Execute("SELECT products_id FROM $productstable WHERE (products_model LIKE '%" . addslashes($quickie) . "%' OR products_ean LIKE '%" . addslashes($quickie) . "%')");
           }
           if ($quickie_result->RecordCount() != 1) {
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['search'], $aFilename['advanced_search_result'], 'keywords=' . $quickie, 'NONSSL'));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['advanced_search_result'], 'keywords=' . $quickie, 'NONSSL'));
           }
           $products_quickie = $quickie_result->fields;
 

@@ -502,7 +502,7 @@ if ($bError == true) {
 
             $email_text .= sprintf($aLang['email_gv_incentive_header'], $oCurrencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
                            sprintf($aLang['email_gv_redeem'], $coupon_code) . "\n\n" .
-                           $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $coupon_code, 'NONSSL', false, false) .
+                           $aLang['email_gv_link'] . oos_href_link($aPages['gv_redeem'], 'gv_no=' . $coupon_code, 'NONSSL', false, false) .
                            "\n\n";
         }
         if (NEW_SIGNUP_DISCOUNT_COUPON != '') {

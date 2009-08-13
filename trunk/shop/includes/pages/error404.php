@@ -41,7 +41,7 @@ if ( (USE_CACHE == '1') && (!SID) ) {
 if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['error'], $aFilename['error404']));
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['error404']));
 
     // assign Smarty variables;
     $oSmarty->assign(

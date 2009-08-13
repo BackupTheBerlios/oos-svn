@@ -57,7 +57,7 @@
 
         if ($_GET['mp'] != $aModules['user']) {
           $_SESSION['navigation']->set_snapshot();
-          MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
         }
       }
 

@@ -28,7 +28,7 @@ if (!$oEvent->installed_plugin('reviews')) {
 }
 
 if (!isset($_GET['reviews_id'])) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']));
 }
 
 require 'includes/languages/' . $sLanguage . '/reviews_product_info.php';
@@ -56,7 +56,7 @@ $sql = "SELECT rd.reviews_text, r.reviews_rating, r.reviews_id, r.products_id,
             AND p.products_id = pd.products_id
             AND pd.products_languages_id = '" . intval($nLanguageID) . "'";
 $reviews_result = $dbconn->Execute($sql);
-if (!$reviews_result->RecordCount()) MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews']));
+if (!$reviews_result->RecordCount()) MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']));
 $reviews = $reviews_result->fields;
 
 $dbconn->Execute("UPDATE " . $oostable['reviews'] . "
@@ -65,7 +65,7 @@ $dbconn->Execute("UPDATE " . $oostable['reviews'] . "
 
 // links breadcrumb
 $oBreadcrumb->add($reviews['products_name'], oos_href_link($aPages['product_info'], 'categories=' . $categories . '&amp;products_id=' . $reviews['products_id']));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['product_reviews'], $get_parameters), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['product_reviews'], $get_parameters), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/product_reviews_info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

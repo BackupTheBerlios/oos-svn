@@ -25,7 +25,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 // if the customer is not logged on, redirect them to the shopping cart page
 if (!isset($_SESSION['customer_id'])) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
 }
 
 require 'includes/languages/' . $sLanguage . '/checkout_success.php';

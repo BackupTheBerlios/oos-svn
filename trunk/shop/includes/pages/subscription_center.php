@@ -43,7 +43,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
         $dbconn->Execute("UPDATE $customerstable
                       SET customers_newsletter = '0'
                       WHERE customers_id = '" . $check_customer['customers_id'] . "'");
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_unsubscribe_success']));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['newsletters_unsubscribe_success']));
     } else {
         $maillisttable = $oostable['maillist'];
         $sql = "SELECT customers_firstname
@@ -55,13 +55,13 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
            $dbconn->Execute("UPDATE $maillisttable
                              SET customers_newsletter = '0'
                              WHERE customers_email_address = '" . oos_db_input($email_address) . "'");
-           MyOOS_CoreApi::redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_unsubscribe_success']));
+           MyOOS_CoreApi::redirect(oos_href_link($aPages['newsletters_unsubscribe_success']));
         }
     }
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['newsletters'], $aFilename['subscription_center'], 'email=nonexistent', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['subscription_center'], 'email=nonexistent', 'SSL'));
 } else {
 
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['newsletters'], $aFilename['newsletters']), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['newsletters']), bookmark);
 
     $aOption['template_main'] = $sTheme . '/modules/subscription_center.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

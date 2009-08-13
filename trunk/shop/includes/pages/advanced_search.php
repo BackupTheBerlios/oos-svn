@@ -42,7 +42,7 @@ function oos_get_manufacturers($aManufacturers = '') {
 require 'includes/languages/' . $sLanguage . '/search_advanced.php';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['search'], $aFilename['advanced_search']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['advanced_search']));
 
 ob_start();
 require 'js/advanced_search.js.php';

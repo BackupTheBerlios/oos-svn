@@ -21,7 +21,7 @@ if (!$oEvent->installed_plugin('gallery')) {
 require 'includes/languages/' . $sLanguage . '/info_gallery.php';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['info'], $aFilename['info_gallery']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['info_gallery']), bookmark);
 
 $aOption['template_main'] = $sTheme .  '/system/gallery.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

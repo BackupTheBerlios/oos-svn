@@ -93,14 +93,14 @@
         $products_description = substr($products_description, 0, 100) . '..';
 
         if ($oEvent->installed_plugin('sefu')) {
-          $schema .= '<item rdf:about="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php/mp/' . $aModules['products'] . '/file/' . $aFilename['product_info'] . '/products_id/' . $products['products_id'] . '">' .
+          $schema .= '<item rdf:about="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php/page/' . $aPages['product_info'] . '/products_id/' . $products['products_id'] . '">' .
                      '<title>' . htmlspecialchars($products['products_name']) . '</title>' .
-                     '<link>' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php/mp/' . $aModules['products'] . '/file/' . $aFilename['product_info'] . '/products_id/' . $products['products_id'] . '</link>' .
+                     '<link>' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php/page/' . $aPages['product_info'] . '/products_id/' . $products['products_id'] . '</link>' .
                      '<description>' . $products_description . '</description></item>';
         } else {
-          $schema .= '<item rdf:about="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $aModules['products'] . '&amp;file=' . $aFilename['product_info'] . '&amp;products_id=' . $products['products_id'] . '">' .
+          $schema .= '<item rdf:about="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aPages['product_info'] . '&amp;products_id=' . $products['products_id'] . '">' .
                      '<title>' . htmlspecialchars($products['products_name']) . '</title>' .
-                     '<link>' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $aModules['products'] . '&amp;file=' . $aFilename['product_info'] . '&amp;products_id=' . $products['products_id'] . '</link>' .
+                     '<link>' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aPages['product_info'] . '&amp;products_id=' . $products['products_id'] . '</link>' .
                      '<description>' . $products_description . '</description></item>';
 
         }

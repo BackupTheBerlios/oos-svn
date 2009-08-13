@@ -16,7 +16,7 @@
  *         - categories
  *
  * Examples: {categories_link categories=17}
- * Output:   http:// ... index.php?mp=mp&amp;file=shop&amp;categories=17
+ * Output:   http:// ... index.php?page=shop&amp;categories=17
  * @author   r23 <info@r23.de>
  * @version  1.0
  * @param array
@@ -33,8 +33,7 @@ function smarty_function_categories_link($params, &$smarty)
 
   $result = array();
   $link_params = array();
-  $link_params = array('modul' => $aModules['main'],
-                       'file' => $aFilename['shop']);
+  $link_params = array('page' => $aPages['shop']);
 
   if (is_array($params)) {
     $result = array_merge($link_params, $params);

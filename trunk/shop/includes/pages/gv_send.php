@@ -138,7 +138,7 @@ if ($action == 'process') {
             $gv_email .= stripslashes($message) . "\n\n";
         }
         $gv_email .= sprintf($aLang['email_gv_redeem'], $id1) . "\n\n";
-        $gv_email .= $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $id1, 'NONSSL', false, false);
+        $gv_email .= $aLang['email_gv_link'] . oos_href_link($aPages['gv_redeem'], 'gv_no=' . $id1, 'NONSSL', false, false);
         $gv_email .= "\n\n";
         $gv_email .= $aLang['email_gv_fixed_footer'] . "\n\n";
         $gv_email .= $aLang['email_gv_shop_footer'] . "\n\n";

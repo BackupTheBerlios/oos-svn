@@ -121,9 +121,6 @@ if (!$oSmarty->is_cached($aOption['popup_print'], $popup_cache_id )) {
 
         $oSmarty->assign(
               array(
-                  'filename'                        => $aFilename,
-                  'modules'                         => $aModules,
-
                   'request_type'                    => $request_type,
 
                   'theme_set'                       => $sTheme,

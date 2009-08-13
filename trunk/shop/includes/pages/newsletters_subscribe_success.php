@@ -19,7 +19,7 @@ $origin_href = oos_href_link($aPages['main']);
 $_SESSION['newsletter'] = 1;
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['newsletters'], $aFilename['newsletters']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['newsletters']), bookmark);
 $oBreadcrumb->add($aLang['navbar_title_2']);
 
 $aOption['template_main'] = $sTheme . '/modules/newsletters_subscribe_success.html';

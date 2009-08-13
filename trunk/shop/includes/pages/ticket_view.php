@@ -195,7 +195,7 @@ if (isset($tlid)) {
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['ticket'], $aFilename['ticket_create']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['ticket_create']), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/ticket_view.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
@@ -223,7 +223,7 @@ $oSmarty->assign(
           'tlid'                      => $tlid,
           'customers_tickets_numrows' => $customers_tickets_numrows,
           'ticket'                    => $ticket,
-          'text_view_ticket_login'    => sprintf($aLang['text_view_ticket_login'], oos_href_link($aModules['ticket'], $aFilename['ticket_view'], 'login=yes&amp;tlid=' . $tlid, 'SSL'), oos_href_link($aPages['create_account'], '', 'SSL'))
+          'text_view_ticket_login'    => sprintf($aLang['text_view_ticket_login'], oos_href_link($aPages['ticket_view'], 'login=yes&amp;tlid=' . $tlid, 'SSL'), oos_href_link($aPages['create_account'], '', 'SSL'))
      )
 );
 

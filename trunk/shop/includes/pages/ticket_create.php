@@ -161,16 +161,16 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
 
          // Email  Customer doesn't get the Message cause he should use the web
         $ticket_email_subject = $aLang['ticket_email_subject'] . $subject;
-        $ticket_email_message = $aLang['ticket_email_message_header'] . "\n\n" . oos_href_link($aModules['ticket'], $aFilename['ticket_view'], 'tlid=' . $ticket_link_id, 'NONSSL',false,false) . "\n\n" . $aLang['ticket_email_ticket_nr'] . " " . $ticket_link_id . "\n" . $aLang['ticket_email_message_footer'];
+        $ticket_email_message = $aLang['ticket_email_message_header'] . "\n\n" . oos_href_link($aPages['ticket_view'], 'tlid=' . $ticket_link_id, 'NONSSL',false,false) . "\n\n" . $aLang['ticket_email_ticket_nr'] . " " . $ticket_link_id . "\n" . $aLang['ticket_email_message_footer'];
         $ticket_email_message = decode($ticket_email_message);
         oos_mail($name, $email, $ticket_email_subject, nl2br($ticket_email_message), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, '3');
 
         // send emails to other people
         if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
-            // $ticket_email_message = $aLang['ticket_email_message_header'] . "\n\n" . oos_href_link($aModules['ticket'], $aFilename['ticket_view'], 'tlid=' . $ticket_link_id, 'NONSSL', false, false) . "\n\n" . $aLang['ticket_email_message_footer'] . "\n\n" . $enquiry;
+            // $ticket_email_message = $aLang['ticket_email_message_header'] . "\n\n" . oos_href_link($aPages['ticket_view'], 'tlid=' . $ticket_link_id, 'NONSSL', false, false) . "\n\n" . $aLang['ticket_email_message_footer'] . "\n\n" . $enquiry;
             oos_mail('', SEND_EXTRA_ORDER_EMAILS_TO, $ticket_email_subject,nl2br($ticket_email_message), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, '1');
         }
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['ticket'], $aFilename['ticket_create'], 'action=success&amp;tlid=' . $ticket_link_id ));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['ticket_create'], 'action=success&amp;tlid=' . $ticket_link_id ));
     }
 }
 
@@ -195,7 +195,7 @@ if (TICKET_USE_ORDER_IDS == '1' && isset($_SESSION['customer_id'])) {
 
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['ticket'], $aFilename['ticket_create']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['ticket_create']), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/ticket_create.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

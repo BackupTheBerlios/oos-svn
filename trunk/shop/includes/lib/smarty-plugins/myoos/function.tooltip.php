@@ -99,8 +99,7 @@ function smarty_function_tooltip($params, &$smarty)
     $image = '<img src='.$image.' align='.$align.' width='.$width.' height='.$height.'>';
 
     $link_params = array();
-    $link_params = array('modul' => $aModules['products'],
-                         'file' => $aFilename['product_info'],
+    $link_params = array('page' => $aPages['product_info'],
                          'products_id' => $params['products_id']);
 
     $link = smarty_function_html_href_link($link_params, $smarty);

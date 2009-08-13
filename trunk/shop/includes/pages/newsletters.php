@@ -35,7 +35,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
 
 
     if (!oos_validate_is_email($email_address)) {
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters'], 'email=nonexistent', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['newsletters'], 'email=nonexistent', 'SSL'));
     } else {
 
         $customerstable = $oostable['customers'];
@@ -51,7 +51,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
             $dbconn->Execute("UPDATE $customerstable
                               SET customers_newsletter = '1'
                               WHERE customers_id = '" . $check_customer['customers_id'] . "'");
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_subscribe_success']));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['newsletters_subscribe_success']));
         } else {
             $maillisttable = $oostable['maillist'];
             $sql = "SELECT customers_firstname
@@ -63,20 +63,20 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
                 $dbconn->Execute("UPDATE $maillisttable
                                   SET customers_newsletter = '1'
                                   WHERE customers_email_address = '" . oos_db_input($email_address) . "'");
-                MyOOS_CoreApi::redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_subscribe_success']));
+                MyOOS_CoreApi::redirect(oos_href_link($aPages['newsletters_subscribe_success']));
             } else {
                 $sql_data_array = array('customers_firstname' => $firstname,
                                         'customers_lastname' => $lastname,
                                         'customers_email_address' => $email_address,
                                         'customers_newsletter' => 1);
                 oos_db_perform($oostable['maillist'], $sql_data_array);
-                MyOOS_CoreApi::redirect(oos_href_link($aModules['newsletters'], $aFilename['newsletters_subscribe_success']));
+                MyOOS_CoreApi::redirect(oos_href_link($aPages['newsletters_subscribe_success']));
             }
         }
     }
 } else {
 
-    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['newsletters'], $aFilename['newsletters'], '', 'SSL'), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['newsletters'], '', 'SSL'), bookmark);
 
     $aOption['template_main'] = $sTheme . '/modules/newsletters.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

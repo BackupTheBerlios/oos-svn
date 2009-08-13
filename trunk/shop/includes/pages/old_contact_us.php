@@ -34,14 +34,14 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSI
 
     if (oos_validate_is_email(trim($email))) {
         oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['email_subject'], $enquiry, $name, $email);
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['contact_us'], 'action=success'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['contact_us'], 'action=success'));
     } else {
         $error = '1';
     }
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['main'], $aFilename['contact_us']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['contact_us']), bookmark);
 
 $aOption['template_main'] = $sTheme . '/system/old_contact_us.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

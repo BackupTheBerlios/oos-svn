@@ -77,10 +77,7 @@ $oSmarty->assign(
       array(
           'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
           'oos_heading_title' => $aLang['heading_title'],
-          'oos_heading_image' => 'man_on_board.gif',
-
-          'modules_default'   => $aModules['main'],
-          'file_default'      => $aFilename['main']
+          'oos_heading_image' => 'man_on_board.gif'
       )
 );
 
