@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: advanced_result.php 323 2009-07-29 13:42:17Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
