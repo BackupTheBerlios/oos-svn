@@ -153,20 +153,14 @@ $nLanguageID = isset($_SESSION['language_id']) ? $_SESSION['language_id']+0 : 1;
 $nGroupID = intval($_SESSION['member']->group['id']);
 
 // determine the page directory
-if (isset($_GET['mp'])) {
-    $sMp = oos_var_prep_for_os($_GET['mp']);
-} elseif (isset($_POST['mp'])) {
-    $sMp = oos_var_prep_for_os($_POST['mp']);
-}
-if (isset($_GET['file'])) {
-    $sFile = oos_var_prep_for_os($_GET['file']);
-} elseif (isset($_POST['file'])) {
-    $sFile = oos_var_prep_for_os($_POST['file']);
+if (isset($_GET['page'])) {
+    $sPage = oos_var_prep_for_os($_GET['page']);
+} elseif (isset($_POST['page'])) {
+    $sPage = oos_var_prep_for_os($_POST['page']);
 }
 
-if ( (empty($sMp)) || (empty($sFile)) ) {
-    $sMp = $aModules['main'];
-    $sFile = $aFilename['main'];
+if ( empty( $sPage ) || !is_string( $sPage ) ) {
+    $sPage = $aPages['main'];
 }
 
 

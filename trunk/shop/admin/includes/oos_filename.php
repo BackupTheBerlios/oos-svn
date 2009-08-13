@@ -152,17 +152,17 @@
   if (!$prefix_catalog_filename == '') $prefix_catalog_filename =  $prefix_catalog_filename . '_';
 
   $oosCatalogFilename = array();
-  $oosCatalogFilename['account_history_info'] = $prefix_catalog_filename . 'history_info';
+  $oosCatalogFilename['account_history_info'] = $prefix_catalog_filename . 'account_history_info';
   $oosCatalogFilename['advanced_search_result'] = $prefix_catalog_filename . 'advanced_result';
-  $oosCatalogFilename['affiliate_payment'] = $prefix_catalog_filename . 'payment';
+
   $oosCatalogFilename['default'] = $prefix_catalog_filename . 'main';
-  $oosCatalogFilename['gv_redeem'] = $prefix_catalog_filename . 'redeem';
-  $oosCatalogFilename['ticket_view'] = $prefix_catalog_filename . 'view';
-  $oosCatalogFilename['product_info'] = $prefix_catalog_filename . 'info';
-  $oosCatalogFilename['login_admin'] = $prefix_catalog_filename . 'login';
-  $oosCatalogFilename['create_account_admin'] = $prefix_catalog_filename . 'create_account';
-  $oosCatalogFilename['wishlist'] = $prefix_catalog_filename . 'wishlist';
-  $oosCatalogFilename['user_login'] = $prefix_catalog_filename . 'login';
+  $oosCatalogFilename['gv_redeem'] = $prefix_catalog_filename . 'gv_redeem';
+  $oosCatalogFilename['ticket_view'] = $prefix_catalog_filename . 'ticket_view';
+  $oosCatalogFilename['product_info'] = $prefix_catalog_filename . 'product_info';
+  $oosCatalogFilename['login_admin'] = $prefix_catalog_filename . 'login_admin';
+  $oosCatalogFilename['create_account_admin'] = $prefix_catalog_filename . 'admin_create_account';
+  $oosCatalogFilename['wishlist'] = $prefix_catalog_filename . 'main_wishlist';
+  $oosCatalogFilename['user_login'] = $prefix_catalog_filename . 'user_login';
 
 
 ?>

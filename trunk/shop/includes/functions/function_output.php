@@ -42,7 +42,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  * @param $search_engine_safe
  * @return string
  */
-function oos_href_link($modul = '', $page = '', $parameters = null, $connection = 'NONSSL', $add_session_id = true, $search_engine_safe = true)
+function oos_href_link($sPage = '', $parameters = null, $connection = 'NONSSL', $add_session_id = true, $search_engine_safe = true)
 {
     global $oEvent, $spider_flag;
 
@@ -60,9 +60,9 @@ function oos_href_link($modul = '', $page = '', $parameters = null, $connection 
     }
 
     if (!empty($parameters)) {
-        $link .= 'index.php?mp=' . $modul . '&amp;file=' . $page . '&amp;' . oos_output_string($parameters);
+        $link .= 'index.php?page=' . $sPage . '&amp;' . oos_output_string($parameters);
     } else {
-        $link .= 'index.php?mp=' . $modul . '&amp;file=' . $page;
+        $link .= 'index.php?page=' . $sPage;
     }
 
     $separator = '&amp;';
