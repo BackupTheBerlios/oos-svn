@@ -54,8 +54,8 @@
 
       $aPages = oos_get_pages();;
 
-      if ($_GET['file'] != $aFilename['info_down_for_maintenance']) {
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['info'], $aFilename['info_down_for_maintenance'], '', 'NONSSL', true, false));
+      if ( isset($_GET['page']) && ($_GET['page'] != $aPages['info_down_for_maintenance']) ) {
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['info_down_for_maintenance'], '', 'NONSSL', true, false));
       }
 
       return true;

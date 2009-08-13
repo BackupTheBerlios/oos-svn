@@ -65,7 +65,7 @@ class oos_event_breadcrumb
         MyOOS_CoreApi::requireOnce('classes/class_breadcrumb.php');
         $oBreadcrumb = new breadcrumb();
 
-        if (isset($_GET['file']) && ($_GET['file'] == $aFilename['main']) || !isset($_GET['file']) ){
+        if (isset($_GET['page']) && ($_GET['page'] == $aPages['main']) || !isset($_GET['page']) ){
             $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']), bookmark);
         } else{
             $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']));
@@ -88,7 +88,7 @@ class oos_event_breadcrumb
                                    AND categories_languages_id = '" .  intval($nLanguageID) . "'";
                 $categories = $dbconn->Execute($categories_sql);
                 if ($categories->RecordCount() > 0) {
-                    if (isset($_GET['file']) && ($_GET['file'] == $aFilename['shop']) && ($nCount == 0) ){
+                    if (isset($_GET['page']) && ($_GET['page'] == $aPages['shop']) && ($nCount == 0) ){
                         $oBreadcrumb->add($categories->fields['categories_name'], oos_href_link($aPages['shop'], 'categories=' . implode('_', array_slice($aCategoryPath, 0, ($i+1)))), bookmark);
                     } else {
                         $oBreadcrumb->add($categories->fields['categories_name'], oos_href_link($aPages['shop'], 'categories=' . implode('_', array_slice($aCategoryPath, 0, ($i+1)))));

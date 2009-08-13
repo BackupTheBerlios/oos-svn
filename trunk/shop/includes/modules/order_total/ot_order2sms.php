@@ -34,7 +34,7 @@
 
       $aPages = oos_get_pages();
 
-      if ((isset($_GET['file'])) && ($_GET['file'] == $aFilename['checkout_process'])) {
+      if ((isset($_GET['page'])) && ($_GET['page'] == $aPages['checkout_process'])) {
         $referer = OOS_HTTP_SERVER;
         $user_agent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
 

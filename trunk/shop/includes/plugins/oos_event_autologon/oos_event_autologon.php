@@ -54,7 +54,7 @@
 
       $aPages = oos_get_pages();
 
-      if ( ($_GET['file'] != $aFilename['login'])
+      if ( isset($_GET['page']) && ($_GET['page'] != $aPages['login'])
         && !isset($_SESSION['customer_id']) ) {
 
         $cookie_url_array = parse_url((ENABLE_SSL == true ? OOS_HTTPS_SERVER : OOS_HTTP_SERVER) . substr(OOS_SHOP, 0, -1));

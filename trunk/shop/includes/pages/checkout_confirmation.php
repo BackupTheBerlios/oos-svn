@@ -28,8 +28,8 @@ require 'includes/functions/function_address.php';
 
 // if the customer is not logged on, redirect them to the login page
 if (!isset($_SESSION['customer_id'])) {
-    $_SESSION['navigation']->set_snapshot(array('mode' => 'SSL', 'modules' => $aModules['checkout'], 'file' =>$aFilename['checkout_payment']));
-    MyOOS_CoreApi::redirect(oos_href_link($aPages, '', 'SSL'));
+    $_SESSION['navigation']->set_snapshot(array('mode' => 'SSL',  'page' =>$aPages['checkout_payment']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page

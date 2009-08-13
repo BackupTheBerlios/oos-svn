@@ -27,7 +27,7 @@ if (!isset($_SESSION['customer_id'])) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
-if ($_SESSION['navigation']->snapshot['file'] != $aFilename['account_address_book']) {
+if ($_SESSION['navigation']->snapshot['page'] != $aPages['account_address_book']) {
     $_SESSION['navigation']->set_path_as_snapshot(1);
 }
 

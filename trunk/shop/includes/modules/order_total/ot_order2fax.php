@@ -45,7 +45,7 @@
 
       $aPages = oos_get_pages();
 
-      if ((isset($_GET['file'])) && ($_GET['file'] == $aFilename['checkout_process'])) {
+      if ((isset($_GET['page'])) && ($_GET['page'] == $aPages['checkout_process'])) {
         $message = "\n";
         $message .= "sender: ".MODULE_ORDER_TOTAL_ORDER2SENDEREMAIL."\n";
         $message .= "subject: order\n";
