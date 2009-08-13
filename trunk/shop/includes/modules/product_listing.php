@@ -235,7 +235,7 @@ $sProductListBuyNow .= oos_get_all_as_hidden_field(array('action'));
                  $sProductListBuyNow .= oos_image_submit('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']);
                  $sProductListBuyNow .= '</form>';
              } else {
-                 $sProductListBuyNow = '<a href="' . oos_href_link($sMp, $sFile, $all_get_listing . 'action=buy_now&amp;products_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
+                 $sProductListBuyNow = '<a href="' . oos_href_link($sPage, $all_get_listing . 'action=buy_now&amp;products_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
              }
 
          } else {

@@ -26,7 +26,7 @@ if (!$oEvent->installed_plugin('spezials')) return false;
 
 $specials_block = '0';
 
-if ($file != $aFilename['specials']) {
+if ($sPage != $aPages['specials']) {
 
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];

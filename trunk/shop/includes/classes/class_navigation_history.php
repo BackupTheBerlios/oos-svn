@@ -55,7 +55,7 @@ class oosNavigationHistory
 
      function add_current_page()
      {
-          global $sMp, $sFile, $request_type;
+          global $sPage, $request_type;
 
           $get_all = '';
           if (isset($_GET)) {
@@ -72,7 +72,7 @@ class oosNavigationHistory
 
     function remove_current_page()
     {
-        global $sMp, $sFile;
+        global $sPage;
 
         $last_entry_position = count($this->path) - 1;
         if ( ($this->path[$last_entry_position]['modules'] == $sMp)  && ($this->path[$last_entry_position]['file'] == $sFile) ) {
@@ -93,7 +93,7 @@ class oosNavigationHistory
 
     function set_snapshot($page = '')
     {
-        global $sMp, $sFile, $request_type;
+        global $sPage, $request_type;
 
         if (is_array($page)) {
             $this->snapshot = array('modules' => $page['modules'],

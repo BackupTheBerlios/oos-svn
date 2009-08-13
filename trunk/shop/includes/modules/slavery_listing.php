@@ -290,7 +290,7 @@ case 'PRODUCT_LIST_NAME':
                  $lc_text .= oos_image_submit('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']);
                  $lc_text .= '</form>';
                } else {
-                 $lc_text = '<a href="' . oos_href_link($sMp, $sFile, $all_get_listing . 'action=buy_slave&amp;slave_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '" title="' . $listing['products_name'] . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
+                 $lc_text = '<a href="' . oos_href_link($sPage, $all_get_listing . 'action=buy_slave&amp;slave_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '" title="' . $listing['products_name'] . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
                }
 
             } else {

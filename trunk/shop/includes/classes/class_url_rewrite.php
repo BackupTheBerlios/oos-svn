@@ -40,9 +40,9 @@ class url_rewrite{
 
         $aPages = oos_get_pages();
 
-        if ( (in_array('categories', $url_array)) || (in_array($aFilename['product_info'], $url_array) && in_array($aModules['products'], $url_array)) ) {
+        if ( (in_array('categories', $url_array)) || (in_array($aPages['product_info'], $url_array) && in_array($aModules['products'], $url_array)) ) {
 
-            $_filter = array('mp', 'file', $aModules['main'], $aModules['products'], $aFilename['shop'], oos_session_name(), oos_session_id());
+            $_filter = array('page', $aPages['shop'], oos_session_name(), oos_session_id());
 
             $dbconn =& oosDBGetConn();
             $oostable =& oosDBGetTables();

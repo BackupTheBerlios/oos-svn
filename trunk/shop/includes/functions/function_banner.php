@@ -139,8 +139,7 @@ function oos_display_banner($action, $identifier)
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
-    $aFilename = oos_get_pages();
-    $aModules = oos_get_modules();
+    $aPages = oos_get_pages();
 
     if ($action == 'dynamic') {
         $bannerstable = $oostable['banners'];
@@ -173,7 +172,7 @@ function oos_display_banner($action, $identifier)
     if (oos_is_not_null($banner['banners_html_text'])) {
         $banner_string = $banner['banners_html_text'];
     } else {
-        $banner_string = '<a href="' . oos_href_link($aModules['main'], $aFilename['redirect'], 'action=banner&amp;goto=' . $banner['banners_id']) . '" target="_blank">' . oos_image(OOS_IMAGES . $banner['banners_image'], $banner['banners_title']) . '</a>';
+        $banner_string = '<a href="' . oos_href_link($aPages['redirect'], 'action=banner&amp;goto=' . $banner['banners_id']) . '" target="_blank">' . oos_image(OOS_IMAGES . $banner['banners_image'], $banner['banners_title']) . '</a>';
     }
 
     oos_update_banner_display_count($banner['banners_id']);

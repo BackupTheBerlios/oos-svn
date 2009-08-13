@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 $tell_a_friend_block = '0';
 
-if ($sFile != $aFilename['tell_a_friend']) {
+if ($sPage != $aPages['tell_a_friend']) {
     if (isset($_GET['products_id'])) {
         if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
         $tell_products_id = intval($nProductsId);

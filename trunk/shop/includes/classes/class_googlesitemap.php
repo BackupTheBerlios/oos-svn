@@ -238,7 +238,7 @@ class GoogleSitemap
              {
 
                  $top = max($top, $result['products_ordered']);
-                 $location = oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $result['pID'], 'NONSSL', false, true);
+                 $location = oos_href_link($aPages['product_info'], 'products_id=' . $result['pID'], 'NONSSL', false, true);
                  $lastmod = oos_is_not_null($result['last_mod']) ? $result['last_mod'] : $result['date_added'];
                  $changefreq = GOOGLE_SITEMAP_PROD_CHANGE_FREQ;
                  $ratio = $top > 0 ? $result['products_ordered']/$top : 0;

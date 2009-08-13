@@ -27,7 +27,7 @@ if (!is_numeric(MAX_DISPLAY_WISHLIST_BOX)) return false;
 
 $wishlist_block = '0';
 
-if ($sFile != $aFilename['account_my_wishlist']) {
+if ($sPage != $aPages['account_my_wishlist']) {
     if (isset($_SESSION['customer_id'])) {
 
         $wishlist_block = '1';

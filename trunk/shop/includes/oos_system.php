@@ -78,6 +78,8 @@ $oSmarty->assign(
           'modules'           => $aModules,
           'main_page'         => $sMp,
           'page_file'         => $sFile,
+
+
           'formid'            => $sFormid,
 
           'request_type'      => $request_type,
