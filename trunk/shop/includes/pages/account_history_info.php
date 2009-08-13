@@ -24,11 +24,11 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id'])) {
   $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 if (!isset($_GET['order_id'])) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['account_history'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/account_history_info.php';
@@ -41,13 +41,13 @@ $sql = "SELECT customers_id
 $customer_number = $dbconn->GetOne($sql);
 
 if ($customer_number != $_SESSION['customer_id']) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['account_history'], '', 'SSL'));
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_history'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_3'], oos_href_link($aModules['account'], $aFilename['account_history_info'], 'order_id=' . intval($_GET['order_id']), 'SSL'), bookmark);
+$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['account_history'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_3'], oos_href_link($aPages['account_history_info'], 'order_id=' . intval($_GET['order_id']), 'SSL'), bookmark);
 
 require 'includes/classes/class_order.php';
 $oOrder = new order($_GET['order_id']);

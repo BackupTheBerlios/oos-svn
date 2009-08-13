@@ -119,7 +119,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
 
     // links breadcrumb
     $oBreadcrumb->add($aLang['header_title_catalog'], oos_href_link($aModules['main'], $aFilename['shop']));
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['products'], $aFilename['top_viewed']), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['top_viewed']), bookmark);
 
     // assign Smarty variables;
     $oSmarty->assign(

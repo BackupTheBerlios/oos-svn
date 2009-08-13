@@ -251,7 +251,7 @@ if ($bError == true) {
     $show_password = false;
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['admin'], $aFilename['admin_create_account']), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['admin_create_account']), bookmark);
     $oBreadcrumb->add($aLang['navbar_title_2']);
 
     ob_start();
@@ -455,5 +455,5 @@ if ($bError == true) {
 // restore cart contents
     $_SESSION['cart']->restore_contents();
 
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['create_account_success'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['create_account_success'], '', 'SSL'));
 }

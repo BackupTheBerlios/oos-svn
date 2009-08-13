@@ -112,7 +112,7 @@
 
       $aPages = oos_get_pages();
 
-      $callback_url = oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL', true);
+      $callback_url = oos_href_link($aPages['checkout_process'], '', 'SSL', true);
       $worldpay_callback = explode('http://', $callback_url);
 
       // Get database information
@@ -173,7 +173,7 @@
 
         $aPages = oos_get_pages();
 
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
     }
 

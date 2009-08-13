@@ -128,8 +128,8 @@
                                oos_draw_hidden_field('rm', '2') .
                                oos_draw_hidden_field('bn', 'OOS [OSIS Online Shop]') .
                                oos_draw_hidden_field('no_note', '1');
-      $process_button_string .= '<input type="hidden" name="return" value="' . oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL') . '" >';
-      $process_button_string .= '<input type="hidden" name="cancel_return" value="' . oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL') . '" >';
+      $process_button_string .= '<input type="hidden" name="return" value="' . oos_href_link($aPages['checkout_process'], '', 'SSL') . '" >';
+      $process_button_string .= '<input type="hidden" name="cancel_return" value="' . oos_href_link($aPages['checkout_payment'], '', 'SSL') . '" >';
 
 
       return $process_button_string;

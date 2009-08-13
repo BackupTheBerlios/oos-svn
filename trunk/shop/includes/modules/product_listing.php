@@ -125,12 +125,12 @@ if ($listing_numrows > 0) {
 
         // $sProductListLink
         if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
-            $sProductListLink = oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']);
+            $sProductListLink = oos_href_link($aPages['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']);
         } else {
             if ($oEvent->installed_plugin('sefu')) {
-                $sProductListLink = oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']);
+                $sProductListLink = oos_href_link($aPages['product_info'], 'products_id=' . $listing['products_id']);
             } else {
-                $sProductListLink = oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']);
+                $sProductListLink = oos_href_link($aPages['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']);
             }
         }
 
@@ -221,8 +221,7 @@ if ($listing_numrows > 0) {
                  $sProductListBuyNow = '<form name="buy_now" action="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php" method="post">';
                  $sProductListBuyNow .= '<input type="hidden" name="action" value="buy_now">';
                  $sProductListBuyNow .= '<input type="hidden" name="products_id" value="' . $listing['products_id'] .'">';
-                 $sProductListBuyNow .= '<input type="hidden" name="mp" value="' . $sMp .'">';
-                 $sProductListBuyNow .= '<input type="hidden" name="file" value="' . $sFile .'">';
+                 $sProductListBuyNow .= '<input type="hidden" name="page" value="' . $sPage .'">';
                  $sProductListBuyNow .= '<input type="hidden" name="categories" value="' . $categories .'">';
                  $sProductListBuyNow .= '<input type="hidden" name="formid" value="' . $sFormid .'">';
                  $sProductListBuyNow .= oos_hide_session_id();

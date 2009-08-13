@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -31,7 +31,7 @@
       $pwstr_check = strtolower(substr($_GET['keywords'], strlen($_GET['keywords'])-1, strlen($_GET['keywords'])));
       if ($pwstr_check == 's') {
         $pwstr_replace = substr($_GET['keywords'], 0, strlen($_GET['keywords'])-1);
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['search'], $aFilename['advanced_search_result'], 'search_in_description=1&s=1&keywords=' . urlencode($pwstr_replace) . '' ));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['advanced_search_result'], 'search_in_description=1&s=1&keywords=' . urlencode($pwstr_replace) . '' ));
       }
     }
 
@@ -68,7 +68,7 @@
     }
     $pw_replacement = trim($pw_replacement);
     $pw_link_text   = trim($pw_link_text);
-    $pw_string      = '<br /><span class="main"><font color="red">' . $aLang['text_replacement_suggestion'] . '</font><a href="' . oos_href_link($aModules['search'], $aFilename['advanced_search_result'] , 'keywords=' . urlencode($pw_replacement) . '&search_in_description=1' ) . '">' . $pw_link_text . '</a></span><br /><br />';
+    $pw_string      = '<br /><span class="main"><font color="red">' . $aLang['text_replacement_suggestion'] . '</font><a href="' . oos_href_link($aPages['advanced_search_result'] , 'keywords=' . urlencode($pw_replacement) . '&search_in_description=1' ) . '">' . $pw_link_text . '</a></span><br /><br />';
   }
   // Search enhancement mod end
 
@@ -139,11 +139,11 @@
   }
 
   if ($error == 1) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['search'], $aFilename['advanced_search'], 'errorno=' . $errorno . '&' . oos_get_all_get_parameters()));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['advanced_search'], 'errorno=' . $errorno . '&' . oos_get_all_get_parameters()));
   } else {
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title1'], oos_href_link($aModules['search'], $aFilename['advanced_search']));
-    $oBreadcrumb->add($aLang['navbar_title2'], oos_href_link($aModules['search'], $aFilename['advanced_search_result'], 'keywords=' . oos_var_prep_for_os($_GET['keywords']) . '&search_in_description=' . oos_var_prep_for_os($_GET['search_in_description']) . '&categories_id=' . intval($_GET['categories_id']) . '&inc_subcat=' . intval($_GET['inc_subcat']) . '&manufacturers_id=' . intval($_GET['manufacturers_id']) . '&pfrom=' . oos_var_prep_for_os($_GET['pfrom']) . '&pto=' . oos_var_prep_for_os($_GET['pto']) . '&dfrom=' . oos_var_prep_for_os($_GET['dfrom']) . '&dto=' . oos_var_prep_for_os($_GET['dto'])), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title1'], oos_href_link($aPages['advanced_search']));
+    $oBreadcrumb->add($aLang['navbar_title2'], oos_href_link($aPages['advanced_search_result'], 'keywords=' . oos_var_prep_for_os($_GET['keywords']) . '&search_in_description=' . oos_var_prep_for_os($_GET['search_in_description']) . '&categories_id=' . intval($_GET['categories_id']) . '&inc_subcat=' . intval($_GET['inc_subcat']) . '&manufacturers_id=' . intval($_GET['manufacturers_id']) . '&pfrom=' . oos_var_prep_for_os($_GET['pfrom']) . '&pto=' . oos_var_prep_for_os($_GET['pto']) . '&dfrom=' . oos_var_prep_for_os($_GET['dfrom']) . '&dto=' . oos_var_prep_for_os($_GET['dto'])), bookmark);
 
     // Search enhancement mod start
     $search_keywords = oos_var_prep_for_os($_GET['keywords']);

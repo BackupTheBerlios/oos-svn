@@ -25,7 +25,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 require 'includes/languages/' . $sLanguage . '/user_create_account.php';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['create_account']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['create_account']));
 
 $snapshot = count($_SESSION['navigation']->snapshot);
 if (isset($_GET['email_address'])) {
@@ -74,7 +74,7 @@ if ((CUSTOMER_NOT_LOGIN == '1') or (MAKE_PASSWORD == '1')) {
 $oSmarty->assign('show_password', $show_password);
 
 $oSmarty->assign('snapshot', $snapshot);
-$oSmarty->assign('login_orgin_text', sprintf($aLang['text_origin_login'], oos_href_link($aModules['user'], $aFilename['login'], oos_get_all_get_parameters(), 'SSL')));
+$oSmarty->assign('login_orgin_text', sprintf($aLang['text_origin_login'], oos_href_link($aPages['login'], oos_get_all_get_parameters(), 'SSL')));
 
 $oSmarty->assign('newsletter_ids', array(0,1));
 $oSmarty->assign('newsletter', array($aLang['entry_newsletter_no'],$aLang['entry_newsletter_yes']));

@@ -153,7 +153,7 @@
         if ( ($result == false) || ($result < 1) ) {
           $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&psigate_cc_owner=' . urlencode($_POST['psigate_cc_owner']) . '&psigate_cc_expires_month=' . $_POST['psigate_cc_expires_month'] . '&psigate_cc_expires_year=' . $_POST['psigate_cc_expires_year'];
           $aPages = oos_get_pages();
-          MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], $payment_error_return, 'SSL', true, false));
         }
 
         $this->cc_card_type = $cc_validation->cc_type;
@@ -223,8 +223,8 @@
       $aPages = oos_get_pages();
       $process_button_string = oos_draw_hidden_field('MerchantID', MODULE_PAYMENT_PSIGATE_MERCHANT_ID) .
                                oos_draw_hidden_field('FullTotal', number_format($oOrder->info['total'] * $oCurrencies->get_value(MODULE_PAYMENT_PSIGATE_CURRENCY), $oCurrencies->currencies[MODULE_PAYMENT_PSIGATE_CURRENCY]['decimal_places'])) .
-                               oos_draw_hidden_field('ThanksURL', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL', true)) .
-                               oos_draw_hidden_field('NoThanksURL', oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'payment_error=' . $this->code, 'NONSSL', true)) .
+                               oos_draw_hidden_field('ThanksURL', oos_href_link($aPages['checkout_process'], '', 'SSL', true)) .
+                               oos_draw_hidden_field('NoThanksURL', oos_href_link($aPages['checkout_payment'], 'payment_error=' . $this->code, 'NONSSL', true)) .
                                oos_draw_hidden_field('Bname', $oOrder->billing['firstname'] . ' ' . $oOrder->billing['lastname']) .
                                oos_draw_hidden_field('Baddr1', $oOrder->billing['street_address']) .
                                oos_draw_hidden_field('Bcity', $oOrder->billing['city']) .

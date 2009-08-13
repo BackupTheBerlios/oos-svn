@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 if ($_SESSION['navigation']->snapshot['file'] != $aFilename['account_address_book']) {
@@ -51,7 +51,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'remove') && oos_is_not_null($
                      customers_id = '" . intval($_SESSION['customer_id']) . "'";
     $dbconn->Execute($query);
 
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['account_address_book'], '', 'SSL'));
 }
 
 
@@ -212,7 +212,7 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
           }
       }
 
-      MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
+      MyOOS_CoreApi::redirect(oos_href_link($aPages['account_address_book'], '', 'SSL'));
    }
 }
 
@@ -236,19 +236,19 @@ if (!isset($process)) {
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['account_address_book'], '', 'SSL'));
 
 if ( (isset($_GET['action']) && ($_GET['action'] == 'modify')) || (isset($_POST['action']) && ($_POST['action'] == 'update') && oos_is_not_null($_POST['entry_id'])) ) {
-    $oBreadcrumb->add($aLang['navbar_title_modify_entry'], oos_href_link($aModules['account'], $aFilename['account_address_book_process'], 'action=modify&amp;entry_id=' . ((isset($_GET['entry_id'])) ? intval($_GET['entry_id']) : intval($_POST['entry_id'])), 'SSL'), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title_modify_entry'], oos_href_link($aPages['account_address_book_process'], 'action=modify&amp;entry_id=' . ((isset($_GET['entry_id'])) ? intval($_GET['entry_id']) : intval($_POST['entry_id'])), 'SSL'), bookmark);
 } else {
-    $oBreadcrumb->add($aLang['navbar_title_add_entry'], oos_href_link($aModules['account'], $aFilename['account_address_book_process'], '', 'SSL'), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title_add_entry'], oos_href_link($aPages['account_address_book_process'], '', 'SSL'), bookmark);
 }
 
 if (count($_SESSION['navigation']->snapshot) > 0) {
     $back_link = oos_href_link($_SESSION['navigation']->snapshot['modules'], $_SESSION['navigation']->snapshot['file'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
 } else {
-    $back_link = oos_href_link($aModules['account'], $aFilename['account_address_book'], '', 'SSL');
+    $back_link = oos_href_link($aPages['account_address_book'], '', 'SSL');
 }
 
 if (isset($_GET['entry_id'])) {

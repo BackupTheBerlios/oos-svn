@@ -140,7 +140,7 @@
                                oos_draw_hidden_field('ship_post_code', $oOrder->delivery['postcode']) .
                                oos_draw_hidden_field('ship_country', $oOrder->delivery['country']['title']) .
                                oos_draw_hidden_field('currency', $sec_currency) .
-                               oos_draw_hidden_field('callback', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL', false) . ';' . oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'payment_error=' . $this->code, 'SSL', false)) .
+                               oos_draw_hidden_field('callback', oos_href_link($aPages['checkout_process'], '', 'SSL', false) . ';' . oos_href_link($aPages['checkout_payment'], 'payment_error=' . $this->code, 'SSL', false)) .
                                oos_draw_hidden_field(oos_session_name(), oos_session_id()) .
                                oos_draw_hidden_field('options', 'test_status=' . $test_status . ',dups=false,cb_post=true,cb_flds=' . oos_session_name());
 
@@ -157,10 +157,10 @@
             $remote_host = @gethostbyaddr($remote_host);
           }
           if ($remote_host != 'secpay.com') {
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], oos_session_name() . '=' . $_POST[oos_session_name()] . '&payment_error=' . $this->code, 'SSL', false, false));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], oos_session_name() . '=' . $_POST[oos_session_name()] . '&payment_error=' . $this->code, 'SSL', false, false));
           }
         } else {
-          MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], oos_session_name() . '=' . $_POST[oos_session_name()] . '&payment_error=' . $this->code, 'SSL', false, false));
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], oos_session_name() . '=' . $_POST[oos_session_name()] . '&payment_error=' . $this->code, 'SSL', false, false));
         }
       }
     }

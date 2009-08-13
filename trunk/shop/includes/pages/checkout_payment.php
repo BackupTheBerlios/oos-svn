@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -29,7 +29,7 @@ require 'includes/functions/function_address.php';
 // if the customer is not logged on, redirect them to the login page
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages, '', 'SSL'));
 }
 
 if (oos_empty($_SESSION['member']->group['payment'])) {
@@ -38,19 +38,19 @@ if (oos_empty($_SESSION['member']->group['payment'])) {
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
 if ($_SESSION['cart']->count_contents() < 1) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
 }
 
 // if no shipping method has been selected, redirect the customer to the shipping method selection page
 if (!isset($_SESSION['shipping'])) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
 }
 
 
 // avoid hack attempts during the checkout procedure by checking the internal cartID
 if (isset($_SESSION['cart']->cartID) && isset($_SESSION['cartID'])) {
     if ($_SESSION['cart']->cartID != $_SESSION['cartID']) {
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
     }
 }
 
@@ -64,7 +64,7 @@ if ( (STOCK_CHECK == '1') && (STOCK_ALLOW_CHECKOUT != '1') ) {
         }
     }
     if ($any_out_of_stock == 1) {
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
     }
 }
 
@@ -105,8 +105,8 @@ $selection = $oPaymentModules->selection();
 $credit_selection = $oOrderTotalModules->credit_selection();
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['checkout_payment'], '', 'SSL'));
 
 if (ENABLE_SSL == '1') {
     $condition_link = OOS_HTTPS_SERVER;

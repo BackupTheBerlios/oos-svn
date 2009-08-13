@@ -147,7 +147,7 @@
 
         $aPages = oos_get_pages();
 
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
 
       $this->cc_card_type = $cc_validation->cc_type;
@@ -198,7 +198,7 @@
                                oos_draw_hidden_field('x_ship_to_state', $oOrder->delivery['state']) .
                                oos_draw_hidden_field('x_ship_to_zip', $oOrder->delivery['postcode']) .
                                oos_draw_hidden_field('x_ship_to_country', $oOrder->delivery['country']['title']) .
-                               oos_draw_hidden_field('x_receipt_link_url', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL')) .
+                               oos_draw_hidden_field('x_receipt_link_url', oos_href_link($aPages['checkout_process'], '', 'SSL')) .
                                oos_draw_hidden_field('x_email_merchant', ((MODULE_PAYMENT_2CHECKOUT_EMAIL_MERCHANT == '1') ? 'TRUE' : 'FALSE'));
 
       return $process_button_string;
@@ -210,7 +210,7 @@
       if ($_POST['x_response_code'] != '1') {
         $aPages = oos_get_pages();
         $_SESSION['error_message'] = $aLang['module_payment_2checkout_text_error_message'];
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL', true, false));
       }
     }
 

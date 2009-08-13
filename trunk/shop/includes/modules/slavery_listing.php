@@ -139,12 +139,12 @@ case 'PRODUCT_LIST_NAME':
 case 'PRODUCT_LIST_NAME':
               $lc_align = '';
               if (isset($_GET['manufacturers_id'])) {
-                $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>';
+                $lc_text = '<a href="' . oos_href_link($aPages['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>';
               } else {
                 if ($oEvent->installed_plugin('sefu')) {
-                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>&nbsp;';
+                  $lc_text = '&nbsp;<a href="' . oos_href_link($aPages['product_info'], 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>&nbsp;';
                 } else {
-                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>&nbsp;';
+                  $lc_text = '&nbsp;<a href="' . oos_href_link($aPages['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">' . $listing['products_name'] . '</a>&nbsp;';
                 }
               }
               break;
@@ -243,12 +243,12 @@ case 'PRODUCT_LIST_NAME':
             case 'PRODUCT_LIST_IMAGE':
               $lc_align = 'center';
               if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
-                $lc_text = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
+                $lc_text = '<a href="' . oos_href_link($aPages['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
               } else {
                 if ($oEvent->installed_plugin('sefu')) {
-                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
+                  $lc_text = '&nbsp;<a href="' . oos_href_link($aPages['product_info'], 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
                 } else {
-                  $lc_text = '&nbsp;<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
+                  $lc_text = '&nbsp;<a href="' . oos_href_link($aPages['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']) . '" title="' . $listing['products_name'] . '">';
                 }
               }
 
@@ -278,13 +278,14 @@ case 'PRODUCT_LIST_NAME':
                  $lc_text = '<form name="buy_slave" action="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php" method="post">';
                  $lc_text .= '<input type="hidden" name="action" value="buy_slave">';
                  $lc_text .= '<input type="hidden" name="slave_id" value="' . $listing['products_id'] .'">';
-                 $lc_text .= '<input type="hidden" name="mp" value="' . $sMp .'">';
-                 $lc_text .= '<input type="hidden" name="file" value="' . $sFile .'">';
+                 $lc_text .= '<input type="hidden" name="page" value="' . $sPage .'">';
                  $lc_text .= '<input type="hidden" name="formid" value="' . $sFormid .'">';
                  $lc_text .= '<input type="hidden" name="categories" value="' . $categories .'">';
                  $lc_text .= '<input type="hidden" name="products_id" value="' . $nProductsId .'">';
                  $lc_text .= oos_hide_session_id();
-                 $lc_text .= oos_get_all_as_hidden_field(array('action'));
+
+// todo remove oos_get_all_as_hidden_field
+$lc_text .= oos_get_all_as_hidden_field(array('action'));
                  $lc_text .= $aLang['products_order_qty_text'];
                  $lc_text .= ' <input type="text" name="cart_quantity" value="' . $order_min . '" size="3" /><br />';
                  $lc_text .= oos_image_submit('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']);

@@ -49,15 +49,15 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
         oos_mail($check_customer['customers_firstname'] . " " . $check_customer['customers_lastname'], $email_address, $aLang['email_password_reminder_subject'], nl2br(sprintf($aLang['email_password_reminder_body'], $newpass)), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
         $_SESSION['info_message'] = $aLang['text_password_sent'];
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL', true, false));
     } else {
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['password_forgotten'], 'email=nonexistent', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['password_forgotten'], 'email=nonexistent', 'SSL'));
     }
 } else {
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
-    $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['user'], $aFilename['password_forgotten'], '', 'SSL'), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['login'], '', 'SSL'));
+    $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['password_forgotten'], '', 'SSL'), bookmark);
 
     $aOption['template_main'] = $sTheme . '/modules/user_password_forgotten.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

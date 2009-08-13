@@ -122,7 +122,7 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
 
         if ($coupon_query->RecordCount() == 0) {
           $_SESSION['error_message'] = $aLang['error_no_invalid_redeem_coupon'];
-          MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
         }
 
         $couponstable = $oostable['coupons'];
@@ -133,7 +133,7 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
         $date_query = $dbconn->Execute($sql);
         if ($date_query->RecordCount() == 0) {
           $_SESSION['error_message'] = $aLang['error_invalid_startdate_coupon'];
-          MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
         }
 
         $couponstable = $oostable['coupons'];
@@ -144,7 +144,7 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
         $date_query = $dbconn->Execute($sql);
         if ($date_query->RecordCount() == 0) {
           $_SESSION['error_message'] = $aLang['error_invalid_finisdate_coupon'];
-          MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
         }
 
         $coupon_redeem_tracktable = $oostable['coupon_redeem_track'];
@@ -162,12 +162,12 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
 
         if ($coupon_count->RecordCount()>=$coupon_result['uses_per_coupon'] && $coupon_result['uses_per_coupon'] > 0) {
           $_SESSION['error_message'] = $aLang['error_invalid_uses_coupon'] . $coupon_result['uses_per_coupon'] . $aLang['times'];
-          MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
         }
 
         if ($coupon_count_customer->RecordCount()>=$coupon_result['uses_per_user'] && $coupon_result['uses_per_user'] > 0) {
           $_SESSION['error_message'] = $aLang['error_invalid_uses_user_coupon'] . $coupon_result['uses_per_user'] . $aLang['times'];
-          MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
         }
         if ($coupon_result['coupon_type'] == 'S') {
           $coupon_amount = $oOrder->info['shipping_cost'];
@@ -180,7 +180,7 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
       }
       if ($_POST['submit_redeem_coupon_x'] && !$_POST['gv_redeem_code']) {
         $_SESSION['error_message'] = $aLang['error_no_invalid_redeem_coupon'];
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
       }
     }
   }

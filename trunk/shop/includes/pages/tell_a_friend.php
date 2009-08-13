@@ -31,7 +31,7 @@ if (isset($_SESSION['customer_id'])) {
     $account_values = $account->fields;
 } elseif (ALLOW_GUEST_TO_TELL_A_FRIEND == '0') {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/tell_a_friend_tell_a_friend.php';
@@ -108,7 +108,7 @@ if ($valid_product != false) {
             $email_body .= oos_prepare_input($_POST['yourname']) . "\n\n";
         }
 
-        $email_body .= sprintf($aLang['text_email_link'], oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $_GET['products_id'])) . "\n\n" .
+        $email_body .= sprintf($aLang['text_email_link'], oos_href_link($aPages['product_info'], 'products_id=' . $_GET['products_id'])) . "\n\n" .
         sprintf($aLang['text_email_signature'], STORE_NAME . "\n" . OOS_HTTP_SERVER . OOS_SHOP . "\n");
 
         oos_mail($friendname, $friendemail, $email_subject, stripslashes($email_body), '', $from_email_address);

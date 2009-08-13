@@ -28,12 +28,12 @@ require 'includes/functions/function_address.php';
 // if the customer is not logged on, redirect them to the login page
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages, '', 'SSL'));
 }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
 if ($_SESSION['cart']->count_contents() < 1) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
 }
 
 // if the order contains only virtual products, forward the customer to the billing page as
@@ -41,7 +41,7 @@ if ($_SESSION['cart']->count_contents() < 1) {
 if ($oOrder->content_type == 'virtual') {
     $_SESSION['shipping'] = false;
     $_SESSION['sendto'] = false;
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
 }
 
 $bError = false;
@@ -187,7 +187,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'submit')) && (isset($_SES
 
             if (isset($_SESSION['shipping'])) unset($_SESSION['shipping']);
 
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
         }
 // process the selected shipping destination
     } elseif (isset($_POST['address'])) {
@@ -212,14 +212,14 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'submit')) && (isset($_SES
 
         if ($check_address['total'] == '1') {
             if ($reset_shipping == true) unset($_SESSION['shipping']);
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
         } else {
             unset($_SESSION['sendto']);
         }
     } else {
         $_SESSION['sendto'] = $_SESSION['customer_default_address_id'];
 
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
     }
 }
 
@@ -268,8 +268,8 @@ if (!isset($_SESSION['sendto'])) {
 if (!isset($process)) $process = '0';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['checkout'], $aFilename['checkout_shipping_address'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['checkout_shipping_address'], '', 'SSL'));
 
 ob_start();
 require 'js/checkout_shipping_address.js.php';

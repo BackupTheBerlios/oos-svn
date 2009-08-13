@@ -24,7 +24,7 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_SESSION['formid']) && ($_SESSION['formid'] != $_POST['formid'])) ) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['create_account']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['create_account']));
 }
 
 MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
@@ -226,7 +226,7 @@ if ($bError == true) {
     }
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['create_account']));
+    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['create_account']));
     $oBreadcrumb->add($aLang['navbar_title_2']);
 
     ob_start();
@@ -595,5 +595,5 @@ if ($bError == true) {
         oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['owner_email_subject'], nl2br($email_owner), $name, $email_address);
     }
 
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['create_account_success'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['create_account_success'], '', 'SSL'));
 }

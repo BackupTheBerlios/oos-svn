@@ -41,7 +41,7 @@ function oos_get_random_picture_name($length = 24, $extension = 'jpg') {
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 if ( (isset($_POST['action']) && ($_POST['action'] == 'add_customers_image')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
@@ -116,8 +116,8 @@ $sCountryName = oos_get_country_name($myworld['entry_country_id']);
 $sAccountCreated = oos_date_short($myworld['date_account_created']);
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['text_yourstore'], oos_href_link($aModules['user'], $aFilename['yourstore']));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['customers_image']), bookmark);
+$oBreadcrumb->add($aLang['text_yourstore'], oos_href_link($aPages['yourstore']));
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['customers_image']), bookmark);
 
 $aOption['template_main'] = $sTheme .  '/modules/customers_image.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

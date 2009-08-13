@@ -29,21 +29,21 @@ require 'includes/functions/function_address.php';
 // if the customer is not logged on, redirect them to the login page
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot(array('mode' => 'SSL', 'modules' => $aModules['checkout'], 'file' =>$aFilename['checkout_payment']));
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages, '', 'SSL'));
 }
 
 if (!isset($_SESSION['sendto'])) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
 }
 
 if ( (oos_is_not_null(MODULE_PAYMENT_INSTALLED)) && (!isset($_SESSION['payment'])) ) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
 }
 
 // avoid hack attempts during the checkout procedure by checking the internal cartID
 if (isset($_SESSION['cart']->cartID) && isset($_SESSION['cartID'])) {
     if ($_SESSION['cart']->cartID != $_SESSION['cartID']) {
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
     }
 }
 
@@ -60,7 +60,7 @@ $oOrder = new order;
 
 if ( (isset($_SESSION['shipping'])) && ($_SESSION['shipping']['id'] == 'free_free')) {
     if ( ($oOrder->info['total'] - $oOrder->info['shipping_cost']) < MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER ) {
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
     }
 }
 
@@ -332,7 +332,7 @@ $oOrderTotalModules->apply_credit();
 $email_order = STORE_NAME . "\n" .
                $aLang['email_separator'] . "\n" .
                $aLang['email_text_order_number'] . ' ' . $insert_id . "\n" .
-               $aLang['email_text_invoice_url'] . ' ' . oos_href_link($aModules['account'], $aFilename['account_history_info'], 'order_id=' . $insert_id, 'SSL', false) . "\n" .
+               $aLang['email_text_invoice_url'] . ' ' . oos_href_link($aPages['account_history_info'], 'order_id=' . $insert_id, 'SSL', false) . "\n" .
                $aLang['email_text_date_ordered'] . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
 if ($oOrder->info['comments']) {
     $email_order .= oosDBOutput($oOrder->info['comments']) . "\n\n";
@@ -422,5 +422,5 @@ unset($_SESSION['comments']);
 
 $oOrderTotalModules->clear_posts();
 
-MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_success'], '', 'SSL'));
+MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_success'], '', 'SSL'));
 

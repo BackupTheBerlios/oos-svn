@@ -30,7 +30,7 @@ if (!$oEvent->installed_plugin('notify')) {
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/user_product_notifications.php';
@@ -51,7 +51,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'update_notifications')) {
                                 products_id IN (" . implode(',', $aRemove) . ")");
     }
 
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['product_notifications'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['product_notifications'], '', 'SSL'));
 
 } elseif (isset($_GET['action']) && ($_GET['action'] == 'global_notify')) {
     if (isset($_POST['global']) && ($_POST['global'] == 'enable')) {
@@ -75,12 +75,12 @@ if (isset($_GET['action']) && ($_GET['action'] == 'update_notifications')) {
         }
     }
 
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['product_notifications'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['product_notifications'], '', 'SSL'));
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['user'], $aFilename['product_notifications'], '', 'SSL'), bookmark);
+$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['product_notifications'], '', 'SSL'), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/user_product_notifications.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

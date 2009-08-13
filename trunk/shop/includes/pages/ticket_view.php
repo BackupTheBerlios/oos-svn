@@ -29,7 +29,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id']) && (isset($_GET['login']) && ($_GET['login'] == 'yes')) ) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 // split-page-results
@@ -223,7 +223,7 @@ $oSmarty->assign(
           'tlid'                      => $tlid,
           'customers_tickets_numrows' => $customers_tickets_numrows,
           'ticket'                    => $ticket,
-          'text_view_ticket_login'    => sprintf($aLang['text_view_ticket_login'], oos_href_link($aModules['ticket'], $aFilename['ticket_view'], 'login=yes&amp;tlid=' . $tlid, 'SSL'), oos_href_link($aModules['user'], $aFilename['create_account'], '', 'SSL'))
+          'text_view_ticket_login'    => sprintf($aLang['text_view_ticket_login'], oos_href_link($aModules['ticket'], $aFilename['ticket_view'], 'login=yes&amp;tlid=' . $tlid, 'SSL'), oos_href_link($aPages['create_account'], '', 'SSL'))
      )
 );
 

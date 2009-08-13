@@ -126,14 +126,14 @@
         if (isset($_REQUEST['button']['wishlist'])) {
           if (!isset($_SESSION['customer_id'])) {
 
-            $aPage = array();
+$aPage = array();
             $aPage['modules'] = $sMp;
             $aPage['file'] = $sFile;
             $aPage['mode'] = $request_type;
             $aPage['get'] = 'products_id=' . rawurlencode($_POST['products_id']) . '&amp;action=add_wishlist';
 
-            $_SESSION['navigation']->set_snapshot($aPage);
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+$_SESSION['navigation']->set_snapshot($aPage);
+MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
           } else {
             $wishlist_products_id = oos_get_uprid($_POST['products_id'], $_POST['id']);
 
@@ -167,7 +167,7 @@
                                                                     . $dbconn->qstr($value) . ")");
               }
             }
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_my_wishlist']));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['account_my_wishlist']));
           }
         } else {
 
@@ -232,7 +232,7 @@
                                                                     . $dbconn->qstr($_SESSION['customer_wishlist_link_id']) . ','
                                                                     . $dbconn->qstr($wishlist_products_id) . ','
                                                                     . $dbconn->qstr(date("Y-m-d", time())) . ")");
-         MyOOS_CoreApi::redirect(oos_href_link($aModules['account'], $aFilename['account_my_wishlist']));
+         MyOOS_CoreApi::redirect(oos_href_link($aPages['account_my_wishlist']));
        }
       break;
 
@@ -452,7 +452,7 @@
         MyOOS_CoreApi::redirect(oos_href_link($sPage, oos_get_all_get_parameters(array('action')), 'SSL'));
       } else {
         $_SESSION['navigation']->set_snapshot();
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
       }
       break;
 
@@ -471,7 +471,7 @@
         MyOOS_CoreApi::redirect(oos_href_link($sPage, oos_get_all_get_parameters(array('action'))));
       } else {
         $_SESSION['navigation']->set_snapshot();
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
       }
       break;
 

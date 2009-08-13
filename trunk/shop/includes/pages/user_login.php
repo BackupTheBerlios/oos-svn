@@ -108,14 +108,14 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
                 $_SESSION['navigation']->remove_last_page();
                 MyOOS_CoreApi::redirect($origin_href);
             } else {
-                MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
+                MyOOS_CoreApi::redirect(oos_href_link($aPages['account'], '', 'SSL'));
             }
         }
     }
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['login'], '', 'SSL'), bookmark);
 
 $info_message = '';
 if (isset($_GET['login']) && ($_GET['login'] == 'fail')) {

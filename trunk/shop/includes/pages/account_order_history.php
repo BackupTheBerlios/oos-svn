@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 // split-page-results
@@ -157,7 +157,7 @@ if ($orders_result->RecordCount()) {
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['header_title_catalog'], oos_href_link($aModules['main'], $aFilename['shop']));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['account'], $aFilename['account_order_history']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['account_order_history']), bookmark);
 
 
 // assign Smarty variables;

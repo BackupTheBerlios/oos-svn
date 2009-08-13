@@ -28,12 +28,12 @@ require 'includes/functions/function_address.php';
 // if the customer is not logged on, redirect them to the login page
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages, '', 'SSL'));
 }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
 if ($_SESSION['cart']->count_contents() < 1) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
 }
 
 $bError = false;
@@ -182,7 +182,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'submit')) && (isset($_SES
 
             if (isset($_SESSION['payment'])) unset($_SESSION['payment']);
 
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
         }
 // process the selected billing destination
     } elseif (isset($_POST['address'])) {
@@ -207,7 +207,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'submit')) && (isset($_SES
 
         if ($check_address['total'] == '1') {
             if ($reset_payment == true)   unset($_SESSION['payment']);
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
         } else {
             unset($_SESSION['billto']);
         }
@@ -215,7 +215,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'submit')) && (isset($_SES
     } else {
         $_SESSION['billto'] = $_SESSION['customer_default_address_id'];
 
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
     }
 }
 
@@ -262,8 +262,8 @@ if ($process == '0') {
 if (!isset($process)) $process = '0';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['checkout'], $aFilename['checkout_payment_address'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['checkout_payment'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['checkout_payment_address'], '', 'SSL'));
 
 ob_start();
 require 'js/checkout_payment_address.js.php';

@@ -56,7 +56,7 @@ if (isset($q) && !empty($q)) {
             }
 
             $name = $row['products_name'];
-            $results[] = '<a href="' . oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . $row['products_id']) . '">' .$row['products_name'] . '</a>' . ((isset($row['products_model']) && !empty($row['products_model']))?' [' . $row['products_model'] . ']':'') . "\n";
+            $results[] = '<a href="' . oos_href_link($aPages['product_info'], 'products_id=' . $row['products_id']) . '">' .$row['products_name'] . '</a>' . ((isset($row['products_model']) && !empty($row['products_model']))?' [' . $row['products_model'] . ']':'') . "\n";
 
             $result->MoveNext();
         }

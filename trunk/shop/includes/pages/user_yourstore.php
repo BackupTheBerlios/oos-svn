@@ -15,7 +15,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/user_yourstore.php';
@@ -36,7 +36,7 @@ if ($account['customers_gender'] == 'm') {
 
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['yourstore'], '', 'SSL'), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['yourstore'], '', 'SSL'), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/user_yourstore.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

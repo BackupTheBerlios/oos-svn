@@ -95,8 +95,8 @@
                                oos_draw_hidden_field('city', $oOrder->billing['city']) .
                                oos_draw_hidden_field('country', $oOrder->billing['country']['moneybookers']) .
                                oos_draw_hidden_field('pay_from_email', $oOrder->customer['email_address']) .
-                               oos_draw_hidden_field('return', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL')) .
-                               oos_draw_hidden_field('cancel_return', oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+                               oos_draw_hidden_field('return', oos_href_link($aPages['checkout_process'], '', 'SSL')) .
+                               oos_draw_hidden_field('cancel_return', oos_href_link($aPages['checkout_payment'], '', 'SSL'));
 
       return $process_button_string;
     }

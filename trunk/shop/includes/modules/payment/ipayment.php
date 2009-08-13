@@ -153,7 +153,7 @@
         $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&ipayment_cc_owner=' . urlencode($_POST['ipayment_cc_owner']) . '&ipayment_cc_expires_month=' . $_POST['ipayment_cc_expires_month'] . '&ipayment_cc_expires_year=' . $_POST['ipayment_cc_expires_year'] . '&ipayment_cc_checkcode=' . $_POST['ipayment_cc_checkcode'];
 
         $aPages = oos_get_pages();
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
 
       $this->cc_card_type = $cc_validation->cc_type;
@@ -222,8 +222,8 @@
                                oos_draw_hidden_field('cc_checkcode', $_POST['ipayment_cc_checkcode']) .
                                oos_draw_hidden_field('addr_name', $_POST['ipayment_cc_owner']) .
                                oos_draw_hidden_field('addr_email', $oOrder->customer['email_address']) .
-                               oos_draw_hidden_field('redirect_url', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL', true)) .
-                               oos_draw_hidden_field('silent_error_url', oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'payment_error=' . $this->code . '&ipayment_cc_owner=' . urlencode($_POST['ipayment_cc_owner']), 'SSL', true));
+                               oos_draw_hidden_field('redirect_url', oos_href_link($aPages['checkout_process'], '', 'SSL', true)) .
+                               oos_draw_hidden_field('silent_error_url', oos_href_link($aPages['checkout_payment'], 'payment_error=' . $this->code . '&ipayment_cc_owner=' . urlencode($_POST['ipayment_cc_owner']), 'SSL', true));
 
       return $process_button_string;
     }

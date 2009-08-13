@@ -29,18 +29,18 @@ require 'includes/functions/function_address.php';
 // if the customer is not logged on, redirect them to the login page
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot(array('mode' => 'SSL', 'modules' => $aModules['checkout'], 'file' =>$aFilename['checkout_payment']));
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages, '', 'SSL'));
 }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
 if ($_SESSION['cart']->count_contents() < 1) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
 }
 
 // avoid hack attempts during the checkout procedure by checking the internal cartID
 if (isset($_SESSION['cart']->cartID) && isset($_SESSION['cartID'])) {
     if ($_SESSION['cart']->cartID != $_SESSION['cartID']) {
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
     }
 }
 
@@ -60,7 +60,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
     // if no shipping method has been selected, redirect the customer to the shipping method selection page
     if (!isset($_SESSION['shipping'])) {
-      MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+      MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
     }
 
 
@@ -71,7 +71,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
             $_SESSION['navigation']->remove_last_page();
 
             $_SESSION['error_message'] = $aLang['error_conditions_not_accepted'];
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL', true, false));
         }
     }
 
@@ -90,7 +90,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
     if ( (isset($_SESSION['shipping'])) && ($_SESSION['shipping']['id'] == 'free_free')) {
         if ( ($oOrder->info['total'] - $oOrder->info['shipping_cost']) < MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER ) {
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
         }
     }
 
@@ -106,7 +106,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
     if ( (is_array($oPaymentModules->modules)) && (count($oPaymentModules->modules) > 1) && (!is_object($$_SESSION['payment'])) && (!$credit_covers) ) {
       $_SESSION['error_message'] = $aLang['error_no_payment_module_selected'];
-      MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+      MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
     }
 
     if (is_array($oPaymentModules->modules)) {
@@ -128,12 +128,12 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
         }
         // Out of Stock
         if ( (STOCK_ALLOW_CHECKOUT != '1') && ($any_out_of_stock == true) ) {
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['main'], $aFilename['main_shopping_cart']));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
         }
     }
 
     // links breadcrumb
-    $oBreadcrumb->add(decode($aLang['navbar_title_1']), oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+    $oBreadcrumb->add(decode($aLang['navbar_title_1']), oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
     $oBreadcrumb->add(decode($aLang['navbar_title_2']));
 
     $aOption['template_main'] = $sTheme . '/modules/checkout_confirmation.html';
@@ -172,7 +172,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
     if (isset($$_SESSION['payment']->form_action_url)) {
         $form_action_url = $$_SESSION['payment']->form_action_url;
     } else {
-        $form_action_url = oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL');
+        $form_action_url = oos_href_link($aPages['checkout_process'], '', 'SSL');
     }
     $oSmarty->assign('form_action_url', $form_action_url);
 
@@ -191,7 +191,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
     require 'includes/oos_display.php';
 
 } else {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_shipping'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
 
 }
 

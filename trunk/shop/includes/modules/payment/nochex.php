@@ -103,8 +103,8 @@
                                oos_draw_hidden_field('email', MODULE_PAYMENT_NOCHEX_ID) .
                                oos_draw_hidden_field('amount', number_format($oOrder->info['total'] * $oCurrencies->currencies['GBP']['value'], $oCurrencies->currencies['GBP']['decimal_places'])) .
                                oos_draw_hidden_field('ordernumber', $_SESSION['customer_id'] . '-' . date('Ymdhis')) .
-                               oos_draw_hidden_field('returnurl', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL')) .
-                               oos_draw_hidden_field('cancel_return', oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+                               oos_draw_hidden_field('returnurl', oos_href_link($aPages['checkout_process'], '', 'SSL')) .
+                               oos_draw_hidden_field('cancel_return', oos_href_link($aPages['checkout_payment'], '', 'SSL'));
 
       return $process_button_string;
     }

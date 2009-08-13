@@ -211,7 +211,7 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
 
         $aPages = oos_get_pages();
 
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], $payment_error_return, 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], $payment_error_return, 'SSL', true, false));
       }
 
       $this->cc_card_type = $cc_validation->cc_type;
@@ -244,7 +244,7 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
                                oos_draw_hidden_field('x_Card_Num', $this->cc_card_number) .
                                oos_draw_hidden_field('x_Exp_Date', $this->cc_expiry_month . substr($this->cc_expiry_year, -2)) .
                                oos_draw_hidden_field('x_Amount', number_format($oOrder->info['total'], 2)) .
-                               oos_draw_hidden_field('x_Relay_URL', oos_href_link($aModules['checkout'], $aFilename['checkout_process'], '', 'SSL', false)) .
+                               oos_draw_hidden_field('x_Relay_URL', oos_href_link($aPages['checkout_process'], '', 'SSL', false)) .
                                oos_draw_hidden_field('x_Method', ((MODULE_PAYMENT_AUTHORIZENET_METHOD == 'Credit Card') ? 'CC' : 'ECHECK')) .
                                oos_draw_hidden_field('x_Version', '3.0') .
                                oos_draw_hidden_field('x_Cust_ID', $_SESSION['customer_id']) .
@@ -283,11 +283,11 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
       if ($_POST['x_response_code'] == '2') {
         $_SESSION['error_message'] = $aLang['module_payment_authorizenet_text_declined_message'];
 
-        MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL', true, false));
       }
       // Code 3 is an error - but anything else is an error too (IMHO)
       $_SESSION['error_message'] = $aLang['module_payment_authorizenet_text_error_message'];
-      MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL', true, false));
+      MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL', true, false));
     }
 
     function after_process() {

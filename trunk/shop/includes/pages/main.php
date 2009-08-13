@@ -46,10 +46,10 @@ function oos_customer_greeting() {
     }
 
     if (isset($_SESSION['customer_lastname']) && isset($_SESSION['customer_id'])) {
-        $sGreeting = sprintf($aLang['text_greeting_personal'], $personal_text, oos_href_link($aModules['products'], $aFilename['products_new']));
+        $sGreeting = sprintf($aLang['text_greeting_personal'], $personal_text, oos_href_link($aPages['products_new']));
     } else {
         $sGreeting = '';
-        // $sGreeting = sprintf($aLang['text_greeting_guest'], oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'), oos_href_link($aModules['user'], $aFilename['create_account'], '', 'SSL'));
+        // $sGreeting = sprintf($aLang['text_greeting_guest'], oos_href_link($aPages['login'], '', 'SSL'), oos_href_link($aPages['create_account'], '', 'SSL'));
     }
 
     return $sGreeting;

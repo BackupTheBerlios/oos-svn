@@ -45,7 +45,7 @@ if (is_readable('includes/pages/' . $sPage . '.php')) {
     } else {
         $_SESSION['navigation']->add_current_page();
     }
-    require(dirname(__FILE__) . '/includes/pages/' . $sPage '.php');
+    require(dirname(__FILE__) . '/includes/pages/' . $sPage . '.php');
 
 } else {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['error404']));

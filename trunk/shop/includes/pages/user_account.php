@@ -24,7 +24,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 require 'includes/languages/' . $sLanguage . '/user_account.php';
@@ -58,7 +58,7 @@ if ($account['customers_newsletter'] == '1') {
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['account'], '', 'SSL'), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/user_account.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

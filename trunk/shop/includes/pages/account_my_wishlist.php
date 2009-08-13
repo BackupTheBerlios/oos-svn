@@ -29,7 +29,7 @@ if (!$oEvent->installed_plugin('wishlist')) {
 
 if (!isset($_SESSION['customer_id'])) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
 // split-page-results
@@ -154,7 +154,7 @@ while ($wishlist = $wishlist_result->fields)
 
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['account'], $aFilename['account_my_wishlist']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['account_my_wishlist']), bookmark);
 
 $aOption['template_main'] = $sTheme . '/modules/my_wishlist.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

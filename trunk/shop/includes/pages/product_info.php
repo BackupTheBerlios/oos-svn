@@ -128,7 +128,7 @@ if (!$product_info_result->RecordCount()) {
 
 
     // links breadcrumb
-    $oBreadcrumb->add($product_info['products_name'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId), bookmark);
+    $oBreadcrumb->add($product_info['products_name'], oos_href_link($aPages['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId), bookmark);
 
     // $oos_pagetitle = OOS_META_TITLE . ' // ' . $oBreadcrumb->trail_title(' &raquo; ');
     $oos_pagetitle =  $product_info['products_name'] . ' - ' . OOS_META_TITLE;
@@ -270,7 +270,7 @@ if (!$product_info_result->RecordCount()) {
     if (SOCIAL_BOOKMARKS == '1') {
         $oSmarty->caching = true;
         if (!$oSmarty->is_cached($aOption['social_bookmarks'], $oos_social_bookmarks_cache_id)) {
-            $oSmarty->assign('bookmark', oos_href_link($aModules['products'], $aFilename['product_info'], 'products_id=' . intval($nProductsId), 'NONSSL', false));
+            $oSmarty->assign('bookmark', oos_href_link($aPages['product_info'], 'products_id=' . intval($nProductsId), 'NONSSL', false));
             $oSmarty->assign('bookmarktitle', STORE_NAME . ' - ' . $product_info['products_name']);
         }
 

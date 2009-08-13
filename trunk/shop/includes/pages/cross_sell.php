@@ -64,9 +64,9 @@ if (!$product_info_result->RecordCount()) {
 
     // links breadcrumb
     if (SHOW_PRODUCTS_MODEL == '1') {
-        $oBreadcrumb->add($product_info['products_model'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId), bookmark);
+        $oBreadcrumb->add($product_info['products_model'], oos_href_link($aPages['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId), bookmark);
     } else {
-        $oBreadcrumb->add($product_info['products_name'], oos_href_link($aModules['products'], $aFilename['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId), bookmark);
+        $oBreadcrumb->add($product_info['products_name'], oos_href_link($aPages['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId), bookmark);
     }
 
     $aOption['template_main'] = $sTheme . '/products/cross_sell_products.html';

@@ -77,7 +77,9 @@ $oSmarty->assign(
           'filename'          => $aFilename,
           'modules'           => $aModules,
           'main_page'         => $sMp,
-          'page_file'         => $sFile,
+
+          'pages'             => $aPages,
+          'page_file'         => $sPage,
 
 
           'formid'            => $sFormid,

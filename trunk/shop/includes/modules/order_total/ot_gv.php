@@ -213,7 +213,7 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
           $redeem_query = $dbconn->Execute("SELECT * FROM $coupon_redeem_tracktable WHERE coupon_id = '" . $gv_result['coupon_id'] . "'");
           if ( ($redeem_query->RecordCount() != 0) && ($gv_result['coupon_type'] == 'G') ) {
             $_SESSION['error_message'] = $aLang['error_no_invalid_redeem_gv'];
-            MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
           }
         }
         if ($gv_result['coupon_type'] == 'G') {
@@ -265,10 +265,10 @@ MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
           }
 
           $_SESSION['error_message'] = $aLang['error_redeemed_amount'] . $oCurrencies->format($gv_amount);
-          MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], '', 'SSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
        }
      }
-     if ($_POST['submit_redeem_x'] && $gv['coupon_type'] == 'G') MyOOS_CoreApi::redirect(oos_href_link($aModules['checkout'], $aFilename['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_no_redeem_code'])), 'SSL'));
+     if ($_POST['submit_redeem_x'] && $gv['coupon_type'] == 'G') MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], 'error_message=' . urlencode(decode($aLang['error_no_redeem_code'])), 'SSL'));
    }
 
     function calculate_credit($amount) {
