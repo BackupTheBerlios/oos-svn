@@ -20,7 +20,7 @@
            <td class="main">{$product_info.products_description|stripslashes}
 <br />
 <script language="javascript"><!--
-document.write('<a href="javascript:void window.open(\'{html_href_link modul=$modules.products file=$filename.popup_print products_id=$product_info.products_id}\', \'win2\', \'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no\');" title="{$lang.icon_button_print}">{html_js_icon image="print.gif" alt=$lang.icon_button_print}</a>');
+document.write('<a href="javascript:void window.open(\'{html_href_link page=$pages.popup_print products_id=$product_info.products_id}\', \'win2\', \'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no\');" title="{$lang.icon_button_print}">{html_js_icon image="print.gif" alt=$lang.icon_button_print}</a>');
 //--></script>
 
     </td>
@@ -32,7 +32,7 @@ document.write('<a href="javascript:void window.open(\'{html_href_link modul=$mo
 
 {if $product_info.products_zoomify != '' }
 <script language="javascript"><!--
-document.write('<br /><a href="javascript:popupZoom(\'{html_href_link modul=$modules.products file=$filename.product_zoom products_id=$product_info.products_id}\')">{html_js_icon image="zoom.gif" alt=$lang.icon_button_zoom}</a>');
+document.write('<br /><a href="javascript:popupZoom(\'{html_href_link page=$pages.product_zoom products_id=$product_info.products_id}\')">{html_js_icon image="zoom.gif" alt=$lang.icon_button_zoom}</a>');
 //--></script>
 {/if}
 
@@ -107,16 +107,16 @@ document.write('<br /><a href="javascript:popupZoom(\'{html_href_link modul=$mod
     <td class="main">
 {if $oEvent->installed_plugin('reviews')}
    {if $reviews_total > 0 }
-        <a href="{html_href_link modul=$modules.reviews file=$filename.product_reviews products_id=$product_info.products_id}">{html_image_button image="reviews.gif" alt=$lang.image_button_reviews}</a></td>
+        <a href="{html_href_link page=$pages.product_reviews products_id=$product_info.products_id}">{html_image_button image="reviews.gif" alt=$lang.image_button_reviews}</a></td>
    {else}
-        <a href="{html_href_link modul=$modules.reviews file=$filename.product_reviews_write products_id=$product_info.products_id}">{html_image_button image="write_review.gif" alt=$lang.image_button_write_review}</a></td>
+        <a href="{html_href_link page=$pages.product_reviews_write products_id=$product_info.products_id}">{html_image_button image="write_review.gif" alt=$lang.image_button_write_review}</a></td>
    {/if}
     <td align="center" class="main">
 {/if}
 
 {if $cart_count_contents gt 0 }
    {if $smarty.session.member->group.show_price eq 1 }
-        <a href="{html_href_link modul=$modules.checkout file=$filename.checkout_payment connection=SSL}">{html_image_button image="checkout.gif" alt=$lang.image_button_checkout}</a></td>
+        <a href="{html_href_link page=$pages.checkout_payment connection=SSL}">{html_image_button image="checkout.gif" alt=$lang.image_button_checkout}</a></td>
    {/if}
 {/if}
 
@@ -125,7 +125,7 @@ document.write('<br /><a href="javascript:popupZoom(\'{html_href_link modul=$mod
 {if $smarty.session.member->group.show_price eq 1 }
 {html_image_submit image="in_cart.gif" alt=$lang.image_button_in_cart}
 {else}
-<a href="{html_href_link modul=$modules.user file=$filename.login connection=SSL}">{html_image_button image="login.gif" alt=$lang.image_button_login}</a>
+<a href="{html_href_link page=$pages.login connection=SSL}">{html_image_button image="login.gif" alt=$lang.image_button_login}</a>
 {/if}</td>
           </tr>
         </table></td>

@@ -1,6 +1,6 @@
 <div class="block" id="block_shopping_cart">
 	<h4>
-		<a href="{html_href_link modul=$modules.main file=$filename.main_shopping_cart}" title="{$block_heading_shopping_cart}">{$block_heading_shopping_cart}</a>
+		<a href="{html_href_link page=$pages.main_shopping_cart}" title="{$block_heading_shopping_cart}">{$block_heading_shopping_cart}</a>
 	</h4>
 	<div class="block_content">
 
@@ -40,7 +40,7 @@
 {if $gv_amount_show > 0}
 	<div class="hrRed">&nbsp;</div>
 	<p>{$lang.voucher_balance} {$gv_amount_show}</p>
-	<p><a href="{html_href_link modul=$modules.gv file=$filename.gv_send}" title="{$lang.gv_send_to_friend}">{$lang.gv_send_to_friend}</a></p>
+	<p><a href="{html_href_link page=$pages.gv_send}" title="{$lang.gv_send_to_friend}">{$lang.gv_send_to_friend}</a></p>
 {/if}
 
 {if $smarty.session.gv_id}
@@ -52,7 +52,7 @@
 {if $smarty.session.cc_id}
 	<div class="hrRed">&nbsp;</div>
 	<p>{$lang.cart_coupon}</p>
-	<p><a class="popup info" href="{html_href_link modul=$modules.gv file=$filename.popup_coupon_help cID=$smarty.session.cc_id}" title="{$lang.cart_coupon_info}">{$lang.cart_coupon_info}</a></p>
+	<p><a class="popup info" href="{html_href_link page=$pages.popup_coupon_help cID=$smarty.session.cc_id}" title="{$lang.cart_coupon_info}">{$lang.cart_coupon_info}</a></p>
 {/if}
 
 	</div>

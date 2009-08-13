@@ -38,7 +38,7 @@
 			<a href="{$back_link}" title="{$lang.image_button_continue_shopping}" class="btnC lime">{$lang.image_button_continue_shopping}</a>
 		{/if}
 
-		{if $smarty.session.member->group.show_price eq 1 }{css_button modul=$modules.checkout file=$filename.checkout_shipping connection=SSL title=$lang.image_button_continue}{/if}
+		{if $smarty.session.member->group.show_price eq 1 }{css_button page=$pages.checkout_shipping connection=SSL title=$lang.image_button_continue}{/if}
 	</form>
 
 {else}
@@ -46,6 +46,6 @@
 
 	<div id="break"></div>
 
-	{css_button modul=$modules.main file=$filename.main title=$lang.image_button_continue}</a>
+	{css_button page=$pages.main title=$lang.image_button_continue}</a>
 {/if}
 

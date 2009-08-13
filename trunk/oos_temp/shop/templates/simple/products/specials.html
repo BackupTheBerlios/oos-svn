@@ -12,8 +12,8 @@
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
 {section name=i loop=$oos_specials_array}
-           <td align="center" width="33%" class="smallText"><a href="{html_href_link modul=$modules.products file=$filename.product_info products_id=$oos_specials_array[i].products_id}">{html_oos_image basedir=$smarty.const.OOS_IMAGES image=$oos_specials_array[i].products_image alt=$oos_specials_array[i].products_name height=$smarty.const.SMALL_IMAGE_HEIGHT width=$smarty.const.SMALL_IMAGE_WIDTH}</a>
-             <br /><a href="{html_href_link modul=$modules.products file=$filename.product_info products_id=$oos_specials_array[i].products_id}">{$oos_specials_array[i].products_name}</a>
+           <td align="center" width="33%" class="smallText"><a href="{html_href_link page=$pages.product_info products_id=$oos_specials_array[i].products_id}">{html_oos_image basedir=$smarty.const.OOS_IMAGES image=$oos_specials_array[i].products_image alt=$oos_specials_array[i].products_name height=$smarty.const.SMALL_IMAGE_HEIGHT width=$smarty.const.SMALL_IMAGE_WIDTH}</a>
+             <br /><a href="{html_href_link page=$pages.product_info products_id=$oos_specials_array[i].products_id}">{$oos_specials_array[i].products_name}</a>
              <br /><s>{$oos_specials_array[i].products_price}</s>
              {if $oos_specials_array[i].products_base_price != 1}<br /><s><span class="special_base_price">{$oos_specials_array[i].products_base_unit} = {$oos_specials_array[i].base_product_price}</span></s>{/if}
              <br /><span class="special_price">{$oos_specials_array[i].products_special_price}

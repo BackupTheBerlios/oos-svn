@@ -15,13 +15,13 @@
     <td align="left" valign="middle">
 	{$block_heading_information}...<br /><br />
 {foreach item=info from=$information}
- <tr><td>&nbsp;&nbsp;&nbsp; <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.info file=$filename.information information_id=$info.information_id}">{$info.information_name}</a></td></tr>
+ <tr><td>&nbsp;&nbsp;&nbsp; <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.information information_id=$info.information_id}">{$info.information_name}</a></td></tr>
  <tr><td height="2"></td></tr>
  <tr><td><img src="{$theme_image}/layout/block.gif" alt=" " width="200" height="1"></td></tr>
  <tr><td height="2"></td></tr>
 {/foreach}
 {if $smarty.const.MODULE_ORDER_TOTAL_GV_STATUS eq '1'}
-<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link modul=$modules.gv file=$filename.gv_faq}">{$lang.block_information_gv}</a><br />
+<img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.gv_faq}">{$lang.block_information_gv}</a><br />
 {/if}
 	</td>
   </tr>

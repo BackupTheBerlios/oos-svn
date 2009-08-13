@@ -36,7 +36,7 @@
 {if $define_list.PRODUCT_LIST_MANUFACTURER gt '0'}
 <tr>
 	<td class="smallText"><b>{$lang.table_heading_manufacturer}</b></td>
-	<td class="smallText" align="right"><a href="{html_href_link modul=$modules.main file=$filename.shop manufacturers_id=$list_box_contents[i].manufacturers_id}">{$list_box_contents[i].manufacturers_name}</td>
+	<td class="smallText" align="right"><a href="{html_href_link page=$pages.shop manufacturers_id=$list_box_contents[i].manufacturers_id}">{$list_box_contents[i].manufacturers_name}</td>
 </tr>
 {/if}
 {if $define_list.PRODUCT_LIST_QUANTITY gt '0'}

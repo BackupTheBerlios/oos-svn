@@ -12,12 +12,12 @@
           <tr>
             <td align="left" valign="top" class="block_content">
 {if $smarty.const.DISPLAY_NEWSFEED eq '1'}
-<strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link modul=$modules.info file=$filename.info_newsfeed}">{$lang.block_service_newsfeed}</a><br>
+<strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.info_newsfeed}">{$lang.block_service_newsfeed}</a><br>
 {/if}
 {if $smarty.const.MODULE_ORDER_TOTAL_GV_STATUS eq '1'}
-<strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link modul=$modules.gv file=$filename.gv_faq}">{$lang.block_service_gv}</a><br>
+<strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.gv_faq}">{$lang.block_service_gv}</a><br>
 {/if}
-<strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link modul=$modules.info file=$filename.info_sitemap}">{$lang.block_service_sitemap}</a><br>
+<strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.info_sitemap}">{$lang.block_service_sitemap}</a><br>
              </td>
           </tr>
         </table></td>

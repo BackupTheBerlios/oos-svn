@@ -1,5 +1,5 @@
 {*  $Id$ *}
-<form name="order" action="{html_href_link modul=$modules.checkout file=$filename.checkout_success action=update connection=SSL}" method="post">
+<form name="order" action="{html_href_link page=$pages.checkout_success action=update connection=SSL}" method="post">
 	<input type="hidden" name="formid" value="{$formid}">
 
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
@@ -14,7 +14,7 @@
         <td height="10"></td>
       </tr>
       <tr>
-        <td align="center" class="main">{$lang.gv_has_vouchera}<a href="{html_href_link modul=$modules.gv file=$filename.gv_send connection=SSL}">e-Mail</a> {$lang.gv_has_voucherb}</td>
+        <td align="center" class="main">{$lang.gv_has_vouchera}<a href="{html_href_link page=$pages.gv_send connection=SSL}">e-Mail</a> {$lang.gv_has_voucherb}</td>
       </tr>
       <tr>
         <td height="10"></td>
