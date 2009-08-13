@@ -55,7 +55,7 @@
       if (!isset($_SESSION['customer_id'])) {
         $aPages = oos_get_pages();
 
-        if ($_GET['mp'] != $aModules['user']) {
+        if ( isset($_GET['page']) && ($_GET['page'] != $aModules['login']) ) {
           $_SESSION['navigation']->set_snapshot();
           MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
         }

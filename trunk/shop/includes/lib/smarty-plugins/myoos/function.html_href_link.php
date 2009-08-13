@@ -60,13 +60,10 @@ function smarty_function_html_href_link($params, &$smarty)
     }
 
 
-    if (empty($modul)) {
+    if (empty($page)) {
       $smarty->trigger_error("html_href_link: Unable to determine the page link!", E_USER_NOTICE);
     }
 
-    if (empty($file)) {
-      $smarty->trigger_error("html_href_link: Unable to determine the page link!", E_USER_NOTICE);
-    }
 
     if (isset($addentry_id)) {
       $addentry_id = $addentry_id + 2;
@@ -76,7 +73,7 @@ function smarty_function_html_href_link($params, &$smarty)
       $parameters .= $oos_get;
     }
 
-    $file = trim($file);
+    $page = trim($page);
 
     if ($connection == 'NONSSL') {
       $link = OOS_HTTP_SERVER . OOS_SHOP;
