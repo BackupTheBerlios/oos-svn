@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: reviews.php 312 2009-07-21 14:59:24Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -111,7 +111,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     }
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aModules['reviews'], $aFilename['reviews']), bookmark);
 
     $oSmarty->assign(
           array(

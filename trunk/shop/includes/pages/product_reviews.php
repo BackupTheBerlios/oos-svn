@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: product.php 312 2009-07-21 14:59:24Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -30,7 +30,7 @@ if (!$oEvent->installed_plugin('reviews')) {
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 } else {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews']));
 }
 
 require 'includes/languages/' . $sLanguage . '/reviews_product.php';
@@ -49,7 +49,7 @@ $sql = "SELECT pd.products_name, p.products_model
             AND p.products_status >= '1'
             AND pd.products_id = '" . intval($nProductsId) . "'";
 $product_info_result = $dbconn->Execute($sql);
-if (!$product_info_result->RecordCount()) MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
+if (!$product_info_result->RecordCount()) MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews']));
 $product_info = $product_info_result->fields;
 
 $reviewstable  = $oostable['reviews'];

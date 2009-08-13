@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: account_edit_process.php 305 2009-07-13 17:33:27Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -9,8 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: create_account_process.php,v 1.1.2.4 2003/05/02 22:23:01 wilt
-   orig: create_account_process.php,v 1.85 2003/02/13 04:23:23 hpdl
+   File: account_edit_process.php,v 1.75 2003/02/13 01:58:23 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -23,19 +22,23 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_SESSION['formid']) && ($_SESSION['formid'] != $_POST['formid'])) ) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['create_account']));
+if (!isset($_SESSION['customer_id'])) {
+    $_SESSION['navigation']->set_snapshot(array('mode' => 'SSL', 'modules' => $aModules['user'], 'file' => $aFilename['account_edit']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['login'], '', 'SSL'));
 }
 
-MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
+if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_SESSION['formid']) && ($_SESSION['formid'] != $_POST['formid'])) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['account_edit'], '', 'SSL'));
+}
 
-require 'includes/languages/' . $sLanguage . '/user_create_account_process.php';
+require 'includes/languages/' . $sLanguage . '/user_account_edit_process.php';
 require 'includes/functions/function_validate_vatid.php';
 
-if (ACCOUNT_GENDER == '1') $gender = oos_prepare_input($_POST['gender']);
-$firstname = oos_db_prepare_input($_POST['firstname']);
-$lastname = oos_db_prepare_input($_POST['lastname']);
 
+
+if (ACCOUNT_GENDER == '1') $gender = oos_prepare_input($_POST['gender']);
+$firstname = oos_prepare_input($_POST['firstname']);
+$lastname = oos_prepare_input($_POST['lastname']);
 if (ACCOUNT_DOB == '1') $dob = oos_prepare_input($_POST['dob']);
 if (ACCOUNT_NUMBER == '1') $number = oos_prepare_input($_POST['number']);
 $email_address = oos_prepare_input($_POST['email_address']);
@@ -60,10 +63,11 @@ $password = oos_prepare_input($_POST['password']);
 $confirmation = oos_prepare_input($_POST['confirmation']);
 
 
+
 $bError = false; // reset error flag
 
 if (ACCOUNT_GENDER == '1') {
-    if (($gender == 'm') || ($gender == 'f')) {
+    if ( ($gender == 'm') || ($gender == 'f') ) {
         $gender_error = false;
     } else {
         $bError = true;
@@ -83,10 +87,10 @@ if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
 
 if (ACCOUNT_DOB == '1') {
     if (checkdate(substr(oos_date_raw($dob), 4, 2), substr(oos_date_raw($dob), 6, 2), substr(oos_date_raw($dob), 0, 4))) {
-      $date_of_birth_error = false;
+        $date_of_birth_error = false;
     } else {
-      $bError = true;
-      $date_of_birth_error = '1';
+        $bError = true;
+        $date_of_birth_error = '1';
     }
 }
 
@@ -106,6 +110,7 @@ if ((ACCOUNT_VAT_ID == '1') && (ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && oos_is_n
         $vatid_check_error = '1';
     }
 }
+
 
 if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
     $bError = true;
@@ -130,6 +135,7 @@ if (isset($_POST['country']) && is_numeric($_POST['country']) && ($_POST['countr
     $bError = true;
     $country_error = '1';
 }
+
 
 if (ACCOUNT_STATE == '1') {
     if ($entry_country_error) {
@@ -181,60 +187,56 @@ if (ACCOUNT_STATE == '1') {
     }
 }
 
-
 if (strlen($telephone) < ENTRY_TELEPHONE_MIN_LENGTH) {
     $bError = true;
     $telephone_error = '1';
+} else {
+    $telephone_error = false;
 }
 
-if (CUSTOMER_NOT_LOGIN == '0') {
-    if (MAKE_PASSWORD == '1') {
-        $password = oos_create_random_value(ENTRY_PASSWORD_MIN_LENGTH);
-    } else {
-        $passlen = strlen($password);
-        if ($passlen < ENTRY_PASSWORD_MIN_LENGTH) {
-            $bError = true;
-            $password_error = '1';
-        }
+if (strlen($password) < ENTRY_PASSWORD_MIN_LENGTH) {
+    $bError = true;
+    $password_error = '1';
+} else {
+    $password_error = false;
+}
 
-        if ($password != $confirmation) {
-            $bError = true;
-            $password_error = '1';
-        }
-    }
+if ($password != $confirmation) {
+    $bError = true;
+    $password_error = '1';
 }
 
 $customerstable = $oostable['customers'];
-$check_email_sql = "SELECT customers_email_address
+$check_email_sql = "SELECT COUNT(*) AS total
                     FROM $customerstable
-                    WHERE customers_email_address = '" . oos_db_input($email_address) . "'";
+                    WHERE customers_email_address = '" . oos_db_input($email_address) . "'
+                      AND customers_id != '" . intval($_SESSION['customer_id']) . "'";
 $check_email = $dbconn->Execute($check_email_sql);
 
-if ($check_email->RecordCount()) {
+if ($check_email->fields['total'] > 0) {
     $bError = true;
     $email_address_exists = '1';
+} else {
+    $email_address_exists = false;
 }
 
 if ($bError == true) {
     $_SESSION['navigation']->remove_current_page();
 
     $processed = true;
-    if ((CUSTOMER_NOT_LOGIN == '1') or (MAKE_PASSWORD == '1')) {
-        $show_password = false;
-    } else {
-        $show_password = '1';
-    }
+    $no_edit = true;
+    $show_password = '1';
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['create_account']));
-    $oBreadcrumb->add($aLang['navbar_title_2']);
+    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
+    $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aModules['user'], $aFilename['account_edit'], '', 'SSL'));
 
     ob_start();
     require 'js/form_check.js.php';
     $javascript = ob_get_contents();
     ob_end_clean();
 
-    $aOption['template_main'] = $sTheme . '/modules/user_create_account_process.html';
+    $aOption['template_main'] = $sTheme . '/modules/user_account_edit_process.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
     $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
@@ -246,7 +248,6 @@ if ($bError == true) {
         require 'includes/oos_blocks.php';
     }
 
-    // assign Smarty variables;
     $oSmarty->assign('oos_js', $javascript);
 
     // assign Smarty variables;
@@ -268,7 +269,7 @@ if ($bError == true) {
             'state_has_zones'           => $state_has_zones,
             'telephone_error'           => $telephone_error,
             'password_error'            => $password_error
-         )
+        )
     );
     $oSmarty->assign(
         array(
@@ -293,14 +294,13 @@ if ($bError == true) {
             'confirmation'   => $confirmation
         )
     );
-
-
     if ($state_has_zones == '1') {
         $zones_names = array();
         $zones_values = array();
 
         $zonestable = $oostable['zones'];
-        $zones_result = $dbconn->Execute("SELECT zone_name FROM $zonestable WHERE zone_country_id = '" . intval($country) . "' ORDER BY zone_name");
+        $zones_query = "SELECT zone_name FROM $zonestable WHERE zone_country_id = '" . intval($country) . "' ORDER BY zone_name";
+        $zones_result =& $dbconn->Execute($zones_query);
         while ($zones = $zones_result->fields)
         {
             $zones_names[] =  $zones['zone_name'];
@@ -315,11 +315,8 @@ if ($bError == true) {
         $oSmarty->assign('zone_id', $zone_id);
     }
 
-    if (isset($_POST['country']) && is_numeric($_POST['country']) && ($_POST['country'] >= 1)) {
-        $country_name = oos_get_country_name($country);
-        $oSmarty->assign('country_name', $country_name);
-    }
-
+    $country_name = oos_get_country_name($country);
+    $oSmarty->assign('country_name', $country_name);
     if ($newsletter == '1') {
         $news = $aLang['entry_newsletter_yes'];
     } else {
@@ -346,39 +343,18 @@ if ($bError == true) {
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
-    // display the template
     require 'includes/oos_display.php';
 } else {
-    $customer_max_order = DEFAULT_MAX_ORDER;
-    $customers_status = DEFAULT_CUSTOMERS_STATUS_ID;
-
-    if (CUSTOMER_NOT_LOGIN == '1') {
-        $customers_login = '0';
-    } else {
-        $customers_login = '1';
-    }
-
-    $time = mktime();
-    $wishlist_link_id = '';
-    for ($x=3;$x<10;$x++) {
-        $wishlist_link_id .= substr($time,$x,1) . oos_create_random_value(1, $type = 'chars');
-    }
+    $new_encrypted_password = oos_encrypt_password($password);
     $sql_data_array = array('customers_firstname' => $firstname,
                             'customers_lastname' => $lastname,
                             'customers_email_address' => $email_address,
                             'customers_telephone' => $telephone,
                             'customers_fax' => $fax,
                             'customers_newsletter' => $newsletter,
-                            'customers_status' => $customers_status,
-                            'customers_login' => $customers_login,
-                            'customers_language' => $sLanguage,
-                            'customers_max_order' => $customer_max_order,
-                            'customers_password' => oos_encrypt_password($password),
-                            'customers_wishlist_link_id' => $wishlist_link_id,
-                            'customers_default_address_id' => 1);
+                            'customers_password' => $new_encrypted_password);
 
     if (ACCOUNT_GENDER == '1') $sql_data_array['customers_gender'] = $gender;
-    if (ACCOUNT_NUMBER == '1') $sql_data_array['customers_number'] = $number;
     if (ACCOUNT_DOB == '1') $sql_data_array['customers_dob'] = oos_date_raw($dob);
     if (ACCOUNT_VAT_ID == '1') {
         $sql_data_array['customers_vat_id'] = $vat_id;
@@ -388,15 +364,19 @@ if ($bError == true) {
             $sql_data_array['customers_vat_id_status'] = 0;
         }
     }
-    oos_db_perform($oostable['customers'], $sql_data_array);
 
-    $customer_id = $dbconn->Insert_ID();
+    oos_db_perform($oostable['customers'], $sql_data_array, 'update', "customers_id = '" . intval($_SESSION['customer_id']) . "'");
 
-    $sql_data_array = array('customers_id' => $customer_id,
-                            'address_book_id' => 1,
+    if (oos_is_not_null($_COOKIE['password'])) {
+        $cookie_url_array = parse_url((ENABLE_SSL == true ? OOS_HTTPS_SERVER : OOS_HTTP_SERVER) . substr(OOS_SHOP, 0, -1));
+        $cookie_path = $cookie_url_array['path'];
+        setcookie('email_address', $email_address, time()+ (365 * 24 * 3600), $cookie_path, '', ((getenv('HTTPS') == 'on') ? 1 : 0));
+        setcookie('password', $new_encrypted_password, time()+ (365 * 24 * 3600), $cookie_path, '', ((getenv('HTTPS') == 'on') ? 1 : 0));
+    }
+
+    $sql_data_array = array('entry_street_address' => $street_address,
                             'entry_firstname' => $firstname,
                             'entry_lastname' => $lastname,
-                            'entry_street_address' => $street_address,
                             'entry_postcode' => $postcode,
                             'entry_city' => $city,
                             'entry_country_id' => $country);
@@ -405,6 +385,7 @@ if ($bError == true) {
     if (ACCOUNT_COMPANY == '1') $sql_data_array['entry_company'] = $company;
     if (ACCOUNT_OWNER == '1') $sql_data_array['entry_owner'] = $owner;
     if (ACCOUNT_SUBURB == '1') $sql_data_array['entry_suburb'] = $suburb;
+
     if (ACCOUNT_STATE == '1') {
         if ($zone_id > 0) {
             $sql_data_array['entry_zone_id'] = $zone_id;
@@ -415,144 +396,31 @@ if ($bError == true) {
         }
     }
 
-    oos_db_perform($oostable['address_book'], $sql_data_array);
+    oos_db_perform($oostable['address_book'], $sql_data_array, 'update', "customers_id = '" . intval($_SESSION['customer_id']) . "' AND address_book_id = '" . intval($_SESSION['customer_default_address_id']) . "'");
 
-    $customers_infotable = $oostable['customers_info'];
-    $dbconn->Execute("INSERT INTO $customers_infotable
-                (customers_info_id,
-                 customers_info_number_of_logons,
-                 customers_info_date_account_created) VALUES ('" . intval($customer_id) . "',
-                                                              '0',
-                                                              '" . date("Y-m-d H:i:s", time()) . "')");
+    $update_info_sql = "UPDATE " . $oostable['customers_info'] . "
+                        SET customers_info_date_account_last_modified = '" . date("Y-m-d H:i:s", time()) . "'
+                        WHERE customers_info_id = '" . intval($_SESSION['customer_id']) . "'";
+    $dbconn->Execute($update_info_sql);
 
-    $maillisttable = $oostable['maillist'];
-    $sql = "SELECT customers_firstname
-            FROM $maillisttable
-            WHERE customers_email_address = '" . oos_db_input($email_address) . "'";
-    $check_mail_customer_result = $dbconn->Execute($sql);
-    if ($check_mail_customer_result->RecordCount()) {
-        $dbconn->Execute("UPDATE " . $oostable['maillist'] . "
-                          SET customers_newsletter = '0'
-                          WHERE customers_email_address = '" . oos_db_input($email_address) . "'");
-    }
+    //session
+    $_SESSION['customer_country_id'] = $country;
+    $_SESSION['customer_zone_id'] = $zone_id;
 
-    if (CUSTOMER_NOT_LOGIN != '1') {
-        $_SESSION['customer_id'] = $customer_id;
-        if (ACCOUNT_GENDER == '1') $_SESSION['customer_gender'] = $gender;
-        $_SESSION['customer_first_name'] = $firstname;
-        $_SESSION['customer_lastname'] = $lastname;
-        $_SESSION['customer_default_address_id'] = 1;
-        $_SESSION['customer_country_id'] = $country;
-        $_SESSION['customer_zone_id'] = $zone_id;
-        $_SESSION['customer_wishlist_link_id'] = $wishlist_link_id;
-        $_SESSION['customer_max_order'] = $customer_max_order;
-
-        if (ACCOUNT_VAT_ID == '1') {
-            if ((ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && ($vatid_check_error === false)) {
-                $_SESSION['customers_vat_id_status'] = 1;
-            } else {
-                $_SESSION['customers_vat_id_status'] = 0;
-            }
-        }
-
-        // restore cart contents
-        $_SESSION['cart']->restore_contents();
-
-        $_SESSION['member']->restore_group();
-    }
-
-    // build the message content
-    $name = $firstname . " " . $lastname;
-
-    if (ACCOUNT_GENDER == '1') {
-        if ($gender == 'm') {
-            $email_text = $aLang['email_greet_mr'];
+    if (ACCOUNT_VAT_ID == '1') {
+        if ((ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && ($vatid_check_error === false)) {
+            $_SESSION['customers_vat_id_status'] = 1;
         } else {
-            $email_text = $aLang['email_greet_ms'];
-        }
-    } else {
-        $email_text = $aLang['email_greet_none'];
-    }
-
-    $email_text .= $aLang['email_welcome'];
-    if (MODULE_ORDER_TOTAL_GV_STATUS == '1') {
-        if (NEW_SIGNUP_GIFT_VOUCHER_AMOUNT > 0) {
-            $coupon_code = oos_create_coupon_code();
-            $couponstable = $oostable['coupons'];
-            $insert_result = $dbconn->Execute("INSERT INTO $couponstable
-                                              (coupon_code,
-                                               coupon_type,
-                                               coupon_amount,
-                                               date_created) VALUES ('" . oos_db_input($coupon_code) . "',
-                                                                     'G',
-                                                                     '" . NEW_SIGNUP_GIFT_VOUCHER_AMOUNT . "',
-                                                                     '" . date("Y-m-d H:i:s", time()) . "')");
-            $insert_id = $dbconn->Insert_ID();
-            $coupon_email_tracktable = $oostable['coupon_email_track'];
-            $insert_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable
-                                              (coupon_id,
-                                               customer_id_sent,
-                                               sent_firstname,
-                                               emailed_to,
-                                              date_sent) VALUES ('" . oos_db_input($insert_id) ."',
-                                                                 '0',
-                                                                 'Admin',
-                                                                 '" . $email_address . "',
-                                                                 '" . date("Y-m-d H:i:s", time()) . "' )");
-
-            $email_text .= sprintf($aLang['email_gv_incentive_header'], $oCurrencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
-                           sprintf($aLang['email_gv_redeem'], $coupon_code) . "\n\n" .
-                           $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $coupon_code, 'NONSSL', false, false) .
-                           "\n\n";
-        }
-        if (NEW_SIGNUP_DISCOUNT_COUPON != '') {
-            $coupon_id = NEW_SIGNUP_DISCOUNT_COUPON;
-            $couponstable = $oostable['coupons'];
-            $sql = "SELECT *
-                    FROM $couponstable
-                    WHERE coupon_id = '" . oos_db_input($coupon_id) . "'";
-            $coupon_result = $dbconn->Execute($sql);
-
-            $coupons_descriptiontable = $oostable['coupons_description'];
-            $sql = "SELECT *
-                    FROM " . $coupons_descriptiontable . "
-                    WHERE coupon_id = '" . oos_db_input($coupon_id) . "'
-                      AND coupon_languages_id = '" .  intval($nLanguageID) . "'";
-            $coupon_desc_result = $dbconn->Execute($sql);
-            $coupon = $coupon_result->fields;
-            $coupon_desc = $coupon_desc_result->fields;
-            $coupon_email_tracktable = $oostable['coupon_email_track'];
-            $insert_result = $dbconn->Execute("INSERT INTO $coupon_email_tracktable
-                                               (coupon_id,
-                                                customer_id_sent,
-                                                sent_firstname,
-                                                emailed_to,
-                                                date_sent) VALUES ('" . oos_db_input($coupon_id) ."',
-                                                                   '0',
-                                                                   'Admin',
-                                                                   '" . oos_db_input($email_address) . "',
-                                                                   '" . date("Y-m-d H:i:s", time()) . "' )");
-
-            $email_text .= $aLang['email_coupon_incentive_header'] .  "\n\n" .
-                           $coupon_desc['coupon_description'] .
-                           sprintf($aLang['email_coupon_redeem'], $coupon['coupon_code']) . "\n\n" .
-                           "\n\n";
+            $_SESSION['customers_vat_id_status'] = 0;
         }
     }
 
-    if (MAKE_PASSWORD == '1') {
-        $email_text .= sprintf($aLang['email_password'], $password) . "\n\n";
-    }
-    $email_text .= $aLang['email_text'] . $aLang['email_contact'] . $aLang['email_warning'] . $aLang['email_disclaimer'];
-
-    oos_mail($name, $email_address, $aLang['email_subject'], nl2br($email_text), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
     if (SEND_CUSTOMER_EDIT_EMAILS == '1') {
         $email_owner = $aLang['owner_email_subject'] . "\n" .
                        $aLang['email_separator'] . "\n" .
                        $aLang['owner_email_date'] . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n" .
                        $aLang['email_separator'] . "\n";
-
         if (ACCOUNT_NUMBER == '1') {
             $email_owner .= $aLang['owner_email_number'] . ' ' . $number . "\n" .
                             $aLang['email_separator'] . "\n\n";
@@ -595,5 +463,6 @@ if ($bError == true) {
         oos_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $aLang['owner_email_subject'], nl2br($email_owner), $name, $email_address);
     }
 
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['create_account_success'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['user'], $aFilename['account'], '', 'SSL'));
 }
+

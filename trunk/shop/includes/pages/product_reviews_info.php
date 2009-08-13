@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id$
+   $Id: product_info.php 312 2009-07-21 14:59:24Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -28,7 +28,7 @@ if (!$oEvent->installed_plugin('reviews')) {
 }
 
 if (!isset($_GET['reviews_id'])) {
-    MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
+    MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews']));
 }
 
 require 'includes/languages/' . $sLanguage . '/reviews_product_info.php';
@@ -56,7 +56,7 @@ $sql = "SELECT rd.reviews_text, r.reviews_rating, r.reviews_id, r.products_id,
             AND p.products_id = pd.products_id
             AND pd.products_languages_id = '" . intval($nLanguageID) . "'";
 $reviews_result = $dbconn->Execute($sql);
-if (!$reviews_result->RecordCount()) MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews_reviews']));
+if (!$reviews_result->RecordCount()) MyOOS_CoreApi::redirect(oos_href_link($aModules['reviews'], $aFilename['reviews']));
 $reviews = $reviews_result->fields;
 
 $dbconn->Execute("UPDATE " . $oostable['reviews'] . "
