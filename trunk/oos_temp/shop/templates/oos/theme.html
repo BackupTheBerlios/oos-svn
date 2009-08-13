@@ -94,12 +94,7 @@ function popupZoom(url) {
 
 <table width="870" border="0" align="center" cellspacing="0" cellpadding="1">
   <tr class="oos-HeadNavi">
-    <td>
-<!-- start breadcrumb -->
-{$oosBreadcrumb}
-<!-- stop breadcrumb-->
-
-    </td>
+    <td></td>
     <td align="right" class="oos-HeadNavi">
 {if (isset($smarty.session.customer_id)) }
 <a href="{html_href_link modul=$modules.user file=$filename.logoff connection=SSL}" class="headerNavigation" rel="nofollow">{$lang.header_title_logoff}</a>&nbsp;
@@ -113,7 +108,6 @@ function popupZoom(url) {
     </td>
   </tr>
 </table>
-
 
 {foreach item=error from=$oos_error_message}
    {include file="$theme_set/system/error_message.html"}
@@ -134,7 +128,15 @@ function popupZoom(url) {
       </table></td>
 {/if}
     <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="5" height="1"></td>
-    <td width="100%" valign="top">{$contents}</td>
+    <td width="100%" valign="top">
+
+<!-- start breadcrumb -->
+{$oosBreadcrumb}
+<!-- stop breadcrumb-->
+
+    {$contents}
+
+    </td>
     <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="5" height="1"></td>
 {if $oos_blockright}
       <td width="150" valign="top"><table border="0" width="150" cellspacing="0" cellpadding="2">
