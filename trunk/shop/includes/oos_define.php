@@ -25,7 +25,7 @@ define('WARN_SESSION_DIRECTORY_NOT_WRITEABLE', '1');
 define('WARN_SESSION_AUTO_START', '1');
 define('WARN_DOWNLOAD_DIRECTORY_NOT_READABLE', '1');
 
-define('TIME_BASED_GREETING', '1');
+define('TIME_BASED_GREETING', '0');
 
 define('PRODUCT_LISTING_WITH_QTY', '1');
 
@@ -34,10 +34,6 @@ define('LIGHTBOX', '1'); // Lightbox on the products info page
 define('UNITS_DELIMITER', '&nbsp;/&nbsp;');
 define('OOS_XHTML', '1');
 
-define('STORE_STREET_ADDRESS', '');
-define('STORE_CITY', '');
-define('STORE_POSTCODE', '');
-define('STORE_ISO_639_2', '');
 
 
 define('OOS_PAGE_TYPE_MAINPAGE',  1);
