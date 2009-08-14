@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -23,7 +23,7 @@
 
 $aLang['navbar_title'] = 'Utiliser le bon';
 $aLang['heading_title'] = 'Utiliser le bon';
-$aLang['text_information'] = 'Veuillez lire nos CGV pour obtenir d\'informations ultérieures par rapport aux bons <a href="' . oos_link($aModules['gv'], $aFilename['gv_faq']).'">'.GV_FAQ.'.</a>';
-$aLang['text_invalid_gv'] = 'Il se peut que le code du bon soit invalide ou déjà utilisé. N\'hésitez pas à nous contactez par notre site de contact <a href="' . oos_link($aModules['main'], $aFilename['contact_us']) . '"> en cas de questions</a>.';
-$aLang['text_valid_gv'] = 'Meilleures félicitations; vous avez endossé un bon dans la valeur de CHF %s.';
+$aLang['text_information'] = 'Veuillez lire nos CGV pour obtenir d\'informations ultï¿½rieures par rapport aux bons <a href="' . oos_link($aPages['gv_faq']).'">'.GV_FAQ.'.</a>';
+$aLang['text_invalid_gv'] = 'Il se peut que le code du bon soit invalide ou dï¿½jï¿½ utilisï¿½. N\'hï¿½sitez pas ï¿½ nous contactez par notre site de contact <a href="' . oos_link($aModules['main'], $aFilename['contact_us']) . '"> en cas de questions</a>.';
+$aLang['text_valid_gv'] = 'Meilleures fï¿½licitations; vous avez endossï¿½ un bon dans la valeur de CHF %s.';
 ?>

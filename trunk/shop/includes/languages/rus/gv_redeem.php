@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -28,7 +28,7 @@
 
 $aLang['navbar_title'] = 'Использовать талон';
 $aLang['heading_title'] = 'Использовать талон';
-$aLang['text_information'] = 'Дополнительную информацию о талонах читайте здесь <a href="' . oos_link($aModules['gv'], $aFilename['gv_faq']).'">Использовать.</a>';
-$aLang['text_invalid_gv'] = 'Код талона возможно недействителен или уже использован. По вопросам обращайтесь в <a href="' . oos_link($aModules['main'], $aFilename['contact_us']) . '">через нашу страницу.</a>.';
+$aLang['text_information'] = 'Дополнительную информацию о талонах читайте здесь <a href="' . oos_link($aPages['gv_faq']).'">Использовать.</a>';
+$aLang['text_invalid_gv'] = 'Код талона возможно недействителен или уже использован. По вопросам обращайтесь в <a href="' . oos_link($aPages['contact_us']) . '">через нашу страницу.</a>.';
 $aLang['text_valid_gv'] = 'Поздравляем с использоавнием талона ценностью %s';
 ?>

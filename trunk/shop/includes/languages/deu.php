@@ -461,7 +461,7 @@ $aLang['text_shipping'] = 'zzgl. <a href="%s"><u>Versandkosten</u></a>.';
 $aLang['price'] = 'Preis';
 $aLang['price_from'] = 'Ab';
 
-$aLang['price_info'] = 'Alle Preise pro St&uuml;ck in &euro; inkl. der gesetzlichen Mehrwertsteuer, zzgl. <a href="' . oos_href_link($aModules['info'], $aFilename['information'], 'information_id=1') . '">Versandkostenpauschale</a>.';
-$aLang['support_info'] = 'Haben Sie noch Fragen? Sie erreichen uns &uuml;ber unser <a href="' . oos_href_link($aModules['ticket'], $aFilename['ticket_create']) . '">Kontaktformular</a>.';
+$aLang['price_info'] = 'Alle Preise pro St&uuml;ck in &euro; inkl. der gesetzlichen Mehrwertsteuer, zzgl. <a href="' . oos_href_link($aPages['information'], 'information_id=1') . '">Versandkostenpauschale</a>.';
+$aLang['support_info'] = 'Haben Sie noch Fragen? Sie erreichen uns &uuml;ber unser <a href="' . oos_href_link($aPages['ticket_create']) . '">Kontaktformular</a>.';
 
 

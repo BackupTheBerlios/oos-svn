@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -28,7 +28,7 @@
 
 $aLang['navbar_title'] = 'Tegoedbon gebruiken';
 $aLang['heading_title'] = 'Tegoedbon gebruiken';
-$aLang['text_information'] = 'Voor verdere informatie over tegoedbonnen lees a.u.b. onze <a href="' . oos_href_link($aModules['gv'], $aFilename['gv_faq']).'">Tegoedbonnen, Vragen, Antwoorden.</a>';
-$aLang['text_invalid_gv'] = 'De tegoedboncode kan ongeldig zijn of is al gebruikt. Zijn er nog vragen, richt u dan aan onze <a href="' . oos_href_link($aModules['main'], $aFilename['contact_us']) . '">winkel via onze contactpagina</a>.';
+$aLang['text_information'] = 'Voor verdere informatie over tegoedbonnen lees a.u.b. onze <a href="' . oos_href_link($aPages['gv_faq']).'">Tegoedbonnen, Vragen, Antwoorden.</a>';
+$aLang['text_invalid_gv'] = 'De tegoedboncode kan ongeldig zijn of is al gebruikt. Zijn er nog vragen, richt u dan aan onze <a href="' . oos_href_link($aPages['contact_us']) . '">winkel via onze contactpagina</a>.';
 $aLang['text_valid_gv'] = 'Gefeliciteerd, u heeft een tegoedbon ter waarde van %s ingewisseld.';
 ?>
