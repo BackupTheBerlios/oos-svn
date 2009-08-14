@@ -64,7 +64,6 @@ class plugin_event
             $sPluginPath = oos_var_prep_for_os($sPluginPath);
             $sName = oos_var_prep_for_os($sName);
 
-
             if (is_readable('includes/plugins/' . $sPluginPath . '/' . $sName . '.php')) {
                 MyOOS_CoreApi::requireOnce('plugins/' . $sPluginPath . '/' . $sName . '.php');
             }

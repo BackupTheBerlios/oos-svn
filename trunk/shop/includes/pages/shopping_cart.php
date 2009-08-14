@@ -134,7 +134,7 @@ $oSmarty->assign(
 
 $back = count($_SESSION['navigation']->path)-1;
 if (isset($_SESSION['navigation']->path[$back])) {
-    $back_link = oos_href_link($_SESSION['navigation']->path[$back]['modules'], $_SESSION['navigation']->path[$back]['file'], $_SESSION['navigation']->path[$back]['get'], $_SESSION['navigation']->path[$back]['mode']);
+    $back_link = oos_href_link($_SESSION['navigation']->path[$back]['page'], $_SESSION['navigation']->path[$back]['get'], $_SESSION['navigation']->path[$back]['mode']);
     $oSmarty->assign('back_link', $back_link);
 }
 

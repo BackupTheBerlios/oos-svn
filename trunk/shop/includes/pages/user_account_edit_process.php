@@ -23,7 +23,7 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 if (!isset($_SESSION['customer_id'])) {
-    $_SESSION['navigation']->set_snapshot(array('mode' => 'SSL', 'modules' => $aModules['user'], 'file' => $aFilename['account_edit']));
+    $_SESSION['navigation']->set_snapshot(array('mode' => 'SSL', 'page' => $aPages['account_edit']));
     MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 

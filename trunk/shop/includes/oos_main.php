@@ -42,7 +42,6 @@ if (is_readable('includes/local/configure.php')) {
     require 'includes/configure.php';
 }
 
-
 // require  server parameters
 require 'includes/oos_define.php';
 
@@ -140,7 +139,6 @@ while ($configuration = $configuration_result->fields)
 
 //for debugging purposes
 require 'includes/oos_debug.php';
-
 
 require 'includes/classes/class_plugin_event.php';
 $oEvent = new plugin_event();

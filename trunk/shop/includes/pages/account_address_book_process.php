@@ -205,7 +205,7 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
               oos_db_perform($oostable['address_book'], $sql_data_array);
 
               if (count($_SESSION['navigation']->snapshot) > 0) {
-                  $origin_href = oos_href_link($_SESSION['navigation']->snapshot['modules'], $_SESSION['navigation']->snapshot['file'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
+                  $origin_href = oos_href_link($_SESSION['navigation']->snapshot['page'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
                   $_SESSION['navigation']->clear_snapshot();
                   MyOOS_CoreApi::redirect($origin_href);
               }
@@ -246,7 +246,7 @@ if ( (isset($_GET['action']) && ($_GET['action'] == 'modify')) || (isset($_POST[
 }
 
 if (count($_SESSION['navigation']->snapshot) > 0) {
-    $back_link = oos_href_link($_SESSION['navigation']->snapshot['modules'], $_SESSION['navigation']->snapshot['file'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
+    $back_link = oos_href_link($_SESSION['navigation']->snapshot['page'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
 } else {
     $back_link = oos_href_link($aPages['account_address_book'], '', 'SSL');
 }

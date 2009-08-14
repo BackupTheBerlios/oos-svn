@@ -103,7 +103,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
             $_SESSION['cart']->restore_contents();
 
             if (count($_SESSION['navigation']->snapshot) > 0) {
-                $origin_href = oos_href_link($_SESSION['navigation']->snapshot['modules'], $_SESSION['navigation']->snapshot['file'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
+                $origin_href = oos_href_link($_SESSION['navigation']->snapshot['page'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
                 $_SESSION['navigation']->clear_snapshot();
                 $_SESSION['navigation']->remove_last_page();
                 MyOOS_CoreApi::redirect($origin_href);

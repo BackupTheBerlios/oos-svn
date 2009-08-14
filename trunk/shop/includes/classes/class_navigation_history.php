@@ -62,8 +62,7 @@ class oosNavigationHistory
               $get_all = oos_get_all_get_parameters();
               $get_all = oos_remove_trailing($get_all);
           }
-          $this->path[] = array('modules' => $sMp,
-                                'file' => $sFile,
+          $this->path[] = array('page' => $sPage,
                                 'mode' => $request_type,
                                 'get' => $get_all);
 
@@ -75,7 +74,7 @@ class oosNavigationHistory
         global $sPage;
 
         $last_entry_position = count($this->path) - 1;
-        if ( ($this->path[$last_entry_position]['modules'] == $sMp)  && ($this->path[$last_entry_position]['file'] == $sFile) ) {
+        if ( ($this->path[$last_entry_position]['page'] == $sPage) ) {
             unset($this->path[$last_entry_position]);
         }
     }
@@ -91,23 +90,21 @@ class oosNavigationHistory
     }
 
 
-    function set_snapshot($page = '')
+    function set_snapshot($aSetPage = '')
     {
         global $sPage, $request_type;
 
-        if (is_array($page)) {
-            $this->snapshot = array('modules' => $page['modules'],
-                                    'file' => $page['file'],
-                                    'mode' => $page['mode'],
-                                    'get' => $page['get']);
+        if (is_array($aSetPage)) {
+            $this->snapshot = array('page' => $aSetPage['page'],
+                                    'mode' => $aSetPage['mode'],
+                                    'get' => $aSetPage['get']);
       } else {
           $get_all = '';
           if (isset($_GET)) {
               $get_all = oos_get_all_get_parameters();
               $get_all = oos_remove_trailing($get_all);
           }
-          $this->snapshot = array('modules' => $sMp,
-                                  'file' => $sFile,
+          $this->snapshot = array('page' => $sPage,
                                   'mode' => $request_type,
                                   'get' => $get_all);
         }
@@ -123,8 +120,7 @@ class oosNavigationHistory
     function set_path_as_snapshot($history = 0)
     {
         $pos = (count($this->path)-1-$history);
-        $this->snapshot = array('modules' => $this->path[$pos]['modules'],
-                                'file' => $this->path[$pos]['file'],
+        $this->snapshot = array('page' => $this->path[$pos]['page'],
                                 'mode' => $this->path[$pos]['mode'],
                                 'get' => $this->path[$pos]['get']);
     }
@@ -133,13 +129,13 @@ class oosNavigationHistory
     function debug()
     {
         for ($i=0, $n=count($this->path); $i<$n; $i++) {
-            echo $this->path[$i]['modules'] . '&' . $this->path[$i]['file'] . '&' . $this->path[$i]['get'] . '<br />';
+            echo $this->path[$i]['page'] . '&' . $this->path[$i]['get'] . '<br />';
             echo '<br />';
         }
 
         echo '<br /><br />';
         if (count($this->snapshot) > 0) {
-            echo $this->snapshot['mode'] . ' ' . $this->snapshot['modules'] . '&' . $this->snapshot['file'] . '&' . $this->snapshot['get'] . '<br />';
+            echo $this->snapshot['mode'] . ' ' . $this->snapshot['page'] . '&' . $this->snapshot['get'] . '<br />';
         }
     }
 
