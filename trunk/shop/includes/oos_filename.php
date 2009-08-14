@@ -49,7 +49,6 @@ $aPages['gv_redeem'] = $prefix_filename . 'gv_redeem';
 $aPages['gv_send'] = $prefix_filename . 'gv_send';
 $aPages['popup_coupon_help'] = $prefix_filename . 'popup_coupon_help';
 
-$aPages['info_directions'] = $prefix_filename . 'info_directions';
 $aPages['info_down_for_maintenance'] = $prefix_filename . 'info_down_for_maintenance';
 $aPages['info_max_order'] = $prefix_filename . 'info_max_order';
 $aPages['info_newsfeed'] = $prefix_filename . 'info_newsfeed';

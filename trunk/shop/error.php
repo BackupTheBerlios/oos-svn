@@ -16,6 +16,6 @@ require(dirname(__FILE__) . '/includes/oos_main.php');
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 $sTheme = oos_var_prep_for_os($_SESSION['theme']);
 
-require(dirname(__FILE__) . '/includes/pages/' . oos_var_prep_for_os($aModules['error']) . '/' . oos_var_prep_for_os($aFilename['error404']) . '.php');
+require(dirname(__FILE__) . '/includes/pages/' . oos_var_prep_for_os($aPages['error404']) . '.php');
 
 require(dirname(__FILE__) . '/includes/oos_nice_exit.php');

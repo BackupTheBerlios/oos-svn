@@ -48,8 +48,7 @@ function oos_customer_greeting() {
     if (isset($_SESSION['customer_lastname']) && isset($_SESSION['customer_id'])) {
         $sGreeting = sprintf($aLang['text_greeting_personal'], $personal_text, oos_href_link($aPages['products_new']));
     } else {
-        $sGreeting = '';
-        // $sGreeting = sprintf($aLang['text_greeting_guest'], oos_href_link($aPages['login'], '', 'SSL'), oos_href_link($aPages['create_account'], '', 'SSL'));
+        $sGreeting = sprintf($aLang['text_greeting_guest'], oos_href_link($aPages['login'], '', 'SSL'), oos_href_link($aPages['create_account'], '', 'SSL'));
     }
 
     return $sGreeting;
@@ -92,9 +91,11 @@ $oSmarty->assign(
 );
 
 
+/*
 if (isset($_SESSION['customer_id'])) {
     $oSmarty->assign('customer_greeting', oos_customer_greeting());
 }
+*/
 
 if ( (USE_CACHE == '1') && (!SID) && (!isset($_SESSION['customer_id'])) ){
     $oSmarty->caching = true;

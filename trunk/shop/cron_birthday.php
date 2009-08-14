@@ -21,7 +21,7 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
+define('OOS_VALID_MOD', 'yes');
 
 // Set the local configuration parameters - mainly for developers
 if (is_readable('includes/local/configure.php')) {
@@ -31,18 +31,19 @@ if (is_readable('includes/local/configure.php')) {
 }
 
 // include server parameters
-  require_once(dirname(__FILE__) . '/includes/oos_define.php');
-  require_once(dirname(__FILE__) . '/includes/oos_tables.php');
-  require_once(dirname(__FILE__) . '/includes/functions/function_global.php');
-  require_once(dirname(__FILE__) . '/includes/functions/function_kernel.php');
+require_once(dirname(__FILE__) . '/includes/oos_define.php');
+require_once(dirname(__FILE__) . '/includes/oos_tables.php');
+require_once(dirname(__FILE__) . '/includes/oos_filename.php');
+require_once(dirname(__FILE__) . '/includes/functions/function_global.php');
+require_once(dirname(__FILE__) . '/includes/functions/function_kernel.php');
 
 // include the database functions
-  if (!defined('ADODB_LOGSQL_TABLE')) {
+if (!defined('ADODB_LOGSQL_TABLE')) {
     define('ADODB_LOGSQL_TABLE', $oostable['adodb_logsql']);
-  }
-  require_once(dirname(__FILE__) . '/includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php');
-  require_once(dirname(__FILE__) . '/includes/classes/thirdparty/adodb/adodb.inc.php');
-  require_once(dirname(__FILE__) . '/includes/functions/function_db.php');
+}
+require_once(dirname(__FILE__) . '/includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php');
+require_once(dirname(__FILE__) . '/includes/classes/thirdparty/adodb/adodb.inc.php');
+require_once(dirname(__FILE__) . '/includes/functions/function_db.php');
 
 
 // make a connection to the database... now
@@ -193,7 +194,7 @@ if (is_readable('includes/local/configure.php')) {
 
         $email_text .= sprintf($aLang['email_gv_incentive_header'], $oCurrencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
                        sprintf($aLang['email_gv_redeem'], $coupon_code) . "\n\n" .
-                       $aLang['email_gv_link'] . oos_href_link($aModules['gv'], $aFilename['gv_redeem'], 'gv_no=' . $coupon_code, 'NONSSL', false, false) .
+                       $aLang['email_gv_link'] . oos_href_link($aPages['gv_redeem'], 'gv_no=' . $coupon_code, 'NONSSL', false, false) .
                        "\n\n";
       }
       if (NEW_SIGNUP_DISCOUNT_COUPON != '') {
