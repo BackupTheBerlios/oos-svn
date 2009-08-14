@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -18,15 +18,13 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
-
 /* ----------------------------------------------------------------------
    If you made a translation, please send to
       lang@oos-shop.de
    the translated file.
    ---------------------------------------------------------------------- */
 
-
-if (isset($_GET['origin']) && ($_GET['origin'] == $aFilename['checkout_payment'])) {
+if (isset($_GET['origin']) && ($_GET['origin'] == $aPages['checkout_payment'])) {
   $aLang['navbar_title'] = 'Bestellen';
   $aLang['heading_title'] = 'Een webwinkel bestelling is eenvoudig.';
 } else {
@@ -41,9 +39,9 @@ $aLang['text_new_customer_introduction'] = 'Door uw aanmelding bij ' . STORE_NAM
 $aLang['heading_returning_customer'] = 'Bestaande klant';
 $aLang['text_returning_customer'] = 'Ik ben al klant.';
 
-$aLang['entry_remember_me'] = 'Auto inloggen<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:win_autologon(\'' . oos_href_link($aModules['main'], $aFilename['info_autologon']) . '\');"><b><u>Allereerst hier lezen!</u></b></a>';
+$aLang['entry_remember_me'] = 'Auto inloggen<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:win_autologon(\'' . oos_href_link($aPages['info_autologon']) . '\');"><b><u>Allereerst hier lezen!</u></b></a>';
 $aLang['text_password_forgotten'] = 'Heeft u uw wachtwoord vergeten? Klik dan <u>hier</u>';
 
 $aLang['text_login_error'] = '<strong>FOUT:</strong> Geen overeenstemming met het ingevoerde \'emailadres\' en/of \'wachtwoord\'.';
-$aLang['text_visitors_cart'] = '<strong>ATTENTIE:</strong> Uw invullingen als bezoeker worden automatisch met uw klantenrekening gekoppeld. <a href="javascript:session_win(\'' . oos_href_link($aModules['main'], $aFilename['info_shopping_cart']) . '\');">[Meer informatie]</a>';
-?>
+$aLang['text_visitors_cart'] = '<strong>ATTENTIE:</strong> Uw invullingen als bezoeker worden automatisch met uw klantenrekening gekoppeld. <a href="javascript:session_win(\'' . oos_href_link($aPages['info_shopping_cart']) . '\');">[Meer informatie]</a>';
+

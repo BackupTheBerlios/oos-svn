@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2005 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,10 +18,15 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
+   ---------------------------------------------------------------------- */
 
-$aLang['navbar_title_1'] = 'Créer un compte';
-$aLang['navbar_title_2'] = 'Succès';
-$aLang['heading_title'] = 'Meilleures félicitations!';
-$aLang['text_main'] = 'Votre compte a été crée avec succès!<br />Meilleures félicitations! Votre nouveau compte a été crée avec succès! Vous pouvez dès lors, grâce à votre compte client, profiter du \'service en ligne\' de façon plus efficiente. N\'hésitez pas à nous contacter en cas de questions concernant cette <a href="' . oos_link($aModules['main'], $aFilename['contact_us']) . '"><u>boutique en ligne</u></a>.<br /><br />Une confirmation concernant votre nouveau compte vous est envoyée. Si vous ne aurez pas reçu le message e-mail dans une heure, nous vous prions de bien vouloir <a href="' . oos_link($aModules['main'], $aFilename['contact_us']) . '"><u>nous contacter</u></a>.';
+$aLang['navbar_title_1'] = 'Crï¿½er un compte';
+$aLang['navbar_title_2'] = 'Succï¿½s';
+$aLang['heading_title'] = 'Meilleures fï¿½licitations!';
+$aLang['text_main'] = 'Votre compte a ï¿½tï¿½ crï¿½e avec succï¿½s!<br />Meilleures fï¿½licitations! Votre nouveau compte a ï¿½tï¿½ crï¿½e avec succï¿½s! Vous pouvez dï¿½s lors, grï¿½ce ï¿½ votre compte client, profiter du \'service en ligne\' de faï¿½on plus efficiente. N\'hï¿½sitez pas ï¿½ nous contacter en cas de questions concernant cette <a href="' . oos_link($aPages['contact_us']) . '"><u>boutique en ligne</u></a>.<br /><br />Une confirmation concernant votre nouveau compte vous est envoyï¿½e. Si vous ne aurez pas reï¿½u le message e-mail dans une heure, nous vous prions de bien vouloir <a href="' . oos_link($aPages['contact_us']) . '"><u>nous contacter</u></a>.';
 $aLang['text_information'] = '';
 ?>

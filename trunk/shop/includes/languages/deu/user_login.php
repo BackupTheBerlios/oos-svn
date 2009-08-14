@@ -18,15 +18,13 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
-
 /* ----------------------------------------------------------------------
    If you made a translation, please send to
       lang@oos-shop.de
    the translated file.
    ---------------------------------------------------------------------- */
 
-
-if (isset($_GET['origin']) && ($_GET['origin'] == $aFilename['checkout_payment'])) {
+if (isset($_GET['origin']) && ($_GET['origin'] == $aPages['checkout_payment'])) {
   $aLang['navbar_title'] = 'Bestellen';
   $aLang['heading_title'] = 'Eine Online-Bestellung ist einfach.';
 } else {
@@ -41,10 +39,9 @@ $aLang['text_new_customer_introduction'] = 'Durch Ihre Anmeldung bei ' . STORE_N
 $aLang['heading_returning_customer'] = 'Bereits Kunde';
 $aLang['text_returning_customer'] = 'Ich bin bereits Kunde.';
 
-$aLang['entry_remember_me'] = 'Einlogautomatik<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:win_autologon(\'' . oos_href_link($aModules['main'], $aFilename['info_autologon']) . '\');"><b><u>Zuerst hier lesen!</u></b></a>';
+$aLang['entry_remember_me'] = 'Einlogautomatik<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:win_autologon(\'' . oos_href_link($aPages['info_autologon']) . '\');"><b><u>Zuerst hier lesen!</u></b></a>';
 $aLang['text_password_forgotten'] = 'Sie haben Ihr Passwort vergessen? Dann klicken Sie <u>hier</u>.';
 
 $aLang['text_login_error'] = '<strong>FEHLER:</strong> Keine &Uuml;bereinstimmung der eingebenen \'eMail-Adresse\' und/oder dem \'Passwort\'.';
-$aLang['text_visitors_cart'] = '<strong>ACHTUNG:</strong> Ihre Besuchereingaben werden automatisch mit Ihrem Kundenkonto verbunden. <a href="javascript:session_win(\'' . oos_href_link($aModules['main'], $aFilename['info_shopping_cart']) . '\');">[Mehr Information]</a>';
-
+$aLang['text_visitors_cart'] = '<strong>ACHTUNG:</strong> Ihre Besuchereingaben werden automatisch mit Ihrem Kundenkonto verbunden. <a href="javascript:session_win(\'' . oos_href_link($aPages['info_shopping_cart']) . '\');">[Mehr Information]</a>';
 

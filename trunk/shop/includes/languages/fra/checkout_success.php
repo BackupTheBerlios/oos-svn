@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2005 by the OOS Development Team.
+ 
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,20 +18,25 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
+   ---------------------------------------------------------------------- */
 
 $aLang['navbar_title_1'] = 'Caisse';
-$aLang['navbar_title_2'] = 'Succés';
+$aLang['navbar_title_2'] = 'Succï¿½s';
 
 $aLang['heading_title'] = 'Merci beaucoup!';
 
-$aLang['text_success'] = 'Nous accusons réception de votre commande. Elle est déjà en traitement. La livraison devrait s\'effectuer dans les prochains 2 à 5 jours ouvrables.';
-$aLang['text_notify_products'] = 'Je tiens à être tenu informé des actualités touchant les articles suivants:';
-$aLang['text_see_orders'] = 'Vous pouvez à tout moment examiner votre / vos commande(s) à la page <a href="' . oos_link($aModules['user'], $aFilename['account'], '', 'SSL') . '"><u>\'et y visualiser \'</a></u> votre compte <a href="' . oos_link($aModules['account'], $aFilename['account_history'], '', 'SSL') . '"><u>\'et votre\'</u></a> aperçu de commande.';
-$aLang['text_contact_store_owner'] = 'N\'hésitez pas à <a href="' . oos_link($aModules['main'], $aFilename['contact_us']) . '"><u>nous contacter pour toute question ultérieure</u></a>.';
+$aLang['text_success'] = 'Nous accusons rï¿½ception de votre commande. Elle est dï¿½jï¿½ en traitement. La livraison devrait s\'effectuer dans les prochains 2 ï¿½ 5 jours ouvrables.';
+$aLang['text_notify_products'] = 'Je tiens ï¿½ ï¿½tre tenu informï¿½ des actualitï¿½s touchant les articles suivants:';
+$aLang['text_see_orders'] = 'Vous pouvez ï¿½ tout moment examiner votre / vos commande(s) ï¿½ la page <a href="' . oos_link($aPages['account'], '', 'SSL') . '"><u>\'et y visualiser \'</a></u> votre compte <a href="' . oos_link($aPages['account_history'], '', 'SSL') . '"><u>\'et votre\'</u></a> aperï¿½u de commande.';
+$aLang['text_contact_store_owner'] = 'N\'hï¿½sitez pas ï¿½ <a href="' . oos_link($aPages['contact_us']) . '"><u>nous contacter pour toute question ultï¿½rieure</u></a>.';
 $aLang['text_thanks_for_shopping'] = 'Nous vous remercions de votre achat en ligne!';
 
-$aLang['table_heading_download_date'] = 'Téléchargement possible jusqu\'au:';
-$aLang['table_heading_download_count'] = 'Nombre maximal de téléchargements';
-$aLang['heading_download'] = 'Télécharger l\'article:';
-$aLang['footer_download'] = 'Sachez que vous pouvez également télécharger vos articles ultérieurement sous \'%s\' ';
-?>
+$aLang['table_heading_download_date'] = 'Tï¿½lï¿½chargement possible jusqu\'au:';
+$aLang['table_heading_download_count'] = 'Nombre maximal de tï¿½lï¿½chargements';
+$aLang['heading_download'] = 'Tï¿½lï¿½charger l\'article:';
+$aLang['footer_download'] = 'Sachez que vous pouvez ï¿½galement tï¿½lï¿½charger vos articles ultï¿½rieurement sous \'%s\' ';
+

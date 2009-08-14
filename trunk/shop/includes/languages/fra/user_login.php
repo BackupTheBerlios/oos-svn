@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2005 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,10 +18,15 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
+   ---------------------------------------------------------------------- */
 
-if (isset($_GET['origin']) && ($_GET['origin'] == $aFilename['checkout_payment'])) {
+if (isset($_GET['origin']) && ($_GET['origin'] == $aPages['checkout_payment'])) {
   $aLang['navbar_title'] = 'Commander';
-  $aLang['heading_title'] = 'Passer une commande en ligne est très facile.';
+  $aLang['heading_title'] = 'Passer une commande en ligne est trï¿½s facile.';
 } else {
   $aLang['navbar_title'] = 'Inscrire';
   $aLang['heading_title'] = 'Inscrivez-vous';
@@ -30,14 +34,14 @@ if (isset($_GET['origin']) && ($_GET['origin'] == $aFilename['checkout_payment']
 
 $aLang['heading_new_customer'] = 'Nouveau client';
 $aLang['text_new_customer'] = 'Je suis un nouveau client.';
-$aLang['text_new_customer_introduction'] = 'Vous pouvez grâce à votre inscription chez ' . STORE_NAME . ' commander plus rapidement. Vous connaissez à tout moment le statut de votre commande et avez toujours un aperçu actuel touchant vos commandes précédentes.';
+$aLang['text_new_customer_introduction'] = 'Vous pouvez grï¿½ce ï¿½ votre inscription chez ' . STORE_NAME . ' commander plus rapidement. Vous connaissez ï¿½ tout moment le statut de votre commande et avez toujours un aperï¿½u actuel touchant vos commandes prï¿½cï¿½dentes.';
 
-$aLang['heading_returning_customer'] = 'Déjà client';
-$aLang['text_returning_customer'] = 'Je suis déjà client.';
+$aLang['heading_returning_customer'] = 'Dï¿½jï¿½ client';
+$aLang['text_returning_customer'] = 'Je suis dï¿½jï¿½ client.';
 
-$aLang['entry_remember_me'] = 'Automatique de connection<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:win_autologon(\'' . oos_link($aModules['main'], $aFilename['info_autologon']) . '\');"><b><u>D\'abord lire ici!</u></b></a>';
-$aLang['text_password_forgotten'] = 'Avez-vous oublié votre mot de passe? Cliquez alors <u>ici</u>';
+$aLang['entry_remember_me'] = 'Automatique de connection<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:win_autologon(\'' . oos_link($aPages['info_autologon']) . '\');"><b><u>D\'abord lire ici!</u></b></a>';
+$aLang['text_password_forgotten'] = 'Avez-vous oubliï¿½ votre mot de passe? Cliquez alors <u>ici</u>';
 
-$aLang['text_login_error'] = '<font color="#ff0000"><b>ERREUR:</b></font> Concordance entre l\' \'adresse e-mail\' indiquée et/ou le \'mot de passe\' n\'est pas donnée.';
-$aLang['text_visitors_cart'] = '<font color="#ff0000"><b>ATTENTION:</b></font> Vos données de visiteur seront automatiquement liées à votre compte client. <a href="javascript:session_win(\'' . oos_link($aModules['main'], $aFilename['info_shopping_cart']) . '\');">[Plus d\'informations]</a>';
-?>
+$aLang['text_login_error'] = '<font color="#ff0000"><b>ERREUR:</b></font> Concordance entre l\' \'adresse e-mail\' indiquï¿½e et/ou le \'mot de passe\' n\'est pas donnï¿½e.';
+$aLang['text_visitors_cart'] = '<font color="#ff0000"><b>ATTENTION:</b></font> Vos donnï¿½es de visiteur seront automatiquement liï¿½es ï¿½ votre compte client. <a href="javascript:session_win(\'' . oos_link($aPages['info_shopping_cart']) . '\');">[Plus d\'informations]</a>';
+

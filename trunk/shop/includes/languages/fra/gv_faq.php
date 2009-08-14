@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2005 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -21,68 +20,67 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
+   ---------------------------------------------------------------------- */
 
-$aLang['navbar_title'] = 'Bons, questions et réponses';
-$aLang['heading_title'] = 'Bons, questions et réponses';
+$aLang['navbar_title'] = 'Bons, questions et rï¿½ponses';
+$aLang['heading_title'] = 'Bons, questions et rï¿½ponses';
 
-$aLang['text_information'] = '<a name="Top"></a>
-  <a href="'.oos_link($aModules['gv'], $aFilename['gv_faq'],'faq_item=1','NONSSL').'">Comment puis-je acheter un bon?</a><br />
-  <a href="'.oos_link($aModules['gv'], $aFilename['gv_faq'],'faq_item=2','NONSSL').'">Comment puis-je envoyer un bon?</a><br />
-  <a href="'.oos_link($aModules['gv'], $aFilename['gv_faq'],'faq_item=3','NONSSL').'">Comment puis-je faire des achats avec un bon?</a><br />
-  <a href="'.oos_link($aModules['gv'], $aFilename['gv_faq'],'faq_item=4','NONSSL').'">Comment puis-je valider un bon?</a><br />
-  <a href="'.oos_link($aModules['gv'], $aFilename['gv_faq'],'faq_item=5','NONSSL').'">Comment procéder en cas de problèmes?</a><br />
-';
-switch ($_GET['faq_item']) {
-  case '1':
-$aLang['sub_heading_title'] = 'Achat de bons';
-$aLang['sub_heading_text'] = 'Les bons sont dans notre magasin traités comme tout autre article. 
+$aLang['text_information'] = '
+<b>Achat de bons</b><br />
+<p>Les bons sont dans notre magasin traitï¿½s comme tout autre article. 
 Vous pouvez les payer avec les formes de paiements que nous offrons dans notre boutique. 
-Vous retrouvez, une fois que le paiement est effectué, la valeur du bon dans votre compte de bon qui se trouve au-dessous du panier.
-Vous y apercevez également un lien conduisant à une page suivante. 
-Vous pouvez à partir de celle-ci envoyer les bons à une autre personne par e-mail
-.';
-  break;
-  case '2':
-$aLang['sub_heading_title'] = 'Envoyer des bons';
-$aLang['sub_heading_text'] = 'Vous devez vous diriger vers la page correspondante afin d\'envoyer un bon. 
-Si vous avez des valeurs actives sur votre compte de bon, vous apercevez le lien conduisant à la page en conséquence (au-dessous du panier c.à.d en haut de chaque page dans la colonne droite). 
-Veuillez introduire le nom et l\'adresse e-mail de la personne à laquelle vous désirez envoyer le bon. 
-Vous pouvez également indiquer la valeur que vous tenez envoyer. (Attention! Vous ne devez pas envoyer l\'avoir total sous forme de bon! Vous avez ainsi le choix de distribuer la valeur du bon à plusieurs personnes!) 
-Vous pouvez aussi accompagner votre e-mail d\'un petit message. Nous vous prions de vérifier toutes les données soigneusement. 
-Vous avez avant l\'envoi définitif du bon encore maintes possibilités de modifier vos données.';
-  break;
-  case '3':
-  $aLang['sub_heading_title'] = 'Achat avec un bon';
-  $aLang['sub_heading_text'] = 'Si vous avez un solde positif sur votre compte de bon, vous pouvez l\'utiliser pour l\'achat de n\'importe quel article de notre boutique. 
-Une interrogation supplémentaire apparaîtra à la fin du processus de commande. 
-Votre bon d\'achat sera utilisé pour cette commande si vous le sélectionnez explicitement. Nous vous prions de tenir compte du fait qu\'il faudra choisir une forme de paiement pour le cas où la valeur de la commande dépasse celle du compte de bon. 
-Si la valeur active du compte est supérieure à votre commande, le solde restera alors enregistré pour des commandes futures dans notre boutique.';
-  break;
-  case '4':
-  $aLang['sub_heading_title'] = 'Endossement des bons';
-  $aLang['sub_heading_text'] = 'Si vous recevez un bon par e-mail, le message sera accompagné par quelques informations. 
-Vous apprenez qui vous l\'a envoyé. Si l\'expéditeur vous a laissé un message, vous pouvez évidemment le consulter. 
-L\'e-mail contient également le code pour votre bon. Nous vous recommandons pour des raisons sécuritaires d\'imprimer le message ou de vous noter le code séparément. 
-Vous pouvez endosser le bon de deux manières:<br />
+Vous retrouvez, une fois que le paiement est effectuï¿½, la valeur du bon dans votre compte de bon qui se trouve au-dessous du panier.
+Vous y apercevez ï¿½galement un lien conduisant ï¿½ une page suivante. 
+Vous pouvez ï¿½ partir de celle-ci envoyer les bons ï¿½ une autre personne par e-mail
+.</p>
+
+<br /><br />
+
+<b>Envoyer des bons</b><br />
+<p>Vous devez vous diriger vers la page correspondante afin d\'envoyer un bon. 
+Si vous avez des valeurs actives sur votre compte de bon, vous apercevez le lien conduisant ï¿½ la page en consï¿½quence (au-dessous du panier c.ï¿½.d en haut de chaque page dans la colonne droite). 
+Veuillez introduire le nom et l\'adresse e-mail de la personne ï¿½ laquelle vous dï¿½sirez envoyer le bon. 
+Vous pouvez ï¿½galement indiquer la valeur que vous tenez envoyer. (Attention! Vous ne devez pas envoyer l\'avoir total sous forme de bon! Vous avez ainsi le choix de distribuer la valeur du bon ï¿½ plusieurs personnes!) 
+Vous pouvez aussi accompagner votre e-mail d\'un petit message. Nous vous prions de vï¿½rifier toutes les donnï¿½es soigneusement. 
+Vous avez avant l\'envoi dï¿½finitif du bon encore maintes possibilitï¿½s de modifier vos donnï¿½es.</p>
+
+<br /><br />
+
+<b>Achat avec un bon</b><br />
+<p>Si vous avez un solde positif sur votre compte de bon, vous pouvez l\'utiliser pour l\'achat de n\'importe quel article de notre boutique. 
+Une interrogation supplï¿½mentaire apparaï¿½tra ï¿½ la fin du processus de commande. 
+Votre bon d\'achat sera utilisï¿½ pour cette commande si vous le sï¿½lectionnez explicitement. Nous vous prions de tenir compte du fait qu\'il faudra choisir une forme de paiement pour le cas oï¿½ la valeur de la commande dï¿½passe celle du compte de bon. 
+Si la valeur active du compte est supï¿½rieure ï¿½ votre commande, le solde restera alors enregistrï¿½ pour des commandes futures dans notre boutique.</p>
+
+<br /><br />
+
+<b>Endossement des bons</b><br />
+<p>Si vous recevez un bon par e-mail, le message sera accompagnï¿½ par quelques informations. 
+Vous apprenez qui vous l\'a envoyï¿½. Si l\'expï¿½diteur vous a laissï¿½ un message, vous pouvez ï¿½videmment le consulter. 
+L\'e-mail contient ï¿½galement le code pour votre bon. Nous vous recommandons pour des raisons sï¿½curitaires d\'imprimer le message ou de vous noter le code sï¿½parï¿½ment. 
+Vous pouvez endosser le bon de deux maniï¿½res:<br />
   1. Cliquez sur le lien dans le message. 
 Vous arrivez alors sur la page des bons de notre boutique. 
-Si vous êtes déjà client, vous pouvez vous y inscrire ou sinon créer un nouveau compte client. 
-Le code du bon est identifié par la suite et la somme vous sera accréditée sur votre compte de bon personnel. 
+Si vous ï¿½tes dï¿½jï¿½ client, vous pouvez vous y inscrire ou sinon crï¿½er un nouveau compte client. 
+Le code du bon est identifiï¿½ par la suite et la somme vous sera accrï¿½ditï¿½e sur votre compte de bon personnel. 
 Vous pouvez utiliser le solde pour divers achats dans notre boutique.
-  2. Une case particulière apparaîtra à la fin du processus de commande à la page où vous choisissez la forme de paiement. 
-La case est destinée pour introduire votre code de bon. Une fois saisi, cliquez sur "encaisser". 
-Le code sera identifié et la somme vous sera accréditée sur votre compte de bon personnel.
-Vous pouvez utiliser le solde pour divers achats dans notre boutique.';
-  break;
-  case '5':
-  $aLang['sub_heading_title'] = 'En cas de difficultés';
-  $aLang['sub_heading_text'] = ' Si des difficultés devraient surgir avec le système des bons, vérifiez soigneusement toutes les données saisies! 
-Nous vous prions de bien vouloir nous contacter par e-mail '. STORE_OWNER_EMAIL_ADDRESS . '. si des problèmes avec le système de bons devraient persister. 
-Veuillez dans le cas échéant nous indiquer le plus d\'informations possibles! Merci beaucoup! ';
-  break;
-  default:
-  $aLang['sub_heading_title'] = '';
-  $aLang['sub_heading_text'] = 'Veuillez sélectionner une des questions mentionnées ci-dessus';
+  2. Une case particuliï¿½re apparaï¿½tra ï¿½ la fin du processus de commande ï¿½ la page oï¿½ vous choisissez la forme de paiement. 
+La case est destinï¿½e pour introduire votre code de bon. Une fois saisi, cliquez sur "encaisser". 
+Le code sera identifiï¿½ et la somme vous sera accrï¿½ditï¿½e sur votre compte de bon personnel.
+Vous pouvez utiliser le solde pour divers achats dans notre boutique.</p>
 
-  }
-?>
+<br /><br />
+
+<b>En cas de difficultï¿½s</b><br />
+<p> Si des difficultï¿½s devraient surgir avec le systï¿½me des bons, vï¿½rifiez soigneusement toutes les donnï¿½es saisies! 
+Nous vous prions de bien vouloir nous contacter par e-mail '. STORE_OWNER_EMAIL_ADDRESS . '. si des problï¿½mes avec le systï¿½me de bons devraient persister. 
+Veuillez dans le cas ï¿½chï¿½ant nous indiquer le plus d\'informations possibles! Merci beaucoup!</p>
+
+<br /><br />
+
+<b>Veuillez sï¿½lectionner une des questions mentionnï¿½es ci-dessus
+<br /><br />';

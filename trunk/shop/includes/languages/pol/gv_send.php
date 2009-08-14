@@ -4,9 +4,8 @@
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
-   
-   
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -21,12 +20,17 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------
+   If you made a translation, please send to
+      lang@oos-shop.de
+   the translated file.
+   ---------------------------------------------------------------------- */
 
 $aLang['heading_title'] = 'Gutschein versenden';
 $aLang['navbar_title'] = 'Gutschein versenden';
 $aLang['email_subject'] = 'Gutschein ' . STORE_NAME;
 $aLang['heading_text'] = '<br />Hier k&ouml;nnen sie leicht und unkompliziert einem Bekannten einen Gutschein fr den Einkauf bei ' . STORE_NAME . ' zukommen lassen.<br /> Einfach den Namen und die e-Mail Adresse der Person eintragen, die Sie mit einem Gutschein beschenken m&ouml;chten, dann noch den
-Wert angeben, den Sie verschenken m�hten, auf <b><tt>weiter</tt></b> dr&uuml;cken, und los gehts. Weitere Informationen ber die Gutschein-Funktionen finden Sie in den <a href="' . oos_href_link($aModules['gv'], $aFilename['gv_faq']).'">Gutechein FAQ\'s</a><br />';
+Wert angeben, den Sie verschenken m�hten, auf <b><tt>weiter</tt></b> dr&uuml;cken, und los gehts. Weitere Informationen ber die Gutschein-Funktionen finden Sie in den <a href="' . oos_href_link($aPages['gv_faq']).'">Gutechein FAQ\'s</a><br />';
 $aLang['entry_name'] = 'Empf�ger - Name:';
 $aLang['entry_email'] = 'Empf�ger - eMail Adresse:';
 $aLang['entry_message'] = 'Ihre Nachricht (wird mit dem Gutschein versendet):';
@@ -51,4 +55,4 @@ $aLang['email_gv_enter'] = ' und den Gutscheincode eingeben ';
 $aLang['email_gv_fixed_footer'] = 'Falls Sie Probleme haben den Gutschein mit dem automatisierten Link zu benutzen, ' . "\n" . 
                                 'k�nen Sie den Gutscheincode auch bei der Bestellung eingeben, wenn Sie diese an der Kasse beenden.' . "\n\n";
 $aLang['email_gv_shop_footer'] = '';
-?>
+

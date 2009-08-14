@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -20,7 +20,6 @@
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
-
 /* ----------------------------------------------------------------------
    If you made a translation, please send to
       lang@oos-shop.de
@@ -31,7 +30,7 @@
 $aLang['heading_title'] = 'Send Gift Voucher';
 $aLang['navbar_title'] = 'Send Gift Voucher';
 $aLang['email_subject'] = 'Enquiry from ' . STORE_NAME;
-$aLang['heading_text'] = '<br />Please enter below the details of the Gift Voucher you wish to send. For more information, please see our <a href="' . oos_href_link($aModules['gv'], $aFilename['gv_faq']).'">'.GV_FAQ.'.</a><br />';
+$aLang['heading_text'] = '<br />Please enter below the details of the Gift Voucher you wish to send. For more information, please see our <a href="' . oos_href_link($aPages['gv_faq']).'">'.GV_FAQ.'.</a><br />';
 $aLang['entry_name'] = 'Recipients Name:';
 $aLang['entry_email'] = 'Recipients E-Mail Address:';
 $aLang['entry_message'] = 'Message to Recipients:';
@@ -59,4 +58,4 @@ $aLang['email_gv_fixed_footer'] = 'If you are have problems redeeming the Gift V
                                 'you can also enter the Gift Voucher code during the checkout process at our store.' . "\n\n");
 $aLang['email_gv_shop_footer'] = '';
 
-?>
+

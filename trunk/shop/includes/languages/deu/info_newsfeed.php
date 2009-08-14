@@ -27,9 +27,9 @@ $aLang['heading_title'] = 'RDS/RSS Newsfeed';
 
 $aLang['text_information'] = 'F&uuml;gen Sie hier Ihre Informationen ein.<br /><b>URL:</b><br />';
 if ($oEvent->installed_plugin('sefu')) {
-  $aLang['text_information'] .= '<a href="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php/page/' . $aPages['products_rss'] . ' target="_blank">' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php/page/' . $aPages['products_rss'] .'</a>';
+  $aLang['text_information'] .= '<a href="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php/page/' . $aPages['products_rss'] . '" target="_blank">' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php/page/' . $aPages['products_rss'] .'</a>';
 } else {
-  $aLang['text_information'] .= '<a href="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aPages['products_rss'] . ' target="_blank">' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aPages['products_rss'] .'</a>';
+  $aLang['text_information'] .= '<a href="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aPages['products_rss'] . '" target="_blank">' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aPages['products_rss'] .'</a>';
 }
 $aLang['text_information'] .= '<br /><br /><br />';
 
