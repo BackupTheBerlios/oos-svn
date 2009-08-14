@@ -32,13 +32,13 @@
                 <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
    {if sizeof($order->info.tax_groups) > 1}
                   <tr>
-                    <td class="main" colspan="2"><b>{$lang.heading_products}</b> <a href="{html_href_link page=$pages.main_shopping_cart}"><span class="orderEdit">({$lang.text_edit})</span></a></td>
+                    <td class="main" colspan="2"><b>{$lang.heading_products}</b> <a href="{html_href_link page=$pages.shopping_cart}"><span class="orderEdit">({$lang.text_edit})</span></a></td>
                     <td class="smallText" align="right"><b>{$lang.heading_tax}</b></td>
                     <td class="smallText" align="right"><b>{$lang.heading_total}</b></td>
                   </tr>
   {else}
                   <tr>
-                    <td class="main" colspan="3"><b>{$lang.heading_products}</b> <a href="{html_href_link page=$pages.main_shopping_cart}"><span class="orderEdit">({$lang.text_edit})</span></a></td>
+                    <td class="main" colspan="3"><b>{$lang.heading_products}</b> <a href="{html_href_link page=$pages.shopping_cart}"><span class="orderEdit">({$lang.text_edit})</span></a></td>
                   </tr>
   {/if}
   {foreach item=products from=$order->products}

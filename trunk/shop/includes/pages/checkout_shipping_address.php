@@ -33,7 +33,7 @@ if (!isset($_SESSION['customer_id'])) {
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
 if ($_SESSION['cart']->count_contents() < 1) {
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']));
 }
 
 // if the order contains only virtual products, forward the customer to the billing page as

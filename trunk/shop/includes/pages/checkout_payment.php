@@ -38,7 +38,7 @@ if (oos_empty($_SESSION['member']->group['payment'])) {
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
 if ($_SESSION['cart']->count_contents() < 1) {
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']));
 }
 
 // if no shipping method has been selected, redirect the customer to the shipping method selection page
@@ -64,7 +64,7 @@ if ( (STOCK_CHECK == '1') && (STOCK_ALLOW_CHECKOUT != '1') ) {
         }
     }
     if ($any_out_of_stock == 1) {
-        MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']));
     }
 }
 

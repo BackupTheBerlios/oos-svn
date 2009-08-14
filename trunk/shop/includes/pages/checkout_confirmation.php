@@ -34,7 +34,7 @@ if (!isset($_SESSION['customer_id'])) {
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
 if ($_SESSION['cart']->count_contents() < 1) {
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']));
 }
 
 // avoid hack attempts during the checkout procedure by checking the internal cartID
@@ -128,7 +128,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
         }
         // Out of Stock
         if ( (STOCK_ALLOW_CHECKOUT != '1') && ($any_out_of_stock == true) ) {
-            MyOOS_CoreApi::redirect(oos_href_link($aPages['main_shopping_cart']));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']));
         }
     }
 

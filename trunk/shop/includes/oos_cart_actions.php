@@ -23,7 +23,7 @@
   defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
   if (DISPLAY_CART == '1') {
-    $goto_file = $aPages['main_shopping_cart'];
+    $goto_file = $aPages['shopping_cart'];
     $parameters = array('action', 'categories', 'products_id', 'pid', 'formid');
   } else {
     $goto_file = $sPage;

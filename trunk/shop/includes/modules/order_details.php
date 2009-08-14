@@ -33,7 +33,7 @@ if ((SHOPPING_CART_IMAGE_ON == '1')) {
     $shopping_cart_detail .= '    <td align="center" class="smallText"></td>' . "\n";
 }
 
-if ($sPage == $aPages['main_shopping_cart']) {
+if ($sPage == $aPages['shopping_cart']) {
     $colspan++;
     $shopping_cart_detail .= '    <td align="center" class="smallText"><b>' . $aLang['table_heading_remove'] . '</b></td>' . "\n";
 }
@@ -41,7 +41,7 @@ if ($sPage == $aPages['main_shopping_cart']) {
 $shopping_cart_detail .= '    <td align="center" class="tableHeading">' . $aLang['table_heading_quantity'] . '</td>' . "\n";
 
 if (PRODUCT_LIST_MODEL > 0) {
-    if ($sPage == $aPages['main_shopping_cart']) {
+    if ($sPage == $aPages['shopping_cart']) {
         $colspan++;
         $shopping_cart_detail .= '    <td class="tableHeading">' . $aLang['table_heading_model'] . '</td>' . "\n";
     }
@@ -49,14 +49,14 @@ if (PRODUCT_LIST_MODEL > 0) {
 
 $shopping_cart_detail .= '    <td class="tableHeading">' . $aLang['table_heading_products'] . '</td>' . "\n";
 
-if ($sPage == $aPages['main_shopping_cart']) {
+if ($sPage == $aPages['shopping_cart']) {
     if ($_SESSION['member']->group['discount'] != 0) {
         $colspan++;
         $shopping_cart_detail .= '<td align="right" class="tableHeading"><b>' . $aLang['table_heading_discount'] . '</b></td>';
     }
 }
 
-if ($sPage != $aPages['main_shopping_cart']) {
+if ($sPage != $aPages['shopping_cart']) {
     $colspan++;
     $shopping_cart_detail .= '    <td align="center" class="tableHeading">' . $aLang['table_heading_tax'] . '</td>' . "\n";
 }
@@ -87,7 +87,7 @@ for ($i=0, $n=$nArrayCountProducts; $i<$n; $i++) {
 
 
     // Delete box only for shopping cart
-    if ($sPage == $aPages['main_shopping_cart']) {
+    if ($sPage == $aPages['shopping_cart']) {
         $shopping_cart_detail .= '    <td align="center" valign="top">' . oos_draw_checkbox_field('cart_delete[]', $products[$i]['id']) . '</td>' . "\n";
     }
 
@@ -98,20 +98,20 @@ for ($i=0, $n=$nArrayCountProducts; $i<$n; $i++) {
         $quantity = number_format($products[$i]['quantity']);
     }
 
-    if ($sPage == $aPages['main_shopping_cart']) {
+    if ($sPage == $aPages['shopping_cart']) {
         $shopping_cart_detail .= '    <td align="center" valign="top" class ="main">' . oos_draw_input_field('cart_quantity[]', $quantity, 'size="4"') . oos_draw_hidden_field('products_id[]', $products[$i]['id']) .  '<br />' . (oos_get_products_quantity_order_min($products[$i]['id']) > 1 ? $aLang['products_order_qty_min_text_cart_short'] . oos_get_products_quantity_order_min($products[$i]['id']) : '') . (oos_get_products_quantity_order_units($products[$i]['id']) > 1 ? $aLang['products_order_qty_unit_text_cart_short'] . oos_get_products_quantity_order_units($products[$i]['id']) : "") . '</td>' . "\n";
     } else {
         $shopping_cart_detail .= '    <td align="center" valign="top" class ="main">' . $quantity . '</td>' . "\n";
     }
 
     if (PRODUCT_LIST_MODEL > 0) {
-        if ($sPage == $aPages['main_shopping_cart']) {
+        if ($sPage == $aPages['shopping_cart']) {
             $shopping_cart_detail .= '    <td valign="top" class="main"><a href="' . oos_href_link($aPages['product_info'], 'products_id=' . $products[$i]['id']) . '">' . $products[$i]['model'] . '</a></td>' . "\n";
         }
     }
 
     // Product name, with or without link
-    if ($sPage == $aPages['main_shopping_cart']) {
+    if ($sPage == $aPages['shopping_cart']) {
     $shopping_cart_detail .= '    <td valign="top" class="main"><a href="' . oos_href_link($aPages['product_info'], 'products_id=' . $products[$i]['id']) . '"><b>' . $products[$i]['name'] . '</b></a>';
     } else {
     $shopping_cart_detail .= '    <td valign="top" class="main"><b>' . $products[$i]['name'] . '</b>';
@@ -138,7 +138,7 @@ for ($i=0, $n=$nArrayCountProducts; $i<$n; $i++) {
             $shopping_cart_detail .= '<br /><small><i> - ' . $products[$i][$option]['products_options_name'] . ' ' . $products[$i][$option]['products_options_values_name'] . '</i></small>';
         }
 
-        if ($sPage == $aPages['main_shopping_cart']) {
+        if ($sPage == $aPages['shopping_cart']) {
             $shopping_cart_detail .= '<br /><br />';
             $shopping_cart_detail .= '<a href="' . oos_href_link($aPages['product_info'], 'products_id=' . $products[$i]['id'] . '&edit=yes') . '">' . $aLang['text_edit_product'] . '</a><br />';
             $shopping_cart_detail .= '<a href="' . oos_href_link($aPages['product_info'], 'products_id=' . $products[$i]['id'] . '&edit=yes') . '">' . $aLang['text_add_options'] . '</a><br />';
@@ -148,7 +148,7 @@ for ($i=0, $n=$nArrayCountProducts; $i<$n; $i++) {
 
     $shopping_cart_detail .= '</td>' . "\n";
 
-    if ($sPage == $aPages['main_shopping_cart']) {
+    if ($sPage == $aPages['shopping_cart']) {
         if ($_SESSION['member']->group['discount'] != 0) {
             $max_product_discount = min($products[$i]['discount_allowed'] , $_SESSION['member']->group['discount']);
             if ( ($max_product_discount > 0) && ($products[$i]['spezial'] == '0') ) {
@@ -160,7 +160,7 @@ for ($i=0, $n=$nArrayCountProducts; $i<$n; $i++) {
     }
 
     // Tax (not in shopping cart, tax rate may be unknown)
-    if ($sPage != $aPages['main_shopping_cart']) {
+    if ($sPage != $aPages['shopping_cart']) {
         $shopping_cart_detail .= '    <td align="center" valign="top" class="main">' . number_format($products[$i]['tax'], TAX_DECIMAL_PLACES) . '%</td>' . "\n";
     }
 

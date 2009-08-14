@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- $Id$
+ $Id: main_shopping_cart.php 340 2009-08-13 17:29:45Z r23 $
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
@@ -27,7 +27,7 @@ $_SESSION['navigation']->remove_current_page();
 require 'includes/languages/' . $sLanguage . '/main_shopping_cart.php';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['main_shopping_cart']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['shopping_cart']), bookmark);
 
 $aOption['template_main'] = $sTheme . '/system/shopping_cart.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
