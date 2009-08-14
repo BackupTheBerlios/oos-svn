@@ -117,7 +117,8 @@ $aKeys = array('affiliate_reset',
                'affiliate_summary',
                'affiliate_reset',
                'content_news',
-               'backup');
+               'backup',
+               'keyword_show');
 $db->Execute("DELETE FROM " . $table . " WHERE admin_files_name in ('" . implode("', '", $aKeys) . "')");
 
 
