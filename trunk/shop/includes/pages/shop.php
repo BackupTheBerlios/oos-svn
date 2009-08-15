@@ -267,16 +267,17 @@ if ($category_depth == 'nested') {
                              'PRODUCT_LIST_WEIGHT' => PRODUCT_LIST_WEIGHT,
                              'PRODUCT_LIST_IMAGE' => PRODUCT_LIST_IMAGE,
                              'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW);
-        asort($define_list);
+        asort($aDefineList);
         $oSmarty->assign('define_list', $aDefineList);
 
 
-        $column_list = array();
+        $aColumnList = array();
         reset($aDefineList);
 
         foreach ($aDefineList as $column => $value) {
-           if ($value) $column_list[] = $column;
+           if ($value > 0) $aColumnList[] = $column;
         }
+
 
 // show the products of a specified manufacturer
         if (isset($_GET['manufacturers_id'])) {
@@ -423,7 +424,7 @@ if ($category_depth == 'nested') {
                               ORDER BY m.manufacturers_name";
         }
 
-        if ( (!isset($_GET['sort'])) || (!ereg('[1-8][ad]', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($column_list)) ) {
+        if ( (!isset($_GET['sort'])) || (!ereg('[1-8][ad]', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($aColumnList)) ) {
           $_GET['sort'] = 'products_sort_order';
           $listing_sql .= " ORDER BY p.products_sort_order, pd.products_name";
         } else {
@@ -431,7 +432,7 @@ if ($category_depth == 'nested') {
             $sort_order = substr($_GET['sort'], 1);
             $listing_sql .= ' ORDER BY ';
 
-            switch ($column_list[$sort_col-1]) {
+            switch ($aColumnList[$sort_col-1]) {
                 case 'PRODUCT_LIST_MODEL':
                   $listing_sql .= "p.products_model " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
                   break;

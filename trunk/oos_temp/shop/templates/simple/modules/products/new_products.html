@@ -15,7 +15,8 @@
 <table border="0" width="100%" cellspacing="4" cellpadding="0" class="oos-BoxContents">
   <tr>
   {/if}
-    <td align="center" class="smallText" width="33%" valign="top"><a href="{product_info_link products_id=$new_products_array[i].products_id}">{html_oos_image basedir=$smarty.const.OOS_IMAGES image=$new_products_array[i].products_image alt=$new_products_array[i].products_name height=$smarty.const.SMALL_IMAGE_HEIGHT width=$smarty.const.SMALL_IMAGE_WIDTH}</a><br />
+
+    <td align="center" class="smallText" width="33%" valign="top"><a href="{product_info_link products_id=$new_products_array[i].products_id}">{small_product_image image=$new_products_array[i].products_image alt=$new_products_array[i].products_name|strip_tags}</a><br />
       <a href="{product_info_link products_id=$new_products_array[i].products_id}">{$new_products_array[i].products_name}</a><br />
 {if (!empty($new_products_array[i].new_product_special_price))}
    <s>{$new_products_array[i].new_product_price}{$new_products_array[i].new_product_units}</s><br />
