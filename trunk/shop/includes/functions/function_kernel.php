@@ -548,7 +548,7 @@ function oos_get_all_get_parameters($aExclude = '')
 {
 
     if (!is_array($aExclude)) $aExclude = array();
-    $aParameters = array('p', 'error', 'rewrite', 'c', 'm', 'mp', 'file', 'infex.php', 'history_back', 'gclid', 'x', 'y');
+    $aParameters = array('p', 'error', 'rewrite', 'c', 'm', 'page', 'infex.php', 'history_back', 'gclid', 'x', 'y');
 
     $sUrl = '';
     if (is_array($_GET) && (count($_GET) > 0)) {
@@ -576,7 +576,7 @@ function oos_get_all_post_parameters($aExclude = '')
 
     if (!is_array($aExclude)) $aExclude = array();
 
-    $aParameters = array('mp', 'file', 'x', 'y');
+    $aParameters = array('page', 'x', 'y');
 
     $sUrl = '';
     if (is_array($_POST) && (count($_POST) > 0)) {

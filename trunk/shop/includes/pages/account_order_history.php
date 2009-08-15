@@ -28,6 +28,16 @@ if (!isset($_SESSION['customer_id'])) {
 }
 
 // split-page-results
+if (isset($_GET['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_GET, 'nv', FILTER_VALIDATE_INT);
+} elseif (isset($_POST['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_POST, 'nv', FILTER_VALIDATE_INT);
+} else {
+    $nCurrentPageNumber = 1;
+}
+
+if (empty($nCurrentPageNumber) || !is_numeric($nCurrentPageNumber)) $nCurrentPageNumber = 1;
+
 MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
 
 require 'includes/languages/' . $sLanguage . '/account_order_history.php';
@@ -91,7 +101,7 @@ if ($orders_result->RecordCount()) {
                             AND pd.products_id IN ($product_ids)
                             AND pd.products_languages_id = '" .  intval($nLanguageID) . "'";
 
-    $order_history_split = new splitPageResults($_GET['page'], MAX_DISPLAY_PRODUCTS_NEW, $order_history_raw, $order_history_numrows);
+    $order_history_split = new splitPageResults($nCurrentPageNumber, MAX_DISPLAY_PRODUCTS_NEW, $order_history_raw, $order_history_numrows);
     $order_history_result = $dbconn->Execute($order_history_raw);
 
     $order_history_array = array();
@@ -145,8 +155,8 @@ if ($orders_result->RecordCount()) {
     // assign Smarty variables;
     $oSmarty->assign(
         array(
-           'oos_page_split'          => $order_history_split->display_count($order_history_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], $aLang['text_display_number_of_products']),
-           'oos_display_links'       => $order_history_split->display_links($order_history_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_parameters(array('page', 'info'))),
+           'oos_page_split'          => $order_history_split->display_count($order_history_numrows, MAX_DISPLAY_SEARCH_RESULTS, $nCurrentPageNumber, $aLang['text_display_number_of_products']),
+           'oos_display_links'       => $order_history_split->display_links($order_history_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
            'oos_page_numrows'        => $order_history_numrows,
 
            'products_image_box'      => SMALL_IMAGE_WIDTH + 10,

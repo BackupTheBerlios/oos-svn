@@ -33,7 +33,18 @@ if (!isset($_SESSION['customer_id']) && (isset($_GET['login']) && ($_GET['login'
 }
 
 // split-page-results
+if (isset($_GET['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_GET, 'nv', FILTER_VALIDATE_INT);
+} elseif (isset($_POST['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_POST, 'nv', FILTER_VALIDATE_INT);
+} else {
+    $nCurrentPageNumber = 1;
+}
+
+if (empty($nCurrentPageNumber) || !is_numeric($nCurrentPageNumber)) $nCurrentPageNumber = 1;
+
 MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
+
 
 require 'includes/languages/' . $sLanguage . '/ticket_view.php';
 
@@ -143,7 +154,7 @@ if (isset($_SESSION['customer_id'])) {
                               FROM $ticket_tickettable
                               WHERE ticket_customers_id = '" . intval($_SESSION['customer_id']) . "'
                               ORDER BY ticket_date_last_modified DESC";
-    $customers_tickets_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $customers_tickets_raw, $customers_tickets_numrows);
+    $customers_tickets_split = new splitPageResults($nCurrentPageNumber, MAX_DISPLAY_SEARCH_RESULTS, $customers_tickets_raw, $customers_tickets_numrows);
     if ($customers_tickets_numrows > 0 ) {
         $customers_tickets_result = $dbconn->Execute($customers_tickets_raw);
         $customers_tickets_array = array();

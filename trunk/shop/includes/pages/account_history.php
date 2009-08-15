@@ -28,7 +28,19 @@ if (!isset($_SESSION['customer_id'])) {
 }
 
 // split-page-results
+if (isset($_GET['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_GET, 'nv', FILTER_VALIDATE_INT);
+} elseif (isset($_POST['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_POST, 'nv', FILTER_VALIDATE_INT);
+} else {
+    $nCurrentPageNumber = 1;
+}
+
+if (empty($nCurrentPageNumber) || !is_numeric($nCurrentPageNumber)) $nCurrentPageNumber = 1;
+
 MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
+
+
 
 require 'includes/languages/' . $sLanguage . '/account_history.php';
 
@@ -46,7 +58,7 @@ $history_result_raw = "SELECT o.orders_id, o.date_purchased, o.delivery_name, ot
                       WHERE o.customers_id = '" . intval($_SESSION['customer_id']) . "'
                         AND ot.class = 'ot_total'
                       ORDER BY orders_id DESC";
-$history_split = new splitPageResults($_GET['page'], MAX_DISPLAY_ORDER_HISTORY, $history_result_raw, $history_numrows);
+$history_split = new splitPageResults($nCurrentPageNumber, MAX_DISPLAY_ORDER_HISTORY, $history_result_raw, $history_numrows);
 $history_result = $dbconn->Execute($history_result_raw);
 
 $aHistory = array();
@@ -95,8 +107,8 @@ $oSmarty->assign(
           'oos_heading_title' => $aLang['heading_title'],
           'oos_heading_image' => 'history.gif',
 
-          'oos_page_split'    => $history_split->display_count($history_numrows, MAX_DISPLAY_ORDER_HISTORY, $_GET['page'], $aLang['text_display_number_of_orders']),
-          'oos_display_links' => $history_split->display_links($history_numrows, MAX_DISPLAY_ORDER_HISTORY, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_parameters(array('page', 'info'))),
+          'oos_page_split'    => $history_split->display_count($history_numrows, MAX_DISPLAY_ORDER_HISTORY, $nCurrentPageNumber, $aLang['text_display_number_of_orders']),
+          'oos_display_links' => $history_split->display_links($history_numrows, MAX_DISPLAY_ORDER_HISTORY, MAX_DISPLAY_PAGE_LINKS, $nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
           'oos_page_numrows'  => $history_numrows,
 
           'oos_history_array' => $aHistory

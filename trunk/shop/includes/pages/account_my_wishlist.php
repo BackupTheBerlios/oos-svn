@@ -33,7 +33,18 @@ if (!isset($_SESSION['customer_id'])) {
 }
 
 // split-page-results
+if (isset($_GET['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_GET, 'nv', FILTER_VALIDATE_INT);
+} elseif (isset($_POST['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_POST, 'nv', FILTER_VALIDATE_INT);
+} else {
+    $nCurrentPageNumber = 1;
+}
+
+if (empty($nCurrentPageNumber) || !is_numeric($nCurrentPageNumber)) $nCurrentPageNumber = 1;
+
 MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
+
 
 require 'includes/languages/' . $sLanguage . '/account_my_wishlist.php';
 
@@ -43,7 +54,7 @@ $wishlist_result_raw = "SELECT products_id, customers_wishlist_date_added
                         WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
                           AND customers_wishlist_link_id = '" . oos_db_input($_SESSION['customer_wishlist_link_id']) . "'
                        ORDER BY customers_wishlist_date_added";
-$wishlist_split = new splitPageResults($_GET['page'], MAX_DISPLAY_WISHLIST_PRODUCTS, $wishlist_result_raw, $wishlist_numrows);
+$wishlist_split = new splitPageResults($nCurrentPageNumber, MAX_DISPLAY_WISHLIST_PRODUCTS, $wishlist_result_raw, $wishlist_numrows);
 $wishlist_result = $dbconn->Execute($wishlist_result_raw);
 
 $aWishlist = array();
@@ -176,8 +187,8 @@ $oSmarty->assign(
            'oos_heading_title' => $aLang['heading_title'],
            'oos_heading_image' => 'wishlist.gif',
 
-           'oos_page_split' => $wishlist_split->display_count($wishlist_numrows, MAX_DISPLAY_WISHLIST_PRODUCTS, $_GET['page'], $aLang['text_display_number_of_wishlist']),
-           'oos_display_links' => $wishlist_split->display_links($wishlist_numrows, MAX_DISPLAY_WISHLIST_PRODUCTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_parameters(array('page', 'info'))),
+           'oos_page_split' => $wishlist_split->display_count($wishlist_numrows, MAX_DISPLAY_WISHLIST_PRODUCTS,$nCurrentPageNumber, $aLang['text_display_number_of_wishlist']),
+           'oos_display_links' => $wishlist_split->display_links($wishlist_numrows, MAX_DISPLAY_WISHLIST_PRODUCTS, MAX_DISPLAY_PAGE_LINKS,$nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
            'oos_page_numrows' => $wishlist_numrows,
 
            'wishlist_array' => $aWishlist

@@ -47,7 +47,18 @@ if (!defined('MAX_DISPLAY_NEW_REVIEWS')) {
 }
 
 // split-page-results
+if (isset($_GET['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_GET, 'nv', FILTER_VALIDATE_INT);
+} elseif (isset($_POST['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_POST, 'nv', FILTER_VALIDATE_INT);
+} else {
+    $nCurrentPageNumber = 1;
+}
+
+if (empty($nCurrentPageNumber) || !is_numeric($nCurrentPageNumber)) $nCurrentPageNumber = 1;
+
 MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
+
 
 
 
@@ -58,9 +69,8 @@ $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 
-$nPage = isset($_GET['page']) ? $_GET['page']+0 : 1;
 $sGroup = trim($_SESSION['member']->group['text']);
-$contents_cache_id = $sTheme . '|products|reviews|' . $nPage. '|' . $sGroup . '|' . $sLanguage;
+$contents_cache_id = $sTheme . '|products|reviews|' . $nCurrentPageNumber . '|' . $sGroup . '|' . $sLanguage;
 
 require 'includes/oos_system.php';
 if (!isset($option)) {
@@ -91,7 +101,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
                              AND pd.products_languages_id = '" . intval($nLanguageID) . "'
                              AND rd.reviews_languages_id = '" . intval($nLanguageID) . "'
                            ORDER BY r.reviews_id DESC";
-    $reviews_split = new splitPageResults($_GET['page'], MAX_DISPLAY_NEW_REVIEWS, $reviews_result_raw, $reviews_numrows);
+    $reviews_split = new splitPageResults($nCurrentPageNumber, MAX_DISPLAY_NEW_REVIEWS, $reviews_result_raw, $reviews_numrows);
     $reviews_result = $dbconn->Execute($reviews_result_raw);
 
     $aReviews = array();
@@ -119,8 +129,8 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
               'oos_heading_title' => $aLang['heading_title'],
               'oos_heading_image' => 'specials.gif',
 
-              'oos_page_split'    => $reviews_split->display_count($reviews_numrows, MAX_DISPLAY_NEW_REVIEWS, $_GET['page'], $aLang['text_display_number_of_reviews']),
-              'oos_display_links' => $reviews_split->display_links($reviews_numrows, MAX_DISPLAY_NEW_REVIEWS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_parameters(array('page', 'info'))),
+              'oos_page_split'    => $reviews_split->display_count($reviews_numrows, MAX_DISPLAY_NEW_REVIEWS, $nCurrentPageNumber, $aLang['text_display_number_of_reviews']),
+              'oos_display_links' => $reviews_split->display_links($reviews_numrows, MAX_DISPLAY_NEW_REVIEWS, MAX_DISPLAY_PAGE_LINKS, $nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
               'oos_page_numrows'  => $reviews_numrows,
 
               'oos_reviews_array' => $aReviews

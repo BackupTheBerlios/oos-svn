@@ -38,11 +38,12 @@ class splitPageResults
     /**
      * Constructor
      */
-    function splitPageResults(&$current_page_number, $max_rows_per_page, &$sql_result, &$query_num_rows)
+    function splitPageResults($nCurrentPageNumber, $max_rows_per_page, &$sql_result, &$query_num_rows)
     {
 
+
         $dbconn =& oosDBGetConn();
-        if (empty($current_page_number)) $current_page_number = 1;
+        if (empty($nCurrentPageNumber) || !is_numeric($nCurrentPageNumber)) $nCurrentPageNumber = 1;
 
         $pos_to = strlen($sql_result);
         $pos_from = strpos($sql_result, ' FROM', 0);
@@ -62,7 +63,7 @@ class splitPageResults
         $pos_procedure = strpos($sql_result, ' PROCEDURE', $pos_from);
         if (($pos_procedure < $pos_to) && ($pos_procedure != false)) $pos_to = $pos_procedure;
 
-        $offset = ($max_rows_per_page * ($current_page_number - 1));
+        $offset = ($max_rows_per_page * ($nCurrentPageNumber - 1));
         if ($offset < 0) $offset = 0;
         $sql_result .= " LIMIT " . max($offset, 0) . ", " . $max_rows_per_page;
 
@@ -78,11 +79,11 @@ class splitPageResults
      * @param $query_numrows
      * @param $max_rows_per_page
      * @param $max_page_links
-     * @param $current_page_number
+     * @param $nCurrentPageNumber
      * @param $parameters
      * @return string
      */
-    function display_links($query_numrows, $max_rows_per_page, $max_page_links, $current_page_number, $parameters = '')
+    function display_links($query_numrows, $max_rows_per_page, $max_page_links, $nCurrentPageNumber, $parameters = '')
     {
         global $aLang, $sPage;
 
@@ -98,32 +99,32 @@ class splitPageResults
         if ($query_numrows % $max_rows_per_page) $num_pages++; // has remainder so add one page
 
         // previous button - not displayed on first page
-        if ($current_page_number > 1) $display_link .= '<a href="' . oos_href_link($sPage, $parameters . 'page=' . ($current_page_number - 1)) . '" ' . $class . ' title=" ' . $aLang['prevnext_title_previous_page'] . ' ">[<u>' . $aLang['prevnext_button_prev'] . '</u>]</a>&nbsp;&nbsp;';
+        if ($nCurrentPageNumber > 1) $display_link .= '<a href="' . oos_href_link($sPage, $parameters . 'nv=' . ($nCurrentPageNumber - 1)) . '" ' . $class . ' title=" ' . $aLang['prevnext_title_previous_page'] . ' ">[<u>' . $aLang['prevnext_button_prev'] . '</u>]</a>&nbsp;&nbsp;';
 
         // check if num_pages > $max_page_links
-        $cur_window_num = intval($current_page_number / $max_page_links);
-        if ($current_page_number % $max_page_links) $cur_window_num++;
+        $cur_window_num = intval($nCurrentPageNumber / $max_page_links);
+        if ($nCurrentPageNumber % $max_page_links) $cur_window_num++;
 
         $max_window_num = intval($num_pages / $max_page_links);
         if ($num_pages % $max_page_links) $max_window_num++;
 
         // previous window of pages
-        if ($cur_window_num > 1) $display_link .= '<a href="' . oos_href_link($sPage, $parameters . 'page=' . (($cur_window_num - 1) * $max_page_links)) . '" ' . $class . ' title=" ' . sprintf($aLang['prevnext_title_prev_set_of_no_page'], $max_page_links) . ' ">...</a>';
+        if ($cur_window_num > 1) $display_link .= '<a href="' . oos_href_link($sPage, $parameters . 'nv=' . (($cur_window_num - 1) * $max_page_links)) . '" ' . $class . ' title=" ' . sprintf($aLang['prevnext_title_prev_set_of_no_page'], $max_page_links) . ' ">...</a>';
 
         // page nn button
         for ($jump_to_page = 1 + (($cur_window_num - 1) * $max_page_links); ($jump_to_page <= ($cur_window_num * $max_page_links)) && ($jump_to_page <= $num_pages); $jump_to_page++) {
-            if ($jump_to_page == $current_page_number) {
+            if ($jump_to_page == $nCurrentPageNumber) {
                 $display_link .= '&nbsp;<b>' . $jump_to_page . '</b>&nbsp;';
             } else {
-                $display_link .= '&nbsp;<a href="' . oos_href_link($sPage, $parameters . 'page=' . $jump_to_page) . '" ' . $class . ' title=" ' . sprintf($aLang['prevnext_title_page_no'], $jump_to_page) . ' "><u>' . $jump_to_page . '</u></a>&nbsp;';
+                $display_link .= '&nbsp;<a href="' . oos_href_link($sPage, $parameters . 'nv=' . $jump_to_page) . '" ' . $class . ' title=" ' . sprintf($aLang['prevnext_title_page_no'], $jump_to_page) . ' "><u>' . $jump_to_page . '</u></a>&nbsp;';
             }
         }
 
         // next window of pages
-        if ($cur_window_num < $max_window_num) $display_link .= '<a href="' . oos_href_link($sPage, $parameters . 'page=' . (($cur_window_num) * $max_page_links + 1)) . '" ' . $class . ' title=" ' . sprintf($aLang['prevnext_title_next_set_of_no_page'], $max_page_links) . ' ">...</a>&nbsp;';
+        if ($cur_window_num < $max_window_num) $display_link .= '<a href="' . oos_href_link($sPage, $parameters . 'nv=' . (($cur_window_num) * $max_page_links + 1)) . '" ' . $class . ' title=" ' . sprintf($aLang['prevnext_title_next_set_of_no_page'], $max_page_links) . ' ">...</a>&nbsp;';
 
         // next button
-        if (($current_page_number < $num_pages) && ($num_pages != 1)) $display_link .= '&nbsp;<a href="' . oos_href_link($sPage, $parameters . 'page=' . ($current_page_number + 1)) . '" ' . $class . ' title=" ' . $aLang['prevnext_title_next_page'] . ' ">[<u>' . $aLang['prevnext_button_next'] . '</u>]</a>&nbsp;';
+        if (($nCurrentPageNumber < $num_pages) && ($num_pages != 1)) $display_link .= '&nbsp;<a href="' . oos_href_link($sPage, $parameters . 'nv=' . ($nCurrentPageNumber + 1)) . '" ' . $class . ' title=" ' . $aLang['prevnext_title_next_page'] . ' ">[<u>' . $aLang['prevnext_button_next'] . '</u>]</a>&nbsp;';
 
 
         return $display_link;
@@ -135,16 +136,16 @@ class splitPageResults
      *
      * @param $query_numrows
      * @param $max_rows_per_page
-     * @param $current_page_number
+     * @param $nCurrentPageNumber
      * @param $text_output
      * @return string
      */
-    function display_count($query_numrows, $max_rows_per_page, $current_page_number, $text_output)
+    function display_count($query_numrows, $max_rows_per_page, $nCurrentPageNumber, $text_output)
     {
 
-        $to_num = ($max_rows_per_page * $current_page_number);
+        $to_num = ($max_rows_per_page * $nCurrentPageNumber);
         if ($to_num > $query_numrows) $to_num = $query_numrows;
-        $from_num = ($max_rows_per_page * ($current_page_number - 1));
+        $from_num = ($max_rows_per_page * ($nCurrentPageNumber - 1));
         if ($to_num == 0) {
             $from_num = 0;
         } else {

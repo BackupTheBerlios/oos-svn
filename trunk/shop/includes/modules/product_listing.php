@@ -24,6 +24,16 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 // split-page-results
+if (isset($_GET['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_GET, 'nv', FILTER_VALIDATE_INT);
+} elseif (isset($_POST['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_POST, 'nv', FILTER_VALIDATE_INT);
+} else {
+    $nCurrentPageNumber = 1;
+}
+
+if (empty($nCurrentPageNumber) || !is_numeric($nCurrentPageNumber)) $nCurrentPageNumber = 1;
+
 MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
 
 
@@ -32,7 +42,7 @@ include 'includes/functions/function_listing.php';
 
 
 $listing_numrows_sql = $listing_sql;
-$listing_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $listing_sql, $listing_numrows);
+$listing_split = new splitPageResults($nCurrentPageNumber, MAX_DISPLAY_SEARCH_RESULTS, $listing_sql, $listing_numrows);
 
 $listing_numrows = $dbconn->Execute($listing_numrows_sql);
 $listing_numrows = $listing_numrows->RecordCount();
@@ -117,7 +127,11 @@ $list_box_contents[] = array('params' => 'class="productListing-even"');
 
 if ($listing_numrows > 0) {
 
+
+    // todo remove oos_get_all_get_parameters
+    // 'nv='. $nCurrentPageNumber
     if (!isset($all_get_listing)) $all_get_listing = oos_get_all_get_parameters(array('action'));
+
 
     $listing_result = $dbconn->Execute($listing_sql);
     while ($listing = $listing_result->fields)
@@ -228,6 +242,7 @@ if ($listing_numrows > 0) {
 
 // todo remove oos_get_all_as_hidden_field
 $sProductListBuyNow .= oos_get_all_as_hidden_field(array('action'));
+                 $sProductListBuyNow .= '<input type="hidden" name="nv" value="' . $nCurrentPageNumber .'">';
 
                  $sProductListBuyNow .= $aLang['products_order_qty_text'];
                  $sProductListBuyNow .= ' <input type="text" name="cart_quantity" value="' . $order_min . '" size="3" /><br />';
@@ -265,8 +280,8 @@ $sProductListBuyNow .= oos_get_all_as_hidden_field(array('action'));
 
 }
 
-$oSmarty->assign(array('oos_page_split' => $listing_split->display_count($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], $aLang['text_display_number_of_products']),
-                       'oos_display_links' => $listing_split->display_links($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_parameters(array('page', 'info'))),
+$oSmarty->assign(array('oos_page_split' => $listing_split->display_count($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, $nCurrentPageNumber, $aLang['text_display_number_of_products']),
+                       'oos_display_links' => $listing_split->display_links($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
                        'oos_page_numrows' => $listing_numrows));
 
 $oSmarty->assign('list_box_contents', $aProductListing);

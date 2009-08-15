@@ -24,6 +24,16 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 // split-page-results
+if (isset($_GET['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_GET, 'nv', FILTER_VALIDATE_INT);
+} elseif (isset($_POST['nv'])) {
+    $nCurrentPageNumber = filter_input(INPUT_POST, 'nv', FILTER_VALIDATE_INT);
+} else {
+    $nCurrentPageNumber = 1;
+}
+
+if (empty($nCurrentPageNumber) || !is_numeric($nCurrentPageNumber)) $nCurrentPageNumber = 1;
+
 MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
 
 
@@ -34,9 +44,7 @@ $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 
-$nPage = isset($_GET['page']) ? $_GET['page']+0 : 1;
-
-$contents_cache_id = $sTheme . '|products_new|' . $nPage. '|' . $nGroupID . '|' . $sLanguage;
+$contents_cache_id = $sTheme . '|products_new|' . $nCurrentPageNumber. '|' . $nGroupID . '|' . $sLanguage;
 
 require 'includes/oos_system.php';
 if (!isset($option)) {
@@ -68,7 +76,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
                                  WHERE p.products_status >= '1'
                                    AND (p.products_access = '0' OR p.products_access = '" . intval($nGroupID) . "')
                                  ORDER BY p.products_date_added DESC, pd.products_name";
-    $products_new_split = new splitPageResults($_GET['page'], MAX_DISPLAY_PRODUCTS_NEW, $products_new_result_raw, $products_new_numrows);
+    $products_new_split = new splitPageResults($nCurrentPageNumber, MAX_DISPLAY_PRODUCTS_NEW, $products_new_result_raw, $products_new_numrows);
     $products_new_result = $dbconn->Execute($products_new_result_raw);
 
     $products_new_array = array();
@@ -133,8 +141,8 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
            'oos_heading_title'      => $aLang['heading_title'],
            'oos_heading_image'      => 'products_new.gif',
 
-           'oos_page_split'         => $products_new_split->display_count($products_new_numrows, MAX_DISPLAY_PRODUCTS_NEW, $_GET['page'], $aLang['text_display_number_of_products_new']),
-           'oos_display_links'      => $products_new_split->display_links($products_new_numrows, MAX_DISPLAY_PRODUCTS_NEW, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_parameters(array('page', 'info'))),
+           'oos_page_split'         => $products_new_split->display_count($products_new_numrows, MAX_DISPLAY_PRODUCTS_NEW, $nCurrentPageNumber, $aLang['text_display_number_of_products_new']),
+           'oos_display_links'      => $products_new_split->display_links($products_new_numrows, MAX_DISPLAY_PRODUCTS_NEW, MAX_DISPLAY_PAGE_LINKS, $nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
            'oos_page_numrows'       => $products_new_numrows,
 
            'products_image_box'     => SMALL_IMAGE_WIDTH + 10,
