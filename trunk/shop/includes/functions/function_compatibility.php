@@ -66,29 +66,24 @@ if ((int)ini_get('register_globals') > 0) {
 /**
  * Forcefully disable magic_quotes_gpc if enabled
  *
- * Based from work by Ilia Alshanetsky (Advanced PHP Security)
+ * @link http://www.oos-shop.de/doc/php_manual_de/html/security.magicquotes.disabling.html
  */
 if (get_magic_quotes_gpc()) {
-    function undoMagicQuotes($array, $topLevel=true) {
-        $newArray = array();
-        foreach($array as $key => $value) {
-            if (!$topLevel) {
-                $key = stripslashes($key);
-            }
-            if (is_array($value)) {
-                $newArray[$key] = undoMagicQuotes($value, false);
-            }
-            else {
-                $newArray[$key] = stripslashes($value);
-            }
-        }
-        return $newArray;
+    function stripslashes_deep($value)
+    {
+        $value = is_array($value) ?
+                    array_map('stripslashes_deep', $value) :
+                    stripslashes($value);
+
+        return $value;
     }
-    $_GET = undoMagicQuotes($_GET);
-    $_POST = undoMagicQuotes($_POST);
-    $_COOKIE = undoMagicQuotes($_COOKIE);
-    $_REQUEST = undoMagicQuotes($_REQUEST);
+
+    $_POST = array_map('stripslashes_deep', $_POST);
+    $_GET = array_map('stripslashes_deep', $_GET);
+    $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
+    $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 }
+
 
 
 /**
