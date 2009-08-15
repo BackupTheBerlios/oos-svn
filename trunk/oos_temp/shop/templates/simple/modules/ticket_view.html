@@ -1,4 +1,4 @@
-{*  $Id$ -->
+{*  $Id$ *}
     <table border="0" width="100%" cellspacing="0" cellpadding="0">
       <tr>
         <td>{$oosPageHeading}</td>
@@ -10,7 +10,7 @@
       <tr>
         <td><table border="0" cellspacing="0" cellpadding="2">
 <form name="ticket_view" action="{html_get_link connection=SSL}" method="get">
-	<input type="hidden" name="file" value="{$filename.ticket_view}">
+	<input type="hidden" name="page" value="{$pages.ticket_view}">
     <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
     <input type="hidden" name="action" value="send">
 
@@ -115,7 +115,7 @@
     <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
     <input type="hidden" name="formid" value="{$formid}">
     <input type="hidden" name="action" value="send">
-	<input type="hidden" name="file" value="{$filename.ticket_view}">
+	<input type="hidden" name="page" value="{$pages.ticket_view}">
 	<input type="hidden" name="tlid" value="{$tlid}">
 	<input type="hidden" name="status" value="{$statuses_array[i].ticket_status_id}">
 	<input type="hidden" name="department" value="{$statuses_array[i].ticket_department_id}">
