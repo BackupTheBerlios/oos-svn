@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: stats_sales_report2.php,v 1.00 2003/03/08 19:02:22 
+   File: stats_sales_report2.php,v 1.00 2003/03/08 19:02:22
    ----------------------------------------------------------------------
    Charly Wilhelm  charly@yoshi.ch
 
@@ -79,7 +79,7 @@
     $srDetail = $srDefaultDetail;
   }
 
-  // report views (1: yearly 2: monthly 3: weekly 4: daily) 
+  // report views (1: yearly 2: monthly 3: weekly 4: daily)
   if (isset($_GET['export']) && oos_is_not_null($_GET['export'])) {
     $srExp = $_GET['export'];
   }
@@ -192,7 +192,7 @@
     if ($srExp < 1) {
 ?>
     <td width="<?php echo BOX_WIDTH; ?>" valign="top">
-      <table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="1" cellpadding="1" class="columnLeft"> 
+      <table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="1" cellpadding="1" class="columnLeft">
 <?php require 'includes/oos_blocks.php'; ?>
       </table>
     </td>
@@ -440,7 +440,7 @@ while ($sr->actDate < $sr->endDate) {
 ?>
                     <tr class="dataTableRow" onMouseOver="this.className='dataTableRowOver';this.style.cursor='hand'" onMouseOut="this.className='dataTableRow'">
                     <td class="dataTableContent">&nbsp;</td>
-                    <td class="dataTableContent" align="left"><a href="<?php echo oos_catalog_link($oosModules['products'], $oosCatalogFilename['product_info'], 'products_id=' . $info[$i]['pid']) ?>" target="_blank"><?php echo $info[$i]['pname']; ?></a>
+                    <td class="dataTableContent" align="left"><a href="<?php echo oos_catalog_link($aCatalogPage['product_info'], 'products_id=' . $info[$i]['pid']) ?>" target="_blank"><?php echo $info[$i]['pname']; ?></a>
 <?php
   if (is_array($info[$i]['attr'])) {
     $attr_info = $info[$i]['attr'];

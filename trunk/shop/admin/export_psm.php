@@ -34,24 +34,24 @@
       case 'make_file_now':
         oos_set_time_limit(0);
         $schema = 'Bestellnummer;Bezeichnung;Preis;Lieferzeit;ProduktLink;FotoLink;Beschreibung' . "\n";
-        $products_sql = "SELECT 
-                             p.products_id, pd.products_name, pd.products_description, p.products_model, p.products_image, p.products_price, p.products_status, 
-                             p.products_discount_allowed, p.products_tax_class_id, 
-                             IF(s.status, s.specials_new_products_price, NULL) AS specials_new_products_price, 
-                             p.products_date_added, m.manufacturers_name 
+        $products_sql = "SELECT
+                             p.products_id, pd.products_name, pd.products_description, p.products_model, p.products_image, p.products_price, p.products_status,
+                             p.products_discount_allowed, p.products_tax_class_id,
+                             IF(s.status, s.specials_new_products_price, NULL) AS specials_new_products_price,
+                             p.products_date_added, m.manufacturers_name
                          FROM
                              " . $oostable['products'] . " p LEFT JOIN
-                             " . $oostable['manufacturers'] . " m 
+                             " . $oostable['manufacturers'] . " m
                            ON p.manufacturers_id = m.manufacturers_id LEFT JOIN
-                             " . $oostable['products_description'] . " pd 
+                             " . $oostable['products_description'] . " pd
                            ON p.products_id = pd.products_id AND
                             pd.products_languages_id = '1' LEFT JOIN
-                             " . $oostable['specials'] . " s 
-                           ON p.products_id = s.products_id 
-                         WHERE 
-                           (p.products_status >= '1' or p.products_status <= '4')  
+                             " . $oostable['specials'] . " s
+                           ON p.products_id = s.products_id
+                         WHERE
+                           (p.products_status >= '1' or p.products_status <= '4')
                          ORDER BY
-                            p.products_date_added DESC, 
+                            p.products_date_added DESC,
                             pd.products_name";
         $products_result = $dbconn->Execute($products_sql);
         while ($products = $products_result->fields) {
@@ -62,7 +62,7 @@
               $products_price =  $currencies->psm_price($products['products_price'], oos_get_tax_rate($products['products_tax_class_id']));
             }
             switch ($products['products_status']) {
-              case '1': 
+              case '1':
               case '2':
                 $products_status = 'nicht verfgbar';
                 break;
@@ -84,7 +84,7 @@
                        $products['products_name'] . ';' .
                        $products_price. ';' .
                        $products_status. ';' .
-                       OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $oosModules['products'] . '&file=' . $oosCatalogFilename['product_info'] . '&products_id=' . $products['products_id'] . ';' .
+                       OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aCatalogPage['product_info'] . '&products_id=' . $products['products_id'] . ';' .
                        OOS_HTTP_SERVER . OOS_IMAGES . $products['products_image'] . ';' .
                        $products_description . "\n";
           }
@@ -141,7 +141,7 @@
     $messageStack->add(ERROR_PSM_DIRECTORY_DOES_NOT_EXIST, 'error');
   }
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

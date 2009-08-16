@@ -123,7 +123,7 @@
           oos_db_perform($oostable['ticket_ticket'], $sql_data_array,'update','ticket_id=\'' . $tID . '\'');
            // Email  Customer doesn't get the Message cause he should use the web
           $ticket_email_subject = TICKET_EMAIL_SUBJECT . $subject;
-          $ticket_email_message = TICKET_EMAIL_message_HEADER . "\n\n" . oos_catalog_link($oosModules['ticket'], $oosCatalogFilename['ticket_view'], 'tlid=' . $ticket_update['ticket_link_id'],'NONSSL',false,false) . "\n\n" . TICKET_EMAIL_message_FOOTER;
+          $ticket_email_message = TICKET_EMAIL_message_HEADER . "\n\n" . oos_catalog_link($aCatalogPage['ticket_view'], 'tlid=' . $ticket_update['ticket_link_id'],'NONSSL',false,false) . "\n\n" . TICKET_EMAIL_message_FOOTER;
           oos_mail($ticket_update['ticket_customers_name'], $ticket_update['ticket_customers_email'], $ticket_email_subject, nl2br($ticket_email_message), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
           $ticket_updated = true;

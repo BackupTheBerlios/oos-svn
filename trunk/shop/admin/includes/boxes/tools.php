@@ -39,7 +39,6 @@
                                    oos_admin_files_boxes('newsletters', BOX_TOOLS_NEWSLETTER_MANAGER) .
                                    oos_admin_files_boxes('server_info', BOX_TOOLS_SERVER_INFO) .
                                    oos_admin_files_boxes('whos_online', BOX_TOOLS_WHOS_ONLINE) .
-                                   oos_admin_files_boxes('keyword_show', BOX_TOOLS_KEYWORD_SHOW) .
                                    oos_admin_files_boxes('recover_cart_sales', BOX_TOOLS_RECOVER_CART));
   }
 

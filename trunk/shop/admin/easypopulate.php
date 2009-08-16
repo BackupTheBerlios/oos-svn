@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: easypopulate.php,v 2.75 2005/04/05 AL Exp 
+   File: easypopulate.php,v 2.75 2005/04/05 AL Exp
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -56,18 +56,18 @@
   */
 
  /**
-  * Temp directory 
-  * if you changed your directory structure from stock and 
+  * Temp directory
+  * if you changed your directory structure from stock and
   * do not have /catalog/temp/, then you'll need to change this accordingly.
   */
   $tempdir = "tmp/";
 
  /**
   * File Splitting Configuration
-  * we attempt to set the timeout limit longer for this script 
+  * we attempt to set the timeout limit longer for this script
   * to avoid having to split the files
   *
-  * NOTE:  If your server is running in safe mode, this setting 
+  * NOTE:  If your server is running in safe mode, this setting
   * cannot override the timeout set in php.ini
   * uncomment this if you are not on a safe mode server and you are getting timeouts
   */
@@ -103,7 +103,7 @@
   $default_image_category = '';
 
  /**
-  * Status Field Setting 
+  * Status Field Setting
   * Set the v_status field to "Inactive" if you want the status=0 in the system
   * Set the v_status field to "Delete" if you want to remove the item from the system <- THIS IS NOT WORKING YET!
   * If zero_qty_inactive is true, then items with zero qty will automatically be inactive in the store.
@@ -112,7 +112,7 @@
 
   //$active = 'Active'; vexoid
   //$inactive = 'Inactive'; vexoid
-  
+
   $ps_instock = 'Active';
   $ps_outstock = 'Out of Stock';
   $ps_soon = 'Soon';
@@ -121,18 +121,18 @@
   $zero_qty_inactive = true;
 
  /**
-  * Size of products_model in products table 
-  * set this to the size of your model number field in the db. 
+  * Size of products_model in products table
+  * set this to the size of your model number field in the db.
   * We check to make sure all models are no longer than this value.
-  * this prevents the database from getting fubared.  
-  * Just making this number bigger won't help your database! 
+  * this prevents the database from getting fubared.
+  * Just making this number bigger won't help your database!
   * They must match!
   */
   GLOBAL $modelsize;
   $modelsize = 35;
 
  /**
-  * Price includes tax? 
+  * Price includes tax?
   * Set the v_price_with_tax to
   * 0 if you want the price without the tax included
   * 1 if you want the price to be defined for import & export including tax.
@@ -141,8 +141,8 @@
   $price_with_tax = 1;
 
  /**
-  * Quote -> Escape character conversion 
-  * If you have extensive html in your descriptions and it's getting 
+  * Quote -> Escape character conversion
+  * If you have extensive html in your descriptions and it's getting
   * mangled on upload, turn this off
   * set to 1 = replace quotes with escape characters
   * set to 0 = no quote replacement
@@ -151,7 +151,7 @@
   $replace_quotes = true;
 
  /**
-  * Field Separator 
+  * Field Separator
   * change this if you can't use the default of tabs
   * Tab is the default, comma and semicolon are commonly supported by various progs
   * Remember, if your descriptions contain this character, you will confuse EP!
@@ -165,7 +165,7 @@
   //$separator = "*"; // splat
 
  /**
-  * Max Category Levels 
+  * Max Category Levels
   * change this if you need more or fewer categories
   */
   GLOBAL $max_categories;
@@ -174,19 +174,19 @@
  /**
   * VJ product attributes begin
   *
-  * Product Attributes 
+  * Product Attributes
   * change this to false, if do not want to download product attributes
   */
   global $products_with_attributes;
-  $products_with_attributes = true; 
+  $products_with_attributes = true;
 
   // change this to true, if you use QTYpro and want to set attributes stock with EP.
   global $products_attributes_stock;
-  $products_attributes_stock = false; 
+  $products_attributes_stock = false;
 
 
  /* change this if you want to download selected product options
-  * this might be handy, if you have a lot of product options, and your 
+  * this might be handy, if you have a lot of product options, and your
   * output file exceeds 256 columns (which is the max. limit MS Excel is able to handle)
   */
   GLOBAL $attribute_options_select;
@@ -201,15 +201,15 @@
   */
 
  /**
-  * Froogle product info page path 
-  * We can't use the tep functions to create the link, 
-  * because the links will point to the admin, 
+  * Froogle product info page path
+  * We can't use the tep functions to create the link,
+  * because the links will point to the admin,
   * since that's where we're at.
   * so put the entire path to your product_info.php page here
   */
   GLOBAL $froogle_product_info_path;
    //$froogle_product_info_path = "http://www.your-domain.com/shop/index.php?mp=products&file=info";
-   $froogle_product_info_path = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $oosModules['products'] . '&file=' . $oosCatalogFilename['product_info'];
+   $froogle_product_info_path = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $oosModules['products'] . '&file=' . $aCatalogPage['product_info'];
 
   // VJ product attributes begin
   GLOBAL $attribute_options_array;
@@ -380,7 +380,7 @@
         if ($thecategory_id){
           $sql2 = "SELECT categories_name
                    FROM " . $oostable['categories_description'] . "
-                   WHERE categories_id = " . $thecategory_id . " 
+                   WHERE categories_id = " . $thecategory_id . "
                      AND categories_languages_id = '" . intval($_SESSION['language_id']) ."'";
           $result2 = $dbconn->Execute($sql2);
           $row2 = $result2->fields;
@@ -497,7 +497,7 @@
 
     // this is for the separate price per customer module
     if (isset($filelayout['v_customer_price_1'])){
-      $sql2 = "SELECT customers_group_price, customers_group_id 
+      $sql2 = "SELECT customers_group_price, customers_group_id
                FROM " . $oostable['products_groups'] . "
                WHERE products_id = " . $row['v_products_id'] . "
                ORDER BY customers_group_id";
@@ -519,7 +519,7 @@
       $sql2 = "SELECT specials_new_products_price
                FROM " . $oostable['specials'] . "
                WHERE products_id = " . $row['v_products_id'] . "
-                 AND status = 1 
+                 AND status = 1
                  AND expires_date < CURRENT_TIMESTAMP
                ORDER BY specials_id DESC";
       $result2 = $dbconn->Execute($sql2);
@@ -706,7 +706,7 @@
 
     //toprow has the field headers
     $toprow = fgets($infp,32768);
- 
+
     $filecount = 1;
 
     echo CREATING_FILE . "EP_Split" . $filecount . ".txt ...  ";
@@ -907,7 +907,7 @@
                 $header_array[$key5] = $iii++;
 
                 // attributes stock add start
-                if ( $products_attributes_stock == true ) { 
+                if ( $products_attributes_stock == true ) {
                   $key6 = 'v_attribute_values_stock_' . $attribute_options_count . '_' . $attribute_values_count;
                   $header_array[$key6] = $iii++;
                 }
@@ -945,7 +945,7 @@
                                FROM " . $oostable['products'] . " as p,
                                     " . $oostable['categories'] . " as subc,
                                     " . $oostable['products_to_categories'] . " as ptoc
-                               WHERE p.products_id = ptoc.products_id 
+                               WHERE p.products_id = ptoc.products_id
                                AND ptoc.categories_id = subc.categories_id";
 
             break;
@@ -967,7 +967,7 @@
                                );
             $filelayout_sql = "SELECT p.products_id as v_products_id, p.products_model as v_products_model,
                                       p.products_price as v_products_price, p.products_tax_class_id as v_tax_class_id,
-                                      p.products_quantity as v_products_quantity 
+                                      p.products_quantity as v_products_quantity
                                FROM ".$oostable['products']." as p";
 
             break;
@@ -988,7 +988,7 @@
                                FROM " . $oostable['products'] . " as p,
                                     " . $oostable['categories'] . " as subc,
                                     " . $oostable['products_to_categories']." as ptoc
-                               WHERE p.products_id = ptoc.products_id 
+                               WHERE p.products_id = ptoc.products_id
                                  AND ptoc.categories_id = subc.categories_id";
             break;
 
@@ -1003,11 +1003,11 @@
 
             foreach ($langcode as $key => $lang){
               $l_id = $lang['id'];
-              $filelayout  = array_merge($filelayout, 
+              $filelayout  = array_merge($filelayout,
                                  array('v_froogle_products_name_' . $l_id    => $iii++,
                                        'v_froogle_products_description_' . $l_id => $iii++,));
             }
-            $filelayout  = array_merge($filelayout , 
+            $filelayout  = array_merge($filelayout ,
                             array('v_products_price'          => $iii++,
                                   'v_products_fullpath_image' => $iii++,
                                   'v_category_fullpath'       => $iii++,
@@ -1063,8 +1063,8 @@
                                FROM " . $oostable['products'] . " as p,
                                     " . $oostable['categories'] . " as subc,
                                     " . $oostable['products_to_categories'] . " as ptoc
-                               WHERE p.products_status >= '1' 
-                                 AND p.products_id = ptoc.products_id 
+                               WHERE p.products_status >= '1'
+                                 AND p.products_id = ptoc.products_id
                                  AND ptoc.categories_id = subc.categories_id";
             break;
 
@@ -1139,7 +1139,7 @@
 
  /**
   *
-  */ 
+  */
   function walk( $item1 ) {
 
     GLOBAL $filelayout, $filelayout_count, $modelsize;
@@ -1520,7 +1520,7 @@
 
         // now the subcategory
         $sql = "SELECT cat.categories_id
-          FROM ".$oostable['categories']." as cat, 
+          FROM ".$oostable['categories']." as cat,
                ".$oostable['categories_description']." as des
           WHERE
             cat.categories_id = des.categories_id AND
@@ -1664,12 +1664,12 @@
 */
 
       $query .= '", products_weight="'.$v_products_weight .
-          '", products_tax_class_id="'.$v_tax_class_id . 
+          '", products_tax_class_id="'.$v_tax_class_id .
           '", products_date_available= ' . $v_date_avail .
           ', products_date_added= ' . $v_date_added .
           ', products_last_modified=CURRENT_TIMESTAMP
-          , products_quantity="' . $v_products_quantity .  
-          '" ,manufacturers_id=' . $v_manufacturer_id . 
+          , products_quantity="' . $v_products_quantity .
+          '" ,manufacturers_id=' . $v_manufacturer_id .
           ' , products_status=' . $v_db_status . '
           WHERE
             (products_id = "'. $v_products_id . '")';
@@ -1995,7 +1995,7 @@
 
             $stock_attributes = $$v_attribute_options_id_var.'-'.$$v_attribute_values_id_var;
 
-            $attribute_stock_query = $dbconn->Execute("SELECT products_stock_quantity FROM " . $oostable['products_stock'] . " WHERE products_id = '" . (int)$v_products_id . "' AND products_stock_attributes ='" . $stock_attributes . "'");   
+            $attribute_stock_query = $dbconn->Execute("SELECT products_stock_quantity FROM " . $oostable['products_stock'] . " WHERE products_id = '" . (int)$v_products_id . "' AND products_stock_attributes ='" . $stock_attributes . "'");
 
             // insert into products_stock_quantity table if no stock exists
             if ($attribute_stock_query->RecordCount() <= 0) {

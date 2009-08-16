@@ -9,9 +9,9 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: stats_keywords.php,v 0.90 10/03/2002 03:15:00  
+   File: stats_keywords.php,v 0.90 10/03/2002 03:15:00
    ----------------------------------------------------------------------
-   by Cheng	
+   by Cheng
 
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -35,7 +35,7 @@
     $searchword_swaptable = $oostable['searchword_swap'];
     $word_delete_sql = "DELETE FROM $searchword_swaptable WHERE sws_id = " . $_GET['delete'];
     $result = $dbconn->Execute($word_delete_sql);
-    oos_redirect_admin(oos_href_link_admin($aFilename['stats_keywords'], 'action=' . BUTTON_VIEW_WORD_LIST . ''));	
+    oos_redirect_admin(oos_href_link_admin($aFilename['stats_keywords'], 'action=' . BUTTON_VIEW_WORD_LIST . ''));
   }
 
   if (isset($_GET['editword']) && isset($_GET['link'])){
@@ -113,7 +113,7 @@
 <tr><td colspan="4">
 <table border="1" cellpadding="0" cellspacing="1" width="100%" bgcolour="gray"><tr><td>
   <table border="0" cellpadding="2" cellspacing="0" width="100%"><tr class="dataTableRow">
-    <td class="main" nowrap><br /><?php echo WORD_ENTRY_ORIGINAL ?> 
+    <td class="main" nowrap><br /><?php echo WORD_ENTRY_ORIGINAL ?>
     <input type="text" name="txtWord" value="<?php if(isset($word_select_result['sws_word'])){echo stripslashes($word_select_result['sws_word']);} ?>" size="12">&nbsp;
 <?php echo WORD_ENTRY_REPLACEMENT ?>
     <input type="text" name="txtReplacement" value="<?php if(isset($word_select_result['sws_replacement'])){echo stripslashes($word_select_result['sws_replacement']);} ?>" size="12"></td>
@@ -201,8 +201,8 @@ switch($_GET['sortorder']){
    $result = $dbconn->Execute($pw_sql);
    while ($sql_q_result = $result->fields) {
 ?>
-  <tr class="dataTableRow"  onmouseover="this.className='dataTableRowOver';this.style.cursor='hand'" onmouseout="this.className='dataTableRow'" onclick="document.location.href='<?php echo oos_catalog_link($oosModules['search'], $oosCatalogFilename['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>'" >
-    <td class="dataTableContent"><a target="_blank" href="<?php echo oos_catalog_link($oosModules['search'], $oosCatalogFilename['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>"><?php echo $sql_q_result['search_text']; ?></a></td>  
+  <tr class="dataTableRow"  onmouseover="this.className='dataTableRowOver';this.style.cursor='hand'" onmouseout="this.className='dataTableRow'" onclick="document.location.href='<?php echo oos_catalog_link($oosModules['search'], $aCatalogPage['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>'" >
+    <td class="dataTableContent"><a target="_blank" href="<?php echo oos_catalog_link($oosModules['search'], $aCatalogPage['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>"><?php echo $sql_q_result['search_text']; ?></a></td>
     <td class="dataTableContent"><?php echo $sql_q_result['search_count']; ?></td>
   </tr>
 <?php

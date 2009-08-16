@@ -41,8 +41,8 @@ http://base.google.de/base/help/attributes.html
   $feed_title = ''; //Feed Title
   $feed_description = ''; //Feed Description
 
- # $location_address = 'Straße und Hausnummer, Postleitzahl und Ort, Land'; //Die Adresse sollte folgendes Format haben: Straße und Hausnummer, Postleitzahl und Ort, Land. Jedes Standortelement sollte durch ein Komma getrennt werden. Orte werden über Google Maps  validiert. 
-  $location_address = ''; //Die Adresse sollte folgendes Format haben: Straße und Hausnummer, Postleitzahl und Ort, Land. Jedes Standortelement sollte durch ein Komma getrennt werden. Orte werden über Google Maps  validiert. 
+ # $location_address = 'Straße und Hausnummer, Postleitzahl und Ort, Land'; //Die Adresse sollte folgendes Format haben: Straße und Hausnummer, Postleitzahl und Ort, Land. Jedes Standortelement sollte durch ein Komma getrennt werden. Orte werden über Google Maps  validiert.
+  $location_address = ''; //Die Adresse sollte folgendes Format haben: Straße und Hausnummer, Postleitzahl und Ort, Land. Jedes Standortelement sollte durch ein Komma getrennt werden. Orte werden über Google Maps  validiert.
 
   $location_city = '';
   $location_state = '';
@@ -64,7 +64,7 @@ http://base.google.de/base/help/attributes.html
 
   $site_url = OOS_HTTP_SERVER . OOS_SHOP; //Site URL
   $image_url = OOS_HTTP_SERVER . OOS_SHOP . OOS_IMAGES . OOS_POPUP_IMAGES; //Base URL for images
-  $product_url = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $oosModules['products'] . '&file=' . $oosCatalogFilename['product_info'] . '&products_id=';
+  $product_url = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $oosModules['products'] . '&file=' . $aCatalogPage['product_info'] . '&products_id=';
 
   $currency = 'EUR'; //  ISO 4217. http://www.iso.org/iso/en/prods-services/popstds/currencycodeslist.html
   $file_google = "google_feed.xml";

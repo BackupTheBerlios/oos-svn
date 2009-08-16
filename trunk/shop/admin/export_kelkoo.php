@@ -29,14 +29,14 @@
   $availability = '003';
 
 /*
-  die genauen Versandkosten des jeweiligen Artikels. 
-  Sollte der Versand portofrei erfolgen oder ab einem 
-  bestimmten Bestellbetrag frei sein, so schreiben 
+  die genauen Versandkosten des jeweiligen Artikels.
+  Sollte der Versand portofrei erfolgen oder ab einem
+  bestimmten Bestellbetrag frei sein, so schreiben
 */
   $deliverycost = 'EUR 4,80';
 
 /*
-  Das Beschreibungsfeld ist auf max. 160 Zeichen 
+  Das Beschreibungsfeld ist auf max. 160 Zeichen
   inklusive Leerzeichen begrenzt.
 */
   $length = 160;
@@ -56,10 +56,10 @@
         $manufacturerstable = $oostable['manufacturers'];
         $specialstable = $oostable['specials'];
 
-        $products_sql = "SELECT 
-                             p.products_id, pd.products_name, pd.products_description, p.products_model, p.products_image, p.products_price, p.products_status, 
+        $products_sql = "SELECT
+                             p.products_id, pd.products_name, pd.products_description, p.products_model, p.products_image, p.products_price, p.products_status,
                              p.products_discount_allowed, p.products_tax_class_id,
-                             IF(s.status, s.specials_new_products_price, NULL) AS specials_new_products_price, 
+                             IF(s.status, s.specials_new_products_price, NULL) AS specials_new_products_price,
                              p.products_date_added, m.manufacturers_name
                          FROM
                              $productstable p LEFT JOIN
@@ -105,7 +105,7 @@
               $kelkoo_image= OOS_HTTP_SERVER . '/' . OOS_IMAGES . $products['products_image'];
             }
 
-            $schema .= OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $oosModules['products'] . '&file=' . $oosCatalogFilename['product_info'] . '&products_id=' . $products['products_id'] . "\t".
+            $schema .= OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aCatalogPage['product_info'] . '&products_id=' . $products['products_id'] . "\t".
                        $products['products_name'] . "\t".
                        $products_description . "\t".
                        $products_price . "\t" .

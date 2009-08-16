@@ -349,7 +349,7 @@ $products_index_array;
        }
 
        if (SHOW_PRODUCTS_LINKS) {
-         $link = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $oosModules['products'] . '&file=' . $oosCatalogFilename['product_info'] . '&products_id=' . $data_array[11];
+         $link = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aCatalogPage['product_info'] . '&products_id=' . $data_array[11];
        } else {
         $link = '';
        }

@@ -219,9 +219,9 @@
         $mline .= $inrec['qty'] . ' x ' . $inrec2['name'] . "\n";
 
         if (EMAIL_USE_HTML == '1') {
-          $mline .= '   <blockquote><a href="' . oos_catalog_link($oosModules['products'], $oosCatalogFilename['product_info'], 'products_id='. $inrec['pid']) . '">' . oos_catalog_link($oosModules['products'], $oosCatalogFilename['product_info'], 'products_id='. $inrec['pid']) . "</a></blockquote>\n\n";
+          $mline .= '   <blockquote><a href="' . oos_catalog_link($oosModules['products'], $aCatalogPage['product_info'], 'products_id='. $inrec['pid']) . '">' . oos_catalog_link($oosModules['products'], $aCatalogPage['product_info'], 'products_id='. $inrec['pid']) . "</a></blockquote>\n\n";
         } else {
-          $mline .= '   (' . oos_catalog_link($oosModules['products'], $oosCatalogFilename['product_info'], 'products_id='. $inrec['pid']).")\n\n";
+          $mline .= '   (' . oos_catalog_link($oosModules['products'], $aCatalogPage['product_info'], 'products_id='. $inrec['pid']).")\n\n";
         }
 
         // Move that ADOdb pointer!
@@ -239,9 +239,9 @@
       $email = EMAIL_TEXT_LOGIN;
 
       if (EMAIL_USE_HTML == '1') {
-        $email .= '  <a href="' . oos_catalog_link($oosModules['user'], $oosCatalogFilename['user_login'], '', 'SSL') . '">' . oos_catalog_link($oosModules['user'], $oosCatalogFilename['user_login'], '', 'SSL')  . '</a>';
+        $email .= '  <a href="' . oos_catalog_link($oosModules['user'], $aCatalogPage['user_login'], '', 'SSL') . '">' . oos_catalog_link($oosModules['user'], $aCatalogPage['user_login'], '', 'SSL')  . '</a>';
       } else {
-        $email .= '  (' . oos_catalog_link($oosModules['user'], $oosCatalogFilename['user_login'], '', 'SSL') . ')';
+        $email .= '  (' . oos_catalog_link($oosModules['user'], $aCatalogPage['user_login'], '', 'SSL') . ')';
       }
 
       $email .= "\n" . EMAIL_SEPARATOR . "\n\n";
@@ -261,7 +261,7 @@
       $email .= EMAIL_TEXT_BODY_HEADER . $mline . EMAIL_TEXT_BODY_FOOTER;
 
       if (EMAIL_USE_HTML == '1') {
-        $email .= '<a href="' . oos_catalog_link($oosModules['main'], $oosCatalogFilename['default']) . '">' . STORE_OWNER . "\n" . OOS_HTTP_SERVER . OOS_SHOP . '</a>';
+        $email .= '<a href="' . oos_catalog_link($aCatalogPage['default']) . '">' . STORE_OWNER . "\n" . OOS_HTTP_SERVER . OOS_SHOP . '</a>';
       } else {
         $email .= STORE_OWNER . "\n" . OOS_HTTP_SERVER . OOS_SHOP;
       }

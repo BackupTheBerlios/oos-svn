@@ -94,7 +94,7 @@
                      'href' => oos_href_link_admin($aFilename['stats_products_purchased'], 'selected_box=reports'),
                      'children' => array(array('title' => REPORTS_PRODUCTS, 'link' => oos_href_link_admin($aFilename['stats_products_purchased'], 'selected_box=reports'),
                                                'access' => oos_admin_check_boxes('stats_products_purchased', 'sub_boxes')),
-                                         array('title' => REPORTS_ORDERS, 'link' => oos_href_link_admin($aFilename['stats_customers'], 'selected_box=reports'), 
+                                         array('title' => REPORTS_ORDERS, 'link' => oos_href_link_admin($aFilename['stats_customers'], 'selected_box=reports'),
                                                'access' => oos_admin_check_boxes('stats_customers', 'sub_boxes')))),
 
                array('title' => BOX_HEADING_TOOLS,
@@ -167,7 +167,7 @@ A.sub:hover { color: #dddddd; text-decoration: underline; }
         <td><table border="0" width="600" height="440" cellspacing="0" cellpadding="0">
           <tr bgcolor="#ffffff" height="50">
             <td height="50"></td>
-            <td align="right" class="text" nowrap><?php echo '<a href="' . oos_href_link_admin($aFilename['default']) . '">' . HEADER_TITLE_ADMINISTRATION . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="' . oos_catalog_link($oosModules['main'], $oosCatalogFilename['default']) . '">' . HEADER_TITLE_ONLINE_CATALOG . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://www.oos-shop.de/" target="_blank">' . HEADER_TITLE_SUPPORT_SITE . '</a>'; ?>&nbsp;&nbsp;</td>
+            <td align="right" class="text" nowrap><?php echo '<a href="' . oos_href_link_admin($aFilename['default']) . '">' . HEADER_TITLE_ADMINISTRATION . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="' . oos_catalog_link($aCatalogPage['default']) . '">' . HEADER_TITLE_ONLINE_CATALOG . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://www.oos-shop.de/" target="_blank">' . HEADER_TITLE_SUPPORT_SITE . '</a>'; ?>&nbsp;&nbsp;</td>
           </tr>
           <tr bgcolor="#8C8E8F">
             <td colspan="2"><table border="0" width="460" height="390" cellspacing="0" cellpadding="2">
@@ -197,7 +197,7 @@ A.sub:hover { color: #dddddd; text-decoration: underline; }
   while ($orders_status = $orders_status_result->fields) {
     $orders_pending_result = $dbconn->Execute("SELECT COUNT(*) AS count FROM " . $oostable['orders'] . " WHERE orders_status = '" . $orders_status['orders_status_id'] . "'");
     $orders_pending = $orders_pending_result->fields;
-    if (oos_admin_check_boxes($aFilename['orders'], 'sub_boxes') == true) { 
+    if (oos_admin_check_boxes($aFilename['orders'], 'sub_boxes') == true) {
       $orders_contents .= '<a href="' . oos_href_link_admin($aFilename['orders'], 'selected_box=customers&status=' . $orders_status['orders_status_id']) . '">' . $orders_status['orders_status_name'] . '</a>: ' . $orders_pending['count'] . '<br />';
     } else {
       $orders_contents .= '' . $orders_status['orders_status_name'] . ': ' . $orders_pending['count'] . '<br />';
