@@ -298,8 +298,8 @@
     }
 
     if ( (!isset($_GET['sort'])) || (!ereg('[1-8][ad]', $_GET['sort'])) || (substr($_GET['sort'], 0 , 1) > count($column_list)) ) {
-// Todo ceck $col = 1
-       $col = 0
+// Todo check $col = 1
+       $col = 0;
        $_GET['sort'] = $col+1 . 'a';
        $order_str = ' ORDER BY pd.products_name';
     } else {
@@ -371,7 +371,7 @@
     $oSmarty->assign('define_list', $aDefineList);
     $oSmarty->assign('pw_mispell', $pw_mispell);
     $oSmarty->assign('pw_string', $pw_string);
-    $oSmarty->assign('oos_get_all_get_params', oos_get_all_get_parameters(array('sort', 'page')));
+    $oSmarty->assign('oos_get_all_get_params', oos_get_all_get_parameters(array('sort', 'nv')));
 
     $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
     $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation']));

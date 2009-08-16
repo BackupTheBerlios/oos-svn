@@ -19,35 +19,35 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-  if (DISPLAY_CART == '1') {
+if (DISPLAY_CART == '1') {
     $goto_file = $aPages['shopping_cart'];
     $parameters = array('action', 'categories', 'products_id', 'pid', 'formid');
-  } else {
+} else {
     $goto_file = $sPage;
     if ($_GET['action'] == 'buy_now') {
-      $parameters = array('action', 'pid', 'cart_quantity', 'formid');
+        $parameters = array('action', 'pid', 'cart_quantity', 'formid');
     } elseif ($_POST['action'] == 'buy_now') {
-      $parameters = array('action', 'pid', 'cart_quantity', 'formid');
+        $parameters = array('action', 'pid', 'cart_quantity', 'formid');
     } elseif ($_GET['action'] == 'buy_slave')  {
-      $parameters = array('action', 'pid', 'slave_id', 'cart_quantity', 'formid');
+        $parameters = array('action', 'pid', 'slave_id', 'cart_quantity', 'formid');
     } elseif ($_POST['action'] == 'buy_slave')  {
-      $parameters = array('action', 'pid', 'slave_id', 'cart_quantity', 'formid');
+        $parameters = array('action', 'pid', 'slave_id', 'cart_quantity', 'formid');
     } else {
-      $parameters = array('action', 'pid', 'cart_quantity', 'formid');
+        $parameters = array('action', 'pid', 'cart_quantity', 'formid');
     }
-  }
+}
 
-  if (isset($_GET['action'])) {
+if (isset($_GET['action'])) {
     $action = oos_var_prep_for_os($_GET['action']);
-  } elseif (isset($_POST['action'])) {
+} elseif (isset($_POST['action'])) {
     $action = oos_var_prep_for_os($_POST['action']);
-  }
+}
 
 
-  switch ($action) {
+switch ($action) {
     case 'update_product' :
       // customer wants to update the product quantity in their shopping cart
       $nArrayCountProducts = count( $_POST['products_id'] );
@@ -546,4 +546,4 @@
       }
       break;
 
-    }
+}

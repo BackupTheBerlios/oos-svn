@@ -17,7 +17,7 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_STRICT);
 
 if (function_exists('ini_set')) {
     ini_set('display_errors',1);
