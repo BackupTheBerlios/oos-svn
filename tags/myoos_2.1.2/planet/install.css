@@ -1,0 +1,116 @@
+/*
+Lilina News Aggregator
+
+Installation Style Sheet
+Licensed under the GNU General Public License
+Copyright 2007 Ryan McCue
+*/
+
+/* General styles for all error pages and installation */
+html, body {
+	color: #333;
+}
+body {
+	font-family: Arial, sans-serif;
+	font-size: 62.5%;
+	line-height: 2.2em;
+}
+h1 {
+	font-weight: 400;
+	font-size: 2em;
+	margin: 0.6em 0;
+}
+h2 {
+	font-weight: 400;
+	font-size: 1.8em;
+	margin: 0.8em 0;
+}
+p, ul, pre {
+	font-size: 1.5em;
+	margin-top: 1em;
+}
+ul ul {
+	font-size: 1em;
+}
+a {
+	text-decoration: none;
+	color: #2e91d0;
+	font-weight: 700;
+}
+#container {
+	margin: 10em auto 0;
+	width: 60%;
+	max-width: 700px;
+}
+#logo {
+	margin-top: 2em;
+}
+
+/* Readme only */
+#header-logo {
+	float: right;
+}
+
+/* Login only */
+.login #container {
+	width: 40%;
+}
+.alert {
+	position: absolute;
+	top: 0;
+	width: 40%;
+	left: 30%;
+	right: 30%;
+	background: #8CC63F;
+	padding: 1.5em;
+	margin: 0;
+	-moz-border-radius-bottomleft: 8px;
+	-moz-border-radius-bottomright: 8px;
+	color: #FFF;
+}
+
+/* Installation only */
+dl {
+	font-size: 1.5em;
+}
+dd#username, dd#password {
+	font-weight: 700;
+}
+#footnote-quote {
+	color: #999;
+	text-align: right;
+}
+
+/* Forms */
+fieldset {
+	border: none;
+	margin-top: 1em;
+	padding: 0;
+}
+legend {
+	font-size: 1.8em;
+	margin: 0.8em 0;
+}
+form label {
+	font-size: 1.5em;
+	padding: 0.5em;
+	float: left;
+}
+form .input {
+	float: right;
+	padding: 0.6em
+}
+.row {
+	width: 80%;
+	clear: both;
+	overflow: hidden;
+}
+
+.submit {
+	clear: both;
+	width: 20%;
+	margin: 0 auto;
+	font-size: 1.6em;
+	background: #eee;
+	border: 1px solid #CCC;
+}

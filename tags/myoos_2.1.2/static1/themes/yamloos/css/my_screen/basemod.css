@@ -1,0 +1,105 @@
+@charset "UTF-8";
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
+ *
+ * (en) Template for designing a screen layout
+ * (de) Gestaltungsvorlage für die Erstellung eines Screenlayouts
+ *
+ * @copyright       Copyright 2005-2009, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.1
+ * @revision        $Revision: 1.1 $
+ * @lastmodified    $Date: 2009/01/25 10:30:51 $
+ */
+
+@media screen, projection
+{
+ /*------------------------------------------------------------------------------------------------------*/
+
+ /**
+  * Design of the Basic Layout | Gestaltung des YAML Basis-Layouts
+  *
+  * @section layout-basics
+  */
+
+  /* Page margins and background | Randbereiche & Seitenhintergrund */
+  body {  }
+
+  /* Layout: Width, Background, Border | Layout: Breite, Hintergrund, Rahmen */
+  #page_margins {  }
+  #page{  }
+
+  /* Design of the Main Layout Elements | Gestaltung der Hauptelemente des Layouts */
+  #header {  }
+  #topnav {  }
+
+  #main {  }
+
+  #footer {  }
+
+ /*------------------------------------------------------------------------------------------------------*/
+
+ /**
+  * Formatting of the Content Area | Formatierung der Inhaltsbereichs
+  *
+  * @section layout-main
+  */
+
+  #col1 {  }
+  #col1_content {  }
+
+  #col2 {  }
+  #col2_content {  }
+
+  #col3 {  }
+  #col3_content {  }
+
+
+ /*------------------------------------------------------------------------------------------------------*/
+
+ /**
+  * Design of Additional Layout Elements | Gestaltung weiterer Layoutelemente
+  *
+  * @section layout-misc
+  */
+
+/* @group breadcrumb */
+#breadcrumb {
+	padding: 6px;
+	height: 16px;
+}
+
+#breadcrumb * {
+	color: #929292;
+	display: inline;
+}
+
+#breadcrumb ol {
+	margin-left: 0; 
+	padding-left: 0; 
+}
+
+#breadcrumb h1 {
+	font-size: .75em;
+	font-weight: normal;
+}
+
+#breadcrumb li {
+	font-size: .75em;
+}
+
+#breadcrumb li a,#breadcrumb li span,#breadcrumb li strong {
+	padding: 0 .5em;
+	border-left: 1px solid #D3D3D3;
+}
+
+#breadcrumb li strong {
+	border-right: 1px solid #D3D3D3;
+}
+
+
+
+}
