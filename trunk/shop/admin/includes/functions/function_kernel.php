@@ -44,8 +44,7 @@
     if (!isset($_SESSION['login_id'])) {
       oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
     } else {
-      $filename = split('\?', basename($_SERVER['PHP_SELF']));
-      $filename = $filename[0];
+      $filename = basename($_SERVER['PHP_SELF']);;
       $page_key = array_search($filename, $aFilename);
 
       if ($filename != $aFilename['default'] && $filename != $aFilename['forbiden'] && $filename != $aFilename['logoff'] && $filename != $aFilename['admin_account']  && $filename != $aFilename['popup_image'] && $filename != $aFilename['packingslip'] && $filename != $aFilename['popup_image_product']  && $filename != $aFilename['popup_image_news'] && $filename != $aFilename['popup_subimage_product'] && $filename != $aFilename['invoice'] && $filename != $aFilename['edit_orders']) {

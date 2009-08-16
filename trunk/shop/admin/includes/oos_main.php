@@ -167,7 +167,7 @@ if (!isset($_SESSION['language']) || isset($_GET['language'])) {
 
 // require the language translations
 require 'includes/languages/' . $_SESSION['language'] . '.php';
-$current_page = split('\?', basename($_SERVER['PHP_SELF'])); $current_page = $current_page[0]; // for BadBlue(Win32) webserver compatibility
+$current_page = basename($_SERVER['PHP_SELF']);
 if (file_exists('includes/languages/' . $_SESSION['language'] . '/' . $current_page)) {
     require 'includes/languages/' . $_SESSION['language'] . '/' . $current_page;
 }
