@@ -70,7 +70,7 @@
 
     // Wrap all the highlight words with tags bolding them and changing
     // their background colors
-    $wordArr = split(" ",addslashes($words));
+    $wordArr = explode(" ",addslashes($words));
     $i = 0;
     foreach($wordArr as $word) {
                         $word = preg_quote($word);
