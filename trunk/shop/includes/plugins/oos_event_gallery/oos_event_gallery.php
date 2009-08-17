@@ -257,7 +257,7 @@ function createThumb($fileName)
 		$portionY = $width;
 
 	// The image is of horizontal shape.
-	} else if ($width > $height) {
+	} elseif ($width > $height) {
 		$deltaX   = ($width - $height) / 2;
 		$deltaY   = 0;
 		$portionX = $height;

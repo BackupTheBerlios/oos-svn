@@ -29,7 +29,7 @@
  * identity check.
  *
  * LIBRARY DESIGN
- * 
+ *
  * This consumer library is designed with that flow in mind.  The goal
  * is to make it as easy as possible to perform the above steps
  * securely.
@@ -427,7 +427,7 @@ class Auth_OpenID_Consumer {
             $loader->fromSession($endpoint_data);
 
         $message = Auth_OpenID_Message::fromPostArgs($query);
-        $response = $this->consumer->complete($message, $endpoint, 
+        $response = $this->consumer->complete($message, $endpoint,
                                               $current_url);
         $this->session->del($this->_token_key);
 
@@ -1002,7 +1002,7 @@ class Auth_OpenID_GenericConsumer {
               'either by passing it through as a return_to parameter ' .
               'or by using a session, and supplied to the GenericConsumer ' .
               'as the argument to complete()');
-        } else if (($endpoint !== null) && ($claimed_id === null)) {
+        } elseif (($endpoint !== null) && ($claimed_id === null)) {
             $claimed_id = $endpoint->claimed_id;
         }
 
@@ -1088,7 +1088,7 @@ class Auth_OpenID_GenericConsumer {
                 return new Auth_OpenID_FailureResponse($endpoint,
                              "Preferred namespace mismatch (bug)");
             }
-        } else if ($to_match->server_url != $endpoint->server_url) {
+        } elseif ($to_match->server_url != $endpoint->server_url) {
             return new Auth_OpenID_FailureResponse($endpoint,
               sprintf('OP Endpoint mismatch. Expected %s, got %s',
                       $to_match->server_url, $endpoint->server_url));
@@ -1196,7 +1196,7 @@ class Auth_OpenID_GenericConsumer {
     /**
      * @access private
      */
-    function _verifyDiscoveryServices($claimed_id, 
+    function _verifyDiscoveryServices($claimed_id,
                                       &$services, &$to_match_endpoints)
     {
         // Search the services resulting from discovery to find one
@@ -1204,7 +1204,7 @@ class Auth_OpenID_GenericConsumer {
 
         foreach ($services as $endpoint) {
             foreach ($to_match_endpoints as $to_match_endpoint) {
-                $result = $this->_verifyDiscoverySingle($endpoint, 
+                $result = $this->_verifyDiscoverySingle($endpoint,
                                                         $to_match_endpoint);
 
                 if (!Auth_OpenID::isFailure($result)) {
@@ -1362,7 +1362,7 @@ class Auth_OpenID_GenericConsumer {
             }
         }
         $ca_message = $message->copy();
-        $ca_message->setArg(Auth_OpenID_OPENID_NS, 'mode', 
+        $ca_message->setArg(Auth_OpenID_OPENID_NS, 'mode',
                             'check_authentication');
         return $ca_message;
     }
@@ -1405,7 +1405,7 @@ class Auth_OpenID_GenericConsumer {
         if ($response->status == 400) {
             return Auth_OpenID_ServerErrorContainer::fromMessage(
                         $response_message);
-        } else if ($response->status != 200 and $response->status != 206) {
+        } elseif ($response->status != 200 and $response->status != 206) {
             return null;
         }
 
@@ -1485,7 +1485,7 @@ class Auth_OpenID_GenericConsumer {
 
         if (($assoc_type === null) || ($session_type === null)) {
             return null;
-        } else if (!$this->negotiator->isAllowed($assoc_type,
+        } elseif (!$this->negotiator->isAllowed($assoc_type,
                                                  $session_type)) {
             return null;
         } else {
@@ -1555,7 +1555,7 @@ class Auth_OpenID_GenericConsumer {
         if ($response_message === null) {
             // oidutil.log('openid.associate request failed: %s' % (why[0],))
             return null;
-        } else if (is_a($response_message,
+        } elseif (is_a($response_message,
                         'Auth_OpenID_ServerErrorContainer')) {
             return $response_message;
         }
@@ -1600,7 +1600,7 @@ class Auth_OpenID_GenericConsumer {
 
         $expires_in = Auth_OpenID::intval($expires_in_str);
         if ($expires_in === false) {
-            
+
             $err = sprintf("Could not parse expires_in from association ".
                            "response %s", print_r($assoc_response, true));
             return new Auth_OpenID_FailureResponse(null, $err);
@@ -1720,7 +1720,7 @@ class Auth_OpenID_GenericConsumer {
         if ($session_type == 'no-encryption') {
             // oidutil.log('WARNING: OpenID server sent "no-encryption"'
             //             'for OpenID 1.X')
-        } else if (($session_type == '') || ($session_type === null)) {
+        } elseif (($session_type == '') || ($session_type === null)) {
             // Missing or empty session type is the way to flag a
             // 'no-encryption' response. Change the session type to
             // 'no-encryption' so that it can be handled in the same
@@ -1837,18 +1837,18 @@ class Auth_OpenID_AuthRequest {
         if ($return_to) {
             $return_to = Auth_OpenID::appendArgs($return_to,
                                                  $this->return_to_args);
-        } else if ($immediate) {
+        } elseif ($immediate) {
             // raise ValueError(
             //     '"return_to" is mandatory when
             //using "checkid_immediate"')
             return new Auth_OpenID_FailureResponse(null,
               "'return_to' is mandatory when using checkid_immediate");
-        } else if ($this->message->isOpenID1()) {
+        } elseif ($this->message->isOpenID1()) {
             // raise ValueError('"return_to" is
             // mandatory for OpenID 1 requests')
             return new Auth_OpenID_FailureResponse(null,
               "'return_to' is mandatory for OpenID 1 requests");
-        } else if ($this->return_to_args) {
+        } elseif ($this->return_to_args) {
             // raise ValueError('extra "return_to" arguments
             // were specified, but no return_to was specified')
             return new Auth_OpenID_FailureResponse(null,
@@ -1947,7 +1947,7 @@ class Auth_OpenID_AuthRequest {
     function htmlMarkup($realm, $return_to=null, $immediate=false,
                         $form_tag_attrs=null)
     {
-        $form = $this->formMarkup($realm, $return_to, $immediate, 
+        $form = $this->formMarkup($realm, $return_to, $immediate,
                                   $form_tag_attrs);
 
         if (Auth_OpenID::isFailure($form)) {

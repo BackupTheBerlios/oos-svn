@@ -228,7 +228,7 @@ class nusoap_parser extends nusoap_base {
 					$this->message[$pos]['typePrefix'] = $value_prefix;
 	                if(isset($this->namespaces[$value_prefix])){
 	                	$this->message[$pos]['type_namespace'] = $this->namespaces[$value_prefix];
-	                } else if(isset($attrs['xmlns:'.$value_prefix])) {
+	                } elseif(isset($attrs['xmlns:'.$value_prefix])) {
 						$this->message[$pos]['type_namespace'] = $attrs['xmlns:'.$value_prefix];
 	                }
 					// should do something here with the namespace of specified type?
@@ -249,7 +249,7 @@ class nusoap_parser extends nusoap_base {
 					$this->message[$pos]['arrayTypePrefix'] = $regs[1];
 	                if (isset($this->namespaces[$regs[1]])) {
 	                	$this->message[$pos]['arrayTypeNamespace'] = $this->namespaces[$regs[1]];
-	                } else if (isset($attrs['xmlns:'.$regs[1]])) {
+	                } elseif (isset($attrs['xmlns:'.$regs[1]])) {
 						$this->message[$pos]['arrayTypeNamespace'] = $attrs['xmlns:'.$regs[1]];
 	                }
 					$this->message[$pos]['arrayType'] = $regs[2];
@@ -315,7 +315,7 @@ class nusoap_parser extends nusoap_base {
 			// get unqualified name
 			$name = substr(strstr($name,':'),1);
 		}
-		
+
 		// build to native type
 		if(isset($this->body_position) && $pos > $this->body_position){
 			// deal w/ multirefs
@@ -377,7 +377,7 @@ class nusoap_parser extends nusoap_base {
 				*/
 			}
 		}
-		
+
         // for doclit
         if($this->status == 'header'){
         	if ($this->root_header != $pos) {

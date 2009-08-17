@@ -129,11 +129,11 @@ function smarty_function_html_doctype($params, &$smarty)
       // Add default DTD
       if ($version == "1.0" && strtolower($type) == "strict")
         $dtd = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
-      else if ($version == "1.0" && strtolower($type) == "transitional")
+      elseif ($version == "1.0" && strtolower($type) == "transitional")
         $dtd = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd";
-      else if ($version == "1.0" && strtolower($type) == "frameset")
+      elseif ($version == "1.0" && strtolower($type) == "frameset")
         $dtd = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd";
-      else if ($version == "1.1")
+      elseif ($version == "1.1")
         $dtd = "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd";
       else
         $dtd = ""; // unknown XHTML version and/or type
@@ -167,7 +167,7 @@ function smarty_function_html_doctype($params, &$smarty)
       // does anybody still uses this?
       $header .= "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML//EN\">\n";
     }
-    else if ($version == "3.2" || intval($version) == 3) {
+    elseif ($version == "3.2" || intval($version) == 3) {
       // does anybody still uses this?
       $header .= "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n";
     }

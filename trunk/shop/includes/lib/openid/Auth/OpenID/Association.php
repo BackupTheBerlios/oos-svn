@@ -382,7 +382,7 @@ function Auth_OpenID_getSecretSize($assoc_type)
 {
     if ($assoc_type == 'HMAC-SHA1') {
         return 20;
-    } else if ($assoc_type == 'HMAC-SHA256') {
+    } elseif ($assoc_type == 'HMAC-SHA256') {
         return 32;
     } else {
         return null;
@@ -460,7 +460,7 @@ function Auth_OpenID_getOnlyEncryptedOrder()
             if (Auth_OpenID_HMACSHA256_SUPPORTED &&
                 ($assoc == 'HMAC-SHA256')) {
                 $result[] = $pair;
-            } else if ($assoc != 'HMAC-SHA256') {
+            } elseif ($assoc != 'HMAC-SHA256') {
                 $result[] = $pair;
             }
         }

@@ -665,7 +665,7 @@ class ADODB_mysqli extends ADOConnection {
 			$a = '';
 			foreach($inputarr as $k => $v) {
 				if (is_string($v)) $a .= 's';
-				else if (is_integer($v)) $a .= 'i';
+				elseif (is_integer($v)) $a .= 'i';
 				else $a .= 'd';
 			}
 

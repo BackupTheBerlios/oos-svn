@@ -2,7 +2,7 @@
 
 /**
  * OpenID server protocol and logic.
- * 
+ *
  * Overview
  *
  * An OpenID server must perform three tasks:
@@ -10,7 +10,7 @@
  *  1. Examine the incoming request to determine its nature and validity.
  *  2. Make a decision about how to respond to this request.
  *  3. Format the response according to the protocol.
- * 
+ *
  * The first and last of these tasks may performed by the {@link
  * Auth_OpenID_Server::decodeRequest()} and {@link
  * Auth_OpenID_Server::encodeResponse} methods.  Who gets to do the
@@ -37,7 +37,7 @@
  * {@link Auth_OpenID_Server::handleRequest()}.
  *
  * OpenID Extensions
- * 
+ *
  * Do you want to provide other information for your users in addition
  * to authentication?  Version 1.2 of the OpenID protocol allows
  * consumers to add extensions to their requests.  For example, with
@@ -606,7 +606,7 @@ class Auth_OpenID_AssociateRequest extends Auth_OpenID_Request {
             if ($session_type == 'no-encryption') {
                 // oidutil.log('Received OpenID 1 request with a no-encryption '
                 //             'assocaition session type. Continuing anyway.')
-            } else if (!$session_type) {
+            } elseif (!$session_type) {
                 $session_type = 'no-encryption';
             }
         } else {
@@ -661,7 +661,7 @@ class Auth_OpenID_AssociateRequest extends Auth_OpenID_Request {
         $response->fields->updateArgs(Auth_OpenID_OPENID_NS,
            $this->session->answer($assoc->secret));
 
-        if (! ($this->session->session_type == 'no-encryption' 
+        if (! ($this->session->session_type == 'no-encryption'
                && $this->message->isOpenID1())) {
             $response->fields->setArg(Auth_OpenID_OPENID_NS,
                                       'session_type',
@@ -733,7 +733,7 @@ class Auth_OpenID_CheckIDRequest extends Auth_OpenID_Request {
      * deprecated since version 2.0.2
      */
     var $namespace;
-    
+
     function make(&$message, $identity, $return_to, $trust_root = null,
                   $immediate = false, $assoc_handle = null, $server = null)
     {
@@ -856,7 +856,7 @@ class Auth_OpenID_CheckIDRequest extends Auth_OpenID_Request {
                 $s = "OpenID 2.0 message contained openid.identity but not " .
                   "claimed_id";
                 return new Auth_OpenID_ServerError($message, $s);
-            } else if ($claimed_id && !$identity) {
+            } elseif ($claimed_id && !$identity) {
                 $s = "OpenID 2.0 message contained openid.claimed_id " .
                   "but not identity";
                 return new Auth_OpenID_ServerError($message, $s);
@@ -871,13 +871,13 @@ class Auth_OpenID_CheckIDRequest extends Auth_OpenID_Request {
         } else {
             $trust_root_param = 'realm';
         }
-        $trust_root = $message->getArg(Auth_OpenID_OPENID_NS, 
+        $trust_root = $message->getArg(Auth_OpenID_OPENID_NS,
                                        $trust_root_param);
         if (! $trust_root) {
             $trust_root = $return_to;
         }
 
-        if (! $message->isOpenID1() && 
+        if (! $message->isOpenID1() &&
             ($return_to === null) &&
             ($trust_root === null)) {
             return new Auth_OpenID_ServerError($message,
@@ -990,7 +990,7 @@ class Auth_OpenID_CheckIDRequest extends Auth_OpenID_Request {
 
         if ($allow) {
             $mode = 'id_res';
-        } else if ($this->message->isOpenID1()) {
+        } elseif ($this->message->isOpenID1()) {
             if ($this->immediate) {
                 $mode = 'id_res';
             } else {
@@ -1035,7 +1035,7 @@ class Auth_OpenID_CheckIDRequest extends Auth_OpenID_Request {
                 $response_identity = $identity;
                 $response_claimed_id = $claimed_id;
 
-            } else if ($this->identity) {
+            } elseif ($this->identity) {
                 if ($identity &&
                     ($this->identity != $identity)) {
                     $fmt = "Request was for %s, cannot reply with identity %s";
@@ -1457,11 +1457,11 @@ class Auth_OpenID_Encoder {
             if (is_a($response, 'Auth_OpenID_ServerError')) {
                 $wr->code = AUTH_OPENID_HTTP_ERROR;
             }
-        } else if ($encode_as == Auth_OpenID_ENCODE_URL) {
+        } elseif ($encode_as == Auth_OpenID_ENCODE_URL) {
             $location = $response->encodeToURL();
             $wr = new $cls(AUTH_OPENID_HTTP_REDIRECT,
                            array('location' => $location));
-        } else if ($encode_as == Auth_OpenID_ENCODE_HTML_FORM) {
+        } elseif ($encode_as == Auth_OpenID_ENCODE_HTML_FORM) {
           $wr = new $cls(AUTH_OPENID_HTTP_OK, array(),
                          $response->toFormMarkup());
         } else {
@@ -1659,7 +1659,7 @@ class Auth_OpenID_UntrustedReturnURL extends Auth_OpenID_ServerError {
  *                                    'checkid_setup'))) {
  *     if ($app->isAuthorized($request->identity, $request->trust_root)) {
  *         $response = $request->answer(true);
- *     } else if ($request->immediate) {
+ *     } elseif ($request->immediate) {
  *         $response = $request->answer(false);
  *     } else {
  *         $app->showDecidePage($request);

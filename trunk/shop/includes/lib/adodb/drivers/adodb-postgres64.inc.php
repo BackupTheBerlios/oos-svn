@@ -455,7 +455,7 @@ select viewname,'V' from pg_views where viewname like $mask";
 	function OffsetDate($dayFraction,$date=false)
 	{
 		if (!$date) $date = $this->sysDate;
-		else if (strncmp($date,"'",1) == 0) {
+		elseif (strncmp($date,"'",1) == 0) {
 			$len = strlen($date);
 			if (10 <= $len && $len <= 12) $date = 'date '.$date;
 			else $date = 'timestamp '.$date;
@@ -669,7 +669,7 @@ WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
 				if ($host[0]) $str = "host=".adodb_addslashes($host[0]);
 				else $str = '';
 				if (isset($host[1])) $str .= " port=$host[1]";
-				else if (!empty($this->port)) $str .= " port=".$this->port;
+				elseif (!empty($this->port)) $str .= " port=".$this->port;
 			}
 		   		if ($user) $str .= " user=".$user;
 		   		if ($pwd)  $str .= " password=".$pwd;
@@ -760,7 +760,7 @@ WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
 					if ($params) $params .= ',';
 					if (is_string($v)) {
 						$params .= 'VARCHAR';
-					} else if (is_integer($v)) {
+					} elseif (is_integer($v)) {
 						$params .= 'INTEGER';
 					} else {
 						$params .= "REAL";

@@ -338,7 +338,7 @@
 			} // switch
 		}
 		//2 11 110bbbbb 10bbbbbb (2047)
-		else if ($ii>>5 == 6)
+		elseif ($ii>>5 == 6)
 		{
 			$b1 = ($ii & 31);
 			$ii = ord($data[$nn+1]);
@@ -349,7 +349,7 @@
 			$nn += 1;
 		}
 		//3 16 1110bbbb 10bbbbbb 10bbbbbb
-		else if ($ii>>4 == 14)
+		elseif ($ii>>4 == 14)
 		{
 			$b1 = ($ii & 15);
 			$ii = ord($data[$nn+1]);
@@ -362,7 +362,7 @@
 			$nn += 2;
 		}
 		//4 21 11110bbb 10bbbbbb 10bbbbbb 10bbbbbb
-		else if ($ii>>3 == 30)
+		elseif ($ii>>3 == 30)
 		{
 			$b1 = ($ii & 7);
 			$ii = ord($data[$nn+1]);
@@ -1569,7 +1569,7 @@
 				{
 					curl_setopt($curl, CURLOPT_HTTPAUTH, $authtype);
 				}
-				else if ($authtype != 1)
+				elseif ($authtype != 1)
 				{
 					error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth is supported by the current PHP/curl install');
 				}
@@ -1628,7 +1628,7 @@
 					{
 						curl_setopt($curl, CURLOPT_PROXYAUTH, $proxyauthtype);
 					}
-					else if ($proxyauthtype != 1)
+					elseif ($proxyauthtype != 1)
 					{
 						error_log('XML-RPC: xmlrpc_client::send: warning. Only Basic auth to proxy is supported by the current PHP/curl install');
 					}
@@ -1808,7 +1808,7 @@
 			{
 					return $rets;
 			}
-			else if ($this->return_type == 'phpvals')
+			elseif ($this->return_type == 'phpvals')
 			{
 				///@todo test this code branch...
 				$rets = $result->value();
@@ -1950,7 +1950,7 @@
 					{
 						$this->valtyp = 'xmlrpcvals';
 					}
-					else if (is_string($this->val))
+					elseif (is_string($this->val))
 					{
 						$this->valtyp = 'xml';
 

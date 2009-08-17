@@ -132,7 +132,7 @@ class XML_HTMLSax3_OpeningTagState {
     */
     function parseAttributes(&$context) {
         $Attributes = array();
-    
+
         $context->ignoreWhitespace();
         $attributename = $context->scanUntilCharacters("=/> \n\r\t");
         while ($attributename != '') {
@@ -145,7 +145,7 @@ class XML_HTMLSax3_OpeningTagState {
                 if ($char == '"') {
                     $attributevalue= $context->scanUntilString('"');
                     $context->IgnoreCharacter();
-                } else if ($char == "'") {
+                } elseif ($char == "'") {
                     $attributevalue = $context->scanUntilString("'");
                     $context->IgnoreCharacter();
                 } else {
@@ -153,12 +153,12 @@ class XML_HTMLSax3_OpeningTagState {
                     $attributevalue =
                         $context->scanUntilCharacters("> \n\r\t");
                 }
-            } else if ($char !== NULL) {
+            } elseif ($char !== NULL) {
                 $attributevalue = NULL;
                 $context->unscanCharacter();
             }
             $Attributes[$attributename] = $attributevalue;
-            
+
             $context->ignoreWhitespace();
             $attributename = $context->scanUntilCharacters("=/> \n\r\t");
         }
@@ -182,14 +182,14 @@ class XML_HTMLSax3_OpeningTagState {
                     $context->unscanCharacter();
                 }
                 $context->handler_object_element->
-                    {$context->handler_method_opening}($context->htmlsax, $tag, 
+                    {$context->handler_method_opening}($context->htmlsax, $tag,
                     $Attributes, TRUE);
                 $context->handler_object_element->
-                    {$context->handler_method_closing}($context->htmlsax, $tag, 
+                    {$context->handler_method_closing}($context->htmlsax, $tag,
                     TRUE);
             } else {
                 $context->handler_object_element->
-                    {$context->handler_method_opening}($context->htmlsax, $tag, 
+                    {$context->handler_method_opening}($context->htmlsax, $tag,
                     $Attributes, FALSE);
             }
         }
@@ -222,7 +222,7 @@ class XML_HTMLSax3_EscapeState {
                 $context->unscanCharacter();
                 $text = $context->scanUntilString('>');
             }
-        } else if ( $char == '[') {
+        } elseif ( $char == '[') {
             $context->unscanCharacter();
             $text = $context->scanUntilString(']>');
             $text.= $context->scanCharacter();

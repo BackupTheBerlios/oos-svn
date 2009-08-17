@@ -191,7 +191,7 @@ $products_index_array;
          $destination = DIR_FS_CATALOG . "catalogues/";
          if (substr(strtolower($path), (strlen($path)-4),4)==".jpg" || substr(strtolower($path), (strlen($path)-5),5)==".jpeg") {
            $src=imagecreateFROMjpeg($path);
-         } else if (substr(strtolower($path), (strlen($path)-4),4)==".gif") {
+         } elseif (substr(strtolower($path), (strlen($path)-4),4)==".gif") {
            $src=imagecreateFRO.gif($path);
          } else {
            echo "Only PNG AND JPEG";
@@ -488,18 +488,18 @@ $products_index_array;
 
          if (CURRENCY_RIGHT_OR_LEFT == 'R') {
            $this->MultiCell($this->text_fw,5,$vatprice.CURRENCY."\t\t\t".$vatspecialsprice.CURRENCY,PRODUCTS_BORDER,'L'); // le rajout d'un param  ,1 remplie la couleur de fond );
-         } else if (CURRENCY_RIGHT_OR_LEFT == 'L') {
+         } elseif (CURRENCY_RIGHT_OR_LEFT == 'L') {
            $this->MultiCell($this->text_fw,5,CURRENCY.$vatprice."\t\t\t".CURRENCY.$vatspecialsprice,PRODUCTS_BORDER,'L'); // le rajout d'un param  ,1 remplie la couleur de fond );
          } else {
            echo "<b>Choose L or R for CURRENCY_RIGHT_OR_LEFT</b>";
            exit();
          }
  $this->LineString($x,$y,$vatprice.CURRENCY,5);
-         } else if (strlen($data_array[9])) {
+         } elseif (strlen($data_array[9])) {
            $this->Cell($data_array[0]+6,5,"",0,0);
            if (CURRENCY_RIGHT_OR_LEFT == 'R') {
              $this->MultiCell($this->text_fw,5,$vatprice.CURRENCY,PRODUCTS_BORDER,'L');
-           }else if (CURRENCY_RIGHT_OR_LEFT == 'L') {
+           }elseif (CURRENCY_RIGHT_OR_LEFT == 'L') {
              $this->MultiCell($this->text_fw,5,CURRENCY.$vatprice,PRODUCTS_BORDER,'L');
            } else {
              echo "<b>Choose L or R for CURRENCY_RIGHT_OR_LEFT</b>";

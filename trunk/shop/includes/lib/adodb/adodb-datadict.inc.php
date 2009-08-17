@@ -96,7 +96,7 @@ function Lens_ParseArgs($args,$endstmtchar=',',$tokenchars='_.-')
 					$quoted = true;
 					$intoken = true;
 					$tokarr = array();
-				} else if ($endquote == $ch) {
+				} elseif ($endquote == $ch) {
 					$ch2 = substr($args,$pos+1,1);
 					if ($ch2 == $endquote) {
 						$pos += 1;
@@ -138,7 +138,7 @@ function Lens_ParseArgs($args,$endstmtchar=',',$tokenchars='_.-')
 			}
 
 			if ($quoted) $tokarr[] = $ch;
-			else if (ctype_alnum($ch) || strpos($tokenchars,$ch) !== false) $tokarr[] = $ch;
+			elseif (ctype_alnum($ch) || strpos($tokenchars,$ch) !== false) $tokarr[] = $ch;
 			else {
 				if ($ch == $endstmtchar) {
 					$tokens[$stmtno][] = implode('',$tokarr);
@@ -661,7 +661,7 @@ class ADODB_DataDict {
 			// Parse attributes
 			foreach($fld as $attr => $v) {
 				if ($attr == 2 && is_numeric($v)) $attr = 'SIZE';
-				else if (is_numeric($attr) && $attr > 1 && !is_numeric($v)) $attr = strtoupper($v);
+				elseif (is_numeric($attr) && $attr > 1 && !is_numeric($v)) $attr = strtoupper($v);
 
 				switch($attr) {
 				case '0':
@@ -751,13 +751,13 @@ class ADODB_DataDict {
 				} else {
 					$fdefault = $this->connection->sysTimeStamp;
 				}
-			} else if ($fdefdate) {
+			} elseif ($fdefdate) {
 				if (substr($this->connection->databaseType,0,5) == 'mysql') {
 					$ftype = 'TIMESTAMP';
 				} else {
 					$fdefault = $this->connection->sysDate;
 				}
-			} else if ($fdefault !== false && !$fnoquote) {
+			} elseif ($fdefault !== false && !$fnoquote) {
 				if ($ty == 'C' or $ty == 'X' or
 					( substr($fdefault,0,1) != "'" && !is_numeric($fdefault))) {
 
@@ -775,7 +775,7 @@ class ADODB_DataDict {
 					else
 					if (strlen($fdefault) != 1 && substr($fdefault,0,1) == ' ' && substr($fdefault,strlen($fdefault)-1) == ' ')
 						$fdefault = trim($fdefault);
-					else if (strtolower($fdefault) != 'null')
+					elseif (strtolower($fdefault) != 'null')
 						$fdefault = $this->connection->qstr($fdefault);
 				}
 			}

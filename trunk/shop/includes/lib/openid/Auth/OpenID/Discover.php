@@ -296,7 +296,7 @@ function Auth_OpenID_findOPLocalIdentifier($service, $type_uris)
 
             if ($local_id === null) {
                 $local_id = $content;
-            } else if ($local_id != $content) {
+            } elseif ($local_id != $content) {
                 return false;
             }
         }

@@ -738,13 +738,13 @@ order by constraint_name, referenced_table_name, keyno";
 					}
 
 					$params .= "@P$i=N". (strncmp($v,"'",1)==0? $v : $this->qstr($v));
-				} else if (is_integer($v)) {
+				} elseif (is_integer($v)) {
 					$decl .= "@P$i INT";
 					$params .= "@P$i=".$v;
-				} else if (is_float($v)) {
+				} elseif (is_float($v)) {
 					$decl .= "@P$i FLOAT";
 					$params .= "@P$i=".$v;
-				} else if (is_bool($v)) {
+				} elseif (is_bool($v)) {
 					$decl .= "@P$i INT"; # Used INT just in case BIT in not supported on the user's MSSQL version. It will cast appropriately.
 					$params .= "@P$i=".(($v)?'1':'0'); # True == 1 in MSSQL BIT fields and acceptable for storing logical true in an int field
 				} else {
@@ -762,7 +762,7 @@ order by constraint_name, referenced_table_name, keyno";
                 @mssql_data_seek($rez, 0);
             }
 
-		} else if (is_array($sql)) {
+		} elseif (is_array($sql)) {
 			# PrepareSP()
 			$rez = mssql_execute($sql[1]);
             $this->lastInsID = false;
@@ -866,7 +866,7 @@ class ADORecordset_mssql extends ADORecordSet {
 		if ($fieldOffset != -1) {
 			$f = @mssql_fetch_field($this->_queryID, $fieldOffset);
 		}
-		else if ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
+		elseif ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
 			$f = @mssql_fetch_field($this->_queryID);
 		}
 		$false = false;
@@ -913,7 +913,7 @@ class ADORecordset_mssql extends ADORecordSet {
 					foreach($this->fields as $k=>$v) {
 						$this->fields[strtolower($k)] = $v;
 					}
-				} else if (ADODB_ASSOC_CASE == 1) {
+				} elseif (ADODB_ASSOC_CASE == 1) {
 					foreach($this->fields as $k=>$v) {
 						$this->fields[strtoupper($k)] = $v;
 					}
@@ -954,11 +954,11 @@ class ADORecordset_mssql extends ADORecordSet {
 			}
 
 			if (!$this->fields) {
-			} else if (ADODB_ASSOC_CASE == 0) {
+			} elseif (ADODB_ASSOC_CASE == 0) {
 				foreach($this->fields as $k=>$v) {
 					$this->fields[strtolower($k)] = $v;
 				}
-			} else if (ADODB_ASSOC_CASE == 1) {
+			} elseif (ADODB_ASSOC_CASE == 1) {
 				foreach($this->fields as $k=>$v) {
 					$this->fields[strtoupper($k)] = $v;
 				}

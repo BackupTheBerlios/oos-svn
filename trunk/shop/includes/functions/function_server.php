@@ -175,7 +175,6 @@
      return $sBaseurl;
   }
 
-
  /**
   * get top level domain
   *
@@ -205,7 +204,6 @@
       return false;
     }
   }
-
 
  /**
   * get client ip

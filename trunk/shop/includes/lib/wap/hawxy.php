@@ -65,7 +65,7 @@ if (!defined("HAX_RAW_VXML_ALLOWED"))
 // filename prefix for user-defined plugins
 if (!defined("HAX_PLUGIN_PREFIX"))
   define("HAX_PLUGIN_PREFIX", "HAW_plugin_");
-  
+
 
 ############################
 #                          #
@@ -125,7 +125,7 @@ if (!isset($banner))
 // enable/disable error logging
 if (!isset($log_hawxy_errors))
   $log_hawxy_errors = false;
-  
+
 
 ##############################
 #                            #
@@ -308,7 +308,7 @@ function handleParsedElement($parser, $pos, $name, $attrs)
   static $number_of_linksets = 0;
   static $markup_language = 0;
   static $raw_mode = false;
-  
+
   if (function_exists("xml_get_current_line_number"))
     $line = xml_get_current_line_number($parser);
   else
@@ -385,7 +385,7 @@ function handleParsedElement($parser, $pos, $name, $attrs)
           $redirection[1] = trim($redirection[1]);
           if (isset($redirection[2]))
             $redirection[2] = trim(strtolower($redirection[2]));
-          
+
           if (($redirection[0] < 1) || ($redirection[0] > 3600))
             error($err[3], $parser, $line); // invalid time value
 
@@ -429,7 +429,7 @@ function handleParsedElement($parser, $pos, $name, $attrs)
         {
           if (strtolower($attrs["SKIN"]) == "none")
             $deck->use_simulator(HAW_SIM_NONE);
-          else if (strtolower($attrs["SKIN"]) == "classic")
+          elseif (strtolower($attrs["SKIN"]) == "classic")
             $deck->use_simulator(HAW_SIM_CLASSIC);
           else
             $deck->use_simulator($attrs["SKIN"]);
@@ -484,7 +484,7 @@ function handleParsedElement($parser, $pos, $name, $attrs)
           $hidden = new HAW_hidden("code", qualify_url($attrs["ACTION"]));
           $form->add_hidden($hidden);
         }
-        
+
         $tag_stack->push($form, HAX_TAG_FORM);
       }
       else
@@ -655,11 +655,11 @@ function handleParsedElement($parser, $pos, $name, $attrs)
           $image = new HAW_image($src_wbmp, $src_html, $alt);
 
         if (isset($attrs["HTML"]) && isset($attrs["HTML_WIDTH"]))
-          $image->set_html_width($attrs["HTML_WIDTH"]);  
-          
+          $image->set_html_width($attrs["HTML_WIDTH"]);
+
         if (isset($attrs["HTML"]) && isset($attrs["HTML_HEIGHT"]))
-          $image->set_html_height($attrs["HTML_HEIGHT"]);  
-          
+          $image->set_html_height($attrs["HTML_HEIGHT"]);
+
           if (isset($attrs["BR"]) && ($attrs["BR"] >= 0))
           $image->set_br($attrs["BR"]+0); // convert string to int!
 
@@ -988,7 +988,7 @@ function handleParsedElement($parser, $pos, $name, $attrs)
           $url = $attrs["HREF"]; // go directly to href
         else
           $url = determine_url(qualify_url($attrs["HREF"])); // let HAWHAW proxy retrieve href
-          
+
         if (isset($attrs["TITLE"]))
           $link = new HAW_link("", $url, $attrs["TITLE"]);
         else
@@ -1182,7 +1182,7 @@ function handleParsedElement($parser, $pos, $name, $attrs)
 
         if (isset($attrs["CSS_CLASS"]))
           $phone->set_css_class($attrs["CSS_CLASS"]);
-          
+
         if (isset($attrs["VOICE_INPUT"]))
           $phone->set_voice_input($attrs["VOICE_INPUT"]);
 
@@ -1417,7 +1417,7 @@ function handleParsedElement($parser, $pos, $name, $attrs)
 
       break;
     }
-    
+
     case "PLUGIN":
     {
       if ($pos == HAX_PARSE_BEGIN)
@@ -1434,8 +1434,8 @@ function handleParsedElement($parser, $pos, $name, $attrs)
         // security check 1: test if plugin file exists
         if (!file_exists($plugin_filename))
           error($err[15] . $attrs["NAME"], $parser, $line); // plugin not found
-        
-        // setup php instructions  
+
+        // setup php instructions
         $php_cmd = "require_once(\"$plugin_filename\");" .
                    '$udef = new ' . HAX_PLUGIN_PREFIX . $attrs["NAME"] . "();";
         while (list($key, $val) = each($attrs))
@@ -1443,7 +1443,7 @@ function handleParsedElement($parser, $pos, $name, $attrs)
           // security check 2: allow alphanumeric characters only!
           $param = preg_replace('/[^\w]/', "", $val);
           if (strtolower($key) != "name")
-            $php_cmd .= '$udef->set_' . strtolower($key) . '(\'' . $param . '\');'; 
+            $php_cmd .= '$udef->set_' . strtolower($key) . '(\'' . $param . '\');';
         }
 
         // create user-defined object and call set methods
@@ -1466,13 +1466,13 @@ function handleParsedElement($parser, $pos, $name, $attrs)
 
       break;
     }
-    
+
     default:
     {
       if ($raw_mode == true)
       {
         // only in raw mode unknown tags will be handled
-        
+
         $element = $tag_stack->pop();
 
         if ($element["tag"] == HAX_TAG_RAW)
@@ -1491,7 +1491,7 @@ function handleParsedElement($parser, $pos, $name, $attrs)
             $element["element"]->code .= "</" . strtolower($name) . ">";
           }
         }
-        
+
         $tag_stack->push($element["element"], $element["tag"]);
       }
       break;
@@ -1889,18 +1889,18 @@ function qualify_url($url)
   $protocol = $matches[1];
   $host = $matches[2];
   $path = $matches[3];
-  
+
   if (preg_match("#^/#", $url))
   {
     // absolute url
     $url = $protocol . $host . $url;
   }
-  else if (!preg_match("#^https?://#", $url))
+  elseif (!preg_match("#^https?://#", $url))
   {
     // relative url
     $url = $protocol . $host . $path . $url;
   }
-  
+
   return($url);
 }
 
@@ -1942,7 +1942,7 @@ if ($img_conversion_enabled)
     // recall of HAWHAW proxy in order to perform one specific image conversion
 
     $varname = "i" . $_REQUEST['index'];
-    $remote_file = $_SESSION[$varname]; 
+    $remote_file = $_SESSION[$varname];
 
     $fd_in = fopen($remote_file, "rb");
     $image_data = fread($fd_in, $img_maxsize);
@@ -2051,7 +2051,7 @@ if (!($fp=@fopen($remote_url, "r")))
 $data = "";
 while (!feof($fp) && (strlen($data) < HAX_MAX_FILE_SIZE))
   $data .= fread($fp, HAX_MAX_FILE_SIZE);
-  
+
 if (!feof($fp))
   // buffer full ==> XML file too large!
   error($err[1], $xml_parser);
@@ -2064,7 +2064,7 @@ if (!@xml_parse($xml_parser, $data, feof($fp)))
   // @fixme: some PHP installations throw a warning, when the parser has been
   // free'ed, before parsing is done.
   // We just hide the warning here as a poor workaround ...
-   
+
   // parse error has occured
 
   $line_of_fault = xml_get_current_line_number($xml_parser);
@@ -2076,7 +2076,7 @@ if (!@xml_parse($xml_parser, $data, feof($fp)))
   }
   else
   {
-    // in case of remote server-sided script errors the erroneous line 
+    // in case of remote server-sided script errors the erroneous line
     // number is not really helpful ==> dump whole input additionally
     $dump = $line_buffer[$line_of_fault-1] . strip_tags($data);
     error($err[10] . " " . $line_of_fault . ": " . $err[2] . ": " . $dump, $xml_parser);

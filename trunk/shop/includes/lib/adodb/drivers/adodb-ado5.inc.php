@@ -70,7 +70,7 @@ class ADODB_ado extends ADOConnection {
 		 } else {
 		 	$argDatabasename = '';
 		 	if ($argDBorProvider) $argProvider = $argDBorProvider;
-			else if (stripos($argHostname,'PROVIDER') === false) /* full conn string is not in $argHostname */
+			elseif (stripos($argHostname,'PROVIDER') === false) /* full conn string is not in $argHostname */
 				$argProvider = 'MSDASQL';
 		}
 
@@ -97,7 +97,7 @@ class ADODB_ado extends ADOConnection {
 
 			//use trusted conection for SQL if username not specified
 			if (!$argUsername) $argHostname .= ";Trusted_Connection=Yes";
-		} else if ($argProvider=='access')
+		} elseif ($argProvider=='access')
 			$argProvider = "Microsoft.Jet.OLEDB.4.0"; // Microsoft Jet Provider
 
 		if ($argProvider) $dbc->Provider = $argProvider;
@@ -251,13 +251,13 @@ class ADODB_ado extends ADOConnection {
 				$len=strlen($val);
 				if ($type == 'boolean')
 					$this->adoParameterType = 11;
-				else if ($type == 'integer')
+				elseif ($type == 'integer')
 					$this->adoParameterType = 3;
-				else if ($type == 'double')
+				elseif ($type == 'double')
 					$this->adoParameterType = 5;
 				elseif ($type == 'string')
 					$this->adoParameterType = 202;
-				else if (($val === null) || (!defined($val)))
+				elseif (($val === null) || (!defined($val)))
 					$len=1;
 				else
 					$this->adoParameterType = 130;

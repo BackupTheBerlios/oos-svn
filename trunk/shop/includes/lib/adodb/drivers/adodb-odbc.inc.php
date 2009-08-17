@@ -296,8 +296,8 @@ class ADODB_odbc extends ADOConnection {
 			if ($ttype) {
 				if ($isview) {
 					if (strncmp($type,'V',1) === 0) $arr2[] = $arr[$i][2];
-				} else if (strncmp($type,'SYS',3) !== 0) $arr2[] = $arr[$i][2];
-			} else if (strncmp($type,'SYS',3) !== 0) $arr2[] = $arr[$i][2];
+				} elseif (strncmp($type,'SYS',3) !== 0) $arr2[] = $arr[$i][2];
+			} elseif (strncmp($type,'SYS',3) !== 0) $arr2[] = $arr[$i][2];
 		}
 		return $arr2;
 	}
@@ -458,7 +458,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/odbc/htm/od
 				if ($fld->type == 'C' or $fld->type == 'X') {
 					if ($this->databaseType == 'access')
 						$fld->max_length = $rs->fields[6];
-					else if ($rs->fields[4] <= -95) // UNICODE
+					elseif ($rs->fields[4] <= -95) // UNICODE
 						$fld->max_length = $rs->fields[7]/2;
 					else
 						$fld->max_length = $rs->fields[7];
@@ -467,7 +467,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/odbc/htm/od
 				$fld->not_null = !empty($rs->fields[10]);
 				$fld->scale = $rs->fields[8];
 				$retarr[strtoupper($fld->name)] = $fld;
-			} else if (sizeof($retarr)>0)
+			} elseif (sizeof($retarr)>0)
 				break;
 			$rs->MoveNext();
 		}
@@ -516,7 +516,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/odbc/htm/od
 				return false;
 			}
 
-		} else if (is_array($sql)) {
+		} elseif (is_array($sql)) {
 			$stmtid = $sql[1];
 			if (!odbc_execute($stmtid)) {
 				//@odbc_free_result($stmtid);
@@ -624,7 +624,7 @@ class ADORecordSet_odbc extends ADORecordSet {
 		$o->type = @odbc_field_type($this->_queryID,$off);
 		$o->max_length = @odbc_field_len($this->_queryID,$off);
 		if (ADODB_ASSOC_CASE == 0) $o->name = strtolower($o->name);
-		else if (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
+		elseif (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
 		return $o;
 	}
 

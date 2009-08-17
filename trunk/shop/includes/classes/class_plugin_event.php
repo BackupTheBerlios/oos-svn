@@ -54,6 +54,7 @@ class plugin_event
     {
 
         $sName = 'oos_event_' . $sInstance;
+        // echo $sName . '<br />';
 
         if (!class_exists($sName)) {
             if (empty($sPluginPath)) {

@@ -217,7 +217,7 @@ NATSOFT.DOMAIN =
 				OCIPLogon($argUsername,$argPassword, $argDatabasename)
 				;
 			if ($this->_connectionID && $this->autoRollback)  OCIrollback($this->_connectionID);
-		} else if ($mode==2) {
+		} elseif ($mode==2) {
 			$this->_connectionID = ($this->charSet) ?
 				OCINLogon($argUsername,$argPassword, $argDatabasename,$this->charSet)
 				:
@@ -844,7 +844,7 @@ NATSOFT.DOMAIN =
 		$rs = $this->Execute($stmt);
 		if ($rs) {
 			if ($rs->databaseType == 'array') OCIFreeCursor($stmt[4]);
-			else if ($hasref) $rs->_refcursor = $stmt[4];
+			elseif ($hasref) $rs->_refcursor = $stmt[4];
 		}
 		return $rs;
 	}
@@ -892,7 +892,7 @@ NATSOFT.DOMAIN =
 			if ($type !== false) $rez = OCIBindByName($stmt[1],":".$stmt[2],$var,$size,$type);
 			else $rez = OCIBindByName($stmt[1],":".$stmt[2],$var,$size); // +1 byte for null terminator
 			$stmt[2] += 1;
-		} else if (oci_lob_desc($type)) {
+		} elseif (oci_lob_desc($type)) {
 			if ($this->debug) {
 				ADOConnection::outp("<b>Bind</b>: name = $name");
 			}

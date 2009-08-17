@@ -308,7 +308,7 @@ class Auth_Yadis_XRDS {
         if (array_key_exists('xmlns:xrd', $attrs) &&
             $attrs['xmlns:xrd'] != Auth_Yadis_XMLNS_XRDS) {
             return $_null;
-        } else if (array_key_exists('xmlns', $attrs) &&
+        } elseif (array_key_exists('xmlns', $attrs) &&
                    preg_match('/xri/', $attrs['xmlns']) &&
                    $attrs['xmlns'] != Auth_Yadis_XMLNS_XRD_2_0) {
             return $_null;

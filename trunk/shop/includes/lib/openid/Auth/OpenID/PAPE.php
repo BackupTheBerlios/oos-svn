@@ -255,7 +255,7 @@ class Auth_OpenID_PAPE_Response extends Auth_OpenID_Extension {
 
             if (0 <= $nist_level && $nist_level < 5) {
                 $this->nist_auth_level = $nist_level;
-            } else if ($strict) {
+            } elseif ($strict) {
                 return false;
             }
         }
@@ -264,7 +264,7 @@ class Auth_OpenID_PAPE_Response extends Auth_OpenID_Extension {
         if ($auth_time !== null) {
             if (ereg(PAPE_TIME_VALIDATOR, $auth_time)) {
                 $this->auth_time = $auth_time;
-            } else if ($strict) {
+            } elseif ($strict) {
                 return false;
             }
         }

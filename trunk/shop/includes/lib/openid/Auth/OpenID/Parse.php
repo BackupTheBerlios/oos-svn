@@ -209,7 +209,7 @@ class Auth_OpenID_Parse {
 
         if (preg_match($double, $str, $matches)) {
             return $matches[1];
-        } else if (preg_match($single, $str, $matches)) {
+        } elseif (preg_match($single, $str, $matches)) {
             return $matches[1];
         } else {
             return $str;

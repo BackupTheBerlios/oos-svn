@@ -315,7 +315,7 @@ class ADORecordset_sybase extends ADORecordSet {
 		if ($fieldOffset != -1) {
 			$o = @sybase_fetch_field($this->_queryID, $fieldOffset);
 		}
-		else if ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
+		elseif ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
 			$o = @sybase_fetch_field($this->_queryID);
 		}
 		// older versions of PHP did not support type, only numeric
@@ -339,7 +339,7 @@ class ADORecordset_sybase extends ADORecordSet {
 	{
 		if ($this->fetchMode == ADODB_FETCH_NUM) {
 			$this->fields = @sybase_fetch_row($this->_queryID);
-		} else if ($this->fetchMode == ADODB_FETCH_ASSOC) {
+		} elseif ($this->fetchMode == ADODB_FETCH_ASSOC) {
 			$this->fields = @sybase_fetch_row($this->_queryID);
 			if (is_array($this->fields)) {
 				$this->fields = $this->GetRowAssoc(ADODB_ASSOC_CASE);

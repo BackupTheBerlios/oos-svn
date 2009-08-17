@@ -147,7 +147,7 @@ class Auth_OpenID {
 
         if ($query_str !== null) {
             $data = Auth_OpenID::params_from_string($query_str);
-        } else if (!array_key_exists('REQUEST_METHOD', $_SERVER)) {
+        } elseif (!array_key_exists('REQUEST_METHOD', $_SERVER)) {
             // Do nothing.
         } else {
           // XXX HACK FIXME HORRIBLE.

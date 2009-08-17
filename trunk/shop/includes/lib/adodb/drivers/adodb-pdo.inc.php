@@ -235,7 +235,7 @@ class ADODB_pdo extends ADOConnection {
 	{
 		if ($this->_errormsg !== false) return $this->_errormsg;
 		if (!empty($this->_stmt)) $arr = $this->_stmt->errorInfo();
-		else if (!empty($this->_connectionID)) $arr = $this->_connectionID->errorInfo();
+		elseif (!empty($this->_connectionID)) $arr = $this->_connectionID->errorInfo();
 		else return 'No Connection Established';
 
 
@@ -251,7 +251,7 @@ class ADODB_pdo extends ADOConnection {
 	{
 		if ($this->_errorno !== false) return $this->_errorno;
 		if (!empty($this->_stmt)) $err = $this->_stmt->errorCode();
-		else if (!empty($this->_connectionID)) {
+		elseif (!empty($this->_connectionID)) {
 			$arr = $this->_connectionID->errorInfo();
 			if (isset($arr[0])) $err = $arr[0];
 			else $err = -1;
@@ -585,7 +585,7 @@ class ADORecordSet_pdo extends ADORecordSet {
 		$o->precision = $arr['precision'];
 
 		if (ADODB_ASSOC_CASE == 0) $o->name = strtolower($o->name);
-		else if (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
+		elseif (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
 		return $o;
 	}
 

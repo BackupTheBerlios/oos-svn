@@ -123,7 +123,7 @@ class ADODB_Active_Record {
 		$this->foreignName = strtolower(get_class($this)); // CFR: default foreign name
 		if ($db) {
 			$this->_dbat = ADODB_Active_Record::SetDatabaseAdapter($db);
-		} else if (!isset($this->_dbat)) {
+		} elseif (!isset($this->_dbat)) {
 			if (sizeof($_ADODB_ACTIVE_DBS) == 0) $this->Error("No database connection set; use ADOdb_Active_Record::SetDatabaseAdapter(\$db)",'ADODB_Active_Record::__constructor');
 			end($_ADODB_ACTIVE_DBS);
 			$this->_dbat = key($_ADODB_ACTIVE_DBS);
@@ -367,7 +367,7 @@ class ADODB_Active_Record {
 
 				//if ($db->debug) ADOConnection::outp("Reading cached active record file: $fname");
 			  	return;
-			} else if ($db->debug) {
+			} elseif ($db->debug) {
 				ADOConnection::outp("Refreshing cached active record file: $fname");
 			}
 		}

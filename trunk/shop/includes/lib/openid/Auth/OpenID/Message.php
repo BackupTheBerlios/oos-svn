@@ -522,7 +522,7 @@ class Auth_OpenID_Message {
                 if ($this->namespaces->addAlias($value, $ns_key) === null) {
                     return false;
                 }
-            } else if (($ns_alias == Auth_OpenID_NULL_NAMESPACE) &&
+            } elseif (($ns_alias == Auth_OpenID_NULL_NAMESPACE) &&
                        ($ns_key == 'ns')) {
                 // null namespace
                 if ($this->setOpenIDNamespace($value, false) === false) {

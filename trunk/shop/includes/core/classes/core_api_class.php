@@ -1185,6 +1185,7 @@ class MyOOS_CoreApi {
      */
     function redirect($sUrl)
     {
+
         if ( ( strpos($sUrl, "\n") !== false ) || ( strpos($sUrl, "\r") !== false ) ) {
             $aPages = oos_get_pages();
 	        $sUrl = oos_href_link($aPages['main'], null, 'NONSSL', false);

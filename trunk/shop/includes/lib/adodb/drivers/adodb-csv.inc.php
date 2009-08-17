@@ -127,7 +127,7 @@ class ADODB_csv extends ADOConnection {
 				$sql .= $sqlarr[$i];
 				if (gettype($v) == 'string')
 					$sql .= $this->qstr($v);
-				else if ($v === null)
+				elseif ($v === null)
 					$sql .= 'NULL';
 				else
 					$sql .= $v;

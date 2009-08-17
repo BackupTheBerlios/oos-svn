@@ -334,25 +334,6 @@ class MyOOS_Utilities {
         return $values;
     }
 
-    /**
-     * Push the given key => value pair back into the request.
-     * @param string $key
-     * @param string $value
-     * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
-     */
-    function putRequestVariable($key, $value, $prefix=true)
-    {
-        if ($prefix) {
-            $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
-    }
-
-        /* Simulate the damage caused by magic_quotes */
-        MyOOS_Utilities::unsanitizeInputValues($key);
-        MyOOS_Utilities::unsanitizeInputValues($value);
-
-        $keyPath = preg_split('/[\[\]]/', $key, -1, PREG_SPLIT_NO_EMPTY);
-        MyOOS_Utilities::_internalPutRequestVariable($keyPath, $value, $_GET);
-    }
 
     /**
      * Take a path in the form of ('foo', 'bar', 'baz') and a destination array and put the value
@@ -624,12 +605,12 @@ class MyOOS_Utilities {
                 $thisLetter = substr($source, $pos, 4);
                 $pos += 4;
             }
-            else if (($asciiPos >= 224) && ($asciiPos <= 239)) {
+            elseif (($asciiPos >= 224) && ($asciiPos <= 239)) {
                 /* 3 chars representing one unicode character */
                 $thisLetter = substr($source, $pos, 3);
                 $pos += 3;
             }
-            else if (($asciiPos >= 192) && ($asciiPos <= 223)) {
+            elseif (($asciiPos >= 192) && ($asciiPos <= 223)) {
                 /* 2 chars representing one unicode character */
                 $thisLetter = substr($source, $pos, 2);
                 $pos += 2;
@@ -896,6 +877,55 @@ class MyOOS_Utilities {
         return isset($array[$key]) ? $array[$key] : null;
     }
 
+     /**
+      * Return a sanitized version of the given variable from the _SERVER superglobal.
+      * @param string $key the key in the _SERVER superglobal
+      * @return string the value
+      */
+     function getServerVar($key)
+     {
+         if (!isset($_SERVER[$key])) {
+             return null;
+     }
+
+         $value = $_SERVER[$key];
+         MyOOS_Utilities::sanitizeInputValues($value);
+         return $value;
+     }
+
+    /**
+     * Is this address a trusted proxy?  Right now we consider any RFC1918 host trustworthy.
+     * @param string $addr an address in dotted quad form
+     * @return boolean
+     */
+    function isTrustedProxy($addr)
+    {
+        return (boolean)preg_match('/^((10\.\d{1,3}\.\d{1,3}\.\d{1,3})|'
+            . '(172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3})|'
+            . '(192\.168\.\d{1,3}\.\d{1,3}))$/', $addr);
+    }
+
+    /**
+     * Return the address of the remote host.
+     * @return string the remote host address (or null)
+     */
+    function getRemoteHostAddress()
+    {
+        $addr = null;
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $addr = $_SERVER['REMOTE_ADDR'];
+            if (MyOOS_Utilities::isTrustedProxy($addr)) {
+                foreach (array('HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP') as $key) {
+                    if (isset($_SERVER[$key]) &&
+                        preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $_SERVER[$key])) {
+                        $addr = $_SERVER[$key];
+                        break;
+                    }
+                }
+            }
+        }
+        return $addr;
+    }
 
     /**
      * ASCII version of PHP's strtolower().  PHP's strtolower doesn't work in all locales as

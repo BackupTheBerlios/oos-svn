@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -16,7 +16,7 @@
    Copyright (c) 2002  - Oliver Baelde
    http://www.francecontacts.com
    dev@francecontacts.com
-   - eCommerce Solutions development and integration - 
+   - eCommerce Solutions development and integration -
 
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -38,7 +38,7 @@
       // Select random character based on mapping.
       if ($randomNumber < 11)
         $newkey .= Chr($randomNumber + 48 - 1); // [ 1,10] => [0,9]
-      else if ($randomNumber < 37)
+      elseif ($randomNumber < 37)
         $newkey .= Chr($randomNumber + 65 - 10); // [11,36] => [A,Z]
       else
         $newkey .= Chr($randomNumber + 97 - 36); // [37,62] => [a,z]
@@ -50,4 +50,3 @@
   $newkey=RandomPassword($passwordLength);
 
   $dbconn->Execute("UPDATE " . $oostable['manual_info'] . " SET man_key  = '" . $newkey . "', man_key2  = '', man_key3  = '' WHERE man_info_id = '1' ");
-?>

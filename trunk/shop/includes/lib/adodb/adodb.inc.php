@@ -116,7 +116,7 @@
 		$_adodb_ver = (float) PHP_VERSION;
 		if ($_adodb_ver >= 5.2) {
 			define('ADODB_PHPVER',0x5200);
-		} else if ($_adodb_ver >= 5.0) {
+		} elseif ($_adodb_ver >= 5.0) {
 			define('ADODB_PHPVER',0x5000);
 		} else
 			die("PHP5 or later required. You are running ".PHP_VERSION);
@@ -472,7 +472,7 @@
 			$fn = ADODB_OUTP;
 			$fn($msg,$newline);
 			return;
-		} else if (isset($ADODB_OUTP)) {
+		} elseif (isset($ADODB_OUTP)) {
 			$fn = $ADODB_OUTP;
 			$fn($msg,$newline);
 			return;
@@ -975,14 +975,14 @@
 						if ($typ == 'string')
 							//New memory copy of input created here -mikefedyk
 							$sql .= $this->qstr($v);
-						else if ($typ == 'double')
+						elseif ($typ == 'double')
 							$sql .= str_replace(',','.',$v); // locales fix so 1.1 does not get converted to 1,1
-						else if ($typ == 'boolean')
+						elseif ($typ == 'boolean')
 							$sql .= $v ? $this->true : $this->false;
-						else if ($typ == 'object') {
+						elseif ($typ == 'object') {
 							if (method_exists($v, '__toString')) $sql .= $this->qstr($v->__toString());
 							else $sql .= $this->qstr((string) $v);
-						} else if ($v === null)
+						} elseif ($v === null)
 							$sql .= 'NULL';
 						else
 							$sql .= $v;
@@ -993,7 +993,7 @@
 					if (isset($sqlarr[$i])) {
 						$sql .= $sqlarr[$i];
 						if ($i+1 != sizeof($sqlarr)) $this->outp_throw( "Input Array does not match ?: ".htmlspecialchars($sql),'Execute');
-					} else if ($i != sizeof($sqlarr))
+					} elseif ($i != sizeof($sqlarr))
 						$this->outp_throw( "Input array does not match ?: ".htmlspecialchars($sql),'Execute');
 
 					$ret = $this->_Execute($sql);
@@ -1280,7 +1280,7 @@
 							$ret = $this->Execute($sql,$inputarr);
 						}
 						return $ret; // PHP5 fix
-					} else if ($ismssql){
+					} elseif ($ismssql){
 						$sql = preg_replace(
 						'/(^\s*select\s+(distinctrow|distinct)?)/i','\\1 '.$this->hasTop.' '.((integer)$nrows).' ',$sql);
 					} else {
@@ -1833,7 +1833,7 @@
 					$rs->connection = $this; // Pablo suggestion
 				}
 
-			} else if (!$this->memCache)
+			} elseif (!$this->memCache)
 				$ADODB_CACHE->flushcache($md5file);
 		} else {
 			$this->_errorMsg = '';
@@ -1871,7 +1871,7 @@
 		$false = false;
 		$sql = 'SELECT * FROM '.$table;
 		if ($where!==FALSE) $sql .= ' WHERE '.$where;
-		else if ($mode == 'UPDATE' || $mode == 2 /* DB_AUTOQUERY_UPDATE */) {
+		elseif ($mode == 'UPDATE' || $mode == 2 /* DB_AUTOQUERY_UPDATE */) {
 			$this->outp_throw('AutoExecute: Illegal mode=UPDATE with empty WHERE clause','AutoExecute');
 			return $false;
 		}
@@ -2559,8 +2559,8 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 
 		// $tt == -1 if pre TIMESTAMP_FIRST_YEAR
 		if (($tt === false || $tt == -1) && $v != false) return $v;
-		else if ($tt == 0) return $this->emptyDate;
-		else if ($tt == -1) { // pre-TIMESTAMP_FIRST_YEAR
+		elseif ($tt == 0) return $this->emptyDate;
+		elseif ($tt == -1) { // pre-TIMESTAMP_FIRST_YEAR
 		}
 
 		return ($gmt) ? adodb_gmdate($fmt,$tt) : adodb_date($fmt,$tt);
@@ -3210,8 +3210,8 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 		$tt = $this->UnixDate($v);
 		// $tt == -1 if pre TIMESTAMP_FIRST_YEAR
 		if (($tt === false || $tt == -1) && $v != false) return $v;
-		else if ($tt == 0) return $this->emptyDate;
-		else if ($tt == -1) { // pre-TIMESTAMP_FIRST_YEAR
+		elseif ($tt == 0) return $this->emptyDate;
+		elseif ($tt == -1) { // pre-TIMESTAMP_FIRST_YEAR
 		}
 		return adodb_date($fmt,$tt);
 	}
@@ -3791,7 +3791,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 			// is the char field is too long, return as text field...
 			if ($this->blobSize >= 0) {
 				if ($len > $this->blobSize) return 'X';
-			} else if ($len > 250) {
+			} elseif ($len > 250) {
 				return 'X';
 			}
 			return 'C';
@@ -4275,7 +4275,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 				}
 				if (empty($persist))
 					$ok = $obj->Connect($dsna['host'], $dsna['user'], $dsna['pass'], $dsna['path']);
-				else if (empty($nconnect))
+				elseif (empty($nconnect))
 					$ok = $obj->PConnect($dsna['host'], $dsna['user'], $dsna['pass'], $dsna['path']);
 				else
 					$ok = $obj->NConnect($dsna['host'], $dsna['user'], $dsna['pass'], $dsna['path']);

@@ -410,7 +410,7 @@ class Auth_OpenID_AX_FetchRequest extends Auth_OpenID_AX_Message {
                 $obj = new Auth_OpenID_AX_Error(
                   sprintf("Cannot validate update_url %s " .
                           "against absent realm", $obj->update_url));
-            } else if (!Auth_OpenID_TrustRoot::match($realm,
+            } elseif (!Auth_OpenID_TrustRoot::match($realm,
                                                      $obj->update_url)) {
                 $obj = new Auth_OpenID_AX_Error(
                   sprintf("Update URL %s failed validation against realm %s",
@@ -724,7 +724,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
         $values = Auth_OpenID::arrayGet($this->data, $type_uri);
         if (!$values) {
             return $default;
-        } else if (count($values) == 1) {
+        } elseif (count($values) == 1) {
             return $values[0];
         } else {
             return new Auth_OpenID_AX_Error(

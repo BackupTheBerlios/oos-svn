@@ -622,7 +622,7 @@ class MyOOS {
     if (!empty($this->_debug)) {
         if (!strcmp($this->_debug, 'buffered')) {
         $this->_debugBuffer .= wordwrap($msg) . "\n";
-        } else if (!strcmp($this->_debug, 'logged')) {
+        } elseif (!strcmp($this->_debug, 'logged')) {
         /* Don't use platform calls for these as they call debug internally! */
         if ($fd = fopen($this->_debugLogFile, 'a')) {
             $date = date('Y-m-d H:i:s');
@@ -635,7 +635,7 @@ class MyOOS {
             fwrite($fd, "$date [" . $id . "] $msg\n");
             fclose($fd);
         }
-        } else if (!strcmp($this->_debug, 'immediate')) {
+        } elseif (!strcmp($this->_debug, 'immediate')) {
         print "$msg\n";
         }
     }
@@ -826,7 +826,7 @@ class MyOOS {
             /* Ignore errors unless debug is on */
             if (is_array($ret) && MyOOS_Utilities::isA($ret[0], 'GalleryStatus')) {
             $ret = $ret[0];
-            } else if (!MyOOS_Utilities::isA($ret, 'GalleryStatus')) {
+            } elseif (!MyOOS_Utilities::isA($ret, 'GalleryStatus')) {
             $ret = null;
             }
             if (isset($ret) && $ret) {

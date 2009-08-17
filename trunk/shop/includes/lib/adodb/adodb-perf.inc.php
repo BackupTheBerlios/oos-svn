@@ -145,7 +145,7 @@ function adodb_log_sql(&$connx,$sql,$inputarr)
 		if (empty($d)) $d = date("'Y-m-d H:i:s'");
 		if ($conn->dataProvider == 'oci8' && $dbT != 'oci8po') {
 			$isql = "insert into $perf_table values($d,:b,:c,:d,:e,:f)";
-		} else if ($dbT == 'odbc_mssql' || $dbT == 'informix' || strncmp($dbT,'odbtp',4)==0) {
+		} elseif ($dbT == 'odbc_mssql' || $dbT == 'informix' || strncmp($dbT,'odbtp',4)==0) {
 			$timer = $arr['f'];
 			if ($dbT == 'informix') $sql2 = substr($sql2,0,230);
 
@@ -702,8 +702,8 @@ Committed_AS:   348732 kB
 
 
 	if (isset($_GET['do'])) $do = $_GET['do'];
-	else if (isset($_POST['do'])) $do = $_POST['do'];
-	 else if (isset($_GET['sql'])) $do = 'viewsql';
+	elseif (isset($_POST['do'])) $do = $_POST['do'];
+	 elseif (isset($_GET['sql'])) $do = 'viewsql';
 	 else $do = 'stats';
 
 	if (isset($_GET['nsql'])) {
@@ -861,7 +861,7 @@ Committed_AS:   348732 kB
 					if ($val % (1024*1024) == 0) {
 						$val /= (1024*1024);
 						$val .= 'M';
-					} else if ($val % 1024 == 0) {
+					} elseif ($val % 1024 == 0) {
 						$val /= 1024;
 						$val .= 'K';
 					}

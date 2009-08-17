@@ -1447,9 +1447,9 @@ class HAW_deck
   {
     if ($sim === HAW_SIM_NONE)
       $this->use_simulator = HAW_SIM_NONE;
-    else if ($sim === HAW_SIM_CLASSIC)
+    elseif ($sim === HAW_SIM_CLASSIC)
       $this->use_simulator = HAW_SIM_CLASSIC;
-    else if (is_string($sim))
+    elseif (is_string($sim))
     {
       $this->use_simulator = HAW_SIM_SKIN;
       $this->skin = $sim;
@@ -1952,7 +1952,7 @@ class HAW_deck
           
           printf("<div id=\"display\"%s>\n", $class_param);
         }
-        else if ($this->use_simulator == HAW_SIM_CLASSIC)
+        elseif ($this->use_simulator == HAW_SIM_CLASSIC)
         {
           // use classic HAWHAW design
           printf("<div id=\"classic\" style=\"background-color: %s; background-image: url(%s); border: %dpx solid #aaa; padding: 8px; width: %s; height: %s; margin: 0px auto; overflow: auto;\">\n",
@@ -2593,7 +2593,7 @@ class HAW_deck
           if (isset($cap['xhtml_ui']['xhtmlmp_preferred_mime_type']))
             $this->xhtmlmp_preferred_mime_type = $cap['xhtml_ui']['xhtmlmp_preferred_mime_type'];
         }
-        else if ($cap['markup']['html_wi_imode_html_1'] ||
+        elseif ($cap['markup']['html_wi_imode_html_1'] ||
                  $cap['markup']['html_wi_imode_html_2'] ||
                  $cap['markup']['html_wi_imode_html_3'] ||
                  $cap['markup']['html_wi_imode_html_4'] ||
@@ -2603,14 +2603,14 @@ class HAW_deck
           $this->ml = HAW_HTML;
           $this->iModestyle = true;
         }
-        else if ($cap['markup']['html_web_3_2'] ||
+        elseif ($cap['markup']['html_web_3_2'] ||
                  $cap['markup']['html_web_4_0'])
         {
           // HTML-prefering device
           $this->ml = HAW_HTML;
           $this->PDAstyle = true;
         }
-        else if ($cap['markup']['wml_1_1'] ||
+        elseif ($cap['markup']['wml_1_1'] ||
                  $cap['markup']['wml_1_2'] ||
                  $cap['markup']['wml_1_3'])
         {

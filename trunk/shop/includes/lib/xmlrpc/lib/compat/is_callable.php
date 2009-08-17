@@ -32,7 +32,7 @@ if (!function_exists('is_callable')) {
             {
                 return function_exists($var);
             }
-            else if (is_array($var) && count($var) == 2 && is_string($method = end($var)))
+            elseif (is_array($var) && count($var) == 2 && is_string($method = end($var)))
             {
                 $obj = reset($var);
                 if (is_string($obj))
@@ -40,7 +40,7 @@ if (!function_exists('is_callable')) {
                     $methods = get_class_methods($obj);
                     return (bool)(is_array($methods) && in_array(strtolower($method), $methods));
                 }
-                else if (is_object($obj))
+                elseif (is_object($obj))
                 {
                     return method_exists($obj, $method);
                 }

@@ -160,7 +160,7 @@ function Auth_Yadis_rootAuthority($xri)
         //   does that before we have a real xriparse function.
         //   Hopefully nobody does that *ever*.
         $root = substr($authority, 0, strpos($authority, ')') + 1);
-    } else if (in_array($authority[0], Auth_Yadis_getXRIAuthorities())) {
+    } elseif (in_array($authority[0], Auth_Yadis_getXRIAuthorities())) {
         // Other XRI reference.
         $root = $authority[0];
     } else {

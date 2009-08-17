@@ -194,7 +194,7 @@ class ADODB_odbtp extends ADOConnection{
 		// Account for inconsistent DBMS names
 		if( $this->odbc_driver == ODB_DRIVER_ORACLE )
 			$dbms = 'oracle';
-		else if( $this->odbc_driver == ODB_DRIVER_SYBASE )
+		elseif( $this->odbc_driver == ODB_DRIVER_SYBASE )
 			$dbms = 'sybase';
 
 		// Set DBMS specific attributes
@@ -355,7 +355,7 @@ class ADODB_odbtp extends ADOConnection{
 	 					$fld->default_value = $rs->fields[12];
 					}
 				$retarr[strtoupper($fld->name)] = $fld;
-			} else if (!empty($retarr))
+			} elseif (!empty($retarr))
 				break;
 			$rs->MoveNext();
 		}
@@ -637,7 +637,7 @@ class ADODB_odbtp extends ADOConnection{
 			if (!@odbtp_execute($stmtid) ) {
 				return false;
 			}
-		} else if (is_array($sql)) {
+		} elseif (is_array($sql)) {
 			$stmtid = $sql[1];
 			if (!@odbtp_execute($stmtid)) {
 				return false;
@@ -703,7 +703,7 @@ class ADORecordSet_odbtp extends ADORecordSet {
 		$o->type = @odbtp_field_type($this->_queryID,$off);
         $o->max_length = @odbtp_field_length($this->_queryID,$off);
 		if (ADODB_ASSOC_CASE == 0) $o->name = strtolower($o->name);
-		else if (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
+		elseif (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
 		return $o;
 	}
 

@@ -249,7 +249,7 @@
       if ($num_country == 1) {
         $output_string .= '  if (' . $country . ' == "' . $countries['zone_country_id'] . '") {' . "\n";
       } else {
-        $output_string .= '  } else if (' . $country . ' == "' . $countries['zone_country_id'] . '") {' . "\n";
+        $output_string .= '  } elseif (' . $country . ' == "' . $countries['zone_country_id'] . '") {' . "\n";
       }
 
       $states_query = "SELECT zone_name, zone_id

@@ -41,7 +41,7 @@
 
   if (isset($_COOKIE[oos_session_name()])) {
     oos_session_id($_COOKIE[oos_session_name()]);
-  } else if (isset($_GET[oos_session_name()])) {
+  } elseif (isset($_GET[oos_session_name()])) {
     oos_session_id($_GET[oos_session_name()]);
   }
 

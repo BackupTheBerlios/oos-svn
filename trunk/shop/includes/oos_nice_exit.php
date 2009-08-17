@@ -24,12 +24,10 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 if ($oEvent->installed_plugin('debug')) {
     echo '<pre>';
-/*
     print_r($_SESSION);
     echo '<br />';
     print_r($_GET);
     echo '<br />';
-*/
     print_r($_POST);
     echo '</pre>';
 }

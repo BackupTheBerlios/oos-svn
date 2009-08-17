@@ -335,7 +335,7 @@ EOD;
             	if (!method_exists($method[0], $method[1])) {
                 return new IXR_Error(-32601, 'server error. requested object method "'.$method[1].'" does not exist.');
             	}
-            } else if (!function_exists($method)) {
+            } elseif (!function_exists($method)) {
                 return new IXR_Error(-32601, 'server error. requested function "'.$method.'" does not exist.');
             }
             // Call the function
@@ -584,7 +584,7 @@ class IXR_Error {
       </struct>
     </value>
   </fault>
-</methodResponse> 
+</methodResponse>
 
 EOD;
         return $xml;
@@ -658,27 +658,27 @@ class IXR_IntrospectionServer extends IXR_Server {
             'specVersion' => 1
         );
         $this->addCallback(
-            'system.methodSignature', 
-            'this:methodSignature', 
-            array('array', 'string'), 
+            'system.methodSignature',
+            'this:methodSignature',
+            array('array', 'string'),
             'Returns an array describing the return type and required parameters of a method'
         );
         $this->addCallback(
-            'system.getCapabilities', 
-            'this:getCapabilities', 
-            array('struct'), 
+            'system.getCapabilities',
+            'this:getCapabilities',
+            array('struct'),
             'Returns a struct describing the XML-RPC specifications supported by this server'
         );
         $this->addCallback(
-            'system.listMethods', 
-            'this:listMethods', 
-            array('array'), 
+            'system.listMethods',
+            'this:listMethods',
+            array('array'),
             'Returns an array of available methods on this server'
         );
         $this->addCallback(
-            'system.methodHelp', 
-            'this:methodHelp', 
-            array('string', 'string'), 
+            'system.methodHelp',
+            'this:methodHelp',
+            array('string', 'string'),
             'Returns a documentation string for the specified method'
         );
     }

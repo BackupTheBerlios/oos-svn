@@ -421,8 +421,8 @@ class ADODB_db2 extends ADOConnection {
 			if ($ttype) {
 				if ($isview) {
 					if (strncmp($type,'V',1) === 0) $arr2[] = $schemaval.$arr[$i][2];
-				} else if (strncmp($type,'SYS',3) !== 0) $arr2[] = $schemaval.$arr[$i][2];
-			} else if (strncmp($type,'SYS',3) !== 0) $arr2[] = $schemaval.$arr[$i][2];
+				} elseif (strncmp($type,'SYS',3) !== 0) $arr2[] = $schemaval.$arr[$i][2];
+			} elseif (strncmp($type,'SYS',3) !== 0) $arr2[] = $schemaval.$arr[$i][2];
 		}
 		return $arr2;
 	}
@@ -553,7 +553,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/db2/htm/db2
 				$fld->scale = $rs->fields[8];
 				$fld->primary_key = false;
 				$retarr[strtoupper($fld->name)] = $fld;
-			} else if (sizeof($retarr)>0)
+			} elseif (sizeof($retarr)>0)
 				break;
 			$rs->MoveNext();
 		}
@@ -581,7 +581,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/db2/htm/db2
 		while (!$rs->EOF) {
 			if (strtoupper(trim($rs->fields[2])) == $table && (!$schema || strtoupper($rs->fields[1]) == $schema)) {
 				$retarr[strtoupper($rs->fields[3])]->primary_key = true;
-			} else if (sizeof($retarr)>0)
+			} elseif (sizeof($retarr)>0)
 				break;
 			$rs->MoveNext();
 		}
@@ -629,7 +629,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/db2/htm/db2
 				return false;
 			}
 
-		} else if (is_array($sql)) {
+		} elseif (is_array($sql)) {
 			$stmtid = $sql[1];
 			if (!db2_execute($stmtid)) {
 				if ($this->_haserrorfunctions) {
@@ -726,7 +726,7 @@ class ADORecordSet_db2 extends ADORecordSet {
 		$o->type = @db2_field_type($this->_queryID,$offset);
 		$o->max_length = db2_field_width($this->_queryID,$offset);
 		if (ADODB_ASSOC_CASE == 0) $o->name = strtolower($o->name);
-		else if (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
+		elseif (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
 		return $o;
 	}
 

@@ -480,7 +480,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
                         if (!Auth_OpenID_FileStore::_rmtree($dir . $item)) {
                             return false;
                         }
-                    } else if (is_file($dir . $item)) {
+                    } elseif (is_file($dir . $item)) {
                         if (!unlink($dir . $item)) {
                             return false;
                         }

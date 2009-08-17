@@ -50,7 +50,7 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
     if ( (isset($_POST['comments'])) && (empty($_POST['comments'])) ) {
         $_SESSION['comments'] = '';
-    } else if (oos_is_not_null($_POST['comments'])) {
+    } elseif (oos_is_not_null($_POST['comments'])) {
         $_SESSION['comments'] = oos_db_prepare_input($_POST['comments']);
     }
 

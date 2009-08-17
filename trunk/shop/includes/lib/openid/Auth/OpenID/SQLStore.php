@@ -237,7 +237,7 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
         foreach ($required_sql_keys as $key) {
             if (!array_key_exists($key, $this->sql)) {
                 $missing[] = $key;
-            } else if (!$this->sql[$key]) {
+            } elseif (!$this->sql[$key]) {
                 $empty[] = $key;
             }
         }
@@ -502,7 +502,7 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
             $ch = substr($str, $i, 1);
             if ($ch == "\\") {
                 $result .= "\\\\\\\\";
-            } else if (ord($ch) == 0) {
+            } elseif (ord($ch) == 0) {
                 $result .= "\\\\000";
             } else {
                 $result .= "\\" . strval(decoct(ord($ch)));

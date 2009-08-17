@@ -1073,7 +1073,7 @@ class Smarty
     {
         if(!isset($name) && is_array($this->_config[0])) {
             return $this->_config[0]['vars'];
-        } else if(isset($this->_config[0]['vars'][$name])) {
+        } elseif(isset($this->_config[0]['vars'][$name])) {
             return $this->_config[0]['vars'][$name];
         } else {
             // var non-existant, return valid reference
@@ -1588,7 +1588,7 @@ class Smarty
             if (!$params['quiet']) {
                 $this->trigger_error('unable to read resource: "' . $params['resource_name'] . '"');
             }
-        } else if ($_return && $this->security) {
+        } elseif ($_return && $this->security) {
             require_once(SMARTY_CORE_DIR . 'core.is_secure.php');
             if (!smarty_core_is_secure($_params, $this)) {
                 if (!$params['quiet'])

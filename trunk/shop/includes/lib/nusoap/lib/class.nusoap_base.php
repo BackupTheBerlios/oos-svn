@@ -141,7 +141,7 @@ class nusoap_base {
 	* @access   public
 	*/
 	var $XMLSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
-	
+
     /**
 	* charset encoding for outgoing messages
 	*
@@ -408,7 +408,7 @@ class nusoap_base {
 		$this->debug("in serialize_val: name=$name, type=$type, name_ns=$name_ns, type_ns=$type_ns, use=$use, soapval=$soapval");
 		$this->appendDebug('value=' . $this->varDump($val));
 		$this->appendDebug('attributes=' . $this->varDump($attributes));
-		
+
     	if (is_object($val) && get_class($val) == 'soapval' && (! $soapval)) {
     		$this->debug("serialize_val: serialize soapval");
         	$xml = $val->serialize($use);
@@ -474,7 +474,7 @@ class nusoap_base {
 	        	} elseif (! $val) {
 	        		$val = 0;
 	        	}
-			} else if (is_string($val)) {
+			} elseif (is_string($val)) {
 				$val = $this->expandEntities($val);
 			}
 			if ($use == 'literal') {
@@ -605,7 +605,7 @@ class nusoap_base {
 						$array_type = $i;
 						if ($use == 'literal') {
 							$type_str = '';
-						} else if (isset($type) && isset($type_prefix)) {
+						} elseif (isset($type) && isset($type_prefix)) {
 							$type_str = " xsi:type=\"$type_prefix:$type\"";
 						} else {
 							$type_str = " xsi:type=\"SOAP-ENC:Array\" SOAP-ENC:arrayType=\"".$array_typename."[$array_type]\"";
@@ -614,7 +614,7 @@ class nusoap_base {
 					} else {
 						if ($use == 'literal') {
 							$type_str = '';
-						} else if (isset($type) && isset($type_prefix)) {
+						} elseif (isset($type) && isset($type_prefix)) {
 							$type_str = " xsi:type=\"$type_prefix:$type\"";
 						} else {
 							$type_str = " xsi:type=\"SOAP-ENC:Array\" SOAP-ENC:arrayType=\"xsd:anyType[0]\"";
@@ -980,7 +980,7 @@ function iso8601_to_timestamp($datestr){
 function usleepWindows($usec)
 {
 	$start = gettimeofday();
-	
+
 	do
 	{
 		$stop = gettimeofday();

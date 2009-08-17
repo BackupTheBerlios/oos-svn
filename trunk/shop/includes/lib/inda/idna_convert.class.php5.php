@@ -572,7 +572,7 @@ class Net_IDNA_php5
             for ($i = 0; $i < $deco_len; $i++) {
                 if ($decoded[$i] < $cur_code) {
                     $delta++;
-                } else if ($decoded[$i] == $cur_code) {
+                } elseif ($decoded[$i] == $cur_code) {
                     for ($q = $delta, $k = $this->_base; 1; $k += $this->_base) {
                         $t = ($k <= $bias)?
                             $this->_tmin :
@@ -757,7 +757,7 @@ class Net_IDNA_php5
                 foreach ($this->_hangulDecompose($v) as $out) {
                     $output[] = $out;
                 }
-            } else if (isset($this->_np_['replacemaps'][$v])) { // There's a decomposition mapping for that code point
+            } elseif (isset($this->_np_['replacemaps'][$v])) { // There's a decomposition mapping for that code point
                 foreach ($this->_applyCannonicalOrdering($this->_np_['replacemaps'][$v]) as $out) {
                     $output[] = $out;
                 }
@@ -1118,29 +1118,29 @@ class Net_IDNA_php5
             if ($v < 128) {
                 // 7bit are transferred literally
                 $output .= chr($v);
-            } else if ($v < 1 << 11) {
+            } elseif ($v < 1 << 11) {
                 // 2 bytes
                 $output .= chr(192 + ($v >> 6))
                     . chr(128 + ($v & 63));
-            } else if ($v < 1 << 16) {
+            } elseif ($v < 1 << 16) {
                 // 3 bytes
                 $output .= chr(224 + ($v >> 12))
                     . chr(128 + (($v >> 6) & 63))
                     . chr(128 + ($v & 63));
-            } else if ($v < 1 << 21) {
+            } elseif ($v < 1 << 21) {
                 // 4 bytes
                 $output .= chr(240 + ($v >> 18))
                     . chr(128 + (($v >> 12) & 63))
                     . chr(128 + (($v >>  6) & 63))
                     . chr(128 + ($v & 63));
-            } else if ($v < 1 << 26) {
+            } elseif ($v < 1 << 26) {
                 // 5 bytes
                 $output .= chr(248 + ($v >> 24))
                     . chr(128 + (($v >> 18) & 63))
                     . chr(128 + (($v >> 12) & 63))
                     . chr(128 + (($v >>  6) & 63))
                     . chr(128 + ($v & 63));
-            } else if ($v < 1 << 31) {
+            } elseif ($v < 1 << 31) {
                 // 6 bytes
                 $output .= chr(252 + ($v >> 30))
                     . chr(128 + (($v >> 24) & 63))
@@ -1237,7 +1237,7 @@ class Net_IDNA_php5
     {
         if ($octet >= (1 << 16)) {
             $w = 31;
-        } else if ($octet >= (1 << 8)) {
+        } elseif ($octet >= (1 << 8)) {
             $w = 15;
         } else {
             $w = 7;
