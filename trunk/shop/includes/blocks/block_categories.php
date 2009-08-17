@@ -189,9 +189,7 @@ if (oos_is_not_null($categories)) {
     $new_path = '';
     $id = explode('_', $categories);
 
-    reset($id);
-    foreach ($key as $value => $id) {
- #   while (list($key, $value) = each($id)) {
+    foreach ($id as $key => $value) {
         unset($prev_id);
         unset($first_id);
 
@@ -254,7 +252,7 @@ if (oos_is_not_null($categories)) {
 }
 
 
-if (sizeof($list_of_categories_ids) > 0 ) {
+if (count($list_of_categories_ids) > 0 ) {
     $select_list_of_cat_ids = implode(",", $list_of_categories_ids);
 
     $nGroupID = intval($_SESSION['member']->group['id']);

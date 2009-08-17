@@ -90,7 +90,7 @@
           $i++;
         }
 
-        if (sizeof($aGet) > 0) {
+        if (count($aGet) > 0) {
           foreach ($aGet as $sKey => $sValue) {
             $_GET[$sKey] = $sValue;
           }

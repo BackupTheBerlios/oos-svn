@@ -93,7 +93,7 @@ class upload
                 return false;
             }
 
-            if (sizeof($this->extensions) > 0) {
+            if (count($this->extensions) > 0) {
                 if (!in_array(strtolower(substr($file['name'], strrpos($file['name'], '.')+1)), $this->extensions)) {
                     if ($this->message_location == 'direct') {
                         $oMessage->add('upload', $aLang['error_filetype_not_allowed'], 'error');

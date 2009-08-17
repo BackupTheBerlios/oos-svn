@@ -218,7 +218,7 @@ class SPAF_Maps
 
         // add result overlay markers
         if ($this->show_overlay) {
-            $cnt = sizeof($this->results);
+            $cnt = count($this->results);
             for ($i = 0; $i < $cnt; $i++) {
                 $location = &$this->results[$i];
                 $description = '<strong>'.$this->javaScriptEncode($location['name']).'</strong><br />';
@@ -278,7 +278,7 @@ class SPAF_Maps
         echo '<select'.$properties.' onchange="changeMarker(this.options[this.selectedIndex].value);">'."\r\n";
 
         // show options
-        $cnt = sizeof($this->results);
+        $cnt = count($this->results);
         for ($i = 0; $i < $cnt; $i++) {
            $location = &$this->results[$i];
            echo '<option value="'.$location['lat'].' '.$location['lng'].' '.$this->calcZoom(&$location).'">'.$location['name'].' ('.$location['countryName'].')</option>'."\r\n";
@@ -374,7 +374,7 @@ class SPAF_Maps
         }
 
         // check if search shoud be repeated with less restrictive query
-        if (sizeof($this->results) == 0 && $this->secondary_search && !$repeat) {
+        if (count($this->results) == 0 && $this->secondary_search && !$repeat) {
            $this->fetchResults(true);
         }
 

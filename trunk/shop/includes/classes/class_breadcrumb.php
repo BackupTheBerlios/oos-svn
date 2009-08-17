@@ -56,7 +56,8 @@ class breadcrumb
 
         $trail_string = '<ol>' . "\n";
 
-        for ($i=0, $n=sizeof($this->_trail); $i<$n; $i++) {
+        $nTrailTitle = count($this->_trail);
+        for ($i=0, $n=$nTrailTitle; $i<$n; $i++) {
             if (isset($this->_trail[$i]['link']) && oos_is_not_null($this->_trail[$i]['link'])) {
                 if (isset($this->_trail[$i]['rel'])) {
 			        $trail_string .= '<li><a class="page_item-' . $i . '" href="' . $this->_trail[$i]['link'] . '" rel="bookmark" title="Permalink zu ' . $this->_trail[$i]['title'] . '"><strong>' . $this->_trail[$i]['title'] . '</strong></a></li>' . "\n";
@@ -80,11 +81,11 @@ class breadcrumb
     function trail_title($separator = ' - ')
     {
         $trail_title_string = '';
-        $trail_title_size = sizeof($this->_trail);
 
-        for ($i=0; $i<$trail_title_size; $i++) {
+        $nTrailTitle = count($this->_trail);
+        for ($i=0; $i<$nTrailTitle; $i++) {
             $trail_title_string .= $this->_trail[$i]['title'];
-            if(($i+1) < $trail_title_size) $trail_title_string .= $separator;
+            if(($i+1) < $nTrailTitle) $trail_title_string .= $separator;
         }
         return $trail_title_string;
     }

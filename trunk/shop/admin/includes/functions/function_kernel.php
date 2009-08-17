@@ -964,7 +964,8 @@
 
         $tag = 0;
 
-        for ($i=$start_position, $n=sizeof($serialization_data); $i<$n; $i++) {
+        $nArrayCountSerializationData = count( $serialization_data );
+        for ($i=$start_position, $n=$nArrayCountSerializationData; $i<$n; $i++) {
           if ($serialization_data[$i] == '{') {
             $tag++;
           } elseif ($serialization_data[$i] == '}') {

@@ -356,7 +356,8 @@ class order
         $index = 0;
         $products = $_SESSION['cart']->get_products();
 
-        for ($i=0, $n=sizeof($products); $i<$n; $i++) {
+        $nCountProducts = count($products)
+        for ($i=0, $n=$nCountProducts; $i<$n; $i++) {
             $this->products[$index] = array('qty' => $products[$i]['quantity'],
                                             'name' => $products[$i]['name'],
                                             'model' => $products[$i]['model'],

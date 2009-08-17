@@ -107,7 +107,7 @@ class SimplePie_Chronological extends SimplePie
 
 	function merge_items($urls, $start = 0, $end = 0, $limit = 0)
 	{
-		if (is_array($urls) && sizeof($urls) > 0)
+		if (is_array($urls) && count($urls) > 0)
 		{
 			$items = array();
 			foreach ($urls as $arg)

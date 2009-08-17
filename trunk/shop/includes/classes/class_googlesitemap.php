@@ -248,7 +248,7 @@ class GoogleSitemap
                                       'lastmod' => date ("Y-m-d", strtotime($lastmod)),
                                       'changefreq' => $changefreq,
                                       'priority' => $priority);
-                 if ( sizeof($container) >= 50000 ){
+                 if ( count($container) >= 50000 ){
                      $type = $number == 0 ? 'products' : 'products' . $number;
                      $this->GenerateSitemap($container, $type);
                      $container = array();
@@ -258,7 +258,7 @@ class GoogleSitemap
                  // Move that ADOdb pointer!
                  $products_query->MoveNext();
              }
-             if ( sizeof($container) > 1 ) {
+             if ( count($container) > 1 ) {
                  $type = $number == 0 ? 'products' : 'products' . $number;
                  return $this->GenerateSitemap($container, $type);
              }
@@ -306,7 +306,7 @@ class GoogleSitemap
                                       'lastmod' => date ("Y-m-d", strtotime($lastmod)),
                                       'changefreq' => $changefreq,
                                       'priority' => $priority);
-                 if ( sizeof($container) >= 50000 ){
+                 if ( count($container) >= 50000 ){
                      $type = $number == 0 ? 'categories' : 'categories' . $number;
                      $this->GenerateSitemap($container, $type);
                      $container = array();
@@ -317,7 +317,7 @@ class GoogleSitemap
                  $categories_query->MoveNext();
              }
 
-             if ( sizeof($container) > 1 ) {
+             if ( count($container) > 1 ) {
                  $type = $number == 0 ? 'categories' : 'categories' . $number;
                  return $this->GenerateSitemap($container, $type);
              }
@@ -343,7 +343,7 @@ class GoogleSitemap
              $this->GetParentCategories($c, $cID);
              $c = array_reverse($c);
              $c[] = $cID;
-             $cID = sizeof($c) > 1 ? implode('_', $c) : $cID;
+             $cID = count($c) > 1 ? implode('_', $c) : $cID;
              return $cID;
         }
     }
@@ -370,7 +370,7 @@ class GoogleSitemap
          while ($parent_categories = $parent_categories_query->fields)
          {
              if ($parent_categories['parent_id'] == 0) return true;
-             $categories[sizeof($categories)] = $parent_categories['parent_id'];
+             $categories[count($categories)] = $parent_categories['parent_id'];
              if ($parent_categories['parent_id'] != $categories_id) {
                  $this->GetParentCategories($categories, $parent_categories['parent_id']);
              }

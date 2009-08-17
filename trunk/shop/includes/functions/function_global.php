@@ -108,7 +108,7 @@
 
   function oos_is_not_null($value) {
     if (is_array($value)) {
-      if (sizeof($value) > 0) {
+      if (count($value) > 0) {
         return true;
       } else {
         return false;
@@ -125,7 +125,7 @@
 
   function oos_empty($value) {
     if (is_array($value)) {
-      if (sizeof($value) > 0) {
+      if (count($value) > 0) {
         return false;
       } else {
         return true;
