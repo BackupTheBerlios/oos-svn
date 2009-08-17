@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -85,7 +85,8 @@
     switch ($action) {
       case 'insert':
       case 'save':
-        $orders_status_id = oos_db_prepare_input($_GET['oID']);
+        if (isset($_GET['oID'])) $orders_status_id = oos_db_prepare_input($_GET['oID']);
+
 
         $languages = oos_get_languages();
         for ($i = 0, $n = count($languages); $i < $n; $i++) {
@@ -116,11 +117,11 @@
           $dbconn->Execute("UPDATE " . $oostable['configuration'] . " SET configuration_value = '" . intval($orders_status_id) . "' WHERE configuration_key = 'DEFAULT_ORDERS_STATUS_ID'");
         }
 
-        oos_redirect(oos_href_link_admin($aFilename['orders_status'], 'page=' . $_GET['page'] . '&oID=' . $orders_status_id));
+        oos_redirect_admin(oos_href_link_admin($aFilename['orders_status'], 'page=' . $_GET['page'] . '&oID=' . $orders_status_id));
         break;
 
     case 'deleteconfirm':
-        $oID = oos_db_prepare_input($_GET['oID']);
+        if (isset($_GET['oID'])) $orders_status_id = oos_db_prepare_input($_GET['oID']);
 
         $orders_status_result = $dbconn->Execute("SELECT configuration_value FROM " . $oostable['configuration'] . " WHERE configuration_key = 'DEFAULT_ORDERS_STATUS_ID'");
         $orders_status = $orders_status_result->fields;
@@ -130,11 +131,12 @@
 
         $dbconn->Execute("DELETE FROM " . $oostable['orders_status'] . " WHERE orders_status_id = '" . intval($oID) . "'");
 
-        oos_redirect(oos_href_link_admin($aFilename['orders_status'], 'page=' . $_GET['page']));
+        oos_redirect_admin(oos_href_link_admin($aFilename['orders_status'], 'page=' . $_GET['page']));
         break;
 
     case 'delete':
-        $oID = oos_db_prepare_input($_GET['oID']);
+        if (isset($_GET['oID'])) $orders_status_id = oos_db_prepare_input($_GET['oID']);
+
 
         $orderstable = $oostable['orders'];
         $status_result = $dbconn->Execute("SELECT COUNT(*) AS total FROM $orderstable WHERE orders_status = '" . intval($oID) . "'");
