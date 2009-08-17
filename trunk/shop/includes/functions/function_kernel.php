@@ -1133,7 +1133,7 @@ function oos_count_modules($modules = '')
 
     if (empty($modules)) return $nCount;
 
-    $aModules = split(';', $modules);
+    $aModules = explode(';', $modules);
 
     $nArrayCountModules = count($aModules);
     for ($i=0, $n=$nArrayCountModules; $i<$n; $i++) {
