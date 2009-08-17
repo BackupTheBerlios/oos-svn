@@ -30,7 +30,12 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 define('OOS_HTTP_SERVER', ''); // No trailing slash
 define('OOS_HTTPS_SERVER', ''); // No trailing slash
+
 define('STATIC1_HTTP_SERVER', ''); // No trailing slash
+define('IMAGE01_HTTP_SERVER', ''); // No trailing slash
+define('PLANET_HTTP_SERVER', ''); // No trailing slash
+define('TRACKING_HTTP_SERVER', ''); // No trailing slash
+
 define('ENABLE_SSL', '');
 define('OOS_SHOP', '');
 
