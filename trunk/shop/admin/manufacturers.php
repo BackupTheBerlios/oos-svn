@@ -19,10 +19,10 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
 
-  function oos_get_manufacturer_url($manufacturer_id, $lang_id = '') {
+function oos_get_manufacturer_url($manufacturer_id, $lang_id = '') {
 
     if (!$lang_id) $lang_id = $_SESSION['language_id'];
 
@@ -34,15 +34,17 @@
     $manufacturer = $dbconn->Execute("SELECT manufacturers_url FROM $manufacturers_infotable WHERE manufacturers_id = '" . $manufacturer_id . "' AND manufacturers_languages_id = '" . intval($lang_id) . "'");
 
     return $manufacturer->fields['manufacturers_url'];
-  }
+}
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+$action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (!empty($action)) {
     switch ($action) {
       case 'insert':
       case 'save':
-        $manufacturers_id = oos_db_prepare_input($_GET['mID']);
+        if (isset($_GET['mID'])) $manufacturers_id = oos_db_prepare_input($_GET['mID']);
+        $manufacturers_name = oos_db_prepare_input($_POST['manufacturers_name']);
+
 
         $sql_data_array = array('manufacturers_name' => $manufacturers_name);
 
@@ -79,7 +81,7 @@
 
         $languages = oos_get_languages();
         for ($i = 0, $n = count($languages); $i < $n; $i++) {
-          $manufacturers_url_array = $_POST['manufacturers_url'];
+          $manufacturers_url_array = oos_db_prepare_input($_POST['manufacturers_url']);
           $lang_id = $languages[$i]['id'];
 
           $sql_data_array = array('manufacturers_url' => oos_db_prepare_input($manufacturers_url_array[$lang_id]));

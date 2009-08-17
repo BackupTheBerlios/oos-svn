@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: zones.php,v 1.21 2002/03/17 18:07:48 harley_vb 
+   File: zones.php,v 1.21 2002/03/17 18:07:48 harley_vb
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -19,21 +19,29 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+$action = (isset($_GET['action']) ? $_GET['action'] : '');
 
-  if (!empty($action)) {
+if (!empty($action)) {
     switch ($action) {
       case 'insert':
+        $zone_country_id = oos_db_prepare_input($_POST['zone_country_id']);
+        $zone_code = oos_db_prepare_input($_POST['zone_code']);
+        $zone_name = oos_db_prepare_input($_POST['zone_name']);
+
         $zonestable = $oostable['zones'];
         $dbconn->Execute("INSERT INTO $zonestable (zone_country_id, zone_code, zone_name) VALUES ('" . oos_db_input($zone_country_id) . "', '" . oos_db_input($zone_code) . "', '" . oos_db_input($zone_name) . "')");
         oos_redirect_admin(oos_href_link_admin($aFilename['zones']));
         break;
 
       case 'save':
-        $zone_id = oos_db_prepare_input($_GET['cID']);
+        if (isset($_GET['cID'])) $zone_id = oos_db_prepare_input($_GET['cID']);
+
+        $zone_country_id = oos_db_prepare_input($_POST['zone_country_id']);
+        $zone_code = oos_db_prepare_input($_POST['zone_code']);
+        $zone_name = oos_db_prepare_input($_POST['zone_name']);
 
         $zonestable = $oostable['zones'];
         $dbconn->Execute("UPDATE $zonestable SET zone_country_id = '" . oos_db_input($zone_country_id) . "', zone_code = '" . oos_db_input($zone_code) . "', zone_name = '" . oos_db_input($zone_name) . "' WHERE zone_id = '" . oos_db_input($zone_id) . "'");
@@ -41,15 +49,15 @@
         break;
 
       case 'deleteconfirm':
-        $zone_id = oos_db_prepare_input($_GET['cID']);
+        if (isset($_GET['cID'])) $zone_id = oos_db_prepare_input($_GET['cID']);
 
         $zonestable = $oostable['zones'];
         $dbconn->Execute("DELETE FROM $zonestable WHERE zone_id = '" . oos_db_input($zone_id) . "'");
         oos_redirect_admin(oos_href_link_admin($aFilename['zones'], 'page=' . $_GET['page']));
         break;
     }
-  }
-  require 'includes/oos_header.php'; 
+}
+require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -80,10 +88,10 @@
 <?php
   $zonestable = $oostable['zones'];
   $countriestable = $oostable['countries'];
-  $zones_result_raw = "SELECT z.zone_id, c.countries_id, c.countries_name, z.zone_name, z.zone_code, z.zone_country_id 
+  $zones_result_raw = "SELECT z.zone_id, c.countries_id, c.countries_name, z.zone_name, z.zone_code, z.zone_country_id
                       FROM $zonestable z,
                            $countriestable c
-                      WHERE z.zone_country_id = c.countries_id 
+                      WHERE z.zone_country_id = c.countries_id
                       ORDER BY c.countries_name, z.zone_name";
   $zones_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $zones_result_raw, $zones_result_numrows);
   $zones_result = $dbconn->Execute($zones_result_raw);

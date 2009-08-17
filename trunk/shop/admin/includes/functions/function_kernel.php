@@ -985,9 +985,9 @@
 
   function oos_prepare_input($string) {
     if (get_magic_quotes_gpc()) {
-      $string =& stripslashes($string);
+      $string = stripslashes($string);
     }
-    $string =& trim($string);
+    $string = trim($string);
 
     return $string;
   }
