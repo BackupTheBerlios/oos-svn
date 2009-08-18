@@ -29,6 +29,10 @@
 
   if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
 
+    $email_address = oos_db_prepare_input($_POST['email_address']);
+    $password = oos_db_prepare_input($_POST['password']);
+
+
     //Check if userinput and CAPTCHA String are equal
     if ( (SHOW_CAPTCHA == '1') && ($_SESSION['oos_captcha_string'] != $_POST['captchastring'])) {
       $_GET['login'] = 'fail';

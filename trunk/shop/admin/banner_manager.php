@@ -41,8 +41,15 @@
 
       case 'insert':
       case 'update':
+        if (isset($_POST['banners_id'])) $banners_id = oos_db_prepare_input($_POST['banners_id']);
+
+        $banners_title = oos_db_prepare_input($_POST['banners_title']);
+        $banners_url = oos_db_prepare_input($_POST['banners_url']);
+        $new_banners_group = oos_db_prepare_input($_POST['new_banners_group']);
         $banners_group = (empty($new_banners_group)) ? oos_db_prepare_input($_POST['banners_group']) : $new_banners_group;
-        $banners_image = oos_get_uploaded_file('banners_image');
+        $banners_html_text = oos_db_prepare_input($_POST['banners_html_text']);
+        $banners_image_local = oos_db_prepare_input($_POST['banners_image_local']);
+        $banners_image_target = oos_db_prepare_input($_POST['banners_image_target']);
         $db_image_location = '';
 
         $image_directory = oos_get_local_path(OOS_ABSOLUTE_PATH . OOS_IMAGES . $banners_image_target);
