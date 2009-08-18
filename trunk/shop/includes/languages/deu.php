@@ -185,7 +185,7 @@ $aLang['js_first_name'] = '* Der \'Vornname\' muss mindestens aus ' . ENTRY_FIRS
 $aLang['js_last_name'] = '* Der \'Nachname\' muss mindestens aus ' . ENTRY_LAST_NAME_MIN_LENGTH . ' Buchstaben bestehen.\n';
 $aLang['js_dob'] = '* Die \'Geburtsdaten\' im Format xx.xx.xxxx (Tag.Monat.Jahr) eingeben.\n';
 $aLang['js_email_address'] = '* Die \'eMail-Adresse\' muss mindestens aus ' . ENTRY_EMAIL_ADDRESS_MIN_LENGTH . ' Buchstaben bestehen.\n';
-$aLang['js_address'] = '* Die \'Strasse/Nr.\' muss mindestens aus ' . ENTRY_STREET_ADDRESS_MIN_LENGTH . ' Buchstaben bestehen.\n';
+$aLang['js_address'] = '* Die \'Straße/Nr.\' muss mindestens aus ' . ENTRY_STREET_ADDRESS_MIN_LENGTH . ' Buchstaben bestehen.\n';
 $aLang['js_post_code'] = '* Die \'Postleitzahl\' muss mindestens aus ' . ENTRY_POSTCODE_MIN_LENGTH . ' Buchstaben bestehen.\n';
 $aLang['js_city'] = '* Die \'Stadt\' muss mindestens aus ' . ENTRY_CITY_MIN_LENGTH . ' Buchstaben bestehen.\n';
 $aLang['js_state'] = '* Das \'Bundesland\' muss ausgewählt werden.\n';
@@ -230,7 +230,7 @@ $aLang['entry_email_address'] = 'eMail-Adresse:';
 $aLang['entry_email_address_error'] = 'mindestens ' . ENTRY_EMAIL_ADDRESS_MIN_LENGTH . ' Buchstaben';
 $aLang['entry_email_address_check_error'] = 'ung&uuml;ltige eMail-Adresse!';
 $aLang['entry_email_address_error_exists'] = 'Diese eMail-Adresse existiert schon!';
-$aLang['entry_street_address'] = 'Strasse/Nr.:';
+$aLang['entry_street_address'] = 'Straße/Nr.:';
 $aLang['entry_street_address_error'] = 'mindestens ' . ENTRY_STREET_ADDRESS_MIN_LENGTH . ' Buchstaben';
 
 $aLang['entry_suburb'] = 'Stadtteil:';

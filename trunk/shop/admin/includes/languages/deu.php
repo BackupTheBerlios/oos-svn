@@ -213,22 +213,22 @@ define('JS_PRODUCTS_QUANTITY', '* Sie müssen dem neuen Artikel eine verfügbare
 define('JS_PRODUCTS_MODEL', '* Sie müssen dem neuen Artikel eine Artikel-Nr. zuordnen\n');
 define('JS_PRODUCTS_IMAGE', '* Sie müssen dem Artikel ein Bild zuordnen\n');
 
-define('JS_SPECIALS_PRODUCTS_PRICE', '* Es muss ein neuer Preis fr diesen Artikel festgelegt werden\n');
+define('JS_SPECIALS_PRODUCTS_PRICE', '* Es muss ein neuer Preis für diesen Artikel festgelegt werden\n');
 
 define('JS_GENDER', '* Die \'Anrede\' muss ausgewählt werden.\n');
 define('JS_FIRST_NAME', '* Der \'Vorname\' muss mindestens aus ' . ENTRY_FIRST_NAME_MIN_LENGTH . ' Zeichen bestehen.\n');
 define('JS_LAST_NAME', '* Der \'Nachname\' muss mindestens aus ' . ENTRY_LAST_NAME_MIN_LENGTH . ' Zeichen bestehen.\n');
 define('JS_DOB', '* Das \'Geburtsdatum\' muss folgendes Format haben: xx.xx.xxxx (Tag/Jahr/Monat).\n');
 define('JS_EMAIL_ADDRESS', '* Die \'eMail-Adresse\' muss mindestens aus ' . ENTRY_EMAIL_ADDRESS_MIN_LENGTH . ' Zeichen bestehen.\n');
-define('JS_ADDRESS', '* Die \'Strasse\' muss mindestens aus ' . ENTRY_STREET_ADDRESS_MIN_LENGTH . ' Zeichen bestehen.\n');
+define('JS_ADDRESS', '* Die \'Straße\' muss mindestens aus ' . ENTRY_STREET_ADDRESS_MIN_LENGTH . ' Zeichen bestehen.\n');
 define('JS_POST_CODE', '* Die \'Postleitzahl\' muss mindestens aus ' . ENTRY_POSTCODE_MIN_LENGTH . ' Zeichen bestehen.\n');
 define('JS_CITY', '* Die \'Stadt\' muss mindestens aus ' . ENTRY_CITY_MIN_LENGTH . ' Zeichen bestehen.\n');
 define('JS_STATE', '* Das \'Bundesland\' muss ausgewählt werden.\n');
-define('JS_STATE_SELECT', '-- W�hlen Sie oberhalb --');
-define('JS_ZONE', '* Das \'Bundesland\' muss aus der Liste f�r dieses Land ausgew�hlt werden.');
+define('JS_STATE_SELECT', '-- Wählen Sie oberhalb --');
+define('JS_ZONE', '* Das \'Bundesland\' muss aus der Liste für dieses Land ausgewählt werden.');
 define('JS_COUNTRY', '* Das \'Land\' muss ausgewält werden.\n');
 define('JS_TELEPHONE', '* Die \'Telefonnummer\' muss aus mindestens ' . ENTRY_TELEPHONE_MIN_LENGTH . ' Zeichen bestehen.\n');
-define('JS_PASSWORD', '* Das \'Passwort\' sowie die \'Passwortbest�tigung\' müssen bereinstimmen und aus mindestens ' . ENTRY_PASSWORD_MIN_LENGTH . ' Zeichen bestehen.\n');
+define('JS_PASSWORD', '* Das \'Passwort\' sowie die \'Passwortbestätigung\' müssen bereinstimmen und aus mindestens ' . ENTRY_PASSWORD_MIN_LENGTH . ' Zeichen bestehen.\n');
 
 define('JS_ORDER_DOES_NOT_EXIST', 'Auftragsnummer %s existiert nicht!');
 
@@ -247,7 +247,7 @@ define('ENTRY_EMAIL_ADDRESS', 'eMail Adresse:');
 define('ENTRY_COMPANY', 'Firmenname:');
 define('ENTRY_OWNER', 'Inhaber:');
 define('ENTRY_VAT_ID', 'Umsatzsteuer ID:');
-define('ENTRY_STREET_ADDRESS', 'Strasse:');
+define('ENTRY_STREET_ADDRESS', 'Straße:');
 define('ENTRY_SUBURB', 'Stadtteil:');
 define('ENTRY_POST_CODE', 'Postleitzahl:');
 define('ENTRY_CITY', 'Stadt:');
