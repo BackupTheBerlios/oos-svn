@@ -124,7 +124,7 @@ switch ($action) {
         // File_upload end
 
         if (isset($_REQUEST['button']['wishlist'])) {
-          if (!isset($_SESSION['customer_id'])) {
+          if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
 
             $aSetPage = array();
             $aSetPage['page'] = $sPage;

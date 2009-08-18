@@ -52,7 +52,7 @@
 
     function create_plugin_instance() {
 
-      if (!isset($_SESSION['customer_id'])) {
+      if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
         $aPages = oos_get_pages();
 
         if ( isset($_GET['page']) && ($_GET['page'] != $aPages['login']) ) {

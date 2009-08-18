@@ -41,11 +41,11 @@ if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id']
 
 $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
-  if (($_POST['back_x']) || ($_POST['back_y'])) {
+if (($_POST['back_x']) || ($_POST['back_y'])) {
     $action = '';
-  }
+}
 
-  if ($action == 'send') {
+if ($action == 'send') {
     $error = '0';
     if (!oos_validate_is_email(trim($email))) {
       $error = '1';
@@ -63,15 +63,15 @@ $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
 
     if (ereg('[^0-9/.]', $gv_amount)) {
-      $error = '1';
-      $error_amount = $aLang['error_entry_amount_check'];
+        $error = '1';
+        $error_amount = $aLang['error_entry_amount_check'];
     }
     $gv_amount = round($gv_amount, $oCurrencies->currencies[DEFAULT_CURRENCY]['decimal_places']);
     if ($gv_amount>$customer_amount || $gv_amount == 0) {
-      $error = '1';
-      $error_amount = $aLang['error_entry_amount_check'];
+        $error = '1';
+        $error_amount = $aLang['error_entry_amount_check'];
     }
-  }
+}
 
 if ($action == 'process') {
     $id1 = oos_create_coupon_code($mail['customers_email_address']);

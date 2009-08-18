@@ -38,23 +38,23 @@ if (count(get_included_files()) < 2) {
     header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
 }
 
-  $_SESSION['navigation']->remove_current_page();
+$_SESSION['navigation']->remove_current_page();
 
-  $aOption['popup_image'] = $sTheme . '/products/popup_image.html';
+$aOption['popup_image'] = $sTheme . '/products/popup_image.html';
 
-  //smarty
-  require 'includes/classes/class_template.php';
-  $oSmarty =& new Template;
+//smarty
+require 'includes/classes/class_template.php';
+$oSmarty =& new Template;
 
-  $oSmarty->caching = 2;
-  $oSmarty->cache_lifetime = 30 * 24 * 3600;
+$oSmarty->caching = 2;
+$oSmarty->cache_lifetime = 30 * 24 * 3600;
 
-  $image = (isset($_GET['image']) && is_numeric($_GET['image']) ? $_GET['image'] : 0);
-  $pID = intval($_GET['pID']);
+$image = (isset($_GET['image']) && is_numeric($_GET['image']) ? $_GET['image'] : 0);
+$pID = intval($_GET['pID']);
 
-  $popup_cache_id = $sTheme . '|popup_image|' . $pID . '|' . $image . '|' . $sLanguage . '|' . intval($nGroupID);
+$popup_cache_id = $sTheme . '|popup_image|' . $pID . '|' . $image . '|' . $sLanguage . '|' . intval($nGroupID);
 
-  if (!$oSmarty->is_cached($aOption['popup_image'], $popup_cache_id )) {
+if (!$oSmarty->is_cached($aOption['popup_image'], $popup_cache_id )) {
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];
     $sql = "SELECT pd.products_name, p.products_image, p.products_subimage1, p.products_subimage2,
@@ -68,62 +68,62 @@ if (count(get_included_files()) < 2) {
     $products_info = $dbconn->GetRow($sql);
 
     if (isset($_GET['image']) && is_numeric($_GET['image'])) {
-      switch ($_GET['image']) {
-        case '0':
-          if (is_readable(OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_image'])) {
-            $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_image'];
-          } else {
-            $picture = OOS_IMAGES . $products_info['products_image'];
-          }
-          break;
+        switch ($_GET['image']) {
+            case '0':
+                if (is_readable(OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_image'])) {
+                    $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_image'];
+                } else {
+                    $picture = OOS_IMAGES . $products_info['products_image'];
+                }
+                break;
 
-        case '1':
-          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage1'])) {
-            $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage1'];
-          } else {
-            $picture = OOS_IMAGES . $products_info['products_subimage1'];
-          }
-          break;
+            case '1':
+                if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage1'])) {
+                    $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage1'];
+                } else {
+                    $picture = OOS_IMAGES . $products_info['products_subimage1'];
+                }
+                break;
 
-        case '2':
-          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage2'])) {
-            $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage2'];
-          } else {
-            $picture = OOS_IMAGES . $products_info['products_subimage2'];
-          }
-          break;
+            case '2':
+                if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage2'])) {
+                    $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage2'];
+                } else {
+                    $picture = OOS_IMAGES . $products_info['products_subimage2'];
+                }
+                break;
 
-        case '3':
-          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage3'])) {
-            $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage3'];
-          } else {
-            $picture = OOS_IMAGES . $products_info['products_subimage3'];
-          }
-          break;
+            case '3':
+                if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage3'])) {
+                    $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage3'];
+                } else {
+                    $picture = OOS_IMAGES . $products_info['products_subimage3'];
+                }
+                break;
 
-        case '4':
-          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage4'])) {
-            $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage4'];
-          } else {
-            $picture = OOS_IMAGES . $products_info['products_subimage4'];
-          }
-          break;
+            case '4':
+                if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage4'])) {
+                    $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage4'];
+                } else {
+                    $picture = OOS_IMAGES . $products_info['products_subimage4'];
+                }
+                break;
 
-        case '5':
-          if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage5'])) {
-            $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage5'];
-          } else {
-            $picture = OOS_IMAGES . $products_info['products_subimage5'];
-          }
-          break;
+            case '5':
+                if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage5'])) {
+                    $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage5'];
+                } else {
+                    $picture = OOS_IMAGES . $products_info['products_subimage5'];
+                }
+                break;
 
-        case '6':
-           if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage6'])) {
-             $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage6'];
-           } else {
-             $picture = OOS_IMAGES . $products_info['products_subimage6'];
-           }
-           break;
+            case '6':
+                if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage6'])) {
+                    $picture = OOS_IMAGES . OOS_POPUP_IMAGES . $products_info['products_subimage6'];
+                } else {
+                    $picture = OOS_IMAGES . $products_info['products_subimage6'];
+                }
+                break;
        }
     }
 
@@ -135,7 +135,7 @@ if (count(get_included_files()) < 2) {
     $oSmarty->assign('picture', $picture);
     $oSmarty->assign('size', $size);
 
-  }
+}
 
-  // display the template
-  $oSmarty->display($aOption['popup_image'], $popup_cache_id);
+// display the template
+$oSmarty->display($aOption['popup_image'], $popup_cache_id);

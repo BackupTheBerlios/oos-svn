@@ -53,17 +53,17 @@ if (isset($_GET['cID']) && is_numeric($_GET['cID'])) {
     $coupon_amount = $coupon['coupon_amount'];
 
     switch ($coupon['coupon_type']) {
-      case 'F':
-        $text_coupon_help .= sprintf($aLang['text_coupon_help_fixed'], $oCurrencies->format($coupon['coupon_amount']));
-        break;
+        case 'F':
+            $text_coupon_help .= sprintf($aLang['text_coupon_help_fixed'], $oCurrencies->format($coupon['coupon_amount']));
+            break;
 
-      case 'P':
-        $text_coupon_help .= sprintf($aLang['text_coupon_help_fixed'], number_format($coupon['coupon_amount'],2). '%');
-        break;
+        case 'P':
+            $text_coupon_help .= sprintf($aLang['text_coupon_help_fixed'], number_format($coupon['coupon_amount'],2). '%');
+            break;
 
-      case 'S':
-        $text_coupon_help .= $aLang['text_coupon_help_freeship'];
-        break;
+        case 'S':
+            $text_coupon_help .= $aLang['text_coupon_help_freeship'];
+            break;
 
       default:
     }
