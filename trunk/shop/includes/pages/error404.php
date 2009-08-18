@@ -13,10 +13,6 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-if (!$oEvent->installed_plugin('down_for_maintenance')) {
-    $_SESSION['navigation']->remove_current_page();
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
-}
 
 require 'includes/languages/' . $sLanguage . '/error_error404.php';
 

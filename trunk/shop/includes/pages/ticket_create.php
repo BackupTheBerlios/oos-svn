@@ -64,8 +64,9 @@ while ($ticket_priority = $ticket_priority_result->fields)
 
 
 // Customer is logged in:
-$customerstable = $oostable['customers'];
-if (isset($_SESSION['customer_id'])) {
+
+if ( isset( $_SESSION['customer_id'] ) || is_numeric( $_SESSION['customer_id'] )) {
+    $customerstable = $oostable['customers'];
     $sql = "SELECT customers_firstname, customers_lastname,customers_email_address
             FROM $customerstable
             WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'";

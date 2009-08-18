@@ -27,7 +27,7 @@ if (!$oEvent->installed_plugin('reviews')) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
-if (!isset($_SESSION['customer_id'])) {
+if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
     $_SESSION['navigation']->set_snapshot();
     MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
@@ -39,7 +39,14 @@ if (isset($_GET['products_id'])) {
 } elseif (isset($_POST['products_id'])) {
    $get_parameters = 'products_id=' . oos_var_prep_for_os($_POST['products_id']);
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_POST['products_id']);
-} else {
+}
+
+
+if ( empty( $nProductsId ) || !is_numeric( $nProductsId ) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
+
+if ( empty( $nLanguageID ) || !is_numeric( $nLanguageID ) ) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
@@ -63,6 +70,10 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
 
     $rating = oos_prepare_input($_POST['rating']);
     $review = oos_prepare_input($_POST['review']);
+
+    if ( empty( $review ) || !is_string( $review ) ) {
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    }
 
     if ($valid_product == true) { // We got to the process but it is an illegal product, don't write
         $customersstable = $oostable['customers'];

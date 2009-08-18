@@ -30,6 +30,10 @@ require 'includes/languages/' . $sLanguage . '/main_wishlist.php';
 if (isset($_GET['wlid'])) $wlid =  oos_db_prepare_input($_GET['wlid']);
 if (strlen($wlid) < 10) unset($wlid);
 
+if ( empty( $wlid ) || !is_string( $wlid ) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
+
 $wishlist_result_raw = "SELECT products_id, customers_wishlist_date_added
                         FROM " . $oostable['customers_wishlist'] . "
                         WHERE customers_wishlist_link_id = '" . oos_db_input($wlid) . "'

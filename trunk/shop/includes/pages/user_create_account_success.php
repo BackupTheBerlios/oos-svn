@@ -23,7 +23,7 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 if (count($_SESSION['navigation']->snapshot) > 0) {
-    $origin_href = oos_href_link($_SESSION['navigation']->snapshot['modules'], $_SESSION['navigation']->snapshot['file'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
+    $origin_href = oos_href_link($_SESSION['navigation']->snapshot['page'], $_SESSION['navigation']->snapshot['get'], $_SESSION['navigation']->snapshot['mode']);
     $_SESSION['navigation']->clear_snapshot();
 } else {
     $origin_href = oos_href_link($aPages['main']);

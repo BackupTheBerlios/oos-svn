@@ -39,7 +39,7 @@ function oos_get_random_picture_name($length = 24, $extension = 'jpg') {
 }
 
 
-if (!isset($_SESSION['customer_id'])) {
+if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
     $_SESSION['navigation']->set_snapshot();
     MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }

@@ -89,6 +89,13 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
     $keya = oos_prepare_input($_POST['keya']);
     $keyb = oos_prepare_input($_POST['keyb']);
 
+    if ( empty( $keya ) || !is_string( $keya ) ) {
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    }
+    if ( empty( $keyb ) || !is_string( $keyb ) ) {
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    }
+
     $manual_infotable = $oostable['manual_info'];
     $sql = "SELECT man_name, defined
             FROM $manual_infotable
@@ -101,7 +108,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
         $manual_infotable = $oostable['manual_info'];
         $dbconn->Execute("UPDATE $manual_infotable
                           SET man_key = '',
-                              man_key2 = ''
+                              man_key2 = '',
                           WHERE man_info_id = '1'");
         MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
     }

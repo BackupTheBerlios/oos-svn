@@ -83,6 +83,10 @@ if (isset($_POST['verif_key'])) {
 
 require 'includes/modules/key_generate.php';
 
+if ( empty( $verif_key ) || !is_string( $verif_key ) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
+
 $manual_infotable = $oostable['manual_info'];
 $login_result = $dbconn->Execute("SELECT man_key2, man_key3, status FROM $manual_infotable WHERE man_key = '" . oos_db_input($verif_key) . "' AND status = 1 ");
 

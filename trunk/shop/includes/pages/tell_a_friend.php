@@ -44,6 +44,15 @@ if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
 $valid_product = false;
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
+
+    if ( empty( $nProductsId ) || !is_numeric( $nProductsId ) ) {
+         MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    }
+
+    if ( empty( $nLanguageID ) || !is_numeric( $nLanguageID ) ) {
+         MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    }
+
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];
     $sql = "SELECT pd.products_name

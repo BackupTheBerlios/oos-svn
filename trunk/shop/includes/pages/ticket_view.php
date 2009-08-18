@@ -100,6 +100,11 @@ if (isset($_GET['tlid'])) $tlid =  oos_db_prepare_input($_GET['tlid']);
 if (isset($_POST['tlid'])) $tlid =  oos_prepare_input($_POST['tlid']);
 if (strlen($tlid) < 10) unset($tlid);
 
+if ( empty( $tlid ) || !is_string( $tlid ) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
+
+
 // Form was submitted
 $bError = false;
 if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) && isset($tlid) ) {

@@ -28,11 +28,22 @@ if (!defined('OOS_BASE_PRICE')) {
 
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
-} else {
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
 require 'includes/languages/' . $sLanguage . '/products_info.php';
+
+
+if ( empty( $nProductsId ) || !is_numeric( $nProductsId ) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
+
+if ( empty( $nLanguageID ) || !is_numeric( $nLanguageID ) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
+
+if ( empty( $nGroupID ) || !is_numeric( $nGroupID ) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
 
 $productstable = $oostable['products'];
 $products_descriptiontable = $oostable['products_description'];

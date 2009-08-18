@@ -22,7 +22,7 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-if (!isset($_SESSION['customer_id'])) {
+if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
     $_SESSION['navigation']->set_snapshot();
     MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
@@ -37,6 +37,10 @@ require 'includes/languages/' . $sLanguage . '/account_address_book_process.php'
 
 if (isset($_GET['action']) && ($_GET['action'] == 'remove') && oos_is_not_null($_GET['entry_id']) ) {
     $entry_id = oos_db_prepare_input($_GET['entry_id']);
+
+    if ( empty( $entry_id ) || !is_string( $entry_id ) ) {
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    }
 
     $address_booktable = $oostable['address_book'];
     $query = "DELETE FROM $address_booktable

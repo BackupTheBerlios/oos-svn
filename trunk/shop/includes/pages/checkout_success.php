@@ -24,7 +24,7 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 // if the customer is not logged on, redirect them to the shopping cart page
-if (!isset($_SESSION['customer_id'])) {
+if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']));
 }
 

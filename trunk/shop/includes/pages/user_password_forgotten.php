@@ -28,6 +28,10 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
 
     $email_address = oos_prepare_input($_POST['email_address']);
 
+    if ( empty( $email_address ) || !is_string( $email_address ) ) {
+         MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    }
+
     $customerstable = $oostable['customers'];
     $check_customer_sql = "SELECT customers_firstname, customers_lastname, customers_password, customers_id
                            FROM $customerstable
