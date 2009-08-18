@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -51,8 +51,10 @@
    All contributions are gladly accepted though Paypal.
    ---------------------------------------------------------------------- */
 
-/** ensure this file is being included by a parent file */
-defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
 
 if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_SESSION['formid']) && ($_SESSION['formid'] != $_POST['formid'])) ) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
@@ -89,6 +91,13 @@ $newsletter = oos_prepare_input($_POST['newsletter']);
 
 $keya = oos_prepare_input($_POST['keya']);
 $keyb = oos_prepare_input($_POST['keyb']);
+
+if ( empty( $keya ) || !is_string( $keya ) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
+if ( empty( $keyb ) || !is_string( $keyb ) ) {
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
 
 $manual_infotable = $oostable['manual_info'];
 $sql = "SELECT man_name, defined

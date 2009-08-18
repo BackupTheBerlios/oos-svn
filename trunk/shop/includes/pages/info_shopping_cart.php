@@ -19,6 +19,11 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
+
 $_SESSION['navigation']->remove_current_page();
 
 $aOption['info_shopping_cart'] = $sTheme . '/system/info_shopping_cart.html';

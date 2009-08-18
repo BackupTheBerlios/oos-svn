@@ -10,14 +10,19 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-/** ensure this file is being required by a parent file */
-defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
 
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
-} else {
+}
+
+if ( empty( $nProductsId ) || !is_numeric( $nProductsId ) ) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
+
 
 require 'includes/languages/' . $sLanguage . '/products_cross_sell.php';
 

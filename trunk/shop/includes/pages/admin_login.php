@@ -51,8 +51,10 @@
    All contributions are gladly accepted though Paypal.
    ---------------------------------------------------------------------- */
 
-/** ensure this file is being included by a parent file */
-defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
 
 require 'includes/languages/' . $sLanguage . '/admin_login.php';
 
@@ -114,6 +116,10 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
     }
 
     // Check if email exists
+    if ( empty( $email_addressb ) || !is_string( $email_addressb ) ) {
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    }
+
     $customerstable = $oostable['customers'];
     $sql = "SELECT customers_id, customers_gender, customers_firstname, customers_lastname,
                    customers_password, customers_wishlist_link_id, customers_vat_id_status,

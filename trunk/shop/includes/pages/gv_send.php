@@ -23,21 +23,23 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
 
-  MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
+MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
 
-  require 'includes/languages/' . $sLanguage . '/gv_send.php';
-  require 'includes/classes/class_http_client.php';
+require 'includes/languages/' . $sLanguage . '/gv_send.php';
+require 'includes/classes/class_http_client.php';
 
 // if the customer is not logged on, redirect them to the login page
-  if (!isset($_SESSION['customer_id'])) {
+if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
     $_SESSION['navigation']->set_snapshot();
     MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
-  }
+}
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+$action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (($_POST['back_x']) || ($_POST['back_y'])) {
     $action = '';

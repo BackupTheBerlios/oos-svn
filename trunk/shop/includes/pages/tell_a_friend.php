@@ -19,10 +19,12 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-/** ensure this file is being included by a parent file */
-defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
 
-if (isset($_SESSION['customer_id'])) {
+if ( isset( $_SESSION['customer_id'] ) || is_numeric( $_SESSION['customer_id'] )) {
     $customerstable = $oostable['customers'];
     $sql = "SELECT customers_firstname, customers_lastname, customers_email_address
             FROM $customerstable

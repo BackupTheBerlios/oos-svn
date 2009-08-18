@@ -23,7 +23,10 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
 
 require 'includes/languages/' . $sLanguage . '/newsletters_newsletters.php';
 
