@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Updater.php 1365 2009-08-04 16:01:05Z vipsoft $
+ * @version Id: Updater.php 1365 2009-08-04 16:01:05Z vipsoft
  *
  * @package Piwik
  */
