@@ -2,8 +2,8 @@
 
 // HAWHAW: HTML and WML hybrid adapted webserver
 // PHP class library
-// Copyright (C) 2008 Norbert Huffschmid
-// Last modified: 23. July 2008
+// Copyright (C) 2009 Norbert Huffschmid
+// Last modified: 16. May 2009
 //
 // This library is free software; you can redistribute it and/or modify it under the
 // terms of the GNU Library General Public License as published by the Free Software
@@ -40,7 +40,7 @@
 ###################################
 
 // miscellaneous constants
-define("HAW_HAW_VERSION", "HAWHAW V5.21");
+define("HAW_HAW_VERSION", "HAWHAW V5.23");
 define("HAW_COPYRIGHT", "(C) Norbert Huffschmid");
 if (defined("HAW_TERA_WURFL_PATH"))
   define("HAW_VERSION", HAW_HAW_VERSION . "/Tera-WURFL");
@@ -703,18 +703,18 @@ class HAW_deck
     //     resp. other value defined above for HAW_OUTPUT_...
     // query parameter "hawoutput" can be used for overwrite output type
     //     enter http://wap.yourdomain.com/yourscript.php?hawoutput=wap
-    global $HTTP_GET_VARS;
+
     $forced_output = "";
 
-    if (isset ($HTTP_GET_VARS["hawdebug"]))
+    if (isset ($_GET["hawdebug"]))
     {
-      $forced_output = $HTTP_GET_VARS["hawdebug"];
+      $forced_output = $_GET["hawdebug"];
       $this->debug = true;
     }
-    elseif (isset ($HTTP_GET_VARS["hawoutput"]))
+    elseif (isset ($_GET["hawoutput"]))
     {
-      $forced_output = $HTTP_GET_VARS["hawoutput"];
-      $this->hawoutput = $HTTP_GET_VARS["hawoutput"];
+      $forced_output = $_GET["hawoutput"];
+      $this->hawoutput = $_GET["hawoutput"];
     }
     elseif ($output != HAW_OUTPUT_AUTOMATIC)
       $forced_output = $output;
@@ -1447,9 +1447,9 @@ class HAW_deck
   {
     if ($sim === HAW_SIM_NONE)
       $this->use_simulator = HAW_SIM_NONE;
-    elseif ($sim === HAW_SIM_CLASSIC)
+    else if ($sim === HAW_SIM_CLASSIC)
       $this->use_simulator = HAW_SIM_CLASSIC;
-    elseif (is_string($sim))
+    else if (is_string($sim))
     {
       $this->use_simulator = HAW_SIM_SKIN;
       $this->skin = $sim;
@@ -1693,12 +1693,14 @@ class HAW_deck
   {
     global $haw_license_holder;
     global $haw_license_domain;
+    global $haw_license_key;
     global $haw_signature;
     global $haw_sig_text;
     global $haw_sig_link;
 
     // add hawoutput query parameter to redirection url, if required
-    HAW_handle_forced_output($this->red_url, $this->hawoutput);
+    if ($this->red_url)
+      HAW_handle_forced_output($this->red_url, $this->hawoutput);
 
     if ($this->debug)
       header("content-type: text/plain");
@@ -1778,6 +1780,12 @@ class HAW_deck
         printf("<meta name=\"GENERATOR\" content=\"%s (PHP) %s%s\" %s\n",
                HAW_VERSION, HAW_COPYRIGHT, $license, $endtag);
 
+        if ($this->desktopBrowser && isset($haw_license_key))
+        {
+          printf("<meta name=\"LICENSE_KEY\" content=\"%s\" %s\n",
+                 $haw_license_key, $endtag);
+        }
+        
         if ($this->timeout > 0)
         {
           printf("<meta http-equiv=\"refresh\" content=\"%d; URL=%s\" %s\n",
@@ -1952,7 +1960,7 @@ class HAW_deck
           
           printf("<div id=\"display\"%s>\n", $class_param);
         }
-        elseif ($this->use_simulator == HAW_SIM_CLASSIC)
+        else if ($this->use_simulator == HAW_SIM_CLASSIC)
         {
           // use classic HAWHAW design
           printf("<div id=\"classic\" style=\"background-color: %s; background-image: url(%s); border: %dpx solid #aaa; padding: 8px; width: %s; height: %s; margin: 0px auto; overflow: auto;\">\n",
@@ -2266,10 +2274,10 @@ class HAW_deck
       //  IF YOU DO SO, YOU ARE VIOLATING THE LICENSE TERMS
       //  OF THIS SOFTWARE! YOU HAVE TO PAY NOTHING FOR THIS
       //  SOFTWARE, SO PLEASE BE SO FAIR TO ACCEPT THE RULES.
-      //  IF YOU DON'T, YOUR WEBSITE WILL AT LEAST BE LISTED IN
-      //  THE HAWHAW HALL OF SHAME!
+      // 
       //  PLEASE REFER TO THE LIBRARY HEADER AND THE HAWHAW
-      //  HOMEPAGE FOR MORE INFORMATION.
+      //  HOMEPAGE FOR MORE INFORMATION:
+      //  http://www.hawhaw.de/#license
 
       echo "</div>\n";
 
@@ -2477,6 +2485,7 @@ class HAW_deck
         strstr($HTTP_USER_AGENT, "Firefox") ||
         strstr($HTTP_USER_AGENT, "Macintosh") || // Safari desktop browser
         strstr($HTTP_USER_AGENT, "Iceweasel") ||
+        strstr($HTTP_USER_AGENT, "Chrome") ||
         strstr($HTTP_USER_AGENT, "Konqueror") ||
         strstr($HTTP_USER_AGENT, "Opera"))       // can be Opera Mini!
     {
@@ -2593,7 +2602,7 @@ class HAW_deck
           if (isset($cap['xhtml_ui']['xhtmlmp_preferred_mime_type']))
             $this->xhtmlmp_preferred_mime_type = $cap['xhtml_ui']['xhtmlmp_preferred_mime_type'];
         }
-        elseif ($cap['markup']['html_wi_imode_html_1'] ||
+        else if ($cap['markup']['html_wi_imode_html_1'] ||
                  $cap['markup']['html_wi_imode_html_2'] ||
                  $cap['markup']['html_wi_imode_html_3'] ||
                  $cap['markup']['html_wi_imode_html_4'] ||
@@ -2603,14 +2612,14 @@ class HAW_deck
           $this->ml = HAW_HTML;
           $this->iModestyle = true;
         }
-        elseif ($cap['markup']['html_web_3_2'] ||
+        else if ($cap['markup']['html_web_3_2'] ||
                  $cap['markup']['html_web_4_0'])
         {
           // HTML-prefering device
           $this->ml = HAW_HTML;
           $this->PDAstyle = true;
         }
-        elseif ($cap['markup']['wml_1_1'] ||
+        else if ($cap['markup']['wml_1_1'] ||
                  $cap['markup']['wml_1_2'] ||
                  $cap['markup']['wml_1_3'])
         {
@@ -2632,8 +2641,11 @@ class HAW_deck
         else
         {
           // treat it as normal web browser
+          $this->desktopBrowser = true;
           $this->ml = HAW_HTML;
+          $this->xhtml = true;
           $this->css_enabled = true;
+          $this->display_banners = true;
         }
       }
     
@@ -4869,6 +4881,7 @@ class HAW_radio
     $this->name  = $name;
     $this->value = "";
     $this->number_of_buttons = 0;
+    $this->buttons = array();
     $this->voice_text = HAW_VOICE_ENUMERATE;
     $this->voice_audio_src = "";
     $this->voice_help = array();
@@ -6362,6 +6375,14 @@ class HAW_linkset
     $this->number_of_elements++;
   }
 
+  function add_link_without_reference($link)
+  {
+    // workaround for Phalanger duck-typing issue
+    $this->add_link($link);
+    
+    return $link->get_accesskey();
+  }
+
   /**
     Sets text to be spoken by voice browsers. <br>
     @param text Some alternative text that precedes the enumeration of link &lt;label&gt;s.
@@ -6892,5 +6913,3 @@ class HAW_voicerecorder
     }
   }
 };
-
-?>
