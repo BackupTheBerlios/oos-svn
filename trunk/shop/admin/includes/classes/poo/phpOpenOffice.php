@@ -22,10 +22,10 @@ if (!defined('POO_TEMPLATE_PATH')) {
   define('POO_TEMPLATE_PATH', "");
 }
 
-// PhpConcept Library - Zip Module 2.0
+// PhpConcept Library - Zip Module 2.8
 // http://www.phpconcept.net
 if (!defined('PCLZIP_INCLUDE_PATH')) {
-  define('PCLZIP_INCLUDE_PATH',"./pclzip/");
+  define('PCLZIP_INCLUDE_PATH','../includes/lib/pclzip/);
 }
 define( 'PCLZIP_TEMPORARY_DIR', POO_TMP_PATH );
 require PCLZIP_INCLUDE_PATH . 'pclzip.lib.php';
@@ -267,7 +267,7 @@ class phpOpenOffice
 		// Data
 		echo $content;
 
-		
+
 		// Delete temp file
 		@unlink($downloadFile);
 	}
