@@ -71,7 +71,7 @@
   while ($configuration = $configuration_result->fields) {
     if (oos_is_not_null($configuration['use_function'])) {
       $use_function = $configuration['use_function'];
-      if (ereg('->', $use_function)) {
+      if (preg_match('/->/', $use_function)) {
         $class_method = explode('->', $use_function);
         if (!is_object(${$class_method[0]})) {
           include 'includes/classes/class_'. $class_method[0] . '.php';

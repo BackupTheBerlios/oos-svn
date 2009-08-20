@@ -175,7 +175,7 @@
           $admintable = $oostable['admin'];
           $editor_sql_result = "SELECT admin_firstname, admin_lastname
                                 FROM admintable
-                                WHERE admin_id = " . intval($_SESSION['login_id']) . . "'";
+                                WHERE admin_id = " . intval($_SESSION['login_id']) . "'";
 
           $editor_sql_raw = $dbconn->Execute($editor_sql_result);
           $editor_raw = $editor_sql_raw->fields;
@@ -702,6 +702,7 @@ function popupGoogleMap(url) {
                                   s.orders_languages_id = '" . intval($_SESSION['language_id']) . "' AND
                                   ot.class = 'ot_total'
                            ORDER BY o.orders_id DESC";
+
     }
     $orders_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $orders_result_raw, $orders_result_numrows);
     $orders_result = $dbconn->Execute($orders_result_raw);

@@ -29,6 +29,7 @@ if (!isset($_SESSION['customer_id'])) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
+
 if (!isset($_GET['order_id'])) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['account_history'], '', 'SSL'));
 }
@@ -41,6 +42,7 @@ $sql = "SELECT customers_id
         FROM $orderstable
         WHERE orders_id = '" . intval($_GET['order_id']) . "'";
 $customer_number = $dbconn->GetOne($sql);
+
 
 if ($customer_number != $_SESSION['customer_id']) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['account_history'], '', 'SSL'));
@@ -78,6 +80,7 @@ $oSmarty->assign(
           'oos_heading_image' => 'history.gif'
       )
 );
+
 
 $oSmarty->assign('order', $oOrder);
 $oSmarty->assign('currencies', $oCurrencies);
