@@ -19,8 +19,8 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -53,7 +53,6 @@
     echo $messageStack->output();
   }
 ?>
-<script language="javascript" src="includes/menu.js"></script>
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
   <tr>
     <td></td>
