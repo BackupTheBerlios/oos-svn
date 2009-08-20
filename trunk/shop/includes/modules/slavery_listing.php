@@ -199,7 +199,7 @@ case 'PRODUCT_LIST_NAME':
                 $pl_price_discount = $oCurrencies->display_price($listing['products_discount1'], oos_get_tax_rate($listing['products_tax_class_id']));
               }
 
-              if (oos_is_not_null($listing['specials_new_products_price'])) {
+              if (!empty($listing['specials_new_products_price'])) {
                 $pl_special_price = $listing['specials_new_products_price'];
                 $pl_product_special_price = $oCurrencies->display_price($pl_special_price, oos_get_tax_rate($listing['products_tax_class_id']));
               } else {
@@ -219,7 +219,7 @@ case 'PRODUCT_LIST_NAME':
                 }
               }
 
-              if (oos_is_not_null($listing['specials_new_products_price'])) {
+              if (!empty($listing['specials_new_products_price'])) {
                 $lc_text = '&nbsp;<s>' . $pl_product_price . $sUnits . '</s><br />';
                 if ($listing['products_base_price'] != 1)  $lc_text .= '<s><span class="base_price">' . $listing['products_base_unit'] . ' = ' . $pl_base_product_price . '</span></s><br />';
 
@@ -266,7 +266,7 @@ case 'PRODUCT_LIST_NAME':
               }
 
               $lc_image = 'no_picture.gif';
-              if (oos_is_not_null($listing['products_image'])) {
+              if (!empty($listing['products_image'])) {
                 $lc_image = $listing['products_image'];
               } else {
                 if (is_readable(OOS_ABSOLUTE_PATH . OOS_IMAGES . 'no_picture_' . $sLanguage . '.gif')) {

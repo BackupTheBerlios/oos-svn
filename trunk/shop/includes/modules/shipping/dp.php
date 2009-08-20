@@ -120,7 +120,7 @@
         $this->quotes['tax'] = oos_get_tax_rate($this->tax_class, $oOrder->delivery['country']['id'], $oOrder->delivery['zone_id']);
       }
 
-      if (oos_is_not_null($this->icon)) $this->quotes['icon'] = oos_image($this->icon, $this->title);
+      if (!empty($this->icon)) $this->quotes['icon'] = oos_image($this->icon, $this->title);
 
       if ($error == true) $this->quotes['error'] = $aLang['module_shipping_dp_invalid_zone'];
 

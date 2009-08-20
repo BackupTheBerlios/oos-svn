@@ -57,7 +57,7 @@ function oos_random_select($query, $limit = '')
     $oostable =& oosDBGetTables();
 
     $random_product = '';
-    if (oos_is_not_null($limit)) {
+    if (!empty($limit)) {
         if (USE_DB_CACHE == '1') {
             $random_result = $dbconn->CacheSelectLimit(15, $query, $limit);
         } else {

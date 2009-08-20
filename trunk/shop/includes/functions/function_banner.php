@@ -107,11 +107,11 @@ function oos_expire_banners() {
     if ($banners_result->RecordCount() > 0) {
         while ($banners = $banners_result->fields)
         {
-            if (oos_is_not_null($banners['expires_date'])) {
+            if (!empty($banners['expires_date'])) {
                 if (date('Y-m-d H:i:s') >= $banners['expires_date']) {
                     oos_set_banner_status($banners['banners_id'], '0');
                 }
-            } elseif (oos_is_not_null($banners['expires_impressions'])) {
+            } elseif (!empty($banners['expires_impressions'])) {
                 if ($banners['banners_shown'] >= $banners['expires_impressions']) {
                     oos_set_banner_status($banners['banners_id'], '0');
                 }

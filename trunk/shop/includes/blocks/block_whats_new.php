@@ -51,7 +51,7 @@ if ($random_product = oos_random_select($query, MAX_RANDOM_SELECT_NEW)) {
         $whats_new_special_price = oos_get_products_special_price($random_product['products_id']);
         $whats_new_product_price = $oCurrencies->display_price($random_product['products_price'], oos_get_tax_rate($random_product['products_tax_class_id']));
 
-        if (oos_is_not_null($whats_new_product_price)) {
+        if (!empty($whats_new_product_price)) {
             $whats_new_product_special_price = $oCurrencies->display_price($whats_new_special_price, oos_get_tax_rate($random_product['products_tax_class_id']));
         } else {
             $whats_new_max_product_discount = min($random_product['products_discount_allowed'],$_SESSION['member']->group['discount']);

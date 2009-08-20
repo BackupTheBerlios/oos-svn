@@ -81,7 +81,7 @@
       }
 
 
-      if (oos_is_not_null($this->icon)) $this->quotes['icon'] = oos_image($this->icon, $this->title);
+      if (!empty($this->icon)) $this->quotes['icon'] = oos_image($this->icon, $this->title);
 
       return $this->quotes;
     }

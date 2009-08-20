@@ -185,7 +185,7 @@ while ($aCategories = $categories_result->fields)
 
 
 
-if (oos_is_not_null($categories)) {
+if (!empty($categories)) {
     $new_path = '';
     $id = explode('_', $categories);
 

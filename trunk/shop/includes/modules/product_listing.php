@@ -175,7 +175,7 @@ if ($listing_numrows > 0) {
             $pl_price_discount = $oCurrencies->display_price($listing['products_discount1'], oos_get_tax_rate($listing['products_tax_class_id']));
         }
 
-        if (oos_is_not_null($listing['specials_new_products_price'])) {
+        if (!empty($listing['specials_new_products_price'])) {
             $pl_special_price = $listing['specials_new_products_price'];
             $pl_product_special_price = $oCurrencies->display_price($pl_special_price, oos_get_tax_rate($listing['products_tax_class_id']));
         } else {
@@ -196,7 +196,7 @@ if ($listing_numrows > 0) {
             }
         }
 
-        if (oos_is_not_null($listing['specials_new_products_price'])) {
+        if (!empty($listing['specials_new_products_price'])) {
             $sProductListPrice = '&nbsp;<s>' . $pl_product_price . $sUnits . '</s><br />';
             if ($listing['products_base_price'] != 1)  $sProductListPrice .= '<s><span class="base_price">' . $listing['products_base_unit'] . ' = ' . $pl_base_product_price . '</span></s><br />';
 

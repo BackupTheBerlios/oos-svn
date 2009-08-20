@@ -36,7 +36,7 @@ function oos_get_path($current_category_id = '', $parent_id = '', $gparent_id = 
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
-    if (oos_is_not_null($current_category_id)) {
+    if (!empty($current_category_id)) {
         $cp_size = count($aCategoryPath);
         if ($cp_size == 0) {
             $categories_new = $current_category_id;

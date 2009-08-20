@@ -125,7 +125,7 @@ for ($i=0, $n=$nArrayCountProducts; $i<$n; $i++) {
 
 
     // Wishlist names
-    if (oos_is_not_null($products[$i]['towlid'])) {
+    if (!empty($products[$i]['towlid'])) {
         $shopping_cart_detail .= '<br /><a href="' . oos_href_link($aPages['main_wishlist'], 'wlid=' . $products[$i]['towlid'], 'NONSSL') . '">' . oos_image(OOS_IMAGES . 'wl.gif', oos_get_wishlist_name($products[$i]['towlid'])) . '</a>' . "\n";
         $shopping_cart_detail .= '<small><i><a href="' . oos_href_link($aPages['main_wishlist'], 'wlid=' . $products[$i]['towlid'], 'NONSSL') . '">' . oos_get_wishlist_name($products[$i]['towlid']) . '</a></i></small>';
         $shopping_cart_detail .= oos_draw_hidden_field('to_wl_id[]', $products[$i]['towlid']);

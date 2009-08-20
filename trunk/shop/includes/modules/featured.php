@@ -62,7 +62,7 @@ if ($featured_result->RecordCount() >= 1) {
         $featured_product_price = $oCurrencies->display_price($featured['products_price'], oos_get_tax_rate($featured['products_tax_class_id']));
         $featured_special_price = oos_get_products_special_price($featured['products_id']);
 
-        if (oos_is_not_null($featured_special_price)) {
+        if (!empty($featured_special_price)) {
             $featured_product_special_price = $oCurrencies->display_price($featured_special_price, oos_get_tax_rate($featured['products_tax_class_id']));
         } else {
             $featured_max_product_discount = min($featured['products_discount_allowed'],$_SESSION['member']->group['discount']);

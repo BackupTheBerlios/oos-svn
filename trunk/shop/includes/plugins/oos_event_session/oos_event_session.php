@@ -64,11 +64,11 @@
 
       // set the session cookie parameters
       if (function_exists('session_set_cookie_params')) {
-        session_set_cookie_params(0, '/', (oos_is_not_null($current_domain) ? '.' . $current_domain : ''));
+        session_set_cookie_params(0, '/', (!empty($current_domain) ? '.' . $current_domain : ''));
       } elseif (function_exists('ini_set')) {
         ini_set('session.cookie_lifetime', '0');
         ini_set('session.cookie_path', '/');
-        ini_set('session.cookie_domain', (oos_is_not_null($current_domain) ? '.' . $current_domain : ''));
+        ini_set('session.cookie_domain', (!empty($current_domain) ? '.' . $current_domain : ''));
       }
 
       // set the session ID if it exists

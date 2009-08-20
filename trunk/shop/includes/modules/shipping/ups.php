@@ -92,7 +92,7 @@
     function quote($method = '') {
       global $aLang, $oOrder, $shipping_weight, $shipping_num_boxes;
 
-      if ( (oos_is_not_null($method)) && (isset($this->types[$method])) ) {
+      if ( (!empty($method)) && (isset($this->types[$method])) ) {
         $prod = $method;
       } else {
         $prod = 'GNDRES';
@@ -134,7 +134,7 @@
                               'error' => 'An error occured with the UPS shipping calculations.<br />' . $upsQuote . '<br />If you prefer to use UPS as your shipping method, please contact the store owner.');
       }
 
-      if (oos_is_not_null($this->icon)) $this->quotes['icon'] = oos_image($this->icon, $this->title);
+      if (!empty($this->icon)) $this->quotes['icon'] = oos_image($this->icon, $this->title);
 
       return $this->quotes;
     }

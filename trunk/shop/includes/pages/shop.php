@@ -157,7 +157,7 @@ if ($category_depth == 'nested') {
 
             $categories_box .= '                <td align="center" class="smallText" style="width: ' . $width . '" valign="top"><a href="' . oos_href_link($aPages['shop'], $categories_new) . '">';
 
-            if (oos_is_not_null($categories['categories_image'])) {
+            if (!empty($categories['categories_image'])) {
                 $categories_box .= oos_image(OOS_IMAGES . $categories['categories_image'], $categories['categories_name'], SUBCATEGORY_IMAGE_WIDTH, SUBCATEGORY_IMAGE_HEIGHT) . '<br />';
             } else {
                 $categories_box .= oos_image(OOS_IMAGES . 'trans.gif', $categories['categories_name'], SUBCATEGORY_IMAGE_WIDTH, SUBCATEGORY_IMAGE_HEIGHT, 'style="border: 3px double black"') . '<br />';
@@ -179,7 +179,7 @@ if ($category_depth == 'nested') {
 
 
         // assign Smarty variables;
-        if ( (ALLOW_CATEGORY_DESCRIPTIONS == '1') && (oos_is_not_null($category['categories_heading_title'])) ) {
+        if ( (ALLOW_CATEGORY_DESCRIPTIONS == '1') && (!empty($category['categories_heading_title'])) ) {
             $oSmarty->assign('oos_heading_title', $category['categories_heading_title']);
         } else {
             $oSmarty->assign('oos_heading_title', $aLang['heading_title']);
@@ -235,7 +235,7 @@ if ($category_depth == 'nested') {
                   AND cd.categories_languages_id = '" .  intval($nLanguageID) . "'";
         $category = $dbconn->GetRow($sql);
 
-        if (oos_is_not_null($category['categories_heading_title'])) {
+        if (!empty($category['categories_heading_title'])) {
             $oSmarty->assign('oos_heading_title', $category['categories_heading_title']);
         } else {
             $oSmarty->assign('oos_heading_title', $aLang['heading_title']);
@@ -518,7 +518,7 @@ if ($category_depth == 'nested') {
             $image_value = $dbconn->GetOne($sql);
         }
 
-        if (oos_is_not_null($image_value)) {
+        if (!empty($image_value)) {
             $image = $image_value;
         }
 
