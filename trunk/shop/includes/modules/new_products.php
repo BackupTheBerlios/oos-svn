@@ -83,7 +83,7 @@ while ($new_products = $new_products_result->fields)
     $new_product_price = $oCurrencies->display_price($new_products['products_price'], oos_get_tax_rate($new_products['products_tax_class_id']));
     $new_special_price = $new_products['specials_new_products_price'];
 
-    if (oos_is_not_null($new_special_price)) {
+    if (!empty($new_special_price)) {
         $new_product_special_price = $oCurrencies->display_price($new_special_price, oos_get_tax_rate($new_products['products_tax_class_id']));
     } else {
         $new_max_product_discount = min($new_products['products_discount_allowed'],$_SESSION['member']->group['discount']);

@@ -169,7 +169,7 @@ function oos_display_banner($action, $identifier)
         return false;
     }
 
-    if (oos_is_not_null($banner['banners_html_text'])) {
+    if (!empty($banner['banners_html_text'])) {
         $banner_string = $banner['banners_html_text'];
     } else {
         $banner_string = '<a href="' . oos_href_link($aPages['redirect'], 'action=banner&amp;goto=' . $banner['banners_id']) . '" target="_blank">' . oos_image(OOS_IMAGES . $banner['banners_image'], $banner['banners_title']) . '</a>';

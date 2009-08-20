@@ -21,13 +21,13 @@ if (!$prefix_filename == '') $prefix_filename = $prefix_filename . '_';
 
 $aPages['conditions_download'] = $prefix_filename . 'conditions.pdf';
 
-$aPages['account_address_book'] = $prefix_filename . 'address_book';
-$aPages['account_address_book_process'] = $prefix_filename . 'address_book_process';
+$aPages['account_address_book'] = $prefix_filename . 'account_address_book';
+$aPages['account_address_book_process'] = $prefix_filename . 'account_address_book_process';
 $aPages['account_history'] = $prefix_filename . 'account_history';
-$aPages['account_history_info'] = $prefix_filename . 'history_info';
+$aPages['account_history_info'] = $prefix_filename . 'account_history_info';
 
-$aPages['account_my_wishlist'] = $prefix_filename . 'my_wishlist';
-$aPages['account_order_history'] = $prefix_filename . 'order_history';
+$aPages['account_my_wishlist'] = $prefix_filename . 'account_my_wishlist';
+$aPages['account_order_history'] = $prefix_filename . 'account_order_history';
 
 $aPages['admin_create_account'] = $prefix_filename . 'admin_create_account';
 $aPages['admin_create_account_process'] = $prefix_filename . 'admin_create_account_process';
