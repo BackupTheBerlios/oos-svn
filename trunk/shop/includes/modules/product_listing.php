@@ -49,10 +49,6 @@ $listing_numrows = $listing_numrows->RecordCount();
 
 
 /*
-
-$list_box_contents = array();
-$list_box_contents[] = array('params' => 'class="productListing-even"');
-
   $cur_row = count($list_box_contents) - 1;
 
   $nArrayCountColumnList = count($column_list);
@@ -60,55 +56,39 @@ $list_box_contents[] = array('params' => 'class="productListing-even"');
     switch ($column_list[$col]) {
       case 'PRODUCT_LIST_MODEL':
         $lc_text = $aLang['table_heading_model'];
-        $lc_align = '';
         break;
 
       case 'PRODUCT_LIST_MANUFACTURER':
         $lc_text = $aLang['table_heading_manufacturer'];
-        $lc_align = '';
+        break;
+
+      case 'PRODUCT_LIST_NAME':
+        $lc_text = $aLang['table_heading_products'];
         break;
 
       case 'PRODUCT_LIST_UVP':
-        if ($_SESSION['member']->group['show_price'] != 1) {
-          $lc_text = '';
-        } else {
           $lc_text = $aLang['table_heading_list_price'];
-        }
-        $lc_align = 'right';
         break;
 
 
       case 'PRODUCT_LIST_PRICE':
-        if ($_SESSION['member']->group['show_price'] != 1) {
-          $lc_text = '';
-        } else {
           $lc_text = $aLang['table_heading_price'];
-        }
-        $lc_align = 'right';
         break;
 
       case 'PRODUCT_LIST_QUANTITY':
         $lc_text = $aLang['table_heading_quantity'];
-        $lc_align = 'right';
         break;
 
       case 'PRODUCT_LIST_WEIGHT':
         $lc_text = $aLang['table_heading_weight'];
-        $lc_align = 'right';
         break;
 
       case 'PRODUCT_LIST_IMAGE':
         $lc_text = $aLang['table_heading_image'];
-        $lc_align = 'center';
         break;
 
       case 'PRODUCT_LIST_BUY_NOW':
-        if ($_SESSION['member']->group['show_price'] != 1) {
-          $lc_text='';
-        } else {
           $lc_text = $aLang['table_heading_buy_now'];
-        }
-        $lc_align = 'center';
         break;
 
     }
@@ -117,9 +97,6 @@ $list_box_contents[] = array('params' => 'class="productListing-even"');
       $lc_text = oos_create_sort_heading($_GET['sort'], $col+1, $lc_text);
     }
 
-    $list_box_contents[$cur_row][] = array('align' => $lc_align,
-                                           'params' => 'class="productListing-even"',
-                                           'text' => '&nbsp;' . $lc_text . '&nbsp;');
   }
 */
 
@@ -149,10 +126,10 @@ if ($listing_numrows > 0) {
         }
 
         // $sProductListUVP
+        unset($sProductListUVP);
         if ($listing['products_price_list'] > 0) {
             $sProductListUVP = $oCurrencies->display_price($listing['products_price_list'], oos_get_tax_rate($listing['products_tax_class_id']));
         }
-
 
 
         // $sProductListPrice
@@ -202,22 +179,22 @@ if ($listing_numrows > 0) {
 
             $sProductListPrice .= '&nbsp;<span class="special_price">' . $pl_product_special_price . $sUnits . '</span>';
             if ($listing['products_base_price'] != 1)  $sProductListPrice .= '<br /><span class="special_base_price">' . $listing['products_base_unit'] . ' = ' . $pl_base_product_special_price . '</span></s><br />';
-            } else {
-              if ($pl_max_product_discount != 0 ) {
-                  $sProductListPrice = '&nbsp;<s>' . $pl_product_price .  $sUnits . '</s>&nbsp;-' . number_format($pl_max_product_discount, 2) . '%<br />';
-                  $sProductListPrice .= '&nbsp;<span class="discount_price">' . $pl_product_special_price . $sUnits . '</span>';
-                  if ($listing['products_base_price'] != 1)  $sProductListPrice .= '<br /><span class="special_base_price">' . $listing['products_base_unit'] . ' = ' . $pl_base_product_special_price . '</span></s><br />';
+        } else {
+            if ($pl_max_product_discount != 0 ) {
+                $sProductListPrice = '&nbsp;<s>' . $pl_product_price .  $sUnits . '</s>&nbsp;-' . number_format($pl_max_product_discount, 2) . '%<br />';
+                $sProductListPrice .= '&nbsp;<span class="discount_price">' . $pl_product_special_price . $sUnits . '</span>';
+                if ($listing['products_base_price'] != 1)  $sProductListPrice .= '<br /><span class="special_base_price">' . $listing['products_base_unit'] . ' = ' . $pl_base_product_special_price . '</span></s><br />';
 
-              } else {
-                  if (isset($pl_price_discount)) {
-                      $sProductListPrice = $aLang['price_from'] . '&nbsp;' . $pl_price_discount . $sUnits . '<br />';
-                  } else {
-                      $sProductListPrice = '&nbsp;' . $pl_product_price .  $sUnits . '<br />';
-                      if ($listing['products_base_price'] != 1)  $sProductListPrice .= '<span class="base_price">' . $listing['products_base_unit'] . ' = ' . $pl_base_product_price . '</span><br />';
-                  }
-              }
-         }
-         $sProductListPrice .= '&nbsp;<span class="pangv">' . $sPAngV . '</span><br />';
+            } else {
+                if (isset($pl_price_discount)) {
+                    $sProductListPrice = $aLang['price_from'] . '&nbsp;' . $pl_price_discount . $sUnits . '<br />';
+                } else {
+                    $sProductListPrice = '&nbsp;' . $pl_product_price .  $sUnits . '<br />';
+                    if ($listing['products_base_price'] != 1)  $sProductListPrice .= '<span class="base_price">' . $listing['products_base_unit'] . ' = ' . $pl_base_product_price . '</span><br />';
+                }
+            }
+        }
+        $sProductListPrice .= '&nbsp;<span class="pangv">' . $sPAngV . '</span><br />';
 
 
 
