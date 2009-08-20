@@ -336,7 +336,7 @@ class GoogleSitemap
      */
      function GetFullcategories($cID)
      {
-         if ( ereg('_', $cID) ){
+         if ( preg_match('/_/', $cID) ){
              return $cID;
          } else {
              $c = array();

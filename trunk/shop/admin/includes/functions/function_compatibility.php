@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: compatibility.php,v 1.7 2002/11/22 19:07:05 dgw_ 
+   File: compatibility.php,v 1.7 2002/11/22 19:07:05 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -19,8 +19,8 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 
 ////
@@ -40,27 +40,11 @@
     }
   }
 
-// $HTTP_xxx_VARS are always set on php4
-  if (!is_array($_GET)) $_GET = array();
-  if (!is_array($_POST)) $_POST = array();
-  if (!is_array($HTTP_COOKIE_VARS)) $HTTP_COOKIE_VARS = array();
-
-// handle magic_quotes_gpc turned off.
-  if (!get_magic_quotes_gpc()) {
-    do_magic_quotes_gpc($_GET);
-    do_magic_quotes_gpc($_POST);
-    do_magic_quotes_gpc($HTTP_COOKIE_VARS);
-  }
 
   if (strpos(php_sapi_name(), 'cgi') !== false) {
     $_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
   }
 
-  if (!function_exists('is_numeric')) {
-    function is_numeric($param) {
-      return ereg("^[0-9]{1,50}.?[0-9]{0,50}$", $param);
-    }
-  }
 
   if (!function_exists('is_uploaded_file')) {
     function is_uploaded_file($filename) {
@@ -78,9 +62,3 @@
     }
   }
 
-  if (!function_exists('move_uploaded_file')) {
-    function move_uploaded_file($file, $target) {
-      return copy($file, $target);
-    }
-  }
-?>
