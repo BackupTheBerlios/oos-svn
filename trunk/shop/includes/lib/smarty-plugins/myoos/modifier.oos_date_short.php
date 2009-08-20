@@ -50,11 +50,8 @@ function smarty_modifier_oos_date_short($raw_date)
     $minute = (int)substr($raw_date, 14, 2);
     $second = (int)substr($raw_date, 17, 2);
 
-    if (@date('Y', mktime($hour, $minute, $second, $month, $day, $year)) == $year) {
-      return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
-    } else {
-      return ereg_replace('2037' . '$', $year, date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, 2037)));
-    }
+    return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
+
 }
 
 

@@ -17,27 +17,28 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
- /**
-  * global
-  *
-  * @package global
-  * @copyright (C) 2005 by the OOS Development Team.
-  * @license GPL <http://www.gnu.org/licenses/gpl.html>
-  * @link http://www.oos-shop.de/
-  */
+/**
+ * global
+ *
+ * @package global
+ * @copyright (C) 2005 by the OOS Development Team.
+ * @license GPL <http://www.gnu.org/licenses/gpl.html>
+ * @link http://www.oos-shop.de/
+ */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 
- /**
-  * Output a raw date string in the selected locale date format
-  * $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
-  *
-  * @param $raw_date
-  * @return string
-  */
-  function oos_date_long($raw_date) {
+/**
+ * Output a raw date string in the selected locale date format
+ * $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
+ *
+ * @param $raw_date
+ * @return string
+ */
+function oos_date_long($raw_date)
+{
     if ( ($raw_date == '0000-00-00 00:00:00') || ($raw_date == '') ) return false;
 
     $year = intval(substr($raw_date, 0, 4));
@@ -48,17 +49,18 @@
     $second = intval(substr($raw_date, 17, 2));
 
     return strftime(DATE_FORMAT_LONG, mktime($hour,$minute,$second,$month,$day,$year));
-  }
+}
 
 
- /**
-  * Output a raw date string in the selected locale date format
-  * $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
-  *
-  * @param $raw_date
-  * @return string
-  */
-  function oos_date_short($raw_date) {
+/**
+ * Output a raw date string in the selected locale date format
+ * $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
+ *
+ * @param $raw_date
+ * @return string
+ */
+function oos_date_short($raw_date)
+{
     if ( ($raw_date == '0000-00-00 00:00:00') || ($raw_date == '') ) return false;
 
     $year = substr($raw_date, 0, 4);
@@ -68,62 +70,63 @@
     $minute = intval(substr($raw_date, 14, 2));
     $second = intval(substr($raw_date, 17, 2));
 
-    if (@date('Y', mktime($hour, $minute, $second, $month, $day, $year)) == $year) {
-      return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
-    } else {
-      return ereg_replace('2037' . '$', $year, date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, 2037)));
-    }
-  }
+    return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
+
+}
 
 
- /**
-  * Return a local directory path (without trailing slash)
-  *
-  * @param $sPath
-  * @return string
-  */
-  function oos_get_local_path($sPath) {
+/**
+ * Return a local directory path (without trailing slash)
+ *
+ * @param $sPath
+ * @return string
+ */
+function oos_get_local_path($sPath)
+{
     if (substr($sPath, -1) == '/') $sPath = substr($sPath, 0, -1);
 
     return $sPath;
-  }
+}
 
 
- /**
-  * Return a product ID from a product ID with attributes
-  *
-  * @param $uprid
-  * @return string
-  */
-  function oos_get_product_id($uprid) {
+/**
+ * Return a product ID from a product ID with attributes
+ *
+ * @param $uprid
+ * @return string
+ */
+function oos_get_product_id($uprid)
+{
     $pieces = explode('{', $uprid);
 
     if (is_numeric($pieces[0])) {
-      return $pieces[0];
+        return $pieces[0];
     } else {
-      return false;
+        return false;
     }
-  }
+}
 
 
-  function oos_is_not_null($value) {
+function oos_is_not_null($value)
+{
     if (is_array($value)) {
-      if (count($value) > 0) {
-        return true;
-      } else {
-        return false;
-      }
+        if (count($value) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     } else {
-      if (($value != '') && (strtolower($value) != 'null') && (strlen(trim($value)) > 0)) {
-        return true;
-      } else {
-        return false;
-      }
+        if (($value != '') && (strtolower($value) != 'null') && (strlen(trim($value)) > 0)) {
+            return true;
+        } else {
+            return false;
+        }
     }
-  }
+}
 
 
-  function oos_empty($value) {
+function oos_empty($value)
+{
     if (is_array($value)) {
       if (count($value) > 0) {
         return false;
@@ -137,17 +140,17 @@
         return true;
       }
     }
-  }
+}
 
 
- /**
-  * Return a random value
-  *
-  * @param $min
-  * @param $max
-  * @return string
-  */
-  function oos_rand($min = null, $max = null) {
+/**
+ * Return a random value
+ *
+ * @param $min
+ * @param $max
+ * @return string
+ */
+function oos_rand($min = null, $max = null) {
     static $seeded;
 
     if (!isset($seeded)) {
@@ -164,9 +167,9 @@
     } else {
       return mt_rand();
     }
-  }
+}
 
-  function oos_create_random_value($length, $type = 'mixed') {
+function oos_create_random_value($length, $type = 'mixed') {
     if ( ($type != 'mixed') && ($type != 'chars') && ($type != 'digits')) return false;
 
     $rand_value = '';
@@ -186,5 +189,5 @@
     }
 
     return $rand_value;
-  }
+}
 
