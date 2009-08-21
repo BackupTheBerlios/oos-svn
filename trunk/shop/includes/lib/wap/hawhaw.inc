@@ -301,7 +301,7 @@ function HAW_voice_eventhandler($handler, $audio_array, $deck)
 function HAW_remove_invalid_gsl_chars($string)
 {
   // remove all invalid GSL characters (according Nuance Grammar Developer's Guide)
-  return(ereg_replace("[^0-9a-zA-Z@_'\.\-]", " ", $string));
+  return(preg_replace("/[^0-9a-zA-Z@_'\.\-]/", " ", $string));
 }
 
 
@@ -3414,7 +3414,7 @@ class HAW_text
       $pause = $this->br * HAW_VOICE_PAUSE; // short pause for each break
 
       // remove leading commas, dots etc. which may appear after link objects
-      HAW_voice_audio(ereg_replace("^[\?!,;.]", " ", HAW_specchar($this->voice_text, $deck)),
+      HAW_voice_audio(preg_replace("/^[\?!,;.]/", " ", HAW_specchar($this->voice_text, $deck)),
                       $this->voice_audio_src, $pause, $deck);
   
       echo "</prompt></block>\n";
@@ -4832,7 +4832,7 @@ class HAW_select
         printf("<prompt>%s%s</prompt>\n", HAW_specchar($val["label"], $deck), $breakTag);
 
         printf("<option%s value=\"%s\">%s</option>\n", $dtmf, $val["value"],
-               ereg_replace("[\?!]"," ",strtolower(HAW_specchar($val["label"], $deck))));
+               preg_replace("/[\?!]/"," ",strtolower(HAW_specchar($val["label"], $deck))));
       }
 
       // create event handlers
@@ -5093,7 +5093,7 @@ class HAW_radio
         printf("<prompt>%s%s</prompt>\n", HAW_specchar($val["label"], $deck), $breakTag);
 
         printf("<option%s value=\"%s\">%s</option>\n", $dtmf, $val["value"],
-                ereg_replace("[\?!]"," ",strtolower(HAW_specchar($val["label"], $deck))));
+                preg_replace("/[\?!]/"," ",strtolower(HAW_specchar($val["label"], $deck))));
       }
 
       // create event handlers
@@ -5982,7 +5982,7 @@ class HAW_phone
     }
     else {
       // plain old telephone number - remove blanks, hyphens etc.
-      $this->destination = ereg_replace("[^+0-9]", "", $destination);
+      $this->destination = preg_replace("/[^+0-9]/", "", $destination);
       $this->isPOTS = true;
     }
     
@@ -6121,7 +6121,7 @@ class HAW_phone
         // create wtai: link for all other HTML browsers
         // (they will at least throw an error message if a click on it does not work)
         if ($this->isPOTS)
-          $dest = "wtai://wp/mc;" . ereg_replace("[+]", "%2B", $this->destination);
+          $dest = "wtai://wp/mc;" . preg_replace("/[+]/", "%2B", $this->destination);
         else
           $dest = $this->destination;
       }
@@ -6170,7 +6170,7 @@ class HAW_phone
         $br .= "<br/>";
 
       if ($this->isPOTS)
-        $dest = "wtai://wp/mc;" . ereg_replace("[+]", "%2B", $this->destination);
+        $dest = "wtai://wp/mc;" . preg_replace("/[+]/", "%2B", $this->destination);
       else
         $dest = $this->destination;
 
@@ -6898,7 +6898,7 @@ class HAW_voicerecorder
       }
 
       // replace '&' character in URL with '&amp;'
-      $this->url = ereg_replace("&", "&amp;", $this->url);
+      $this->url = preg_replace("/&/", "&amp;", $this->url);
 
       printf("<filled><submit next=\"%s\" enctype=\"multipart/form-data\" method=\"post\" namelist=\"haw_recording\"/></filled>\n",
               $this->url);

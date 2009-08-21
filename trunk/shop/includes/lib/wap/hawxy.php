@@ -1548,7 +1548,7 @@ function characterData($parser, $data)
       }
       else {
         // plain old telephone number - remove blanks, hyphens etc.
-        $element["element"]->destination = ereg_replace("[^+0-9]", "", $data);
+        $element["element"]->destination = preg_replace("/[^+0-9]/", "", $data);
         $element["element"]->isPOTS = true;
       }
     }
@@ -2025,7 +2025,7 @@ while (list($key, $val) = each($received_query_string))
 if ((strlen($new_query_string) > 0) &&
      !strstr($_GET["code"], "?"))
   // replace the first '&' character with '?'
-  $new_query_string = ereg_replace("^&", "?", $new_query_string);
+  $new_query_string = preg_replace("/^&/", "?", $new_query_string);
 
 // determine remote URL to retrieve XML data from
 $remote_url = "";
