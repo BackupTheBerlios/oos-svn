@@ -1312,7 +1312,7 @@ function oos_strip_all ($sStr)
     $sStr =& trim($sStr);
     $sStr =& strtolower($sStr);
 
-    return ereg_replace("[^[:alnum:]._-]", "", $sStr);
+    return preg_replace("/[^[:alnum:]._-]/", "", $sStr);
 }
 
 

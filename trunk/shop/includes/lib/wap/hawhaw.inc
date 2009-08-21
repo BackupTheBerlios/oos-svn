@@ -5483,7 +5483,7 @@ class HAW_submit
       }
 
       // replace '&' character in URL with '&amp;'
-      $url = ereg_replace("&", "&amp;", $url);
+      $url = preg_replace('/&/', '&amp;', $url);
 
       if (strchr($url,"?"))
         $sep = "&amp;";
@@ -5570,7 +5570,8 @@ class HAW_submit
       $namelist .= "\"";
 
       // replace '&' character in URL with '&amp;'
-      $url = ereg_replace("&", "&amp;", $url);
+      $url = preg_replace('/&/', '&amp;', $url);
+
 
       // consider send method
       if ($method == HAW_METHOD_POST)

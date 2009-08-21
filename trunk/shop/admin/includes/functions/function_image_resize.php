@@ -74,7 +74,7 @@ function oos_str_strip_all ($str) {
   // Strip non-alpha & non-numeric except ._-:
   // 12 abc def/ghi\jkl'&%$mno\n343dd -> 12abcdyY8-._efghijkl343ddi
   // Use to get usefull Filenames for pictures
-  return ereg_replace("[^[:alnum:]._-]", "", $str);
+  return preg_replace("/[^[:alnum:]._-]/", "", $str);
 }
 
 
