@@ -19,7 +19,8 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
+
+require_once OOS_ABSOLUTE_PATH . 'includes/functions/function_coupon.php';
 
   class ot_coupon {
     var $title, $output, $enabled = false;

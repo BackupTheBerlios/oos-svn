@@ -68,7 +68,7 @@
       if ($this->calculate_tax == '1') {  // Calculate main tax reduction
         $tod_amount = round($oOrder->info['tax']*10)/10*$od_pc/100;
         $oOrder->info['tax'] = $oOrder->info['tax'] - $tod_amount; // Calculate tax group deductions
-        foreach (oOrder->info['tax_groups'] as $key => $value) {
+        foreach ($oOrder->info['tax_groups'] as $key => $value) {
           $god_amount = round($value*10)/10*$od_pc/100;
           $oOrder->info['tax_groups'][$key] = $oOrder->info['tax_groups'][$key] - $god_amount;
         }

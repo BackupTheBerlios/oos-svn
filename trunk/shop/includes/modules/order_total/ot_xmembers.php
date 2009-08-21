@@ -93,7 +93,7 @@
     $order_total = $oOrder->info['total'];
      // Check if gift voucher is in cart and adjust total
     $products = $_SESSION['cart']->get_products();
-    $nArrayCountProducts = count($products)
+    $nArrayCountProducts = count($products);
     for ($i=0; $i<$nArrayCountProducts; $i++) {
       $t_prid = oos_get_product_id($products[$i]['id']);
 
