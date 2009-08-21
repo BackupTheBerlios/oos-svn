@@ -136,7 +136,7 @@
       $newsletter = $newsletter_result->fields;
 
       $nInfo = new objectInfo($newsletter);
-    } elseif (oos_is_not_null($_POST)) {
+    } elseif (isset($_POST)) {
       $nInfo = new objectInfo($_POST);
     } else {
       $nInfo = new objectInfo(array());

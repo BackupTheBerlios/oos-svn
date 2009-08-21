@@ -119,7 +119,7 @@ if ( defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL
 if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
     if ( (isset($_POST['comments'])) && (empty($_POST['comments'])) ) {
         $_SESSION['comments'] = '';
-    } elseif (oos_is_not_null($_POST['comments'])) {
+    } elseif (isset($_POST['comments'])) {
         $_SESSION['comments'] = oos_db_prepare_input($_POST['comments']);
     }
 

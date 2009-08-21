@@ -234,7 +234,7 @@ function popupImageWindow(url) {
       $banner = $banner_result->fields;
 
       $bInfo = new objectInfo($banner);
-    } elseif (oos_is_not_null($_POST)) {
+    } elseif (isset($_POST)) {
       $bInfo = new objectInfo($_POST);
     } else {
       $bInfo = new objectInfo(array());

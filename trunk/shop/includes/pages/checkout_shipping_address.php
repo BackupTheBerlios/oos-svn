@@ -51,7 +51,7 @@ $process = '0';
 
 if ( (isset($_POST['action']) && ($_POST['action'] == 'submit')) && (isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid'])) ) {
 // process a new shipping address
-    if (oos_is_not_null($_POST['firstname']) && oos_is_not_null($_POST['lastname']) && oos_is_not_null($_POST['street_address'])) {
+    if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['street_address'])) {
 
         if (ACCOUNT_GENDER == '1') $gender = oos_prepare_input($_POST['gender']);
         $firstname = oos_db_prepare_input($_POST['firstname']);

@@ -173,7 +173,7 @@
                                               array('title' => $aLang['module_payment_ipayment_text_credit_card_expires'],
                                                     'field' => strftime('%B, %Y', mktime(0,0,0,$_POST['ipayment_cc_expires_month'], 1, '20' . $_POST['ipayment_cc_expires_year'])))));
 
-      if (oos_is_not_null($_POST['ipayment_cc_checkcode'])) {
+      if (isset($_POST['ipayment_cc_checkcode'])) {
         $confirmation['fields'][] = array('title' => $aLang['module_payment_ipayment_text_credit_card_checknumber'],
                                           'field' => $_POST['ipayment_cc_checkcode']);
       }

@@ -384,7 +384,7 @@ function popupImageWindow(url) {
       $product = $product_result->fields;
 
       $pInfo = new objectInfo($product);
-    } elseif (oos_is_not_null($_POST)) {
+    } elseif (isset($_POST)) {
       $pInfo = new objectInfo($_POST);
       $products_name = $_POST['products_name'];
       $products_description = $_POST['products_description'];
@@ -956,7 +956,7 @@ function calcBasePriceFactor() {
       </form></tr>
 <?php
   } elseif ($action == 'new_product_preview') {
-    if (oos_is_not_null($_POST)) {
+    if (isset($_POST)) {
       $pInfo = new objectInfo($_POST);
       $products_name = $_POST['products_name'];
       $products_url = $_POST['products_url'];

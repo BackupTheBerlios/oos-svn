@@ -119,7 +119,7 @@
       </form></tr>
 <?php
   } elseif ($action == 'preview') {
-    if (oos_is_not_null($_POST)) {
+    if (isset($_POST)) {
       $rInfo = new objectInfo($_POST);
     } else {
       $reviewstable = $oostable['reviews'];
@@ -164,7 +164,7 @@
         <td><?php echo oos_draw_separator('trans.gif', '1', '10'); ?></td>
       </tr>
 <?php
-    if (oos_is_not_null($_POST)) {
+    if (isset($_POST)) {
 /* Re-Post all POST'ed variables */
       reset($_POST);
       while(list($key, $value) = each($_POST)) echo '<input type="hidden" name="' . $key . '" value="' . htmlspecialchars(stripslashes($value)) . '">';

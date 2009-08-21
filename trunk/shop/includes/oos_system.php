@@ -74,12 +74,8 @@ $_SESSION['formid'] = $sFormid;
 
 $oSmarty->assign(
       array(
-          'filename'          => $aFilename,
-          'modules'           => $aModules,
-
           'pages'             => $aPages,
           'page_file'         => $sPage,
-
 
           'formid'            => $sFormid,
 

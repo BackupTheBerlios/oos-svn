@@ -59,8 +59,11 @@
        if (!$dict) continue;
        $dict->debug = 1;
 
+       // ToDo CREATE DATABASE $dbname DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
        $sqlarray = $dict->CreateDatabase($dbname);
        $dict->ExecuteSQLArray($sqlarray);
+
+
      }
      oosDBInit($dbhost, $dbuname, $dbpass, $dbname, $dbtype);
      if (!$prefix_table == '') $prefix_table = $prefix_table . '_';

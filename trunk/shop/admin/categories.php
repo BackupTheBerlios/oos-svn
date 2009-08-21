@@ -40,7 +40,7 @@
     switch ($action) {
       case 'new_slave_product':
         $product_check = false;
-        if (oos_is_not_null($_POST['slave_product_id'])) {
+        if (isset($_POST['slave_product_id'])) {
           //checks if the product actaully exists
           $productstable = $oostable['products'];
           $check_product_result = $dbconn->Execute("SELECT products_id FROM $productstable WHERE products_id = " . intval($_POST['slave_product_id']) . " LIMIT 1");
@@ -482,7 +482,7 @@ function popupImageWindow(url) {
         $category = $categories_result->fields;
 
         $cInfo = new objectInfo($category);
-      } elseif (oos_is_not_null($_POST)) {
+      } elseif (isset($_POST)) {
         $cInfo = new objectInfo($_POST);
         $categories_name = $_POST['categories_name'];
         $categories_heading_title = $_POST['categories_heading_title'];
@@ -615,7 +615,7 @@ function popupImageWindow(url) {
         </form></tr>
 <?php
   } elseif ($action == 'new_category_preview') {
-    if (oos_is_not_null($_POST)) {
+    if (isset($_POST)) {
       $cInfo = new objectInfo($_POST);
       $categories_name = $_POST['categories_name'];
       $categories_heading_title = $_POST['categories_heading_title'];
