@@ -313,7 +313,7 @@ function oos_draw_select_field($name, $type, $value = '', $checked = false, $par
 {
     $selection = '<input type="' . oos_parse_input_field_data($type, array('"' => '&quot;')) . '" name="' . oos_parse_input_field_data($name, array('"' => '&quot;')) . '"';
 
-    if (oos_is_not_null($value)) $selection .= ' value="' . oos_parse_input_field_data($value, array('"' => '&quot;')) . '"';
+    if (!empty($value)) $selection .= ' value="' . oos_parse_input_field_data($value, array('"' => '&quot;')) . '"';
 
     if ( ($checked === true) || ( isset($GLOBALS[$name]) && is_string($GLOBALS[$name]) && ( ($GLOBALS[$name] == 'on') || (isset($value) && (stripslashes($GLOBALS[$name]) == $value)) ) ) ) {
         $selection .= ' checked="checked"';
@@ -441,7 +441,7 @@ function oos_draw_pull_down_menu($name, $values, $default = '', $parameters = ''
 
     $field = '<select name="' . oos_parse_input_field_data($name, array('"' => '&quot;')) . '"';
 
-    if (oos_is_not_null($parameters)) $field .= ' ' . $parameters;
+    if (!empty($parameters)) $field .= ' ' . $parameters;
 
     $field .= '>';
 

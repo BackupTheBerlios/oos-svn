@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: gv_sent.php,v 1.2.2.1 2003/04/18 16:17:14 wilt 
+   File: gv_sent.php,v 1.2.2.1 2003/04/18 16:17:14 wilt
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -30,7 +30,7 @@
   $currencies = new currencies();
 
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -56,7 +56,7 @@
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_SENDERS_NAME; ?></td>
                 <td class="dataTableHeadingContent" align="center"><?php echo TABLE_HEADING_VOUCHER_VALUE; ?></td>
                 <td class="dataTableHeadingContent" align="center"><?php echo TABLE_HEADING_VOUCHER_CODE; ?></td>
-                <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_DATE_SENT; ?></td>		
+                <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_DATE_SENT; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
@@ -121,7 +121,7 @@
     $contents[] = array('text' => '<br />' . TEXT_INFO_NOT_REDEEMED);
   }
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
 
     $box = new box;

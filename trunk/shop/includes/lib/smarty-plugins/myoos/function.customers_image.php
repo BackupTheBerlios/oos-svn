@@ -85,7 +85,7 @@ function smarty_function_customers_image($params, &$smarty)
         if (empty($width) && oos_is_not_null($height)) {
           $ratio = $height / $image_size[1];
           $width = $image_size[0] * $ratio;
-        } elseif (oos_is_not_null($width) && empty($height)) {
+        } elseif (!empty($width) && empty($height)) {
           $ratio = $width / $image_size[0];
           $height = $image_size[1] * $ratio;
         } elseif (empty($width) && empty($height)) {

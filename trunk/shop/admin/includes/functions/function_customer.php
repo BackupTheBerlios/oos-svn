@@ -168,7 +168,7 @@
       $result->Close();
       return;
     } elseif ($status == '0') {
-      $query = "UPDATE " . $oostable['customers'] . " 
+      $query = "UPDATE " . $oostable['customers'] . "
                 SET customers_login = '0'
                 WHERE customers_id = '" . intval($customer_id) . "'";
       $result =& $dbconn->Execute($query);
@@ -226,7 +226,7 @@
     global $aLang;
 
     $payment_title = '';
-    if (oos_is_not_null($customers_payment)) {
+    if (!empty($customers_payment)) {
       $select_payment = explode(';', $customers_payment);
       for ($i = 0, $n = count($select_payment); $i < $n; $i++) {
         $file = $select_payment[$i];

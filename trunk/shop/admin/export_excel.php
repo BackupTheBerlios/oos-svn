@@ -45,7 +45,7 @@
 
           $name = $products['products_name'];
           $name = str_replace('|',' ',$name);
-          $name = strip_tags($name); 
+          $name = strip_tags($name);
 
           $price = $products['products_price'];
           $tax = (100+oos_get_tax_rate($products['products_tax_class_id']))/100;
@@ -135,7 +135,7 @@
     $messageStack->add(ERROR_EXPORT_DIRECTORY_DOES_NOT_EXIST, 'error');
   }
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -256,7 +256,7 @@
       break;
   }
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
 
     $box = new box;

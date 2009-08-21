@@ -109,7 +109,7 @@
     $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_EXPECTED . ' ' . oos_date_short($pInfo->products_date_available));
   }
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
 
     $box = new box;

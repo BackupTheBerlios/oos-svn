@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: campaigns.php,v 1.19 2003/02/06 17:37:09 thomasamoulton 
+   File: campaigns.php,v 1.19 2003/02/06 17:37:09 thomasamoulton
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -293,7 +293,7 @@
       break;
   }
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
 
     $box = new box;

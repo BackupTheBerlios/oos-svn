@@ -51,7 +51,7 @@ class upload
 
         $this->set_output_messages('direct');
 
-        if (oos_is_not_null($this->file) && oos_is_not_null($this->destination)) {
+        if (!empty($this->file) && oos_is_not_null($this->destination)) {
            $this->set_output_messages('session');
 
            if ( ($this->parse() == true) && ($this->save() == true) ) {

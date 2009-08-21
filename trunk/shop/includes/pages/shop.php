@@ -32,7 +32,7 @@ require 'includes/functions/function_default.php';
 $category_depth = 'top';
 $aLang['heading_title'] = $aLang['heading_title_top'];
 
-if (isset($categories) && oos_is_not_null($categories)) {
+if (isset($categories) && !empty($categories)) {
     $products_to_categoriestable = $oostable['products_to_categories'];
     $sql = "SELECT COUNT(*) AS total
             FROM $products_to_categoriestable

@@ -246,7 +246,7 @@ switch($_GET['sortorder']){
     $contents[] = array('text'  => SIDEBAR_INFO_3);
     $contents[] = array('text'  => '<input type="submit" name="action" value="' . BUTTON_VIEW_WORD_LIST . '">');
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
 
     $box = new box;
     echo $box->infoBox($heading, $contents);

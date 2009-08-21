@@ -26,7 +26,7 @@
   * @param $page_type_id
   * @param $language
   * @return string
-  */ 
+  */
   function oosGetPageTypeName($page_type_id,$lang_id = '') {
 
     if (!$lang_id) $lang_id = $_SESSION['language_id'];
@@ -35,9 +35,9 @@
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
-    $page_type_sql = "SELECT page_type_name 
-                      FROM " . $oostable['page_type'] . " 
-                      WHERE page_type_id = '" . $page_type_id . "' 
+    $page_type_sql = "SELECT page_type_name
+                      FROM " . $oostable['page_type'] . "
+                      WHERE page_type_id = '" . $page_type_id . "'
                       AND page_type_languages_id = '" . intval($lang_id) . "'";
     $page_type = $dbconn->Execute($page_type_sql);
 
@@ -46,7 +46,7 @@
 
 
  /**
-  * Return Page Type 
+  * Return Page Type
   *
   * @return array
   */
@@ -58,9 +58,9 @@
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
-    $page_type_sql = "SELECT page_type_id, page_type_name 
-                      FROM " . $oostable['page_type'] . " 
-                      WHERE page_type_languages_id = '" . intval($_SESSION['language_id']) . "' 
+    $page_type_sql = "SELECT page_type_id, page_type_name
+                      FROM " . $oostable['page_type'] . "
+                      WHERE page_type_languages_id = '" . intval($_SESSION['language_id']) . "'
                       ORDER BY page_type_id";
     $page_type_result = $dbconn->Execute($page_type_sql);
     while ($page_type = $page_type_result->fields) {
@@ -131,11 +131,11 @@
         if ($status['total'] > 0) {
           $remove_status = false;
           $messageStack->add(ERROR_STATUS_USED_IN_ORDERS, 'error');
-        } 
+        }
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -162,13 +162,13 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $page_type_result_raw = "SELECT 
-                                  page_type_id, page_type_name 
-                              FROM 
-                                  " . $oostable['page_type'] . " 
-                              WHERE 
-                                  page_type_languages_id = '" . intval($_SESSION['language_id']) . "' 
-                              ORDER BY 
+  $page_type_result_raw = "SELECT
+                                  page_type_id, page_type_name
+                              FROM
+                                  " . $oostable['page_type'] . "
+                              WHERE
+                                  page_type_languages_id = '" . intval($_SESSION['language_id']) . "'
+                              ORDER BY
                                   page_type_id";
   $page_type_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $page_type_result_raw, $page_type_result_numrows);
   $page_type_result = $dbconn->Execute($page_type_result_raw);
@@ -275,7 +275,7 @@
       break;
   }
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
 
     $box = new box;

@@ -46,7 +46,7 @@
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (!empty($action)) {
-    switch ($action) { 
+    switch ($action) {
       case 'insert':
       case 'save':
         $customers_status_id = oos_db_prepare_input($_GET['cID']);
@@ -151,7 +151,7 @@
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -196,16 +196,16 @@
   $customers_status_show_price_tax_array =   array(array('id' => '0', 'text' => ENTRY_TAX_NO),
                                                    array('id' => '1', 'text' => ENTRY_TAX_YES) );
   $customers_status_result_raw = "SELECT
-                                     customers_status_id, customers_status_name, customers_status_public, 
-                                     customers_status_show_price, customers_status_show_price_tax, 
-                                     customers_status_image, customers_status_discount, 
+                                     customers_status_id, customers_status_name, customers_status_public,
+                                     customers_status_show_price, customers_status_show_price_tax,
+                                     customers_status_image, customers_status_discount,
                                      customers_status_ot_discount_flag , customers_status_ot_discount,
-                                     customers_status_ot_minimum, customers_status_qty_discounts, 
-                                     customers_status_payment 
+                                     customers_status_ot_minimum, customers_status_qty_discounts,
+                                     customers_status_payment
                                   FROM
-                                     " . $oostable['customers_status'] . " 
+                                     " . $oostable['customers_status'] . "
                                   WHERE
-                                     customers_status_languages_id = '" . intval($_SESSION['language_id']) . "' 
+                                     customers_status_languages_id = '" . intval($_SESSION['language_id']) . "'
                                   ORDER BY
                                      customers_status_id";
   $customers_status_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $customers_status_result_raw, $customers_status_result_numrows);
@@ -364,7 +364,7 @@
       break;
   }
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
 
     $box = new box;

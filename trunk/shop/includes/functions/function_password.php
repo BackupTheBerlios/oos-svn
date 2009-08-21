@@ -32,7 +32,7 @@
   */
   function oos_validate_password($sPlain, $sEncrypted) {
 
-    if (oos_is_not_null($sPlain) && oos_is_not_null($sEncrypted)) {
+    if (!empty($sPlain) && !empty($sEncrypted)) {
       // split apart the hash / salt
       $aStack = explode(':', $sEncrypted);
 

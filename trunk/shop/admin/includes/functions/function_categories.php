@@ -425,7 +425,7 @@
           $category_result->Close();
 
           $categories_array[$index][] = array('id' => $categories['categories_id'], 'text' => $category['categories_name']);
-          if ( (oos_is_not_null($category['parent_id'])) && ($category['parent_id'] != '0') ) $categories_array = oos_generate_category_path($category['parent_id'], 'category', $categories_array, $index);
+          if ( (!empty($category['parent_id'])) && ($category['parent_id'] != '0') ) $categories_array = oos_generate_category_path($category['parent_id'], 'category', $categories_array, $index);
           $categories_array[$index] = array_reverse($categories_array[$index]);
         }
         $index++;
@@ -453,7 +453,7 @@
       $category_result->Close();
 
       $categories_array[$index][] = array('id' => $id, 'text' => $category['categories_name']);
-      if ( (oos_is_not_null($category['parent_id'])) && ($category['parent_id'] != '0') ) $categories_array = oos_generate_category_path($category['parent_id'], 'category', $categories_array, $index);
+      if ( (!empty($category['parent_id'])) && ($category['parent_id'] != '0') ) $categories_array = oos_generate_category_path($category['parent_id'], 'category', $categories_array, $index);
     }
 
     return $categories_array;

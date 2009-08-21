@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: countries.php,v 1.25 2002/03/17 17:34:47 harley_vb 
+   File: countries.php,v 1.25 2002/03/17 17:34:47 harley_vb
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -48,7 +48,7 @@
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -76,11 +76,11 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $countries_result_raw = "SELECT 
-                              countries_id, countries_name, countries_iso_code_2, countries_iso_code_3, 
-                              countries_moneybookers, address_format_id 
-                          FROM 
-                              " . $oostable['countries'] . " 
+  $countries_result_raw = "SELECT
+                              countries_id, countries_name, countries_iso_code_2, countries_iso_code_3,
+                              countries_moneybookers, address_format_id
+                          FROM
+                              " . $oostable['countries'] . "
                           ORDER BY
                               countries_name";
   $countries_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $countries_result_raw, $countries_result_numrows);
@@ -182,7 +182,7 @@
       break;
   }
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
 
     $box = new box;

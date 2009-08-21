@@ -109,7 +109,7 @@
         break;
     }
   }
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -144,7 +144,7 @@
   $ticket_department_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $ticket_department_result_raw, $ticket_department_result_numrows);
   $ticket_department_result = $dbconn->Execute($ticket_department_result_raw);
   while ($ticket_department = $ticket_department_result->fields) {
-    if ((!isset($_GET['oID']) || (isset($_GET['oID']) && ($_GET['oID'] == $ticket_department['ticket_department_id']))) && !isset($oInfo) && (substr($action, 0, 3) != 'new')) { 
+    if ((!isset($_GET['oID']) || (isset($_GET['oID']) && ($_GET['oID'] == $ticket_department['ticket_department_id']))) && !isset($oInfo) && (substr($action, 0, 3) != 'new')) {
       $oInfo = new objectInfo($ticket_department);
     }
 
@@ -252,7 +252,7 @@
       break;
   }
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
 
     $box = new box;

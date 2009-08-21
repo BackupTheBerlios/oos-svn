@@ -173,7 +173,7 @@
       }
       break;
   }
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
     $box = new box;
     echo $box->infoBox($heading, $contents);

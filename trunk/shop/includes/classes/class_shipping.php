@@ -45,7 +45,7 @@ class shipping
 
             $include_modules = array();
 
-            if ( (oos_is_not_null($module)) && (in_array(substr($module['id'], 0, strpos($module['id'], '_')) . '.' . substr($_SERVER['PHP_SELF'], (strrpos($_SERVER['PHP_SELF'], '.')+1)), $this->modules)) ) {
+            if ( (!empty($module)) && (in_array(substr($module['id'], 0, strpos($module['id'], '_')) . '.' . substr($_SERVER['PHP_SELF'], (strrpos($_SERVER['PHP_SELF'], '.')+1)), $this->modules)) ) {
                 $include_modules[] = array('class' => substr($module['id'], 0, strpos($module['id'], '_')), 'file' => substr($module['id'], 0, strpos($module['id'], '_')) . '.' . substr($_SERVER['PHP_SELF'], (strrpos($_SERVER['PHP_SELF'], '.')+1)));
             } else {
                 reset($this->modules);
@@ -95,7 +95,7 @@ class shipping
             reset($this->modules);
             while (list(, $value) = each($this->modules)) {
                 $class = substr($value, 0, strrpos($value, '.'));
-                if (oos_is_not_null($module)) {
+                if (!empty($module)) {
                     if ( ($module == $class) && ($GLOBALS[$class]->enabled) ) {
                         $include_quotes[] = $class;
                     }

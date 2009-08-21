@@ -90,7 +90,7 @@ class splitPageResults
         $display_link = '';
         $class = 'class="pageResults"';
 
-        if ( oos_is_not_null($parameters) && (substr($parameters, -5) != '&amp;') ) $parameters .= '&amp;';
+        if ( !empty($parameters) && (substr($parameters, -5) != '&amp;') ) $parameters .= '&amp;';
 
         // calculate number of pages needing links
         $num_pages = intval($query_numrows / $max_rows_per_page);

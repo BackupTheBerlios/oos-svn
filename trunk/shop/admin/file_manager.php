@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: file_manager.php,v 1.38 2002/11/22 14:45:47 dgw_ 
+   File: file_manager.php,v 1.38 2002/11/22 14:45:47 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -85,7 +85,7 @@
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (!empty($action)) {
-    switch ($action) {  
+    switch ($action) {
       case 'reset':
         unset($_SESSION['current_path']);
         oos_redirect_admin(oos_href_link_admin($aFilename['file_manager']));
@@ -178,7 +178,7 @@
     }
   }
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -380,7 +380,7 @@
         }
     }
 
-    if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+    if ( (!empty($heading)) && (!empty($contents) ) ) {
       echo '            <td width="25%" valign="top">' . "\n";
 
       $box = new box;

@@ -88,7 +88,7 @@
   function oos_show_block_to_page($block_id = '', $lang_id = '') {
 
     $select_page_type = '';
-    if (oos_is_not_null($block_id)) {
+    if (!empty($block_id)) {
       if (!$lang_id) $lang_id = $_SESSION['language_id'];
       $type_array = array();
 
@@ -116,7 +116,7 @@
       $block_to_page_array = array();
 
       $block_to_page_typetable = $oostable['block_to_page_type'];
-      $query = "SELECT block_id, page_type_id 
+      $query = "SELECT block_id, page_type_id
                 FROM " . $block_to_page_typetable . "
                 WHERE block_id = '" . $block_id . "'";
       $block_to_page_result =& $dbconn->Execute($query);
@@ -191,7 +191,7 @@
   function oos_info_block_to_page($block_id = '', $lang_id = '') {
 
     $info = '';
-    if (oos_is_not_null($block_id)) {
+    if (!empty($block_id)) {
      if (!$lang_id) $lang_id = $_SESSION['language_id'];
       $type_array = array();
 

@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: split_page_results.php,v 1.11 2002/11/11 21:12:19 hpdl 
+   File: split_page_results.php,v 1.11 2002/11/11 21:12:19 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -62,7 +62,7 @@
 
     function display_links($query_numrows, $max_rows_per_page, $max_page_links, $current_page_number, $parameters = '', $page_name = 'page') {
 
-      if ( oos_is_not_null($parameters) && (substr($parameters, -1) != '&') ) $parameters .= '&';
+      if ( !empty($parameters) && (substr($parameters, -1) != '&') ) $parameters .= '&';
 
       // calculate number of pages needing links
       $num_pages = intval($query_numrows / $max_rows_per_page);

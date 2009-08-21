@@ -70,7 +70,7 @@ class language
     function set($sLang = '')
     {
 
-        if ( (oos_is_not_null($sLang)) && ($this->exists($sLang) === true)) {
+        if ( (!empty($sLang)) && ($this->exists($sLang) === true)) {
             $this->language = $this->get($sLang);
         } else {
             $this->language = $this->get(DEFAULT_LANGUAGE);

@@ -87,7 +87,7 @@
     function quote($method = '') {
       global $oOrder, $aLang, $shipping_weight, $shipping_num_boxes;
 
-      if ( oos_is_not_null($method) && (isset($this->types[$method]) || in_array($method, $this->intl_types)) ) {
+      if ( !empty($method) && (isset($this->types[$method]) || in_array($method, $this->intl_types)) ) {
         $this->_setService($method);
       }
 

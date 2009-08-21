@@ -70,10 +70,10 @@ function smarty_function_tooltip($params, &$smarty)
     } elseif ( (CONFIG_CALCULATE_IMAGE_SIZE == '1') && (empty($width) || empty($height)) ) {
       if (is_readable(OOS_ABSOLUTE_PATH . $image)) {
         $image_size = @getimagesize($image);
-        if (empty($width) && oos_is_not_null($height)) {
+        if (empty($width) && !empty($height)) {
           $ratio = $height / $image_size[1];
           $width = $image_size[0] * $ratio;
-        } elseif (oos_is_not_null($width) && empty($height)) {
+        } elseif (!empty($width) && empty($height)) {
           $ratio = $width / $image_size[0];
           $height = $image_size[1] * $ratio;
         } elseif (empty($width) && empty($height)) {

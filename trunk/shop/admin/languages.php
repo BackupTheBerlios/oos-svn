@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: languages.php,v 1.32 2002/03/17 17:37:51 harley_vb 
+   File: languages.php,v 1.32 2002/03/17 17:37:51 harley_vb
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -97,8 +97,8 @@
                        categories_name,
                        categories_heading_title,
                        categories_description,
-                       categories_description_meta, 
-                       categories_keywords_meta) 
+                       categories_description_meta,
+                       categories_keywords_meta)
                        VALUES ('" . $categories['categories_id'] . "',
                                '" . intval($insert_id) . "',
                                '" . oos_db_input($categories['categories_name']) . "',
@@ -131,7 +131,7 @@
           $coupon_result->MoveNext();
         }
         //customers_status
-        $customers_status_result = $dbconn->Execute("SELECT customers_status_id, customers_status_name, customers_status_image, 
+        $customers_status_result = $dbconn->Execute("SELECT customers_status_id, customers_status_name, customers_status_image,
                                                         customers_status_discount, customers_status_ot_discount_flag,
                                                         customers_status_ot_discount, customers_status_ot_minimum, customers_status_public,
                                                         customers_status_show_price, customers_status_show_price_tax,
@@ -152,7 +152,7 @@
                        customers_status_show_price,
                        customers_status_show_price_tax,
                        customers_status_qty_discounts,
-                       customers_status_payment) 
+                       customers_status_payment)
                        VALUES ('" . $customers_status['customers_status_id'] . "',
                                '" . intval($insert_id) . "',
                                '" . oos_db_input($customers_status['customers_status_name']) . "',
@@ -182,7 +182,7 @@
                       (information_id,
                        information_languages_id,
                        information_name,
-                       information_description) 
+                       information_description)
                        VALUES ('" . $information['information_id'] . "',
                                '" . intval($insert_id) . "',
                                '" . oos_db_input($information['information_name']) . "',
@@ -201,9 +201,9 @@
                                              WHERE mi.manufacturers_languages_id = '" . intval($_SESSION['language_id']) . "'");
         while ($manufacturers = $manufacturers_result->fields) {
           $dbconn->Execute("INSERT INTO " . $oostable['manufacturers_info'] . "
-                      (manufacturers_id, 
+                      (manufacturers_id,
                        manufacturers_languages_id,
-                       manufacturers_url) 
+                       manufacturers_url)
                        VALUES ('" . $manufacturers['manufacturers_id'] . "',
                                '" . intval($insert_id) . "',
                                '" . oos_db_input($manufacturers['manufacturers_url']) . "')");
@@ -240,7 +240,7 @@
                        newsfeed_name,
                        newsfeed_title,
                        newsfeed_description,
-                       newsfeed_languages_id) 
+                       newsfeed_languages_id)
                        VALUES ('" . $newsfeed['newsfeed_id'] . "',
                                '" . $newsfeed['newsfeed_name'] . "',
                                '" . $newsfeed['newsfeed_title'] . "',
@@ -262,7 +262,7 @@
                        news_categories_languages_id,
                        news_categories_name,
                        news_categories_heading_title,
-                       news_categories_description) 
+                       news_categories_description)
                        VALUES ('" . $categories['news_categories_id'] . "',
                                '" . intval($insert_id) . "',
                                '" . oos_db_input($categories['news_categories_name']) . "',
@@ -308,7 +308,7 @@
         }
 
         //products_description
-        $products_result = $dbconn->Execute("SELECT p.products_id, pd.products_name, pd.products_description, pd.products_url 
+        $products_result = $dbconn->Execute("SELECT p.products_id, pd.products_name, pd.products_description, pd.products_url
                                          FROM " . $oostable['products'] . " p LEFT JOIN
                                               " . $oostable['products_description'] . " pd
                                             ON p.products_id = pd.products_id
@@ -319,7 +319,7 @@
                        products_languages_id,
                        products_name,
                        products_description,
-                       products_url) 
+                       products_url)
                        VALUES ('" . $products['products_id'] . "',
                                '" . intval($insert_id) . "',
                                '" . oos_db_input($products['products_name']) . "',
@@ -330,7 +330,7 @@
            $products_result->MoveNext();
         }
          // products_options
-        $products_options_result = $dbconn->Execute("SELECT products_options_id, products_options_name 
+        $products_options_result = $dbconn->Execute("SELECT products_options_id, products_options_name
                                                  FROM " . $oostable['products_options'] . "
                                                 WHERE products_options_languages_id = '" . intval($_SESSION['language_id']) . "'");
         while ($products_options = $products_options_result->fields) {
@@ -346,7 +346,7 @@
            $products_options_result->MoveNext();
         }
         //products_options_values
-        $products_options_values_result = $dbconn->Execute("SELECT products_options_values_id, products_options_values_name 
+        $products_options_values_result = $dbconn->Execute("SELECT products_options_values_id, products_options_values_name
                                                        FROM " . $oostable['products_options_values'] . "
                                                        WHERE products_options_values_languages_id = '" . intval($_SESSION['language_id']) . "'");
         while ($products_options_values = $products_options_values_result->fields) {
@@ -401,7 +401,7 @@
                                              FROM " . $oostable['ticket_admins'] . "
                                              WHERE ticket_languages_id = '" . intval($_SESSION['language_id']) . "'");
         while ($ticket_admin = $ticket_admin_result->fields) {
-          $dbconn->Execute("INSERT INTO " . $oostable['ticket_admins'] . " 
+          $dbconn->Execute("INSERT INTO " . $oostable['ticket_admins'] . "
                       (ticket_admin_id,
                        ticket_languages_id,
                        ticket_admin_name)
@@ -437,7 +437,7 @@
                       (ticket_priority_id,
                        ticket_languages_id,
                        ticket_priority_name)
-                       VALUES ('" . $ticket_priority['ticket_priority_id'] . "', 
+                       VALUES ('" . $ticket_priority['ticket_priority_id'] . "',
                                '" . intval($insert_id) . "',
                                '" . oos_db_input($ticket_priority['ticket_priority_name']) . "')");
 
@@ -454,10 +454,10 @@
                       (ticket_reply_id,
                        ticket_languages_id,
                        ticket_reply_name,
-                       ticket_reply_text) 
+                       ticket_reply_text)
                        VALUES ('" . $ticket_reply['ticket_reply_id'] . "',
                                '" . intval($insert_id) . "',
-                               '" . oos_db_input($ticket_reply['ticket_reply_name']) . "', 
+                               '" . oos_db_input($ticket_reply['ticket_reply_name']) . "',
                                '" . oos_db_input($ticket_reply['ticket_reply_text']) . "')");
 
           // Move that ADOdb pointer!
@@ -486,18 +486,18 @@
         $lID = oos_db_prepare_input($_GET['lID']);
 
         $dbconn->Execute("UPDATE " . $oostable['languages'] . "
-                      SET name = '" . oos_db_input($name) . "', 
+                      SET name = '" . oos_db_input($name) . "',
                       iso_639_2 = '" . oos_db_input($iso_639_2) . "',
                       iso_639_1 = '" . oos_db_input($iso_639_1) . "',
                       sort_order = '" . oos_db_input($sort_order) . "'
                       WHERE languages_id = '" . intval($lID) . "'");
 
         if (isset($_POST['default']) && ($_POST['default'] == 'on')) {
-          $dbconn->Execute("UPDATE " . $oostable['configuration'] . " 
+          $dbconn->Execute("UPDATE " . $oostable['configuration'] . "
                             SET configuration_value = '" . oos_db_input($iso_639_2) . "'
                             WHERE configuration_key = 'DEFAULT_LANGUAGE'");
 
-          $dbconn->Execute("UPDATE " . $oostable['configuration'] . " 
+          $dbconn->Execute("UPDATE " . $oostable['configuration'] . "
                             SET configuration_value = '" . intval($lID) . "'
                             WHERE configuration_key = 'DEFAULT_LANGUAGE_ID'");
 
@@ -510,7 +510,7 @@
 
         $lng_result = $dbconn->Execute("SELECT iso_639_2 FROM " . $oostable['languages'] . " WHERE languages_id = '" . intval($lID) . "'");
         $lng = $lng_result->fields;
- 
+
         $remove_language = true;
         if ($lng['iso_639_2'] == DEFAULT_LANGUAGE) {
           $remove_language = false;
@@ -527,7 +527,7 @@
         $dbconn->Execute("DELETE FROM " . $oostable['information_description']  . " WHERE information_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['manufacturers_info'] . " WHERE manufacturers_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['newsfeed_categories'] . " WHERE newsfeed_categories_languages_id = '" . intval($lID) . "'");
-        $dbconn->Execute("DELETE FROM " . $oostable['newsfeed_info'] . " WHERE newsfeed_languages_id = '" . intval($lID) . "'");     
+        $dbconn->Execute("DELETE FROM " . $oostable['newsfeed_info'] . " WHERE newsfeed_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['news_categories_description'] . " WHERE news_categories_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['orders_status'] . " WHERE orders_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['page_type'] . " WHERE page_type_languages_id = '" . intval($lID) . "'");
@@ -561,7 +561,7 @@
   }
   $lang_select_array = array(array('id' => '0', 'text' => TEXT_ALL_LANGUAGES),
                              array('id' => '1', 'text' => TEXT_ACTIVE_LANGUAGES));
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -611,7 +611,7 @@
       $search ="WHERE status = '" . $status . "'";
     }
   }
-  $languages_result_raw = "SELECT languages_id, name, iso_639_2, iso_639_1, status, sort_order 
+  $languages_result_raw = "SELECT languages_id, name, iso_639_2, iso_639_1, status, sort_order
                           FROM " . $oostable['languages'] . "
                                " . $search . "
                           ORDER BY sort_order";
@@ -724,7 +724,7 @@
       break;
   }
 
-  if ( (oos_is_not_null($heading)) && (oos_is_not_null($contents)) ) {
+  if ( (!empty($heading)) && (!empty($contents) ) ) {
     echo '            <td width="25%" valign="top">' . "\n";
 
     $box = new box;

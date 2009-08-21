@@ -111,7 +111,7 @@ if (!$product_info_result->RecordCount()) {
 
     if (is_dir(OOS_IMAGES . 'zoomify/')) {
         if ($product_info['products_zoomify'] == '') {
-            if (oos_is_not_null($product_info['products_image'])){
+            if (!empty($product_info['products_image'])){
                 $sImage = $product_info['products_image'];
                 $sDir = substr($sImage, 0, strrpos($sImage, '.'));
                 if ( is_readable(OOS_IMAGES . 'zoomify/' .  $sDir  . '/ImageProperties.xml') ) {
