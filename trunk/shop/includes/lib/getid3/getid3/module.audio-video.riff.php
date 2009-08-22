@@ -1368,7 +1368,7 @@ class getid3_riff
 							break;
 
 						default:
-							if (!ereg('^[0-9]{2}(wb|pc|dc|db)$', $chunkname) && !empty($LISTchunkParent) && (($RIFFchunk[$chunkname][$thisindex]['offset'] + $RIFFchunk[$chunkname][$thisindex]['size']) <= $LISTchunkMaxOffset)) {
+							if (!preg_match('^[0-9]{2}(wb|pc|dc|db)$', $chunkname) && !empty($LISTchunkParent) && (($RIFFchunk[$chunkname][$thisindex]['offset'] + $RIFFchunk[$chunkname][$thisindex]['size']) <= $LISTchunkMaxOffset)) {
 								$RIFFchunk[$LISTchunkParent][$chunkname][$thisindex]['offset'] = $RIFFchunk[$chunkname][$thisindex]['offset'];
 								$RIFFchunk[$LISTchunkParent][$chunkname][$thisindex]['size']   = $RIFFchunk[$chunkname][$thisindex]['size'];
 								unset($RIFFchunk[$chunkname][$thisindex]['offset']);

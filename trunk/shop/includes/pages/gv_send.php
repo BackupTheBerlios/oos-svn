@@ -62,7 +62,7 @@ if ($action == 'send') {
     $gv_amount = trim($amount);
 
 
-    if (ereg('[^0-9/.]', $gv_amount)) {
+    if (preg_match('/[^0-9/.]/', $gv_amount)) {
         $error = '1';
         $error_amount = $aLang['error_entry_amount_check'];
     }

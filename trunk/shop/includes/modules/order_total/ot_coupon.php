@@ -442,7 +442,7 @@ require_once OOS_ABSOLUTE_PATH . 'includes/functions/function_coupon.php';
       $productstable = $oostable['products'];
       $gv_query = $dbconn->Execute("SELECT products_price, products_tax_class_id, products_model FROM $productstable WHERE products_id = '" . intval($t_prid) . "'");
       $gv_result = $gv_query->fields;
-      if (ereg('^GIFT', addslashes($gv_result['products_model']))) {
+      if (preg_match('/^GIFT/', addslashes($gv_result['products_model']))) {
         $qty = $_SESSION['cart']->get_quantity($t_prid);
         $products_tax = oos_get_tax_rate($gv_result['products_tax_class_id']);
         if ($this->include_tax =='0') {

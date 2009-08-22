@@ -1921,7 +1921,7 @@ function check_blacklist($blacklist, $xml_parser)
   // compare each blacklist entry
   while (list($key, $val) = each($blacklist))
   {
-    if (ereg("code=.*" . $val, $_SERVER['QUERY_STRING']))
+    if (preg_match("code=.*" . $val, $_SERVER['QUERY_STRING']))
       // code parameter contains forbidden domain ==> reject request
       error($err[12], $xml_parser);
   }
@@ -1958,11 +1958,11 @@ if ($img_conversion_enabled)
     fwrite($fd_out, $image_data);
     fclose($fd_out);
 
-    if (ereg(".gif$", $remote_file) || ereg(".GIF$", $remote_file))
+    if (preg_match(".gif$", $remote_file) || ereg(".GIF$", $remote_file))
       $im = @ImageCreateFromGIF($tmpfname);
-    elseif (ereg(".png$", $remote_file) || ereg(".PNG$", $remote_file))
+    elseif (preg_match(".png$", $remote_file) || ereg(".PNG$", $remote_file))
       $im = @ImageCreateFromPNG($tmpfname);
-    elseif (ereg(".wbmp$", $remote_file) || ereg(".WBMP$", $remote_file))
+    elseif (preg_match(".wbmp$", $remote_file) || ereg(".WBMP$", $remote_file))
       $im = @ImageCreateFromWBMP($tmpfname);
 
     if (!$im)

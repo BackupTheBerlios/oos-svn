@@ -1596,10 +1596,10 @@ class HAW_deck
     $repeat_dtmf  = (string) $repeat_dtmf;
     $forward_dtmf = (string) $forward_dtmf;
  
-    if (!ereg("^[0-9#\*]$", $repeat_dtmf) && !$repeat_voice)
+    if (!preg_match("/^[0-9#\*]$/", $repeat_dtmf) && !$repeat_voice)
       die("at least one repeat indication required in set_voice_navigator()");
 
-    if (!ereg("^[0-9#\*]$", $forward_dtmf) && !$forward_voice)
+    if (!preg_match("/^[0-9#\*]$/", $forward_dtmf) && !$forward_voice)
       die("at least one forward indication required in set_voice_navigator()");
 
     $this->voice_navigator["repeat_dtmf"]   = $repeat_dtmf;
@@ -5709,7 +5709,7 @@ class HAW_link
   */
   function set_voice_dtmf($key)
   {
-    if (!ereg("[0-9#\*]", $key))
+    if (!preg_match("/[0-9#\*]/", $key))
       die("invalid argument in set_voice_dtmf()");
 
     $this->set_accesskey($key);
@@ -6061,7 +6061,7 @@ class HAW_phone
   */
   function set_voice_dtmf($key)
   {
-    if (!ereg("[0-9#\*]", $key))
+    if (!preg_match("/[0-9#\*]/", $key))
       die("invalid argument in set_voice_dtmf()");
 
     $this->accesskey = $key;

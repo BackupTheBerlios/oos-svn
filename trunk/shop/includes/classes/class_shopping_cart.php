@@ -557,7 +557,7 @@ class shoppingCart
             $product_result = $dbconn->Execute($product_sql);
             if ($product = $product_result->fields) {
                 $no_count = 1;
-                if (ereg('^GIFT', $product['products_model'])) {
+                if (preg_match('/^GIFT/', $product['products_model'])) {
                     $no_count = 0;
                 }
 
@@ -912,7 +912,7 @@ class shoppingCart
                 $sql = "SELECT products_model FROM $productstable WHERE products_id = '" . intval($products_id) . "'";
                 $gv_result  = $dbconn->GetRow($sql);
 
-                if (ereg('^GIFT', $gv_result['products_model'])) {
+                if (preg_match('/^GIFT/', $gv_result['products_model'])) {
                     $no_count = true;
                 }
                 if (NO_COUNT_ZERO_WEIGHT == 1) {

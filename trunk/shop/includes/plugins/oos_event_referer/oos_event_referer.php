@@ -82,7 +82,7 @@
      * HTTP_HOST is anywhere in HTTP_REFERER. This is so we dont log hits coming
      * from our own domain.
      */
-      if (!ereg("$httphost", $httpreferer)) {
+      if (!preg_match("/$httphost/", $httpreferer)) {
         if ($httpreferer == '' ) {
           $httpreferer = 'Bookmark';
         }

@@ -68,7 +68,7 @@ $listing_sql = "SELECT p.products_id, p.products_model, p.products_image, p.prod
                   AND pm.master_id = '" . intval($nProductsId) . "'";
 
 
- if ( (!isset($_GET['sort'])) || (!ereg('[1-8][ad]', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($column_list)) ) {
+ if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-8][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($column_list)) ) {
     $col = 0;
     $_GET['sort'] = $col+1 . 'a';
     $listing_sql .= " ORDER BY pd.products_name";

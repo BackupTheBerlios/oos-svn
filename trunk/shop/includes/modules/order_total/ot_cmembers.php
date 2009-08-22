@@ -102,7 +102,7 @@
       $gv_result = $dbconn->GetRow($query);
 
 
-      if (ereg('^GIFT', addslashes($gv_result['products_model']))) {
+      if (preg_match('/^GIFT/', addslashes($gv_result['products_model']))) {
         $qty = $_SESSION['cart']->get_quantity($t_prid);
         $products_tax = oos_get_tax_rate($gv_result['products_tax_class_id']);
         if ($this->include_tax =='0') {

@@ -99,7 +99,7 @@ require_once OOS_ABSOLUTE_PATH . 'includes/functions/function_coupon.php';
       $dbconn =& oosDBGetConn();
       $oostable =& oosDBGetTables();
 
-      if (ereg('^GIFT', addslashes($oOrder->products[$i]['model']))) {
+      if (preg_match('/^GIFT/', addslashes($oOrder->products[$i]['model']))) {
         $gv_order_amount = ($oOrder->products[$i]['final_price'] * $oOrder->products[$i]['qty']);
         if ($this->credit_tax=='1') $gv_order_amount = $gv_order_amount * (100 + $oOrder->products[$i]['tax']) / 100;
         $gv_order_amount = $gv_order_amount * 100 / 100;

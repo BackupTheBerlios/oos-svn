@@ -298,7 +298,7 @@ if (count(get_included_files()) < 2) {
       $where_str .= " GROUP BY p.products_id, tr.tax_priority";
     }
 
-    if ( (!isset($_GET['sort'])) || (!ereg('[1-8][ad]', $_GET['sort'])) || (substr($_GET['sort'], 0 , 1) > count($column_list)) ) {
+    if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-8][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0 , 1) > count($column_list)) ) {
 // Todo check $col = 1
        $col = 0;
        $_GET['sort'] = $col+1 . 'a';
