@@ -35,7 +35,7 @@
       return $source;
     }
 
-    if (eregi(oos_server_get_var('HTTP_HOST'), oos_server_get_var('HTTP_REFERER'))) {
+    if (preg_match(oos_server_get_var('HTTP_HOST'), oos_server_get_var('HTTP_REFERER'))) {
       if (!isset($highlight) || empty($highlight)) {
         return $source;
       }

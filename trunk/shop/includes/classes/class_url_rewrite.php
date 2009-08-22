@@ -59,7 +59,7 @@ class url_rewrite{
                       unset($category);
                       $category = '';
                       $i++;
-                      if(eregi('[_0-9]', $url_array[$i])){
+                      if(preg_match('/[_0-9]/', $url_array[$i])){
                           if($category_array = explode('_', $url_array[$i])){
                               foreach($category_array as $value){
                                   $categoriestable = $oostable['categories'];

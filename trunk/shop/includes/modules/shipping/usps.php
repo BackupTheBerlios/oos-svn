@@ -290,10 +290,10 @@
       $rates = array();
       if ($oOrder->delivery['country']['id'] == STORE_COUNTRY) {
         if (count($response) == '1') {
-          if (ereg('<Error>', $response[0])) {
-            $number = ereg('<Number>(.*)</Number>', $response[0], $regs);
+          if (preg_match('<Error>', $response[0])) {
+            $number = preg_match('<Number>(.*)</Number>', $response[0], $regs);
             $number = $regs[1];
-            $description = ereg('<Description>(.*)</Description>', $response[0], $regs);
+            $description = preg_match('<Description>(.*)</Description>', $response[0], $regs);
             $description = $regs[1];
 
             return array('error' => $number . ' - ' . $description);
@@ -303,19 +303,19 @@
         $n = count($response);
         for ($i=0; $i<$n; $i++) {
           if (strpos($response[$i], '<Postage>')) {
-            $service = ereg('<Service>(.*)</Service>', $response[$i], $regs);
+            $service = preg_match('<Service>(.*)</Service>', $response[$i], $regs);
             $service = $regs[1];
-            $postage = ereg('<Postage>(.*)</Postage>', $response[$i], $regs);
+            $postage = preg_match('<Postage>(.*)</Postage>', $response[$i], $regs);
             $postage = $regs[1];
 
             $rates[] = array($service => $postage);
           }
         }
       } else {
-        if (ereg('<Error>', $response[0])) {
-          $number = ereg('<Number>(.*)</Number>', $response[0], $regs);
+        if (preg_match('<Error>', $response[0])) {
+          $number = preg_match('<Number>(.*)</Number>', $response[0], $regs);
           $number = $regs[1];
-          $description = ereg('<Description>(.*)</Description>', $response[0], $regs);
+          $description = preg_match('<Description>(.*)</Description>', $response[0], $regs);
           $description = $regs[1];
 
           return array('error' => $number . ' - ' . $description);
@@ -336,9 +336,9 @@
           $size = count($services);
           for ($i=0, $n=$size; $i<$n; $i++) {
             if (strpos($services[$i], '<Postage>')) {
-              $service = ereg('<SvcDescription>(.*)</SvcDescription>', $services[$i], $regs);
+              $service = preg_match('<SvcDescription>(.*)</SvcDescription>', $services[$i], $regs);
               $service = $regs[1];
-              $postage = ereg('<Postage>(.*)</Postage>', $services[$i], $regs);
+              $postage = preg_match('<Postage>(.*)</Postage>', $services[$i], $regs);
               $postage = $regs[1];
 
               if (isset($this->service) && ($service != $this->service) ) {

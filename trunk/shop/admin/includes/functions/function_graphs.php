@@ -9,14 +9,14 @@
    ----------------------------------------------------------------------
    BASed on:
 
-   File: html_graphs.php,v 1.6 2002/11/25 10:56:23 dgw_ 
+   File: html_graphs.php,v 1.6 2002/11/25 10:56:23 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
 
    Copyright (c) 2003 osCommerce
    ----------------------------------------------------------------------
-   HTML_Graphs (v1.5 1998/11/05 06:15:52) by Phil Davis, 
+   HTML_Graphs (v1.5 1998/11/05 06:15:52) by Phil Davis,
    http://www.pobox.com/~pdavis/
    ----------------------------------------------------------------------
    Released under the GNU General Public License
@@ -30,7 +30,7 @@
   *
   * @link http://www.pobox.com/~pdavis/
   * @package html output
-  * @version (v1.5 1998/11/05 06:15:52) by Phil Davis, 
+  * @version (v1.5 1998/11/05 06:15:52) by Phil Davis,
   */
 
 
@@ -67,7 +67,7 @@
     $html_graph_string .= end_graph();
 
     // Set the error level back to where it was.
-    error_reporting($er);  
+    error_reporting($er);
 
     return $html_graph_string;
   }
@@ -125,12 +125,12 @@
     if ( ($vals['vlabel']) || ($vals['hlabel']) ) {
       if ( ($vals['type'] == 0) || ($vals['type'] == 2) ) {
         // horizontal chart
-        $rowspan = count($names) + 1; 
-        $colspan = 3; 
+        $rowspan = count($names) + 1;
+        $colspan = 3;
       } elseif ( ($vals['type'] == 1) || ($vals['type'] == 3) ) {
         // vertical chart
         $rowspan = 3;
-        $colspan = count($names) + 1; 
+        $colspan = count($names) + 1;
       }
 
       $start_graph_string .= '  <tr>' . "\n" .
@@ -200,14 +200,14 @@
   function horizontal_graph($names, $values, $bars, $vals) {
     $horizontal_graph_string = '';
 
-    for($i = 0, $n = count($values); $i < $n; $i++) { 
+    for($i = 0, $n = count($values); $i < $n; $i++) {
       $horizontal_graph_string .= '  <tr>' . "\n" .
                                   '    <td align="right"';
       // if a background was choosen don't print cell BGCOLOR
       if (!$vals['background']) $horizontal_graph_string .= ' bgcolor="' . $vals['namebgcolor'] . '"';
 
       $horizontal_graph_string .= '><font size="-1" color="' . $vals['namefcolor'] . '" style="' . $vals['namefstyle'] . '">' . $names[$i] . '</font></td>' . "\n" .
-                                  '    <td'; 
+                                  '    <td';
 
       // if a background was choosen don't print cell BGCOLOR
       if (!$vals['background']) $horizontal_graph_string .= ' bgcolor="' . $vals['valuebgcolor'] . '"';
@@ -215,7 +215,7 @@
       $horizontal_graph_string .= '>';
 
       // decide if the value in bar is a color code or image.
-      if (ereg('^#', $bars[$i])) { 
+      if (preg_match('/^#/', $bars[$i])) {
         $horizontal_graph_string .= '<table cellpadding="0" cellspacing="0" bgcolor="' . $bars[$i] . '" width="' . ($values[$i] * $vals['scale']) . '">' . "\n" .
                                     '  <tr>' . "\n" .
                                     '    <td>&nbsp;</td>' . "\n" .
@@ -263,17 +263,17 @@
 
       $vertical_graph_string .= '<img src="' . $bars[$i] . '" width="5" height="';
 
-      // values of zero are displayed wrong because a image height of zero 
-      // gives a strange behavior in Netscape. For this reason the height 
+      // values of zero are displayed wrong because a image height of zero
+      // gives a strange behavior in Netscape. For this reason the height
       // is set at 1 pixel if the value is zero. - Jan Diepens
       if ($values[$i] != 0) {
         $vertical_graph_string .= $values[$i] * $vals['scale'];
       } else {
         $vertical_graph_string .= '1';
-      } 
+      }
 
       $vertical_graph_string .= '"></td>' . "\n";
-    } 
+    }
 
     $vertical_graph_string .= '  </tr>' . "\n" .
                               '  <tr>' . "\n";
@@ -324,7 +324,7 @@
                                          '        <td';
 
       // set background to a color if it starts with # or an image otherwise.
-      if (ereg('^#', $dbars[$i])) {
+      if (preg_match('/^#/', $dbars[$i])) {
         $double_horizontal_graph_string .= ' bgcolor="' . $dbars[$i] . '">';
       } else {
         $double_horizontal_graph_string .= ' background="' . $dbars[$i] . '">';
@@ -333,7 +333,7 @@
       $double_horizontal_graph_string .= '<nowrap>';
 
       // decide if the value in bar is a color code or image.
-      if (ereg('^#', $bars[$i])) { 
+      if (preg_match('/^#/', $bars[$i])) {
         $double_horizontal_graph_string .= '<table align="left" cellpadding="0" cellspacing="0" bgcolor="' . $bars[$i] . '" width="' . ($values[$i] * $vals['scale']) . '">' . "\n" .
                                            '  <tr>' . "\n" .
                                            '    <td>&nbsp;</td>' . "\n" .
@@ -460,7 +460,7 @@
     $query = "SELECT dayofmonth(banners_history_date) as name,
                      banners_shown as value, banners_clicked as dvalue
               FROM " . $oostable['banners_history'] . "
-              WHERE banners_id = '" . $banner_id . "' 
+              WHERE banners_id = '" . $banner_id . "'
                 AND to_days(now()) - to_days(banners_history_date) < " . $days . "
               ORDER BY banners_history_date";
     $result =& $dbconn->Execute($query);
@@ -679,7 +679,7 @@
 
     $query = "SELECT dayofmonth(banners_history_date) as banner_day,
                      banners_shown as value, banners_clicked as dvalue
-              FROM " . $oostable['banners_history'] . " 
+              FROM " . $oostable['banners_history'] . "
               WHERE banners_id = '" . $banner_id . "'
                 AND month(banners_history_date) = '" . $month . "'
                 AND year(banners_history_date) = '" . $year . "'";

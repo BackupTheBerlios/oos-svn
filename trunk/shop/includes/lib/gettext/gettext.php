@@ -291,7 +291,7 @@ class gettext_reader {
 				$header = $this->get_translation_string(0);
 			}
 			$header .= "\n"; //make sure our regex matches
-			if (eregi("plural-forms: ([^\n]*)\n", $header, $regs))
+			if (preg_match("plural-forms: ([^\n]*)\n", $header, $regs))
 				$expr = $regs[1];
 			else
 				$expr = "nplurals=2; plural=n == 1 ? 0 : 1;";

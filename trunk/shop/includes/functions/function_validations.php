@@ -81,7 +81,7 @@
               // Allow all 2-letter TLDs (ccTLDs)
               if (eregi('^[a-z][a-z]$', $top_level_domain) != 1) {
                 $sTld = get_all_top_level_domains();
-                if (eregi("$sTld", $top_level_domain) == 0) {
+                if (preg_match("/".$sTld."/i", $top_level_domain) == 0) {
                   $bValidAddress = false;
                 }
               }

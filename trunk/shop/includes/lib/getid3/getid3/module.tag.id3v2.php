@@ -461,7 +461,7 @@ class getid3_id3v2
 				$unprocessed = substr($unprocessed, $endpos + 1);
 			}
 			unset($unprocessed);
-        } elseif (eregi('^([0-9]+|CR|RX)$', $genrestring)) {
+        } elseif (preg_match('/^([0-9]+|CR|RX)$/i', $genrestring)) {
         	// some tagging program (including some that use TagLib) fail to include null byte after numeric genre
 			$genrestring = '('.$genrestring.')';
         }

@@ -80,7 +80,7 @@
 
   if (!is_dir($_SESSION['current_path'])) $_SESSION['current_path'] = OOS_FILE_MANAGER_ROOT_PATH;
 
-  if (!ereg('^' . OOS_FILE_MANAGER_ROOT_PATH, $_SESSION['current_path'])) $_SESSION['current_path'] = OOS_FILE_MANAGER_ROOT_PATH;
+  if (!preg_match('^' . OOS_FILE_MANAGER_ROOT_PATH, $_SESSION['current_path'])) $_SESSION['current_path'] = OOS_FILE_MANAGER_ROOT_PATH;
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 

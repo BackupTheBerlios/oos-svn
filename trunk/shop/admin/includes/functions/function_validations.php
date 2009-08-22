@@ -57,22 +57,22 @@
   function oos_validate_email($email) {
     $valid_address = true;
 
-    $mail_pat = '^(.+)@(.+)$';
-    $valid_chars = "[^] \(\)<>@,;:\.\\\"\[]";
+    $mail_pat = '/^(.+)@(.+)$/i';
+    $valid_chars = "/[^] \(\)<>@,;:\.\\\"\[]/i";
     $atom = "$valid_chars+";
-    $quoted_user='(\"[^\"]*\")';
+    $quoted_user='/(\"[^\"]*\")/i';
     $word = "($atom|$quoted_user)";
     $user_pat = "^$word(\.$word)*$";
     $ip_domain_pat='^\[([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\]$';
     $domain_pat = "^$atom(\.$atom)*$";
 
-    if (eregi($mail_pat, $email, $components)) {
+    if (preg_match($mail_pat, $email, $components)) {
       $user = $components[1];
       $domain = $components[2];
       // validate user
-      if (eregi($user_pat, $user)) {
+      if (preg_match($user_pat, $user)) {
         // validate domain
-        if (eregi($ip_domain_pat, $domain, $ip_components)) {
+        if (preg_match($ip_domain_pat, $domain, $ip_components)) {
           // this is an IP address
       	  for ($i=1;$i<=4;$i++) {
       	    if ($ip_components[$i] > 255) {
@@ -92,7 +92,7 @@
             } else {
               $top_level_domain = strtolower($domain_components[count($domain_components)-1]);
               // Allow all 2-letter TLDs (ccTLDs)
-              if (eregi('^[a-z][a-z]$', $top_level_domain) != 1) {
+              if (preg_match('/^[a-z][a-z]$/', $top_level_domain) != 1) {
                 $sTld = get_all_top_level_domains();
                 if (eregi("$sTld", $top_level_domain) == 0) {
                   $bValidAddress = false;
@@ -131,5 +131,3 @@
  function get_all_top_level_domains() {
    return '^com$|^edu$|^net$|^org$|^gov$|^mil$|^int$|^biz$|^info$|^name$|^pro$|^aero$|^coop$|^museum$';
  }
-
-?>

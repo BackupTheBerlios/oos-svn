@@ -1148,7 +1148,7 @@ class getid3_riff
 			switch ($chunkname) {
 				case 'LIST':
 					$listname = fread($fd, 4);
-					if (eregi('^(movi|rec )$', $listname)) {
+					if (preg_match('/^(movi|rec )$/i', $listname)) {
 						$RIFFchunk[$listname]['offset'] = ftell($fd) - 4;
 						$RIFFchunk[$listname]['size']   = $chunksize;
 
@@ -1234,7 +1234,7 @@ class getid3_riff
 					break;
 
 				default:
-					if (eregi('^[0-9]{2}(wb|pc|dc|db)$', $chunkname)) {
+					if (preg_match('/^[0-9]{2}(wb|pc|dc|db)$/i', $chunkname)) {
 						$nextoffset = ftell($fd) + $chunksize;
 						if (($nextoffset < 0) || ($nextoffset >= pow(2, 31))) {
 							$ThisFileInfo['warning'][] = 'Unable to parse chunk at offset '.$nextoffset.' because beyond 2GB limit of PHP filesystem functions';
