@@ -1001,7 +1001,7 @@
   */
   function oos_get_extension($filename) {
     $filename  = strtolower($filename);
-    $extension = split("[/\\.]", $filename);
+    $extension = preg_split("/[/\\.]/", $filename);
     $n = count($extension)-1;
     $extension = $extension[$n];
 

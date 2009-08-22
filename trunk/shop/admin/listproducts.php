@@ -48,14 +48,14 @@ td {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: xx-small}
    $get_result = $coupon_get->fields;
 
     echo "<tr><th>Product ID</th><th>Product Name</th><th>Product Size</th></tr><tr>";
-    $pr_ids = split("[,]", $get_result['restrict_to_products']);
+    $pr_ids = preg_split("/[,]/", $get_result['restrict_to_products']);
     for ($i = 0; $i < count($pr_ids); $i++) {
-      $sql = "SELECT 
+      $sql = "SELECT
                 p.products_id, p.products_model, p.products_status, pd.products_name
-            FROM 
-                " . $oostable['products'] . " p, 
-                " . $oostable['products_description'] . " pd 
-            WHERE 
+            FROM
+                " . $oostable['products'] . " p,
+                " . $oostable['products_description'] . " pd
+            WHERE
                 p.products_status >= '1' AND
                 pd.products_id = p.products_id AND
                 pd.products_languages_id = '" . intval($_SESSION['language_id']) . "'
