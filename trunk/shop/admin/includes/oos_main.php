@@ -81,12 +81,12 @@ require '../includes/functions/function_server.php';
 
 /*
 TODO Remove
+*/
 if (isset($_POST)) {
     foreach ($_POST as $key=>$value) {
       $$key = oos_prepare_input($value);
     }
 }
-*/
 
 
 // define how the session functions will be used

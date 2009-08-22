@@ -62,18 +62,18 @@
         //check if payment method is cod. If yes, check if cod is possible.
         if ($_SESSION['payment'] == 'cod') {
           //process installed shipping modules
-          if ($_SESSION['shipping']['id'] == 'flat_flat') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_FLAT);
-          if ($_SESSION['shipping']['id'] == 'item_item') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_ITEM);
-          if ($_SESSION['shipping']['id'] == 'table_table') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_TABLE);
-          if ($_SESSION['shipping']['id'] == 'zones_zones') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_ZONES);
-          if ($_SESSION['shipping']['id'] == 'ap_ap') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_AP);
-          if ($_SESSION['shipping']['id'] == 'dp_dp') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_DP);
-          if ($_SESSION['shipping']['id'] == 'chp_ECO') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_CHP);
-          if ($_SESSION['shipping']['id'] == 'chp_PRI') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_CHP);
-          if ($_SESSION['shipping']['id'] == 'chp_URG') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_CHP);
-          if ($_SESSION['shipping']['id'] == 'certifiedmail_certifiedmail') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_CERTIFIEDMAIL);
-          if ($_SESSION['shipping']['id'] == 'hermes_hermes') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_HERMES);
-          if ($_SESSION['shipping']['id'] == 'free_free') $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_FREE);
+          if ($_SESSION['shipping']['id'] == 'flat_flat') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_FLAT);
+          if ($_SESSION['shipping']['id'] == 'item_item') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_ITEM);
+          if ($_SESSION['shipping']['id'] == 'table_table') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_TABLE);
+          if ($_SESSION['shipping']['id'] == 'zones_zones') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_ZONES);
+          if ($_SESSION['shipping']['id'] == 'ap_ap') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_AP);
+          if ($_SESSION['shipping']['id'] == 'dp_dp') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_DP);
+          if ($_SESSION['shipping']['id'] == 'chp_ECO') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_CHP);
+          if ($_SESSION['shipping']['id'] == 'chp_PRI') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_CHP);
+          if ($_SESSION['shipping']['id'] == 'chp_URG') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_CHP);
+          if ($_SESSION['shipping']['id'] == 'certifiedmail_certifiedmail') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_CERTIFIEDMAIL);
+          if ($_SESSION['shipping']['id'] == 'hermes_hermes') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_HERMES);
+          if ($_SESSION['shipping']['id'] == 'free_free') $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_FREE);
 
 
           $nArrayCountCodZones = count($cod_zones);

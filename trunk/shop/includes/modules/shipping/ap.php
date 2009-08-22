@@ -101,7 +101,7 @@
 
       for ($i=1; $i<=$this->num_ap; $i++) {
         $countries_table = constant('MODULE_SHIPPING_AP_COUNTRIES_' . $i);
-        $country_zones = split("[,]", $countries_table);
+        $country_zones = preg_split("/[,]/", $countries_table);
         if (in_array($dest_country, $country_zones)) {
           $dest_zone = $i;
           break;
@@ -114,7 +114,7 @@
         $shipping = -1;
         $ap_cost = constant('MODULE_SHIPPING_AP_COST_' . $i);
 
-        $ap_table = split("[:,]" , $ap_cost);
+        $ap_table = preg_split("/[:,]/" , $ap_cost);
         for ($i=0; $i<count($ap_table); $i+=2) {
           if ($shipping_weight <= $ap_table[$i]) {
             $shipping = $ap_table[$i+1];

@@ -66,7 +66,7 @@
     $sSearch = trim(strtolower($sSearch));
 
     // Break up $sSearch on whitespace; quoted string will be reconstructed later
-    $pieces = split('[[:space:]]+', $sSearch);
+    $pieces = preg_split('/[[:space:]]+/', $sSearch);
     $objects = array();
     $tmpstring = '';
     $flag = '';
