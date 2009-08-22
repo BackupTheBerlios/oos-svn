@@ -126,7 +126,7 @@ class language
         if (!empty($httpAcceptLanguage)) {
             foreach (explode(',', $httpAcceptLanguage) as $code) {
                  foreach ($browser_languages as $key => $value) {
-                   if (eregi('^(' . $value . ')(;q=[0-9]\\.[0-9])?$', $code) && $this->exists($key)) {
+                   if (preg_match('/^(' . $value . ')(;q=[0-9]\\.[0-9])?$/', $code) && $this->exists($key)) {
                          $this->set($key);
                          return true;
                      }

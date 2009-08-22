@@ -209,7 +209,7 @@ if ($category_depth == 'nested') {
     $nPageType = OOS_PAGE_TYPE_CATALOG;
 
     $nManufacturersID = isset($_GET['manufacturers_id']) ? $_GET['manufacturers_id']+0 : 0;
-    $nPage = isset($_GET['page']) ? $_GET['page']+0 : 1;
+    $nNV = isset($_GET['nv']) ? $_GET['nv']+0 : 1;
     $nFilterID = intval($_GET['filter_id']) ? $_GET['filter_id']+0 : 0;
     $sSort = oos_var_prep_for_os($_GET['sort']);
 
@@ -426,7 +426,7 @@ if ($category_depth == 'nested') {
                               ORDER BY m.manufacturers_name";
         }
 
-        if ( (!isset($_GET['sort'])) || (!ereg('[1-8][ad]', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($aColumnList)) ) {
+        if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-8][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($aColumnList)) ) {
           $_GET['sort'] = 'products_sort_order';
           $listing_sql .= " ORDER BY p.products_sort_order, pd.products_name";
         } else {
