@@ -52,6 +52,11 @@ http://base.google.de/base/help/attributes.html
   $ttl = 30; //Time to expiration in days minimum 30 max 90
   $payment_accepted = array('Bar', 'Scheck'); //  Zulässige Werte:  Bargeld ,  Scheck ,  GoogleCheckout ,  Visa ,  MasterCard ,  AmericanExpress ,  Lastschrift  und  Überweisung .
 
+// http://base.google.de/support/bin/answer.py?hl=de&answer=107800
+  $sVersandLand = 'DE';
+  $sVersandService = 'DHL 2 Tage';
+  $sVersandPreis = '4.80';
+
 
 //GOOGLE SPECIFIC Settings
   $dryrun = false; //whether or not execute actual upload to both or stop at file generation
@@ -189,24 +194,7 @@ http://base.google.de/base/help/attributes.html
                  $products_description = trim($products_description);
                  $products_description = strip_tags($products_description);
                  $products_description = utf8_encode($products_description);
-/*
-               $output.='      <item>'."\n";
-               $output.='            <title>' . xmlentities(strip_tags($products['products_name']). " - " . $products['products_model']) . '</title>'."\n";
-               $output.='            <description>' . xmlentities($products_description) . '</description>'."\n";
-               $output.='            <link>' .  xmlentities($product_url . $products['products_id']) . '</link>'."\n";
-               $output.='            <g:image_link>' . urlencode($image_url . $products['products_image']) . '</g:image_link>'."\n";
-               $output.='            <guid isPermaLink="false">' . xmlentities($site_url.$products['products_id']) . '</guid>'."\n";
-               $output.='            <g:expiration_date>' . get_iso_8601_date(time() + ($ttl * 24 * 60 * 60)).'</g:expiration_date>'."\n";
-               $output.='            <g:currency>' . $currency . '</g:currency>'."\n";
-               $output.='            <g:price>' . $price . '</g:price>'."\n";
-               $output.='            <g:upc>' . $products['products_model'] . '</g:upc>'."\n";
-               $output.='            <g:quantity>' . $products['products_quantity'].'</g:quantity>'."\n";
-               foreach($payment_accepted as $key=>$value){
-                 $output.='            <g:payment_accepted>'.utf8_encode($value).'</g:payment_accepted>'."\n";
-               }
-               $output.='            <g:location>'.xmlentities($location_address.', '.$location_city.', '.$location_state.', '.$location_zip.', '.$location_country).'</g:location>'."\n";
-               $output.='      </item>'."\n";
-*/
+
 
                  $output.='      <item>'."\n";
                  $output.='            <title>' . xmlentities(utf8_encode(strip_tags(utf8_encode($products['products_name'])))) . '</title>'."\n";
@@ -225,6 +213,16 @@ http://base.google.de/base/help/attributes.html
                  }
                  $output.='            <g:zahlungsrichtlinien>Lokale Bestellungen nur gegen Barzahlung</g:zahlungsrichtlinien>'."\n";
                  $output.='            <g:standort>'.xmlentities($location_address).'</g:standort>'."\n";
+
+
+
+               $output.='            <g:versand>'."\n";
+               $output.='                <g:land>'.xmlentities($sVersandLand).'</g:land>'."\n";
+               $output.='                <g:region></g:region>'."\n";
+               $output.='                <g:service>'.xmlentities($sVersandService).'</g:service>'."\n";
+               $output.='                <g:preis>'.xmlentities($sVersandPreis).'</g:preis>'."\n";
+               $output.='            </g:versand>'."\n";
+
                  $output.='      </item>'."\n";
                }
                $products_result->MoveNext();

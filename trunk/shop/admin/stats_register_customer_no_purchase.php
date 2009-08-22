@@ -59,22 +59,19 @@
   $orders_productstable = $oostable['orders_products'];
   $orderstable = $oostable['orders'];
   $customers_sql_raw = "SELECT c.customers_firstname, c.customers_lastname
-                          FROM customerstable c
+                          FROM $customerstable c
                           WHERE c.customers_id NOT IN ( SELECT distinct(o.customers_id) FROM $orderstable o )
                           ORDER BY c.customers_lastname, c.customers_firstname DESC";
-
-
   $customers_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $customers_sql_raw, $customers_result_numrows);
+
 // fix counted customers
   $customerstable = $oostable['customers'];
   $orderstable = $oostable['orders'];
-  $customers_result_numrows = $dbconn->Execute("SELECT customers_id
-                                                FROM $orderstable
-                                               GROUP BY customers_id");
   $customers_result_numrows = $dbconn->Execute("SELECT c.customers_id
-                                                FROM customerstable c
-                                                WHERE c.customers_id NOT IN ( SELECT distinct(o.customers_id) FROM orderstable o )");
+                                                FROM $customerstable c
+                                                WHERE c.customers_id NOT IN ( SELECT distinct(o.customers_id) FROM $orderstable o )");
   $customers_result_numrows = $customers_result_numrows->RecordCount();
+
 
   $customers_result = $dbconn->Execute($customers_sql_raw);
   while ($customers = $customers_result->fields) {
@@ -94,8 +91,6 @@
     $customers_result->MoveNext();
   }
 
-  // Close result set
-  $customers_result->Close();
 ?>
             </table></td>
           </tr>
