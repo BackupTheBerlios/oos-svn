@@ -1,0 +1,51 @@
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td>{$oosPageHeading}</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+{if $smarty.get.action eq 'success'}
+      <tr>
+        <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+          <tr>
+            <td class="main"><img src="{$theme_image}/table_background_man_on_board.gif" border="0" alt="{$oos_heading_title}" align="left">{$lang.text_success}</td>
+          </tr>
+          <tr>
+            <td align="right"><br /><a href="{html_href_link page=$pages.main}">{html_image_button image="continue.gif" alt=$lang.image_button_continue}</a></td>
+          </tr>
+        </table></td>
+      </tr>
+{else}
+      <tr>
+        <td>
+<form name="contact_us" action="{html_get_link}" method="post">
+    <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+    <input type="hidden" name="formid" value="{$formid}">
+    <input type="hidden" name="action" value="send">
+    <input type="hidden" name="page" value="{$pages.contact_us}">
+
+	<table border="0" width="100%" cellspacing="0" cellpadding="2">
+          <tr>
+            <td class="main">{$lang.entry_name}<br /><input type="text" name="name" value="{$smarty.post.name}" size=40></td>
+          </tr>
+          <tr>
+            <td class="main">{$lang.entry_email}<br /><input type="text" name="email" value="{$smarty.post.email}" size=40> {if $error eq '1'}{$lang.entry_email_address_check_error}{/if}</td>
+          </tr>
+          <tr>
+            <td class="main">{$lang.entry_enquiry}</td>
+          </tr>
+          <tr>
+            <td>
+<br />
+<textarea id="tal" name="enquiry" class="textarea">{$smarty.post.enquiry|stripslashes}</textarea>
+         </td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle" class="main"><br />
+              {html_image_submit image="continue.gif" alt=$lang.image_button_continue}</td>
+          </tr>
+        </table></form></td>
+      </tr>
+{/if}
+    </table>
