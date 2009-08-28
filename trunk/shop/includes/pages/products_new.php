@@ -136,19 +136,26 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     $oBreadcrumb->add($aLang['header_title_catalog'], oos_href_link($aPages['shop']));
     $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['products_new']), bookmark);
 
+    $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+    $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+
     // assign Smarty variables;
     $oSmarty->assign(
         array(
-           'oos_breadcrumb'         => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
-           'oos_heading_title'      => $aLang['heading_title'],
-           'oos_heading_image'      => 'products_new.gif',
+            'pagetitle'         => htmlspecialchars($oos_pagetitle),
+            'meta_description'  => htmlspecialchars($oos_meta_description),
+            'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
+            'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
 
-           'oos_page_split'         => $products_new_split->display_count($products_new_numrows, MAX_DISPLAY_PRODUCTS_NEW, $nCurrentPageNumber, $aLang['text_display_number_of_products_new']),
-           'oos_display_links'      => $products_new_split->display_links($products_new_numrows, MAX_DISPLAY_PRODUCTS_NEW, MAX_DISPLAY_PAGE_LINKS, $nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
-           'oos_page_numrows'       => $products_new_numrows,
+            'oos_heading_title'      => $aLang['heading_title'],
+            'oos_heading_image'      => 'products_new.gif',
 
-           'products_image_box'     => SMALL_IMAGE_WIDTH + 10,
-           'oos_products_new_array' => $products_new_array
+            'oos_page_split'         => $products_new_split->display_count($products_new_numrows, MAX_DISPLAY_PRODUCTS_NEW, $nCurrentPageNumber, $aLang['text_display_number_of_products_new']),
+            'oos_display_links'      => $products_new_split->display_links($products_new_numrows, MAX_DISPLAY_PRODUCTS_NEW, MAX_DISPLAY_PAGE_LINKS, $nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
+            'oos_page_numrows'       => $products_new_numrows,
+
+            'products_image_box'     => SMALL_IMAGE_WIDTH + 10,
+            'oos_products_new_array' => $products_new_array
         )
     );
 }

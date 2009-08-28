@@ -122,8 +122,16 @@ if ($bError == true) {
     // JavaScript
     $oSmarty->assign('oos_js', $javascript);
 
+    $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+    $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+
+    // assign Smarty variables;
     $oSmarty->assign(
         array(
+            'pagetitle'         => htmlspecialchars($oos_pagetitle),
+            'meta_description'  => htmlspecialchars($oos_meta_description),
+            'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
+
             'gender_error'              => $gender_error,
             'firstname_error'           => $firstname_error,
             'lastname_error'            => $lastname_error,

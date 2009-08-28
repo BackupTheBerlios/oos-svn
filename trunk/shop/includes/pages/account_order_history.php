@@ -172,12 +172,18 @@ $oBreadcrumb->add($aLang['header_title_catalog'], oos_href_link($aPages['shop'])
 $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['account_order_history']), bookmark);
 
 
+$oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+$oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+
 // assign Smarty variables;
 $oSmarty->assign(
       array(
-         'oos_breadcrumb'         => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
-         'oos_heading_title'      => $aLang['heading_title'],
-         'oos_heading_image'      => 'products_new.gif'
+          'pagetitle'         => htmlspecialchars($oos_pagetitle),
+          'meta_description'  => htmlspecialchars($oos_meta_description),
+          'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
+          'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
+          'oos_heading_title' => $aLang['heading_title'],
+          'oos_heading_image' => 'products_new.gif'
      )
 );
 

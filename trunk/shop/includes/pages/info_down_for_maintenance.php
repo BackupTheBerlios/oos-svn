@@ -51,9 +51,15 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     // links breadcrumb
     $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['info_down_for_maintenance']), bookmark);
 
+    $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+    $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+
     // assign Smarty variables;
     $oSmarty->assign(
         array(
+            'pagetitle'         => htmlspecialchars($oos_pagetitle),
+            'meta_description'  => htmlspecialchars($oos_meta_description),
+            'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
             'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
             'oos_heading_title' => $aLang['heading_title'],
             'oos_heading_image' => 'specials.gif'

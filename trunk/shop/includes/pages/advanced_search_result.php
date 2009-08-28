@@ -23,8 +23,9 @@
 if (count(get_included_files()) < 2) {
     header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
 }
-  require 'includes/languages/' . $sLanguage . '/search_advanced_result.php';
-  require 'includes/functions/function_search.php';
+
+require 'includes/languages/' . $sLanguage . '/search_advanced_result.php';
+require 'includes/functions/function_search.php';
 
   // Search enhancement mod start
   if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
@@ -358,9 +359,15 @@ if (count(get_included_files()) < 2) {
       require 'includes/oos_blocks.php';
     }
 
+    $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+    $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+
     // assign Smarty variables;
     $oSmarty->assign(
         array(
+            'pagetitle'         => htmlspecialchars($oos_pagetitle),
+            'meta_description'  => htmlspecialchars($oos_meta_description),
+            'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
             'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
             'oos_heading_title' => $aLang['heading_title'],
             'oos_heading_image' => 'browse.gif'

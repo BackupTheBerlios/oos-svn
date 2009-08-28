@@ -77,7 +77,20 @@ if ($category_depth == 'nested') {
         $oSmarty->cache_lifetime = 8 * 24 * 3600;
     }
 
-    $oSmarty->assign('oos_breadcrumb', $oBreadcrumb->trail(BREADCRUMB_SEPARATOR));
+
+    $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+    $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+
+    // assign Smarty variables;
+    $oSmarty->assign(
+        array(
+            'pagetitle'         => htmlspecialchars($oos_pagetitle),
+            'meta_description'  => htmlspecialchars($oos_meta_description),
+            'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
+            'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR)
+
+        )
+    );
 
 
     if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
@@ -256,8 +269,19 @@ if ($category_depth == 'nested') {
         $oSmarty->cache_lifetime = 8 * 24 * 3600;
     }
 
-    $oSmarty->assign('oos_breadcrumb', $oBreadcrumb->trail(BREADCRUMB_SEPARATOR));
+    $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+    $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
 
+    // assign Smarty variables;
+    $oSmarty->assign(
+        array(
+            'pagetitle'         => htmlspecialchars($oos_pagetitle),
+            'meta_description'  => htmlspecialchars($oos_meta_description),
+            'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
+            'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR)
+
+        )
+    );
     if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
 
         // create column list

@@ -192,13 +192,19 @@ if (!isset($option)) {
 }
 
 
+$oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+$oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+
 // assign Smarty variables;
 $oSmarty->assign(
-      array('oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
-            'oos_heading_title' => $aLang['heading_title'],
-            'oos_heading_image' => 'login.gif',
-
-            'info_message'      => $info_message
+      array(
+          'pagetitle'         => htmlspecialchars($oos_pagetitle),
+          'meta_description'  => htmlspecialchars($oos_meta_description),
+          'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
+          'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
+          'oos_heading_title' => $aLang['heading_title'],
+          'oos_heading_image' => 'login.gif',
+          'info_message'      => $info_message
       )
 );
 

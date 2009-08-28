@@ -182,18 +182,24 @@ if (!isset($option)) {
     require 'includes/oos_blocks.php';
 }
 
+$oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+$oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+
 // assign Smarty variables;
 $oSmarty->assign(
-       array(
-           'oos_breadcrumb' => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
-           'oos_heading_title' => $aLang['heading_title'],
-           'oos_heading_image' => 'wishlist.gif',
+      array(
+          'pagetitle'         => htmlspecialchars($oos_pagetitle),
+          'meta_description'  => htmlspecialchars($oos_meta_description),
+          'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
+          'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
+          'oos_heading_title' => $aLang['heading_title'],
+          'oos_heading_image' => 'wishlist.gif',
 
-           'oos_page_split' => $wishlist_split->display_count($wishlist_numrows, MAX_DISPLAY_WISHLIST_PRODUCTS,$nCurrentPageNumber, $aLang['text_display_number_of_wishlist']),
-           'oos_display_links' => $wishlist_split->display_links($wishlist_numrows, MAX_DISPLAY_WISHLIST_PRODUCTS, MAX_DISPLAY_PAGE_LINKS,$nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
-           'oos_page_numrows' => $wishlist_numrows,
+          'oos_page_split'    => $wishlist_split->display_count($wishlist_numrows, MAX_DISPLAY_WISHLIST_PRODUCTS,$nCurrentPageNumber, $aLang['text_display_number_of_wishlist']),
+          'oos_display_links' => $wishlist_split->display_links($wishlist_numrows, MAX_DISPLAY_WISHLIST_PRODUCTS, MAX_DISPLAY_PAGE_LINKS,$nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
+          'oos_page_numrows'  => $wishlist_numrows,
 
-           'wishlist_array' => $aWishlist
+          'wishlist_array'    => $aWishlist
        )
 );
 
