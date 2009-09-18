@@ -33,25 +33,27 @@ if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id']
 require 'includes/languages/' . $sLanguage . '/checkout_success.php';
 
 if (isset($_GET['action']) && ($_GET['action'] == 'update')) {
-    $notify = $_POST['notify'];
-    if (!is_array($notify)) $notify = array($notify);
+    if (isset($_POST['notify']) && !empty($_POST['notify'])) {
+        $notify = $_POST['notify'];
+        if (!is_array($notify)) $notify = array($notify);
 
-    for ($i=0, $n=count($notify); $i<$n; $i++) {
-        $products_notificationstable = $oostable['products_notifications'];
-        $sql = "SELECT COUNT(*) AS total
-                FROM $products_notificationstable
-                WHERE products_id = '" . intval($notify[$i]) . "'
-                  AND customers_id = '" . intval($_SESSION['customer_id']) . "'";
-        $check = $dbconn->Execute($sql);
-        if ($check->fields['total'] < 1) {
+        for ($i=0, $n=count($notify); $i<$n; $i++) {
             $products_notificationstable = $oostable['products_notifications'];
-            $sql = "INSERT INTO $products_notificationstable
-                    (products_id,
-                     customers_id,
-                     date_added) VALUES (" . $dbconn->qstr($notify[$i]) . ','
-                                           . $dbconn->qstr($_SESSION['customer_id']) . ','
-                                           . $dbconn->DBTimeStamp($today) . ")";
-            $result = $dbconn->Execute($sql);
+            $sql = "SELECT COUNT(*) AS total
+                    FROM $products_notificationstable
+                    WHERE products_id = '" . intval($notify[$i]) . "'
+                      AND customers_id = '" . intval($_SESSION['customer_id']) . "'";
+            $check = $dbconn->Execute($sql);
+            if ($check->fields['total'] < 1) {
+                $products_notificationstable = $oostable['products_notifications'];
+                $sql = "INSERT INTO $products_notificationstable
+                        (products_id,
+                         customers_id,
+                         date_added) VALUES (" . $dbconn->qstr($notify[$i]) . ','
+                                               . $dbconn->qstr($_SESSION['customer_id']) . ','
+                                               . $dbconn->DBTimeStamp($today) . ")";
+                $result = $dbconn->Execute($sql);
+            }
         }
     }
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));

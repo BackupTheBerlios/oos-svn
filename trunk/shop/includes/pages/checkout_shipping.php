@@ -47,6 +47,8 @@ if ($_SESSION['cart']->show_total() > 0) {
     }
 }
 
+if (isset($_SESSION['shipping'])) unset($_SESSION['shipping']);
+
 // if no shipping destination address was selected, use the customers own address as default
 if (!isset($_SESSION['sendto'])) {
     $_SESSION['sendto'] = $_SESSION['customer_default_address_id'];
