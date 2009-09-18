@@ -590,7 +590,7 @@ function calcBasePriceFactor() {
         $oFCKeditor->Width = '550';
         $oFCKeditor->Height = '350';
         $oFCKeditor->Config['SkinPath'] = 'skins/silver/' ;
-        $oFCKeditor->ToolbarSet = 'Oos';
+        $oFCKeditor->ToolbarSet = 'OOS';
         $oFCKeditor->Value = (($_POST['products_description_' .$languages[$i]['id']]) ? stripslashes($_POST['products_description_' .$languages[$i]['id']]) : oos_get_products_description($pInfo->products_id, $languages[$i]['id']));
         $oFCKeditor->Create();
       } else {
