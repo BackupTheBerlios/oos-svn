@@ -53,7 +53,7 @@ $product_info_sql = "SELECT p.products_id, pd.products_name, pd.products_descrip
                             pd.products_description_meta, pd.products_keywords_meta, p.products_model,
                             p.products_quantity, p.products_image, p.products_subimage1, p.products_subimage2,
                             p.products_subimage3, p.products_subimage4, p.products_subimage5, p.products_subimage6,
-                            p.products_movie, p.products_zoomify, p.products_discount_allowed, p.products_price,
+                            p.products_movie, p.products_zoomify, p.products_template, p.products_discount_allowed, p.products_price,
                             p.products_base_price, p.products_base_unit, p.products_quantity_order_min, p.products_quantity_order_units,
                             p.products_discount1, p.products_discount2, p.products_discount3, p.products_discount4,
                             p.products_discount1_qty, p.products_discount2_qty, p.products_discount3_qty,
@@ -162,11 +162,16 @@ if (!$product_info_result->RecordCount()) {
         $oos_meta_keywords = $product_info['products_keywords_meta'];
     }
 
+    $sTemplateMain = $sTheme . '/products/product_info.html';
+	if (!empty($product_info['products_template']) or $product_info['products_template'] != 'default') {
+	    $sTemplateMain = 'default/product_info/' . $product_info['products_template'];
+    }
+
     $aOption['head_jquery'] = 'jquery/product_info.tpl';
     $aOption['head_css'] =    'jquery/product_info_css.tpl';
     $aOption['head_script'] = 'jquery/product_info_script.tpl';
 
-    $aOption['template_main'] =           $sTheme . '/products/product_info.html';
+    $aOption['template_main'] =           $sTemplateMain;
     $aOption['also_purchased_products'] = $sTheme . '/products/also_purchased_products.html';
     $aOption['xsell_products'] =          $sTheme . '/products/xsell_products.html';
     $aOption['up_sell_products'] =        $sTheme . '/products/up_sell_products.html';
