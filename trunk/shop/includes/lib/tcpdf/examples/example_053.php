@@ -1,11 +1,11 @@
 <?php
 //============================================================+
-// File name   : example_041.php
-// Begin       : 2008-12-07
-// Last Update : 2009-09-05
+// File name   : example_053.php
+// Begin       : 2009-09-02
+// Last Update : 2009-09-07
 // 
-// Description : Example 041 for TCPDF class
-//               Annotation - FileAttachment
+// Description : Example 053 for TCPDF class
+//               Javascript example.
 // 
 // Author: Nicola Asuni
 // 
@@ -22,12 +22,12 @@
 /**
  * Creates an example PDF TEST document using TCPDF
  * @package com.tecnick.tcpdf
- * @abstract TCPDF - Annotation - FileAttachment
+ * @abstract TCPDF - Example: Javascript example.
  * @author Nicola Asuni
  * @copyright 2004-2009 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
  * @link http://tcpdf.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
- * @since 2008-12-07
+ * @since 2009-09-02
  */
 
 require_once('../config/lang/eng.php');
@@ -39,7 +39,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('TCPDF Example 041');
+$pdf->SetTitle('TCPDF Example 053');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -70,21 +70,41 @@ $pdf->setLanguageArray($l);
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('times', '', 16);
+$pdf->SetFont('times', '', 14);
 
 // add a page
 $pdf->AddPage();
 
-// print a line using Cell()
-$pdf->Cell(0, 12, 'File Attachment', 1, 1, 'C');
+// print a some of text
+$text = 'This is an example of JavaScript usage on PDF documents.<br /><br />For more information check the source code of this example, the source code documentation for the <i>IncludeJS()</i> method and the <i>JavaScript for Acrobat API Reference</i> guide.<br /><br /><a href="http://www.tcpdf.org">www.tcpdf.org</a>.';
+$pdf->writeHTML($text, true, 0, true, 0);
 
-// attach an external file
-$pdf->Annotation(78, 30, 4, 4, 'text file', array('Subtype'=>'FileAttachment', 'Name' => 'PushPin', 'FS' => '../cache/utf8test.txt'));
+// write some JavaScript code
+$js = <<<EOD
+app.alert('JavaScript Popup Example', 3, 0, 'Welcome');
+var cResponse = app.response({
+	cQuestion: 'How are you today?',
+	cTitle: 'Your Health Status',
+	cDefault: 'Fine',
+	cLabel: 'Response:'
+});
+if (cResponse == null) {
+	app.alert('Thanks for trying anyway.', 3, 0, 'Result');
+} else {
+	app.alert('You responded, "'+cResponse+'", to the health question.', 3, 0, 'Result');
+}
+EOD;
+
+// force print dialog
+$js .= 'print(true);';
+
+// set javascript
+$pdf->IncludeJS($js);
 
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('example_041.pdf', 'I');
+$pdf->Output('example_053.pdf', 'I');
 
 //============================================================+
 // END OF FILE                                                 
