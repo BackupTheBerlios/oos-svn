@@ -66,9 +66,9 @@ class oos_event_breadcrumb
         $oBreadcrumb = new breadcrumb();
 
         if (isset($_GET['page']) && ($_GET['page'] == $aPages['main']) || !isset($_GET['page']) ){
-            $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']), bookmark);
+            $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']), bookmark, '1');
         } else{
-            $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']));
+            $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']), null, '1');
         }
 
         // add category names or the manufacturer name to the breadcrumb trail
