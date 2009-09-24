@@ -163,7 +163,7 @@ if (!$product_info_result->RecordCount()) {
     }
 
     $sTemplateMain = $sTheme . '/products/product_info.html';
-	if (!empty($product_info['products_template']) or $product_info['products_template'] != 'default') {
+	if (!empty($product_info['products_template']) and $product_info['products_template'] != 'default') {
 	    $sTemplateMain = 'default/product_info/' . $product_info['products_template'];
     }
 

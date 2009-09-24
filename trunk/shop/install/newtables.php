@@ -979,7 +979,7 @@ $flds = "
   products_subimage6 C(64) NULL,
   products_movie C(64) NULL,
   products_zoomify C(64) NULL,
-  products_template C(64) NULL,
+  products_template C(64) NULL DEFAULT 'default',
   products_price N '15.8' NOTNULL DEFAULT '0.00000000',
   products_base_price N '10.6' NOTNULL DEFAULT '1.000000',
   products_product_quantity N '10.2' NOTNULL DEFAULT '1.00',

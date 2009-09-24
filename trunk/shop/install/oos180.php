@@ -233,7 +233,7 @@ if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
 
-$result = $db->Execute("ALTER TABLE " . $table . " ADD `products_template` VARCHAR( 64 ) AFTER `products_zoomify`");
+$result = $db->Execute("ALTER TABLE " . $table . " ADD `products_template` VARCHAR( 64 ) DEFAULT 'default' AFTER `products_zoomify`");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 } else {
