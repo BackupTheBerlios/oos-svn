@@ -10,7 +10,7 @@
 {foreach item=info from=$information}
 			<li><a href="{html_href_link page=$pages.information information_id=$info.information_id}" title="{$info.information_name}" rel="nofollow">{$info.information_name}</a></li>
 {/foreach}
-			<li><a href="{html_href_link page=$pages.contact_us}" title="{$lang.block_information_contact}" rel="nofollow">{$lang.block_information_contact}</a></li>
+			<li><a href="{html_href_link page=$pages.contact_us}" title="{$lang.block_information_contact}" rel="nofollow" accesskey="9">{$lang.block_information_contact}</a></li>
 		</ul>
 	</div>
 </div>

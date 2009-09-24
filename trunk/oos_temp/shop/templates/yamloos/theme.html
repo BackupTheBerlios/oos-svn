@@ -68,8 +68,8 @@
 			<a id="navigation" name="navigation"></a>
 			<div id="nav_main">
 				<ul>
-					<li {if $page_file eq $pages.main}id="current"{/if}><a href="{html_href_link page=$pages.main}">{$lang.header_title_top}</a></li>
-					<li {if $page_file eq $pages.info_sitemap}id="current"{/if}><a href="{html_href_link page=$pages.info_sitemap}">{$lang.block_service_sitemap}</a></li>
+					<li {if $page_file eq $pages.main}id="current"{/if}><a href="{html_href_link page=$pages.main}" accesskey="1">{$lang.header_title_top}</a></li>
+					<li {if $page_file eq $pages.info_sitemap}id="current"{/if}><a href="{html_href_link page=$pages.info_sitemap}" accesskey="3">{$lang.block_service_sitemap}</a></li>
 					<li {if $page_file eq $pages.information}id="current"{/if}><a href="{html_href_link page=$pages.information information_id=4}" rel="nofollow">{$lang.block_information_imprint}</a></li>
 
 {if (isset($smarty.session.customer_id)) }
