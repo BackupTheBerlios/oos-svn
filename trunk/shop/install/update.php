@@ -58,8 +58,11 @@
   }
   define('OOS_VALID_MOD', 'yes');
 
-
-  require '../includes/configure.php';
+  if (is_readable('../includes/configure.php')) {
+     require '../includes/configure.php';
+  } elseif (is_readable('../includes/config.php')) {
+     require '../includes/config.php';
+  }
 
   require '../includes/functions/function_global.php';
   require '../includes/functions/function_kernel.php';
@@ -73,10 +76,10 @@
     exit;
   }
 
-  if (file_exists('../includes/lib/adodb/adodb-errorhandler.inc.php')) {
+  if (is_readable('../includes/lib/adodb/adodb-errorhandler.inc.php')) {
     require '../includes/lib/adodb/adodb-errorhandler.inc.php';
      require '../includes/lib/adodb/adodb.inc.php';
-  } elseif (file_exists('../includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php')) {
+  } elseif (is_readable('../includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php')) {
      require '../includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php';
      require '../includes/classes/thirdparty/adodb/adodb.inc.php';
   } else {
@@ -84,6 +87,7 @@
     include '../' .OOS_ADODB . 'adodb.inc.php';
   }
 
+/*
   require 'modify_configure.php';
   require 'upgrade.php';
 
@@ -154,6 +158,8 @@
       print_SelectOOS();
       break;
   }
+*/
+
 
   require 'footer.php';
 

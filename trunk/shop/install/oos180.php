@@ -228,7 +228,7 @@ if ($result === false) {
 
 
 $table = $prefix_table . 'products';
-$result = $db->Execute("ALTER TABLE " . $table . " ADD `products_access` INT( 11 ) DEFAULT '0' NOT NULL AFTER `products_weight`");
+$result = $db->Execute("ALTER TABLE " . $table . " ADD `products_access` INT( 11 ) NOT NULL DEFAULT '0' AFTER `products_weight`");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
@@ -268,7 +268,7 @@ $result = $db->Execute("ALTER TABLE " . $table . " ADD cc_cvv varchar(4) default
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
-$result = $db->Execute("ALTER TABLE " . $table . " ADD `products_access` INT( 11 ) DEFAULT '0' NOT NULL AFTER `cc_expires`");
+$result = $db->Execute("ALTER TABLE " . $table . " ADD `products_access` INT( 11 ) NOT NULL DEFAULT '0' AFTER `cc_expires`");
 if ($result === false) {
   echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
 }
