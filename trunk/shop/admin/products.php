@@ -52,6 +52,15 @@
           }
         }
 
+        if (isset($_POST['products_reorder_level']) && is_numeric($_POST['products_reorder_level'])) {
+          $nProductsReorderLevel = oos_db_prepare_input($_POST['products_reorder_level']);
+        } elseif (is_numeric(STOCK_REORDER_LEVEL)) {
+          $nProductsReorderLevel = STOCK_REORDER_LEVEL;
+        } else {
+          $nProductsReorderLevel = 5;
+        }
+
+
         if (NEW_PRODUCT_PREVIEW == '0') {
           if ( ($_POST['products_image'] != 'none') && (isset($_FILES['products_image'])) ) {
             $products_image = oos_get_uploaded_file('products_image');
@@ -225,7 +234,7 @@
           $products_date_available = (date('Y-m-d') < $products_date_available) ? $products_date_available : 'null';
 
           $sql_data_array = array('products_quantity' => $sProductsQuantity,
-                                  'products_reorder_level' => oos_db_prepare_input($_POST['products_reorder_level']),
+                                  'products_reorder_level' => $nProductsReorderLevel,
                                   'products_model' => oos_db_prepare_input($_POST['products_model']),
                                   'products_ean' => oos_db_prepare_input($_POST['products_ean']),
                                   'products_image' => (($products_image == 'none') ? '' : oos_db_prepare_input($products_image)),
