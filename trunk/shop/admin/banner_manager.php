@@ -81,7 +81,7 @@
           if ( (empty($html_text)) && ($store_image == true) ) {
             oos_get_copy_uploaded_file($banners_image, $image_directory);
           }
-          $db_image_location = (oos_is_not_null($banners_image_local)) ? $banners_image_local : $banners_image_target . $banners_image['name'];
+          $db_image_location = (!empty($banners_image_local)) ? $banners_image_local : $banners_image_target . $banners_image['name'];
           $sql_data_array = array('banners_title' => $banners_title,
                                   'banners_url' => $banners_url,
                                   'banners_image' => $db_image_location,

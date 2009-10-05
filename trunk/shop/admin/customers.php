@@ -695,7 +695,7 @@ function popupGoogleMap(url) {
               </tr>
 <?php
     $search = '';
-    if (isset($_GET['search']) && oos_is_not_null($_GET['search'])) {
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
       $keywords = oos_db_input(oos_db_prepare_input($_GET['search']));
       $search = "WHERE c.customers_lastname like '%" . $keywords . "%' or c.customers_firstname like '%" . $keywords . "%' or c.customers_number like '%" . $keywords . "%' or c.customers_email_address like '%" . $keywords . "'";
     }
@@ -799,7 +799,7 @@ function popupGoogleMap(url) {
                     <td class="smallText" align="right"><?php echo $customers_split->display_links($customers_result_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], oos_get_all_get_params(array('page', 'info', 'x', 'y', 'cID'))); ?></td>
                   </tr>
 <?php
-    if (oos_is_not_null($_GET['search'])) {
+    if (!empty($_GET['search'])) {
 ?>
                   <tr>
                     <td align="right" colspan="7"><?php echo '<a href="' . oos_href_link_admin($aFilename['customers']) . '">' . oos_image_swap_button('reset', 'reset_off.gif', IMAGE_RESET) . '</a>'; ?></td>

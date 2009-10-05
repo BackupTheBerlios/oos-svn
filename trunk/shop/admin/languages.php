@@ -599,7 +599,7 @@
               </tr>
 <?php
   $search = '';
-  if (isset($_GET['search']) && oos_is_not_null($_GET['search'])) {
+  if (isset($_GET['search']) && !empty($_GET['search'])) {
     $keywords = oos_db_prepare_input($_GET['search']);
     $search = "WHERE name like '%" . $keywords . "%' OR iso_639_2 like '%" . $keywords . "%' OR iso_639_1 like '%" . $keywords . "'";
   }

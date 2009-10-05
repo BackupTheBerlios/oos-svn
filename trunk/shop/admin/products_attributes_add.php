@@ -39,7 +39,7 @@
     $attribute_page = intval($_GET['attribute_page']);
     $page_info .= 'attribute_page=' . $attribute_page . '&';
   }
-  if (oos_is_not_null($page_info)) {
+  if (!empty($page_info)) {
     $page_info = substr($page_info, 0, -1);
   }
 

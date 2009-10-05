@@ -82,7 +82,7 @@
             $quote_function = 'quote_' . CURRENCY_SERVER_BACKUP . '_currency';
             $rate = $quote_function($currency['code']);
           }
-          if (oos_is_not_null($rate)) {
+          if (!empty($rate)) {
             $dbconn->Execute("UPDATE " . $oostable['currencies'] . " SET value = '" . $rate . "', last_updated = '" . date("Y-m-d H:i:s", time()) . "' WHERE currencies_id = '" . $currency['currencies_id'] . "'");
           }
           // Move that ADOdb pointer!

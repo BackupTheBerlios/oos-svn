@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File:packingslip.php,v 1.5 2003/02/16 13:40:33 thomasamoulton 
+   File:packingslip.php,v 1.5 2003/02/16 13:40:33 thomasamoulton
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -117,9 +117,9 @@
         }
       }
       echo '        </td>' . "\n";
-      
+
       $serial_number = "";
-      if (oos_is_not_null($order->products[$i]['serial_number'])) $serial_number = $order->products[$i]['serial_number'];
+      if (!empty($order->products[$i]['serial_number'])) $serial_number = $order->products[$i]['serial_number'];
       echo '        <td class="dataTableContent" valign="top">' . $serial_number . '</td>' . "\n" .
            '        <td class="dataTableContent" valign="top">' . $order->products[$i]['model'] . '</td>' . "\n" .
            '      </tr>' . "\n";

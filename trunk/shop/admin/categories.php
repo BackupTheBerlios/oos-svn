@@ -688,7 +688,7 @@ function popupImageWindow(url) {
       <tr>
         <td class="main">
 <?php
-  if (oos_is_not_null($categories_image_name))  {
+  if (!empty($categories_image_name))  {
     echo oos_image(OOS_SHOP_IMAGES . $categories_image_name, $cInfo->categories_name, '', '', 'align="right" hspace="5" vspace="5"');
   } else {
     $categories_image_name = 'none';
@@ -1109,7 +1109,7 @@ function popupImageWindow(url) {
 
             $contents[] = array('align' => 'center', 'text' => '<a href="' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&cID=' . $cInfo->categories_id . '&action=edit_category') . '">' . oos_image_swap_button('edit', 'edit_off.gif', IMAGE_EDIT) . '</a> <a href="' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&cID=' . $cInfo->categories_id . '&action=delete_category') . '">' . oos_image_swap_button('delete', 'delete_off.gif', IMAGE_DELETE) . '</a> <a href="' . oos_href_link_admin($aFilename['categories'], 'categories=' . $categories . '&cID=' . $cInfo->categories_id . '&action=move_category') . '">' . oos_image_swap_button('move', 'move_off.gif', IMAGE_MOVE) . '</a>');
             $contents[] = array('text' =>  TEXT_CATEGORIES . ' ' . oos_get_categories_name($categories) . ' ' . oos_get_categories_name($cID) . '<br />' . TEXT_DATE_ADDED . ' ' . oos_date_short($cInfo->date_added));
-            if (oos_is_not_null($cInfo->last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . oos_date_short($cInfo->last_modified));
+            if (!empty($cInfo->last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . oos_date_short($cInfo->last_modified));
             $contents[] = array('text' => '<br />' . oos_info_image($cInfo->categories_image, $cInfo->categories_name, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT) . '<br />' . $cInfo->categories_image);
             $contents[] = array('text' => '<br />' . TEXT_SUBCATEGORIES . ' ' . $cInfo->childs_count . '<br />' . TEXT_PRODUCTS . ' ' . $cInfo->products_count);
           } elseif (isset($pInfo) && is_object($pInfo)) { // product info box contents
@@ -1154,7 +1154,7 @@ function popupImageWindow(url) {
             }
 
             $contents[] = array('text' => '#' . $pInfo->products_id . ' ' . TEXT_CATEGORIES . ' ' . oos_get_categories_name($current_category_id) . '<br />' . TEXT_DATE_ADDED . ' ' . oos_date_short($pInfo->products_date_added));
-            if (oos_is_not_null($pInfo->products_last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . oos_date_short($pInfo->products_last_modified));
+            if (!empty($pInfo->products_last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . oos_date_short($pInfo->products_last_modified));
             if (date('Y-m-d') < $pInfo->products_date_available) $contents[] = array('text' => TEXT_DATE_AVAILABLE . ' ' . oos_date_short($pInfo->products_date_available));
             $contents[] = array('text' => '<br /><a href="' . oos_href_link_admin($aFilename['products'], 'categories=' . $categories . '&pID=' . $pInfo->products_id . '&action=new_product_preview&read=only') . '">' . oos_info_image($pInfo->products_image, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a><br />' . $pInfo->products_image);
 

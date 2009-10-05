@@ -405,8 +405,8 @@
 
         $contents[] = array('align' => 'center', 'text' => '<a href="' . oos_href_link_admin($aFilename['ticket_view'], oos_get_all_get_params(array('tID', 'action')) . 'tID=' . $tInfo->ticket_id . '&action=edit') . '">' . oos_image_swap_button('edit','edit_off.gif', IMAGE_EDIT) . '</a> <a href="' . oos_href_link_admin($aFilename['ticket_view'], oos_get_all_get_params(array('tID', 'action')) . 'tID=' . $tInfo->ticket_id . '&action=delete') . '">' . oos_image_swap_button('delete', 'delete_off.gif', IMAGE_DELETE) . '</a>');
         $contents[] = array('text' => '<br />' . TEXT_DATE_TICKET_CREATED . ' ' . oos_datetime_short($tInfo->ticket_date_created));
-        if (oos_is_not_null($tInfo->ticket_date_last_modified)) $contents[] = array('text' => TEXT_DATE_TICKET_LAST_MODIFIED . ' ' . oos_datetime_short($tInfo->ticket_date_last_modified));
-        if (oos_is_not_null($tInfo->ticket_date_last_customer_modified)) $contents[] = array('text' => TEXT_DATE_TICKET_LAST_CUSTOMER_MODIFIED . ' ' . oos_datetime_short($tInfo->ticket_date_last_customer_modified));
+        if (!empty($tInfo->ticket_date_last_modified)) $contents[] = array('text' => TEXT_DATE_TICKET_LAST_MODIFIED . ' ' . oos_datetime_short($tInfo->ticket_date_last_modified));
+        if (!empty($tInfo->ticket_date_last_customer_modified)) $contents[] = array('text' => TEXT_DATE_TICKET_LAST_CUSTOMER_MODIFIED . ' ' . oos_datetime_short($tInfo->ticket_date_last_customer_modified));
         if (TICKET_USE_STATUS == '1') $contents[] = array('text' => '<br />' . TEXT_STATUS . ' ' . $ticket_status_array[$tInfo->ticket_status_id]);
         if (TICKET_USE_PRIORITY == '1') $contents[] = array('text' => '<br />' . TEXT_PRIORITY . ' ' . $ticket_priority_array[$tInfo->ticket_priority_id]);
         if (TICKET_USE_DEPARTMENT == '1') $contents[] = array('text' => '<br />' . TEXT_DEPARTMENT . ' ' . $ticket_department_array[$tInfo->ticket_department_id]);

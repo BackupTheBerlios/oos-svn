@@ -133,7 +133,7 @@
 
           if (isset($_POST['notify']) && ($_POST['notify'] == 'on')) {
 
-            if (oos_is_not_null($check_status['orders_language'])) {
+            if (!empty($check_status['orders_language'])) {
               include 'includes/languages/' . $check_status['orders_language'] . '/email_orders.php';
               $nLangID = oos_get_languages_id($check_status['orders_language']);
               $orders_statustable = $oostable['orders_status'];
@@ -382,7 +382,7 @@ function popupGoogleMap(url) {
             <td class="main"><?php echo $order->info['payment_method']; ?></td>
           </tr>
 <?php
-    if (oos_is_not_null($order->info['cc_type']) || oos_is_not_null($order->info['cc_owner']) || oos_is_not_null($order->info['cc_number'])) {
+    if (!empty($order->info['cc_type']) || !empty($order->info['cc_owner']) || !empty($order->info['cc_number'])) {
 ?>
           <tr>
             <td colspan="2"><?php echo oos_draw_separator('trans.gif', '1', '10'); ?></td>
@@ -508,7 +508,7 @@ function popupGoogleMap(url) {
       echo '            </td>' . "\n";
 
       $serial_number = "Add Serial #";
-      if (oos_is_not_null($order->products[$i]['serial_number'])) $serial_number = $order->products[$i]['serial_number'];
+      if (!empty($order->products[$i]['serial_number'])) $serial_number = $order->products[$i]['serial_number'];
       echo '            <td class="dataTableContent" valign="top"><a href="' . oos_href_link_admin($aFilename['orders'], 'action=edit&oID=' . $oID . '&serial=' . $i, 'NONSSL') . '">' . $serial_number . '</a></td>' . "\n" .
            '            <td class="dataTableContent" valign="top">' . $order->products[$i]['model'] . '</td>' . "\n" .
            '            <td class="dataTableContent" align="right" valign="top">' . oos_display_tax_value($order->products[$i]['tax']) . '%</td>' . "\n" .
@@ -518,7 +518,7 @@ function popupGoogleMap(url) {
            '            <td class="dataTableContent" align="right" valign="top"><b>' . $currencies->format(oos_add_tax($order->products[$i]['final_price'], $order->products[$i]['tax']) * $order->products[$i]['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</b></td>' . "\n";
       echo '          </tr>' . "\n";
 
-      if (oos_is_not_null($_GET['serial']) && ($_GET['serial'] == $i) && ($_GET['serial_updated'] <> 1)) {
+      if (!empty($_GET['serial']) && ($_GET['serial'] == $i) && ($_GET['serial_updated'] <> 1)) {
         echo '          <tr class="dataTableRow">' . "\n" .
              '            <td class="dataTableContent" colspan="2" valign="top" align="right">Enter Serial #:&nbsp;</td>' . "\n";
 
@@ -766,7 +766,7 @@ function popupGoogleMap(url) {
         $contents[] = array('align' => 'center', 'text' => '<a href="' . oos_href_link_admin($aFilename['invoice'], 'oID=' . $oInfo->orders_id) . '" TARGET="_blank">' . oos_image_swap_button('invoice','invoice_off.gif', IMAGE_ORDERS_INVOICE) . '</a> <a href="' . oos_href_link_admin($aFilename['packingslip'], 'oID=' . $oInfo->orders_id) . '" TARGET="_blank">' . oos_image_swap_button('packingslip','packingslip_off.gif', IMAGE_ORDERS_PACKINGSLIP) . '</a>');
 
         $contents[] = array('text' => '<br />' . TEXT_DATE_ORDER_CREATED . ' ' . oos_date_short($oInfo->date_purchased));
-        if (oos_is_not_null($oInfo->last_modified)) $contents[] = array('text' => TEXT_DATE_ORDER_LAST_MODIFIED . ' ' . oos_date_short($oInfo->last_modified));
+        if (!empty($oInfo->last_modified)) $contents[] = array('text' => TEXT_DATE_ORDER_LAST_MODIFIED . ' ' . oos_date_short($oInfo->last_modified));
         $contents[] = array('text' => '<br />' . TEXT_INFO_PAYMENT_METHOD . ' '  . $oInfo->payment_method);
       }
       break;

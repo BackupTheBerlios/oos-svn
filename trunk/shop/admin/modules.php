@@ -27,7 +27,7 @@
 
   $set = (isset($_GET['set']) ? $_GET['set'] : '');
 
-  if (oos_is_not_null($set)) {
+  if (!empty($set)) {
     switch ($set) {
       case 'shipping':
         $module_type = 'shipping';

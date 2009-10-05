@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: popup_image.php,v 1.6 2002/05/20 10:58:19 dgw_ 
+   File: popup_image.php,v 1.6 2002/05/20 10:58:19 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -37,7 +37,7 @@
         if ($banner['banners_html_text']) {
           $image_source = $banner['banners_html_text'];
         } elseif ($banner['banners_image']) {
-          $image_source = oos_image(OOS_HTTP_SERVER . OOS_IMAGES . $banner['banners_image'], $page_title);
+          $image_source = oos_image(OOS_HTTP_SERVER . '/' . OOS_IMAGES . $banner['banners_image'], $page_title);
         }
         break;
     }

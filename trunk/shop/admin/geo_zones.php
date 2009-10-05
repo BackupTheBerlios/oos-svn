@@ -55,7 +55,7 @@
 
   $saction = (isset($_GET['saction']) ? $_GET['saction'] : '');
 
-  if (oos_is_not_null($saction)) {
+  if (!empty($saction)) {
     switch ($saction) {
       case 'insert_sub':
         $zID = oos_db_prepare_input($_GET['zID']);
@@ -324,7 +324,7 @@ function update_zone(theForm) {
 
           $contents[] = array('align' => 'center', 'text' => '<a href="' . oos_href_link_admin($aFilename['geo_zones'], 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=edit') . '">' . oos_image_swap_button('edit','edit_off.gif', IMAGE_EDIT) . '</a> <a href="' . oos_href_link_admin($aFilename['geo_zones'], 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=delete') . '">' . oos_image_swap_button('delete','delete_off.gif', IMAGE_DELETE) . '</a>');
           $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . oos_date_short($sInfo->date_added));
-          if (oos_is_not_null($sInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . oos_date_short($sInfo->last_modified));
+          if (!empty($sInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . oos_date_short($sInfo->last_modified));
         }
         break;
     }
@@ -365,7 +365,7 @@ function update_zone(theForm) {
 
           $contents[] = array('align' => 'center', 'text' => '<a href="' . oos_href_link_admin($aFilename['geo_zones'], 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=edit_zone') . '">' . oos_image_swap_button('edit','edit_off.gif', IMAGE_EDIT) . '</a> <a href="' . oos_href_link_admin($aFilename['geo_zones'], 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=delete_zone') . '">' . oos_image_swap_button('delete','delete_off.gif', IMAGE_DELETE) . '</a>');
           $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . oos_date_short($zInfo->date_added));
-          if (oos_is_not_null($zInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . oos_date_short($zInfo->last_modified));
+          if (!empty($zInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . oos_date_short($zInfo->last_modified));
           $contents[] = array('text' => '<br />' . TEXT_INFO_ZONE_DESCRIPTION . '<br />' . $zInfo->geo_zone_description);
         }
         break;

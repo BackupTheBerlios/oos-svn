@@ -315,7 +315,7 @@
           $contents[] = array('align' => 'center', 'text' => '<a href="' . oos_href_link_admin($aFilename['information'], 'page=' . $_GET['page'] . '&mID=' . $mInfo->information_id . '&action=edit') . '">' . oos_image_swap_button('edit','edit_off.gif', IMAGE_EDIT) . '</a>');
         }
         $contents[] = array('text' => '<br />' . TEXT_DATE_ADDED . ' ' . oos_date_short($mInfo->date_added));
-        if (oos_is_not_null($mInfo->last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . oos_date_short($mInfo->last_modified));
+        if (!empty($mInfo->last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . oos_date_short($mInfo->last_modified));
         $contents[] = array('text' => '<br />' . oos_info_image($mInfo->information_image, $mInfo->information_name));
       }
       break;

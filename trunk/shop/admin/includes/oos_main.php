@@ -162,7 +162,7 @@ if (!isset($_SESSION['language']) || isset($_GET['language'])) {
    require '../includes/classes/class_language.php';
    $oLang = new language;
 
-   if (isset($_GET['language']) && oos_is_not_null($_GET['language'])) {
+   if (isset($_GET['language']) && !empty($_GET['language'])) {
        $oLang->set($_GET['language']);
    } else {
        $oLang->get_browser_language();

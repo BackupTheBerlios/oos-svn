@@ -55,7 +55,7 @@
                             pd.products_name";
         $products_result = $dbconn->Execute($products_sql);
         while ($products = $products_result->fields) {
-          if ( (oos_is_not_null($products['products_name'])) && (oos_is_not_null($products['products_image'])) && (oos_is_not_null($products['products_model'])) && (oos_is_not_null($products['products_description'])) ) {
+          if ( (!empty($products['products_name'])) && (!empty($products['products_image'])) && (!empty($products['products_model'])) && (!empty($products['products_description'])) ) {
             if (isset($products['specials_new_products_price'])) {
               $products_price =  $currencies->psm_price($products['specials_new_products_price'], oos_get_tax_rate($products['products_tax_class_id']));
             } else {

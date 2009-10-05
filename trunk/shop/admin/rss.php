@@ -281,7 +281,7 @@
         $contents[] = array('text' => '<br />' . TEXT_RSS_DESCRIPTION . $newsfeed_inputs_description_string);
 
         $contents[] = array('text' => '<br />' . TEXT_DATE_ADDED . ' ' . oos_date_short($nInfo->date_added));
-        if (oos_is_not_null($nInfo->last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . oos_date_short($nInfo->last_modified));
+        if (!empty($nInfo->last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . oos_date_short($nInfo->last_modified));
 
       }
       break;

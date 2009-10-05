@@ -64,7 +64,7 @@
   $srDefaultSort = 4;
 
   // report views (1: yearly 2: monthly 3: weekly 4: daily)
-  if (isset($_GET['report']) && oos_is_not_null($_GET['report'])) {
+  if (isset($_GET['report']) && !empty($_GET['report'])) {
     $srView = $_GET['report'];
   }
   if ($srView < 1 || $srView > 4) {
@@ -72,7 +72,7 @@
   }
 
   // detail
-  if (isset($_GET['detail']) && oos_is_not_null($_GET['detail'])) {
+  if (isset($_GET['detail']) && !empty($_GET['detail'])) {
     $srDetail = $_GET['detail'];
   }
   if ($srDetail < 0 || $srDetail > 2) {
@@ -80,7 +80,7 @@
   }
 
   // report views (1: yearly 2: monthly 3: weekly 4: daily)
-  if (isset($_GET['export']) && oos_is_not_null($_GET['export'])) {
+  if (isset($_GET['export']) && !empty($_GET['export'])) {
     $srExp = $_GET['export'];
   }
   if ($srExp < 0 || $srExp > 2) {
@@ -88,7 +88,7 @@
   }
 
   // item_level
-  if (isset($_GET['max']) && oos_is_not_null($_GET['max'])) {
+  if (isset($_GET['max']) && !empty($_GET['max'])) {
     $srMax = $_GET['max'];
   }
   if (!is_numeric($srMax)) {
@@ -96,7 +96,7 @@
   }
 
   // order status
-  if (isset($_GET['status']) && oos_is_not_null($_GET['status'])) {
+  if (isset($_GET['status']) && !empty($_GET['status'])) {
     $srStatus = $_GET['status'];
   }
   if (!is_numeric($srStatus)) {
@@ -104,7 +104,7 @@
   }
 
   // sort
-  if (isset($_GET['sort']) && oos_is_not_null($_GET['sort'])) {
+  if (isset($_GET['sort']) && !empty($_GET['sort'])) {
     $srSort = $_GET['sort'];
   }
   if ($srSort < 1 || $srSort > 6) {
@@ -114,19 +114,19 @@
   // check start and end Date
   $startDate = "";
   $startDateG = 0;
-  if (isset($_GET['startD']) && oos_is_not_null($_GET['startD'])) {
+  if (isset($_GET['startD']) && !empty($_GET['startD'])) {
     $sDay = $_GET['startD'];
     $startDateG = 1;
   } else {
     $sDay = 1;
   }
-  if (isset($_GET['startM']) && oos_is_not_null($_GET['startM'])) {
+  if (isset($_GET['startM']) && !empty($_GET['startM'])) {
     $sMon = $_GET['startM'];
     $startDateG = 1;
   } else {
     $sMon = 1;
   }
-  if (isset($_GET['startY']) && oos_is_not_null($_GET['startY'])) {
+  if (isset($_GET['startY']) && !empty($_GET['startY'])) {
     $sYear = $_GET['startY'];
     $startDateG = 1;
   } else {
@@ -140,19 +140,19 @@
 
   $endDate = "";
   $endDateG = 0;
-  if (isset($_GET['endD']) && oos_is_not_null($_GET['endD'])) {
+  if (isset($_GET['endD']) && !empty($_GET['endD'])) {
     $eDay = $_GET['endD'];
     $endDateG = 1;
   } else {
     $eDay = 1;
   }
-  if (isset($_GET['endM']) && oos_is_not_null($_GET['endM'])) {
+  if (isset($_GET['endM']) && !empty($_GET['endM'])) {
     $eMon = $_GET['endM'];
     $endDateG = 1;
   } else {
     $eMon = 1;
   }
-  if (isset($_GET['endY']) && oos_is_not_null($_GET['endY'])) {
+  if (isset($_GET['endY']) && !empty($_GET['endY'])) {
     $eYear = $_GET['endY'];
     $endDateG = 1;
   } else {

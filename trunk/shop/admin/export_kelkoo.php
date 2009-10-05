@@ -77,7 +77,7 @@
                                pd.products_name";
         $products_result = $dbconn->Execute($products_sql);
         while ($products = $products_result->fields) {
-          if ( (oos_is_not_null($products['products_name'])) && (oos_is_not_null($products['products_model'])) && (oos_is_not_null($products['products_description'])) ) {
+          if ( (!empty($products['products_name'])) && (!empty($products['products_model'])) && (!empty($products['products_description'])) ) {
             // remove trash
             $products_description = strip_tags($products['products_description']);
             $products_description = str_replace(";",", ",$products_description);

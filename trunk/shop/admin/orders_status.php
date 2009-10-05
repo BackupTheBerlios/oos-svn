@@ -96,7 +96,7 @@
           $sql_data_array = array('orders_status_name' => oos_db_prepare_input($orders_status_name_array[$lang_id]));
 
           if ($action == 'insert') {
-            if (!oos_is_not_null($orders_status_id)) {
+            if (!!empty($orders_status_id)) {
               $next_id_result = $dbconn->Execute("SELECT max(orders_status_id) as orders_status_id FROM " . $oostable['orders_status'] . "");
               $next_id = $next_id_result->fields;
               $orders_status_id = $next_id['orders_status_id'] + 1;

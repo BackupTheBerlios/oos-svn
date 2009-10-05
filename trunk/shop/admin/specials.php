@@ -429,7 +429,7 @@
         $contents[] = array('text' => '' . TEXT_INFO_PERCENTAGE . ' ' . number_format(100 - (($sInfo->specials_new_products_price / $sInfo->products_price) * 100)) . '%');
 
         if (date('Y-m-d') < $sInfo->expires_date) $contents[] = array('text' => '<br />' . TEXT_INFO_EXPIRES_DATE . ' <b>' . oos_date_short($sInfo->expires_date) . '</b>');
-        if (oos_is_not_null($sInfo->date_status_change)) $contents[] = array('text' => '' . TEXT_INFO_STATUS_CHANGE . ' ' . oos_date_short($sInfo->date_status_change));
+        if (!empty($sInfo->date_status_change)) $contents[] = array('text' => '' . TEXT_INFO_STATUS_CHANGE . ' ' . oos_date_short($sInfo->date_status_change));
       }
       break;
   }

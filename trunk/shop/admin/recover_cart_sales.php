@@ -393,7 +393,7 @@
           if ($result2->RecordCount() > 0) {
             $ttl = $result2->fields;
             if (isset($ttl) && !empty($ttl)) {
-              if (oos_is_not_null($ttl['recovercartsales_date_modified'])) { // allow for older scarts that have no datemodified
+              if (!empty($ttl['recovercartsales_date_modified'])) { // allow for older scarts that have no datemodified
                 $ttldate = $ttl['recovercartsales_date_modified'];
               } else {
                 $ttldate = $ttl['recovercartsales_date_added'];

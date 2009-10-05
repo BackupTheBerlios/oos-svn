@@ -664,7 +664,7 @@ function calcBasePriceFactor() {
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_IMAGE; ?></td>
 <?php
-   if (oos_is_not_null($pInfo->products_image)) {
+   if (!empty($pInfo->products_image)) {
      echo '            <td align="center"><a href="javascript:popupImageWindow(\'' . oos_href_link_admin($aFilename['popup_image_product'], 'bimage=' . $pInfo->products_image) . '\')">' . oos_image(OOS_SHOP_IMAGES . $pInfo->products_image, $pInfo->products_name, '', '80') . '</a></td>';
      echo '            <td><span class="smallText">&nbsp;' . oos_draw_checkbox_field('remove_image', 'yes') . TEXT_PRODUCTS_IMAGE_REMOVE . '<br />&nbsp;' . oos_draw_checkbox_field('delete_image', 'yes') . TEXT_PRODUCTS_IMAGE_DELETE . '<br /><br />&nbsp;<b>' . TEXT_PRODUCTS_IMAGE . '</b>&nbsp;' .  $pInfo->products_image . '</span></td>';
    } else {
@@ -680,7 +680,7 @@ function calcBasePriceFactor() {
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_ZOOMIFY; ?></td>
 <?php
-   if (oos_is_not_null($pInfo->products_zoomify)) {
+   if (!empty($pInfo->products_zoomify)) {
 // todo pupup window for zoomify
 //     echo '            <td align="center"><a href="javascript:popupImageWindow(\'' . oos_href_link_admin($aFilename['popup_image_product'], 'bimage=' . $pInfo->products_image) . '\')">' . oos_image(OOS_SHOP_IMAGES . $pInfo->products_image, $pInfo->products_name, '', '80') . '</a></td>';
    } else {
@@ -696,7 +696,7 @@ function calcBasePriceFactor() {
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_SUBIMAGE1; ?></td>
 <?php
-     if (oos_is_not_null($pInfo->products_subimage1)) {
+     if (!empty($pInfo->products_subimage1)) {
        echo '            <td align="center"><a href="javascript:popupImageWindow(\'' . oos_href_link_admin($aFilename['popup_subimage_product'], 'bimage=' . $pInfo->products_subimage1) . '\')">' . oos_image(OOS_SHOP_IMAGES . $pInfo->products_subimage1, $pInfo->products_name, '', '80') . '</a></td>';
        echo '            <td><span class="smallText">&nbsp;' . oos_draw_checkbox_field('remove_subimage1', 'yes') . TEXT_PRODUCTS_IMAGE_REMOVE . '<br />&nbsp;' . oos_draw_checkbox_field('delete_subimage1', 'yes') . TEXT_PRODUCTS_IMAGE_DELETE . '<br /><br />&nbsp;<b>' . TEXT_PRODUCTS_IMAGE . '</b>&nbsp;' .  $pInfo->products_subimage1 . '</span></td>';
      } else {
@@ -708,7 +708,7 @@ function calcBasePriceFactor() {
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_SUBIMAGE2; ?></td>
 <?php
-     if (oos_is_not_null($pInfo->products_subimage2)) {
+     if (!empty($pInfo->products_subimage2)) {
        echo '            <td align="center"><a href="javascript:popupImageWindow(\'' . oos_href_link_admin($aFilename['popup_subimage_product'], 'bimage=' . $pInfo->products_subimage2) . '\')">' . oos_image(OOS_SHOP_IMAGES . $pInfo->products_subimage2, $pInfo->products_name, '', '80') . '</a></td>';
        echo '            <td><span class="smallText">&nbsp;' . oos_draw_checkbox_field('remove_subimage2', 'yes') . TEXT_PRODUCTS_IMAGE_REMOVE . '<br />&nbsp;' . oos_draw_checkbox_field('delete_subimage2', 'yes') . TEXT_PRODUCTS_IMAGE_DELETE . '<br /><br />&nbsp;<b>' . TEXT_PRODUCTS_IMAGE . '</b>&nbsp;' .  $pInfo->products_subimage2 . '</span></td>';
      } else {
@@ -720,7 +720,7 @@ function calcBasePriceFactor() {
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_SUBIMAGE3; ?></td>
 <?php
-     if (oos_is_not_null($pInfo->products_subimage3)) {
+     if (!empty($pInfo->products_subimage3)) {
        echo '            <td align="center"><a href="javascript:popupImageWindow(\'' . oos_href_link_admin($aFilename['popup_subimage_product'], 'bimage=' . $pInfo->products_subimage3) . '\')">' . oos_image(OOS_SHOP_IMAGES . $pInfo->products_subimage3, $pInfo->products_name, '', '80') . '</a></td>';
        echo '            <td><span class="smallText">&nbsp;' . oos_draw_checkbox_field('remove_subimage3', 'yes') . TEXT_PRODUCTS_IMAGE_REMOVE . '<br />&nbsp;' . oos_draw_checkbox_field('delete_subimage3', 'yes') . TEXT_PRODUCTS_IMAGE_DELETE . '<br /><br />&nbsp;<b>' . TEXT_PRODUCTS_IMAGE . '</b>&nbsp;' .  $pInfo->products_subimage3 . '</span></td>';
      } else {
@@ -732,7 +732,7 @@ function calcBasePriceFactor() {
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_SUBIMAGE4; ?></td>
 <?php
-     if (oos_is_not_null($pInfo->products_subimage4)) {
+     if (!empty($pInfo->products_subimage4)) {
        echo '            <td align="center"><a href="javascript:popupImageWindow(\'' . oos_href_link_admin($aFilename['popup_subimage_product'], 'bimage=' . $pInfo->products_subimage4) . '\')">' . oos_image(OOS_SHOP_IMAGES . $pInfo->products_subimage4, $pInfo->products_name, '', '80') . '</a></td>';
        echo '            <td><span class="smallText">&nbsp;' . oos_draw_checkbox_field('remove_subimage4', 'yes') . TEXT_PRODUCTS_IMAGE_REMOVE . '<br />&nbsp;' . oos_draw_checkbox_field('delete_subimage4', 'yes') . TEXT_PRODUCTS_IMAGE_DELETE . '<br /><br />&nbsp;<b>' . TEXT_PRODUCTS_IMAGE . '</b>&nbsp;' .  $pInfo->products_subimage4 . '</span></td>';
      } else {
@@ -744,7 +744,7 @@ function calcBasePriceFactor() {
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_SUBIMAGE5; ?></td>
 <?php
-     if (oos_is_not_null($pInfo->products_subimage5)) {
+     if (!empty($pInfo->products_subimage5)) {
        echo '            <td align="center"><a href="javascript:popupImageWindow(\'' . oos_href_link_admin($aFilename['popup_subimage_product'], 'bimage=' . $pInfo->products_subimage5) . '\')">' . oos_image(OOS_SHOP_IMAGES . $pInfo->products_subimage5, $pInfo->products_name, '', '80') . '</a></td>';
        echo '            <td><span class="smallText">&nbsp;' . oos_draw_checkbox_field('remove_subimage5', 'yes') . TEXT_PRODUCTS_IMAGE_REMOVE . '<br />&nbsp;' . oos_draw_checkbox_field('delete_subimage5', 'yes') . TEXT_PRODUCTS_IMAGE_DELETE . '<br /><br />&nbsp;<b>' . TEXT_PRODUCTS_IMAGE . '</b>&nbsp;' .  $pInfo->products_subimage5 . '</span></td>';
      } else {
@@ -756,7 +756,7 @@ function calcBasePriceFactor() {
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_SUBIMAGE6; ?></td>
 <?php
-     if (oos_is_not_null($pInfo->products_subimage6)) {
+     if (!empty($pInfo->products_subimage6)) {
        echo '            <td align="center"><a href="javascript:popupImageWindow(\'' . oos_href_link_admin($aFilename['popup_subimage_product'], 'bimage=' . $pInfo->products_subimage6) . '\')">' . oos_image(OOS_SHOP_IMAGES . $pInfo->products_subimage6, $pInfo->products_name, '', '80') . '</a></td>';
        echo '            <td><span class="smallText">&nbsp;' . oos_draw_checkbox_field('remove_subimage6', 'yes') . TEXT_PRODUCTS_IMAGE_REMOVE . '<br />&nbsp;' . oos_draw_checkbox_field('delete_subimage6', 'yes') . TEXT_PRODUCTS_IMAGE_DELETE . '<br /><br />&nbsp;<b>' . TEXT_PRODUCTS_IMAGE . '</b>&nbsp;' .  $pInfo->products_subimage6 . '</span></td>';
      } else {
@@ -1201,7 +1201,7 @@ function calcBasePriceFactor() {
       } else {
         $back_url = $aFilename['categories'];
         $back_url_params = 'categories=' . $categories;
-        if (oos_is_not_null($pInfo->products_id)) {
+        if (!empty($pInfo->products_id)) {
           $back_url_params .= '&pID=' . $pInfo->products_id;
         }
       }

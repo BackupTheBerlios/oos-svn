@@ -69,7 +69,7 @@
   $configuration_result = $dbconn->Execute("SELECT configuration_id, configuration_key, configuration_value, use_function FROM " . $oostable['configuration'] . " WHERE configuration_group_id = '" . $_GET['gID'] . "' ORDER BY sort_order");
 
   while ($configuration = $configuration_result->fields) {
-    if (oos_is_not_null($configuration['use_function'])) {
+    if (!empty($configuration['use_function'])) {
       $use_function = $configuration['use_function'];
       if (preg_match('/->/', $use_function)) {
         $class_method = explode('->', $use_function);
@@ -141,7 +141,7 @@
         $contents[] = array('align' => 'center', 'text' => '<a href="' . oos_href_link_admin($aFilename['configuration'], 'gID=' . $_GET['gID'] . '&cID=' . $cInfo->configuration_id . '&action=edit') . '">' . oos_image_swap_button('edit','edit_off.gif', IMAGE_EDIT) . '</a>');
         $contents[] = array('text' => '<br />' . constant(strtoupper($cInfo->configuration_key . '_DESC')));
         $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . oos_date_short($cInfo->date_added));
-        if (oos_is_not_null($cInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . oos_date_short($cInfo->last_modified));
+        if (!empty($cInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . oos_date_short($cInfo->last_modified));
       }
       break;
   }
