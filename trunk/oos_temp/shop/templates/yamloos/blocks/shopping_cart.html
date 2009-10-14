@@ -10,7 +10,7 @@
 		{if (( $smarty.session.new_products_id_in_cart ) && ($smarty.session.new_products_id_in_cart eq $products.id ))}
 			<span class="newItemInCart">
 		{else}
-			<span class="oos-BlockContent">
+			<span>
 		{/if}
 				{$products.quantity|quantity}&nbsp;x&nbsp;
 			</span>
@@ -20,7 +20,7 @@
 		{if (( $smarty.session.new_products_id_in_cart ) && ($smarty.session.new_products_id_in_cart eq $products.id ))}
 			<span class="newItemInCart">
 		{else}
-			<span class="oos-BlockContent">
+			<span>
 		{/if}
 				{$products.name|truncate:25:"...":true|close_tags}
 			</span>
