@@ -48,54 +48,11 @@ $listing_split = new splitPageResults($nCurrentPageNumber, MAX_DISPLAY_SEARCH_RE
 $listing_numrows = $dbconn->Execute($listing_numrows_sql);
 $listing_numrows = $listing_numrows->RecordCount();
 
-if ($listing_numrows > 0) {
-
 /*
-    $cur_row = count($list_box_contents) - 1;
-
-    $nArrayCountColumnList = count($column_list);
-    for ($col=0, $n=$nArrayCountColumnList; $col<$n; $col++) {
-      switch ($column_list[$col]) {
-        case 'PRODUCT_LIST_MODEL':
-          $lc_text = $aLang['table_heading_model'];
-          break;
-
-        case 'PRODUCT_LIST_NAME':
-          $lc_text = $aLang['table_heading_products'];
-          break;
-
-        case 'PRODUCT_LIST_MANUFACTURER':
-          $lc_text = $aLang['table_heading_manufacturer'];
-          break;
-
-        case 'PRODUCT_LIST_PRICE':
-            $lc_text = $aLang['table_heading_price'];
-          break;
-
-        case 'PRODUCT_LIST_QUANTITY':
-          $lc_text = $aLang['table_heading_quantity'];
-          break;
-
-        case 'PRODUCT_LIST_WEIGHT':
-          $lc_text = $aLang['table_heading_weight'];
-          break;
-
-        case 'PRODUCT_LIST_IMAGE':
-          $lc_text = $aLang['table_heading_image'];
-          break;
-
-        case 'PRODUCT_SLAVE_BUY_NOW':
-            $lc_text = $aLang['table_heading_buy_now'];
-          break;
-      }
-
       if ( ($column_list[$col] != 'PRODUCT_SLAVE_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
           $lc_text = oos_create_sort_heading($_GET['sort'], $col+1, $lc_text);
       }
 */
-}
-
-
 
 if ($listing_numrows > 0) {
 
@@ -218,8 +175,10 @@ $sProductListBuyNow .=oos_get_all_as_hidden_field(array('action'));
                  $sProductListBuyNow .=' <input type="text" name="cart_quantity" value="' . $order_min . '" size="3" /><br />';
                  $sProductListBuyNow .=oos_image_submit('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']);
                  $sProductListBuyNow .='</form>';
-               } else {
-                 $lc_text = '<a href="' . oos_href_link($sPage, $all_get_listing . 'action=buy_slave&amp;slave_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '" title="' . $listing['products_name'] . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
+            } else {
+                 $sProductListBuyNow = '<a href="' . oos_href_link($sPage, $all_get_listing . 'action=buy_slave&amp;slave_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '" title="' . $listing['products_name'] . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
+            }
+
         }
 
         $aProductListing[] = array(
