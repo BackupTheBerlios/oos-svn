@@ -177,18 +177,19 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
         }
     }
 
+    if (is_array($oPaymentModules->modules)) {
+      $oPaymentModules_process_button =  $oPaymentModules->process_button();
+    }
+
+    $oSmarty->assign('payment_modules_process_button', $oPaymentModules_process_button);
+
+
     if (isset($$_SESSION['payment']->form_action_url)) {
         $form_action_url = $$_SESSION['payment']->form_action_url;
     } else {
         $form_action_url = oos_href_link($aPages['checkout_process'], '', 'SSL');
     }
     $oSmarty->assign('form_action_url', $form_action_url);
-
-    if (is_array($oPaymentModules->modules)) {
-      $oPaymentModules_process_button =  $oPaymentModules->process_button();
-    }
-
-    $oSmarty->assign('payment_modules_process_button', $oPaymentModules_process_button);
     $oSmarty->assign('order', $oOrder);
 
     $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
