@@ -29,7 +29,41 @@ p, ul, pre {
 ul ul {
 	font-size: 1em;
 }
+#header {
+	font: 1.1em/1em Arial,sans-serif;
+	width: 90%;
+	height: 3em;
 
+	background: #0CA2FF;
+	border-bottom: 1px solid #0B8AD9;
+
+	padding: 0 5%;
+	margin: 0;
+}
+#navigation {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	font-size: 1em;
+	position: absolute;
+	top: 0.5em;
+}
+#navigation li {
+	display: inline;
+	list-style-type: none;
+	float: left;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	white-space: nowrap;
+}
+#navigation li a {
+	color: #FFF;
+	text-decoration:none;
+	padding: 0.3em 1em;
+	line-height: 200%;
+	display: block;
+}
 #alert {
 	background: #0CA2FF;
 	padding: 1.5em;
@@ -46,6 +80,13 @@ ul ul {
 	width: 70%;
 	max-width: 700px;
 }
+
+#main {
+	margin: 0 auto;
+	padding: 1em;
+	clear: both;
+}
+
 /* Forms */
 fieldset {
 	border: none;
@@ -54,12 +95,12 @@ fieldset {
 }
 legend {
 	font-size: 1.7em;
-	margin: 0.8em 0;
+	margin: 0.8em 0 0.4em;
 	padding: 0;
 }
 .row {
 	clear: both;
-	margin: 1em auto;
+	margin: 1em auto 2em;
 	width: 80%;
 	overflow: hidden;
 }
@@ -69,17 +110,17 @@ legend {
 	text-align: right;
 	width: 40%;
 	margin-left: -2em;
-	padding: 0.5em 2em 0.5em 0;
+	padding: 2px 2em 2px 0;
 	font-size: 1.2em;
 }
 .row input, .row select {
 	width: 56%;
-	padding: 0.6em;
-	margin-bottom: 1em;
+	padding: 3px;
+	margin: 0;
 	font-size: 1.3em;
 	font-family: Arial, sans-serif;
 }
-.row .sidenote {
+.sidenote {
 	clear: both;
 	padding: 0;
 	margin: 0.5em 0;
@@ -87,13 +128,32 @@ legend {
 	color: #AAA;
 	text-align: center;
 }
-.submit {
-	clear: both;
-	width: 20%;
-	margin: 0 auto;
-	font-size: 1.6em;
-	background: #eee;
-	border: 1px solid #CCC;
+p.buttons {
+	font-size: 1em;
+	text-align: center;
+}
+button, .button {
+	margin: 0 4px;
+	padding: 4px 8px;
+	font-size: 1.2em;
+	color: #fff;
+	background: #0CA2FF;
+	border: 1px solid #0CA2FF;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	text-align: center;
+	cursor: pointer;
+	font-family: 'Lucida Grande',Verdana,Arial,Helvetica,sans-serif;
+
+	text-decoration: none;
+}
+button.positive, .button.positive {
+	background: #037F0C;
+	border-color: #037F0C;
+}
+button.negative, .button.negative {
+	background: #B2080A;
+	border-color: #B2080A;
 }
 
 #loading, .ui-widget-overlay {
@@ -114,6 +174,7 @@ legend {
 #loading {
 	background: #000 url("loading.gif") no-repeat center center;
 	display: none;
+	cursor: wait;
 }
 
 .ui-dialog {

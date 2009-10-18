@@ -9,7 +9,7 @@
  */
 
 /** */
-define('LILINA_CORE_VERSION', '1.0-alpha-6');
+define('LILINA_CORE_VERSION', '1.0-bleeding');
 define('LILINA_SETTINGS_VERSION', 368);
 define('LILINA_FEEDSTORAGE_VERSION', 237);
 
@@ -24,4 +24,6 @@ $lilina = array(
 		'version'	=> LILINA_SETTINGS_VERSION,
 	),
 );
+
+define('LILINA_USERAGENT', 'Lilina/'. LILINA_CORE_VERSION . '; (' . get_option('baseurl') . '; http://getlilina.org/; Allow Like Gecko)');
 ?>

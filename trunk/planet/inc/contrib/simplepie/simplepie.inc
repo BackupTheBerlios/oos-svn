@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2008, Ryan Parman and Geoffrey Sneddon
+ * Copyright (c) 2004-2009, Ryan Parman and Geoffrey Sneddon
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -33,8 +33,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version "Pecan"
- * @copyright 2004-2008 Ryan Parman, Geoffrey Sneddon
+ * @version 1.2.1-dev
+ * @copyright 2004-2009 Ryan Parman, Geoffrey Sneddon
  * @author Ryan Parman
  * @author Geoffrey Sneddon
  * @link http://simplepie.org/ SimplePie
@@ -51,13 +51,13 @@ define('SIMPLEPIE_NAME', 'SimplePie');
 /**
  * SimplePie Version
  */
-define('SIMPLEPIE_VERSION', 'Pecan');
+define('SIMPLEPIE_VERSION', '1.2.1-dev');
 
 /**
  * SimplePie Build
  * @todo Hardcode for release (there's no need to have to call SimplePie_Misc::parse_date() only every load of simplepie.inc)
  */
-define('SIMPLEPIE_BUILD', gmdate('YmdHis', SimplePie_Misc::parse_date(substr('$Date: 2009-04-17 21:15:15 +1000 (Fri, 17 Apr 2009) $', 7, 25)) ? SimplePie_Misc::parse_date(substr('$Date: 2009-04-17 21:15:15 +1000 (Fri, 17 Apr 2009) $', 7, 25)) : filemtime(__FILE__)));
+define('SIMPLEPIE_BUILD', gmdate('YmdHis', SimplePie_Misc::parse_date(substr('$Date: 2009-07-11 18:53:15 +1000 (Sat, 11 Jul 2009) $', 7, 25)) ? SimplePie_Misc::parse_date(substr('$Date: 2009-07-11 18:53:15 +1000 (Sat, 11 Jul 2009) $', 7, 25)) : filemtime(__FILE__)));
 
 /**
  * SimplePie Website URL
@@ -650,6 +650,13 @@ class SimplePie
 	var $max_checked_feeds = 10;
 
 	/**
+	 * @var array All the feeds found during the autodiscovery process
+	 * @see SimplePie::get_all_discovered_feeds()
+	 * @access private
+	 */
+	var $all_discovered_feeds = array();
+
+	/**
 	 * @var string Web-accessible path to the handler_favicon.php file.
 	 * @see SimplePie::set_favicon_handler()
 	 * @access private
@@ -762,7 +769,7 @@ class SimplePie
 	 */
 	function __destruct()
 	{
-		if (version_compare(PHP_VERSION, '5.3', '<'))
+		if ((version_compare(PHP_VERSION, '5.3', '<') || !gc_enabled()) && !ini_get('zend.ze1_compatibility_mode'))
 		{
 			if (!empty($this->data['items']))
 			{
@@ -1498,8 +1505,8 @@ class SimplePie
 		{
 			return false;
 		}
-		// Then check the xml extension is sane (i.e., libxml 2.7.x issue on PHP < 5.2.9 and libxml 2.7.0 to 2.7.2 on any version).
-		else
+		// Then check the xml extension is sane (i.e., libxml 2.7.x issue on PHP < 5.2.9 and libxml 2.7.0 to 2.7.2 on any version) if we don't have xmlreader.
+		elseif (!extension_loaded('xmlreader'))
 		{
 			static $xml_is_sane = null;
 			if ($xml_is_sane === null)
@@ -1514,7 +1521,7 @@ class SimplePie
 				return false;
 			}
 		}
-		
+
 		if (isset($_GET[$this->javascript]))
 		{
 			SimplePie_Misc::output_javascript();
@@ -1658,7 +1665,7 @@ class SimplePie
 					{
 						// We need to unset this so that if SimplePie::set_file() has been called that object is untouched
 						unset($file);
-						if ($file = $locate->find($this->autodiscovery))
+						if ($file = $locate->find($this->autodiscovery, $this->all_discovered_feeds))
 						{
 							if ($cache)
 							{
@@ -1683,7 +1690,7 @@ class SimplePie
 
 				$headers = $file->headers;
 				$data = $file->body;
-				$sniffer = new $this->content_type_sniffer_class($file);
+				$sniffer =& new $this->content_type_sniffer_class($file);
 				$sniffed = $sniffer->get_type();
 			}
 			else
@@ -1968,7 +1975,7 @@ class SimplePie
 
 					if ($file->success && ($file->method & SIMPLEPIE_FILE_SOURCE_REMOTE === 0 || ($file->status_code === 200 || $file->status_code > 206 && $file->status_code < 300)) && strlen($file->body) > 0)
 					{
-						$sniffer = new $this->content_type_sniffer_class($file);
+						$sniffer =& new $this->content_type_sniffer_class($file);
 						if (substr($sniffer->get_type(), 0, 6) === 'image/')
 						{
 							if ($cache->save(array('headers' => $file->headers, 'body' => $file->body)))
@@ -2075,12 +2082,12 @@ class SimplePie
 	{
 		if ($this->subscribe_url())
 		{
-			$return = $this->sanitize($feed_url, SIMPLEPIE_CONSTRUCT_IRI) . rawurlencode($this->feed_url);
+			$return = $feed_url . rawurlencode($this->feed_url);
 			if ($site_url !== null && $this->get_link() !== null)
 			{
-				$return .= $this->sanitize($site_url, SIMPLEPIE_CONSTRUCT_IRI) . rawurlencode($this->get_link());
+				$return .= $site_url . rawurlencode($this->get_link());
 			}
-			return $return;
+			return $this->sanitize($return, SIMPLEPIE_CONSTRUCT_IRI);
 		}
 		else
 		{
@@ -2371,7 +2378,18 @@ class SimplePie
 		}
 		foreach ((array) $this->get_channel_tags(SIMPLEPIE_NAMESPACE_RSS_20, 'category') as $category)
 		{
-			$categories[] =& new $this->category_class($this->sanitize($category['data'], SIMPLEPIE_CONSTRUCT_TEXT), null, null);
+			// This is really the label, but keep this as the term also for BC.
+			// Label will also work on retrieving because that falls back to term.
+			$term = $this->sanitize($category['data'], SIMPLEPIE_CONSTRUCT_TEXT);
+			if (isset($category['attribs']['']['domain']))
+			{
+				$scheme = $this->sanitize($category['attribs']['']['domain'], SIMPLEPIE_CONSTRUCT_TEXT);
+			}
+			else
+			{
+				$scheme = null;
+			}
+			$categories[] =& new $this->category_class($term, $scheme, null);
 		}
 		foreach ((array) $this->get_channel_tags(SIMPLEPIE_NAMESPACE_DC_11, 'subject') as $category)
 		{
@@ -2639,6 +2657,11 @@ class SimplePie
 		{
 			return null;
 		}
+	}
+
+	function get_all_discovered_feeds()
+	{
+		return $this->all_discovered_feeds;
 	}
 
 	function get_description()
@@ -3105,7 +3128,7 @@ class SimplePie_Item
 	 */
 	function __destruct()
 	{
-		if (version_compare(PHP_VERSION, '5.3', '<'))
+		if ((version_compare(PHP_VERSION, '5.3', '<') || !gc_enabled()) && !ini_get('zend.ze1_compatibility_mode'))
 		{
 			unset($this->feed);
 		}
@@ -3327,7 +3350,18 @@ class SimplePie_Item
 		}
 		foreach ((array) $this->get_item_tags(SIMPLEPIE_NAMESPACE_RSS_20, 'category') as $category)
 		{
-			$categories[] =& new $this->feed->category_class($this->sanitize($category['data'], SIMPLEPIE_CONSTRUCT_TEXT), null, null);
+			// This is really the label, but keep this as the term also for BC.
+			// Label will also work on retrieving because that falls back to term.
+			$term = $this->sanitize($category['data'], SIMPLEPIE_CONSTRUCT_TEXT);
+			if (isset($category['attribs']['']['domain']))
+			{
+				$scheme = $this->sanitize($category['attribs']['']['domain'], SIMPLEPIE_CONSTRUCT_TEXT);
+			}
+			else
+			{
+				$scheme = null;
+			}
+			$categories[] =& new $this->feed->category_class($term, $scheme, null);
 		}
 		foreach ((array) $this->get_item_tags(SIMPLEPIE_NAMESPACE_DC_11, 'subject') as $category)
 		{
@@ -5601,16 +5635,16 @@ class SimplePie_Item
 	{
 		if ($this->get_permalink() !== null)
 		{
-			$return = $this->sanitize($item_url, SIMPLEPIE_CONSTRUCT_IRI) . rawurlencode($this->get_permalink());
+			$return = $item_url . rawurlencode($this->get_permalink());
 			if ($title_url !== null && $this->get_title() !== null)
 			{
-				$return .= $this->sanitize($title_url, SIMPLEPIE_CONSTRUCT_IRI) . rawurlencode($this->get_title());
+				$return .= $title_url . rawurlencode($this->get_title());
 			}
 			if ($summary_url !== null && $this->get_description() !== null)
 			{
-				$return .= $this->sanitize($summary_url, SIMPLEPIE_CONSTRUCT_IRI) . rawurlencode($this->get_description());
+				$return .= $summary_url . rawurlencode($this->get_description());
 			}
-			return $return;
+			return $this->sanitize($return, SIMPLEPIE_CONSTRUCT_IRI);
 		}
 		else
 		{
@@ -5806,7 +5840,18 @@ class SimplePie_Source
 		}
 		foreach ((array) $this->get_source_tags(SIMPLEPIE_NAMESPACE_RSS_20, 'category') as $category)
 		{
-			$categories[] =& new $this->item->feed->category_class($this->sanitize($category['data'], SIMPLEPIE_CONSTRUCT_TEXT), null, null);
+			// This is really the label, but keep this as the term also for BC.
+			// Label will also work on retrieving because that falls back to term.
+			$term = $this->sanitize($category['data'], SIMPLEPIE_CONSTRUCT_TEXT);
+			if (isset($category['attribs']['']['domain']))
+			{
+				$scheme = $this->sanitize($category['attribs']['']['domain'], SIMPLEPIE_CONSTRUCT_TEXT);
+			}
+			else
+			{
+				$scheme = null;
+			}
+			$categories[] =& new $this->item->feed->category_class($term, $scheme, null);
 		}
 		foreach ((array) $this->get_source_tags(SIMPLEPIE_NAMESPACE_DC_11, 'subject') as $category)
 		{
@@ -7763,7 +7808,7 @@ class SimplePie_File
 								{
 									case 'gzip':
 									case 'x-gzip':
-										$decoder = new SimplePie_gzdecode($this->body);
+										$decoder =& new SimplePie_gzdecode($this->body);
 										if (!$decoder->parse())
 										{
 											$this->error = 'Unable to decode HTTP "gzip" stream';
@@ -8457,7 +8502,7 @@ class SimplePie_gzdecode
 			if ($this->flags & 8)
 			{
 				// Get the length of the filename
-				$len = strspn($this->compressed_data, "\x00", $this->position);
+				$len = strcspn($this->compressed_data, "\x00", $this->position);
 
 				// Check the length of the string is still valid
 				$this->min_compressed_size += $len + 1;
@@ -8477,7 +8522,7 @@ class SimplePie_gzdecode
 			if ($this->flags & 16)
 			{
 				// Get the length of the comment
-				$len = strspn($this->compressed_data, "\x00", $this->position);
+				$len = strcspn($this->compressed_data, "\x00", $this->position);
 
 				// Check the length of the string is still valid
 				$this->min_compressed_size += $len + 1;
@@ -8575,7 +8620,7 @@ class SimplePie_Cache
 	 */
 	function create($location, $filename, $extension)
 	{
-		$location_iri = new SimplePie_IRI($location);
+		$location_iri =& new SimplePie_IRI($location);
 		switch ($location_iri->get_scheme())
 		{
 			case 'mysql':
@@ -9272,51 +9317,31 @@ class SimplePie_Misc
 
 	function parse_url($url)
 	{
-		preg_match('/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/', $url, $match);
-		for ($i = count($match); $i <= 9; $i++)
-		{
-			$match[$i] = '';
-		}
-		return array('scheme' => $match[2], 'authority' => $match[4], 'path' => $match[5], 'query' => $match[7], 'fragment' => $match[9]);
+		$iri =& new SimplePie_IRI($url);
+		return array(
+			'scheme' => (string) $iri->get_scheme(),
+			'authority' => (string) $iri->get_authority(),
+			'path' => (string) $iri->get_path(),
+			'query' => (string) $iri->get_query(),
+			'fragment' => (string) $iri->get_fragment()
+		);
 	}
 
 	function compress_parse_url($scheme = '', $authority = '', $path = '', $query = '', $fragment = '')
 	{
-		$return = '';
-		if ($scheme !== '')
-		{
-			$return .= "$scheme:";
-		}
-		if ($authority !== '')
-		{
-			$return .= "//$authority";
-		}
-		if ($path !== '')
-		{
-			$return .= $path;
-		}
-		if ($query !== '')
-		{
-			$return .= "?$query";
-		}
-		if ($fragment !== '')
-		{
-			$return .= "#$fragment";
-		}
-		return $return;
+		$iri =& new SimplePie_IRI('');
+		$iri->set_scheme($scheme);
+		$iri->set_authority($authority);
+		$iri->set_path($path);
+		$iri->set_query($query);
+		$iri->set_fragment($fragment);
+		return $iri->get_iri();
 	}
 
 	function normalize_url($url)
 	{
-		$url = preg_replace_callback('/%([0-9A-Fa-f]{2})/', array('SimplePie_Misc', 'percent_encoding_normalization'), $url);
-		$url = SimplePie_Misc::parse_url($url);
-		$url['scheme'] = strtolower($url['scheme']);
-		if ($url['authority'] !== '')
-		{
-			$url['authority'] = strtolower($url['authority']);
-			$url['path'] = SimplePie_Misc::remove_dot_segments($url['path']);
-		}
-		return SimplePie_Misc::compress_parse_url($url['scheme'], $url['authority'], $url['path'], $url['query'], $url['fragment']);
+		$iri =& new SimplePie_IRI($url);
+		return $iri->get_iri();
 	}
 
 	function percent_encoding_normalization($match)
@@ -9406,8 +9431,8 @@ class SimplePie_Misc
 		{
 			return SimplePie_Misc::windows_1252_to_utf8($data);
 		}
-		// This is second, as behaviour of this varies only with PHP version
-		elseif (function_exists('mb_convert_encoding') && ($return = @mb_convert_encoding($data, $output, $input)))
+		// This is second, as behaviour of this varies only with PHP version (the middle part of this expression checks the encoding is supported).
+		elseif (function_exists('mb_convert_encoding') && @mb_convert_encoding("\x80", 'UTF-16BE', $input) !== "\x00\x80" && ($return = @mb_convert_encoding($data, $output, $input)))
 		{
 			return $return;
 		}
@@ -9425,10 +9450,8 @@ class SimplePie_Misc
 
 	function encoding($charset)
 	{
-		/* Character sets are case-insensitive, and also need some further
-		normalization in the real world (though we'll return them in the form given
-		in their registration). */
-		switch (strtolower(preg_replace('/[\x09-\x0D\x20-\x2F\x3A-\x40\x5B-\x60\x7B-\x7E]/', '', $charset)))
+		// Normalization from UTS #22
+		switch (strtolower(preg_replace('/(?:[^a-zA-Z0-9]+|([^0-9])0+)/', '\1', $charset)))
 		{
 			case 'adobestandardencoding':
 			case 'csadobestandardencoding':
@@ -9439,8 +9462,6 @@ class SimplePie_Misc
 				return 'Adobe-Symbol-Encoding';
 
 			case 'ami1251':
-			case 'ami1251':
-			case 'amiga1251':
 			case 'amiga1251':
 				return 'Amiga-1251';
 
@@ -9454,8 +9475,8 @@ class SimplePie_Misc
 			case 'arabic7':
 			case 'asmo449':
 			case 'csiso89asmo449':
-			case 'isoir89':
 			case 'iso9036':
+			case 'isoir89':
 				return 'ASMO_449';
 
 			case 'big5':
@@ -9477,8 +9498,8 @@ class SimplePie_Misc
 			case 'bs4730':
 			case 'csiso4unitedkingdom':
 			case 'gb':
-			case 'isoir4':
 			case 'iso646gb':
+			case 'isoir4':
 			case 'uk':
 				return 'BS_4730';
 
@@ -9495,15 +9516,15 @@ class SimplePie_Misc
 			case 'csa71':
 			case 'csaz243419851':
 			case 'csiso121canadian1':
-			case 'isoir121':
 			case 'iso646ca':
+			case 'isoir121':
 				return 'CSA_Z243.4-1985-1';
 
 			case 'csa72':
 			case 'csaz243419852':
 			case 'csiso122canadian2':
-			case 'isoir122':
 			case 'iso646ca2':
+			case 'isoir122':
 				return 'CSA_Z243.4-1985-2';
 
 			case 'csaz24341985gr':
@@ -9524,8 +9545,8 @@ class SimplePie_Misc
 			case 'csiso21german':
 			case 'de':
 			case 'din66003':
-			case 'isoir21':
 			case 'iso646de':
+			case 'isoir21':
 				return 'DIN_66003';
 
 			case 'csdkus':
@@ -9534,7 +9555,6 @@ class SimplePie_Misc
 
 			case 'csiso646danish':
 			case 'dk':
-			case 'ds2089':
 			case 'ds2089':
 			case 'iso646dk':
 				return 'DS_2089';
@@ -9607,14 +9627,14 @@ class SimplePie_Misc
 
 			case 'csiso17spanish':
 			case 'es':
-			case 'isoir17':
 			case 'iso646es':
+			case 'isoir17':
 				return 'ES';
 
 			case 'csiso85spanish2':
 			case 'es2':
-			case 'isoir85':
 			case 'iso646es2':
+			case 'isoir85':
 				return 'ES2';
 
 			case 'cseucfixwidjapanese':
@@ -9629,23 +9649,23 @@ class SimplePie_Misc
 			case 'gb18030':
 				return 'GB18030';
 
+			case 'chinese':
 			case 'cp936':
+			case 'csgb2312':
+			case 'csiso58gb231280':
+			case 'gb2312':
+			case 'gb231280':
 			case 'gbk':
+			case 'isoir58':
 			case 'ms936':
 			case 'windows936':
-			case 'csgb2312':
-			case 'gb2312':
-			case 'chinese':
-			case 'csiso58gb231280':
-			case 'gb231280':
-			case 'isoir58':
 				return 'GBK';
 
 			case 'cn':
 			case 'csiso57gb1988':
 			case 'gb198880':
-			case 'isoir57':
 			case 'iso646cn':
+			case 'isoir57':
 				return 'GB_1988-80';
 
 			case 'csiso153gost1976874':
@@ -9703,93 +9723,93 @@ class SimplePie_Misc
 			case 'ibmthai':
 				return 'IBM-Thai';
 
-			case 'ccsid00858':
-			case 'cp00858':
-			case 'ibm00858':
+			case 'ccsid858':
+			case 'cp858':
+			case 'ibm858':
 			case 'pcmultilingual850euro':
 				return 'IBM00858';
 
-			case 'ccsid00924':
-			case 'cp00924':
+			case 'ccsid924':
+			case 'cp924':
 			case 'ebcdiclatin9euro':
-			case 'ibm00924':
+			case 'ibm924':
 				return 'IBM00924';
 
-			case 'ccsid01140':
-			case 'cp01140':
+			case 'ccsid1140':
+			case 'cp1140':
 			case 'ebcdicus37euro':
-			case 'ibm01140':
+			case 'ibm1140':
 				return 'IBM01140';
 
-			case 'ccsid01141':
-			case 'cp01141':
+			case 'ccsid1141':
+			case 'cp1141':
 			case 'ebcdicde273euro':
-			case 'ibm01141':
+			case 'ibm1141':
 				return 'IBM01141';
 
-			case 'ccsid01142':
-			case 'cp01142':
+			case 'ccsid1142':
+			case 'cp1142':
 			case 'ebcdicdk277euro':
 			case 'ebcdicno277euro':
-			case 'ibm01142':
+			case 'ibm1142':
 				return 'IBM01142';
 
-			case 'ccsid01143':
-			case 'cp01143':
+			case 'ccsid1143':
+			case 'cp1143':
 			case 'ebcdicfi278euro':
 			case 'ebcdicse278euro':
-			case 'ibm01143':
+			case 'ibm1143':
 				return 'IBM01143';
 
-			case 'ccsid01144':
-			case 'cp01144':
+			case 'ccsid1144':
+			case 'cp1144':
 			case 'ebcdicit280euro':
-			case 'ibm01144':
+			case 'ibm1144':
 				return 'IBM01144';
 
-			case 'ccsid01145':
-			case 'cp01145':
+			case 'ccsid1145':
+			case 'cp1145':
 			case 'ebcdices284euro':
-			case 'ibm01145':
+			case 'ibm1145':
 				return 'IBM01145';
 
-			case 'ccsid01146':
-			case 'cp01146':
+			case 'ccsid1146':
+			case 'cp1146':
 			case 'ebcdicgb285euro':
-			case 'ibm01146':
+			case 'ibm1146':
 				return 'IBM01146';
 
-			case 'ccsid01147':
-			case 'cp01147':
+			case 'ccsid1147':
+			case 'cp1147':
 			case 'ebcdicfr297euro':
-			case 'ibm01147':
+			case 'ibm1147':
 				return 'IBM01147';
 
-			case 'ccsid01148':
-			case 'cp01148':
+			case 'ccsid1148':
+			case 'cp1148':
 			case 'ebcdicinternational500euro':
-			case 'ibm01148':
+			case 'ibm1148':
 				return 'IBM01148';
 
-			case 'ccsid01149':
-			case 'cp01149':
+			case 'ccsid1149':
+			case 'cp1149':
 			case 'ebcdicis871euro':
-			case 'ibm01149':
+			case 'ibm1149':
 				return 'IBM01149';
 
-			case 'cp037':
-			case 'csibm037':
+			case 'cp37':
+			case 'csibm37':
 			case 'ebcdiccpca':
 			case 'ebcdiccpnl':
 			case 'ebcdiccpus':
 			case 'ebcdiccpwt':
-			case 'ibm037':
+			case 'ibm37':
 				return 'IBM037';
 
-			case 'cp038':
-			case 'csibm038':
+			case 'cp38':
+			case 'csibm38':
 			case 'ebcdicint':
-			case 'ibm038':
+			case 'ibm38':
 				return 'IBM038';
 
 			case 'cp273':
@@ -9931,8 +9951,8 @@ class SimplePie_Misc
 				return 'IBM860';
 
 			case '861':
-			case 'cpis':
 			case 'cp861':
+			case 'cpis':
 			case 'csibm861':
 			case 'ibm861':
 				return 'IBM861';
@@ -9966,15 +9986,15 @@ class SimplePie_Misc
 			case 'ibm866':
 				return 'IBM866';
 
-			case 'cpar':
 			case 'cp868':
+			case 'cpar':
 			case 'csibm868':
 			case 'ibm868':
 				return 'IBM868';
 
 			case '869':
-			case 'cpgr':
 			case 'cp869':
+			case 'cpgr':
 			case 'csibm869':
 			case 'ibm869':
 				return 'IBM869';
@@ -10032,7 +10052,6 @@ class SimplePie_Misc
 				return 'IBM1026';
 
 			case 'ibm1047':
-			case 'ibm1047':
 				return 'IBM1047';
 
 			case 'csiso143iecp271':
@@ -10087,9 +10106,8 @@ class SimplePie_Misc
 
 			case 'csisolatin2':
 			case 'iso88592':
-			case 'isoir101':
-			case 'iso88592':
 			case 'iso885921987':
+			case 'isoir101':
 			case 'l2':
 			case 'latin2':
 				return 'ISO-8859-2';
@@ -10100,18 +10118,16 @@ class SimplePie_Misc
 
 			case 'csisolatin3':
 			case 'iso88593':
-			case 'isoir109':
-			case 'iso88593':
 			case 'iso885931988':
+			case 'isoir109':
 			case 'l3':
 			case 'latin3':
 				return 'ISO-8859-3';
 
 			case 'csisolatin4':
 			case 'iso88594':
-			case 'isoir110':
-			case 'iso88594':
 			case 'iso885941988':
+			case 'isoir110':
 			case 'l4':
 			case 'latin4':
 				return 'ISO-8859-4';
@@ -10119,9 +10135,8 @@ class SimplePie_Misc
 			case 'csisolatincyrillic':
 			case 'cyrillic':
 			case 'iso88595':
-			case 'isoir144':
-			case 'iso88595':
 			case 'iso885951988':
+			case 'isoir144':
 				return 'ISO-8859-5';
 
 			case 'arabic':
@@ -10129,18 +10144,15 @@ class SimplePie_Misc
 			case 'csisolatinarabic':
 			case 'ecma114':
 			case 'iso88596':
-			case 'isoir127':
-			case 'iso88596':
 			case 'iso885961987':
+			case 'isoir127':
 				return 'ISO-8859-6';
 
 			case 'csiso88596e':
 			case 'iso88596e':
-			case 'iso88596e':
 				return 'ISO-8859-6-E';
 
 			case 'csiso88596i':
-			case 'iso88596i':
 			case 'iso88596i':
 				return 'ISO-8859-6-I';
 
@@ -10150,26 +10162,22 @@ class SimplePie_Misc
 			case 'greek':
 			case 'greek8':
 			case 'iso88597':
-			case 'isoir126':
-			case 'iso88597':
 			case 'iso885971987':
+			case 'isoir126':
 				return 'ISO-8859-7';
 
 			case 'csisolatinhebrew':
 			case 'hebrew':
 			case 'iso88598':
-			case 'isoir138':
-			case 'iso88598':
 			case 'iso885981988':
+			case 'isoir138':
 				return 'ISO-8859-8';
 
 			case 'csiso88598e':
 			case 'iso88598e':
-			case 'iso88598e':
 				return 'ISO-8859-8-E';
 
 			case 'csiso88598i':
-			case 'iso88598i':
 			case 'iso88598i':
 				return 'ISO-8859-8-I';
 
@@ -10179,8 +10187,8 @@ class SimplePie_Misc
 
 			case 'csisolatin6':
 			case 'iso885910':
-			case 'isoir157':
 			case 'iso8859101992':
+			case 'isoir157':
 			case 'l6':
 			case 'latin6':
 				return 'ISO-8859-10';
@@ -10189,23 +10197,20 @@ class SimplePie_Misc
 				return 'ISO-8859-13';
 
 			case 'iso885914':
+			case 'iso8859141998':
 			case 'isoceltic':
 			case 'isoir199':
-			case 'iso885914':
-			case 'iso8859141998':
 			case 'l8':
 			case 'latin8':
 				return 'ISO-8859-14';
 
 			case 'iso885915':
-			case 'iso885915':
 			case 'latin9':
 				return 'ISO-8859-15';
 
 			case 'iso885916':
-			case 'isoir226':
-			case 'iso885916':
 			case 'iso8859162001':
+			case 'isoir226':
 			case 'l10':
 			case 'latin10':
 				return 'ISO-8859-16';
@@ -10235,7 +10240,6 @@ class SimplePie_Misc
 				return 'ISO-10646-UTF-1';
 
 			case 'csiso115481':
-			case 'iso115481':
 			case 'iso115481':
 			case 'isotr115481':
 				return 'ISO-11548-1';
@@ -10271,55 +10275,55 @@ class SimplePie_Misc
 
 			case 'csiso2intlrefversion':
 			case 'irv':
-			case 'isoir2':
 			case 'iso646irv1983':
+			case 'isoir2':
 				return 'ISO_646.irv:1983';
 
 			case 'csiso2033':
 			case 'e13b':
-			case 'isoir98':
 			case 'iso20331983':
+			case 'isoir98':
 				return 'ISO_2033-1983';
 
 			case 'csiso5427cyrillic':
-			case 'isoir37':
 			case 'iso5427':
+			case 'isoir37':
 				return 'ISO_5427';
 
-			case 'isoir54':
 			case 'iso5427cyrillic1981':
 			case 'iso54271981':
+			case 'isoir54':
 				return 'ISO_5427:1981';
 
 			case 'csiso5428greek':
-			case 'isoir55':
 			case 'iso54281980':
+			case 'isoir55':
 				return 'ISO_5428:1980';
 
 			case 'csiso6937add':
-			case 'isoir152':
 			case 'iso6937225':
+			case 'isoir152':
 				return 'ISO_6937-2-25';
 
 			case 'csisotextcomm':
-			case 'isoir142':
 			case 'iso69372add':
+			case 'isoir142':
 				return 'ISO_6937-2-add';
 
 			case 'csiso8859supp':
-			case 'isoir154':
 			case 'iso8859supp':
+			case 'isoir154':
 			case 'latin125':
 				return 'ISO_8859-supp';
 
 			case 'csiso10367box':
-			case 'isoir155':
 			case 'iso10367box':
+			case 'isoir155':
 				return 'ISO_10367-box';
 
 			case 'csiso15italian':
-			case 'isoir15':
 			case 'iso646it':
+			case 'isoir15':
 			case 'it':
 				return 'IT';
 
@@ -10328,12 +10332,12 @@ class SimplePie_Misc
 			case 'jisc62201969':
 			case 'jisc62201969jp':
 			case 'katakana':
-			case 'x02017':
+			case 'x2017':
 				return 'JIS_C6220-1969-jp';
 
 			case 'csiso14jisc6220ro':
-			case 'isoir14':
 			case 'iso646jp':
+			case 'isoir14':
 			case 'jisc62201969ro':
 			case 'jp':
 				return 'JIS_C6220-1969-ro';
@@ -10343,11 +10347,11 @@ class SimplePie_Misc
 			case 'jisc62261978':
 				return 'JIS_C6226-1978';
 
-			case 'csiso87jisx0208':
+			case 'csiso87jisx208':
 			case 'isoir87':
 			case 'jisc62261983':
-			case 'jisx02081983':
-			case 'x0208':
+			case 'jisx2081983':
+			case 'x208':
 				return 'JIS_C6226-1983';
 
 			case 'csiso91jisc62291984a':
@@ -10357,8 +10361,8 @@ class SimplePie_Misc
 				return 'JIS_C6229-1984-a';
 
 			case 'csiso92jisc62991984b':
-			case 'isoir92':
 			case 'iso646jpocrb':
+			case 'isoir92':
 			case 'jisc62291984b':
 			case 'jpocrb':
 				return 'JIS_C6229-1984-b';
@@ -10391,19 +10395,19 @@ class SimplePie_Misc
 				return 'JIS_Encoding';
 
 			case 'cshalfwidthkatakana':
-			case 'jisx0201':
-			case 'x0201':
+			case 'jisx201':
+			case 'x201':
 				return 'JIS_X0201';
 
-			case 'csiso159jisx02121990':
+			case 'csiso159jisx2121990':
 			case 'isoir159':
-			case 'jisx02121990':
-			case 'x0212':
+			case 'jisx2121990':
+			case 'x212':
 				return 'JIS_X0212-1990';
 
 			case 'csiso141jusib1002':
-			case 'isoir141':
 			case 'iso646yu':
+			case 'isoir141':
 			case 'js':
 			case 'jusib1002':
 			case 'yu':
@@ -10477,8 +10481,8 @@ class SimplePie_Misc
 
 			case 'csiso86hungarian':
 			case 'hu':
-			case 'isoir86':
 			case 'iso646hu':
+			case 'isoir86':
 			case 'msz77953':
 				return 'MSZ_7795.3';
 
@@ -10504,46 +10508,46 @@ class SimplePie_Misc
 
 			case 'csiso151cuba':
 			case 'cuba':
-			case 'isoir151':
 			case 'iso646cu':
-			case 'ncnc001081':
+			case 'isoir151':
+			case 'ncnc1081':
 				return 'NC_NC00-10:81';
 
 			case 'csiso69french':
 			case 'fr':
-			case 'isoir69':
 			case 'iso646fr':
+			case 'isoir69':
 			case 'nfz62010':
 				return 'NF_Z_62-010';
 
 			case 'csiso25french':
-			case 'isoir25':
 			case 'iso646fr1':
+			case 'isoir25':
 			case 'nfz620101973':
 				return 'NF_Z_62-010_(1973)';
 
 			case 'csiso60danishnorwegian':
 			case 'csiso60norwegian1':
-			case 'isoir60':
 			case 'iso646no':
+			case 'isoir60':
 			case 'no':
 			case 'ns45511':
 				return 'NS_4551-1';
 
 			case 'csiso61norwegian2':
-			case 'isoir61':
 			case 'iso646no2':
+			case 'isoir61':
 			case 'no2':
 			case 'ns45512':
 				return 'NS_4551-2';
 
-			case 'osdebcdicdf03irv':
+			case 'osdebcdicdf3irv':
 				return 'OSD_EBCDIC_DF03_IRV';
 
-			case 'osdebcdicdf041':
+			case 'osdebcdicdf41':
 				return 'OSD_EBCDIC_DF04_1';
 
-			case 'osdebcdicdf0415':
+			case 'osdebcdicdf415':
 				return 'OSD_EBCDIC_DF04_15';
 
 			case 'cspc8danishnorwegian':
@@ -10555,14 +10559,14 @@ class SimplePie_Misc
 				return 'PC8-Turkish';
 
 			case 'csiso16portuguese':
-			case 'isoir16':
 			case 'iso646pt':
+			case 'isoir16':
 			case 'pt':
 				return 'PT';
 
 			case 'csiso84portuguese2':
-			case 'isoir84':
 			case 'iso646pt2':
+			case 'isoir84':
 			case 'pt2':
 				return 'PT2';
 
@@ -10578,16 +10582,16 @@ class SimplePie_Misc
 
 			case 'csiso10swedish':
 			case 'fi':
-			case 'isoir10':
 			case 'iso646fi':
 			case 'iso646se':
+			case 'isoir10':
 			case 'se':
 			case 'sen850200b':
 				return 'SEN_850200_B';
 
 			case 'csiso11swedishfornames':
-			case 'isoir11':
 			case 'iso646se2':
+			case 'isoir11':
 			case 'se2':
 			case 'sen850200c':
 				return 'SEN_850200_C';
@@ -10635,9 +10639,9 @@ class SimplePie_Misc
 			case 'cp367':
 			case 'csascii':
 			case 'ibm367':
-			case 'isoir6':
-			case 'iso646us':
 			case 'iso646irv1991':
+			case 'iso646us':
+			case 'isoir6':
 			case 'us':
 			case 'usascii':
 				return 'US-ASCII';
@@ -10701,18 +10705,18 @@ class SimplePie_Misc
 
 			case 'iso885911':
 			case 'tis620':
-				return 'Windows-874';
+				return 'windows-874';
 
 			case 'cseuckr':
-			case 'euckr':
-			case 'windows949':
 			case 'csksc56011987':
+			case 'euckr':
 			case 'isoir149':
 			case 'korean':
 			case 'ksc5601':
 			case 'ksc56011987':
 			case 'ksc56011989':
-				return 'Windows-949';
+			case 'windows949':
+				return 'windows-949';
 
 			case 'windows1250':
 				return 'windows-1250';
@@ -10724,13 +10728,10 @@ class SimplePie_Misc
 			case 'csisolatin1':
 			case 'ibm819':
 			case 'iso88591':
-			case 'isoir100':
 			case 'iso885911987':
+			case 'isoir100':
 			case 'l1':
 			case 'latin1':
-			case 'windows1252':
-				return 'Windows-1252';
-
 			case 'windows1252':
 				return 'windows-1252';
 
@@ -10739,13 +10740,10 @@ class SimplePie_Misc
 
 			case 'csisolatin5':
 			case 'iso88599':
-			case 'isoir148':
 			case 'iso885991989':
+			case 'isoir148':
 			case 'l5':
 			case 'latin5':
-			case 'windows1254':
-				return 'Windows-1254';
-
 			case 'windows1254':
 				return 'windows-1254';
 
@@ -10862,7 +10860,7 @@ class SimplePie_Misc
 	 */
 	function entities_decode($data)
 	{
-		$decoder = new SimplePie_Decode_HTML_Entities($data);
+		$decoder =& new SimplePie_Decode_HTML_Entities($data);
 		return $decoder->parse();
 	}
 
@@ -11258,7 +11256,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x00\x00\x00\x3F\x00\x00\x00\x3E"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32BE', 'UTF-8'));
+				$parser =& new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32BE', 'UTF-8'));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -11271,7 +11269,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x3F\x00\x00\x00\x3E\x00\x00\x00"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32LE', 'UTF-8'));
+				$parser =& new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 20), 'UTF-32LE', 'UTF-8'));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -11284,7 +11282,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x00\x3F\x00\x3E"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16BE', 'UTF-8'));
+				$parser =& new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16BE', 'UTF-8'));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -11297,7 +11295,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x3F\x00\x3E\x00"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16LE', 'UTF-8'));
+				$parser =& new SimplePie_XML_Declaration_Parser(SimplePie_Misc::change_encoding(substr($data, 20, $pos - 10), 'UTF-16LE', 'UTF-8'));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -11310,7 +11308,7 @@ class SimplePie_Misc
 		{
 			if ($pos = strpos($data, "\x3F\x3E"))
 			{
-				$parser = new SimplePie_XML_Declaration_Parser(substr($data, 5, $pos - 5));
+				$parser =& new SimplePie_XML_Declaration_Parser(substr($data, 5, $pos - 5));
 				if ($parser->parse())
 				{
 					$encoding[] = $parser->encoding;
@@ -11440,7 +11438,6 @@ class SimplePie_Decode_HTML_Entities
 		}
 		else
 		{
-			$this->consumed = false;
 			return false;
 		}
 	}
@@ -11463,7 +11460,6 @@ class SimplePie_Decode_HTML_Entities
 		}
 		else
 		{
-			$this->consumed = false;
 			return false;
 		}
 	}
@@ -11537,7 +11533,7 @@ class SimplePie_Decode_HTML_Entities
 						$replacement = SimplePie_Misc::codepoint_to_utf8($codepoint);
 					}
 
-					if ($this->consume() !== ';')
+					if (!in_array($this->consume(), array(';', false), true))
 					{
 						$this->unconsume();
 					}
@@ -11687,7 +11683,7 @@ class SimplePie_IRI
 		$relative = (string) $relative;
 		if ($relative !== '')
 		{
-			$relative = new SimplePie_IRI($relative);
+			$relative =& new SimplePie_IRI($relative);
 			if ($relative->get_scheme() !== null)
 			{
 				$target = $relative;
@@ -11701,7 +11697,7 @@ class SimplePie_IRI
 				}
 				else
 				{
-					$target = new SimplePie_IRI('');
+					$target =& new SimplePie_IRI('');
 					$target->set_scheme($base->get_scheme());
 					$target->set_userinfo($base->get_userinfo());
 					$target->set_host($base->get_host());
@@ -11880,7 +11876,7 @@ class SimplePie_IRI
 						{
 							$chr = strtoupper($chr);
 						}
-						$string = substr_replace($string, $chr, $position + 1, 2);
+						$string = substr_replace($string, $chr, $position, 3);
 						$strlen -= 2;
 						$position++;
 					}
@@ -12523,7 +12519,6 @@ class SimplePie_Net_IPv6
 	}
 }
 
-
 /**
  * Date Parser
  *
@@ -13027,20 +13022,7 @@ class SimplePie_Parse_Date
 		static $cache;
 		if (!isset($cache[get_class($this)]))
 		{
-			if (extension_loaded('Reflection'))
-			{
-				$class = new ReflectionClass(get_class($this));
-				$methods = $class->getMethods();
-				$all_methods = array();
-				foreach ($methods as $method)
-				{
-					$all_methods[] = $method->getName();
-				}
-			}
-			else
-			{
-				$all_methods = get_class_methods($this);
-			}
+			$all_methods = get_class_methods($this);
 
 			foreach ($all_methods as $method)
 			{
@@ -13067,7 +13049,7 @@ class SimplePie_Parse_Date
 		static $object;
 		if (!$object)
 		{
-			$object = new SimplePie_Parse_Date;
+			$object =& new SimplePie_Parse_Date;
 		}
 		return $object;
 	}
@@ -14093,7 +14075,7 @@ class SimplePie_Locator
 		$this->content_type_sniffer_class = $content_type_sniffer_class;
 	}
 
-	function find($type = SIMPLEPIE_LOCATOR_ALL)
+	function find($type = SIMPLEPIE_LOCATOR_ALL, &$working)
 	{
 		if ($this->is_feed($this->file))
 		{
@@ -14102,7 +14084,7 @@ class SimplePie_Locator
 
 		if ($this->file->method & SIMPLEPIE_FILE_SOURCE_REMOTE)
 		{
-			$sniffer = new $this->content_type_sniffer_class($this->file);
+			$sniffer =& new $this->content_type_sniffer_class($this->file);
 			if ($sniffer->get_type() !== 'text/html')
 			{
 				return null;
@@ -14116,7 +14098,7 @@ class SimplePie_Locator
 
 		if ($type & SIMPLEPIE_LOCATOR_AUTODISCOVERY && $working = $this->autodiscovery())
 		{
-			return $working;
+			return $working[0];
 		}
 
 		if ($type & (SIMPLEPIE_LOCATOR_LOCAL_EXTENSION | SIMPLEPIE_LOCATOR_LOCAL_BODY | SIMPLEPIE_LOCATOR_REMOTE_EXTENSION | SIMPLEPIE_LOCATOR_REMOTE_BODY) && $this->get_links())
@@ -14148,7 +14130,7 @@ class SimplePie_Locator
 	{
 		if ($file->method & SIMPLEPIE_FILE_SOURCE_REMOTE)
 		{
-			$sniffer = new $this->content_type_sniffer_class($file);
+			$sniffer =& new $this->content_type_sniffer_class($file);
 			$sniffed = $sniffer->get_type();
 			if (in_array($sniffed, array('application/rss+xml', 'application/rdf+xml', 'text/rdf', 'application/atom+xml', 'text/xml', 'application/xml')))
 			{
@@ -14189,6 +14171,7 @@ class SimplePie_Locator
 	{
 		$links = array_merge(SimplePie_Misc::get_element('link', $this->file->body), SimplePie_Misc::get_element('a', $this->file->body), SimplePie_Misc::get_element('area', $this->file->body));
 		$done = array();
+		$feeds = array();
 		foreach ($links as $link)
 		{
 			if ($this->checked_feeds === $this->max_checked_feeds)
@@ -14208,19 +14191,26 @@ class SimplePie_Locator
 					$href = SimplePie_Misc::absolutize_url(trim($link['attribs']['href']['data']), $this->http_base);
 				}
 
-				if (!in_array($href, $done) && in_array('feed', $rel) || (in_array('alternate', $rel) && !empty($link['attribs']['type']['data']) && in_array(strtolower(SimplePie_Misc::parse_mime($link['attribs']['type']['data'])), array('application/rss+xml', 'application/atom+xml'))))
+				if (!in_array($href, $done) && in_array('feed', $rel) || (in_array('alternate', $rel) && !empty($link['attribs']['type']['data']) && in_array(strtolower(SimplePie_Misc::parse_mime($link['attribs']['type']['data'])), array('application/rss+xml', 'application/atom+xml'))) && !isset($feeds[$href]))
 				{
 					$this->checked_feeds++;
 					$feed =& new $this->file_class($href, $this->timeout, 5, null, $this->useragent);
 					if ($feed->success && ($feed->method & SIMPLEPIE_FILE_SOURCE_REMOTE === 0 || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300)) && $this->is_feed($feed))
 					{
-						return $feed;
+						$feeds[$href] = $feed;
 					}
 				}
 				$done[] = $href;
 			}
 		}
-		return null;
+
+		if (!empty($feeds))
+		{
+			return array_values($feeds);
+		}
+		else {
+			return null;
+		}
 	}
 
 	function get_links()
@@ -14375,7 +14365,7 @@ class SimplePie_Parser
 
 		if (substr($data, 0, 5) === '<?xml' && strspn(substr($data, 5, 1), "\x09\x0A\x0D\x20") && ($pos = strpos($data, '?>')) !== false)
 		{
-			$declaration = new SimplePie_XML_Declaration_Parser(substr($data, 5, $pos - 5));
+			$declaration =& new SimplePie_XML_Declaration_Parser(substr($data, 5, $pos - 5));
 			if ($declaration->parse())
 			{
 				$data = substr($data, $pos + 2);
@@ -14390,26 +14380,108 @@ class SimplePie_Parser
 
 		$return = true;
 
-		// Create the parser
-		$xml = xml_parser_create_ns($this->encoding, $this->separator);
-		xml_parser_set_option($xml, XML_OPTION_SKIP_WHITE, 1);
-		xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
-		xml_set_object($xml, $this);
-		xml_set_character_data_handler($xml, 'cdata');
-		xml_set_element_handler($xml, 'tag_open', 'tag_close');
-
-		// Parse!
-		if (!xml_parse($xml, $data, true))
+		static $xml_is_sane = null;
+		if ($xml_is_sane === null)
 		{
-			$this->error_code = xml_get_error_code($xml);
-			$this->error_string = xml_error_string($this->error_code);
-			$return = false;
+			$parser_check = xml_parser_create();
+			xml_parse_into_struct($parser_check, '<foo>&amp;</foo>', $values);
+			xml_parser_free($parser_check);
+			$xml_is_sane = isset($values[0]['value']);
 		}
-		$this->current_line = xml_get_current_line_number($xml);
-		$this->current_column = xml_get_current_column_number($xml);
-		$this->current_byte = xml_get_current_byte_index($xml);
-		xml_parser_free($xml);
-		return $return;
+
+		// Create the parser
+		if ($xml_is_sane)
+		{
+			$xml = xml_parser_create_ns($this->encoding, $this->separator);
+			xml_parser_set_option($xml, XML_OPTION_SKIP_WHITE, 1);
+			xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
+			xml_set_object($xml, $this);
+			xml_set_character_data_handler($xml, 'cdata');
+			xml_set_element_handler($xml, 'tag_open', 'tag_close');
+
+			// Parse!
+			if (!xml_parse($xml, $data, true))
+			{
+				$this->error_code = xml_get_error_code($xml);
+				$this->error_string = xml_error_string($this->error_code);
+				$return = false;
+			}
+			$this->current_line = xml_get_current_line_number($xml);
+			$this->current_column = xml_get_current_column_number($xml);
+			$this->current_byte = xml_get_current_byte_index($xml);
+			xml_parser_free($xml);
+			return $return;
+		}
+		else
+		{
+			libxml_clear_errors();
+			$xml =& new XMLReader();
+			$xml->xml($data);
+			while (@$xml->read())
+			{
+				switch ($xml->nodeType)
+				{
+
+					case constant('XMLReader::END_ELEMENT'):
+						if ($xml->namespaceURI !== '')
+						{
+							$tagName = "{$xml->namespaceURI}{$this->separator}{$xml->localName}";
+						}
+						else
+						{
+							$tagName = $xml->localName;
+						}
+						$this->tag_close(null, $tagName);
+						break;
+					case constant('XMLReader::ELEMENT'):
+						$empty = $xml->isEmptyElement;
+						if ($xml->namespaceURI !== '')
+						{
+							$tagName = "{$xml->namespaceURI}{$this->separator}{$xml->localName}";
+						}
+						else
+						{
+							$tagName = $xml->localName;
+						}
+						$attributes = array();
+						while ($xml->moveToNextAttribute())
+						{
+							if ($xml->namespaceURI !== '')
+							{
+								$attrName = "{$xml->namespaceURI}{$this->separator}{$xml->localName}";
+							}
+							else
+							{
+								$attrName = $xml->localName;
+							}
+							$attributes[$attrName] = $xml->value;
+						}
+						$this->tag_open(null, $tagName, $attributes);
+						if ($empty)
+						{
+							$this->tag_close(null, $tagName);
+						}
+						break;
+					case constant('XMLReader::TEXT'):
+
+					case constant('XMLReader::CDATA'):
+						$this->cdata(null, $xml->value);
+						break;
+				}
+			}
+			if ($error = libxml_get_last_error())
+			{
+				$this->error_code = $error->code;
+				$this->error_string = $error->message;
+				$this->current_line = $error->line;
+				$this->current_column = $error->column;
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
 	}
 
 	function get_error_code()

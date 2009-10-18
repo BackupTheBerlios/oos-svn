@@ -138,7 +138,7 @@ class Installer {
 
 		if(empty($errors)) {
 			$output .= "<p>These warnings might cause some feeds not to be read properly, however <em>you will be able to run Lilina.</em></p>\n";
-			$output .= '<form action="' . $_SERVER['PHP_SELF'] . '" method="post">';
+			$output .= '<form action="install.php" method="post">';
 			$output .= '<input type="hidden" name="page" value="1" /><input type="hidden" name="skip" value="1" />';
 			$output .= '<input class="submit" type="submit" value="Continue" /></form>';
 			$output .= "<p id='footnote-quote'>Danger, Will Robinson! &mdash; <em>Lost in Space</em></p>";
@@ -202,7 +202,7 @@ class Installer {
 		?>
 		<h1>Uh oh!</h1>
 		<p>Something happened and <code><?php echo $filename ?></code> couldn't be created. Check that the server has <a href="readme.html#permissions">permission</a> to create it.</p>
-		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+		<form action="install.php" method="post">
 		<input type="hidden" name="sitename" value="<?php echo $sitename; ?>" />
 		<input type="hidden" name="username" value="<?php echo $username; ?>" />
 		<input type="hidden" name="password" value="<?php echo $password; ?>" />
@@ -265,16 +265,9 @@ function lilina_settings_current() {
 	global $lilina;
 	require_once(LILINA_PATH . '/inc/core/version.php');
 
-	require_once(LILINA_PATH . '/inc/core/feed-functions.php');
-
-	load_feeds();
-
-	global $data;
 	global $settings;
 	if( isset($settings['settings_version'])
-	  && $settings['settings_version'] == LILINA_SETTINGS_VERSION
-	  && isset($data['version'])
-	  && $data['version'] == LILINA_FEEDSTORAGE_VERSION ) {
+	  && $settings['settings_version'] == LILINA_SETTINGS_VERSION ) {
 		return true;
 	}
 	return false;
@@ -323,6 +316,7 @@ function guess_baseurl() {
 		$guessurl = dirname($guessurl);
 	$guessurl = preg_replace('|/admin.*|i', '', $guessurl);
 	$guessurl = str_replace('install.php', '', $guessurl);
+	$guessurl = str_replace('?' . $_SERVER['QUERY_STRING'], '', $guessurl);
 	if($guessurl[strlen($guessurl)-1] != '/') {
 		$guessurl .= '/';
 	}

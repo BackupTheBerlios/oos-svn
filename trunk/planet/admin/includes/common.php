@@ -19,7 +19,7 @@
 function generate_nonce() {
 	$user_settings = get_option('auth');
 	$time = ceil(time() / 43200);
-	return md5($time . get_option('auth', 'user') . get_option('auth', 'pass'));
+	return md5($time . $user_settings['user'] . $user_settings['pass']);
 }
 
 /**
@@ -31,7 +31,7 @@ function generate_nonce() {
 function check_nonce($nonce) {
 	$user_settings = get_option('auth');
 	$time = ceil(time() / 43200);
-	$current_nonce = md5($time . get_option('auth', 'user') . get_option('auth', 'pass'));
+	$current_nonce = md5($time . $user_settings['user'] . $user_settings['pass']);
 	if($nonce !== $current_nonce) {
 		return false;
 	}
@@ -61,8 +61,23 @@ function admin_header($title, $parent_file = false) {
 <script type="text/javascript" src="<?php echo get_option('baseurl'); ?>inc/js/jquery.scrollTo.js"></script>
 <script type="text/javascript" src="<?php echo get_option('baseurl'); ?>inc/js/humanmsg.js"></script>
 <script type="text/javascript" src="<?php echo get_option('baseurl'); ?>admin/admin.js"></script>
+<script type="text/javascript">
+	admin.localisations = {
+		"No feed URL supplied": "<?php _e('No feed URL supplied') ?>",
+		"No feed ID supplied": "<?php _e('No feed ID supplied') ?>",
+		"Failed to parse response: ": "<?php _e('Failed to parse response: ') ?>",
+		"Are You Sure?": "<?php _e('Are You Sure?') ?>",
+		"Whoops!": "<?php _e('Whoops!') ?>",
+		"OK": "<?php _e('OK') ?>",
+		"Cancel": "<?php _e('Cancel') ?>",
+		"Something Went Wrong!": "<?php _e('Something Went Wrong!') ?>",
+		"Error message:": "<?php _e('Error message:') ?>",
+		'If you think you shouldn\'t have received this error then <a href="http://code.google.com/p/lilina/issues">report a bug</a> quoting that message and how it happened.': '<?php echo str_replace("'", '\\\'', _r('If you think you shouldn\'t have received this error then <a href="http://code.google.com/p/lilina/issues">report a bug</a> quoting that message and how it happened.')) ?>',
+		"Double-click to edit": "<?php _e('Double-click to edit') ?>"
+	};
+</script>
 </head>
-<body id="admin-<?php echo $self; ?>" class="admin-page">
+<body id="admin-<?php echo basename($self, '.php'); ?>" class="admin-page">
 <div id="header">
 	<p id="sitetitle"><a href="<?php echo get_option('baseurl'); ?>"><?php echo get_option('sitename'); ?></a></p>
 	<ul id="navigation">

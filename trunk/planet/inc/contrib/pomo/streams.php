@@ -3,12 +3,13 @@
  * Classes, which help reading streams of data from files.
  * Based on the classes from Danilo Segan <danilo@kvota.net>
  *
- * @version $Id: streams.php 33 2009-02-16 09:33:39Z nbachiyski $
+ * @version $Id: streams.php 223 2009-09-07 21:20:13Z nbachiyski $
  * @package pomo
  * @subpackage streams
  */
 
 
+if ( !class_exists( 'POMO_StringReader' ) ):
 /**
  * Provides file-like methods for manipulating a string instead
  * of a physical file.
@@ -17,49 +18,68 @@ class POMO_StringReader {
   var $_pos;
   var $_str;
 
-  function POMO_StringReader($str = '') {
-    $this->_str = $str;
-    $this->_pos = 0;
-  }
+	function POMO_StringReader($str = '') {
+		$this->_str = $str;
+		$this->_pos = 0;
+		$this->is_overloaded = ((ini_get("mbstring.func_overload") & 2) != 0) && function_exists('mb_substr');
+	}
 
-  function read($bytes) {
-    $data = substr($this->_str, $this->_pos, $bytes);
-    $this->_pos += $bytes;
-    if (strlen($this->_str)<$this->_pos)
-      $this->_pos = strlen($this->_str);
+	function _substr($string, $start, $length) {
+		if ($this->is_overloaded) {
+			return mb_substr($string,$start,$length,'ascii');
+		} else {
+			return substr($string,$start,$length);
+		}
+	}
+	
+	function _strlen($string) {
+		if ($this->is_overloaded) {
+			return mb_strlen($string,'ascii');
+		} else {
+			return strlen($string);
+		}
+	}
 
-    return $data;
-  }
+	function read($bytes) {
+		$data = $this->_substr($this->_str, $this->_pos, $bytes);
+		$this->_pos += $bytes;
+		if ($this->_strlen($this->_str) < $this->_pos) $this->_pos = $this->_strlen($this->_str);
+		return $data;
+	}
 
-  function seekto($pos) {
-    $this->_pos = $pos;
-    if (strlen($this->_str)<$this->_pos)
-      $this->_pos = strlen($this->_str);
-    return $this->_pos;
-  }
+	function seekto($pos) {
+		$this->_pos = $pos;
+		if ($this->_strlen($this->_str) < $this->_pos) $this->_pos = $this->_strlen($this->_str);
+		return $this->_pos;
+	}
 
-  function pos() {
-    return $this->_pos;
-  }
+	function pos() {
+		return $this->_pos;
+	}
 
-  function length() {
-    return strlen($this->_str);
-  }
+	function length() {
+		return $this->_strlen($this->_str);
+	}
 
 }
+endif;
 
+if ( !class_exists( 'POMO_CachedFileReader' ) ):
 /**
  * Reads the contents of the file in the beginning.
  */
 class POMO_CachedFileReader extends POMO_StringReader {
 	function POMO_CachedFileReader($filename) {
+		parent::POMO_StringReader();
 		$this->_str = file_get_contents($filename);
 		if (false === $this->_str)
 			return false;
-		$this->pos = 0;
+		$this->_pos = 0;
 	}
 }
+endif;
 
+if ( !class_exists( 'POMO_CachedIntFileReader' ) ):
 /**
  * Allows reading integers from a file.
  */
@@ -96,7 +116,7 @@ class POMO_CachedIntFileReader extends POMO_CachedFileReader {
 	 */
 	function readint32() {
 		$bytes = $this->read(4);
-		if (4 != strlen($bytes))
+		if (4 != $this->_strlen($bytes))
 			return false;
 		$endian_letter = ('big' == $this->endian)? 'N' : 'V';
 		$int = unpack($endian_letter, $bytes);
@@ -112,11 +132,10 @@ class POMO_CachedIntFileReader extends POMO_CachedFileReader {
 	 */
 	function readint32array($count) {
 		$bytes = $this->read(4 * $count);
-		if (4*$count != strlen($bytes))
+		if (4*$count != $this->_strlen($bytes))
 			return false;
 		$endian_letter = ('big' == $this->endian)? 'N' : 'V';
 		return unpack($endian_letter.$count, $bytes);
 	}
 }
-
-?>
+endif;

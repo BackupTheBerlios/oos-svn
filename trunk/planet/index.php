@@ -1,5 +1,5 @@
 <?php
-// $Id: index.php 336 2009-03-28 10:38:54Z cubegames $
+// $Id: index.php 424 2009-06-26 10:54:53Z cubegames $
 /**
  * Initialization page
  * @author Ryan McCue <cubegames@gmail.com>
@@ -33,5 +33,7 @@ require_once(LILINA_INCPATH . '/core/file-functions.php');
 require_once(LILINA_INCPATH . '/core/skin.php');
 
 do_action('init');
-Templates::load();
+//Templates::load();
+$controller = new Controller();
+$controller->dispatch();
 ?>

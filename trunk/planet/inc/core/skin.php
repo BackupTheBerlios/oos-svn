@@ -64,70 +64,7 @@ function template_footer(){
  * @todo Document
  * @todo Implement items_per_page, feed_include, feed_exclude
  */
-function query_setup($args, $override = true) {
-	global $data, $item, $list, $item_number, $showtime, $total_items;
-	$defaults = array(
-		'showtime' => -1,
-		'items_per_page' => 5,
-		'max_items' => -1,
-
-		'feed_include' => -1,
-		'feed_exclude' => -1,
-
-		'page_num' => -1,
-		'offset' => -1,
-	);
-	$args = lilina_parse_args($args, $defaults);
-	/** Make sure we don't overwrite any current variables */
-	extract($args, EXTR_SKIP);
-
-	/** Default setup */
-	if($args['showtime'] < 0) {
-		if(isset($_REQUEST['hours']) && !empty($_REQUEST['hours'])) {
-			if( -1 == $_REQUEST['hours'])
-				$showtime = 0;
-			else
-				$showtime = time() - ((int) $_REQUEST['hours'] * 60 * 60);
-		}
-		else {
-			global $settings;
-			$times = get_option('interface', 'times');
-			$showtime = time() - ((int) $times[0] * 60 * 60);
-		}
-
-		$showtime = apply_filters('showtime', $showtime);
-	}
-	else
-		$showtime = apply_filters('showtime', $args['showtime']);
-
-	if($items_per_page < 0)
-		// Do nothing for now
-
-	if($max_items < 0)
-		$max_items = count($lilina_items->get_items());
-
-	$total_items = $max_items;
-
-	if($feed_include < 0)
-		// Do nothing for now
-
-	if($feed_exclude < 0)
-		// Do nothing for now
-
-	if($page_num > 0)
-		$offset += ($items_per_page * $page_num);
-
-	if($offset >= 0)
-		$item_number = ($offset - 1);
-		
-	if(empty($data))
-		load_feeds();
-
-	if(!isset($data['feeds']) || count($data['feeds']) === 0)
-		return false;
-
-	if(empty($lilina_items))
-		$lilina_items = lilina_return_items($data);
+function query_setup($args) {
 }
 
 /**
@@ -144,27 +81,18 @@ function query_setup($args, $override = true) {
  * Checks if the current item's date is less than the <tt>$showtime</tt> variable and if so,
  * returns false to stop processing items. If not, checks if the <tt>$item_number</tt> is
  * less than the total number of items and if so, returns true. Otherwise, returns false.
- * @global <tt>$data</tt> contains feed information
- * @global <tt>$item_number</tt> contains the current item's position in the item list
- * @global <tt>$settings</tt> contains filename information and default time to display
- * @global <tt>$showtime</tt> contains the
  *
  * @return boolean Are items available?
  * @todo This is somewhat ugly code. Clean it up.
  */
 function has_items($increment = true) {
 	global $lilina_items;
-	global $data, $item, $item_number, $settings, $showtime, $total_items;
 
-	if(empty($data)) {
-		load_feeds();
-	}
-
-	if(!isset($data['feeds']) || count($data['feeds']) === 0)
+	if(count(Feeds::get_instance()->getAll()) === 0)
 		return false;
 
 	if(empty($lilina_items))
-		$lilina_items = lilina_return_items($data);
+		$lilina_items = lilina_return_items();
 
 	return $lilina_items->has_items();
 }
@@ -560,19 +488,8 @@ function feed_equals($args='') {
 * @return boolean Are feeds available?
 */
 function has_feeds() {
-	global $data;
-	if(empty($data))
-		load_feeds();
-
-	if(!isset($data['feeds']) || count($data['feeds']) === 0)
-		return false;
-
-	return true;
-	//if(empty($list)) {
-	//	$list	= lilina_return_items($data);
-	//}
-	//var_dump($list);
-	//return apply_filters('has_feeds', ((is_array($list[0]) && count($list[0]) > 0) ? true : false));
+	$feeds = Feeds::get_instance()->getAll();
+	return apply_filters('has_feeds', count($feeds === 0));
 }
 
 /**
@@ -581,11 +498,7 @@ function has_feeds() {
 * @return array List of feeds and associated data
 */
 function get_feeds() {
-	global $data;
-	if(empty($data)) {
-		load_feeds();
-	}
-	return apply_filters('get_feeds', $data['feeds']);
+	return apply_filters('get_feeds', Feeds::get_instance()->getAll());
 }
 
 /**
@@ -601,11 +514,27 @@ function list_feeds($args = '') {
 	extract($args, EXTR_SKIP);
 
 	if(has_feeds()) {
-		foreach(get_feeds() as $feed) {
+		$feeds = get_feeds();
+		usort($feeds, '_sort_feeds');
+		foreach($feeds as $feed) {
+			$icon = $feed['icon'];
+			if(!$icon)
+				$icon = get_option('baseurl') . 'lilina-favicon.php?i=default';
 			$title = ($title_length > 0) ? shorten($feed['name'], $title_length) : $feed['name'];
-			printf($format, $feed['url'], /** This doesn't work yet: get_the_feed_favicon($feed['url']) */ Templates::path_to_url( Templates::get_file('feed.png') ), $title, $feed['feed']);
+			printf($format, $feed['url'], $icon, $title, $feed['feed']);
 		}
 	}
+}
+
+/**
+ * Sort feeds by name (internal)
+ *
+ * @param array $a First feed array
+ * @param array $b Second feed array
+ * @return See strnatcmp()
+ */
+function _sort_feeds($a, $b) {
+    return strnatcasecmp($a['name'], $b['name']);
 }
 
 /**

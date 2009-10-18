@@ -68,9 +68,9 @@ class ItemCache extends Items {
 	private function __clone() {}
 
 	/**
-	 * Initialize needed variables
+	 * Initialize SimplePie and load any new items
 	 *
-	 * {@internal Long Description Missing}}
+	 * @return array List of items, including new items
 	 */
 	public function init() {
 		if(is_null($this->simplepie))
@@ -86,9 +86,12 @@ class ItemCache extends Items {
 			//$updated = $updated || $this->check_item($new_item);
 			if($this->check_item($new_item)) {
 				$updated = true;
-				echo '<!-- updated item! -->';
 			}
 		}
+
+		$this->simplepie->__destruct();
+		unset($this->simplepie);
+		unset($this->simplepie_items);
 
 		uasort($this->cached_items, array($this, 'sort_items'));
 		uasort($this->items, array($this, 'sort_items'));
@@ -96,15 +99,22 @@ class ItemCache extends Items {
 		if($updated)
 			$this->save_cache();
 
-		$this->simplepie->__destruct();
-		unset($this->simplepie);
-		unset($this->simplepie_items);
 		unset($this->cached_items);
 
 		return $this->items;
 	}
 
-	
+	/**
+	 * Retreive the items without fetching new ones
+	 *
+	 * Depending on whether {@link init()} is called or not, this may include
+	 * new items.
+	 * @return array List of items
+	 */
+	public function retrieve() {
+		return $this->items;
+	}
+
 	/**
 	 * Check the current item against the cached items
 	 *

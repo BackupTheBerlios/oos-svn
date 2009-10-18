@@ -6,8 +6,7 @@ Items.clickHandler = function (selector) {
 		.siblings('.excerpt')
 			.slideToggle()
 		.parent()
-			.toggleClass('c1')
-			.toggleClass('c2');
+			.toggleClass('expanded')
 	return false;
 };
 Items.setup = function () {
@@ -15,8 +14,7 @@ Items.setup = function () {
 		.children('.excerpt')
 			.hide()
 			.parent()
-				.addClass('c1')
-				.removeClass('c2')
+				.removeClass('expanded')
 			.end()
 		.end()
 		.children('h1')
@@ -33,7 +31,7 @@ Items.setup = function () {
 			Items.count++;
 		})
 		.filter(':first')
-			.addClass('currentItem');
+			.addClass('selected');
 };
 
 function keyboardWatcher(e) {
@@ -56,28 +54,28 @@ function keyboardWatcher(e) {
 		switch(keyCode) {
 			//  "j" key
 			case 74:
-				$('#main .item.currentItem').removeClass('currentItem');
+				$('#main .item.selected').removeClass('selected');
 				Items.current++;
 				if(Items.current == Items.count) {
-					$('#item-0').addClass('currentItem');
+					$('#item-0').addClass('selected');
 					Items.current = 0;
 				}
 				else {
-					$('#item-' + Items.current).addClass('currentItem');
+					$('#item-' + Items.current).addClass('selected');
 				}
 				$.scrollTo('#item-' + Items.current, 400);
 				//window.location = '#item-' + Items.current;
 				break;
 			//  "k" key
 			case 75:
-				$('#main .item.currentItem').removeClass('currentItem');
+				$('#main .item.selected').removeClass('selected');
 				Items.current--;
 				if( Items.current < 0 ) {
-					$('#item-' + (Items.count - 1)).addClass('currentItem');
+					$('#item-' + (Items.count - 1)).addClass('selected');
 					Items.current = (Items.count - 1);
 				}
 				else {
-					$('#item-' + Items.current).addClass('currentItem');
+					$('#item-' + Items.current).addClass('selected');
 				}
 				$.scrollTo('#item-' + Items.current, 400);
 				//window.location = '#item-' + Items.current;
@@ -91,27 +89,13 @@ function keyboardWatcher(e) {
 			// "o" key
 			case 79:
 			case 13:
-				Items.clickHandler('#main .item.currentItem .title');
+				Items.clickHandler('#main .item.selected .title');
 				break;
 		}
 	}
 
 /* JQuery Stuff! */
 $(document).ready(function() {
-	/* Setup our global buttons */
-	$('.river-page #expandall').css({cursor:'pointer'}).click(function (item) {
-		$('.excerpt').slideDown();
-		$('.item').removeClass('c2').addClass('c1');
-
-		return false;
-	});
-	$('.river-page #collapseall').css({cursor:'pointer'}).click(function() {
-		$('.excerpt').slideUp();
-		$('.item').addClass('c1').removeClass('c2');
-
-		return false;
-	});
-
 	/* Ajax loading if no items are found */
 	$('.river-page #viewallitems').click(function() {
 		$('#main').load('index.php?hours=-1 #main', {}, function () {
