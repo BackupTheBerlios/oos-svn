@@ -43,9 +43,11 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
+if(!defined('OOS_VALID_MOD'))die('Direct Access to this location is not allowed.');
 
-  class httpClient {
+class httpClient
+{
+
     var $url; // array containg server URL, similar to parseurl() returned array
     var $reply; // response code
     var $replyString; // full response
@@ -61,7 +63,7 @@
  * Note: when host and port are defined, the connection is immediate
  * @seeAlso connect
  **/
-    function httpClient($host = '', $port = '') {
+    public function __construct($host = '', $port = '') {
       if (!empty($host)) {
         $this->connect($host, $port);
       }

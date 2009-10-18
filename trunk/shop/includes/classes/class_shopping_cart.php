@@ -40,7 +40,7 @@ class shoppingCart
     var $cartID;
     var $content_type;
 
-    function shoppingCart()
+    public function __construct()
     {
       $this->reset();
     }

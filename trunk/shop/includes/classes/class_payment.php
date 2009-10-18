@@ -37,7 +37,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
     var $modules, $selected_module;
 
 // class constructor
-    function payment($module = '')
+    public function __construct($module = '')
     {
         global $aLang;
 

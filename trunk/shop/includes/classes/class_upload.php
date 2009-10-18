@@ -42,7 +42,7 @@ class upload
     var $message_location;
 
 
-    function upload($file = '', $destination = '', $permissions = '644', $extensions = array('jpg', 'jpeg', 'gif', 'png', 'eps', 'cdr', 'ai', 'pdf', 'tif', 'tiff', 'bmp'))
+    public function __construct($file = '', $destination = '', $permissions = '644', $extensions = array('jpg', 'jpeg', 'gif', 'png', 'eps', 'cdr', 'ai', 'pdf', 'tif', 'tiff', 'bmp'))
     {
         $this->set_file($file);
         $this->set_destination($destination);

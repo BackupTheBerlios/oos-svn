@@ -35,7 +35,7 @@ class currencies
 {
     var $currencies;
 
-    function currencies()
+    public function __construct()
     {
 
         $this->currencies = array();

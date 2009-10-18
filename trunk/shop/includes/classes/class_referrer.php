@@ -32,7 +32,7 @@ class referrer
     var $ini_array;
     var $global_fields;
 
-    function referrer()
+    public function __construct()
     {
         $this->reset();
     }

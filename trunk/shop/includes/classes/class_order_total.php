@@ -36,7 +36,7 @@ class order_total
     var $modules;
 
 // class constructor
-    function order_total()
+    public function __construct()
     {
         global $aLang;
 

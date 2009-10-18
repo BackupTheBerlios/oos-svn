@@ -41,7 +41,7 @@ class oosRDF extends fase4_rdf
     /**
      * Constructor
      */
-    function oosRDF()
+    public function __construct()
     {
 
         $this->fase4_rdf();

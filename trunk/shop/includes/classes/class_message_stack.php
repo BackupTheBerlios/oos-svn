@@ -40,7 +40,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 class messageStack
 {
 
-    function messageStack()
+    public function __construct()
     {
         global $messageToStack;
 

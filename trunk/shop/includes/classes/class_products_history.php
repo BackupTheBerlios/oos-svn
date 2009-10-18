@@ -45,7 +45,7 @@ class oosProductsHistory
      * @access    public
      * @author    r23 <info@r23.de>
      */
-    function oosProductsHistory()
+    public function __construct()
     {
         $this->reset();
     }

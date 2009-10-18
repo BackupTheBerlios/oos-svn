@@ -89,7 +89,7 @@ class SPAF_Maps
     var $results = '';
     var $default = '';
 
-    function SPAF_Maps ($query = '', $country = '')
+    public function __construct($query = '', $country = '')
     {
         // set query and country
         $this->query = $query;

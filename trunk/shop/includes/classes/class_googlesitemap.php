@@ -73,7 +73,7 @@ class GoogleSitemap
     /**
      * GoogleSitemap class constructor
      */
-     function GoogleSitemap()
+     public function __construct()
      {
 
          $this->filename = "sitemap";

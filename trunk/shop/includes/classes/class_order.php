@@ -40,7 +40,7 @@ class order
     var $delivery;
     var $content_type;
 
-    function order($order_id = '')
+    public function __construct($order_id = '')
     {
         $this->info = array();
         $this->totals = array();

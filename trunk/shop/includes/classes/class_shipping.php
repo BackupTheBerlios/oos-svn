@@ -36,7 +36,7 @@ class shipping
     var $modules;
 
 // class constructor
-    function shipping($module = '')
+    public function __construct($module = '')
     {
         global $aLang;
 

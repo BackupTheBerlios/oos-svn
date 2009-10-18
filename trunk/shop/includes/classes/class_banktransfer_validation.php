@@ -64,7 +64,7 @@ class AccountCheck
      var $Bankname;
 
     /**
-     * Enthaet die Pruefziffer
+     * Enthaelt die Pruefziffer
      */
      var $PRZ;
 

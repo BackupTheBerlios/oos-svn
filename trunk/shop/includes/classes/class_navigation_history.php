@@ -40,7 +40,7 @@ class oosNavigationHistory
     /**
      * Constructor of our Class
      */
-     function oosNavigationHistory()
+     public function __construct()
      {
          $this->reset();
      }

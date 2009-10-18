@@ -38,7 +38,7 @@ class logger
     var $timer_total;
 
 // class constructor
-    function logger()
+    public function __construct()
     {
         $this->timer_start();
     }

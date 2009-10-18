@@ -40,7 +40,7 @@ class MM extends getID3
     /**
      * Constructor
      */
-     function MM()
+     public function __construct()
      {
 
          $this->getID3();

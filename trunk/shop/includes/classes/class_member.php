@@ -39,7 +39,7 @@ class oosMember
     var $group;
     var $groupID;
 
-    function oosMember()
+    public function __construct()
     {
         $this->reset();
     }

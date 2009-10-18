@@ -39,7 +39,7 @@ class Template extends Smarty
     /**
      * Constructor
      */
-    function Template()
+    public function __construct()
     {
 
          $this->Smarty();

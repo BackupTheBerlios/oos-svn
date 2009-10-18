@@ -57,7 +57,7 @@ class oosCategoryTree
         $category_product_count_start_string = '&nbsp;(',
         $category_product_count_end_string = ')';
 
-    function oosCategoryTree()
+    public function __construct()
     {
 
         if (SHOW_COUNTS == '1') {

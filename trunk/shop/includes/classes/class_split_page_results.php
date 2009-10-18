@@ -38,7 +38,7 @@ class splitPageResults
     /**
      * Constructor
      */
-    function splitPageResults($nCurrentPageNumber, $max_rows_per_page, &$sql_result, &$query_num_rows)
+    public function __construct($nCurrentPageNumber, $max_rows_per_page, &$sql_result, &$query_num_rows)
     {
 
 
