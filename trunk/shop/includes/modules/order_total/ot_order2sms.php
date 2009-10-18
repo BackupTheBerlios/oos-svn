@@ -14,7 +14,7 @@
   class ot_order2sms {
     var $title, $output, $enabled = false;
 
-    function ot_order2sms() {
+    public function __construct() {
       global $aLang;
 
       $this->code = 'ot_order2sms';

@@ -23,7 +23,7 @@
     var $code, $title, $descrption, $icon, $types, $enabled = false;
 
 // class constructor
-    function ups() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'ups';

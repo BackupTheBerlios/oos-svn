@@ -22,7 +22,7 @@
   class ot_loworderfee {
     var $title, $output, $enabled = false;
 
-    function ot_loworderfee() {
+    public function __construct() {
       global $aLang;
 
       $this->code = 'ot_loworderfee';

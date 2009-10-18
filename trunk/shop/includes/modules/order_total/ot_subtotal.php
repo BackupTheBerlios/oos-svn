@@ -22,7 +22,7 @@
   class ot_subtotal {
     var $title, $output, $enabled = false;
 
-    function ot_subtotal() {
+    public function __construct() {
       global $aLang;
 
       $this->code = 'ot_subtotal';

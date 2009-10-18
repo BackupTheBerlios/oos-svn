@@ -23,7 +23,7 @@
     var $code, $title, $description, $enabled = false;
 
 // class constructor
-    function secpay() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'secpay';

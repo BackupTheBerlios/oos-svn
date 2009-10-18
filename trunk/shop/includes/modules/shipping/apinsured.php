@@ -45,7 +45,7 @@
     var $code, $title, $description, $icon, $num_ap_insured, $enabled = false;
 
 // class constructor
-    function apinsured() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'apinsured';

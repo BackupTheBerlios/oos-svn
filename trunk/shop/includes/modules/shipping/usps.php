@@ -23,7 +23,7 @@
     var $code, $title, $description, $icon, $countries, $enabled = false;
 
 // class constructor
-    function usps() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'usps';

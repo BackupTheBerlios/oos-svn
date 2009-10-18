@@ -15,7 +15,7 @@
     var $code, $title, $description, $enabled = false;
 
 // class constructor
-    function yellowpay() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'yellowpay';

@@ -23,7 +23,7 @@
   class ot_order2fax {
     var $title, $output, $enabled = false;
 
-    function ot_order2fax() {
+    public function __construct() {
       global $aLang;
 
       $this->code = 'ot_order2fax';

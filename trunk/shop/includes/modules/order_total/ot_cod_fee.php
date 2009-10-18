@@ -11,7 +11,7 @@
 
    File: ot_cod_fee.php,v 1.02 2003/02/24 06:05:00 harley_vb
    ----------------------------------------------------------------------
-   Copyright (C) 2001 - 2003 TheMedia, Dipl.-Ing Thomas Plänkers
+   Copyright (C) 2001 - 2003 TheMedia, Dipl.-Ing Thomas Plaenkers
        http://www.themedia.at & http://www.oscommerce.at
 
                     All rights reserved.
@@ -39,7 +39,7 @@
   class ot_cod_fee {
     var $title, $output, $enabled = false;
 
-    function ot_cod_fee() {
+    public function __construct() {
       global $aLang;
 
       $this->code = 'ot_cod_fee';

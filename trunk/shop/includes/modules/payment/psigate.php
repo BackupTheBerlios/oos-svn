@@ -23,7 +23,7 @@
     var $code, $title, $description, $enabled = false;
 
 // class constructor
-    function psigate() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'psigate';

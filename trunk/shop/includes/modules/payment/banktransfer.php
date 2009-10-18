@@ -28,7 +28,7 @@
     var $code, $title, $description, $enabled;
 
 // class constructor
-    function banktransfer() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'banktransfer';

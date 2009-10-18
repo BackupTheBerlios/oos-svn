@@ -25,7 +25,7 @@ require_once OOS_ABSOLUTE_PATH . 'includes/functions/function_coupon.php';
   class ot_gv {
     var $title, $output, $enabled = false;
 
-    function ot_gv() {
+    public function __construct() {
       global $aLang;
 
       $this->code = 'ot_gv';

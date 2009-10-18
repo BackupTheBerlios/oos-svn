@@ -22,7 +22,7 @@
   class ot_total {
     var $title, $output, $enabled = false;
 
-    function ot_total() {
+    public function __construct() {
       global $aLang;
 
       $this->code = 'ot_total';

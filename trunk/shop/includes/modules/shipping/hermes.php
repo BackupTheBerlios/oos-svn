@@ -23,7 +23,7 @@
     var $code, $title, $description, $icon, $enabled = false;
 
 // class constructor
-    function hermes() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'hermes';

@@ -22,7 +22,7 @@
   class ot_tax {
     var $title, $output, $enabled = false;
 
-    function ot_tax() {
+    public function __construct() {
       global $aLang;
 
       $this->code = 'ot_tax';

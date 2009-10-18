@@ -23,7 +23,7 @@
     var $code, $title, $description, $icon, $num_dp, $enabled = false;
 
 // class constructor
-    function dp() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'dp';

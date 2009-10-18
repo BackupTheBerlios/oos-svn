@@ -23,7 +23,7 @@
     var $code, $title, $description, $icon, $enabled = false;
 
 // class constructor
-    function item() {
+    public function __construct() {
       global $oOrder, $aLang;
 
       $this->code = 'item';

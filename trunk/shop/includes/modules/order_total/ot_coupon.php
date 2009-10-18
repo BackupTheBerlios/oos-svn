@@ -25,7 +25,7 @@ require_once OOS_ABSOLUTE_PATH . 'includes/functions/function_coupon.php';
   class ot_coupon {
     var $title, $output, $enabled = false;
 
-    function ot_coupon() {
+    public function __construct() {
       global $aLang;
 
       $this->code = 'ot_coupon';

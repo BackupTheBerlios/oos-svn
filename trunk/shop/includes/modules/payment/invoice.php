@@ -23,7 +23,7 @@
     var $code, $title, $description, $enabled = false;
 
 // class constructor
-    function invoice() {
+    public function __construct() {
       global $aLang, $oOrder;
 
       $this->code = 'invoice';
