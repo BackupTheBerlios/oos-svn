@@ -368,6 +368,20 @@ $result = $db->Execute("INSERT INTO " . $table . " (configuration_key, configura
 echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $prefix_table . "configuration " . UPDATED .'</font>';
 
 
+$table = $prefix_table . 'address_book';
+$result = $db->Execute("ALTER TABLE " . $table . " CHANGE `entry_company` `entry_company` VARCHAR( 64 ) NULL DEFAULT NULL");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+}
+$result = $db->Execute("ALTER TABLE " . $table . " CHANGE `entry_owner` `entry_owner` VARCHAR( 64 ) NULL DEFAULT NULL");
+if ($result === false) {
+  echo '<br /><img src="images/no.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-error">' .  $db->ErrorMsg() . NOTMADE . '</font>';
+} else {
+  echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle">&nbsp;<font class="oos-title">' . $table . ' ' . UPDATED .'</font>';
+}
+
+
+
 $table = $prefix_table . 'customers';
 $result = $db->Execute("ALTER TABLE " . $table . " ADD `customers_language` VARCHAR(3) AFTER `customers_login`");
 if ($result === false) {
