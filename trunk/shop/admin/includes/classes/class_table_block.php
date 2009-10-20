@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: table_block.php,v 1.2 2002/11/22 18:45:46 dgw_ 
+   File: table_block.php,v 1.2 2002/11/22 18:45:46 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -31,7 +31,7 @@
     var $table_row_parameters = '';
     var $table_data_parameters = '';
 
-    function tableBlock($contents) {
+    public function __construct($contents) {
       $tableBox_string = '<table border="' . $this->table_border . '" width="' . $this->table_width . '" cellspacing="' . $this->table_cellspacing . '" cellpadding="' . $this->table_cellpadding . '"';
       if ($this->table_parameters != '') $tableBox_string .= ' ' . $this->table_parameters;
       $tableBox_string .= '>' . "\n";
@@ -87,4 +87,3 @@
     }
   }
 
-?>

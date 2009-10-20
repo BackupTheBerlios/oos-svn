@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -21,8 +21,8 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 class PHPlot{
 
@@ -181,7 +181,7 @@ class PHPlot{
 //BEGIN CODE
 //////////////////////////////////////////////////////
 	//Constructor: Setup Img pointer, Colors and Size of Image
-	function PHPlot($which_width=600,$which_height=400,$which_output_file="",$which_input_file="") {
+	public function __construct($which_width=600,$which_height=400,$which_output_file="",$which_input_file="") {
 
 		$this->SetRGBArray('2');
 		$this->background_done = 0; //Set to 1 after background image first drawn
@@ -2643,10 +2643,9 @@ class PHPlot{
 		}
 	} //function DrawGraph
 
- }
+}
 
 // $graph = new PHPlot;
 
 // $graph->DrawGraph();
 
-?>

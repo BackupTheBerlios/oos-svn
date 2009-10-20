@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: zip.lib.php,v 1.7 2002/10/23 04:17:26 robbat2 Exp 
+   File: zip.lib.php,v 1.7 2002/10/23 04:17:26 robbat2 Exp
    ----------------------------------------------------------------------
    phpMyAdmin
 
@@ -94,11 +94,11 @@ class zipfile {
         	$timearray['hours']   = 0;
         	$timearray['minutes'] = 0;
         	$timearray['seconds'] = 0;
-        } 
+        }
 
         return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) |
                 ($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
-    } 
+    }
 
 
     /**
@@ -178,7 +178,7 @@ class zipfile {
         // optional extra field, file comment goes here
         // save to central directory
         $this -> ctrl_dir[] = $cdrec;
-    } 
+    }
 
     /**
      * Dumps out file
@@ -205,4 +205,3 @@ class zipfile {
 
 }
 
-?>

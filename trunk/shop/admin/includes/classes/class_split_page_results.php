@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -25,7 +25,7 @@
 
   class splitPageResults {
 
-    function splitPageResults(&$current_page_number, $max_rows_per_page, &$sql_result, &$query_num_rows) {
+    public function __construct(&$current_page_number, $max_rows_per_page, &$sql_result, &$query_num_rows) {
 
       // Get database information
       $dbconn =& oosDBGetConn();
@@ -126,4 +126,3 @@
     }
   }
 
-?>

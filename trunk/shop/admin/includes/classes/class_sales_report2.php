@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: sales_report2.php,v 1.00 2003/03/08 19:25:29 
+   File: sales_report2.php,v 1.00 2003/03/08 19:25:29
    ----------------------------------------------------------------------
    Charly Wilhelm charly@yoshi.ch
 
@@ -27,7 +27,7 @@
   class sales_report {
     var $mode, $globalStartDate, $startDate, $endDate, $actDate, $showDate, $showDateEnd, $sortString, $status, $outlet;
 
-    function sales_report($mode, $startDate = 0, $endDate = 0, $sort = 0, $statusFilter = 0, $filter = 0) {
+    public function __construct($mode, $startDate = 0, $endDate = 0, $sort = 0, $statusFilter = 0, $filter = 0) {
 
       // startDate and endDate have to be a unix timestamp. Use mktime !
       // if set then both have to be valid startDate and endDate
