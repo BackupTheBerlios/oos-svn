@@ -1,4 +1,5 @@
 {include file="CoreUpdater/templates/header.tpl"}
+<span style="float:right">{postEvent name="template_topBar"}</span>
 {assign var='helpMessage' value='CoreUpdater_HelpMessageContent'|translate:'<a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/faq/">':'</a>':'</li><li>'}
 
 {if $coreError}
@@ -25,6 +26,7 @@
 		<p>{'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate:$listOfPlugins}</p>
 	{/if}
 
+	<p>{'CoreUpdater_TheUpgradeProcessMayFail'|translate}</p>
 	<p>{'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate}</p>
 
 	<br>

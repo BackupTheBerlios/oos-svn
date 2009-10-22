@@ -4,11 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleUI.php 1100 2009-05-08 20:22:44Z matt $
+ * @version $Id: ExampleUI.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_ExampleUI
  */
-
 
 /*
 - prepare a page with all use cases
@@ -19,6 +19,11 @@
 - without all columns icon
 + update http://dev.piwik.org/trac/wiki/HowToTestUI
 */
+
+/**
+ *
+ * @package Piwik_ExampleUI
+ */
 class Piwik_ExampleUI extends Piwik_Plugin
 {
 	public function getInformation()
@@ -55,6 +60,5 @@ class Piwik_ExampleUI extends Piwik_Plugin
 		{
 			Piwik_AddMenu('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action));
 		}
-	}
-	
+	}	
 }

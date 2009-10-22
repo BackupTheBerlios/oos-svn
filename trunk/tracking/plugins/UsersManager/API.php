@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1377 2009-08-08 21:19:47Z vipsoft $
+ * @version $Id: API.php 1477 2009-09-21 20:22:22Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_UsersManager
  */
 
@@ -154,7 +155,10 @@ class Piwik_UsersManager_API
 		$return = array();
 		foreach($users as $user)
 		{
-			$return[$user['idsite']] = $user['access'];
+			$return[] = array(
+				'site' => $user['idsite'],
+				'access' => $user['access'],
+			);
 		}
 		return $return;
 	}
@@ -202,7 +206,7 @@ class Piwik_UsersManager_API
 	{
 		if(self::userExists($userLogin))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException('UsersManager_ExceptionLoginExists'),$userLogin));
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionLoginExists', $userLogin));
 		}
 		
 		$loginMinimumLength = 3;
@@ -229,7 +233,7 @@ class Piwik_UsersManager_API
 	{
 		if(self::userEmailExists($email))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException('UsersManager_ExceptionEmailExists'),$email));
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionEmailExists', $email));
 		}
 		
 		if(!Piwik::isValidEmailString($email))
@@ -371,7 +375,7 @@ class Piwik_UsersManager_API
 		self::checkUserIsNotSuperUser($userLogin);
 		if(!self::userExists($userLogin))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionDeleteDoesNotExist"),$userLogin));
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
 		}
 		
 		
@@ -485,7 +489,7 @@ class Piwik_UsersManager_API
 	{
 		if(!self::userExists($userLogin))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist"),$userLogin));
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist", $userLogin));
 		}
 	}
 	
@@ -499,7 +503,7 @@ class Piwik_UsersManager_API
 	{
 		if(!self::userEmailExists($userEmail))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist"),$userEmail));
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionUserDoesNotExist", $userEmail));
 		}
 	}
 	
@@ -527,7 +531,7 @@ class Piwik_UsersManager_API
 		
 		if(!in_array($access,$accessList))
 		{
-			throw new Exception(sprintf(Piwik_TranslateException("UsersManager_ExceptionAccessValues"),implode(", ", $accessList)));
+			throw new Exception(Piwik_TranslateException("UsersManager_ExceptionAccessValues", implode(", ", $accessList)));
 		}
 	}
 	

@@ -1,14 +1,16 @@
-
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Piwik &raquo; {'Installation_Installation'|translate}</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-</head>
-<body>
+<title>Piwik &rsaquo; {'Installation_Installation'|translate}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+{postEvent name="template_css_import"}
+<script type="text/javascript" src="libs/jquery/jquery.js"></script>
+<script type="text/javascript" src="libs/jquery/fdd2div-modified.js"></script>
 
 {literal}
-<script type="text/javascript" src="libs/jquery/jquery.js"></script>
-<script>
+<script type="text/javascript">
 $(document).ready( function(){
 	$('#toFade').fadeOut(4000, function(){ $(this).css('display', 'hidden'); } );
 	$('input:first').focus();
@@ -195,10 +197,13 @@ input {
 }
 </style>
 {/literal}
+</head>
+<body>
 <div id="main">
 	<div id="content">
 		<div id="logo">
 			<span id="title">Piwik</span> &nbsp;&nbsp;&nbsp;<span id="subtitle"># {'General_OpenSourceWebAnalytics'|translate}</span>
+			<span style="float:right">{postEvent name="template_topBar"}</span>
 		</div>
 		<div class="both"></div>
 

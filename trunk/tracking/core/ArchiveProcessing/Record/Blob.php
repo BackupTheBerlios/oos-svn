@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Blob.php 1270 2009-07-01 06:53:34Z vipsoft $
+ * @version $Id: Blob.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_ArchiveProcessing
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -14,8 +15,8 @@
  * Example: $record = new Piwik_ArchiveProcessing_Record_Blob('visitor_names', serialize(array('piwik-fan', 'php', 'stevie-vibes')));
  * The value will be compressed before being saved in the DB.
  * 
- * @package Piwik_ArchiveProcessing
- * @subpackage Piwik_ArchiveProcessing_Record
+ * @package Piwik
+ * @subpackage Piwik_ArchiveProcessing
  */
 class Piwik_ArchiveProcessing_Record_Blob extends Piwik_ArchiveProcessing_Record
 {

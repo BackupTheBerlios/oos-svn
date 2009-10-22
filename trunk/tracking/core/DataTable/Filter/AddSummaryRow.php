@@ -4,9 +4,10 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: AddSummaryRow.php 1308 2009-07-16 03:33:31Z vipsoft $
+ * @version $Id: AddSummaryRow.php 1420 2009-08-22 13:23:16Z vipsoft $
  *
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -22,8 +23,8 @@
  * which is the sum of all the remaining data after the top 5 data.
  * This row is assigned a label of 'Others'.
  *
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Filter
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 {

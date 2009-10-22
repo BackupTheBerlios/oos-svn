@@ -4,11 +4,17 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: LanguagesManager.php 1380 2009-08-09 03:28:00Z vipsoft $
+ * @version $Id: LanguagesManager.php 1475 2009-09-19 17:32:59Z vipsoft $
  * 
- * @package Piwik_LanguageManager
+ * @category Piwik_Plugins
+ * @package Piwik_LanguagesManager
+ * 
  */
 
+/**
+ *
+ * @package Piwik_LanguagesManager
+ */
 class Piwik_LanguagesManager extends Piwik_Plugin
 {
 	public function getInformation()
@@ -35,10 +41,15 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	{
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
 	}
-	
+
+	/**
+	 * Show styled language selection drop-down list
+	 *
+	 * @param string $url The form action.  Default is to save language.
+	 */
 	function showLanguagesSelector()
 	{
-		$view = new Piwik_View("LanguagesManager/templates/languages.tpl");
+		$view = Piwik_View::factory("languages");
 		$view->languages = Piwik_LanguagesManager_API::getAvailableLanguageNames();
 		$view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
 		$view->currentLanguageName = self::getLanguageNameForCurrentUser();
@@ -52,7 +63,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	}
 	
 	/**
-	 * @return void|Exception
+	 * @throws Zend_Db_Statement_Exception if non-recoverable error
 	 */
 	public function install()
 	{
@@ -67,11 +78,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
-			if(preg_match('/1050/', $e->getMessage()))
-			{
-				return;
-			}
-			else
+			if(!Zend_Registry::get('db')->isErrNo($e, '1050'))
 			{
 				throw $e;
 			}
@@ -79,7 +86,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	}
 	
 	/**
-	 * @return void|Exception
+	 * @throws Zend_Db_Statement_Exception if non-recoverable error
 	 */
 	public function uninstall()
 	{
@@ -126,10 +133,9 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	static protected function getLanguageFromPreferences()
 	{
-		$session = new Zend_Session_Namespace("LanguagesManager");
-		if(isset($session->language))
+		if ($language = Piwik_LanguagesManager_API::getLanguageForSession())
 		{
-			return $session->language;
+			return $language;
 		}
 		
 		try {
@@ -139,8 +145,4 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 			return false;
 		}
 	}
-	
-	
-	
 }
-

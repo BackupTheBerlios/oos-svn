@@ -4,10 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Proxy.php 1321 2009-07-23 04:29:38Z vipsoft $
+ * @version $Id: Proxy.php 1466 2009-09-11 00:58:22Z vipsoft $
  * 
- * @package Piwik_API
+ * @category Piwik
+ * @package Piwik
  */
+
+/**
+ * To differentiate between "no value" and default value of null
+ */
+class Piwik_API_Proxy_NoDefaultValue {}
 
 /**
  * Proxy is a singleton that has the knowledge of every method available, their parameters 
@@ -17,7 +23,8 @@
  * 
  * It will also log the performance of API calls (time spent, parameter values, etc.) if logger available
  * 
- * @package Piwik_API
+ * @package Piwik
+ * @subpackage Piwik_API
  */
 class Piwik_API_Proxy
 {
@@ -26,11 +33,14 @@ class Piwik_API_Proxy
 	
 	private $metadataArray = array();
 	
-	// when a parameter doesn't have a default value we use this constant
-	const NO_DEFAULT_VALUE = null;
+	// when a parameter doesn't have a default value we use this
+	private $noDefaultValue;
 
 	static private $instance = null;
-	protected function __construct() {}
+	protected function __construct()
+	{
+		$this->noDefaultValue = new Piwik_API_Proxy_NoDefaultValue();
+	}
 	
 	/**
 	 * Singleton, returns instance
@@ -126,12 +136,9 @@ class Piwik_API_Proxy
 			
 			// get the list of parameters required by the method
 			$parameterNamesDefaultValues = $this->getParametersList($className, $methodName);
-			
+
 			// load parameters in the right order, etc.
 			$finalParameters = $this->getRequestParametersArray( $parameterNamesDefaultValues, $parametersRequest );
-
-			// all parameters to the function call must be non null
-			$this->checkParametersAreNotNull($className, $methodName, $finalParameters);
 
 			// start the timer
 			$timer = new Piwik_Timer();
@@ -148,8 +155,7 @@ class Piwik_API_Proxy
 								$timer->getTimeMs(),
 								$returnedValue
 							);
-		}
-		catch( Piwik_Access_NoAccessException $e) {
+		} catch(Piwik_Access_NoAccessException $e) {
 			throw $e;
 		}
 
@@ -196,17 +202,17 @@ class Piwik_API_Proxy
 		foreach($requiredParameters as $name => $defaultValue)
 		{
 			try{
-				if($defaultValue === Piwik_API_Proxy::NO_DEFAULT_VALUE)
+				if($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue)
 				{
-					try {
-						$requestValue = Piwik_Common::getRequestVar($name, null, null, $parametersRequest);
-					} catch(Exception $e) {
-						$requestValue = null;
-					}
+					$requestValue = Piwik_Common::getRequestVar($name, null, null, $parametersRequest);
 				}
 				else
 				{
-					$requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+					try{
+						$requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+					} catch(Exception $e) {
+						$requestValue = $defaultValue;
+					}
 				}
 			} catch(Exception $e) {
 				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. Add the parameter '&$name=' (with a value) in the URL.");
@@ -250,7 +256,7 @@ class Piwik_API_Proxy
 			{
 				$nameVariable = $parameter->getName();
 				
-				$defaultValue = self::NO_DEFAULT_VALUE;
+				$defaultValue = $this->noDefaultValue;
 				if($parameter->isDefaultValueAvailable())
 				{
 					$defaultValue = $parameter->getDefaultValue();
@@ -302,21 +308,6 @@ class Piwik_API_Proxy
 		return isset($this->metadataArray[$className][$methodName]);
 	}
 		
-	/**
-	 * @throws exception If any parameter value is null
-	 */
-	private function checkParametersAreNotNull($className, $methodName, $parametersValues)
-	{
-		foreach($parametersValues as $value)
-		{
-			if(is_null($value))
-			{
-				$nbParamsRequired = $this->getNumberOfRequiredParameters($className, $methodName);
-				throw new Exception("The parameters are not valid. The method called requires $nbParamsRequired parameters. Please check your URL and the method API.");
-			}
-		}
-	}
-	
 	/**
 	 * Checks that the class is a Singleton (presence of the getInstance() method)
 	 * 

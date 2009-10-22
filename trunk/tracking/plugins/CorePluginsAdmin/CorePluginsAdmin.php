@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: CorePluginsAdmin.php 1270 2009-07-01 06:53:34Z vipsoft $
+ * @version $Id: CorePluginsAdmin.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_CorePluginsAdmin
  */
 
+/**
+ *
+ * @package Piwik_CorePluginsAdmin
+ */
 class Piwik_CorePluginsAdmin extends Piwik_Plugin
 {
 	public function getInformation()
@@ -32,5 +37,3 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 		Piwik_AddAdminMenu(Piwik_Translate('CorePluginsAdmin_MenuPlugins'), array('module' => 'CorePluginsAdmin', 'action' => 'index'));		
 	}
 }
-
-

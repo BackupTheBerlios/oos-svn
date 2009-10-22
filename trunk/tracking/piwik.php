@@ -4,21 +4,27 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: piwik.php 1357 2009-08-02 18:54:21Z vipsoft $
+ * @version $Id: piwik.php 1476 2009-09-20 02:03:29Z vipsoft $
  */
-
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = false; 
-
-define('PIWIK_TRACKER_MODE', true);
-error_reporting(E_ALL|E_NOTICE);
 
 if(file_exists('bootstrap.php'))
 {
 	require_once 'bootstrap.php';
 }
+
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
+
+define('PIWIK_TRACKER_MODE', true);
+error_reporting(E_ALL|E_NOTICE);
+
+define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));
+if(!defined('PIWIK_USER_PATH'))
+{
+	define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
+}
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
-	define('PIWIK_INCLUDE_PATH', dirname(__FILE__));
+	define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
 }
 
 @ignore_user_abort(true);

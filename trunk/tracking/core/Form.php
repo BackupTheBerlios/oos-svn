@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Form.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Form.php 1434 2009-08-23 15:55:35Z vipsoft $
  * 
- * @package Piwik_Helper
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -14,7 +15,9 @@
  * 
  * For an example, @see Piwik_Login_Form
  * 
- * @package Piwik_Helper
+ * @package Piwik
+ * @see HTML_QuickForm, libs/HTML/QuickForm.php
+ * @link http://pear.php.net/package/HTML_QuickForm/
  */
 abstract class Piwik_Form extends HTML_QuickForm
 {

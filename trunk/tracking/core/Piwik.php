@@ -1,17 +1,21 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Piwik.php 1377 2009-08-08 21:19:47Z vipsoft $
- * 
+ * @version $Id: Piwik.php 1492 2009-10-11 20:49:29Z vipsoft $
+ *
+ * @category Piwik
  * @package Piwik
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see core/Translate.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 
 /**
@@ -34,8 +38,6 @@ class Piwik
 	/**
 	 * Checks that the directories Piwik needs write access are actually writable
 	 * Displays a nice error page if permissions are missing on some directories
-	 * 
-	 * @return void
 	 */
 	static public function checkDirectoriesWritableOrDie( $directoriesToCheck = null )
 	{
@@ -84,9 +86,9 @@ class Piwik
 		$resultCheck = array();
 		foreach($directoriesToCheck as $directoryToCheck)
 		{
-			if( !preg_match('/^'.preg_quote(PIWIK_INCLUDE_PATH, '/').'/', $directoryToCheck) )
+			if( !preg_match('/^'.preg_quote(PIWIK_USER_PATH, '/').'/', $directoryToCheck) )
 			{
-				$directoryToCheck = PIWIK_INCLUDE_PATH . $directoryToCheck;
+				$directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
 			}
 			
 			if(!file_exists($directoryToCheck))
@@ -125,7 +127,19 @@ class Piwik
 		$jsTag = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsTag);
 		return $jsTag;
 	}
-	
+
+	/**
+	 * Set maximum script execution time.
+	 *
+	 * @param int max execution time in seconds (0 = no limit)
+	 */
+	static public function setMaxExecutionTime($executionTime)
+	{
+		// in the event one or the other is disabled...
+		@ini_set('max_execution_time', $executionTime);
+		@set_time_limit($executionTime);
+	}
+
 	static public function getMemoryLimitValue()
 	{
 		if($memory = ini_get('memory_limit'))
@@ -232,17 +246,16 @@ class Piwik
 		
 		if(is_null($db))
 		{
-			$db = Zend_Registry::get('db');
+			$db = Piwik_Tracker::getDatabase();
 		}
 		$tableName = Piwik_Common::prefixTable('log_profiling');
 		
-		$all = $db->fetchAll('SELECT *, sum_time_ms / count as avg_time_ms 
-								FROM '.$tableName );
+		$all = $db->fetchAll('SELECT * FROM '.$tableName );
 		if($all === false) 
 		{
 			return;
 		}
-		usort($all, 'maxSumMsFirst');
+		uasort($all, 'maxSumMsFirst');
 		
 		$infoIndexedByQuery = array();
 		foreach($all as $infoQuery)
@@ -284,6 +297,7 @@ class Piwik
 							'sumTimeMs' =>  $existing['count'] + $query->getElapsedSecs() * 1000);
 			$infoIndexedByQuery[$query->getQuery()] = $new;
 		}
+
 		if(!function_exists('sortTimeDesc'))
 		{
 			function sortTimeDesc($a,$b)
@@ -327,9 +341,7 @@ class Piwik
 				$avgTimeMs = $timeMs / $count;
 				$avgTimeString = " (average = <b>". round($avgTimeMs,1) . "ms</b>)"; 
 			}
-			$query = str_replace(array("\t","\n","\r\n","\r"), "_toberemoved_", $query);
-			$query = str_replace('_toberemoved__toberemoved_','',$query);
-			$query = str_replace('_toberemoved_', ' ',$query);
+			$query = preg_replace('/([\t\n\r ]+)/', ' ', $query);
 			$output .= "Executed <b>$count</b> time". ($count==1?'':'s') ." in <b>".$timeMs."ms</b> $avgTimeString <pre>\t$query</pre>";
 		}
 		Piwik::log($output);
@@ -390,10 +402,17 @@ class Piwik
 		}
 		return round($size, 1)." ".$val;
 	}
-	
+
+	/**
+	 * Returns true if PHP was invoked as CGI or command-line interface (shell)
+	 *
+	 * @deprecated deprecated in 0.4.4
+	 * @see Piwik_Common::isPhpCliMode()
+	 * @return bool true if PHP invoked as a CGI or from CLI
+	 */
 	static public function isPhpCliMode()
 	{
-		return in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'));
+		return Piwik_Common::isPhpCliMode();
 	}
 	
 	static public function getCurrency()
@@ -909,26 +928,26 @@ class Piwik
 		}
 		return false;
 	}
-	
-	static public function displayScreenForCoreAndPluginsUpdatesIfNecessary()
+
+	/**
+	 * Get "best" available transport method for sendHttpRequest() calls.
+	 */
+	static public function getTransportMethod()
 	{
-		$updater = new Piwik_Updater();
-		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
-		
-		$plugins = Piwik_PluginsManager::getInstance()->getInstalledPlugins();
-		foreach($plugins as $pluginName => $plugin)
+		$method = 'curl';
+		if(!extension_loaded('curl'))
 		{
-			$updater->addComponentToCheck($pluginName, $plugin->getVersion());
+			$method = 'stream';
+			if(@ini_get('allow_url_fopen') != '1')
+			{
+				$method = 'socket';
+				if(preg_match('/(^|,|\s)fsockopen($|,|\s)/', @ini_get('disable_functions')))
+				{
+					return null;
+				}
+			}
 		}
-		
-		$componentsWithUpdateFile = $updater->getComponentsWithUpdateFile();
-		if(count($componentsWithUpdateFile) == 0)
-		{
-			return;
-		}
-			
-		$updaterController = new Piwik_CoreUpdater_Controller();
-		$updaterController->runUpdaterAndExit($updater, $componentsWithUpdateFile);
+		return $method;
 	}
 
 	/**
@@ -946,164 +965,242 @@ class Piwik
 	 */
 	static public function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0)
 	{
-		if ($followDepth > 3)
-		{
-			throw new Exception('Too many redirects ('.$followDepth.')');
-		}
-
+		// create output file
 		$file = null;
 		if($destinationPath)
 		{
-			if (($file = @fopen($destinationPath, 'wb')) === false)
+			if (($file = @fopen($destinationPath, 'wb')) === false || !is_resource($file))
 			{
 				throw new Exception('Error while creating the file: ' . $destinationPath);
 			}
 		}
 
-		// initialization
-		$url = @parse_url($aUrl);
-		if($url === false || !isset($url['scheme']))
+		return self::sendHttpRequestBy(self::getTransportMethod(), $aUrl, $timeout, $userAgent, $destinationPath, $followDepth); 			
+	}
+
+	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $file = null, $followDepth = 0)
+	{
+		if ($followDepth > 3)
 		{
-			throw new Exception('Malformed URL: '.$aUrl);
+			throw new Exception('Too many redirects ('.$followDepth.')');
 		}
 
-		if($url['scheme'] != 'http')
-		{
-			throw new Exception('Invalid protocol/scheme: '.$url['scheme']);
-		}
-		$host = $url['host'];
-		$port = isset($url['port)']) ? $url['port'] : 80;;
-		$path = isset($url['path']) ? $url['path'] : '/';
-		if(isset($url['query']))
-		{
-			$path .= '?'.$url['query'];
-		}
-		$errno = null;
-		$errstr = null;
-
-		// connection attempt
-		if (($fsock = @fsockopen($host, $port, $errno, $errstr, $timeout)) === false)
-		{
-			if(is_resource($file)) { @fclose($file); }
-			throw new Exception("Error while connecting to: $host. Please try again later.");
-		}
-
-		// send HTTP request header
-		fwrite($fsock,
-			"GET $path HTTP/1.0\r\n"
-			."Host: $host".($port != 80 ? ':'.$port : '')."\r\n"
-			."User-Agent: Piwik/".Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
-			.'Referer: http://'.Piwik_Common::getIpString()."/\r\n"
-			."Connection: close\r\n"
-			."\r\n"
-		);
-
-		$streamMetaData = array('timed_out' => false);
-		@stream_set_blocking($fsock, true);
-		@stream_set_timeout($fsock, $timeout);
-
-		// process header
-		$status = null;
-		$expectRedirect = false;
 		$contentLength = 0;
-		$fileLength = 0;
 
-		while (!feof($fsock))
+		if($method == 'socket')
 		{
-			$line = fgets($fsock, 4096);
+			// initialization
+			$url = @parse_url($aUrl);
+			if($url === false || !isset($url['scheme']))
+			{
+				throw new Exception('Malformed URL: '.$aUrl);
+			}
 
-			$streamMetaData = @stream_get_meta_data($fsock);
-			if($streamMetaData['timed_out'])
+			if($url['scheme'] != 'http')
+			{
+				throw new Exception('Invalid protocol/scheme: '.$url['scheme']);
+			}
+			$host = $url['host'];
+			$port = isset($url['port)']) ? $url['port'] : 80;
+			$path = isset($url['path']) ? $url['path'] : '/';
+			if(isset($url['query']))
+			{
+				$path .= '?'.$url['query'];
+			}
+			$errno = null;
+			$errstr = null;
+
+			// connection attempt
+			if (($fsock = @fsockopen($host, $port, $errno, $errstr, $timeout)) === false || !is_resource($fsock))
 			{
 				if(is_resource($file)) { @fclose($file); }
-				@fclose($fsock);
-				throw new Exception('Timed out waiting for server response');
+				throw new Exception("Error while connecting to: $host. Please try again later. $errstr");
 			}
 
-			// a blank line marks the end of the server response header
-			if(rtrim($line, "\r\n") == '')
-			{
-				break;
-			}
+			// send HTTP request header
+			fwrite($fsock,
+				"GET $path HTTP/1.0\r\n"
+				."Host: $host".($port != 80 ? ':'.$port : '')."\r\n"
+				."User-Agent: Piwik/".Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
+				.'Referer: http://'.Piwik_Common::getIpString()."/\r\n"
+				."Connection: close\r\n"
+				."\r\n"
+			);
 
-			// parse first line of server response header
-			if(!$status)
+			$streamMetaData = array('timed_out' => false);
+			@stream_set_blocking($fsock, true);
+			@stream_set_timeout($fsock, $timeout);
+
+			// process header
+			$status = null;
+			$expectRedirect = false;
+			$fileLength = 0;
+
+			while (!feof($fsock))
 			{
-				// expect first line to be HTTP response status line, e.g., HTTP/1.1 200 OK
-				if(!preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', $line, $m))
+				$line = fgets($fsock, 4096);
+
+				$streamMetaData = @stream_get_meta_data($fsock);
+				if($streamMetaData['timed_out'])
 				{
 					if(is_resource($file)) { @fclose($file); }
 					@fclose($fsock);
-					throw new Exception('Expected server response code.  Got '.rtrim($line, "\r\n"));
+					throw new Exception('Timed out waiting for server response');
 				}
 
-				$status = (integer) $m[2];
+				// a blank line marks the end of the server response header
+				if(rtrim($line, "\r\n") == '')
+				{
+					break;
+				}
 
-				// Informational 1xx or Client Error 4xx
-				if ($status < 200 || $status >= 400)
+				// parse first line of server response header
+				if(!$status)
+				{
+					// expect first line to be HTTP response status line, e.g., HTTP/1.1 200 OK
+					if(!preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', $line, $m))
+					{
+						if(is_resource($file)) { @fclose($file); }
+						@fclose($fsock);
+						throw new Exception('Expected server response code.  Got '.rtrim($line, "\r\n"));
+					}
+
+					$status = (integer) $m[2];
+
+					// Informational 1xx or Client Error 4xx
+					if ($status < 200 || $status >= 400)
+					{
+						if(is_resource($file)) { @fclose($file); }
+						@fclose($s);
+						return false;
+					}
+
+					continue;
+				}
+
+				// handle redirect
+				if(preg_match('/^Location:\s*(.+)/', rtrim($line, "\r\n"), $m))
 				{
 					if(is_resource($file)) { @fclose($file); }
 					@fclose($s);
-					return false;
+					// Successful 2xx vs Redirect 3xx
+					if($status < 300)
+					{
+						throw new Exception('Unexpected redirect to Location: '.rtrim($line).' for status code '.$status);
+					}
+					return self::sendHttpRequest(trim($m[1]), $pathDestination, $tries+1);
 				}
 
-				continue;
-			}
-
-			// handle redirect
-			if(preg_match('/^Location:\s*(.+)/', rtrim($line, "\r\n"), $m))
-			{
-				if(is_resource($file)) { @fclose($file); }
-				@fclose($s);
-				// Successful 2xx vs Redirect 3xx
-				if($status < 300)
+				// save expected content length for later verification
+				if(preg_match('/^Content-Length:\s*(\d+)/', $line, $m))
 				{
-					throw new Exception('Unexpected redirect to Location: '.rtrim($line).' for status code '.$status);
+					$contentLength = (integer) $m[1];
 				}
-				return self::sendHttpRequest(trim($m[1]), $pathDestination, $tries+1);
 			}
 
-			// save expected content length for later verification
-			if(preg_match('/^Content-Length:\s*(\d+)/', $line, $m))
+			if(feof($fsock))
 			{
-				$contentLength = (integer) $m[1];
+				throw new Exception('Unexpected end of transmission');
 			}
-		}
 
-		if(feof($fsock))
-		{
-			throw new Exception('Unexpected end of transmission');
-		}
+			// process content/body
+			$response = '';
 
-		// process content/body
-		$response = '';
-
-		while (!feof($fsock))
-		{
-			$line = fgets($fsock, 4096);
-
-			$streamMetaData = @stream_get_meta_data($fsock);
-			if($streamMetaData['timed_out'])
+			while (!feof($fsock))
 			{
-				if(is_resource($file)) { @fclose($file); }
-				@fclose($fsock);
-				throw new Exception('Timed out waiting for server response');
+				$line = fgets($fsock, 4096);
+
+				$streamMetaData = @stream_get_meta_data($fsock);
+				if($streamMetaData['timed_out'])
+				{
+					if(is_resource($file)) { @fclose($file); }
+					@fclose($fsock);
+					throw new Exception('Timed out waiting for server response');
+				}
+
+				if(is_resource($file))
+				{
+					// save to file
+					$fileLength += fwrite($file, $line);
+				}
+				else
+				{
+					// concatenate to response string
+					$response .= $line;
+				}
 			}
 
+			// determine success or failure
+			@fclose(@$fsock);
+		}
+		else if($method == 'stream')
+		{
+			$response = false;
+
+			// we make sure the request takes less than a few seconds to fail
+			// we create a stream_context (works in php >= 5.2.1)
+			// we also set the socket_timeout (for php < 5.2.1)
+			$default_socket_timeout = @ini_get('default_socket_timeout');
+			@ini_set('default_socket_timeout', $timeout);
+
+			$ctx = null;
+			if(function_exists('stream_context_create')) {
+				$stream_options = array(
+					'http' => array(
+						'header' => 'User-Agent: Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
+						           .'Referer: http://'.Piwik_Common::getIpString()."/\r\n",
+						'max_redirects' => 3, // PHP 5.1.0
+						'timeout' => $timeout, // PHP 5.2.1
+					)
+				);
+				$ctx = stream_context_create($stream_options);
+			}
+
+			$response = @file_get_contents($aUrl, 0, $ctx);
 			if(is_resource($file))
 			{
 				// save to file
-				$fileLength += fwrite($file, $line);
+				fwrite($file, $response);
 			}
-			else
+
+			// restore the socket_timeout value
+			if(!empty($default_socket_timeout))
 			{
-				// concatenate to response string
-				$response .= $line;
+				@ini_set('default_socket_timeout', $default_socket_timeout);
 			}
 		}
+		else if($method == 'curl')
+		{
+			$ch = @curl_init();
 
-		// determine success or failure
-		@fclose(@$fsock);
+			$curl_options = array(
+				CURLOPT_URL => $aUrl,
+				CURLOPT_HEADER => false,
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_TIMEOUT => $timeout,
+				CURLOPT_BINARYTRANSFER => is_resource($file),
+				CURLOPT_FOLLOWLOCATION => true,
+				CURLOPT_MAXREDIRS => 3,
+				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
+				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
+			);
+			@curl_setopt_array($ch, $curl_options);
+
+			$response = @curl_exec($ch);
+			if(is_resource($file))
+			{
+				// save to file
+				fwrite($file, $response);
+			}
+
+			@curl_close ($ch);
+			unset($ch);
+		}
+		else
+		{
+			throw new Exception('Invalid request method: '.$method);
+		}
+
 		if(is_resource($file))
 		{
 			@fclose($file);
@@ -1171,7 +1268,6 @@ class Piwik
 	 * @param string $source eg. './tmp/latest'
 	 * @param string $target eg. '.'
 	 * @param bool   $excludePhp
-	 * @return void
 	 */
 	static public function copyRecursive($source, $target, $excludePhp=false )
 	{
@@ -1242,8 +1338,34 @@ class Piwik
 	}
 
 	/**
+	 * Recursively find pathnames that match a pattern
+	 * @see glob()
+	 *
+	 * @param string $sDir directory
+	 * @param string $sPattern pattern
+	 * @param int $nFlags glob() flags
+	 * @return array
+	 */
+	public static function globr($sDir, $sPattern, $nFlags = NULL)
+	{
+		$sDir = escapeshellcmd($sDir);
+		$aFiles = glob("$sDir/$sPattern", $nFlags);
+		if(($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false)
+		{
+			foreach ($aDirs as $sSubDir)
+			{
+				$aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
+				$aFiles = array_merge($aFiles, $aSubFiles);
+			}
+		}
+		return $aFiles;
+	}
+
+	/**
 	 * API was simplified in 0.2.27, but we maintain backward compatibility 
 	 * when calling Piwik::prefixTable
+	 *
+	 * @deprecated as of 0.2.27
 	 */
 	static public function prefixTable( $table )
 	{
@@ -1287,7 +1409,7 @@ class Piwik
 			$tablesInstalled = array_intersect($allMyTables, $allTables);
 			
 			// at this point we have only the piwik tables which is good
-			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)`
+			// but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
 			$idSiteInSql = "no";
 			if(!is_null($idSite))
 			{
@@ -1311,13 +1433,13 @@ class Piwik
 		{
 			$dbName = Zend_Registry::get('config')->database->dbname;
 		}
-		Piwik_Query("CREATE DATABASE IF NOT EXISTS ".$dbName);
+		Piwik_Exec("CREATE DATABASE IF NOT EXISTS ".$dbName);
 	}
-	
+
 	static public function dropDatabase()
 	{
 		$dbName = Zend_Registry::get('config')->database->dbname;
-		Piwik_Query("DROP DATABASE IF EXISTS " . $dbName);
+		Piwik_Exec("DROP DATABASE IF EXISTS " . $dbName);
 	}
 	
 	static public function createDatabaseObject( $dbInfos = null )
@@ -1341,13 +1463,16 @@ class Piwik
 				unset($dbInfos['host']);
 				unset($dbInfos['port']);
 			}
-			$db = Zend_Db::factory($config->database->adapter, $dbInfos);
+
+			// not used by Zend Framework
+			unset($dbInfos['tables_prefix']);
+			unset($dbInfos['adapter']);
+
+			$db = Piwik_Db::factory($config->database->adapter, $dbInfos);
 			$db->getConnection();
-			// see http://framework.zend.com/issues/browse/ZF-1398
-			$db->getConnection()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-			$db->getConnection()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);		
+
 			Zend_Db_Table::setDefaultAdapter($db);
-			$db->resetConfigArray(); // we don't want this information to appear in the logs
+			$db->resetConfig(); // we don't want this information to appear in the logs
 		}
 		Zend_Registry::set('db', $db);
 	}
@@ -1357,9 +1482,37 @@ class Piwik
 		Zend_Registry::get('db')->closeConnection();
 	}
 	
+	/**
+	 * Returns the MySQL database server version
+	 *
+	 * @deprecated 0.4.4
+	 */
 	static public function getMysqlVersion()
 	{
 		return Piwik_FetchOne("SELECT VERSION()");
+	}
+
+	/**
+	 * Checks the database server version against the required minimum
+	 * version.
+	 *
+	 * @see config/global.ini.php
+	 * @since 0.4.4
+	 * @throws Exception if server version is less than the required version
+	 */
+	static public function checkDatabaseVersion()
+	{
+		Zend_Registry::get('db')->checkServerVersion();
+	}
+
+	/**
+	 * Check database connection character set is utf8.
+	 *
+	 * @return bool True if it is (or doesn't matter); false otherwise
+	 */
+	static public function isDatabaseConnectionUTF8()
+	{
+		return Zend_Registry::get('db')->isConnectionUTF8();
 	}
 
 	static public function createLogObject()
@@ -1459,8 +1612,6 @@ class Piwik
 	
 	/**
 	 * Creates an entry in the User table for the "anonymous" user. 
-	 * 
-	 * @return void
 	 */
 	static public function createAnonymousUser()
 	{

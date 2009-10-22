@@ -4,13 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitFrequency.php 1072 2009-04-27 04:18:16Z matt $
+ * @version $Id: VisitFrequency.php 1454 2009-09-07 18:40:52Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
-	
+
 /**
- * 
+ *
  * @package Piwik_VisitFrequency
  */
 class Piwik_VisitFrequency extends Piwik_Plugin
@@ -82,7 +83,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 				 	GROUP BY visitor_returning";
 		$row = $archiveProcessing->db->fetchRow($query, array( $archiveProcessing->strDateStart, $archiveProcessing->idsite ) );
 		
-		if($row==false)
+		if($row === false || $row === null)
 		{
 			$row['nb_visits_returning'] = 0;
 			$row['nb_actions_returning'] = 0;

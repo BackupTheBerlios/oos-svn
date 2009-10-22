@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Tracker.php 1330 2009-07-23 23:10:23Z vipsoft $
+ * @version $Id: Tracker.php 1473 2009-09-17 23:29:27Z vipsoft $
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -16,7 +17,8 @@
  * 
  * We try to include as little files as possible (no dependency on 3rd party modules).
  * 
- * @package Piwik_Tracker
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 class Piwik_Tracker
 {	
@@ -26,7 +28,7 @@ class Piwik_Tracker
 	/**
 	 * @var Piwik_Tracker_Db
 	 */
-	static protected $db = null;
+	protected static $db = null;
 	
 	const STATE_NOTHING_TO_NOTICE = 1;
 	const STATE_TO_REDIRECT_URL = 2;
@@ -69,6 +71,7 @@ class Piwik_Tracker
 			} catch(Piwik_Tracker_Visit_Excluded $e) {
 			}
 		}
+
 		$this->end();
 	}	
 	
@@ -128,12 +131,35 @@ class Piwik_Tracker
 		
 		if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 		{
+			self::$db->recordProfiling();
 			Piwik::printSqlProfilingReportTracker(self::$db);
 		}
 		
 		self::disconnectDatabase();
 	}
-	
+
+	/**
+	 * Factory to create database objects
+	 *
+	 * @param array $configDb Database configuration
+	 * @return Piwik_Tracker_Db_*
+	 */
+	public static function factory($configDb)
+	{
+		switch($configDb['adapter'])
+		{
+			case 'PDO_MYSQL':
+				require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/Pdo/Mysql.php';
+				return new Piwik_Tracker_Db_Pdo_Mysql($configDb);
+
+			case 'MYSQLI':
+				require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/Mysqli.php';
+				return new Piwik_Tracker_Db_Mysqli($configDb);
+		}
+
+		throw new Exception('Unsupported database adapter '.$configDb['adapter']);
+	}
+
 	public static function connectPiwikTrackerDb()
 	{
 		$db = null;
@@ -144,7 +170,8 @@ class Piwik_Tracker
 			// before 0.2.4 there is no port specified in config file
 			$configDb['port'] = '3306';  
 		}
-		$db = new Piwik_Tracker_Db( $configDb );
+
+		$db = self::factory( $configDb );
 		$db->connect();
 		
 		return $db;
@@ -273,13 +300,11 @@ class Piwik_Tracker
 
 	protected function handleDownloadRedirect()
 	{
-		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
-		$urlDownload = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string', $this->request);
+		$urlDownload = Piwik_Common::getRequestVar( 'download', '', 'string', $this->request);
 
 		if( !empty($urlDownload) )
 		{
-			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_redirect_var_name'];
-			if( Piwik_Common::getRequestVar( $redirectVariableName, 1, 'int', $this->request) == 1)
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
 				$this->setUrlToRedirect ( $urlDownload );
@@ -289,13 +314,11 @@ class Piwik_Tracker
 	
 	protected function handleOutlinkRedirect()
 	{
-		$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
-		$urlOutlink = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string', $this->request);
+		$urlOutlink = Piwik_Common::getRequestVar( 'link', '', 'string', $this->request);
 		
 		if( !empty($urlOutlink) )
 		{
-			$redirectVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_redirect_var_name'];
-			if( Piwik_Common::getRequestVar( $redirectVariableName, 1, 'int', $this->request) == 1)
+			if( Piwik_Common::getRequestVar( 'redirect', 1, 'int', $this->request) == 1)
 			{
 				$this->setState( self::STATE_TO_REDIRECT_URL );
 				$this->setUrlToRedirect ( $urlOutlink);

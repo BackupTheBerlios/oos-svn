@@ -4,16 +4,19 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Single.php 1321 2009-07-23 04:29:38Z vipsoft $
+ * @version $Id: Single.php 1473 2009-09-17 23:29:27Z vipsoft $
  * 
  * 
- * @package Piwik_Archive
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Piwik_Archive_Single is used to store the data of a single archive, 
  * for example the statistics for the 'day' '2008-02-21' for the website idSite '2' 
  *
+ * @package Piwik
+ * @subpackage Piwik_Archive
  */
 class Piwik_Archive_Single extends Piwik_Archive
 {
@@ -141,8 +144,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * Prepares the archive. Gets the idarchive from the ArchiveProcessing.
 	 * 
 	 * This will possibly launch the archiving process if the archive was not available.
-	 * 
-	 * @return void
 	 */
 	public function prepareArchive()
 	{
@@ -254,7 +255,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 		
 		// uncompress when selecting from the BLOB table
-		if($typeValue == 'blob')
+		if($typeValue == 'blob' && $db->hasBlobDataType())
 		{
 			$value = gzuncompress($value);
 		}
@@ -278,8 +279,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	 * @param string $name
 	 * @param Piwik_DataTable $dataTableToLoad
 	 * @param bool $addMetadataSubtableId
-	 * 
-	 * @return void
 	 */
 	public function loadSubDataTables($name, Piwik_DataTable $dataTableToLoad, $addMetadataSubtableId = false)
 	{
@@ -310,8 +309,6 @@ class Piwik_Archive_Single extends Piwik_Archive
 	
 	/**
 	 * Free the blob cache memory array
-	 *
-	 * @return void
 	 */
 	public function freeBlob( $name )
 	{
@@ -322,7 +319,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	/**
 	 * Fetches all blob fields name_* at once for the current archive for performance reasons.
 	 * 
-	 * @return void
+	 * @return false if no visits
 	 */
 	public function preFetchBlob( $name )
 	{
@@ -334,6 +331,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		$tableBlob = $this->archiveProcessing->getTableArchiveBlobName();
 
 		$db = Zend_Registry::get('db');
+		$hasBlobs = $db->hasBlobDataType();
 		$query = $db->query("SELECT value, name
 								FROM $tableBlob
 								WHERE idarchive = ?
@@ -345,8 +343,15 @@ class Piwik_Archive_Single extends Piwik_Archive
 		{
 			$value = $row['value'];
 			$name = $row['name'];
-						
-			$this->blobCached[$name] = gzuncompress($value);
+
+			if($hasBlobs)
+			{
+				$this->blobCached[$name] = gzuncompress($value);
+			}
+			else
+			{
+				$this->blobCached[$name] = $value;
+			}
 		}
 	}
 	

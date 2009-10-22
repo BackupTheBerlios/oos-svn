@@ -4,16 +4,21 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1301 2009-07-09 08:10:25Z mauser $
+ * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
 
+/**
+ *
+ * @package Piwik_VisitsSummary
+ */
 class Piwik_VisitsSummary_Controller extends Piwik_Controller 
 {
 	public function index()
 	{
-		$view = new Piwik_View('VisitsSummary/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		$this->setPeriodVariablesView($view);
 		$view->graphEvolutionVisitsSummary = $this->getEvolutionGraph( true, array('nb_visits') );
 		$this->setSparklinesAndNumbers($view);		
@@ -22,7 +27,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	
 	public function getSparklines()
 	{
-		$view = new Piwik_View('VisitsSummary/templates/sparklines.tpl');
+		$view = Piwik_View::factory('sparklines');
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
 	}

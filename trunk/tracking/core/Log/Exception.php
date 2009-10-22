@@ -4,18 +4,18 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Exception.php 1321 2009-07-23 04:29:38Z vipsoft $
+ * @version $Id: Exception.php 1420 2009-08-22 13:23:16Z vipsoft $
  *
- * @package Piwik_Log
- * @subpackage Piwik_Log_Exception
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Class used to log an exception event.
  * Displays the exception with a user friendly error message, suggests to get support from piwik.org
  *
- * @package Piwik_Log
- * @subpackage Piwik_Log_Exception
+ * @package Piwik
+ * @subpackage Piwik_Log
  */
 class Piwik_Log_Exception extends Piwik_Log
 {
@@ -59,8 +59,8 @@ class Piwik_Log_Exception extends Piwik_Log
 /**
  * Format an exception event to be displayed on the screen.
  *
- * @package Piwik_Log
- * @subpackage Piwik_Log_Exception
+ * @package Piwik
+ * @subpackage Piwik_Log
  */
 class Piwik_Log_Exception_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter
 {

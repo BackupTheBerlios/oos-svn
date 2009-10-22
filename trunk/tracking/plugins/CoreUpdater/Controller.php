@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1375 2009-08-08 06:52:41Z vipsoft $
- * 
+ * @version $Id: Controller.php 1440 2009-08-26 03:45:57Z vipsoft $
+ *
+ * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
  */
 
+/**
+ *
+ * @package Piwik_CoreUpdater
+ */
 class Piwik_CoreUpdater_Controller extends Piwik_Controller
 {
 	const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
@@ -19,13 +24,13 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	private $warningMessages = array();
 	private $errorMessages = array();
 	private $deactivatedPlugins = array();
-	
+
 	public function newVersionAvailable()
 	{
 		Piwik::checkUserIsSuperUser();
 		$newVersion = $this->checkNewVersionIsAvailableOrDie();
 		
-		$view = new Piwik_View('CoreUpdater/templates/update_new_version_available.tpl');
+		$view = Piwik_View::factory('update_new_version_available');
 		$view->piwik_version = Piwik_Version::VERSION;
 		$view->piwik_new_version = $newVersion;
 		echo $view->render();
@@ -36,9 +41,11 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		Piwik::checkUserIsSuperUser();
 		$this->checkNewVersionIsAvailableOrDie();
 
+		Piwik::setMaxExecutionTime(0);
+
 		$steps = array(
-			array('oneClick_Download', Piwik_Translate('CoreUpdate_DownloadingUpdateFromX', self::LATEST_PIWIK_URL)),
-			array('oneClick_Unpack', Piwik_Translate('CoreUpdate_UnpackingTheUpdate')),
+			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', self::LATEST_PIWIK_URL)),
+			array('oneClick_Unpack', Piwik_Translate('CoreUpdater_UnpackingTheUpdate')),
 			array('oneClick_Verify', Piwik_Translate('CoreUpdater_VerifyingUnpackedFiles')),
 			array('oneClick_CreateConfigFileBackup', Piwik_Translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP)),
 			array('oneClick_Copy', Piwik_Translate('CoreUpdater_InstallingTheLatestVersion')),
@@ -59,7 +66,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			}
 		}
 		
-		$view = new Piwik_View('CoreUpdater/templates/update_one_click_done.tpl');
+		$view = Piwik_View::factory('update_one_click_done');
 		$view->coreError = $errorMessage;
 		$view->feedbackMessages = $messages;
 		echo $view->render();
@@ -70,15 +77,17 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$newVersion = Piwik_UpdateCheck::isNewestVersionAvailable();
 		if(!$newVersion)
 		{
-			throw new Exception("Your Piwik version ".Piwik_Version::VERSION." is up to date.");
+			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionAlreadyLatestVersion', Piwik_Version::VERSION));
 		}
 		return $newVersion;
 	}
 	
 	private function oneClick_Download()
 	{
-		$this->pathPiwikZip = PIWIK_INCLUDE_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . '/latest.zip';
+		$this->pathPiwikZip = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . '/latest.zip';
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
+
+		// we catch exceptions in the caller (i.e., oneClickUpdate)
 		$fetched = Piwik::fetchRemoteFile(self::LATEST_PIWIK_URL, $this->pathPiwikZip);
 	}
 	
@@ -87,16 +96,16 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
 		$archive = new PclZip($this->pathPiwikZip);
 
-		$pathExtracted = PIWIK_INCLUDE_PATH.self::PATH_TO_EXTRACT_LATEST_VERSION;
+		$pathExtracted = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION;
 		if ( false == ($archive_files = $archive->extract(
 							PCLZIP_OPT_PATH, $pathExtracted)) )
 		{
-			throw new Exception('Incompatible archive: ' . $archive->errorInfo(true));
+			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo(true)));
 		}	
 	
 		if ( 0 == count($archive_files) )
 		{
-			throw new Exception('Empty archive.');
+			throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveEmpty'));
 		}
 		unlink($this->pathPiwikZip);
 		$this->pathRootExtractedPiwik = $pathExtracted . '/piwik';
@@ -115,58 +124,95 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		{
 			if(!is_file($this->pathRootExtractedPiwik . $file))
 			{
-				throw new Exception("Archive is incomplete: some files are missing (eg. $file).");
+				throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncomplete', $file));
 			}
 		}
 	}
 	
 	private function oneClick_CreateConfigFileBackup()
 	{
-		$configFileBefore = PIWIK_INCLUDE_PATH . '/config/global.ini.php';
-		$configFileAfter = PIWIK_INCLUDE_PATH . self::CONFIG_FILE_BACKUP;
+		$configFileBefore = PIWIK_USER_PATH . '/config/global.ini.php';
+		$configFileAfter = PIWIK_USER_PATH . self::CONFIG_FILE_BACKUP;
 		Piwik::copy($configFileBefore, $configFileAfter);
 	}
 	
 	private function oneClick_Copy()
 	{
+		/*
+		 * Copy all files to PIWIK_INCLUDE_PATH.
+		 * These files are accessed through the dispatcher.
+		 */
 		Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
+
+		/*
+		 * These files are visible in the web root and are generally
+		 * served directly by the web server.  May be shared.
+		 */
 		if(PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT)
 		{
+			/*
+			 * Copy PHP files that expect to be in the document root
+			 */
+			$specialCases = array(
+				'/index.php',
+				'/piwik.php',
+				'/js/index.php',
+			);
+
+			foreach($specialCases as $file)
+			{
+				Piwik::copy($this->pathRootExtractedPiwik . $file, PIWIK_DOCUMENT_ROOT . $file);
+			}
+
+			/*
+			 * Copy the non-PHP files (e.g., images, css, javascript)
+			 */
 			Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT, true);
 		}
+
+		/*
+		 * Config files may be user (account) specific
+		 */
+		if(PIWIK_INCLUDE_PATH !== PIWIK_USER_PATH)
+		{
+			Piwik::copyRecursive($this->pathRootExtractedPiwik . '/config', PIWIK_USER_PATH . '/config');
+		}
+
 		Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);
 	}
 	
 	private function oneClick_Finished()
 	{
 	}
-	
+
 	public function runUpdaterAndExit($updater, $componentsWithUpdateFile)
 	{
-		if(empty($componentsWithUpdateFile)) {
+		if(empty($componentsWithUpdateFile))
+		{
 			return;
 		}
+
 		if(Piwik::isPhpCliMode())
 		{
-			@set_time_limit(0);
+			Piwik::setMaxExecutionTime(0);
 
-			$view = new Piwik_View('CoreUpdater/templates/cli_update_welcome.tpl', null, false);
+			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 
 			if(!$this->coreError)
 			{
-				$view = new Piwik_View('CoreUpdater/templates/cli_update_database_done.tpl', null, false);
+				$view = Piwik_View::factory('update_database_done');
 				$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 			}
 		}
 		else if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
 		{
-			$view = new Piwik_View('CoreUpdater/templates/update_database_done.tpl');
+			$view = Piwik_View::factory('update_database_done');
 			$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 		}
 		else
 		{
-			$view = new Piwik_View('CoreUpdater/templates/update_welcome.tpl');
+			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
 		}
 		exit;
@@ -253,5 +299,12 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 				}
 			}
 		}
+	}
+
+	public function saveLanguage()
+	{
+		$language = Piwik_Common::getRequestVar('language');
+		Piwik_LanguagesManager_API::setLanguageForSession($language);
+		Piwik_Url::redirectToReferer();
 	}
 }

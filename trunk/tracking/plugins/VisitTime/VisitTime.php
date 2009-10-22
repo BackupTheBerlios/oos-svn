@@ -4,13 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitTime.php 1072 2009-04-27 04:18:16Z matt $
+ * @version $Id: VisitTime.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * 
+ * @category Piwik_Plugins
  * @package Piwik_VisitTime
  */
-	
+
 /**
+ *
  * @package Piwik_VisitTime
  */
 class Piwik_VisitTime extends Piwik_Plugin

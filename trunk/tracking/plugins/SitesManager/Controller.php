@@ -4,20 +4,21 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1337 2009-07-28 01:41:05Z vipsoft $
+ * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_SitesManager
  */
 
-
 /**
+ *
  * @package Piwik_SitesManager
  */
 class Piwik_SitesManager_Controller extends Piwik_Controller
 {
 	function index()
 	{
-		$view = new Piwik_View('SitesManager/templates/SitesManager.tpl');
+		$view = Piwik_View::factory('SitesManager');
 		$sites = Piwik_SitesManager_API::getSitesWithAdminAccess();
 		foreach($sites as &$site)
 		{
@@ -34,7 +35,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$idSite = Piwik_Common::getRequestVar('idsite', 1);
 		Piwik::checkUserHasViewAccess($idSite);
 		$jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
-		$view = new Piwik_View('SitesManager/templates/DisplayJavascriptCode.tpl');
+		$view = Piwik_View::factory('DisplayJavascriptCode');
 		$view->menu = Piwik_GetAdminMenu();
 		$view->jsTag = $jsTag;
 		echo $view->render();

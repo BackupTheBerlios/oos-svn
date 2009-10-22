@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Php.php 1270 2009-07-01 06:53:34Z vipsoft $
+ * @version $Id: Php.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -17,8 +18,8 @@
  * 
  * Works with recursive DataTable (when a row can be associated with a subDataTable).
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Renderer
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 {

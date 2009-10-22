@@ -4,11 +4,18 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: functions.php 1259 2009-06-28 05:59:07Z vipsoft $
+ * @version $Id: functions.php 1431 2009-08-23 14:27:44Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
 
+/**
+ * Return the flag image path for a given country
+ *
+ * @param string $code ISO country code
+ * @return string Flag image path
+ */
 function Piwik_getFlagFromCode($code)
 {
 	$pathInPiwik = 'plugins/UserCountry/flags/%s.png';
@@ -21,6 +28,12 @@ function Piwik_getFlagFromCode($code)
 	return sprintf($pathInPiwik, 'xx');			
 }
 
+/**
+ * Returns the translated continent name for a given continent code
+ *
+ * @param string $label Continent code
+ * @return string Continent name
+ */
 function Piwik_ContinentTranslate($label)
 {
 	if($label == 'unk')
@@ -30,6 +43,12 @@ function Piwik_ContinentTranslate($label)
 	return Piwik_Translate('UserCountry_continent_'. $label);
 }
 
+/**
+ * Returns the translated country name for a given country code
+ *
+ * @param string $label country code
+ * @return string Country name
+ */
 function Piwik_CountryTranslate($label)
 {
 	if($label == 'xx')

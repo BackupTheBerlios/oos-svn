@@ -4,18 +4,24 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: View.php 1375 2009-08-08 06:52:41Z vipsoft $
+ * @version $Id: View.php 1500 2009-10-14 11:16:14Z vipsoft $
  * 
- * @package Piwik_Visualization
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
- * 
- * @package Piwik_Visualization
+ * View class to render the user interface
  *
+ * @package Piwik
  */
 class Piwik_View implements Piwik_iView
 {
+	// view types
+	const STANDARD = 0; // REGULAR, FULL, CLASSIC
+	const MOBILE = 1;
+	const CLI = 2;
+
 	private $template = '';
 	private $smarty = false;
 	private $variables = array();
@@ -35,16 +41,16 @@ class Piwik_View implements Piwik_iView
 		}
 
 		$this->smarty->template_dir = $smConf->template_dir->toArray();
-		array_walk($this->smarty->template_dir, array("Piwik_View","addPiwikPath"));
+		array_walk($this->smarty->template_dir, array("Piwik_View","addPiwikPath"), PIWIK_USER_PATH);
 
 		$this->smarty->plugins_dir = $smConf->plugins_dir->toArray();
-		array_walk($this->smarty->plugins_dir, array("Piwik_View","addPiwikPath"));
+		array_walk($this->smarty->plugins_dir, array("Piwik_View","addPiwikPath"), PIWIK_INCLUDE_PATH);
 
 		$this->smarty->compile_dir = $smConf->compile_dir;
-		Piwik_View::addPiwikPath($this->smarty->compile_dir, null);
+		Piwik_View::addPiwikPath($this->smarty->compile_dir, null, PIWIK_USER_PATH);
 
 		$this->smarty->cache_dir = $smConf->cache_dir;
-		Piwik_View::addPiwikPath($this->smarty->cache_dir, null);
+		Piwik_View::addPiwikPath($this->smarty->cache_dir, null, PIWIK_USER_PATH);
 
 		$this->smarty->error_reporting = $smConf->debugging;
 		$this->smarty->error_reporting = $smConf->error_reporting;
@@ -53,21 +59,20 @@ class Piwik_View implements Piwik_iView
 		if($filter)
 		{
 			$this->smarty->load_filter('output', 'cachebuster');
-
+			$this->smarty->load_filter('output', 'ajaxcdn');
 			$this->smarty->load_filter('output', 'trimwhitespace');
 		}
-		
+
 		// global value accessible to all templates: the piwik base URL for the current request
 		$this->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
-		
 	}
 	
 	/**
 	 * Directly assigns a variable to the view script.
 	 * VAR names may not be prefixed with '_'.
+	 *
 	 *	@param string $key The variable name.
 	 *	@param mixed $val The variable value.
-	 *	@return void
 	 */
 	public function __set($key, $val)
 	{
@@ -77,6 +82,7 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * Retrieves an assigned variable.
 	 * VAR names may not be prefixed with '_'.
+	 *
 	 *	@param string $key The variable name.
 	 *	@return mixed The variable value.
 	 */
@@ -177,11 +183,75 @@ class Piwik_View implements Piwik_iView
 	}
 */
 
-	static public function addPiwikPath(&$value, $key)
+	static public function addPiwikPath(&$value, $key, $path)
 	{
 		if($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR)
 		{
-			$value = PIWIK_INCLUDE_PATH ."/$value";
+			$value = $path ."/$value";
 		}
+	}
+
+	/**
+	 * View factory method
+	 *
+	 * @param $templateName Template name (e.g., 'index')
+	 * @param $viewType     View type (e.g., Piwik_View::CLI)
+	 */
+	static public function factory( $templateName, $viewType = null)
+	{
+		Piwik_PostEvent('View.getViewType', $viewType);
+
+		// get caller
+		$bt = debug_backtrace();
+		if(!isset($bt[0]))
+		{
+			throw new Exception("View factory cannot be invoked directly");
+		}
+		$path = dirname($bt[0]['file']);
+
+		// determine best view type
+		if($viewType === null)
+		{
+			if(Piwik_Common::isPhpCliMode())
+			{
+				$viewType = self::CLI;
+			}
+			else
+			{
+				$viewType = self::STANDARD;
+			}
+		}
+
+		// get template filename
+		if($viewType == self::CLI)
+		{
+			$templateFile = $path.'/templates/cli_'.$templateName.'.tpl';
+			if(file_exists($templateFile))
+			{
+				return new Piwik_View($templateFile, array(), false);
+			}
+
+			$viewType = self::STANDARD;
+		}
+
+		if($viewType == self::MOBILE)
+		{
+			$templateFile = $path.'/templates/mobile_'.$templateName.'.tpl';
+			if(!file_exists($templateFile))
+			{
+				$viewType = self::STANDARD;
+			}
+		}
+
+		if($viewType != self::MOBILE)
+		{
+			$templateFile = $path.'/templates/'.$templateName.'.tpl';
+			if(!file_exists($templateFile))
+			{
+				throw new Exception('Template not found: '.$templateFile);
+			}
+		}
+
+		return new Piwik_View($templateFile);
 	}
 }

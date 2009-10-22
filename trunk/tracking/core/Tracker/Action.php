@@ -4,16 +4,18 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Action.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Action.php 1473 2009-09-17 23:29:27Z vipsoft $
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Interface of the Action object.
  * New Action classes can be defined in plugins and used instead of the default one.
  * 
- * @package Piwik_Tracker
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 interface Piwik_Tracker_Action_Interface {
 	const TYPE_ACTION   = 1;
@@ -50,8 +52,8 @@ interface Piwik_Tracker_Action_Interface {
  * PLUGIN_IDEA - An action is associated to URLs and link to the URL from the reports (currently actions do not link to the url of the pages)
  * PLUGIN_IDEA - An action hit by a visitor is associated to the HTML title of the page that triggered the action and this HTML title is displayed in the interface
  * 
- * 
- * @package Piwik_Tracker
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 {
@@ -136,10 +138,10 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 					);
 		
 		// the action name has not been found, create it
-		if($idAction === false)
+		if($idAction === false || $idAction == '')
 		{
 			Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */
-							INSERT INTO ". Piwik_Common::prefixTable('log_action'). "( name, type ) 
+							INSERT INTO ". Piwik_Common::prefixTable('log_action'). " ( name, type ) 
 							VALUES (?,?)",
 						array($this->getActionName(),$this->getActionType())
 					);
@@ -207,14 +209,11 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 /**
 	 * Generates the name of the action from the URL or the specified name.
 	 * Sets the name as $this->actionName
-	 * 
-	 * @return void
 	 */
 	protected function extractUrlAndActionNameFromRequest()
 	{
 		// download?
-		$downloadVariableName = Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'];
-		$downloadUrl = Piwik_Common::getRequestVar( $downloadVariableName, '', 'string', $this->request);
+		$downloadUrl = Piwik_Common::getRequestVar( 'download', '', 'string', $this->request);
 		if(!empty($downloadUrl))
 		{
 			$actionType = self::TYPE_DOWNLOAD;
@@ -224,8 +223,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		// outlink?
 		if(empty($actionType))
 		{
-			$outlinkVariableName = Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'];
-			$outlinkUrl = Piwik_Common::getRequestVar( $outlinkVariableName, '', 'string', $this->request);
+			$outlinkUrl = Piwik_Common::getRequestVar( 'link', '', 'string', $this->request);
 			if(!empty($outlinkUrl))
 			{
 				$actionType = self::TYPE_OUTLINK;

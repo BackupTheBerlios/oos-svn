@@ -4,16 +4,17 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ChartEvolution.php 1321 2009-07-23 04:29:38Z vipsoft $
+ * @version $Id: ChartEvolution.php 1478 2009-09-22 15:06:57Z vipsoft $
  * 
- * @package Piwik_ViewDataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Piwik_ViewDataTable_GenerateGraphData for the Evolution graph (eg. Last 30 days visits) using Piwik_Visualization_Chart_Evolution
  * 
- * @package Piwik_ViewDataTable
- *
+ * @package Piwik
+ * @subpackage Piwik_ViewDataTable
  */
 class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphData
 {
@@ -66,7 +67,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		foreach($this->dataTable->metadata as $idDataTable => $metadataDataTable)
 		{
 			//eg. "Aug 2009"
-			$xLabels[] = $metadataDataTable['period']->getLocalizedShortString();
+			$xLabels[] = html_entity_decode($metadataDataTable['period']->getLocalizedShortString(), ENT_COMPAT, 'UTF-8');
 			// we keep track of all unique data table that we need to set a Y value for
 			$uniqueIdsDataTable[] = $idDataTable;
 		}

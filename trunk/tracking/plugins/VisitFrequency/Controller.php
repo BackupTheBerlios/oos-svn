@@ -4,16 +4,21 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
 
+/**
+ *
+ * @package Piwik_VisitFrequency
+ */
 class Piwik_VisitFrequency_Controller extends Piwik_Controller 
 {
 	function index()
 	{
-		$view = new Piwik_View('VisitFrequency/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		$view->graphEvolutionVisitFrequency = $this->getEvolutionGraph(true, array('nb_visits_returning') );
 		$this->setSparklinesAndNumbers($view);
 		echo $view->render();
@@ -21,7 +26,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 	
 	public function getSparklines()
 	{
-		$view = new Piwik_View('VisitFrequency/templates/sparklines.tpl');
+		$view = Piwik_View::factory('sparklines');
 		$this->setSparklinesAndNumbers($view);		
 		echo $view->render();
 	}

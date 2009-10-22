@@ -4,14 +4,20 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FrontController.php 1381 2009-08-10 18:47:18Z vipsoft $
+ * @version $Id: FrontController.php 1489 2009-10-11 06:14:30Z vipsoft $
  * 
+ * @category Piwik
  * @package Piwik
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see core/PluginsManager.php
+ * @see core/Translate.php
+ * @see core/Option.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
@@ -24,6 +30,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
  * For a detailed explanation, see the documentation on http://dev.piwik.org/trac/wiki/MainSequenceDiagram
  * 
  * @package Piwik
+ * @subpackage Piwik_FrontController
  */
 class Piwik_FrontController
 {
@@ -68,7 +75,12 @@ class Piwik_FrontController
 		{
 			return;
 		}
-		
+
+		if(isset($_SERVER['PATH_INFO']))
+		{
+			return;
+		}
+
 		if(is_null($module))
 		{
 			$defaultModule = 'CoreHome';
@@ -172,8 +184,6 @@ class Piwik_FrontController
 	 * - loads the plugin, 
 	 * - inits the DB connection,
 	 * - etc.
-	 * 
-	 * @return void 
 	 */
 	function init()
 	{
@@ -188,34 +198,38 @@ class Piwik_FrontController
 			
 			Piwik::checkDirectoriesWritableOrDie($directoriesToCheck);
 			self::assignCliParametersToRequest();
-			
+
+			Piwik_Translate::getInstance()->loadEnglishTranslation();
+
 			$exceptionToThrow = false;
-			
+
 			try {
 				Piwik::createConfigObject();
 			} catch(Exception $e) {
 				Piwik_PostEvent('FrontController.NoConfigurationFile', $e);
 				$exceptionToThrow = $e;
 			}
-			Piwik_Translate::getInstance()->loadEnglishTranslation();
-			
+
 			$pluginsManager = Piwik_PluginsManager::getInstance();
 			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
-			
+
 			if($exceptionToThrow)
 			{
 				throw $exceptionToThrow;
 			}
+
+			Piwik_Translate::getInstance()->loadUserTranslation();
+
 			Piwik::createDatabaseObject();
 			Piwik::createLogObject();
 			
 			// creating the access object, so that core/Updates/* can enforce Super User and use some APIs
 			Piwik::createAccessObject();
-			Piwik::displayScreenForCoreAndPluginsUpdatesIfNecessary();
-			
+			Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
+
 			Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 			Piwik::install();
-			
+
 			Piwik_PostEvent('FrontController.initAuthenticationObject');
 			try {
 				$authAdapter = Zend_Registry::get('auth');
@@ -229,12 +243,11 @@ class Piwik_FrontController
 			Zend_Registry::get('access')->reloadAccess($authAdapter);
 			
 			Piwik::raiseMemoryLimitIfNecessary();
-			
-			Piwik_Translate::getInstance()->loadUserTranslation();
+
 			$pluginsManager->setLanguageToLoad( Piwik_Translate::getInstance()->getLanguageToLoad() );
 			$pluginsManager->postLoadPlugins();
 			
-			Piwik_UpdateCheck::check();
+			Piwik_PostEvent('FrontController.checkForUpdates');
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString(), true);
 		}
@@ -244,8 +257,6 @@ class Piwik_FrontController
 	 * Assign CLI parameters as if they were REQUEST or GET parameters.
 	 * You can trigger Piwik from the command line by
 	 * # /usr/bin/php5 /path/to/piwik/index.php -- "module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php"
-	 *
-	 * @return void
 	 */
 	static protected function assignCliParametersToRequest()
 	{
@@ -265,6 +276,7 @@ class Piwik_FrontController
  * Exception thrown when the requested plugin is not activated in the config file
  *
  * @package Piwik
+ * @subpackage Piwik_FrontController
  */
 class Piwik_FrontController_PluginDeactivatedException extends Exception
 {
@@ -274,8 +286,9 @@ class Piwik_FrontController_PluginDeactivatedException extends Exception
 	}
 }
 
-
-// for more information see http://dev.piwik.org/trac/ticket/374
+/**
+ * For more information: @link http://dev.piwik.org/trac/ticket/374
+ */
 function destroy(&$var) 
 {
 	if (is_object($var)) $var->__destruct();

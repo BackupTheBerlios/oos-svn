@@ -4,11 +4,12 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UsersManager.php 870 2009-01-14 03:40:55Z matt $
+ * @version $Id: UsersManager.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_UsersManager
  */
-	
+
 /**
  * 
  * @package Piwik_UsersManager

@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: $
+ * @version $Id: modifier.unescape.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik
  * @package SmartyPlugins
  */
 

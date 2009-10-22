@@ -4,20 +4,21 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1270 2009-07-01 06:53:34Z vipsoft $
+ * @version $Id: Controller.php 1440 2009-08-26 03:45:57Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Feedback
  */
 
 /**
  *
- * @package Piwik_Feedback 
+ * @package Piwik_Feedback
  */
 class Piwik_Feedback_Controller extends Piwik_Controller
 {	
 	function index()
 	{		
-		$view = new Piwik_View('Feedback/templates/index.tpl');
+		$view = Piwik_View::factory('index');
 		echo $view->render();
 	}
 
@@ -29,7 +30,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 		$body = Piwik_Common::getRequestVar('body', '', 'string');
 		$email = Piwik_Common::getRequestVar('email', '', 'string');
 
-		$view = new Piwik_View('Feedback/templates/sent.tpl');
+		$view = Piwik_View::factory('sent');
 		try 
 		{
 			$minimumBodyLength = 35;
@@ -39,7 +40,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 			}
 			if(!Piwik::isValidEmailString($email))
 			{
-				throw new Exception(Piwik_Translate('UsersManager_ExceptionInvalidEmail'));
+				throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail'));
 			}
 			if(strpos($body, 'http://') !== false)
 			{

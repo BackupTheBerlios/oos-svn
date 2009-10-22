@@ -4,20 +4,21 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1335 2009-07-27 02:23:37Z vipsoft $
+ * @version $Id: Controller.php 1460 2009-09-08 17:17:56Z vipsoft $
  * 
- * @package Piwik_CoreHome
- * 
+ * @category Piwik_Plugins
+ * @package Piwik_Dashboard
  */
 
 /**
+ *
  * @package Piwik_Dashboard
  */
 class Piwik_Dashboard_Controller extends Piwik_Controller
 {
 	protected function getDashboardView($template)
 	{
-		$view = new Piwik_View($template);
+		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
 		// layout was JSON.stringified
@@ -35,13 +36,13 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 	
 	public function embeddedIndex()
 	{
-		$view = $this->getDashboardView('Dashboard/templates/index.tpl');
+		$view = $this->getDashboardView('index');
 		echo $view->render();
 	}
 	
 	public function index()
 	{
-		$view = $this->getDashboardView('Dashboard/templates/standalone.tpl');
+		$view = $this->getDashboardView('standalone');
 		echo $view->render();
 	}
 	
@@ -95,7 +96,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
 		if($currentUser == 'anonymous')
 		{
-			$session = new Zend_Session_Namespace("Dashboard");
+			$session = new Zend_Session_Namespace("Piwik_Dashboard");
 			$session->idDashboard = $layout;
 		}
 		else
@@ -116,7 +117,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
 		if($currentUser == 'anonymous')
 		{
-			$session = new Zend_Session_Namespace("Dashboard");
+			$session = new Zend_Session_Namespace("Piwik_Dashboard");
 
 			if(!isset($session->idDashboard))
 			{

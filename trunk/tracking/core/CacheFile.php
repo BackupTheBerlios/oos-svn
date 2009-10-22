@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: CacheFile.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: CacheFile.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -16,6 +17,8 @@
  *
  * We may want to add support for cache expire, storing last modification time in the file. See code in:
  * - openx/lib/max/Delivery/cache.php
+ *
+ * @package Piwik
  */
 class Piwik_CacheFile
 {
@@ -24,7 +27,7 @@ class Piwik_CacheFile
     
     function __construct($directory)
     {
-    	$this->cachePath = PIWIK_INCLUDE_PATH . '/tmp/cache/' . $directory . '/';
+    	$this->cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
 //    	echo $this->cachePath;exit;
     }
     

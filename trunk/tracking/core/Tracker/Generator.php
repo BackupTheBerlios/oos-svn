@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Generator.php 1321 2009-07-23 04:29:38Z vipsoft $
+ * @version $Id: Generator.php 1443 2009-08-26 19:22:27Z vipsoft $
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -30,14 +31,12 @@
  * - action_name 
  * - HTML title
  * 
- *  
- * @package Piwik_Tracker
- * @subpackage Piwik_Tracker_Generator
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  * 
  * 											"Le Generator, il est trop Fort!"
  * 											- Random fan
  */
-
 class Piwik_Tracker_Generator
 {
 	/**
@@ -117,7 +116,7 @@ class Piwik_Tracker_Generator
 		// init GET and REQUEST to the empty array
 		$this->setFakeRequest();
 		
-		Piwik::createConfigObject(PIWIK_INCLUDE_PATH . '/config/config.ini.php');
+		Piwik::createConfigObject(PIWIK_USER_PATH . '/config/config.ini.php');
 		Zend_Registry::get('config')->disableSavingConfigurationFileUpdates();
 		
 		// setup database	
@@ -180,7 +179,6 @@ class Piwik_Tracker_Generator
 	 * 
 	 * @param string Name of the parameter _GET[$name]
 	 * @param array|mixed Value of the parameter
-	 * @return void
 	 */
 	protected function addParam( $name, $aValue)
 	{
@@ -198,8 +196,6 @@ class Piwik_Tracker_Generator
 	/**
 	 * TRUNCATE all logs related tables to start a fresh logging database.
 	 * Be careful, any data deleted this way is deleted forever
-	 * 
-	 * @return void
 	 */
 	public function emptyAllLogTables()
 	{
@@ -221,8 +217,6 @@ class Piwik_Tracker_Generator
 	/**
 	 * This is called at the end of the Generator script.
 	 * Calls the Profiler output if the profiler is enabled.
-	 * 
-	 * @return void
 	 */
 	public function end()
 	{
@@ -240,9 +234,7 @@ class Piwik_Tracker_Generator
 	 * - setup the different possible values for parameters such as 'resolution',
 	 * 		'color', 'hour', 'minute', etc.
 	 * - load from DataFiles and setup values for the other parameters such as UserAgent, Referers, AcceptedLanguages, etc.
-	 *  @see /misc/generateVisitsData/
-	 * 
-	 * @return void
+	 *   @see misc/generateVisitsData/
 	 */
 	public function init()
 	{
@@ -281,10 +273,8 @@ class Piwik_Tracker_Generator
 		 * Sets values for: outlinks, downloads, campaigns
 		 */
 		// we get the name of the Download/outlink variables
-		$downloadOrOutlink = array(
-						Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'],
-						Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'],
-		);
+		$downloadOrOutlink = array('download', 'link');
+
 		// we have a 20% chance to add a download or outlink variable to the URL 
 		$this->addParam('piwik_downloadOrOutlink', $downloadOrOutlink);
 		$this->addParam('piwik_downloadOrOutlink', array_fill(0,8,''));
@@ -321,8 +311,6 @@ class Piwik_Tracker_Generator
 	/**
 	 * If the SQL profiler is enabled and if the reinit at every request is set to true,
 	 * then we TRUNCATE the profiling information so that we only profile one visitor at a time
-	 * 
-	 * @return void
 	 */
 	protected function initProfiler()
 	{
@@ -373,8 +361,6 @@ class Piwik_Tracker_Generator
 	 * Also generates a random IP.
 	 * 
 	 * We change the superglobal values of HTTP_USER_AGENT, HTTP_CLIENT_IP, HTTP_ACCEPT_LANGUAGE to the generated value.
-	 * 
-	 * @return void
 	 */
 	protected function generateNewVisit()
 	{
@@ -407,16 +393,13 @@ class Piwik_Tracker_Generator
 	 * We generate a new Referer, that would be read in the case the visit last page is older than 30 minutes.
 	 * 
 	 * This function tries to generate actions that use the features of Piwik (campaigns, downloads, outlinks, action_name set in the JS tag, etc.)
-	 * 
-	 * @return void
-	 * 
 	 */
 	protected function generateActionVisit()
 	{		
 		// we don't keep the previous action values 
 		// reinit them to empty string
-		$this->setCurrentRequest( Piwik_Tracker_Config::getInstance()->Tracker['download_url_var_name'],'');
-		$this->setCurrentRequest( Piwik_Tracker_Config::getInstance()->Tracker['outlink_url_var_name'],'');
+		$this->setCurrentRequest( 'download', '');
+		$this->setCurrentRequest( 'link', '');
 		$this->setCurrentRequest( 'action_name', '');
 
 		// generate new url referer ; case the visitor stays more than 30min
@@ -578,8 +561,6 @@ class Piwik_Tracker_Generator
 	 * @see setCurrentRequest()
 	 * This method is called once the current action parameters array has been generated from 
 	 * the global parameters array
-	 * 
-	 * @return void
 	 */
 	protected function setFakeRequest()
 	{
@@ -636,8 +617,6 @@ class Piwik_Tracker_Generator
 	 * - load the Tracker class and call the method to launch the recording
 	 * 
 	 * This will save the visit in the database
-	 * 
-	 * @return void
 	 */
 	protected function saveVisit()
 	{
@@ -645,6 +624,5 @@ class Piwik_Tracker_Generator
 		$process = new Piwik_Tracker_Generator_Tracker();
 		$process->main();
 		unset($process);
-	}
-	
+	}	
 }

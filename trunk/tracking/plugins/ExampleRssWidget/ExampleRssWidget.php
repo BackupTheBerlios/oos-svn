@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleRssWidget.php 1380 2009-08-09 03:28:00Z vipsoft $
+ * @version $Id: ExampleRssWidget.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_ExampleRssWidget
  */
 
+/**
+ *
+ * @package Piwik_ExampleRssWidget
+ */
 class Piwik_ExampleRssWidget extends Piwik_Plugin
 {
 	public function getInformation()
@@ -36,6 +41,10 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 Piwik_AddWidget('Example Widgets', 'Piwik.org Blog', 'ExampleRssWidget', 'rssPiwik');
 Piwik_AddWidget('Example Widgets', 'Piwik Changelog', 'ExampleRssWidget', 'rssChangelog');
 
+/**
+ *
+ * @package Piwik_ExampleRssWidget
+ */
 class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 {
 	function rssPiwik()
@@ -54,6 +63,10 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 	}
 }
 
+/**
+ *
+ * @package Piwik_ExampleRssWidget
+ */
 class Piwik_ExampleRssWidget_Rss
 {
 	protected $url = null;
@@ -90,7 +103,7 @@ class Piwik_ExampleRssWidget_Rss
 		foreach($rss as $post)
 		{
 			$title = $post->title();
-			$date = strftime("%B %e, %Y", strtotime($post->pubDate()));
+			$date = @strftime("%B %e, %Y", strtotime($post->pubDate()));
 			$link = $post->link();
 			
 			$output .= '<li><a class="rss-title" title="" href="'.$link.'">'.$title.'</a>'.

@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_API
  */
 
@@ -34,7 +35,7 @@ class Piwik_API_Controller extends Piwik_Controller
 	
 	public function listAllAPI()
 	{
-		$view = new Piwik_View("API/templates/listAllAPI.tpl");
+		$view = Piwik_View::factory("listAllAPI");
 		$this->setGeneralVariablesView($view);
 		
 		$ApiDocumentation = new Piwik_API_DocumentationGenerator();
@@ -43,4 +44,3 @@ class Piwik_API_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 }
-

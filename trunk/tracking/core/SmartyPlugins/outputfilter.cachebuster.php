@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: outputfilter.cachebuster.php 1380 2009-08-09 03:28:00Z vipsoft $
+ * @version $Id: outputfilter.cachebuster.php 1499 2009-10-14 00:58:50Z vipsoft $
  * 
+ * @category Piwik
  * @package SmartyPlugins
  */
 
@@ -20,7 +21,7 @@
  *           of external CSS stylesheets and
  *           JavaScript scripts<br>
  * Install:  Drop into the plugin directory, call
- *           <code>$smarty->assign('tag','XXXX');</code>
+ *           <code>$smarty->assign('tag', 'some_unique_tag');</code>
  *           <code>$smarty->load_filter('output','cachebuster');</code>
  *           from application.
  * @author   Anthon Pang <apang at softwaredevelopment dot ca>
@@ -40,7 +41,7 @@ function smarty_outputfilter_cachebuster($source, &$smarty)
 
 	$replace = array(
 		'<script type="text/javascript" src="$1?'. $tag .'">',
-		'<script src="$1?'. $tag .'" type="text/javascript">',
+		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<link rel="stylesheet" type="text/css" href="$1?'. $tag .'" />',
 	);
 

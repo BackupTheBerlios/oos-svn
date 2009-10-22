@@ -4,11 +4,15 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Menu.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Menu.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik
+ * @category Piwik
+ * @package PluginsFunctions
  */
 
+/**
+ * @package PluginsFunctions
+ */
 class Piwik_Menu
 {
 	protected $menu = null;
@@ -30,7 +34,7 @@ class Piwik_Menu
 	}
 	
 	/*
-	 * @return void
+	 * 
 	 */
 	protected function __construct()
 	{
@@ -42,7 +46,7 @@ class Piwik_Menu
 	}
 
 	/*
-	 * @return void
+	 * 
 	 */
 	function add( $mainMenuName, $subMenuName, $url )
 	{
@@ -57,7 +61,7 @@ class Piwik_Menu
 	}
 	
 	/*
-	 * @return void
+	 * 
 	 */
 	function rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed)
 	{
@@ -66,7 +70,7 @@ class Piwik_Menu
 	}
 	
 	/*
-	 * @return void
+	 * 
 	 */
 	function editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl )
 	{
@@ -87,7 +91,7 @@ class Piwik_Menu
 	}
 	
 	/*
-	 * @return void
+	 * 
 	 */
 	private function applyEdits()
 	{
@@ -108,7 +112,7 @@ class Piwik_Menu
 	}
 	
 	/*
-	 * @return void
+	 * 
 	 */
 	private function applyRenames()
 	{
@@ -128,7 +132,7 @@ class Piwik_Menu
 	}
 	
 	/*
-	 * @return void
+	 * 
 	 */
 	private function applyOrdering()
 	{

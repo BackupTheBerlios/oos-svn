@@ -1,20 +1,21 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Login.php 1321 2009-07-23 04:29:38Z vipsoft $
- * 
+ * @version $Id: Login.php 1420 2009-08-22 13:23:16Z vipsoft $
+ *
+ * @category Piwik_Plugins
  * @package Piwik_Login
  */
 
 /**
- * 
+ *
  * @package Piwik_Login
  */
 class Piwik_Login extends Piwik_Plugin
-{	
+{
 	public function getInformation()
 	{
 		$info = array(
@@ -26,7 +27,7 @@ class Piwik_Login extends Piwik_Plugin
 		);
 		return $info;
 	}
-	
+
 	function getListHooksRegistered()
 	{
 		$hooks = array(
@@ -36,35 +37,35 @@ class Piwik_Login extends Piwik_Plugin
 		);
 		return $hooks;
 	}
-	
+
 	function noAccess( $notification )
 	{
 		$exception  = $notification->getNotificationObject();
-		$exceptionMessage = $exception->getMessage(); 
+		$exceptionMessage = $exception->getMessage();
 
 		$controller = new Piwik_Login_Controller();
 		$controller->login($exceptionMessage);
 	}
-	
+
 	function ApiRequestAuthenticate($notification)
 	{
 		$tokenAuth = $notification->getNotificationObject();
 		Zend_Registry::get('auth')->setLogin($login = null);
 		Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
 	}
-	
+
 	function initAuthenticationObject($notification)
 	{
 		$auth = new Piwik_Login_Auth();
 		Zend_Registry::set('auth', $auth);
 
 		$action = Piwik::getAction();
-		if(Piwik::getModule() === 'API' 
+		if(Piwik::getModule() === 'API'
 			&& (empty($action) || $action == 'index'))
 		{
 			return;
 		}
-     		
+
 		$authCookieName = Zend_Registry::get('config')->General->login_cookie_name;
 		$authCookieExpiry = time() + Zend_Registry::get('config')->General->login_cookie_expire;
 		$authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry);

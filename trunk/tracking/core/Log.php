@@ -4,14 +4,18 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Log.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Log.php 1467 2009-09-11 03:29:02Z vipsoft $
  * 
- * @package Piwik_Log
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * 
- * @package Piwik_Log
+ * @package Piwik
+ * @subpackage Piwik_Log
+ * @see Zend_Log, libs/Zend/Log.php
+ * @link http://framework.zend.com/manual/en/zend.log.html 
  */
 abstract class Piwik_Log extends Zend_Log
 {
@@ -32,7 +36,7 @@ abstract class Piwik_Log extends Zend_Log
 		$log_dir = Zend_Registry::get('config')->log->logger_file_path;
 		if($log_dir[0] != '/' && $log_dir[0] != DIRECTORY_SEPARATOR)
 		{
-			$log_dir = PIWIK_INCLUDE_PATH . '/' . $log_dir;
+			$log_dir = PIWIK_USER_PATH . '/' . $log_dir;
 		}
 		$this->logToFileFilename = $log_dir . '/' . $logToFileFilename;
 
@@ -114,7 +118,9 @@ abstract class Piwik_Log extends Zend_Log
 }
 
 /**
- * @package Piwik_Log
+ * 
+ * @package Piwik
+ * @subpackage Piwik_Log
  */
 class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 {	
@@ -131,11 +137,18 @@ class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
 			$value = str_replace("\n", '\n', $value);
 			$value = '"'.$value.'"';
 		}
-		$str = implode(" ", $event) . "\n";
+		$ts = $event['timestamp'];
+		unset($event['timestamp']);
+		$str = $ts . ' ' . implode(" ", $event) . "\n";
 		return $str;
 	}
 }
 
+/**
+ * 
+ * @package Piwik
+ * @subpackage Piwik_Log
+ */
 class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interface
 {
 	function formatEvent($event)
@@ -152,7 +165,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 	
 	static public function getFormattedString($string)
 	{
-		if(Piwik::isPhpCliMode())
+		if(Piwik_Common::isPhpCliMode())
 		{
 			$string = str_replace(array('<br>','<br />','<br/>'), "\n", $string);
 			$string = strip_tags($string);

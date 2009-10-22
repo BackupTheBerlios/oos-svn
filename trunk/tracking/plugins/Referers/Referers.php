@@ -4,12 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Referers.php 1085 2009-05-04 22:55:35Z matt $
+ * @version $Id: Referers.php 1495 2009-10-12 13:54:46Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Referers
  */
-	
+
 /**
+ *
  * @package Piwik_Referers
  */
 class Piwik_Referers extends Piwik_Plugin
@@ -51,11 +53,11 @@ class Piwik_Referers extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetKeywords', 'Referers', 'getKeywords');
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetCampaigns', 'Referers', 'getCampaigns');
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetExternalWebsites', 'Referers', 'getWebsites');
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetSearchEngines', 'Referers', 'getSearchEngines');
-		Piwik_AddWidget( 'Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetKeywords', 'Referers', 'getKeywords');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetCampaigns', 'Referers', 'getCampaigns');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetExternalWebsites', 'Referers', 'getWebsites');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetSearchEngines', 'Referers', 'getSearchEngines');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
 	}
 	
 	function addMenus()

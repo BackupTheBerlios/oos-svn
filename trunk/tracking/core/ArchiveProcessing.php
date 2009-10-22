@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ArchiveProcessing.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: ArchiveProcessing.php 1473 2009-09-17 23:29:27Z vipsoft $
  * 
- * @package Piwik_ArchiveProcessing
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -25,7 +26,8 @@
  * - name 		= the name of the report (ex: uniq_visitors or search_keywords_by_search_engines)
  * - value 		= the actual data
  * 
- * @package Piwik_ArchiveProcessing
+ * @package Piwik
+ * @subpackage Piwik_ArchiveProcessing
  */
 abstract class Piwik_ArchiveProcessing
 {
@@ -99,6 +101,13 @@ abstract class Piwik_ArchiveProcessing
 	 * @var int
 	 */
 	protected $maxTimestampArchive;
+
+	/**
+	 * Compress blobs
+	 *
+	 * @var bool
+	 */
+	protected $compressBlob;
 	
 	/**
 	 * Id of the current site
@@ -216,8 +225,6 @@ abstract class Piwik_ArchiveProcessing
 	
 	/**
 	 * Inits the object
-	 * 
-	 * @return void
 	 */
 	protected function loadArchiveProperties()
 	{		
@@ -263,6 +270,9 @@ abstract class Piwik_ArchiveProcessing
 				$this->maxTimestampArchive = Piwik_Date::today()->getTimestamp();
 			}
 		}
+
+		$db = Zend_Registry::get('db');
+		$this->compressBlob = $db->hasBlobDataType();
 	}
 	
 	/**
@@ -312,8 +322,6 @@ abstract class Piwik_ArchiveProcessing
 	
 	/**
 	 * Init the object before launching the real archive processing
-	 * 
-	 * @return void
 	 */
 	protected function initCompute()
 	{
@@ -330,8 +338,6 @@ abstract class Piwik_ArchiveProcessing
 	 * Makes sure the new archive is marked as "successful" in the DB
 	 * 
 	 * We also try to delete some stuff from memory but really there is still a lot...
-	 * 
-	 * @return void
 	 */
 	protected function postCompute()
 	{
@@ -470,7 +476,16 @@ abstract class Piwik_ArchiveProcessing
 			destroy($records);
 			return true;
 		}
-		$record = new Piwik_ArchiveProcessing_Record_Blob($name, $value);
+
+		if($this->compressBlob)
+		{
+			$record = new Piwik_ArchiveProcessing_Record_Blob($name, $value);
+		}
+		else
+		{
+			$record = new Piwik_ArchiveProcessing_Record($name, $value);
+		}
+
 		$this->insertRecord($record);
 		destroy($record);
 		return true;
@@ -591,7 +606,7 @@ abstract class Piwik_ArchiveProcessing
 			$enableBrowserArchivingTriggering = (bool)Zend_Registry::get('config')->General->enable_browser_archiving_triggering;
 			if($enableBrowserArchivingTriggering == false)
 			{
-				if( !Piwik::isPhpCliMode())
+				if( !Piwik_Common::isPhpCliMode())
 				{
 					$archivingIsDisabled = true;
 				}

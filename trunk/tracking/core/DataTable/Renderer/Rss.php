@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Rss.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Rss.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -14,8 +15,8 @@
  * The RSS renderer can be used only on Piwik_DataTable_Array that are arrays of Piwik_DataTable.
  * A RSS feed contains one dataTable per element in the Piwik_DataTable_Array.
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Renderer
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 {

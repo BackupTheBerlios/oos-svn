@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GenerateGraphData.php 1270 2009-07-01 06:53:34Z vipsoft $
+ * @version $Id: GenerateGraphData.php 1478 2009-09-22 15:06:57Z vipsoft $
  * 
- * @package Piwik_ViewDataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -26,8 +27,8 @@
  * 	}
  * </pre>
  *  
- * @package Piwik_ViewDataTable
- *
+ * @package Piwik
+ * @subpackage Piwik_ViewDataTable
  */
 abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 {	
@@ -72,8 +73,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	 * for example when plotting visits that have a given plugin enabled: 
 	 * one visit can have several plugins, hence the sum is much greater than the number of visits.
 	 * In this case displaying the percentage doesn't make sense.
-	 * 
-	 * @return void
 	 */
 	public function disallowPercentageInGraphTooltip()
 	{
@@ -108,7 +107,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 
 		if(!$this->isDataAvailable)
 		{
-			$this->view->setTitle(Piwik_Translate('General_NoDataForGraph'), '{font-size: 25px;}');
+			$this->view->setTitle(html_entity_decode(Piwik_Translate('General_NoDataForGraph'), ENT_COMPAT, 'UTF-8'), '{font-size: 25px;}');
 		}
 		else
 		{

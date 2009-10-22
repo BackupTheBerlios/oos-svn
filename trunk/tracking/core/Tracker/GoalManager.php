@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GoalManager.php 1366 2009-08-04 19:27:54Z vipsoft $
+ * @version $Id: GoalManager.php 1475 2009-09-19 17:32:59Z vipsoft $
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_Tracker
+ */
 class Piwik_Tracker_GoalManager 
 {
 	/**
@@ -206,7 +211,7 @@ class Piwik_Tracker_GoalManager
 					VALUES ($bindFields) ", array_values($newGoal) 
 				);
 			} catch( Exception $e) {
-				if(strpos($e->getMessage(), '1062') !== false)
+				if(Piwik_Tracker::isErrNo($e, '1062'))
 				{
 					// integrity violation when same visit converts to the same goal twice
 					printDebug("--> Goal already recorded for this (idvisit, idgoal)");

@@ -4,10 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Request.php 1300 2009-07-08 18:28:22Z matt $
+ * @version $Id: Request.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * 
- * @package Piwik_API
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -33,7 +33,8 @@
  *  echo $result;
  * 
  * @see http://dev.piwik.org/trac/wiki/API
- * @package Piwik_API
+ * @package Piwik
+ * @subpackage Piwik_API
  */
 class Piwik_API_Request
 {	

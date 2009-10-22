@@ -4,15 +4,17 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Evolution.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Evolution.php 1471 2009-09-12 03:58:52Z vipsoft $
  * 
- * @package Piwik_Visualization
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Customize the Evolution chart style for the flash graph
  * 
- * @package Piwik_Visualization
+ * @package Piwik
+ * @subpackage Piwik_Visualization
  */
 class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart 
 {
@@ -39,7 +41,7 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 		$i = 0;
 		foreach($dataSetsToDisplay as $dataSetToDisplay)
 		{
-			$color = $colors[$i];
+			$color = $colors[$i % count($colors)];
 			
 			$labelName = $this->yLabels[$dataSetToDisplay];
 			$d = new hollow_dot();

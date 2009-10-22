@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1379 2009-08-09 01:44:51Z vipsoft $
+ * @version $Id: API.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_CorePluginsAdmin
+ * @category Piwik_Plugins
+ * @package Piwik_API
  */
 
+/**
+ * 
+ * @package Piwik_API
+ */
 class Piwik_API extends Piwik_Plugin
 {
 	public function getInformation()

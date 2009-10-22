@@ -1,19 +1,24 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Auth.php 1270 2009-07-01 06:53:34Z vipsoft $
- * 
+ * @version $Id: Auth.php 1420 2009-08-22 13:23:16Z vipsoft $
+ *
+ * @category Piwik_Plugins
  * @package Piwik_Login
  */
 
+/**
+ *
+ * @package Piwik_Login
+ */
 class Piwik_Login_Auth implements Piwik_Auth
 {
 	protected $login = null;
 	protected $token_auth = null;
-	
+
 	public function getName()
 	{
 		return 'Login';
@@ -55,7 +60,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 	{
 		$this->login = $login;
 	}
-	
+
 	public function setTokenAuth($token_auth)
 	{
 		$this->token_auth = $token_auth;

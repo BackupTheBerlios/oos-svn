@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1362 2009-08-04 14:03:17Z vipsoft $
+ * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Actions
  */
 
@@ -18,7 +19,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 {
 	public function index()
 	{
-		$view = new Piwik_View('Actions/index.tpl');
+		$view = Piwik_View::factory('index');
 		
 		/* Actions, Downloads, Outlinks */
 		$view->dataTableActions = $this->getActions( true );

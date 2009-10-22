@@ -33,7 +33,6 @@
 	</p>
 </form>
 
-
 <p id="nav">
 <a href="index.php?module=Login&amp;action=lostPassword&amp;form_url={$urlToRedirect|escape:url}" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
 </p>
@@ -42,6 +41,3 @@
 
 </body>
 </html>
-
-
-

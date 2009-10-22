@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Dashboard.php 1380 2009-08-09 03:28:00Z vipsoft $
+ * @version $Id: Dashboard.php 1475 2009-09-19 17:32:59Z vipsoft $
  * 
- * @package Piwik_ExamplePlugin
+ * @category Piwik_Plugins
+ * @package Piwik_Dashboard
  */
 
+/**
+ *
+ * @package Piwik_Dashboard
+ */
 class Piwik_Dashboard extends Piwik_Plugin
 {
 	public function getInformation()
@@ -58,11 +63,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1050:table already exists
 			// see bug #153 http://dev.piwik.org/trac/ticket/153
-			if(preg_match('/1050/', $e->getMessage()))
-			{
-				return;
-			}
-			else
+			if(!Zend_Registry::get('db')->isErrNo($e, '1050'))
 			{
 				throw $e;
 			}

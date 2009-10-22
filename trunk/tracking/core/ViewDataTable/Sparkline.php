@@ -4,15 +4,17 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Sparkline.php 1321 2009-07-23 04:29:38Z vipsoft $
+ * @version $Id: Sparkline.php 1440 2009-08-26 03:45:57Z vipsoft $
  * 
- * @package Piwik_ViewDataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
  * 
- * @package Piwik_ViewDataTable
+ * @package Piwik
+ * @subpackage Piwik_ViewDataTable
  */
 class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 {
@@ -37,7 +39,7 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
 		$this->isDataAvailable = $this->dataTable->getRowsCount() != 0;
 		if(!$this->isDataAvailable)
 		{
-			throw new Exception(Piwik_Translate('General_NoDataForGraph'));
+			throw new Exception(Piwik_TranslateException('General_NoDataForGraph'));
 		}
 		$values = $this->getValuesFromDataTable($this->dataTable);
 		$graph = new Piwik_Visualization_Sparkline();

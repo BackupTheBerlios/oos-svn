@@ -11,6 +11,59 @@
 		<td>{if $infos.phpVersion_ok}{$ok}{else}{$error}{/if}</td>
 	</tr>
 	<tr>
+		<td class="label">PDO {'Installation_Extension'|translate}</td>
+		<td>{if $infos.pdo_ok}{$ok}
+			{else}-{/if}
+		</td>
+	</tr>
+	{foreach from=$infos.adapters key=adapter item=port}
+	<tr>
+		<td class="label">{$adapter} {'Installation_Extension'|translate}</td>
+		<td>{$ok}</td>
+	</tr>
+	{/foreach}
+	{if !count($infos.adapters)}
+	<tr>
+		<td colspan="2" class="error">
+			<small>
+				{'Installation_SystemCheckDatabaseHelp'|translate}
+				<p>
+				{if $infos.isWindows}
+					{'Installation_SystemCheckWinPdoAndMysqliHelp'|translate:"<br /><br /><code>extension=php_mysqli.dll</code><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />"|nl2br}
+				{else}
+					{'Installation_SystemCheckPdoAndMysqliHelp'|translate:"<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br />":"<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />"|nl2br}
+				{/if}
+				<br />
+				{'Installation_SystemCheckPhpPdoAndMysqliSite'|translate}
+				</p>
+			</small>
+		</td>
+	</tr>
+	{/if}
+	<tr>
+		<td valign="top">
+			{'Installation_SystemCheckJson'|translate}
+		</td>
+		<td>{if $infos.json || $infos.xml}{$ok}
+			{else}{$error}{/if}
+		</td>
+	</tr>
+	{if !$infos.json && !$infos.xml}
+	<tr>
+		<td colspan="2" class="error">
+			<small>
+				{'Installation_SystemCheckJsonHelp'|translate}
+				<br />
+				{if version_compare($infos.phpVersion, '5.2.0') >= 0}
+					{'Installation_SystemCheckJsonSite'|translate}
+				{else}
+					{'Installation_SystemCheckXmlSite'|translate}
+				{/if}
+			</small>
+		</td>
+	</tr>
+	{/if}
+	<tr>
 		<td class="label">{'Installation_SystemCheckExtensions'|translate}</td>
 		<td>{foreach from=$infos.needed_extensions item=needed_extension}
 				{$needed_extension}
@@ -25,8 +78,7 @@
 	</tr>
 	{if count($infos.missing_extensions) gt 0}
 	<tr>
-		<td colspan="2">
-			<p class="error" style="width:80%">
+		<td colspan="2" class="error">
 			<small>
 				{foreach from=$infos.missing_extensions item=missing_extension}
 					<p>
@@ -34,9 +86,6 @@
 					</p>
 				{/foreach}
 			</small>
-			</p>
-			{$link} <a href="http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
-			<br />
 		</td>
 	</tr>
 	{/if}
@@ -45,25 +94,27 @@
 			{'Installation_SystemCheckWriteDirs'|translate}
 		</td>
 		<td>
-			{foreach from=$infos.directories key=dir item=bool}
-				{if $bool}{$ok}{else}
-				<span style="color:red">{$error}</span>{/if} 
-				{$dir}
-				<br />				
-			{/foreach}
+			<small>
+				{foreach from=$infos.directories key=dir item=bool}
+					{if $bool}{$ok}{else}
+					<span style="color:red">{$error}</span>{/if} 
+					{$dir}
+					<br />				
+				{/foreach}
+			</small>
 		</td>
 	</tr>
 </table>
 {if $problemWithSomeDirectories}
 	<br />
 	<div class="error">
-			{'Installation_SystemCheckWriteDirsHelp'|translate}:
-	{foreach from=$infos.directories key=dir item=bool}
-		<ul>{if !$bool}
-			<li><pre>chmod a+w {$dir}</pre></li>
-		{/if}
-		</ul>
-	{/foreach}
+		{'Installation_SystemCheckWriteDirsHelp'|translate}:
+		{foreach from=$infos.directories key=dir item=bool}
+			<ul>{if !$bool}
+					<li><pre>chmod a+w {$dir}</pre></li>
+				{/if}
+			</ul>
+		{/foreach}
 	</div>
 	<br />
 {/if}
@@ -77,6 +128,20 @@
 				<br /><i>{'Installation_SystemCheckMemoryLimitHelp'|translate}</i>{/if}	
 		</td>
 	</tr>
+	<tr>
+		<td class="label">{'Installation_SystemCheckOpenURL'|translate}</td>
+		<td>
+			{if $infos.openurl}{$infos.openurl} {$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckOpenURLHelp'|translate}</i>{/if}
+		</td>
+	</tr>
+	{if $infos.json}
+	<tr>
+		<td class="label">{'Installation_SystemCheckXml'|translate}</td>
+		<td>
+			{if $infos.xml}{$ok}{else}{$warning}<br /><i>{'Installation_SystemCheckXmlHelp'|translate}</i>{/if}
+		</td>
+	</tr>
+	{/if}
 	<tr>
 		<td class="label">{'Installation_SystemCheckGD'|translate}</td>
 		<td>
@@ -102,6 +167,9 @@
 	</tr>
 </table>
 
+<p>
+{$link} <a href="http://piwik.org/docs/requirements/" target="_blank">{'Installation_Requirements'|translate}</a> 
+</p>
 
 {if !$showNextStep}
 {literal}

@@ -4,20 +4,19 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: testMinimumPhpVersion.php 1335 2009-07-27 02:23:37Z vipsoft $
+ * @version $Id: testMinimumPhpVersion.php 1431 2009-08-23 14:27:44Z vipsoft $
  * 
+ * @category Piwik
  * @package Piwik
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
 /**
  * This file is executed before anything else. 
  * It checks the minimum PHP version required to run Piwik.
  * This file must be compatible PHP4.
- * 
- * @package Piwik
  */
 
 $piwik_minimumPHPVersion = '5.1.3';
@@ -86,6 +85,11 @@ if(isset($piwik_errorMessage))
 	Piwik_ExitWithMessage($piwik_errorMessage, false, true);
 }
 
-// we now include the upgradephp package to define some functions used in piwik 
-// that may not be defined in the current php version
+/**
+ * We now include the upgradephp package to define some functions used in Piwik
+ * that may not be defined in the current PHP version.
+ *
+ * @see libs/upgradephp/upgrade.php
+ * @link http://upgradephp.berlios.de/
+ */
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';

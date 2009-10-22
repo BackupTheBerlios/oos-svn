@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Tracker.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Tracker.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -15,15 +16,13 @@
  * - doesn't print the 1pixel transparent GIF at the end of the visit process
  * - overwrite the Tracker Visit object to use so we use our own Tracker_visit @see Piwik_Tracker_Generator_Visit
  * 
- * @package Piwik_Tracker
- * @subpackage Piwik_Tracker_Generator
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 class Piwik_Tracker_Generator_Tracker extends Piwik_Tracker
 {
 	/**
 	 * Does nothing instead of sending headers
-	 *
-	 * @return void
 	 */
 	protected function sendHeader($header)
 	{
@@ -31,8 +30,6 @@ class Piwik_Tracker_Generator_Tracker extends Piwik_Tracker
 	
 	/**
 	 * Does nothing instead of displaying a 1x1 transparent pixel GIF
-	 *
-	 * @return void
 	 */
 	protected function end()
 	{

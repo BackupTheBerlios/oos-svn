@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Simple.php 1270 2009-07-01 06:53:34Z vipsoft $
+ * @version $Id: Simple.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -19,18 +20,19 @@
  * - the renderer can be applied (XML, PHP, HTML, etc.)
  * So you don't have to write specific renderer for your data, it is already available in all the formats supported natively by Piwik.
  * 
- * @package Piwik_DataTable
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Simple extends Piwik_DataTable
 {
 	/**
 	 * Loads (append) in the DataTable the array information
+	 *
 	 * @param array Array containing the rows information
 	 * 		array(
 	 * 			'Label row 1' => Value row 1,
 	 * 			'Label row 2' => Value row 2,
 	 * 	)
-	 * @return void
 	 */
 	function addRowsFromArray($array)
 	{

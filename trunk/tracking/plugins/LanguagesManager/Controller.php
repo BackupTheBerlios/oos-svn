@@ -4,14 +4,15 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_CoreHome
+ * @category Piwik_Plugins
+ * @package Piwik_LanguagesManager
  * 
  */
 
 /**
- * @package Piwik_Dashboard
+ * @package Piwik_LanguagesManager
  */
 class Piwik_LanguagesManager_Controller extends Piwik_Controller
 {
@@ -22,14 +23,14 @@ class Piwik_LanguagesManager_Controller extends Piwik_Controller
 	public function saveLanguage()
 	{
 		$language = Piwik_Common::getRequestVar('language');
-		$currentUser = Piwik::getCurrentUserLogin();
-		$session = new Zend_Session_Namespace("LanguagesManager");
-		$session->language = $language;
-		if($currentUser !== 'anonymous')
-		{
-			Piwik_LanguagesManager_API::setLanguageForUser($currentUser, $language);
+		Piwik_LanguagesManager_API::setLanguageForSession($language);
+		if(Zend_Registry::isRegistered('access')) {
+			$currentUser = Piwik::getCurrentUserLogin();
+			if($currentUser && $currentUser !== 'anonymous')
+			{
+				Piwik_LanguagesManager_API::setLanguageForUser($currentUser, $language);
+			}
 		}
 		Piwik_Url::redirectToReferer();
-	}
-	
+	}	
 }

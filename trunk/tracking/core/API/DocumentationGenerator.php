@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: DocumentationGenerator.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: DocumentationGenerator.php 1466 2009-09-11 00:58:22Z vipsoft $
  * 
- * @package Piwik_API
+ * @category Piwik
+ * @package Piwik
  */
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_API
+ */
 class Piwik_API_DocumentationGenerator
 {
 	protected $countPluginsLoaded = 0;
@@ -153,7 +158,7 @@ class Piwik_API_DocumentationGenerator
 		{
 			// if there isn't a default value for a given parameter, 
 			// we need a 'know default value' or we can't generate the link
-			if($defaultValue === Piwik_API_Proxy::NO_DEFAULT_VALUE)
+			if($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue)
 			{
 				if(isset($knowExampleDefaultParametersValues[$nameVariable]))
 				{
@@ -185,7 +190,7 @@ class Piwik_API_DocumentationGenerator
 		foreach($aParameters as $nameVariable=> $defaultValue)
 		{
 			$str = $nameVariable;
-			if($defaultValue !== Piwik_API_Proxy::NO_DEFAULT_VALUE)
+			if(!($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue))
 			{
 				$str .= " = '$defaultValue'";
 			}
@@ -193,6 +198,5 @@ class Piwik_API_DocumentationGenerator
 		}
 		$sParameters = implode(", ", $asParameters);
 		return "($sParameters)";
-	}
-	
+	}	
 }

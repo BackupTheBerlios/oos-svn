@@ -4,14 +4,21 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: PluginsManager.php 1335 2009-07-27 02:23:37Z vipsoft $
+ * @version $Id: PluginsManager.php 1492 2009-10-11 20:49:29Z vipsoft $
  * 
+ * @category Piwik
  * @package Piwik
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see core/PluginsFunctions/Menu.php
+ * @see core/PluginsFunctions/AdminMenu.php
+ * @see core/PluginsFunctions/WidgetsList.php
+ * @see core/PluginsFunctions/Sql.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Menu.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/AdminMenu.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/WidgetsList.php';
@@ -19,6 +26,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Sql.php';
 
 /**
  * @package Piwik
+ * @subpackage Piwik_PluginsManager
  */
 class Piwik_PluginsManager
 {
@@ -82,7 +90,7 @@ class Piwik_PluginsManager
 	public function readPluginsDirectory()
 	{
 		$pluginsName = glob( PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
-		$pluginsName = array_map('basename', $pluginsName);
+		$pluginsName = $pluginsName === false ? array() : array_map('basename', $pluginsName);
 		return $pluginsName;
 	}
 
@@ -297,7 +305,6 @@ class Piwik_PluginsManager
 
 	/**
 	 * @param Piwik_Plugin $plugin
-	 * @return void
 	 */
 	public function unloadPlugin( $plugin )
 	{
@@ -473,6 +480,10 @@ class Piwik_PluginsManager
 	}
 }
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_PluginsManager
+ */
 class Piwik_PluginsManager_PluginException extends Exception 
 {
 	function __construct($pluginName, $className, $message)
@@ -502,6 +513,11 @@ function Piwik_AddAction( $hookName, $function )
 	Piwik_PluginsManager::getInstance()->dispatcher->addObserver( $function, $hookName );
 }
 
+/**
+ * @package Piwik
+ * @see Event_Notification, libs/Event/Notification.php
+ * @link http://pear.php.net/package/Event_Dispatcher/docs/latest/Event_Dispatcher/Event_Notification.html
+ */
 class Piwik_Event_Notification extends Event_Notification
 {
 	static $showProfiler = false;

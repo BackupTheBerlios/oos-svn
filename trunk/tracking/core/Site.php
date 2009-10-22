@@ -4,14 +4,15 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Site.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Site.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_Site
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * 
- * @package Piwik_Site
+ * @package Piwik
  */
 class Piwik_Site
 {

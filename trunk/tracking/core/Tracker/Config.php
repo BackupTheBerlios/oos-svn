@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Config.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Config.php 1447 2009-08-28 16:12:49Z vipsoft $
  * 
- * @package Piwik_Tracker
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -19,7 +20,8 @@
  * It's using the php.net/parse_ini_file function to parse the configuration files.
  * It can be used to access both user config.ini.php and piwik global.ini.php config file.
  * 
- * @package Piwik_Tracker
+ * @package Piwik
+ * @subpackage Piwik_Tracker
  */
 class Piwik_Tracker_Config
 {
@@ -52,11 +54,11 @@ class Piwik_Tracker_Config
 	{
 		if(is_null($pathIniFileUser))
 		{
-			$pathIniFileUser = PIWIK_INCLUDE_PATH . '/config/config.ini.php'; 
+			$pathIniFileUser = PIWIK_USER_PATH . '/config/config.ini.php'; 
 		}
 		if(is_null($pathIniFileGlobal))
 		{
-			$pathIniFileGlobal = PIWIK_INCLUDE_PATH . '/config/global.ini.php'; 
+			$pathIniFileGlobal = PIWIK_USER_PATH . '/config/global.ini.php'; 
 		}
 		$this->configUser = parse_ini_file($pathIniFileUser, true);
 		$this->configGlobal = parse_ini_file($pathIniFileGlobal, true);
@@ -102,6 +104,20 @@ class Piwik_Tracker_Config
 		{
 			$section = array_merge($section, $this->configUser[$name]);
 		}
+		if(isset($this->config[$name]))
+		{
+			$section = array_merge($section, $this->config[$name]);
+		}
 		return count($section) ? $section : null;
+	}
+
+	/**
+	 * If called, we use the database_tests credentials
+	 * and test configuration overrides
+	 */
+	public function setTestEnvironment($configTest = array())
+	{
+		$this->database = $this->database_tests;
+		$this->config = $configTest;
 	}
 }

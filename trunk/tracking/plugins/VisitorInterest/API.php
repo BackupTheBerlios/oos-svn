@@ -4,13 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1346 2009-08-01 01:04:51Z vipsoft $
+ * @version $Id: API.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_VisitorInterest
  */
 
-
 /**
+ *
  * @package Piwik_VisitorInterest
  */
 class Piwik_VisitorInterest_API 

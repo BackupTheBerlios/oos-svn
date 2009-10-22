@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExamplePlugin.php 1072 2009-04-27 04:18:16Z matt $
+ * @version $Id: ExamplePlugin.php 1495 2009-10-12 13:54:46Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_ExamplePlugin
  */
 
+/**
+ *
+ * @package Piwik_ExamplePlugin
+ */
 class Piwik_ExamplePlugin extends Piwik_Plugin
 {
 	public function getInformation()
@@ -45,12 +50,16 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 	{
 		// we register the widgets so they appear in the "Add a new widget" window in the dashboard
 		// Note that the first two parameters can be either a normal string, or an index to a translation string
-		Piwik_AddWidget('Example Widgets', 'ExamplePlugin_exampleWidget', 'ExamplePlugin', 'exampleWidget');
-		Piwik_AddWidget('Example Widgets', 'ExamplePlugin_blogPiwikRss', 'ExamplePlugin', 'blogPiwik');
-		Piwik_AddWidget('Example Widgets', 'ExamplePlugin_photostreamMatt', 'ExamplePlugin', 'photostreamMatt');
+		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_exampleWidget', 'ExamplePlugin', 'exampleWidget');
+		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_blogPiwikRss', 'ExamplePlugin', 'blogPiwik');
+		Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_photostreamMatt', 'ExamplePlugin', 'photostreamMatt');
 	}
 }
 
+/**
+ *
+ * @package Piwik_ExamplePlugin
+ */
 class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 {	
 	/**

@@ -4,13 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Provider.php 1138 2009-05-18 04:43:56Z matt $
+ * @version $Id: Provider.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Provider
  */
-	
+
 /**
- * 
+ *
  * @package Piwik_Provider
  */
 class Piwik_Provider extends Piwik_Plugin
@@ -183,7 +184,7 @@ class Piwik_Provider extends Piwik_Plugin
 		$out =& $notification->getNotificationObject();
 		$out = '</div>
 			<div id="rightcolumn">
-			<h2>Providers</h2>';
+			<h2>'.Piwik_Translate('Provider_WidgetProviders').'</h2>';
 		$out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider','getProvider');
 		$out .= '</div>';
 	}

@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FormFirstWebsiteSetup.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: FormFirstWebsiteSetup.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Installation
  */
 
@@ -31,11 +32,11 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_Form
 		$formRules = array();
 		foreach($formElements as $row)
 		{
-			$formRules[] = array($row[1], sprintf('%s required', $row[2]), 'required');
+			$formRules[] = array($row[1], Piwik_Translate('General_Required', $row[2]), 'required');
 		}
 		
 		$this->addRules( $formRules );	
 		
-		$this->addElement('submit', 'submit', 'Go!');
+		$this->addElement('submit', 'submit', Piwik_Translate('Installation_SubmitGo'));
 	}	
 }

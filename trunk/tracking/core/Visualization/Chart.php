@@ -4,20 +4,26 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Chart.php 1335 2009-07-27 02:23:37Z vipsoft $
+ * @version $Id: Chart.php 1431 2009-08-23 14:27:44Z vipsoft $
  * 
- * @package Piwik_Visualization
+ * @category Piwik
+ * @package Piwik
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see libs/open-flash-chart/php-ofc-library/open-flash-chart.php
+ * @link http://teethgrinder.co.uk/open-flash-chart-2/
+ */
 require_once PIWIK_INCLUDE_PATH . '/libs/open-flash-chart/php-ofc-library/open-flash-chart.php';
 
 /**
  * Generates the data in the Open Flash Chart format, from the given data.
  * 
- * @package Piwik_Visualization
+ * @package Piwik
+ * @subpackage Piwik_Visualization
  */
 abstract class Piwik_Visualization_Chart implements Piwik_iView
 {
@@ -171,7 +177,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		{
 			$this->maxValue = 1;
 		}
-                $this->y->set_range( $this->minValue, (int) $this->maxValue, (int) $stepsEveryNLabel);
+                $this->y->set_range( $this->minValue, (int) ceil($this->maxValue), (int) $stepsEveryNLabel);
 		$dataSetsToDisplay = $this->getDataSetsToDisplay();
 		if($dataSetsToDisplay != false)
 		{

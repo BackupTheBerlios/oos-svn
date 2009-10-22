@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleFeedburner.php 1287 2009-07-06 06:18:39Z vipsoft $
+ * @version $Id: ExampleFeedburner.php 1475 2009-09-19 17:32:59Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_ExampleFeedburner
  */
 
+/**
+ *
+ * @package Piwik_ExampleFeedburner
+ */
 class Piwik_ExampleFeedburner extends Piwik_Plugin
 {
 	public function getInformation()
@@ -29,7 +34,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 		} catch(Zend_Db_Statement_Exception $e){
 			// mysql code error 1060: column already exists
 			// if there is another error we throw the exception, otherwise it is OK as we are simply reinstalling the plugin
-			if(!preg_match('/1060/', $e->getMessage()))
+			if(!Zend_Registry::get('db')->isErrNo($e, '1060'))
 			{
 				throw $e;
 			}
@@ -44,6 +49,10 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 
 Piwik_AddWidget('Example Widgets', 'Feedburner statistics', 'ExampleFeedburner', 'feedburner');
 
+/**
+ *
+ * @package Piwik_ExampleFeedburner
+ */
 class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 {
 
@@ -53,7 +62,7 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	 */
 	function feedburner()
 	{
-		$view = new Piwik_View('ExampleFeedburner/templates/feedburner.tpl');
+		$view = Piwik_View::factory('feedburner');
 		$idSite = Piwik_Common::getRequestVar('idSite',1,'int');
 		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName FROM '.Piwik::prefixTable('site').
 								' WHERE idsite = ?', $idSite );

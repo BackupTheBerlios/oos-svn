@@ -1,11 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd ">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Piwik &rsaquo; Administration</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Piwik {$piwik_version}" />
-</head>
-<body>
 {include file="CoreHome/templates/js_global_variables.tpl"}
 
 <script type="text/javascript" src="libs/jquery/jquery.js"></script>
@@ -24,7 +23,8 @@
 
 {postEvent name="template_js_import"}
 {postEvent name="template_css_import"}
-
+</head>
+<body>
 {include file="CoreHome/templates/top_bar.tpl"}
 
 <div id="header">

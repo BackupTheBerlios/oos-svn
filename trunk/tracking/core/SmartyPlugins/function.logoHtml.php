@@ -4,11 +4,24 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: function.logoHtml.php 838 2008-12-17 17:26:15Z matt $
+ * @version $Id: function.logoHtml.php 1431 2009-08-23 14:27:44Z vipsoft $
  * 
+ * @category Piwik
  * @package SmartyPlugins
  */
 
+/**
+ * Smarty {logoHtml} function plugin.
+ * Generates an img tag with the specified attributes
+ *
+ * Example:
+ * <pre>
+ * {logoHtml metadata=$row.metadata alt=$row.columns.label}
+ * </pre>
+ *
+ * @param array $params attributes to be set
+ * @return string HTML IMG tag
+ */
 function smarty_function_logoHtml($params, &$smarty)
 {
 	if(!isset($params['metadata']['logo']))

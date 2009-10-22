@@ -4,16 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1158 2009-05-31 11:31:14Z matt $
+ * @version $Id: API.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_VisitTime
  */
-	
 
 /**
- * 
+ *
  * @package Piwik_VisitTime
- */	
+ */
 class Piwik_VisitTime_API
 {
 	static private $instance = null;

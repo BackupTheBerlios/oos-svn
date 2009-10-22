@@ -4,11 +4,18 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: functions.php 1270 2009-07-01 06:53:34Z vipsoft $
+ * @version $Id: functions.php 1431 2009-08-23 14:27:44Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Provider
  */
 
+/**
+ * Return hostname portion of a domain name
+ *
+ * @param string $in
+ * @return string Host name, IP (if IP address didn't resolve), or Unknown
+ */
 function Piwik_getHostnameName($in)
 {
 	if(empty($in))
@@ -26,6 +33,12 @@ function Piwik_getHostnameName($in)
 	return $in;
 }
 
+/**
+ * Return URL for a given domain name
+ *
+ * @param string $in hostname
+ * @return string URL
+ */
 function Piwik_getHostnameUrl($in)
 {
 	if(empty($in)

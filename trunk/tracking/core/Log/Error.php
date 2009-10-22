@@ -4,17 +4,17 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Error.php 1321 2009-07-23 04:29:38Z vipsoft $
+ * @version $Id: Error.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_Log
- * @subpackage Piwik_Log_Error
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
  * Class used to log an error event.
  * 
- * @package Piwik_Log
- * @subpackage Piwik_Log_Error
+ * @package Piwik
+ * @subpackage Piwik_Log
  */
 class Piwik_Log_Error extends Piwik_Log
 {
@@ -55,13 +55,11 @@ class Piwik_Log_Error extends Piwik_Log
 	}
 }
 
-
-
 /**
  * Format an error event to be displayed on the screen.
  * 
- * @package Piwik_Log
- * @subpackage Piwik_Log_Error
+ * @package Piwik
+ * @subpackage Piwik_Log
  */
 class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter
 {

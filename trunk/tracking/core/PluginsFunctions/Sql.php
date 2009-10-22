@@ -4,10 +4,23 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Sql.php 1270 2009-07-01 06:53:34Z vipsoft $
+ * @version $Id: Sql.php 1480 2009-09-23 04:10:52Z vipsoft $
  * 
- * @package Piwik
+ * @category Piwik
+ * @package PluginsFunctions
  */
+
+/**
+ * @package PluginsFunctions
+ */
+class Piwik_Sql
+{
+}
+
+function Piwik_Exec( $sqlQuery )
+{
+	return Zend_Registry::get('db')->exec( $sqlQuery );
+}
 
 /**
  * Executes a SQL query on the DB and returns the Zend_Db_Statement object

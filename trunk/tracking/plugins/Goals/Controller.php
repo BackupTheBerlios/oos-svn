@@ -4,11 +4,16 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Goals
  */
 
+/**
+ *
+ * @package Piwik_Goals
+ */
 class Piwik_Goals_Controller extends Piwik_Controller 
 {
 	const CONVERSION_RATE_PRECISION = 1;
@@ -29,7 +34,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		}
 		$goalDefinition = $this->goals[$idGoal];
 		
-		$view = new Piwik_View('Goals/templates/single_goal.tpl');
+		$view = Piwik_View::factory('single_goal');
 		$view->currency = Piwik::getCurrency();
 		$goal = $this->getMetricsForGoal($idGoal);
 		foreach($goal as $name => $value)
@@ -112,7 +117,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	
 	function index()
 	{
-		$view = new Piwik_View('Goals/templates/overview.tpl');
+		$view = Piwik_View::factory('overview');
 		$view->currency = Piwik::getCurrency();
 		
 		$view->title = 'All goals - evolution';
@@ -147,7 +152,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	
 	function addNewGoal()
 	{
-		$view = new Piwik_View('Goals/templates/add_new_goal.tpl');
+		$view = Piwik_View::factory('add_new_goal');
 		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
 		$view->currency = Piwik::getCurrency();
 		$view->onlyShowAddNewGoal = true;

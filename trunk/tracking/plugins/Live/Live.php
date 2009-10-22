@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Live.php 1259 2009-06-28 05:59:07Z vipsoft $
+ * @version $Id: Live.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Live
  */
 
@@ -23,6 +24,10 @@
 //TODO add api to get actions name/count/first/last/etc
  */
 
+/**
+ *
+ * @package Piwik_Live
+ */
 class Piwik_Live extends Piwik_Plugin
 {
 	public function getInformation()

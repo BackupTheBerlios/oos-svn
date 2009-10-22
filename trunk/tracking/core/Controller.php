@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1327 2009-07-23 19:08:08Z matt $
+ * @version $Id: Controller.php 1500 2009-10-14 11:16:14Z vipsoft $
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -39,7 +40,6 @@ abstract class Piwik_Controller
 	
 	/**
 	 * Builds the controller object, reads the date from the request, extracts plugin name from 
-	 *
 	 */
 	function __construct()
 	{
@@ -140,8 +140,7 @@ abstract class Piwik_Controller
 		
 		return $view;
 	}
-	
-	
+
 	/**
 	 * Returns the array of new processed parameters once the parameters are applied.
 	 * For example: if you set range=last30 and date=2008-03-10, 
@@ -247,8 +246,14 @@ abstract class Piwik_Controller
 			$view->minDateYear = $minDate->toString('Y');
 			$view->minDateMonth = $minDate->toString('m');
 			$view->minDateDay = $minDate->toString('d');
+
+			$maxDate = Piwik_Date::factory('today');
+			$view->maxDateYear = $maxDate->toString('Y');
+			$view->maxDateMonth = $maxDate->toString('m');
+			$view->maxDateDay = $maxDate->toString('d');
+
 			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
-			
+
 		} catch(Exception $e) {
 			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
 		}

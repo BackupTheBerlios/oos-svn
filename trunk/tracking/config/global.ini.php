@@ -18,7 +18,7 @@ password		=
 dbname			= 
 tables_prefix	= 
 port			= 3306
-adapter			= PDO_MYSQL ; PDO_MYSQL or MYSQLI
+adapter			= PDO_MYSQL
 
 [database_tests]
 host 			= localhost
@@ -97,6 +97,9 @@ minimum_php_version = 5.1.3
 ; MySQL minimum required version
 minimum_mysql_version = 4.1
 
+; PostgreSQL minimum required version
+minimum_pgsql_version = 8.3
+
 ; Minimum adviced memory limit in php.ini file (see memory_limit value)
 minimum_memory_limit = 128
 
@@ -123,6 +126,14 @@ datatable_archiving_maximum_rows_subtable_referers = 50
 datatable_archiving_maximum_rows_actions = 500
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
 datatable_archiving_maximum_rows_subtable_actions = 100
+
+; by default, Piwik uses self-hosted AJAX libraries.
+; If set to 1, Piwik uses a Content Distribution Network
+use_ajax_cdn = 0
+
+; required AJAX library versions
+jquery_version = 1.2.6
+swfobject_version = 2.2
 
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
@@ -165,25 +176,6 @@ campaign_var_name			= piwik_campaign
 ; variable name to track any campaign keyword
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' then it will be counted as a campaign referer named 'Adwords-CPC' with the keyword 'My killer keyword'
 campaign_keyword_var_name	= piwik_kwd
-
-; variable name used to specify a download link
-; Example: '/piwik.php?idsite=1&download=http://piwik.org/piwik.zip' will redirect to 'http://piwik.org/piwik.zip'
-download_url_var_name 		= download
-
-; variable name used to specify a link to an external website
-; Example: '/piwik.php?idsite=1&link=http://piwik.org/' will redirect to 'http://piwik.org/'
-outlink_url_var_name		= link
-
-; variable name used to specify that the user should be redirected to the clicked linked, or the downloaded file
-; eg. http://yourwebsite.org/piwik/piwik.php?idsite=1&link=http://example.org&redirect=1
-;     will count the outlink in piwik and redirect the user to http://example.org
-; eg. http://yourwebsite.org/piwik/piwik.php?idsite=1&download=http://yourwebsite.org/download.pdf&redirect=1
-;     will count the download in piwik and redirect the user to http://yourwebsite.org/download.pdf
-; NOTE: it is recommended to rely on the automatic outlink and download tracking (more information on http://piwik.org/docs/javascript-tracking/). 
-;       rather than adding a depending on Piwik for your website to function properly. 
-;       However this feature is useful to some users as it gives a simple and reliable way of counting clicks, that you can then query using the Piwik API.
-outlink_redirect_var_name	= redirect
-download_redirect_var_name	= redirect
 
 [log]
 ;possible values for log: screen, database, file

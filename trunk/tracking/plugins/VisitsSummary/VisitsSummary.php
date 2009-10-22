@@ -4,12 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitsSummary.php 1072 2009-04-27 04:18:16Z matt $
+ * @version $Id: VisitsSummary.php 1495 2009-10-12 13:54:46Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
-	
+
 /**
+ *
  * @package Piwik_VisitsSummary
  */
 class Piwik_VisitsSummary extends Piwik_Plugin
@@ -36,9 +38,9 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'Visits Summary', 'VisitsSummary_WidgetLastVisits', 'VisitsSummary', 'getEvolutionGraph', array('columns' => array('nb_visits')));
-		Piwik_AddWidget( 'Visits Summary', 'VisitsSummary_WidgetVisits', 'VisitsSummary', 'getSparklines');
-		Piwik_AddWidget( 'Visits Summary', 'VisitsSummary_WidgetOverviewGraph', 'VisitsSummary', 'index');
+		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitsSummary_WidgetLastVisits', 'VisitsSummary', 'getEvolutionGraph', array('columns' => array('nb_visits')));
+		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitsSummary_WidgetVisits', 'VisitsSummary', 'getSparklines');
+		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitsSummary_WidgetOverviewGraph', 'VisitsSummary', 'index');
 	}
 	
 	function addMenu()

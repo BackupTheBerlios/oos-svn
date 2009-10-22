@@ -4,16 +4,27 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Updater.php 1365 2009-08-04 16:01:05Z vipsoft $
+ * @version $Id: Updater.php 1475 2009-09-19 17:32:59Z vipsoft $
  * 
+ * @category Piwik
  * @package Piwik
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see core/Option.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 
+/**
+ * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
+ *
+ * @package Piwik
+ * @subpackage Piwik_Updater
+ * @see Piwik_iUpdate
+ */
 class Piwik_Updater
 {
 	const INDEX_CURRENT_VERSION = 0;
@@ -31,9 +42,10 @@ class Piwik_Updater
 	}
 
 	/**
+	 * Add component to check
+	 *
 	 * @param string $name
 	 * @param string $version
-	 * @return void
 	 */
 	public function addComponentToCheck($name, $version)
 	{
@@ -41,9 +53,10 @@ class Piwik_Updater
 	}
 	
 	/**
+	 * Record version of successfully completed component update
+	 *
 	 * @param string $name
 	 * @param string $version
-	 * @return void
 	 */
 	public function recordComponentSuccessfullyUpdated($name, $version)
 	{
@@ -67,6 +80,8 @@ class Piwik_Updater
 	}
 
 	/**
+	 * Update the named component
+	 *
 	 * @param string $name
 	 * @return array of warning strings if applicable
 	 */
@@ -104,8 +119,10 @@ class Piwik_Updater
 		$this->recordComponentSuccessfullyUpdated($name, $this->componentsWithNewVersion[$name][self::INDEX_NEW_VERSION]);
 		return $warningMessages;
 	}
-	
+
 	/**
+	 * Construct list of update files for the outdated components
+	 *
 	 * @return array( componentName => array( file1 => version1, [...]), [...])
 	 */
 	private function loadComponentsWithUpdateFile()
@@ -154,6 +171,8 @@ class Piwik_Updater
 	}
 	
 	/**
+	 * Construct list of outdated components
+	 *
 	 * @return array array( componentName => array( oldVersion, newVersion), [...])
 	 */
 	private function loadComponentsWithNewVersion()
@@ -173,7 +192,8 @@ class Piwik_Updater
 			try {
 				$currentVersion = Piwik_GetOption('version_'.$name);
 			} catch( Exception $e) {
-				if(preg_match('/1146/', $e->getMessage()))
+				// mysql error 1146: table doesn't exist
+				if(Zend_Registry::get('db')->isErrNo($e, '1146'))
 				{
 					// case when the option table is not yet created (before 0.2.10)
 					$currentVersion = false;
@@ -215,6 +235,9 @@ class Piwik_Updater
 
 	/**
 	 * Performs database update(s)
+	 *
+	 * @param string $file Update script filename
+	 * @param array $sqlarray An array of SQL queries to be executed
 	 */
 	static function updateDatabase($file, $sqlarray)
 	{
@@ -223,7 +246,7 @@ class Piwik_Updater
 			try {
 				Piwik_Query( $update );
 			} catch(Exception $e) {
-				if(($ignoreError === false) || !preg_match($ignoreError, $e->getMessage()))
+				if(($ignoreError === false) || !Zend_Registry::get('db')->isErrNo($e, $ignoreError))
 				{
 					$message =  $file .":\nError trying to execute the query '". $update ."'.\nThe error was: ". $e->getMessage();
 					throw new Piwik_Updater_UpdateErrorException($message);
@@ -233,14 +256,10 @@ class Piwik_Updater
 	}
 }
 
-// If you encountered an error during the database update:
-// - correct the source of the problem
-// - execute the remaining queries in the update that failed
-// - manually update the `option` table in your Piwik database, setting the value of version_core to the version of the failed update
-// - re-run the updater (through the browser or command-line) to continue with the remaining updates
-//
-// If the source of the problem is:
-// - insufficient memory:  increase memory_limit
-// - browser timeout: increase max_execution_time or run the updater from the command-line (shell)
-
+/**
+ * Exception thrown by updater if a non-recoverable error occurs
+ *
+ * @package Piwik
+ * @subpackage Piwik_Updater
+ */
 class Piwik_Updater_UpdateErrorException extends Exception {}

@@ -4,8 +4,9 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Translate.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Translate.php 1502 2009-10-15 01:33:02Z vipsoft $
  * 
+ * @category Piwik
  * @package Piwik
  */
 
@@ -59,7 +60,7 @@ class Piwik_Translate
 			$GLOBALS['Piwik_translations'] = array();
 		}
 		// we could check that no string overlap here
-		$GLOBALS['Piwik_translations'] = array_merge($GLOBALS['Piwik_translations'], $translation);
+		$GLOBALS['Piwik_translations'] = array_merge($GLOBALS['Piwik_translations'], array_filter($translation, 'strlen'));
 	}
 	
 	/**
@@ -134,6 +135,13 @@ class Piwik_Translate
 	}
 }
 
+/**
+ * Returns translated string or given message if translation is not found.
+ *
+ * @param string Translation string index
+ * @param array $args sprintf arguments
+ * @return string
+ */
 function Piwik_Translate($string, $args = array())
 {
 	if(!is_array($args))
@@ -151,20 +159,22 @@ function Piwik_Translate($string, $args = array())
 	return vsprintf($string, $args);
 }
 
-
 /**
  * Returns translated string or given message if translation is not found.
  * This function does not throw any exception. Use it to translate exceptions.
  *
- * @param string Translation string index
+ * @param string $message Translation string index
+ * @param array $args sprintf arguments
  * @return string
  */
 function Piwik_TranslateException($message, $args = array())
 {
-	try {
+	try
+	{
 		return Piwik_Translate($message, $args);		
 	} 
-	catch(Exception $e) {
+	catch(Exception $e)
+	{
 		return $message;
 	}
 }

@@ -4,14 +4,18 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: functions.php 1335 2009-07-27 02:23:37Z vipsoft $
+ * @version $Id: functions.php 1431 2009-08-23 14:27:44Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_UserSettings
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see libs/UserAgentParser/UserAgentParser.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 		
 function Piwik_getPluginsLogo( $oldLabel )

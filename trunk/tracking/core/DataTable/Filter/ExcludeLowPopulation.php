@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExcludeLowPopulation.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: ExcludeLowPopulation.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -16,8 +17,8 @@
  * It is very useful to exclude noise from the reports.
  * You can obviously apply this filter on a percentaged column, eg. remove all countries with the column 'percent_visits' less than 0.05
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Filter 
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 {

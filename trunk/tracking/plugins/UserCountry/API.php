@@ -4,14 +4,19 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1335 2009-07-27 02:23:37Z vipsoft $
+ * @version $Id: API.php 1431 2009-08-23 14:27:44Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see core/DataFiles/Countries.php
+ * @see plugins/UserCountry/functions.php
+ */
 require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
@@ -68,6 +73,4 @@ class Piwik_UserCountry_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		return $archive->getDataTableFromNumeric('UserCountry_distinctCountries');
 	}
-	
-	
 }

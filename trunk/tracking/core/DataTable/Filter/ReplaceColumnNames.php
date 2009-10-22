@@ -4,9 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ReplaceColumnNames.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: ReplaceColumnNames.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
- * @package Piwik_DataTable
+ * @category Piwik
+ * @package Piwik
  */
 
 /**
@@ -21,8 +22,8 @@
  * 
  * You can specify the mapping array to apply in the constructor.
  * 
- * @package Piwik_DataTable
- * @subpackage Piwik_DataTable_Filter 
+ * @package Piwik
+ * @subpackage Piwik_DataTable
  */
 class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 {

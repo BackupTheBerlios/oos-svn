@@ -4,16 +4,29 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Smarty.php 1335 2009-07-27 02:23:37Z vipsoft $
+ * @version $Id: Smarty.php 1434 2009-08-23 15:55:35Z vipsoft $
  * 
+ * @category Piwik
  * @package Piwik
  */
 
 // no direct access
-defined('PIWIK_INCLUDE_PATH') or die('Restricted access');
+defined('PIWIK_INCLUDE_PATH') or die;
 
+/**
+ * @see libs/Smarty/Smarty.class.php
+ * @link http://smarty.net
+ */
 require_once PIWIK_INCLUDE_PATH . '/libs/Smarty/Smarty.class.php';
 
+/**
+ * Smarty class
+ *
+ * @package Piwik
+ * @subpackage Piwik_Smarty
+ * @see Smarty, libs/Smarty/Smarty.class.php
+ * @link http://smarty.net/manual/en/
+ */
 class Piwik_Smarty extends Smarty 
 {
 	function trigger_error($error_msg, $error_type = E_USER_WARNING)
@@ -22,4 +35,8 @@ class Piwik_Smarty extends Smarty
 	}
 }
 
+/**
+ * @package Piwik
+ * @subpackage Piwik_Smarty
+ */
 class SmartyException extends Exception {}

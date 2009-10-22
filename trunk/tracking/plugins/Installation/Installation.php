@@ -4,11 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Installation.php 1296 2009-07-08 04:19:14Z vipsoft $
+ * @version $Id: Installation.php 1420 2009-08-22 13:23:16Z vipsoft $
  * 
+ * @category Piwik_Plugins
  * @package Piwik_Installation
  */
-
 
 /**
  * 
@@ -17,7 +17,7 @@
 class Piwik_Installation extends Piwik_Plugin
 {	
 	protected $installationControllerName = 'Piwik_Installation_Controller';
-		
+
 	public function getInformation()
 	{
 		$info = array(
@@ -30,32 +30,34 @@ class Piwik_Installation extends Piwik_Plugin
 		
 		return $info;
 	}
-	
+
 	function getListHooksRegistered()
 	{
 		$hooks = array(
-			'FrontController.NoConfigurationFile' 		=> 'startInstallation',
+			'FrontController.NoConfigurationFile' => 'dispatch',
 		);
 		return $hooks;
 	}
-	
+
 	public function setControllerToLoad( $newControllerName )
 	{
 		$this->installationControllerName = $newControllerName;
 	}
-	
+
 	protected function getInstallationController()
 	{
 		return new $this->installationControllerName();
 	}
-	
-	function startInstallation()
+
+	function dispatch()
 	{
+		Piwik_Translate::getInstance()->loadUserTranslation();
+
 		Piwik_PostEvent('Installation.startInstallation', $this);
 
 		$step = Piwik_Common::getRequestVar('action', 'welcome', 'string');
 		$controller = $this->getInstallationController();
-		if(in_array($step, $controller->getInstallationSteps()))
+		if(in_array($step, array_keys($controller->getInstallationSteps())) || $step == 'saveLanguage')
 		{
 			$controller->$step();
 		}
@@ -63,6 +65,7 @@ class Piwik_Installation extends Piwik_Plugin
 		{
 			Piwik::exitWithErrorMessage(Piwik_Translate('Installation_NoConfigFound'));
 		}
+
 		exit;
 	}	
 }
