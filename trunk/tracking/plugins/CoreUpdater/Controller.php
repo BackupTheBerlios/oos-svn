@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1440 2009-08-26 03:45:57Z vipsoft $
+ * @version $Id: Controller.php 1523 2009-10-21 23:24:27Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater

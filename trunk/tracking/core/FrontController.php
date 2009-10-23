@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FrontController.php 1489 2009-10-11 06:14:30Z vipsoft $
+ * @version $Id: FrontController.php 1522 2009-10-21 22:49:44Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -72,11 +72,6 @@ class Piwik_FrontController
 	function dispatch( $module = null, $action = null, $parameters = null)
 	{
 		if( self::$enableDispatch === false)
-		{
-			return;
-		}
-
-		if(isset($_SERVER['PATH_INFO']))
 		{
 			return;
 		}

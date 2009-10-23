@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Piwik.php 1492 2009-10-11 20:49:29Z vipsoft $
+ * @version $Id: Piwik.php 1524 2009-10-22 15:51:16Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -1108,7 +1108,7 @@ class Piwik
 
 			while (!feof($fsock))
 			{
-				$line = fgets($fsock, 4096);
+				$line = fread($fsock, 8192);
 
 				$streamMetaData = @stream_get_meta_data($fsock);
 				if($streamMetaData['timed_out'])
@@ -1193,7 +1193,7 @@ class Piwik
 				fwrite($file, $response);
 			}
 
-			@curl_close ($ch);
+			@curl_close($ch);
 			unset($ch);
 		}
 		else
@@ -1203,6 +1203,7 @@ class Piwik
 
 		if(is_resource($file))
 		{
+			fflush($file);
 			@fclose($file);
 			if($contentLength && ($fileLength != $contentLength))
 			{

@@ -4,11 +4,20 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: View.php 1500 2009-10-14 11:16:14Z vipsoft $
+ * @version $Id: View.php 1523 2009-10-21 23:24:27Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
  */
+
+/*
+ * Transition for pre-Piwik 0.4.4
+ * @todo Remove this post-1.0
+ */
+if(!defined('PIWIK_USER_PATH'))
+{
+	define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
+}
 
 /**
  * View class to render the user interface
