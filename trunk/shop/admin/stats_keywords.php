@@ -201,8 +201,8 @@ switch($_GET['sortorder']){
    $result = $dbconn->Execute($pw_sql);
    while ($sql_q_result = $result->fields) {
 ?>
-  <tr class="dataTableRow"  onmouseover="this.className='dataTableRowOver';this.style.cursor='hand'" onmouseout="this.className='dataTableRow'" onclick="document.location.href='<?php echo oos_catalog_link($oosModules['search'], $aCatalogPage['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>'" >
-    <td class="dataTableContent"><a target="_blank" href="<?php echo oos_catalog_link($oosModules['search'], $aCatalogPage['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>"><?php echo $sql_q_result['search_text']; ?></a></td>
+  <tr class="dataTableRow"  onmouseover="this.className='dataTableRowOver';this.style.cursor='hand'" onmouseout="this.className='dataTableRow'" onclick="document.location.href='<?php echo oos_catalog_link($aCatalogPage['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>'" >
+    <td class="dataTableContent"><a target="_blank" href="<?php echo oos_catalog_link($aCatalogPage['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>"><?php echo $sql_q_result['search_text']; ?></a></td>
     <td class="dataTableContent"><?php echo $sql_q_result['search_count']; ?></td>
   </tr>
 <?php

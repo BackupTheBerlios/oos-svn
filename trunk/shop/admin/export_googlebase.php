@@ -69,7 +69,7 @@ http://base.google.de/base/help/attributes.html
 
   $site_url = OOS_HTTP_SERVER . OOS_SHOP; //Site URL
   $image_url = OOS_HTTP_SERVER . OOS_SHOP . OOS_IMAGES . OOS_POPUP_IMAGES; //Base URL for images
-  $product_url = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $oosModules['products'] . '&file=' . $aCatalogPage['product_info'] . '&products_id=';
+  $product_url = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aCatalogPage['product_info'] . '&products_id=';
 
   $currency = 'EUR'; //  ISO 4217. http://www.iso.org/iso/en/prods-services/popstds/currencycodeslist.html
   $file_google = "google_feed.xml";

@@ -209,7 +209,7 @@
   */
   GLOBAL $froogle_product_info_path;
    //$froogle_product_info_path = "http://www.your-domain.com/shop/index.php?mp=products&file=info";
-   $froogle_product_info_path = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?mp=' . $oosModules['products'] . '&file=' . $aCatalogPage['product_info'];
+   $froogle_product_info_path = OOS_HTTP_SERVER . OOS_SHOP . 'index.php?page=' . $aCatalogPage['product_info'];
 
   // VJ product attributes begin
   GLOBAL $attribute_options_array;

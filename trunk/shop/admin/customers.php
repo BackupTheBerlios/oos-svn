@@ -94,7 +94,7 @@
 
                      $email_text .= sprintf(EMAIL_GV_INCENTIVE_HEADER, $currencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
                                     sprintf(EMAIL_GV_REDEEM, $coupon_code) . "\n\n" .
-                                    EMAIL_GV_LINK . oos_catalog_link($oosModules['gv'], $aCatalogPage['gv_redeem'], 'gv_no=' . $coupon_code) .
+                                    EMAIL_GV_LINK . oos_catalog_link($aCatalogPage['gv_redeem'], 'gv_no=' . $coupon_code) .
                                     "\n\n";
                    }
                    if (NEW_SIGNUP_DISCOUNT_COUPON != '') {
