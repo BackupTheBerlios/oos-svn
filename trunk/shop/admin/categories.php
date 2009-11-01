@@ -106,9 +106,28 @@
         if (isset($_POST['edit_x']) || isset($_POST['edit_y'])) {
           $action = 'edit_category_ACD';
         } else {
-          if ($categories_id == '') {
+
+
+          if (isset($_POST['categories_id']) && is_numeric($_POST['categories_id']) ) {
+            $categories_id = oos_db_prepare_input($_POST['categories_id']);
+          } elseif (isset($_GET['cID']) && is_numeric($_GET['cID']) ) {
             $categories_id = oos_db_prepare_input($_GET['cID']);
           }
+
+
+          if (isset($_POST['sort_order']) && is_numeric($_POST['sort_order']) ) {
+            $sort_order = oos_db_prepare_input($_POST['sort_order']);
+          } else {
+            // todo cont category + 1
+            $sort_order = 1;
+          }
+
+          if (isset($_POST['group']) && is_numeric($_POST['group']) ) {
+            $group = oos_db_prepare_input($_POST['group']);
+          } else {
+            $group = 0;
+          }
+
           $sql_data_array = array('sort_order' => $sort_order,
                                   'access' => $group);
 

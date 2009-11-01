@@ -256,7 +256,7 @@ A.sub:hover { color: #dddddd; text-decoration: underline; }
                         'text' => oos_image(OOS_IMAGES . 'icons/unlocked.gif', ICON_UNLOCKED, '', '', 'align="right"') . BOX_CONNECTION_UNPROTECTED);
   }
 
-  $box = new box;
+  $box = new box();
   echo $box->tableBlock($contents);
 ?>
                     </td>

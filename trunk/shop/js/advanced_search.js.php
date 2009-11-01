@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: advanced_search.php,v 1.49 2003/02/13 04:23:22 hpdl 
+   File: advanced_search.php,v 1.49 2003/02/13 04:23:22 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -31,7 +31,7 @@ var req;
 function loadXMLDoc(key) {
 
 <?php
-  $sUrl = oos_href_link($aModules['search'], $aFilename['quickfind'], '', 'NONSSL', true, false);
+  $sUrl = oos_href_link($aPages['quickfind'], '', 'NONSSL', true, false);
   if (strpos($sUrl, '&amp;') !== false) $sUrl = str_replace('&amp;', '&', $sUrl);
 ?>
    var url="<?php echo $sUrl; ?>&keywords="+key;
@@ -39,12 +39,12 @@ function loadXMLDoc(key) {
    // Internet Explorer
 
    try { req = new ActiveXObject("Msxml2.XMLHTTP"); }
-   catch(e) { 
+   catch(e) {
       try { req = new ActiveXObject("Microsoft.XMLHTTP"); }
       catch(oc) { req = null; }
-   } 
+   }
 
-   // Mozailla/Safari 
+   // Mozailla/Safari
    if (!req && typeof XMLHttpRequest != "undefined") { req = new XMLHttpRequest(); }
 
    // Call the processChange() function when the page has loaded
@@ -72,7 +72,7 @@ function getObject(name) {
    if (ns4) return eval('document.' + name);
    if (w3c) return document.getElementById(name);
    if (ie4) return eval('document.all.' + name);
-   return false; 
+   return false;
 }
 
 
@@ -92,8 +92,8 @@ function check_form() {
 ?>
   var pfrom = document.advanced_search.pfrom.value;
   var pto = document.advanced_search.pto.value;
-<?php 
-  } 
+<?php
+  }
 ?>
   var pfrom_float;
   var pto_float;

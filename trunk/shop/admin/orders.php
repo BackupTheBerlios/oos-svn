@@ -35,7 +35,7 @@
     $oostable =& oosDBGetTables();
 
     if (is_numeric($order_id)) {
-      if ($restock == 'on') {
+      if ( (STOCK_CHECK == '1') && ($restock == 'on') ) {
         $orders_productstable = $oostable['orders_products'];
         $order_sql = "SELECT products_id, products_quantity
                       FROM $orders_productstable
@@ -754,7 +754,9 @@ function popupGoogleMap(url) {
 
       $contents = array('form' => oos_draw_form('orders', $aFilename['orders'], oos_get_all_get_params(array('oID', 'action')) . 'oID=' . $oInfo->orders_id . '&action=deleteconfirm'));
       $contents[] = array('text' => TEXT_INFO_DELETE_INTRO . '<br /><br /><b>' . $cInfo->customers_firstname . ' ' . $cInfo->customers_lastname . '</b>');
-      $contents[] = array('text' => '<br />' . oos_draw_checkbox_field('restock') . ' ' . TEXT_INFO_RESTOCK_PRODUCT_QUANTITY);
+      if (STOCK_CHECK == '1') {
+          $contents[] = array('text' => '<br />' . oos_draw_checkbox_field('restock') . ' ' . TEXT_INFO_RESTOCK_PRODUCT_QUANTITY);
+      }
       $contents[] = array('align' => 'center', 'text' => '<br />' . oos_image_swap_submits('delete','delete_off.gif', IMAGE_DELETE) . ' <a href="' . oos_href_link_admin($aFilename['orders'], oos_get_all_get_params(array('oID', 'action')) . 'oID=' . $oInfo->orders_id) . '">' . oos_image_swap_button('cancel','cancel_off.gif', IMAGE_CANCEL) . '</a>');
       break;
 

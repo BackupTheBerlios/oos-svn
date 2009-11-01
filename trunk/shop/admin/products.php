@@ -36,12 +36,12 @@
       case 'insert_product':
       case 'update_product':
 
-        $_POST['products_price'] = str_replace(',', '.', $_POST['products_price']);
-        $_POST['products_price_list'] = str_replace(',', '.', $_POST['products_price_list']);
-        $_POST['products_discount1'] = str_replace(',', '.', $_POST['products_discount1']);
-        $_POST['products_discount2'] = str_replace(',', '.', $_POST['products_discount2']);
-        $_POST['products_discount3'] = str_replace(',', '.', $_POST['products_discount3']);
-        $_POST['products_discount4'] = str_replace(',', '.', $_POST['products_discount4']);
+        if (isset($_POST['products_price'])) $sProductsPrice = str_replace(',', '.', $_POST['products_price']);
+        if (isset($_POST['products_price_list'])) $sProductsPriceList = str_replace(',', '.', $_POST['products_price_list']);
+        if (isset($_POST['products_discount1'])) $sProductsDiscount1 = str_replace(',', '.', $_POST['products_discount1']);
+        if (isset($_POST['products_discount2'])) $sProductsDiscount2 = str_replace(',', '.', $_POST['products_discount2']);
+        if (isset($_POST['products_discount3'])) $sProductsDiscount3 = str_replace(',', '.', $_POST['products_discount3']);
+        if (isset($_POST['products_discount4'])) $sProductsDiscount4 = str_replace(',', '.', $_POST['products_discount4']);
 
         $sProductsQuantity = oos_db_prepare_input($_POST['products_quantity']);
         $sProductsStatus = oos_db_prepare_input($_POST['products_status']);
@@ -139,16 +139,16 @@
           }
         }
 
-        if (OOS_PRICE_IS_BRUTTO == '1' && $_POST['products_price']){
+        if (OOS_PRICE_IS_BRUTTO == '1'){
           $tax_ratestable = $oostable['tax_rates'];
           $tax_result = $dbconn->Execute("SELECT tax_rate FROM $tax_ratestable WHERE tax_class_id = '".$_POST['products_tax_class_id']."' ");
           $tax = $tax_result->fields;
-          $_POST['products_price'] = ($_POST['products_price']/($tax[tax_rate]+100)*100);
-          $_POST['products_price_list'] = ($_POST['products_price_list']/($tax[tax_rate]+100)*100);
-          $_POST['products_discount1'] = ($_POST['products_discount1']/($tax[tax_rate]+100)*100);
-          $_POST['products_discount2'] = ($_POST['products_discount2']/($tax[tax_rate]+100)*100);
-          $_POST['products_discount3'] = ($_POST['products_discount3']/($tax[tax_rate]+100)*100);
-          $_POST['products_discount4'] = ($_POST['products_discount4']/($tax[tax_rate]+100)*100);
+          if (isset($sProductsPrice))     $sProductsPrice     = ($sProductsPrice/($tax[tax_rate]+100)*100);
+          if (isset($sProductsPriceList)) $sProductsPriceList = ($sProductsPriceList/($tax[tax_rate]+100)*100);
+          if (isset($sProductsDiscount1)) $sProductsDiscount1 = ($sProductsDiscount1/($tax[tax_rate]+100)*100);
+          if (isset($sProductsDiscount2)) $sProductsDiscount2 = ($sProductsDiscount2/($tax[tax_rate]+100)*100);
+          if (isset($sProductsDiscount3)) $sProductsDiscount3 = ($sProductsDiscount3/($tax[tax_rate]+100)*100);
+          if (isset($sProductsDiscount4)) $sProductsDiscount4 = ($sProductsDiscount4/($tax[tax_rate]+100)*100);
         }
         if ( isset($_POST['edit_x']) || isset($_POST['edit_y']) ) {
           $action = 'new_product';
@@ -246,7 +246,7 @@
                                   'products_subimage6' => (($products_subimage6 == 'none') ? '' : oos_db_prepare_input($products_subimage6)),
                                   'products_zoomify' => (($products_zoomify == 'none') ? '' : oos_db_prepare_input($products_zoomify)),
                                   'products_template' => (($products_template == 'none') ? '' : oos_db_prepare_input($products_template)),
-                                  'products_price' => oos_db_prepare_input($_POST['products_price']),
+                                  'products_price' => oos_db_prepare_input($sProductsPrice),
                                   'products_base_price' => $products_base_price,
                                   'products_product_quantity' => $products_product_quantity,
                                   'products_base_quantity' => $products_base_quantity,
@@ -257,18 +257,18 @@
                                   'products_tax_class_id' => oos_db_prepare_input($_POST['products_tax_class_id']),
                                   'products_units_id' => oos_db_prepare_input($_POST['products_units_id']),
                                   'manufacturers_id' => oos_db_prepare_input($_POST['manufacturers_id']),
-                                  'products_price_list' => oos_db_prepare_input($_POST['products_price_list']),
+                                  'products_price_list' => oos_db_prepare_input($sProductsPriceList),
                                   'products_discount_allowed' => oos_db_prepare_input($_POST['products_discount_allowed']),
                                   'products_quantity_decimal' => $products_quantity_decimal,
                                   'products_quantity_order_min' => oos_db_prepare_input($_POST['products_quantity_order_min']),
                                   'products_quantity_order_units' => oos_db_prepare_input($_POST['products_quantity_order_units']),
-                                  'products_discount1' => oos_db_prepare_input($_POST['products_discount1']),
+                                  'products_discount1' => oos_db_prepare_input($sProductsDiscount1),
                                   'products_discount1_qty' => oos_db_prepare_input($_POST['products_discount1_qty']),
-                                  'products_discount2' => oos_db_prepare_input($_POST['products_discount2']),
+                                  'products_discount2' => oos_db_prepare_input($sProductsDiscount2),
                                   'products_discount2_qty' => oos_db_prepare_input($_POST['products_discount2_qty']),
-                                  'products_discount3' => oos_db_prepare_input($_POST['products_discount3']),
+                                  'products_discount3' => oos_db_prepare_input($sProductsDiscount3),
                                   'products_discount3_qty' => oos_db_prepare_input($_POST['products_discount3_qty']),
-                                  'products_discount4' => oos_db_prepare_input($_POST['products_discount4']),
+                                  'products_discount4' => oos_db_prepare_input($sProductsDiscount4),
                                   'products_discount4_qty' => oos_db_prepare_input($_POST['products_discount4_qty']),
                                   'products_sort_order' => oos_db_prepare_input($_POST['products_sort_order']),
                                   );
