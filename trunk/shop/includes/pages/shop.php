@@ -108,12 +108,12 @@ if ($category_depth == 'nested') {
 
 // todo multilanguage support
         if (OOS_META_KATEGORIEN == "description tag by category description replace") {
-            $oSmarty->assign('oos_meta_description', substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '',$category['categories_description'])),0 , 250));
+            $oSmarty->assign('meta_description', substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '',$category['categories_description'])),0 , 250));
         }
 // todo multilanguage support
         if (OOS_META_KATEGORIEN == "Meta Tag with categories edit") {
-            $oSmarty->assign('oos_meta_description', $category['categories_description_meta']);
-            $oSmarty->assign('oos_meta_keywords', $category['categories_keywords_meta']);
+            $oSmarty->assign('meta_description', $category['categories_description_meta']);
+            $oSmarty->assign('meta_keywords', $category['categories_keywords_meta']);
         }
 
         if (isset($categories) && strpos('_', $categories)) {
@@ -248,19 +248,14 @@ if ($category_depth == 'nested') {
                   AND cd.categories_languages_id = '" .  intval($nLanguageID) . "'";
         $category = $dbconn->GetRow($sql);
 
-        if (!empty($category['categories_heading_title'])) {
-            $oSmarty->assign('oos_heading_title', $category['categories_heading_title']);
-        } else {
-            $oSmarty->assign('oos_heading_title', $aLang['heading_title']);
-        }
 // todo multilanguage support
         if (OOS_META_KATEGORIEN == "description tag by category description replace") {
-            $oSmarty->assign('oos_meta_description', substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '',$category['categories_description'])),0 , 250));
+            $oos_meta_description =  substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '',$category['categories_description'])),0 , 250));
         }
 // todo multilanguage support
         if (OOS_META_KATEGORIEN == "Meta Tag with categories edit") {
-            $oSmarty->assign('oos_meta_description', $category['categories_description_meta']);
-            $oSmarty->assign('oos_meta_keywords', $category['categories_keywords_meta']);
+            $oos_meta_description = $category['categories_description_meta'];
+            $oos_meta_keywords = $category['categories_keywords_meta'];
         }
     }
 

@@ -140,7 +140,7 @@ if (!$prefix_catalog_filename == '') $prefix_catalog_filename =$prefix_catalog_f
 
 $aCatalogPage = array();
 $aCatalogPage['account_history_info'] = $prefix_catalog_filename . 'account_history_info';
-$aCatalogPage['advanced_search_result'] = $prefix_catalog_filename . 'advanced_result';
+$aCatalogPage['advanced_search_result'] = $prefix_catalog_filename . 'advanced_search_result';
 
 $aCatalogPage['default'] = $prefix_catalog_filename . 'main';
 $aCatalogPage['gv_redeem'] = $prefix_catalog_filename . 'gv_redeem';

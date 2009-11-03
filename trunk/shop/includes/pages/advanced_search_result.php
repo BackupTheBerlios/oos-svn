@@ -27,20 +27,13 @@ if (count(get_included_files()) < 2) {
 require 'includes/languages/' . $sLanguage . '/search_advanced_result.php';
 require 'includes/functions/function_search.php';
 
-  // Search enhancement mod start
-  if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
-    if (!isset($_GET['s'])){
-      $pwstr_check = strtolower(substr($_GET['keywords'], strlen($_GET['keywords'])-1, strlen($_GET['keywords'])));
-      if ($pwstr_check == 's') {
-        $pwstr_replace = substr($_GET['keywords'], 0, strlen($_GET['keywords'])-1);
-        MyOOS_CoreApi::redirect(oos_href_link($aPages['advanced_search_result'], 'search_in_description=1&s=1&keywords=' . urlencode($pwstr_replace) . '' ));
-      }
-    }
+// Search enhancement mod start
+if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
+
 
     $pw_keywords = explode(' ',stripslashes(strtolower($_GET['keywords'])));
     $pw_boldwords = $pw_keywords;
-    $sql = "SELECT sws_word, sws_replacement
-            FROM " . $oostable['searchword_swap'];
+    $sql = "SELECT sws_word, sws_replacement FROM " . $oostable['searchword_swap'];
     $sql_words = $dbconn->Execute($sql);
     $pw_replacement = '';
     while ($sql_words_result = $sql_words->fields)

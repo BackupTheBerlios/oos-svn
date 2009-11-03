@@ -28,28 +28,28 @@
     $searchword_swaptable = $oostable['searchword_swap'];
     $newword_sql = "INSERT INTO $searchword_swaptable (sws_word, sws_replacement)VALUES('" . addslashes($_GET['txtWord']) . "', '" . addslashes($_GET['txtReplacement']) . "' )";
     $result = $dbconn->Execute($newword_sql);
-    oos_redirect_admin(oos_href_link_admin($aFilename['stats_keywords'], 'action=' . BUTTON_VIEW_WORD_LIST . ''));
+    oos_redirect_admin(oos_href_link_admin($aFilename['stats_keywords'], 'update_word_list=' . BUTTON_VIEW_WORD_LIST . ''));
   }
 
   if (isset($_GET['removeword']) && isset($_GET['delete'])){
     $searchword_swaptable = $oostable['searchword_swap'];
-    $word_delete_sql = "DELETE FROM $searchword_swaptable WHERE sws_id = " . $_GET['delete'];
+    $word_delete_sql = "DELETE FROM $searchword_swaptable WHERE sws_id = " . oos_db_input($_GET['delete']);
     $result = $dbconn->Execute($word_delete_sql);
-    oos_redirect_admin(oos_href_link_admin($aFilename['stats_keywords'], 'action=' . BUTTON_VIEW_WORD_LIST . ''));
+    oos_redirect_admin(oos_href_link_admin($aFilename['stats_keywords'], 'update_word_list=' . BUTTON_VIEW_WORD_LIST . ''));
   }
 
   if (isset($_GET['editword']) && isset($_GET['link'])){
     $searchword_swaptable = $oostable['searchword_swap'];
-    $word_select_sql = "SELECT * FROM $searchword_swaptable WHERE sws_id = " . $_GET['edit'];
+    $word_select_sql = "SELECT * FROM $searchword_swaptable WHERE sws_id = " . oos_db_input($_GET['edit']);
     $result = $dbconn->Execute($word_select_sql);
     $word_select_result = $result->fields;
   }
 
   if (isset($_GET['editword']) && isset($_GET['updateword'])){
     $searchword_swaptable = $oostable['searchword_swap'];
-    $word_update_sql = "UPDATE $searchword_swaptable SET sws_word= '" . addslashes($_GET['txtWord']) . "', sws_replacement = '" . addslashes($_GET['txtReplacement']) . "' WHERE  sws_id = " . $_GET['id'];
+    $word_update_sql = "UPDATE $searchword_swaptable SET sws_word= '" . oos_db_input($_GET['txtWord']) . "', sws_replacement = '" . addslashes($_GET['txtReplacement']) . "' WHERE  sws_id = " . $_GET['id'];
     $result = $dbconn->Execute($word_update_sql);
-    oos_redirect_admin(oos_href_link_admin($aFilename['stats_keywords'], 'action=' . BUTTON_VIEW_WORD_LIST . ''));
+    oos_redirect_admin(oos_href_link_admin($aFilename['stats_keywords'], 'update_word_list=' . BUTTON_VIEW_WORD_LIST . ''));
   }
 
   $no_js_general = true;
@@ -60,22 +60,29 @@
   <tr>
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="1" cellpadding="1" class="columnLeft">
 <?php require 'includes/oos_blocks.php'; ?>
-        </table></td>
+    </table></td>
 <!-- body_text //-->
-    <td valign="top">
-<table border="0" width="100%" cellspacing="0" cellpadding="2">
-  <tr>
-    <td class="pageHeading"><?php echo HEADING_TITLE ?></td>
-    <td class="pageHeading" align="right"><?php echo oos_draw_separator('trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
-  </tr><tr>
+
+    <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+      <tr>
+        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
+            <td class="pageHeading" align="right"><?php echo oos_draw_separator('trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
+          </tr>
+        </table></td>
+      </tr>
+
+
+<tr>
     <td class="main" colspan="2">
 <?php
-  if (isset($_GET['action']) && ($_GET['action'] == 'delete')) {
+  if (isset($_GET['delete'])) {
     $search_queries_sortedtable = $oostable['search_queries_sorted'];
-    $dbconn->Execute("DELETE FROM $search_queries_sortedtable");
+    $dbconn->Execute("TRUNCATE $search_queries_sortedtable");
   }
 
-  if (isset($_GET['update']) && ($_GET['update'] == BUTTON_UPDATE_WORD_LIST)) {
+  if (isset($_GET['update'])) {
     $search_queriestable = $oostable['search_queries'];
     $sql_q = $dbconn->Execute("SELECT DISTINCT search_text, COUNT(*) AS ct FROM $search_queriestable GROUP BY search_text");
 
@@ -92,9 +99,9 @@
         $search_queries_sortedtable = $oostable['search_queries_sorted'];
         $dbconn->Execute("INSERT INTO $search_queries_sortedtable (search_text, search_count) VALUES ('" . $sql_q_result['search_text'] . "'," . $count . ")");
       }
-      $search_queriestable = $oostable['search_queries'];
 
-      $dbconn->Execute("DELETE FROM $search_queriestable");
+      $search_queriestable = $oostable['search_queries'];
+      $dbconn->Execute("TRUNCATE $search_queriestable");
 
       // Move that ADOdb pointer!
       $sql_q->MoveNext();
@@ -103,7 +110,7 @@
     $sql_q->Close();
   }
 
-  if (isset($_GET['action']) && ($_GET['action'] == BUTTON_UPDATE_WORD_LIST)) {
+  if (isset($_GET['update_word_list'])) {
     echo oos_draw_form('addwords', $aFilename['stats_keywords'], '', 'get');
 ?>
 <table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -154,7 +161,7 @@
   <tr class="dataTableRow">
     <td class="dataTableContent"><?php echo stripslashes($pw_words_result['sws_word']); ?></td>
     <td class="dataTableContent"><?php echo stripslashes($pw_words_result['sws_replacement']); ?></td>
-    <td class="dataTableHeadingContent"><a href="<?php echo oos_href_link_admin($aFilename['stats_keywords'], 'editword=1&link=1&add=1&action=' . BUTTON_VIEW_WORD_LIST . '&edit=' . $pw_words_result['sws_id']); ?>"><u><?php echo LINK_EDIT ?></u></a></td>
+    <td class="dataTableHeadingContent"><a href="<?php echo oos_href_link_admin($aFilename['stats_keywords'], 'editword=1&link=1&add=1&update_word_list=' . BUTTON_VIEW_WORD_LIST . '&edit=' . $pw_words_result['sws_id']); ?>"><u><?php echo LINK_EDIT ?></u></a></td>
     <td class="dataTableHeadingContent"><a href="<?php echo oos_href_link_admin($aFilename['stats_keywords'], 'removeword=1&delete=' . $pw_words_result['sws_id']); ?>"><u><?php echo LINK_DELETE ?></u></a></td>
   </tr>
 <?php
@@ -166,13 +173,13 @@
 ?>
   <tr>
     <td colspan="4" class="main" align="right"><br /><input type="submit" value="New Entry" name="add" method="post" />
-    <input type="hidden" name="action" value="<?php echo BUTTON_VIEW_WORD_LIST ?>"></td>
+    <input type="hidden" name="update_word_list" value="update_word_list"></td>
   </tr>
 </table></form>
 <?php
   }
 
-  if(!isset($_GET['action']) && $_GET['action'] != BUTTON_VIEW_WORD_LIST){
+  if(!isset($_GET['update_word_list'])){
 ?>
     	<table border="0" cellpadding="2" cellspacing="0" width="100%">
   <tr class="dataTableHeadingRow">
@@ -181,37 +188,28 @@
   </tr>
 <?php
 
-switch($_GET['sortorder']){
-  case BUTTON_SORT_NAME:
+  if (isset($_GET['sort_name'])) {
     $search_queries_sortedtable = $oostable['search_queries_sorted'];
     $pw_sql = "SELECT search_text, search_count FROM $search_queries_sortedtable ORDER BY search_text ASC" ;
-  break;
-
-  case BUTTON_SORT_TOTAL:
+  } elseif (isset($_GET['sort_total'])) {
     $search_queries_sortedtable = $oostable['search_queries_sorted'];
     $pw_sql = "SELECT search_text, search_count FROM $search_queries_sortedtable ORDER BY search_count DESC" ;
-  break;
-
-  default:
+  } else {
     $search_queries_sortedtable = $oostable['search_queries_sorted'];
     $pw_sql = "SELECT search_text, search_count FROM $search_queries_sortedtable ORDER BY search_text ASC" ;
-  break;
-}
+  }
 
    $result = $dbconn->Execute($pw_sql);
    while ($sql_q_result = $result->fields) {
 ?>
   <tr class="dataTableRow"  onmouseover="this.className='dataTableRowOver';this.style.cursor='hand'" onmouseout="this.className='dataTableRow'" onclick="document.location.href='<?php echo oos_catalog_link($aCatalogPage['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>'" >
-    <td class="dataTableContent"><a target="_blank" href="<?php echo oos_catalog_link($aCatalogPage['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>"><?php echo $sql_q_result['search_text']; ?></a></td>
+ <td class="dataTableContent"><a target="_blank" href="<?php echo oos_catalog_link($aCatalogPage['advanced_search_result'], 'keywords=' . urlencode($sql_q_result['search_text']). '&search_in_description=1' ); ?>"><?php echo $sql_q_result['search_text']; ?></a></td>
     <td class="dataTableContent"><?php echo $sql_q_result['search_count']; ?></td>
   </tr>
 <?php
       // Move that ADOdb pointer!
      $result->MoveNext();
    }
-
-  // Close result set
-  $result->Close();
 ?>
     </td></tr></table>
 
@@ -238,13 +236,13 @@ switch($_GET['sortorder']){
     $contents[] = array('text'  => '<br />' . SIDEBAR_INFO_1);
     $contents[] = array('text'  => '<input type="submit" name="update" value="' . BUTTON_UPDATE_WORD_LIST . '">');
     $contents[] = array('text'  =>  oos_draw_separator());
-    $contents[] = array('text'  => '<br /><input type="submit" name="sortorder" value="' . BUTTON_SORT_NAME . '"><br /><input type="submit" name="sortorder" value="' . BUTTON_SORT_TOTAL . '">');
+    $contents[] = array('text'  => '<br /><input type="submit" name="sort_name" value="' . BUTTON_SORT_NAME . '"><br /><input type="submit" name="sort_total" value="' . BUTTON_SORT_TOTAL . '">');
     $contents[] = array('text'  =>  oos_draw_separator());
     $contents[] = array('text'  => '<br />' . SIDEBAR_INFO_2);
-    $contents[] = array('text'  => '<input type="submit" value="' . BUTTON_DELETE . '" name="action">');
+    $contents[] = array('text'  => '<input type="submit" value="' . BUTTON_DELETE . '" name="delete">');
     $contents[] = array('text'  =>  oos_draw_separator());
     $contents[] = array('text'  => SIDEBAR_INFO_3);
-    $contents[] = array('text'  => '<input type="submit" name="action" value="' . BUTTON_VIEW_WORD_LIST . '">');
+    $contents[] = array('text'  => '<input type="submit" name="update_word_list" value="' . BUTTON_VIEW_WORD_LIST . '">');
 
   if ( (!empty($heading)) && (!empty($contents) ) ) {
 
