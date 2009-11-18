@@ -1,6 +1,6 @@
 <?php
 /*
-V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence.
@@ -242,7 +242,7 @@ class ADODB_ibase extends ADOConnection {
 
 
 	// See http://community.borland.com/article/0,1410,25844,00.html
-	function RowLock($tables,$where,$col)
+	function RowLock($tables,$where,$col=false)
 	{
 		if ($this->autoCommit) $this->BeginTrans();
 		$this->Execute("UPDATE $table SET $col=$col WHERE $where "); // is this correct - jlim?
@@ -813,7 +813,7 @@ class ADORecordset_ibase extends ADORecordSet
 			} else {
 				if (!isset($f[$i])) {
 					$f[$i] = null;
-				} elseif ($rtrim && is_string($f[$i])) {
+				} else if ($rtrim && is_string($f[$i])) {
 					$f[$i] = rtrim($f[$i]);
 				}
 			}
@@ -823,7 +823,7 @@ class ADORecordset_ibase extends ADORecordSet
 		$this->fields = $f;
 		if ($this->fetchMode == ADODB_FETCH_ASSOC) {
 			$this->fields = $this->GetRowAssoc(ADODB_ASSOC_CASE);
-		} elseif ($this->fetchMode == ADODB_FETCH_BOTH) {
+		} else if ($this->fetchMode == ADODB_FETCH_BOTH) {
 			$this->fields = array_merge($this->fields,$this->GetRowAssoc(ADODB_ASSOC_CASE));
 		}
 		return true;

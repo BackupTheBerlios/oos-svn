@@ -1,6 +1,6 @@
 <?php
 /*
-V5.09 25 June 2009   (c) 2000-2009 John Lim. All rights reserved.
+V5.10 10 Nov 2009   (c) 2000-2009 John Lim. All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence.
@@ -86,11 +86,11 @@ class ADODB_sybase extends ADOConnection {
 	}
 
 	// http://www.isug.com/Sybase_FAQ/ASE/section6.1.html#6.1.4
-	function RowLock($tables,$where,$flds='top 1 null as ignore')
+	function RowLock($tables,$where,$col='top 1 null as ignore')
 	{
 		if (!$this->_hastrans) $this->BeginTrans();
 		$tables = str_replace(',',' HOLDLOCK,',$tables);
-		return $this->GetOne("select $flds from $tables HOLDLOCK where $where");
+		return $this->GetOne("select $col from $tables HOLDLOCK where $where");
 
 	}
 
@@ -315,7 +315,7 @@ class ADORecordset_sybase extends ADORecordSet {
 		if ($fieldOffset != -1) {
 			$o = @sybase_fetch_field($this->_queryID, $fieldOffset);
 		}
-		elseif ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
+		else if ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
 			$o = @sybase_fetch_field($this->_queryID);
 		}
 		// older versions of PHP did not support type, only numeric
@@ -339,7 +339,7 @@ class ADORecordset_sybase extends ADORecordSet {
 	{
 		if ($this->fetchMode == ADODB_FETCH_NUM) {
 			$this->fields = @sybase_fetch_row($this->_queryID);
-		} elseif ($this->fetchMode == ADODB_FETCH_ASSOC) {
+		} else if ($this->fetchMode == ADODB_FETCH_ASSOC) {
 			$this->fields = @sybase_fetch_row($this->_queryID);
 			if (is_array($this->fields)) {
 				$this->fields = $this->GetRowAssoc(ADODB_ASSOC_CASE);

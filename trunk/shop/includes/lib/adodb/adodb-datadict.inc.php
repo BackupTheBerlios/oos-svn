@@ -1,7 +1,7 @@
 <?php
 
 /**
-  V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+  V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence.
@@ -96,7 +96,7 @@ function Lens_ParseArgs($args,$endstmtchar=',',$tokenchars='_.-')
 					$quoted = true;
 					$intoken = true;
 					$tokarr = array();
-				} elseif ($endquote == $ch) {
+				} else if ($endquote == $ch) {
 					$ch2 = substr($args,$pos+1,1);
 					if ($ch2 == $endquote) {
 						$pos += 1;
@@ -138,7 +138,7 @@ function Lens_ParseArgs($args,$endstmtchar=',',$tokenchars='_.-')
 			}
 
 			if ($quoted) $tokarr[] = $ch;
-			elseif (ctype_alnum($ch) || strpos($tokenchars,$ch) !== false) $tokarr[] = $ch;
+			else if (ctype_alnum($ch) || strpos($tokenchars,$ch) !== false) $tokarr[] = $ch;
 			else {
 				if ($ch == $endstmtchar) {
 					$tokens[$stmtno][] = implode('',$tokarr);
@@ -519,7 +519,7 @@ class ADODB_DataDict {
 			// genfields can return FALSE at times
 			if ($lines == null) $lines = array();
 			list(,$first) = each($lines);
-			list(,$column_def) = split("[\t ]+",$first,2);
+			list(,$column_def) = preg_split("/[\t ]+/",$first,2);
 		}
 		return array(sprintf($this->renameColumn,$tabname,$this->NameQuote($oldcolumn),$this->NameQuote($newcolumn),$column_def));
 	}
@@ -661,7 +661,7 @@ class ADODB_DataDict {
 			// Parse attributes
 			foreach($fld as $attr => $v) {
 				if ($attr == 2 && is_numeric($v)) $attr = 'SIZE';
-				elseif (is_numeric($attr) && $attr > 1 && !is_numeric($v)) $attr = strtoupper($v);
+				else if (is_numeric($attr) && $attr > 1 && !is_numeric($v)) $attr = strtoupper($v);
 
 				switch($attr) {
 				case '0':
@@ -751,13 +751,13 @@ class ADODB_DataDict {
 				} else {
 					$fdefault = $this->connection->sysTimeStamp;
 				}
-			} elseif ($fdefdate) {
+			} else if ($fdefdate) {
 				if (substr($this->connection->databaseType,0,5) == 'mysql') {
 					$ftype = 'TIMESTAMP';
 				} else {
 					$fdefault = $this->connection->sysDate;
 				}
-			} elseif ($fdefault !== false && !$fnoquote) {
+			} else if ($fdefault !== false && !$fnoquote) {
 				if ($ty == 'C' or $ty == 'X' or
 					( substr($fdefault,0,1) != "'" && !is_numeric($fdefault))) {
 
@@ -775,7 +775,7 @@ class ADODB_DataDict {
 					else
 					if (strlen($fdefault) != 1 && substr($fdefault,0,1) == ' ' && substr($fdefault,strlen($fdefault)-1) == ' ')
 						$fdefault = trim($fdefault);
-					elseif (strtolower($fdefault) != 'null')
+					else if (strtolower($fdefault) != 'null')
 						$fdefault = $this->connection->qstr($fdefault);
 				}
 			}

@@ -1,6 +1,6 @@
 <?php
 /*
-V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence. See License.txt.
@@ -145,7 +145,7 @@ function adodb_log_sql(&$connx,$sql,$inputarr)
 		if (empty($d)) $d = date("'Y-m-d H:i:s'");
 		if ($conn->dataProvider == 'oci8' && $dbT != 'oci8po') {
 			$isql = "insert into $perf_table values($d,:b,:c,:d,:e,:f)";
-		} elseif ($dbT == 'odbc_mssql' || $dbT == 'informix' || strncmp($dbT,'odbtp',4)==0) {
+		} else if ($dbT == 'odbc_mssql' || $dbT == 'informix' || strncmp($dbT,'odbtp',4)==0) {
 			$timer = $arr['f'];
 			if ($dbT == 'informix') $sql2 = substr($sql2,0,230);
 
@@ -702,8 +702,8 @@ Committed_AS:   348732 kB
 
 
 	if (isset($_GET['do'])) $do = $_GET['do'];
-	elseif (isset($_POST['do'])) $do = $_POST['do'];
-	 elseif (isset($_GET['sql'])) $do = 'viewsql';
+	else if (isset($_POST['do'])) $do = $_POST['do'];
+	 else if (isset($_GET['sql'])) $do = 'viewsql';
 	 else $do = 'stats';
 
 	if (isset($_GET['nsql'])) {
@@ -861,7 +861,7 @@ Committed_AS:   348732 kB
 					if ($val % (1024*1024) == 0) {
 						$val /= (1024*1024);
 						$val .= 'M';
-					} elseif ($val % 1024 == 0) {
+					} else if ($val % 1024 == 0) {
 						$val /= 1024;
 						$val .= 'K';
 					}

@@ -1,6 +1,6 @@
 <?php
 /*
-V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence.
@@ -70,7 +70,7 @@ class ADODB_ado extends ADOConnection {
 		 } else {
 		 	$argDatabasename = '';
 		 	if ($argDBorProvider) $argProvider = $argDBorProvider;
-			elseif (stripos($argHostname,'PROVIDER') === false) /* full conn string is not in $argHostname */
+			else if (stripos($argHostname,'PROVIDER') === false) /* full conn string is not in $argHostname */
 				$argProvider = 'MSDASQL';
 		}
 
@@ -97,7 +97,7 @@ class ADODB_ado extends ADOConnection {
 
 			//use trusted conection for SQL if username not specified
 			if (!$argUsername) $argHostname .= ";Trusted_Connection=Yes";
-		} elseif ($argProvider=='access')
+		} else if ($argProvider=='access')
 			$argProvider = "Microsoft.Jet.OLEDB.4.0"; // Microsoft Jet Provider
 
 		if ($argProvider) $dbc->Provider = $argProvider;
@@ -251,13 +251,13 @@ class ADODB_ado extends ADOConnection {
 				$len=strlen($val);
 				if ($type == 'boolean')
 					$this->adoParameterType = 11;
-				elseif ($type == 'integer')
+				else if ($type == 'integer')
 					$this->adoParameterType = 3;
-				elseif ($type == 'double')
+				else if ($type == 'double')
 					$this->adoParameterType = 5;
 				elseif ($type == 'string')
 					$this->adoParameterType = 202;
-				elseif (($val === null) || (!defined($val)))
+				else if (($val === null) || (!defined($val)))
 					$len=1;
 				else
 					$this->adoParameterType = 130;
@@ -640,6 +640,10 @@ class ADORecordSet_ado extends ADORecordSet {
 			case 1: // null
 				$this->fields[] = false;
 				break;
+			case 20:
+			case 21: // bigint (64 bit)
+    			$this->fields[] = (float) $f->value; // if 64 bit PHP, could use (int)
+    			break;
 			case 6: // currency is not supported properly;
 				ADOConnection::outp( '<b>'.$f->Name.': currency type not supported by PHP</b>');
 				$this->fields[] = (float) $f->value;

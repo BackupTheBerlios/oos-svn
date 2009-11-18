@@ -194,7 +194,7 @@ class ADORecordSet_fbsql extends ADORecordSet{
 			$f = @fbsql_field_flags($this->_queryID,$fieldOffset);
 			$o->binary = (strpos($f,'binary')!== false);
 		}
-		elseif ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
+		else if ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
 			$o = @fbsql_fetch_field($this->_queryID);// fbsql returns the max length less spaces -- so it is unrealiable
 			//$o->max_length = -1;
 		}

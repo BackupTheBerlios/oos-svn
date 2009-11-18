@@ -24,6 +24,9 @@ if (!defined('ADODB_DIR')) die();
 --------------------------------------------------------------------------------------*/
 
 
+
+
+
 class ADODB_db2 extends ADOConnection {
 	var $databaseType = "db2";
 	var $fmtDate = "'Y-m-d'";
@@ -52,6 +55,7 @@ class ADODB_db2 extends ADOConnection {
 	var $uCaseTables = true; // for meta* functions, uppercase table names
 	var $hasInsertID = true;
 
+
     function _insertid()
     {
         return ADOConnection::GetOne('VALUES IDENTITY_VAL_LOCAL()');
@@ -75,10 +79,14 @@ class ADODB_db2 extends ADOConnection {
 		// Replaces the odbc_binmode() call that was in Execute()
 		ini_set('ibm_db2.binmode', $this->binmode);
 
-		if ($argDatabasename) {
-			$this->_connectionID = db2_connect($argDatabasename,$argUsername,$argPassword);
+		if ($argDatabasename && empty($argDSN)) {
+
+			if (stripos($argDatabasename,'UID=') && stripos($argDatabasename,'PWD=')) $this->_connectionID = db2_connect($argDatabasename,null,null);
+			else $this->_connectionID = db2_connect($argDatabasename,$argUsername,$argPassword);
 		} else {
-			$this->_connectionID = db2_connect($argDSN,$argUsername,$argPassword);
+			if ($argDatabasename) $schema = $argDatabasename;
+			if (stripos($argDSN,'UID=') && stripos($argDSN,'PWD=')) $this->_connectionID = db2_connect($argDSN,null,null);
+			else $this->_connectionID = db2_connect($argDSN,$argUsername,$argPassword);
 		}
 		if (isset($php_errormsg)) $php_errormsg = '';
 
@@ -86,9 +94,9 @@ class ADODB_db2 extends ADOConnection {
 		// an array of valid options.  So far, we don't use them.
 
 		$this->_errorMsg = @db2_conn_errormsg();
-
 		if (isset($this->connectStmt)) $this->Execute($this->connectStmt);
 
+		if ($this->_connectionID && isset($schema)) $this->Execute("SET SCHEMA=$schema");
 		return $this->_connectionID != false;
 	}
 
@@ -106,10 +114,14 @@ class ADODB_db2 extends ADOConnection {
 		if (isset($php_errormsg)) $php_errormsg = '';
 		$this->_errorMsg = isset($php_errormsg) ? $php_errormsg : '';
 
-		if ($argDatabasename) {
-			$this->_connectionID = db2_pconnect($argDatabasename,$argUsername,$argPassword);
+		if ($argDatabasename && empty($argDSN)) {
+
+			if (stripos($argDatabasename,'UID=') && stripos($argDatabasename,'PWD=')) $this->_connectionID = db2_pconnect($argDatabasename,null,null);
+			else $this->_connectionID = db2_pconnect($argDatabasename,$argUsername,$argPassword);
 		} else {
-			$this->_connectionID = db2_pconnect($argDSN,$argUsername,$argPassword);
+			if ($argDatabasename) $schema = $argDatabasename;
+			if (stripos($argDSN,'UID=') && stripos($argDSN,'PWD=')) $this->_connectionID = db2_pconnect($argDSN,null,null);
+			else $this->_connectionID = db2_pconnect($argDSN,$argUsername,$argPassword);
 		}
 		if (isset($php_errormsg)) $php_errormsg = '';
 
@@ -117,6 +129,7 @@ class ADODB_db2 extends ADOConnection {
 		if ($this->_connectionID && $this->autoRollback) @db2_rollback($this->_connectionID);
 		if (isset($this->connectStmt)) $this->Execute($this->connectStmt);
 
+		if ($this->_connectionID && isset($schema)) $this->Execute("SET SCHEMA=$schema");
 		return $this->_connectionID != false;
 	}
 
@@ -224,7 +237,6 @@ class ADODB_db2 extends ADOConnection {
 		}
 	}
 
-
 	function CreateSequence($seqname='adodbseq',$start=1)
 	{
 		if (empty($this->_genSeqSQL)) return false;
@@ -237,6 +249,25 @@ class ADODB_db2 extends ADOConnection {
 	{
 		if (empty($this->_dropSeqSQL)) return false;
 		return $this->Execute(sprintf($this->_dropSeqSQL,$seqname));
+	}
+
+	function SelectLimit($sql,$nrows=-1,$offset=-1,$inputArr=false)
+	{
+		$nrows = (integer) $nrows;
+		if ($offset <= 0) {
+		// could also use " OPTIMIZE FOR $nrows ROWS "
+			if ($nrows >= 0) $sql .=  " FETCH FIRST $nrows ROWS ONLY ";
+			$rs = $this->Execute($sql,$inputArr);
+		} else {
+			if ($offset > 0 && $nrows < 0);
+			else {
+				$nrows += $offset;
+				$sql .=  " FETCH FIRST $nrows ROWS ONLY ";
+			}
+			$rs = ADOConnection::SelectLimit($sql,-1,$offset,$inputArr);
+		}
+
+		return $rs;
 	}
 
 	/*
@@ -407,7 +438,6 @@ class ADODB_db2 extends ADOConnection {
 		}
 
 		$arr = $rs->GetArray();
-
 		$rs->Close();
 		$arr2 = array();
 
@@ -417,12 +447,13 @@ class ADODB_db2 extends ADOConnection {
 		for ($i=0; $i < sizeof($arr); $i++) {
 			if (!$arr[$i][2]) continue;
 			$type = $arr[$i][3];
+			$owner = $arr[$i][1];
 			$schemaval = ($schema) ? $arr[$i][1].'.' : '';
 			if ($ttype) {
 				if ($isview) {
 					if (strncmp($type,'V',1) === 0) $arr2[] = $schemaval.$arr[$i][2];
-				} elseif (strncmp($type,'SYS',3) !== 0) $arr2[] = $schemaval.$arr[$i][2];
-			} elseif (strncmp($type,'SYS',3) !== 0) $arr2[] = $schemaval.$arr[$i][2];
+				} else if (strncmp($owner,'SYS',3) !== 0) $arr2[] = $schemaval.$arr[$i][2];
+			} else if (strncmp($owner,'SYS',3) !== 0) $arr2[] = $schemaval.$arr[$i][2];
 		}
 		return $arr2;
 	}
@@ -553,7 +584,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/db2/htm/db2
 				$fld->scale = $rs->fields[8];
 				$fld->primary_key = false;
 				$retarr[strtoupper($fld->name)] = $fld;
-			} elseif (sizeof($retarr)>0)
+			} else if (sizeof($retarr)>0)
 				break;
 			$rs->MoveNext();
 		}
@@ -581,7 +612,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/db2/htm/db2
 		while (!$rs->EOF) {
 			if (strtoupper(trim($rs->fields[2])) == $table && (!$schema || strtoupper($rs->fields[1]) == $schema)) {
 				$retarr[strtoupper($rs->fields[3])]->primary_key = true;
-			} elseif (sizeof($retarr)>0)
+			} else if (sizeof($retarr)>0)
 				break;
 			$rs->MoveNext();
 		}
@@ -590,6 +621,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/db2/htm/db2
 		if (empty($retarr)) $retarr = false;
 		return $retarr;
 	}
+
 
 	function Prepare($sql)
 	{
@@ -629,7 +661,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/db2/htm/db2
 				return false;
 			}
 
-		} elseif (is_array($sql)) {
+		} else if (is_array($sql)) {
 			$stmtid = $sql[1];
 			if (!db2_execute($stmtid)) {
 				if ($this->_haserrorfunctions) {
@@ -726,7 +758,7 @@ class ADORecordSet_db2 extends ADORecordSet {
 		$o->type = @db2_field_type($this->_queryID,$offset);
 		$o->max_length = db2_field_width($this->_queryID,$offset);
 		if (ADODB_ASSOC_CASE == 0) $o->name = strtolower($o->name);
-		elseif (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
+		else if (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
 		return $o;
 	}
 

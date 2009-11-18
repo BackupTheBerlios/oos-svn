@@ -427,7 +427,7 @@ class ADODB_Active_Record {
 
 				//if ($db->debug) ADOConnection::outp("Reading cached active record file: $fname");
 			  	return;
-			} elseif ($db->debug) {
+			} else if ($db->debug) {
 				ADOConnection::outp("Refreshing cached active record file: $fname");
 			}
 		}
@@ -1324,7 +1324,7 @@ function adodb_GetActiveRecordsClass(&$db, $class, $tableObj,$whereOrderBy,$bind
 					if(!$isNewObj)
 						unset($obj); // We do not need this object itself anymore and do not want it re-added to the main array
 				}
-				elseif(ADODB_LAZY_AR == $extra['loading'])
+				else if(ADODB_LAZY_AR == $extra['loading'])
 				{
 					// Lazy loading: we need to give AdoDb a hint that we have not really loaded
 					// anything, all the while keeping enough information on what we wish to load.

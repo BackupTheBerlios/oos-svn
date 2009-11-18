@@ -147,7 +147,7 @@ function _adodb_replace(&$zthis, $table, $fieldArray, $keyCol, $autoQuote, $has_
 			if ($v === null) {
 				$v = 'NULL';
 				$fieldArray[$k] = $v;
-			} elseif ($autoQuote && /*!is_numeric($v) /*and strncmp($v,"'",1) !== 0 -- sql injection risk*/ strcasecmp($v,$zthis->null2null)!=0) {
+			} else if ($autoQuote && /*!is_numeric($v) /*and strncmp($v,"'",1) !== 0 -- sql injection risk*/ strcasecmp($v,$zthis->null2null)!=0) {
 				$v = $zthis->qstr($v);
 				$fieldArray[$k] = $v;
 			}
@@ -223,7 +223,7 @@ function _adodb_getmenu(&$zthis, $name,$defstr='',$blank1stItem=true,$multiple=f
 		if ($size==0) $size=5;
 		$attr = ' multiple size="'.$size.'"';
 		if (!strpos($name,'[]')) $name .= '[]';
-	} elseif ($size) $attr = ' size="'.$size.'"';
+	} else if ($size) $attr = ' size="'.$size.'"';
 	else $attr ='';
 
 	$s = '<select name="'.$name.'"'.$attr.' '.$selectAttr.'>';
@@ -309,7 +309,7 @@ function _adodb_getmenu_gp(&$zthis, $name,$defstr='',$blank1stItem=true,$multipl
 		if ($size==0) $size=5;
 		$attr = ' multiple size="'.$size.'"';
 		if (!strpos($name,'[]')) $name .= '[]';
-	} elseif ($size) $attr = ' size="'.$size.'"';
+	} else if ($size) $attr = ' size="'.$size.'"';
 	else $attr ='';
 
 	$s = '<select name="'.$name.'"'.$attr.' '.$selectAttr.'>';
@@ -417,7 +417,7 @@ function _adodb_getcount(&$zthis, $sql,$inputarr=false,$secs2cache=0)
 			} else
 				$rewritesql = "SELECT COUNT(*) FROM (".$rewritesql.")";
 
-		} elseif (strncmp($zthis->databaseType,'postgres',8) == 0 || strncmp($zthis->databaseType,'mysql',5) == 0)  {
+		} else if (strncmp($zthis->databaseType,'postgres',8) == 0 || strncmp($zthis->databaseType,'mysql',5) == 0)  {
 			$rewritesql = "SELECT COUNT(*) FROM ($rewritesql) _ADODB_ALIAS_";
 		} else {
 			$rewritesql = "SELECT COUNT(*) FROM ($rewritesql)";
@@ -624,9 +624,9 @@ function _adodb_getupdatesql(&$zthis,&$rs, $arrFields,$forceUpdate=false,$magicq
 				// the update query.
 
 				if ($hasnumeric) $val = $rs->fields[$i];
-				elseif (isset($rs->fields[$upperfname])) $val = $rs->fields[$upperfname];
-				elseif (isset($rs->fields[$field->name])) $val =  $rs->fields[$field->name];
-				elseif (isset($rs->fields[strtolower($upperfname)])) $val =  $rs->fields[strtolower($upperfname)];
+				else if (isset($rs->fields[$upperfname])) $val = $rs->fields[$upperfname];
+				else if (isset($rs->fields[$field->name])) $val =  $rs->fields[$field->name];
+				else if (isset($rs->fields[strtolower($upperfname)])) $val =  $rs->fields[strtolower($upperfname)];
 				else $val = '';
 
 
@@ -712,8 +712,8 @@ function _adodb_getupdatesql(&$zthis,&$rs, $arrFields,$forceUpdate=false,$magicq
 			if ($whereClause) {
 			#var_dump($whereClause);
 				if (preg_match('/\s(ORDER\s.*)/is', $whereClause[1], $discard));
-				elseif (preg_match('/\s(LIMIT\s.*)/is', $whereClause[1], $discard));
-				elseif (preg_match('/\s(FOR UPDATE.*)/is', $whereClause[1], $discard));
+				else if (preg_match('/\s(LIMIT\s.*)/is', $whereClause[1], $discard));
+				else if (preg_match('/\s(FOR UPDATE.*)/is', $whereClause[1], $discard));
 				else preg_match('/\s.*(\) WHERE .*)/is', $whereClause[1], $discard); # see http://sourceforge.net/tracker/index.php?func=detail&aid=1379638&group_id=42718&atid=433976
 			} else
 				$whereClause = array(false,false);
@@ -785,7 +785,7 @@ static $cacheCols;
 			$cacheRS = $tableName;
 			$cacheCols = $columns;
 		}
-	} elseif (is_subclass_of($rs, 'adorecordset')) {
+	} else if (is_subclass_of($rs, 'adorecordset')) {
 		if (isset($rs->insertSig) && is_integer($cacheRS) && $cacheRS == $rs->insertSig) {
 			$columns = $cacheCols;
 		} else {
@@ -874,7 +874,7 @@ static $cacheCols;
 	// Get the table name from the existing query.
 	if (!$tableName) {
 		if (!empty($rs->tableName)) $tableName = $rs->tableName;
-		elseif (preg_match("/FROM\s+".ADODB_TABLE_REGEX."/is", $rs->sql, $tableName))
+		else if (preg_match("/FROM\s+".ADODB_TABLE_REGEX."/is", $rs->sql, $tableName))
 			$tableName = $tableName[1];
 		else
 			return false;
@@ -928,7 +928,7 @@ function _adodb_column_sql_oci8(&$zthis,$action, $type, $fname, $fnameq, $arrFie
             //so the user can build this later in
             //case they want to add more to it
             $zthis->_returningArray[$fname] = ':xx'.$fname.'xx';
-        } elseif (empty($arrFields[$fname])){
+        } else if (empty($arrFields[$fname])){
             if ($action == 'I') {
                 $sql = 'empty_blob(), ';
             } else {
@@ -1054,7 +1054,7 @@ function _adodb_debug_execute(&$zthis, $sql, $inputarr)
 		}
 		if ($zthis->debug === -1)
 			ADOConnection::outp( "<br>\n($dbt): ".htmlspecialchars($sqlTxt)." &nbsp; $ss\n<br>\n",false);
-		elseif ($zthis->debug !== -99)
+		else if ($zthis->debug !== -99)
 			ADOConnection::outp( "<hr>\n($dbt): ".htmlspecialchars($sqlTxt)." &nbsp; $ss\n<hr>\n",false);
 	} else {
 		$ss = "\n   ".$ss;
@@ -1079,7 +1079,7 @@ function _adodb_debug_execute(&$zthis, $sql, $inputarr)
 				ADOConnection::outp($err.': '.$emsg);
 			}
 		}
-	} elseif (!$qID) {
+	} else if (!$qID) {
 
 		if ($zthis->debug === -99)
 				if ($inBrowser) ADOConnection::outp( "<hr>\n($dbt): ".htmlspecialchars($sqlTxt)." &nbsp; $ss\n<hr>\n",false);
@@ -1125,9 +1125,9 @@ function _adodb_backtrace($printOrArr=true,$levels=9999,$skippy=0,$ishtml=null)
 		if (isset($arr['args']))
 		 foreach($arr['args'] as $v) {
 			if (is_null($v)) $args[] = 'null';
-			elseif (is_array($v)) $args[] = 'Array['.sizeof($v).']';
-			elseif (is_object($v)) $args[] = 'Object:'.get_class($v);
-			elseif (is_bool($v)) $args[] = $v ? 'true' : 'false';
+			else if (is_array($v)) $args[] = 'Array['.sizeof($v).']';
+			else if (is_object($v)) $args[] = 'Object:'.get_class($v);
+			else if (is_bool($v)) $args[] = $v ? 'true' : 'false';
 			else {
 				$v = (string) @$v;
 				$str = htmlspecialchars(str_replace(array("\r","\n"),' ',substr($v,0,$MAXSTRLEN)));

@@ -1,6 +1,6 @@
 <?php
 /*
-V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence.
@@ -366,10 +366,10 @@ class ADODB_mssql extends ADOConnection {
 
 		See http://www.swynk.com/friends/achigrik/SQL70Locks.asp
 	*/
-	function RowLock($tables,$where,$flds='top 1 null as ignore')
+	function RowLock($tables,$where,$col='top 1 null as ignore')
 	{
 		if (!$this->transCnt) $this->BeginTrans();
-		return $this->GetOne("select $flds from $tables with (ROWLOCK,HOLDLOCK) where $where");
+		return $this->GetOne("select $col from $tables with (ROWLOCK,HOLDLOCK) where $where");
 	}
 
 
@@ -738,13 +738,13 @@ order by constraint_name, referenced_table_name, keyno";
 					}
 
 					$params .= "@P$i=N". (strncmp($v,"'",1)==0? $v : $this->qstr($v));
-				} elseif (is_integer($v)) {
+				} else if (is_integer($v)) {
 					$decl .= "@P$i INT";
 					$params .= "@P$i=".$v;
-				} elseif (is_float($v)) {
+				} else if (is_float($v)) {
 					$decl .= "@P$i FLOAT";
 					$params .= "@P$i=".$v;
-				} elseif (is_bool($v)) {
+				} else if (is_bool($v)) {
 					$decl .= "@P$i INT"; # Used INT just in case BIT in not supported on the user's MSSQL version. It will cast appropriately.
 					$params .= "@P$i=".(($v)?'1':'0'); # True == 1 in MSSQL BIT fields and acceptable for storing logical true in an int field
 				} else {
@@ -762,7 +762,7 @@ order by constraint_name, referenced_table_name, keyno";
                 @mssql_data_seek($rez, 0);
             }
 
-		} elseif (is_array($sql)) {
+		} else if (is_array($sql)) {
 			# PrepareSP()
 			$rez = mssql_execute($sql[1]);
             $this->lastInsID = false;
@@ -866,7 +866,7 @@ class ADORecordset_mssql extends ADORecordSet {
 		if ($fieldOffset != -1) {
 			$f = @mssql_fetch_field($this->_queryID, $fieldOffset);
 		}
-		elseif ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
+		else if ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
 			$f = @mssql_fetch_field($this->_queryID);
 		}
 		$false = false;
@@ -913,7 +913,7 @@ class ADORecordset_mssql extends ADORecordSet {
 					foreach($this->fields as $k=>$v) {
 						$this->fields[strtolower($k)] = $v;
 					}
-				} elseif (ADODB_ASSOC_CASE == 1) {
+				} else if (ADODB_ASSOC_CASE == 1) {
 					foreach($this->fields as $k=>$v) {
 						$this->fields[strtoupper($k)] = $v;
 					}
@@ -954,11 +954,11 @@ class ADORecordset_mssql extends ADORecordSet {
 			}
 
 			if (!$this->fields) {
-			} elseif (ADODB_ASSOC_CASE == 0) {
+			} else if (ADODB_ASSOC_CASE == 0) {
 				foreach($this->fields as $k=>$v) {
 					$this->fields[strtolower($k)] = $v;
 				}
-			} elseif (ADODB_ASSOC_CASE == 1) {
+			} else if (ADODB_ASSOC_CASE == 1) {
 				foreach($this->fields as $k=>$v) {
 					$this->fields[strtoupper($k)] = $v;
 				}

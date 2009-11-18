@@ -1,6 +1,6 @@
 <?php
 /*
-V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence.
@@ -235,7 +235,7 @@ class ADODB_pdo extends ADOConnection {
 	{
 		if ($this->_errormsg !== false) return $this->_errormsg;
 		if (!empty($this->_stmt)) $arr = $this->_stmt->errorInfo();
-		elseif (!empty($this->_connectionID)) $arr = $this->_connectionID->errorInfo();
+		else if (!empty($this->_connectionID)) $arr = $this->_connectionID->errorInfo();
 		else return 'No Connection Established';
 
 
@@ -251,7 +251,7 @@ class ADODB_pdo extends ADOConnection {
 	{
 		if ($this->_errorno !== false) return $this->_errorno;
 		if (!empty($this->_stmt)) $err = $this->_stmt->errorCode();
-		elseif (!empty($this->_connectionID)) {
+		else if (!empty($this->_connectionID)) {
 			$arr = $this->_connectionID->errorInfo();
 			if (isset($arr[0])) $err = $arr[0];
 			else $err = -1;
@@ -585,7 +585,7 @@ class ADORecordSet_pdo extends ADORecordSet {
 		$o->precision = $arr['precision'];
 
 		if (ADODB_ASSOC_CASE == 0) $o->name = strtolower($o->name);
-		elseif (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
+		else if (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
 		return $o;
 	}
 

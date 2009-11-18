@@ -222,7 +222,7 @@ NATSOFT.DOMAIN =
 				OCIPLogon($argUsername,$argPassword, $argDatabasename)
 				;
 			if ($this->_connectionID && $this->autoRollback)  OCIrollback($this->_connectionID);
-		} elseif ($mode==2) {
+		} else if ($mode==2) {
 			$this->_connectionID = ($this->charSet) ?
 				OCINLogon($argUsername,$argPassword, $argDatabasename,$this->charSet)
 				:
@@ -322,10 +322,10 @@ NATSOFT.DOMAIN =
 		return 'TO_DATE('.$tss.",'RRRR-MM-DD, HH24:MI:SS')";
 	}
 
-	function RowLock($tables,$where,$flds='1 as ignore')
+	function RowLock($tables,$where,$col='1 as ignore')
 	{
 		if ($this->autoCommit) $this->BeginTrans();
-		return $this->GetOne("select $flds from $tables where $where for update");
+		return $this->GetOne("select $col from $tables where $where for update");
 	}
 
 	function MetaTables($ttype=false,$showSchema=false,$mask=false)
@@ -809,7 +809,7 @@ NATSOFT.DOMAIN =
 								if ((strlen($at) == strlen($str) && $k < sizeof($arr)-1)) {
 									$sql .= ':'.$str;
 									$lastnomatch = $k;
-								} elseif ($lastnomatch == $k-1) {
+								} else if ($lastnomatch == $k-1) {
 									$sql .= ':'.$str;
 								} else {
 									if (is_null($inputarr[$at])) $sql .= 'null';
@@ -900,7 +900,7 @@ NATSOFT.DOMAIN =
 		$rs = $this->Execute($stmt);
 		if ($rs) {
 			if ($rs->databaseType == 'array') OCIFreeCursor($stmt[4]);
-			elseif ($hasref) $rs->_refcursor = $stmt[4];
+			else if ($hasref) $rs->_refcursor = $stmt[4];
 		}
 		return $rs;
 	}
@@ -948,7 +948,7 @@ NATSOFT.DOMAIN =
 			if ($type !== false) $rez = OCIBindByName($stmt[1],":".$stmt[2],$var,$size,$type);
 			else $rez = OCIBindByName($stmt[1],":".$stmt[2],$var,$size); // +1 byte for null terminator
 			$stmt[2] += 1;
-		} elseif (oci_lob_desc($type)) {
+		} else if (oci_lob_desc($type)) {
 			if ($this->debug) {
 				ADOConnection::outp("<b>Bind</b>: name = $name");
 			}

@@ -411,7 +411,7 @@ function adodb_date_test_date($y1,$m,$d=13)
 	$t = adodb_mktime($h,0,0,$m,$d,$y1);
 	$rez = adodb_date('Y-n-j H:i:s',$t);
 	if ($h == 0) $h = '00';
-	elseif ($h < 10) $h = '0'.$h;
+	else if ($h < 10) $h = '0'.$h;
 	if ("$y1-$m-$d $h:00:00" != $rez) {
 		print "<b>$y1 error, expected=$y1-$m-$d $h:00:00, adodb=$rez</b><br>";
 		return false;
@@ -650,7 +650,7 @@ function _adodb_is_leap_year($year)
 	if ($year % 400 == 0) {
 		return true;
 	// if gregorian calendar (>1582), century not-divisible by 400 is not leap
-	} elseif ($year > 1582 && $year % 100 == 0 ) {
+	} else if ($year > 1582 && $year % 100 == 0 ) {
 		return false;
 	}
 
@@ -716,7 +716,7 @@ static $TZ,$tzo;
 global $ADODB_DATETIME_CLASS;
 
 	if (!defined('ADODB_TEST_DATES')) $y = false;
-	elseif ($y < 1970 || $y >= 2038) $y = false;
+	else if ($y < 1970 || $y >= 2038) $y = false;
 
 	if ($ADODB_DATETIME_CLASS && $y !== false) {
 		$dt = new DateTime();
@@ -1121,8 +1121,8 @@ global $ADODB_DATETIME_CLASS;
 		case 'S':
 			$d10 = $day % 10;
 			if ($d10 == 1) $dates .= 'st';
-			elseif ($d10 == 2 && $day != 12) $dates .= 'nd';
-			elseif ($d10 == 3) $dates .= 'rd';
+			else if ($d10 == 2 && $day != 12) $dates .= 'nd';
+			else if ($d10 == 3) $dates .= 'rd';
 			else $dates .= 'th';
 			break;
 
@@ -1248,7 +1248,7 @@ function adodb_mktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=fa
 		$y = floor(($mon-1)/ 12);
 		$year += $y;
 		$mon -= $y*12;
-	} elseif ($mon < 1) {
+	} else if ($mon < 1) {
 		$y = ceil((1-$mon) / 12);
 		$year -= $y;
 		$mon += $y*12;
@@ -1306,7 +1306,7 @@ function adodb_mktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=fa
 		$_day_time = $_day_power - $_day_time;
 		$ret = -( $_total_date * $_day_power + $_day_time - $gmt_different);
 		if ($ret < -12220185600) $ret += 10*86400; // if earlier than 5 Oct 1582 - gregorian correction
-		elseif ($ret < -12219321600) $ret = -12219321600; // if in limbo, reset to 15 Oct 1582.
+		else if ($ret < -12219321600) $ret = -12219321600; // if in limbo, reset to 15 Oct 1582.
 	}
 	//print " dmy=$day/$mon/$year $hr:$min:$sec => " .$ret;
 	return $ret;
@@ -1357,7 +1357,7 @@ global $ADODB_DATE_LOCALE;
 				$inpct = false;
 			} else
 				$inpct = true;
-		} elseif ($inpct) {
+		} else if ($inpct) {
 
 			$inpct = false;
 			switch($ch) {
@@ -1411,7 +1411,7 @@ global $ADODB_DATE_LOCALE;
 			case 'Y': $fmtdate .= 'Y'; break;
 			case 'Z': $fmtdate .= 'T'; break;
 			}
-		} elseif (('A' <= ($ch) && ($ch) <= 'Z' ) || ('a' <= ($ch) && ($ch) <= 'z' ))
+		} else if (('A' <= ($ch) && ($ch) <= 'Z' ) || ('a' <= ($ch) && ($ch) <= 'z' ))
 			$fmtdate .= "\\".$ch;
 		else
 			$fmtdate .= $ch;

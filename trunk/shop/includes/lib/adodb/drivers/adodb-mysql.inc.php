@@ -1,6 +1,6 @@
 <?php
 /*
-V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence.
@@ -362,7 +362,7 @@ class ADODB_mysql extends ADOConnection {
 		if (ADODB_PHPVER >= 0x4300)
 			$this->_connectionID = mysql_connect($argHostname,$argUsername,$argPassword,
 												$this->forceNewConnect,$this->clientFlags);
-		elseif (ADODB_PHPVER >= 0x4200)
+		else if (ADODB_PHPVER >= 0x4200)
 			$this->_connectionID = mysql_connect($argHostname,$argUsername,$argPassword,
 												$this->forceNewConnect);
 		else
@@ -643,7 +643,7 @@ class ADORecordSet_mysql extends ADORecordSet{
 			//$o->max_length = -1; // mysql returns the max length less spaces -- so it is unrealiable
 			if ($o) $o->binary = (strpos($f,'binary')!== false);
 		}
-		elseif ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
+		else if ($fieldOffset == -1) {	/*	The $fieldOffset argument is not provided thus its -1 	*/
 			$o = @mysql_fetch_field($this->_queryID);
 			if ($o) $o->max_length = @mysql_field_len($this->_queryID); // suggested by: Jim Nicholson (jnich#att.com)
 		//$o->max_length = -1; // mysql returns the max length less spaces -- so it is unrealiable

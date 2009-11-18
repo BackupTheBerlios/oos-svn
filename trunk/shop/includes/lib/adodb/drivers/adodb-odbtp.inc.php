@@ -1,6 +1,6 @@
 <?php
 /*
-  V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+  V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
   the BSD license will take precedence. See License.txt.
@@ -194,7 +194,7 @@ class ADODB_odbtp extends ADOConnection{
 		// Account for inconsistent DBMS names
 		if( $this->odbc_driver == ODB_DRIVER_ORACLE )
 			$dbms = 'oracle';
-		elseif( $this->odbc_driver == ODB_DRIVER_SYBASE )
+		else if( $this->odbc_driver == ODB_DRIVER_SYBASE )
 			$dbms = 'sybase';
 
 		// Set DBMS specific attributes
@@ -355,7 +355,7 @@ class ADODB_odbtp extends ADOConnection{
 	 					$fld->default_value = $rs->fields[12];
 					}
 				$retarr[strtoupper($fld->name)] = $fld;
-			} elseif (!empty($retarr))
+			} else if (!empty($retarr))
 				break;
 			$rs->MoveNext();
 		}
@@ -637,7 +637,7 @@ class ADODB_odbtp extends ADOConnection{
 			if (!@odbtp_execute($stmtid) ) {
 				return false;
 			}
-		} elseif (is_array($sql)) {
+		} else if (is_array($sql)) {
 			$stmtid = $sql[1];
 			if (!@odbtp_execute($stmtid)) {
 				return false;
@@ -703,7 +703,7 @@ class ADORecordSet_odbtp extends ADORecordSet {
 		$o->type = @odbtp_field_type($this->_queryID,$off);
         $o->max_length = @odbtp_field_length($this->_queryID,$off);
 		if (ADODB_ASSOC_CASE == 0) $o->name = strtolower($o->name);
-		elseif (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
+		else if (ADODB_ASSOC_CASE == 1) $o->name = strtoupper($o->name);
 		return $o;
 	}
 

@@ -14,7 +14,7 @@
 /**
 	\mainpage
 
-	 @version V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+	 @version V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
 
 	Released under both BSD license and Lesser GPL library license. You can choose which license
 	you prefer.
@@ -116,7 +116,7 @@
 		$_adodb_ver = (float) PHP_VERSION;
 		if ($_adodb_ver >= 5.2) {
 			define('ADODB_PHPVER',0x5200);
-		} elseif ($_adodb_ver >= 5.0) {
+		} else if ($_adodb_ver >= 5.0) {
 			define('ADODB_PHPVER',0x5000);
 		} else
 			die("PHP5 or later required. You are running ".PHP_VERSION);
@@ -177,7 +177,7 @@
 		/**
 		 * ADODB version as a string.
 		 */
-		$ADODB_vers = 'V5.09 25 June 2009  (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved. Released BSD & LGPL.';
+		$ADODB_vers = 'V5.10 10 Nov 2009  (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved. Released BSD & LGPL.';
 
 		/**
 		 * Determines whether recordset->RecordCount() is used.
@@ -472,7 +472,7 @@
 			$fn = ADODB_OUTP;
 			$fn($msg,$newline);
 			return;
-		} elseif (isset($ADODB_OUTP)) {
+		} else if (isset($ADODB_OUTP)) {
 			$fn = $ADODB_OUTP;
 			$fn($msg,$newline);
 			return;
@@ -515,9 +515,6 @@
 		if ($argDatabaseName != "") $this->database = $argDatabaseName;
 
 		$this->_isPersistentConnection = false;
-
-		global $ADODB_CACHE;
-		if (empty($ADODB_CACHE)) $this->_CreateCache();
 
 		if ($forceNew) {
 			if ($rez=$this->_nconnect($this->host, $this->user, $this->password, $this->database)) return true;
@@ -584,9 +581,6 @@
 		if ($argDatabaseName != "") $this->database = $argDatabaseName;
 
 		$this->_isPersistentConnection = true;
-
-		global $ADODB_CACHE;
-		if (empty($ADODB_CACHE)) $this->_CreateCache();
 
 		if ($rez = $this->_pconnect($this->host, $this->user, $this->password, $this->database)) return true;
 		if (isset($rez)) {
@@ -722,7 +716,7 @@
 	*  @param $table	name of table to lock
 	*  @param $where	where clause to use, eg: "WHERE row=12". If left empty, will escalate to table lock
 	*/
-	function RowLock($table,$where)
+	function RowLock($table,$where,$col='1 as ignore')
 	{
 		return false;
 	}
@@ -975,14 +969,14 @@
 						if ($typ == 'string')
 							//New memory copy of input created here -mikefedyk
 							$sql .= $this->qstr($v);
-						elseif ($typ == 'double')
+						else if ($typ == 'double')
 							$sql .= str_replace(',','.',$v); // locales fix so 1.1 does not get converted to 1,1
-						elseif ($typ == 'boolean')
+						else if ($typ == 'boolean')
 							$sql .= $v ? $this->true : $this->false;
-						elseif ($typ == 'object') {
+						else if ($typ == 'object') {
 							if (method_exists($v, '__toString')) $sql .= $this->qstr($v->__toString());
 							else $sql .= $this->qstr((string) $v);
-						} elseif ($v === null)
+						} else if ($v === null)
 							$sql .= 'NULL';
 						else
 							$sql .= $v;
@@ -993,7 +987,7 @@
 					if (isset($sqlarr[$i])) {
 						$sql .= $sqlarr[$i];
 						if ($i+1 != sizeof($sqlarr)) $this->outp_throw( "Input Array does not match ?: ".htmlspecialchars($sql),'Execute');
-					} elseif ($i != sizeof($sqlarr))
+					} else if ($i != sizeof($sqlarr))
 						$this->outp_throw( "Input array does not match ?: ".htmlspecialchars($sql),'Execute');
 
 					$ret = $this->_Execute($sql);
@@ -1280,7 +1274,7 @@
 							$ret = $this->Execute($sql,$inputarr);
 						}
 						return $ret; // PHP5 fix
-					} elseif ($ismssql){
+					} else if ($ismssql){
 						$sql = preg_replace(
 						'/(^\s*select\s+(distinctrow|distinct)?)/i','\\1 '.$this->hasTop.' '.((integer)$nrows).' ',$sql);
 					} else {
@@ -1711,6 +1705,8 @@
 	{
 	global $ADODB_CACHE_DIR, $ADODB_CACHE;
 
+		if (empty($ADODB_CACHE)) return false;
+
 		if (!$sql) {
 			 $ADODB_CACHE->flushall($this->debug);
 	         return;
@@ -1766,6 +1762,8 @@
 	function CacheExecute($secs2cache,$sql=false,$inputarr=false)
 	{
 	global $ADODB_CACHE;
+
+		if (empty($ADODB_CACHE)) $this->_CreateCache();
 
 		if (!is_numeric($secs2cache)) {
 			$inputarr = $sql;
@@ -1833,7 +1831,7 @@
 					$rs->connection = $this; // Pablo suggestion
 				}
 
-			} elseif (!$this->memCache)
+			} else if (!$this->memCache)
 				$ADODB_CACHE->flushcache($md5file);
 		} else {
 			$this->_errorMsg = '';
@@ -1871,7 +1869,7 @@
 		$false = false;
 		$sql = 'SELECT * FROM '.$table;
 		if ($where!==FALSE) $sql .= ' WHERE '.$where;
-		elseif ($mode == 'UPDATE' || $mode == 2 /* DB_AUTOQUERY_UPDATE */) {
+		else if ($mode == 'UPDATE' || $mode == 2 /* DB_AUTOQUERY_UPDATE */) {
 			$this->outp_throw('AutoExecute: Illegal mode=UPDATE with empty WHERE clause','AutoExecute');
 			return $false;
 		}
@@ -1879,6 +1877,7 @@
 		$rs = $this->SelectLimit($sql,1);
 		if (!$rs) return $false; // table does not exist
 		$rs->tableName = $table;
+		$rs->sql = $sql;
 
 		switch((string) $mode) {
 		case 'UPDATE':
@@ -2559,8 +2558,8 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 
 		// $tt == -1 if pre TIMESTAMP_FIRST_YEAR
 		if (($tt === false || $tt == -1) && $v != false) return $v;
-		elseif ($tt == 0) return $this->emptyDate;
-		elseif ($tt == -1) { // pre-TIMESTAMP_FIRST_YEAR
+		else if ($tt == 0) return $this->emptyDate;
+		else if ($tt == -1) { // pre-TIMESTAMP_FIRST_YEAR
 		}
 
 		return ($gmt) ? adodb_gmdate($fmt,$tt) : adodb_date($fmt,$tt);
@@ -3210,8 +3209,8 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 		$tt = $this->UnixDate($v);
 		// $tt == -1 if pre TIMESTAMP_FIRST_YEAR
 		if (($tt === false || $tt == -1) && $v != false) return $v;
-		elseif ($tt == 0) return $this->emptyDate;
-		elseif ($tt == -1) { // pre-TIMESTAMP_FIRST_YEAR
+		else if ($tt == 0) return $this->emptyDate;
+		else if ($tt == -1) { // pre-TIMESTAMP_FIRST_YEAR
 		}
 		return adodb_date($fmt,$tt);
 	}
@@ -3791,7 +3790,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 			// is the char field is too long, return as text field...
 			if ($this->blobSize >= 0) {
 				if ($len > $this->blobSize) return 'X';
-			} elseif ($len > 250) {
+			} else if ($len > 250) {
 				return 'X';
 			}
 			return 'C';
@@ -4275,7 +4274,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 				}
 				if (empty($persist))
 					$ok = $obj->Connect($dsna['host'], $dsna['user'], $dsna['pass'], $dsna['path']);
-				elseif (empty($nconnect))
+				else if (empty($nconnect))
 					$ok = $obj->PConnect($dsna['host'], $dsna['user'], $dsna['pass'], $dsna['path']);
 				else
 					$ok = $obj->NConnect($dsna['host'], $dsna['user'], $dsna['pass'], $dsna['path']);

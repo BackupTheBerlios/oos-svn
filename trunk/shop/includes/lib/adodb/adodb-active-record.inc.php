@@ -1,7 +1,7 @@
 <?php
 /*
 
-@version V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+@version V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Latest version is available at http://adodb.sourceforge.net
 
   Released under both BSD license and Lesser GPL library license.
@@ -26,6 +26,7 @@ global $ADODB_ACTIVE_DEFVALS; // use default values of table definition when cre
 $_ADODB_ACTIVE_DBS = array();
 $ACTIVE_RECORD_SAFETY = true;
 $ADODB_ACTIVE_DEFVALS = false;
+$ADODB_ACTIVE_CACHESECS = 0;
 
 class ADODB_Active_DB {
 	var $db; // ADOConnection
@@ -123,7 +124,7 @@ class ADODB_Active_Record {
 		$this->foreignName = strtolower(get_class($this)); // CFR: default foreign name
 		if ($db) {
 			$this->_dbat = ADODB_Active_Record::SetDatabaseAdapter($db);
-		} elseif (!isset($this->_dbat)) {
+		} else if (!isset($this->_dbat)) {
 			if (sizeof($_ADODB_ACTIVE_DBS) == 0) $this->Error("No database connection set; use ADOdb_Active_Record::SetDatabaseAdapter(\$db)",'ADODB_Active_Record::__constructor');
 			end($_ADODB_ACTIVE_DBS);
 			$this->_dbat = key($_ADODB_ACTIVE_DBS);
@@ -367,7 +368,7 @@ class ADODB_Active_Record {
 
 				//if ($db->debug) ADOConnection::outp("Reading cached active record file: $fname");
 			  	return;
-			} elseif ($db->debug) {
+			} else if ($db->debug) {
 				ADOConnection::outp("Refreshing cached active record file: $fname");
 			}
 		}
