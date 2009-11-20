@@ -20,8 +20,13 @@
    ---------------------------------------------------------------------- */
 
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
   if (!defined('CATEGORIES_DEFAULT_STATUS')) {
     define('DEFAULT_CATEGORIES_STATUS', '1');

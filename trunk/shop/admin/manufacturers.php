@@ -22,6 +22,11 @@
 define('OOS_VALID_MOD', 'yes');
 require 'includes/oos_main.php';
 
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
+
 function oos_get_manufacturer_url($manufacturer_id, $lang_id = '') {
 
     if (!$lang_id) $lang_id = $_SESSION['language_id'];

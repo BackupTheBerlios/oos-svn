@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -23,8 +23,13 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
   require 'includes/classes/class_currencies.php';
   $currencies = new currencies();
@@ -54,7 +59,7 @@
           $insert_array = array('products_id' => $_GET['add_related_product_ID'],
                                 'xsell_id' => $temp,
                                 'sort_order' => $sort);
-          oos_db_perform($oostable['products_xsell'], $insert_array); 
+          oos_db_perform($oostable['products_xsell'], $insert_array);
         }
       }
       $messageStack->add(CROSS_SELL_SUCCESS, 'success');
@@ -101,31 +106,31 @@ text-align:center;
 /* */border:1px solid #000000;/* */
 }
 </style>
-<script language="JavaScript1.2"> 
+<script language="JavaScript1.2">
 
-function cOn(td) 
-{ 
-if(document.getElementById||(document.all && !(document.getElementById))) 
-{ 
-td.style.backgroundColor="#CCCCCC"; 
-} 
-} 
+function cOn(td)
+{
+if(document.getElementById||(document.all && !(document.getElementById)))
+{
+td.style.backgroundColor="#CCCCCC";
+}
+}
 
-function cOnA(td) 
-{ 
-if(document.getElementById||(document.all && !(document.getElementById))) 
-{ 
-td.style.backgroundColor="#CCFFFF"; 
-} 
-} 
+function cOnA(td)
+{
+if(document.getElementById||(document.all && !(document.getElementById)))
+{
+td.style.backgroundColor="#CCFFFF";
+}
+}
 
-function cOut(td) 
-{ 
-if(document.getElementById||(document.all && !(document.getElementById))) 
-{ 
-td.style.backgroundColor="DFE4F4"; 
-} 
-} 
+function cOut(td)
+{
+if(document.getElementById||(document.all && !(document.getElementById)))
+{
+td.style.backgroundColor="DFE4F4";
+}
+}
 </script>
 
 <table border="0" width="100%" cellspacing="2" cellpadding="2">
@@ -144,7 +149,7 @@ td.style.backgroundColor="DFE4F4";
         <tr>
           <td><?php echo oos_draw_separator('trans.gif', '100%', '15');?></td>
         </tr>
-      </table>  
+      </table>
 
 <?php
   if ($_GET['add_related_product_ID'] == ''){
@@ -179,14 +184,14 @@ td.style.backgroundColor="DFE4F4";
       $productstable = $oostable['products'];
       $products_descriptiontable = $oostable['products_description'];
       $products_xselltable = $oostable['products_xsell'];
-      $products_cross_result = $dbconn->Execute("SELECT p.products_id, p.products_model, pd.products_name, p.products_id, x.products_id, x.xsell_id, x.sort_order, x.ID 
+      $products_cross_result = $dbconn->Execute("SELECT p.products_id, p.products_model, pd.products_name, p.products_id, x.products_id, x.xsell_id, x.sort_order, x.ID
                                                  FROM $productstable p,
                                                       $products_descriptiontable pd,
                                                       $products_xselltable x
                                                 WHERE x.xsell_id = p.products_id
                                                   AND x.products_id = '" . $products['products_id'] . "'
                                                   AND p.products_id = pd.products_id
-                                                  AND pd.products_languages_id = '" . intval($_SESSION['language_id']) . "' 
+                                                  AND pd.products_languages_id = '" . intval($_SESSION['language_id']) . "'
                                                 ORDER BY x.sort_order asc");
       $i = 0;
       while ($products_cross = $products_cross_result->fields){
@@ -276,7 +281,7 @@ td.style.backgroundColor="DFE4F4";
 <?php
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];
-    $products_result_raw = "SELECT p.products_id, p.products_model, p.products_image, p.products_price, pd.products_name, p.products_id 
+    $products_result_raw = "SELECT p.products_id, p.products_model, p.products_image, p.products_price, pd.products_name, p.products_id
                             FROM $productstable p,
                                  $products_descriptiontable pd
                             WHERE p.products_id = pd.products_id
@@ -359,9 +364,9 @@ td.style.backgroundColor="DFE4F4";
                            FROM $productstable p,
                                 $products_descriptiontable pd,
                                 $products_xselltable x
-                           WHERE x.xsell_id = p.products_id 
+                           WHERE x.xsell_id = p.products_id
                              AND x.products_id = '" . $_GET['add_related_product_ID'] . "'
-                             AND p.products_id = pd.products_id 
+                             AND p.products_id = pd.products_id
                              AND pd.products_languages_id = '" . intval($_SESSION['language_id']) . "'
                            ORDER BY x.sort_order asc";
     $products_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $products_result_raw, $products_result_numrows);

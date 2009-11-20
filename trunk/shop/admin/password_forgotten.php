@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: login.php,v 1.17 2003/02/14 12:57:29 dgw_ 
+   File: login.php,v 1.17 2003/02/14 12:57:29 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -19,8 +19,13 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
   if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
     $log_times = $_POST['log_times']+1;
@@ -42,7 +47,7 @@
         $make_password = oos_create_random_value(7);
         $crypted_password = oos_encrypt_password($make_password);
 
-        oos_mail($check_admin['check_firstname'] . ' ' . $check_admin['admin_lastname'], $check_admin['check_email_address'], ADMIN_PASSWORD_SUBJECT, nl2br(sprintf(ADMIN_EMAIL_TEXT, $make_password)), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS); 
+        oos_mail($check_admin['check_firstname'] . ' ' . $check_admin['admin_lastname'], $check_admin['check_email_address'], ADMIN_PASSWORD_SUBJECT, nl2br(sprintf(ADMIN_EMAIL_TEXT, $make_password)), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
         $admintable = $oostable['admin'];
         $dbconn->Execute("UPDATE $admintable
                           SET admin_password = '" . $crypted_password . "'
@@ -78,7 +83,7 @@ function setFocus() {
 <body onLoad="setFocus();">
 <div id="ctr" align="center">
 	<div class="login">
-	
+
 <?php
   if (isset($_SESSION['password_forgotten'])) {
 ?>
@@ -98,12 +103,12 @@ function setFocus() {
 ?>
 
 		<div class="login-form">
-		
+
 		<?php echo oos_draw_form('login', $aFilename['password_forgotten'], 'action=process'); ?>
 		<?php echo oos_draw_hidden_field('log_times', $log_times); ?>
-		
+
 			<img src="images/login.gif" alt="<?php echo HEADING_PASSWORD_FORGOTTEN; ?>" />
-			
+
 		<div class="smallText"><?php echo TEXT_PASSWORD_INFO; ?></div>
 			<div class="form-block">
 			<div class="inputlabel"><?php echo ENTRY_FIRSTNAME; ?></div>
@@ -112,9 +117,9 @@ function setFocus() {
 			<div class="inputlabel"><?php echo ENTRY_EMAIL_ADDRESS; ?></div>
 			<div><?php echo oos_draw_input_field('email_address', '', 'class="inputbox" size="15"'); ?></div>
 
-			
+
 			<div class="ctr"><?php echo '<a href="' . oos_href_link_admin($aFilename['login'], '' , 'SSL') . '">' . oos_image_swap_button('back','back_off.gif', IMAGE_BACK) . '</a> ' . oos_image_swap_submits('confirm','confirm_off.gif', IMAGE_BUTTON_LOGIN); ?></div>
-	
+
 		</div>
 			</form>
 		</div>

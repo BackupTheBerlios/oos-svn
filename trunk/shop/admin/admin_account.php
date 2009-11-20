@@ -19,12 +19,16 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
 
-  $current_boxes = OOS_ABSOLUTE_PATH . 'admin/includes/boxes/';
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+$current_boxes = OOS_ABSOLUTE_PATH . 'admin/includes/boxes/';
+
+$action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (!empty($action)) {
     switch ($action) {

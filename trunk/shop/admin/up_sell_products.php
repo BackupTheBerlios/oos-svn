@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -23,8 +23,13 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
   require 'includes/classes/class_currencies.php';
   $currencies = new currencies();
@@ -38,12 +43,12 @@
       if ($_POST['product']) {
         foreach ($_POST['product'] as $temp_prod) {
           $products_up_selltable = $oostable['products_up_sell'];
-          $dbconn->Execute("DELETE FROM $products_up_selltable WHERE up_sell_id = '" . $temp_prod . "' AND products_id = '" . $_GET['add_related_product_ID'] . "'"); 
+          $dbconn->Execute("DELETE FROM $products_up_selltable WHERE up_sell_id = '" . $temp_prod . "' AND products_id = '" . $_GET['add_related_product_ID'] . "'");
         }
       }
 
       $products_up_selltable = $oostable['products_up_sell'];
-      $sort_start_result = $dbconn->Execute("SELECT sort_order FROM $products_up_selltable WHERE products_id = '" . $_GET['add_related_product_ID'] . "' ORDER BY sort_order desc LIMIT 1"); 
+      $sort_start_result = $dbconn->Execute("SELECT sort_order FROM $products_up_selltable WHERE products_id = '" . $_GET['add_related_product_ID'] . "' ORDER BY sort_order desc LIMIT 1");
       $sort_start = $sort_start_result->fields;
 
       $sort = (($sort_start['sort_order'] > 0) ? $sort_start['sort_order'] : '0');
@@ -54,7 +59,7 @@
           $insert_array = array('products_id' => $_GET['add_related_product_ID'],
                                 'up_sell_id' => $temp,
                                 'sort_order' => $sort);
-          oos_db_perform($oostable['products_up_sell'], $insert_array); 
+          oos_db_perform($oostable['products_up_sell'], $insert_array);
         }
       }
       $messageStack->add(UP_SELL_SUCCESS, 'success');
@@ -105,23 +110,23 @@ text-align:center;
 
 function cOn(td)
 {
-if(document.getElementById||(document.all && !(document.getElementById))) 
+if(document.getElementById||(document.all && !(document.getElementById)))
 {
 td.style.backgroundColor="#CCCCCC";
 }
 }
 
-function cOnA(td) 
+function cOnA(td)
 {
-if(document.getElementById||(document.all && !(document.getElementById))) 
+if(document.getElementById||(document.all && !(document.getElementById)))
 {
 td.style.backgroundColor="#CCFFFF";
 }
 }
 
-function cOut(td) 
+function cOut(td)
 {
-if(document.getElementById||(document.all && !(document.getElementById))) 
+if(document.getElementById||(document.all && !(document.getElementById)))
 {
 td.style.backgroundColor="DFE4F4";
 }
@@ -144,7 +149,7 @@ td.style.backgroundColor="DFE4F4";
         <tr>
           <td><?php echo oos_draw_separator('trans.gif', '100%', '15');?></td>
         </tr>
-      </table>  
+      </table>
 
 <?php
   if ($_GET['add_related_product_ID'] == ''){
@@ -179,14 +184,14 @@ td.style.backgroundColor="DFE4F4";
       $productstable = $oostable['products'];
       $products_descriptiontable = $oostable['products_description'];
       $products_up_selltable = $oostable['products_up_sell'];
-      $products_up_result = $dbconn->Execute("SELECT p.products_id, p.products_model, pd.products_name, p.products_id, up.products_id, up.up_sell_id, up.sort_order, up.ID 
+      $products_up_result = $dbconn->Execute("SELECT p.products_id, p.products_model, pd.products_name, p.products_id, up.products_id, up.up_sell_id, up.sort_order, up.ID
                                           FROM $productstable p,
                                                $products_descriptiontable pd,
                                                $products_up_selltable up
                                           WHERE up.up_sell_id = p.products_id
                                             AND up.products_id = '". $products['products_id'] . "'
                                             AND p.products_id = pd.products_id
-                                            AND pd.products_languages_id = '" . intval($_SESSION['language_id']) . "' 
+                                            AND pd.products_languages_id = '" . intval($_SESSION['language_id']) . "'
                                           ORDER BY up.sort_order asc");
       $i = 0;
       while ($products_up = $products_up_result->fields){
@@ -245,7 +250,7 @@ td.style.backgroundColor="DFE4F4";
                                           FROM $productstable p,
                                                $products_descriptiontable pd
                                           WHERE p.products_id = '" . $_GET['add_related_product_ID'] . "'
-                                            AND p.products_id = pd.products_id 
+                                            AND p.products_id = pd.products_id
                                             AND pd.products_languages_id = '" . intval($_SESSION['language_id']) . "'");
     $products_name = $products_name_result->fields;
 ?>
@@ -274,7 +279,7 @@ td.style.backgroundColor="DFE4F4";
 <?php
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];
-    $products_result_raw = "SELECT p.products_id, p.products_model, p.products_image, p.products_price, pd.products_name, p.products_id 
+    $products_result_raw = "SELECT p.products_id, p.products_model, p.products_image, p.products_price, pd.products_name, p.products_id
                             FROM $productstable p,
                                  $products_descriptiontable pd
                            WHERE p.products_id = pd.products_id
@@ -315,7 +320,7 @@ td.style.backgroundColor="DFE4F4";
   } elseif ($_GET['add_related_product_ID'] != '' && $_GET['sort'] != '') {
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];
-    $products_name_result = $dbconn->Execute("SELECT pd.products_name, p.products_model, p.products_image 
+    $products_name_result = $dbconn->Execute("SELECT pd.products_name, p.products_model, p.products_image
                                           FROM $productstable p,
                                                $products_descriptiontable pd
                                           WHERE p.products_id = '" . $_GET['add_related_product_ID'] . "'
@@ -349,13 +354,13 @@ td.style.backgroundColor="DFE4F4";
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];
     $products_up_selltable = $oostable['products_up_sell'];
-    $products_result_raw = "SELECT p.products_id as products_id, p.products_price, p.products_image, p.products_model, pd.products_name, p.products_id, up.products_id as up_products_id, up.up_sell_id, up.sort_order, up.ID 
+    $products_result_raw = "SELECT p.products_id as products_id, p.products_price, p.products_image, p.products_model, pd.products_name, p.products_id, up.products_id as up_products_id, up.up_sell_id, up.sort_order, up.ID
                               FROM $productstable p,
                                    $products_descriptiontable pd,
                                    $products_up_selltable up
-                             WHERE up.up_sell_id = p.products_id 
+                             WHERE up.up_sell_id = p.products_id
                                AND up.products_id = '" . $_GET['add_related_product_ID'] . "'
-                               AND p.products_id = pd.products_id 
+                               AND p.products_id = pd.products_id
                                AND pd.products_languages_id = '" . intval($_SESSION['language_id']) . "'
                              ORDER BY up.sort_order asc";
     $products_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $products_result_raw, $products_result_numrows);

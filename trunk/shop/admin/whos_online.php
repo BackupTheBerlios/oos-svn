@@ -19,10 +19,15 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  $xx_mins_ago = (time() - 900);
+$xx_mins_ago = (time() - 900);
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
   require 'includes/classes/class_currencies.php';
   $currencies = new currencies();

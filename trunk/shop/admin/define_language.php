@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: define_language.php,v 1.13 2003/02/14 19:27:39 dgw_ 
+   File: define_language.php,v 1.13 2003/02/14 19:27:39 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -19,15 +19,20 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
   if (!isset($_GET['lngdir'])) $_GET['lngdir'] = $_SESSION['language'];
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (!empty($action)) {
-    switch ($action) {  
+    switch ($action) {
       case 'save':
         if (isset($_GET['lngdir']) && isset($_GET['filename'])) {
           if ($_GET['filename'] == $_GET['lng_dir'] . '.php') {
@@ -66,7 +71,7 @@
   if (!$lng_exists) $_GET['lngdir'] = $_SESSION['language'];
 
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

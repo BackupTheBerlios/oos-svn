@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: server_info.php,v 1.3 2002/03/16 01:36:56 hpdl 
+   File: server_info.php,v 1.3 2002/03/16 01:36:56 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -19,8 +19,13 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
 
  /**
@@ -54,13 +59,13 @@
                  'zend' => (function_exists('zend_version') ? zend_version() : ''),
                  'db_server' => $db_host,
                  'db_ip' => gethostbyname(OOS_DB_SERVER),
-                 'db_version' => OOS_DB_TYPE . $db_result['description'], 
+                 'db_version' => OOS_DB_TYPE . $db_result['description'],
                  'db_database' => $db_database);
   }
 
 
   $system = oosGetSystemInformation();
-  
+
   $no_js_general = true;
   require 'includes/oos_header.php';
 ?>

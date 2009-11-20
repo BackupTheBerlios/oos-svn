@@ -23,11 +23,16 @@
  * @package Newsfeed
  * @author r23 <info@r23.de>
  * @copyright 2003 r23
- * @version $Revision: 1.70 $ - changed by $Author: r23 $ on $Date: 2007/05/08 16:18:59 $
+ * @version $Revision: 1.70 $ - changed by $Author: r23 $ on $Date: 2009/05/08 16:18:59 $
  */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
   require 'includes/functions/function_newsfeed.php';
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');

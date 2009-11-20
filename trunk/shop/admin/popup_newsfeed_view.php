@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -18,14 +18,19 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
   require 'includes/classes/class_rdf.php';
   $rdf = new oosRDF();
 
   $newsfeed_managertable = $oostable['newsfeed_manager'];
-  $sql = "SELECT newsfeed_manager_id, newsfeed_manager_name, newsfeed_manager_link, newsfeed_manager_numarticles, newsfeed_manager_refresh 
+  $sql = "SELECT newsfeed_manager_id, newsfeed_manager_name, newsfeed_manager_link, newsfeed_manager_numarticles, newsfeed_manager_refresh
           FROM $newsfeed_managertable
           WHERE newsfeed_manager_id =  '" . $_GET['nmID'] . "'";
   $newsfeed_result = $dbconn->Execute($sql);
@@ -46,7 +51,7 @@ a.fase4_rdf:link {
 
 a.fase4_rdf:hover {
   font-weight: bold; color: #808080;
-}	
+}
 
 TD.fase4_rdf {
   font-family: Verdana, Arial, sans-serif; font-size: 10px; }
@@ -55,7 +60,7 @@ TD.fase4_rdf {
 </head>
 <body>
 
-<?php 
+<?php
   $rdf->use_dynamic_display(true);
   $rdf->set_Options(array('channel' => 'hidden',
                           'build' => 'hidden',

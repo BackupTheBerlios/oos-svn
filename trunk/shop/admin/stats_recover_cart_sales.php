@@ -5,7 +5,7 @@
 
   Recover Cart Sales contribution: JM Ivler 11/20/03
   (c) Ivler / Ideas From the Deep / osCommerce
-  
+
   Released under the GNU General Public License
 
  Modifed by Aalst (recover_cart_sales.php,v 1.2 .. 1.36)
@@ -17,8 +17,13 @@
  Optimized for use with OOS by Vexoid (vexoid@gmail.com)
 */
 
-  define('OOS_VALID_MOD', 'yes');
-  require('includes/oos_main.php');
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
   require('includes/classes/class_currencies.php');
 
   $currencies = new currencies();

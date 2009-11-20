@@ -9,7 +9,7 @@
    ----------------------------------------------------------------------
    Based on:
 
-   File: banner_statistics.php,v 1.4 2002/11/22 14:45:45 dgw_ 
+   File: banner_statistics.php,v 1.4 2002/11/22 14:45:45 dgw_
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -19,8 +19,13 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
   $banner_extension = oos_banner_image_extension();
 
@@ -67,7 +72,7 @@
                       array('id' => 'yearly',
                             'text' => STATISTICS_TYPE_YEARLY));
   $no_js_general = true;
-  require 'includes/oos_header.php'; 
+  require 'includes/oos_header.php';
 ?>
 <!-- body //-->
 <table border="0" width="100%" cellspacing="2" cellpadding="2">

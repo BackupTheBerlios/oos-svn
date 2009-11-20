@@ -5,11 +5,11 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
-   File: logoff.php,v 1.12 2003/02/13 03:01:51 hpdl 
+   File: logoff.php,v 1.12 2003/02/13 03:01:51 hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -19,8 +19,13 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
+
+if (!isset($_SESSION['login_id'])) {
+    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
+}
+
 
   require('includes/languages/' . $_SESSION['language'] . '/' . $aFilename['logoff']);
 
@@ -47,7 +52,7 @@
 			<div class="clr"></div>
 			<div class="smallText"><?php echo TEXT_MAIN; ?></div>
 			<div id="break"></div>
-			<div align="left"><a href="<?php echo oos_href_link_admin($aFilename['login'], '', 'SSL') . '">' . oos_image_swap_button('back','back_off.gif', IMAGE_BACK); ?></a></div> 
+			<div align="left"><a href="<?php echo oos_href_link_admin($aFilename['login'], '', 'SSL') . '">' . oos_image_swap_button('back','back_off.gif', IMAGE_BACK); ?></a></div>
 
 
 		</div>
