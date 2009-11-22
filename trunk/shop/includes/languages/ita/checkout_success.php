@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -31,15 +31,10 @@ $aLang['navbar_title_2'] =  'successo';
 $aLang['heading_title'] =  'il tuo ordine è stato inoltrato!';
 
 $aLang['text_success'] =  'il tuo ordine è stato inoltrato con successo! i prodotti arriveranno a destinazione entro 2-5 giorni lavorativi.';
-$aLang['text_notify_products'] =  'comunicami gli aggiornameti dei prototti che io ho selezionato sotto:';
-$aLang['text_see_orders', 'puoi vedere la cronologia dei tuoi ordini dalla pagina <a href="' . tep_href_link(filename_account, '', 'ssl') . '">\'il mio account\'</a> e cliccando sopra <a href="' . tep_href_link(filename_account_history, ''] =  'ssl') . '">\'cronologia\'</a>.';
-$aLang['text_contact_store_owner'] =  'comunica qualsiasi problema all\' <a href="' . tep_href_link(filename_contact_us) . '">amministratore</a>.';
+
+$aLang['text_see_orders', 'puoi vedere la cronologia dei tuoi ordini dalla pagina <a href="' . oos_href_link($aPages['account'], '', 'SSL') . '">\'il mio account\'</a> e cliccando sopra <a href="' . oos_href_link($aPages['account_history'] . '">\'cronologia\'</a>.';
+$aLang['text_contact_store_owner'] =  'comunica qualsiasi problema all\' <a href="' . oos_href_link($aPages['contact_us']) . '">amministratore</a>.';
 $aLang['text_thanks_for_shopping'] =  'grazie per aver acquistato on-line con noi!';
 
 $aLang['table_heading_comments'] =  'inserisci un commento per il procedimento di acquisto';
 
-$aLang['table_heading_download_date'] =  'data di scadenza: ';
-$aLang['table_heading_download_count'] =  ' downloads rimanenti.';
-$aLang['heading_download'] =  'scarica qui il tuo prodotto:';
-$aLang['footer_download'] =  'tu puoi scaricare il tuo prodotto dopo le ore \'%s\'';
-?>

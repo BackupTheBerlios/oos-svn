@@ -32,68 +32,9 @@ if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id']
 
 require 'includes/languages/' . $sLanguage . '/checkout_success.php';
 
-if (isset($_GET['action']) && ($_GET['action'] == 'update')) {
-    if (isset($_POST['notify']) && !empty($_POST['notify'])) {
-        $notify = $_POST['notify'];
-        if (!is_array($notify)) $notify = array($notify);
-
-        for ($i=0, $n=count($notify); $i<$n; $i++) {
-            $products_notificationstable = $oostable['products_notifications'];
-            $sql = "SELECT COUNT(*) AS total
-                    FROM $products_notificationstable
-                    WHERE products_id = '" . intval($notify[$i]) . "'
-                      AND customers_id = '" . intval($_SESSION['customer_id']) . "'";
-            $check = $dbconn->Execute($sql);
-            if ($check->fields['total'] < 1) {
-                $products_notificationstable = $oostable['products_notifications'];
-                $sql = "INSERT INTO $products_notificationstable
-                        (products_id,
-                         customers_id,
-                         date_added) VALUES (" . $dbconn->qstr($notify[$i]) . ','
-                                               . $dbconn->qstr($_SESSION['customer_id']) . ','
-                                               . $dbconn->DBTimeStamp($today) . ")";
-                $result = $dbconn->Execute($sql);
-            }
-        }
-    }
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
-}
-
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1']);
 $oBreadcrumb->add($aLang['navbar_title_2']);
-
-$customers_infotable = $oostable['customers_info'];
-$sql = "SELECT global_product_notifications
-        FROM $customers_infotable
-        WHERE customers_info_id = '" . intval($_SESSION['customer_id']) . "'";
-$global_result = $dbconn->Execute($sql);
-$global = $global_result->fields;
-
-if ($global['global_product_notifications'] != '1') {
-    $orderstable = $oostable['orders'];
-    $sql = "SELECT orders_id
-            FROM $orderstable
-            WHERE customers_id = '" . intval($_SESSION['customer_id']) . "'
-            ORDER BY date_purchased desc LIMIT 1";
-    $orders_result = $dbconn->Execute($sql);
-    $orders = $orders_result->fields;
-
-    $products_array = array();
-    $orders_productstable = $oostable['orders_products'];
-    $sql = "SELECT products_id, products_name
-            FROM $orders_productstable
-            WHERE orders_id = '" . intval($orders['orders_id']) . "'
-            ORDER BY products_name";
-    $products_result = $dbconn->Execute($sql);
-    while ($products = $products_result->fields)
-    {
-        $products_array[] = array('id' => $products['products_id'],
-                                'text' => $products['products_name']);
-        $products_result->MoveNext();
-    }
-}
-
 
 $aOption['template_main'] = $sTheme . '/modules/checkout_success.html';
 $aOption['page_heading'] = $sTheme . '/modules/checkout_success_page_heading.html';
@@ -118,20 +59,6 @@ $oSmarty->assign('gv_amount', $gv_amount);
 
 
 $products_notify = '';
-if ($global['global_product_notifications'] != '1') {
-    $products_notify .= $aLang['text_notify_products'] . '<br /><p class="productsNotifications">';
-
-    $products_displayed = array();
-    for ($i=0, $n=count($products_array); $i<$n; $i++) {
-        if (!in_array($products_array[$i]['id'], $products_displayed)) {
-            $products_notify .= oos_draw_checkbox_field('notify[]', $products_array[$i]['id']) . ' ' . $products_array[$i]['text'] . '<br />';
-            $products_displayed[] = $products_array[$i]['id'];
-        }
-    }
-    $products_notify .= '</p>';
-} else {
-    $products_notify .= $aLang['text_see_orders'] . '<br /><br />' . $aLang['text_contact_store_owner'];
-}
 
 $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
 $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
@@ -140,12 +67,8 @@ $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
 $oSmarty->assign(
       array(
           'pagetitle'         => htmlspecialchars($oos_pagetitle),
-          'meta_description'  => htmlspecialchars($oos_meta_description),
-          'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
           'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
           'oos_heading_title' => $aLang['heading_title'],
-
-          'products_notify' => $products_notify,
           'oos_heading_image' => 'man_on_board.gif'
       )
 );

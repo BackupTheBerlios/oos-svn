@@ -416,64 +416,6 @@ switch ($action) {
       }
       break;
 
-    case 'notify' :
-      if (isset($_SESSION['customer_id'])) {
-        if (isset($_GET['products_id'])) {
-          $notify = oos_var_prep_for_os($_GET['products_id']);
-        } elseif (isset($_GET['notify'])) {
-          $notify = oos_var_prep_for_os($_GET['notify']);
-        } elseif (isset($_POST['notify'])) {
-          $notify = oos_var_prep_for_os($_POST['notify']);
-        } else {
-          MyOOS_CoreApi::redirect(oos_href_link($sPage, oos_get_all_get_parameters(array('action', 'notify'))));
-        }
-
-        $products_notificationstable = $oostable['products_notifications'];
-
-        if (!is_array($notify)) $notify = array($notify);
-        $nArrayCountNotify = count( $notify );
-        for ($i=0, $n=$nArrayCountNotify; $i<$n; $i++) {
-          $check_sql = "SELECT COUNT(*) AS total
-                        FROM $products_notificationstable
-                        WHERE products_id = '" . intval($notify[$i]) . "'
-                        AND customers_id = '" . intval($_SESSION['customer_id']) . "'";
-          $check = $dbconn->Execute($check_sql);
-          if ($check->fields['total'] < 1) {
-            $today = date("Y-m-d H:i:s", time());
-            $sql = "INSERT INTO $products_notificationstable
-                    (products_id, customers_id,
-                     date_added) VALUES (" . $dbconn->qstr($notify[$i]) . ','
-                                           . $dbconn->qstr($_SESSION['customer_id']) . ','
-                                           . $dbconn->DBTimeStamp($today) . ")";
-            $dbconn->Execute($sql);
-          }
-        }
-        MyOOS_CoreApi::redirect(oos_href_link($sPage, oos_get_all_get_parameters(array('action')), 'SSL'));
-      } else {
-        $_SESSION['navigation']->set_snapshot();
-        MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
-      }
-      break;
-
-    case 'notify_remove' :
-      $products_notificationstable = $oostable['products_notifications'];
-      if (isset($_SESSION['customer_id']) && isset($_GET['products_id'])) {
-        if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
-        $check_sql = "SELECT COUNT(*) AS total
-                      FROM $products_notificationstable
-                      WHERE products_id = '" . intval($nProductsId) . "'
-                      AND customers_id = '" . intval($_SESSION['customer_id']) . "'";
-        $check = $dbconn->Execute($check_sql);
-        if ($check->fields['total'] > 0) {
-          $dbconn->Execute("DELETE FROM $products_notificationstable WHERE products_id = '" . intval($nProductsId) . "' AND customers_id = '" . intval($_SESSION['customer_id']) . "'");
-        }
-        MyOOS_CoreApi::redirect(oos_href_link($sPage, oos_get_all_get_parameters(array('action'))));
-      } else {
-        $_SESSION['navigation']->set_snapshot();
-        MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
-      }
-      break;
-
     case 'cust_order' :
       if (isset($_SESSION['customer_id']) && isset($_GET['pid'])) {
         if (oos_has_product_attributes($_GET['pid'])) {
