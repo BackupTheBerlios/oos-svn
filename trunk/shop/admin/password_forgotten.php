@@ -22,10 +22,6 @@
 define('OOS_VALID_MOD', 'yes');
 require 'includes/oos_main.php';
 
-if (!isset($_SESSION['login_id'])) {
-    oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
-}
-
 
   if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
     $log_times = $_POST['log_times']+1;

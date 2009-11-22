@@ -41,7 +41,6 @@
 
     $aFilename = oos_get_filename();
 
- else {
       $filename = basename($_SERVER['PHP_SELF']);;
       $page_key = array_search($filename, $aFilename);
 
