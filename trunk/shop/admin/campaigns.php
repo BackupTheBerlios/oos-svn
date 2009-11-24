@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -26,6 +26,8 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('campaigns.php') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
  /**
   * Return Campaigns Name

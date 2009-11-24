@@ -27,6 +27,8 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('popup_image_product') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">

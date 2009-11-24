@@ -51,7 +51,6 @@ $aPages['popup_coupon_help'] = $prefix_filename . 'popup_coupon_help';
 
 $aPages['info_down_for_maintenance'] = $prefix_filename . 'info_down_for_maintenance';
 $aPages['info_max_order'] = $prefix_filename . 'info_max_order';
-$aPages['info_newsfeed'] = $prefix_filename . 'info_newsfeed';
 $aPages['info_sitemap'] = $prefix_filename . 'sitemap';
 $aPages['info_vcard'] = $prefix_filename . 'vcard';
 $aPages['information'] = $prefix_filename . 'information';
@@ -82,7 +81,6 @@ $aPages['subscription_center'] = $prefix_filename . 'subscription_center';
 $aPages['cross_sell'] = $prefix_filename . 'cross_sell';
 $aPages['product_info'] = $prefix_filename . 'product_info';
 $aPages['products_new'] = $prefix_filename . 'products_new';
-$aPages['products_rss'] = $prefix_filename . 'products_rss';
 $aPages['product_zoom'] = $prefix_filename . 'product_zoom';
 $aPages['product_movie'] = $prefix_filename . 'movie';
 $aPages['specials'] = $prefix_filename . 'specials';

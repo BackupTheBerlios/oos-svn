@@ -26,6 +26,10 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('admin_members') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
+
+
 
   $current_boxes = OOS_ABSOLUTE_PATH . 'admin/includes/boxes/';
   $action = (isset($_GET['action']) ? $_GET['action'] : '');

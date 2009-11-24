@@ -22,9 +22,12 @@
 define('OOS_VALID_MOD', 'yes');
 require 'includes/oos_main.php';
 
-if (!isset($_SESSION['login_id'])) {
+if (!isset($_SESSION['login_id']))
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
-}
+
+
+if ( !current_user_can('default') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
 
   $cat = array(array('title' => BOX_HEADING_MY_ACCOUNT,

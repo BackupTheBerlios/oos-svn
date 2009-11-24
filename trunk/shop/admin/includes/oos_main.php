@@ -234,8 +234,3 @@ require 'includes/functions/function_ticket.php';
 require 'includes/functions/function_added.php';
 
 
-if (basename($_SERVER['PHP_SELF']) != $aFilename['login']
-   && basename($_SERVER['PHP_SELF']) != $aFilename['password_forgotten']) {
-    oos_admin_check_login();
-}
-

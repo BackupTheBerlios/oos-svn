@@ -17,6 +17,8 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('import_excel') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
   if (!defined('OOS_UPDATE_PATH')) {
     define('OOS_UPDATE_PATH', OOS_EXPORT_PATH );

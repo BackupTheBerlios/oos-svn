@@ -58,6 +58,8 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('manual_loging') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
   function oos_set_login_status($man_info_id, $status) {
 

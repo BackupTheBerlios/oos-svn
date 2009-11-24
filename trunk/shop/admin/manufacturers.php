@@ -26,6 +26,8 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('manufacturers') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
 function oos_get_manufacturer_url($manufacturer_id, $lang_id = '') {
 

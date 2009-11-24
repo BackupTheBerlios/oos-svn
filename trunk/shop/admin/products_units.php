@@ -27,6 +27,10 @@ if (!isset($_SESSION['login_id'])) {
 }
 
 
+if ( !current_user_can('products_units') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
+
+
  /**
   * Return Orders Status Name
   *

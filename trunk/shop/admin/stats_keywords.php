@@ -28,6 +28,9 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('stats_keywords') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
+
 
   if (isset($_GET['txtWord']) && $_GET['txtWord'] != '' && isset($_GET['txtReplacement']) && $_GET['txtReplacement'] != '' && !isset($_GET['updateword'])){
     $searchword_swaptable = $oostable['searchword_swap'];

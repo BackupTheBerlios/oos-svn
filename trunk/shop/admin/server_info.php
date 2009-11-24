@@ -27,6 +27,8 @@ if (!isset($_SESSION['login_id'])) {
 }
 
 
+if ( !current_user_can('server_info') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
  /**
   * Retreive server information

@@ -131,6 +131,15 @@ $aKeys = array('affiliate',
                'translate_google');
 $db->Execute("DELETE FROM " . $table . " WHERE block_file in ('" . implode("', '", $aKeys) . "')");
 
+// index.php
+$result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('default', 0, 0, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
+$result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('admin_account', 0, 0, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
+$result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('popup_image', 0, 0, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
+$result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('popup_image_product', 0, 0, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
+$result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('popup_subimage_product', 0, 0, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
+$result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('packingslip', 0, 0, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
+$result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('invoice', 0, 0, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
+$result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('edit_orders', 0, 0, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");
 
 // products_edit_attributes.php
 $result = $db->Execute("INSERT INTO " . $prefix_table . "admin_files (admin_files_name, admin_files_is_boxes, admin_files_to_boxes, admin_groups_id) VALUES ('products_edit_attributes', 0, 3, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "admin_files</b>");

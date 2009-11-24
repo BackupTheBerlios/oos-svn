@@ -27,6 +27,9 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('products_attributes') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
+    
   require 'includes/functions/function_products_attributes.php';
 
   $languages = oos_get_languages();

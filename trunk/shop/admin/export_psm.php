@@ -24,10 +24,12 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('export_psm') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
-  if (!defined('OOS_PSM_PATH')) {
+if ( !defined('OOS_PSM_PATH') )
     define('OOS_PSM_PATH', OOS_ABSOLUTE_PATH . OOS_PSM_DIR);
-  }
+    
 
   require 'includes/classes/class_currencies.php';
   $currencies = new currencies();

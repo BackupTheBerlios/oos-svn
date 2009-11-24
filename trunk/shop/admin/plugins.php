@@ -26,6 +26,9 @@ if (!isset($_SESSION['login_id'])) {
     oos_redirect_admin(oos_href_link_admin($aFilename['login'], '', 'SSL'));
 }
 
+if ( !current_user_can('plugins') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
+
   require 'includes/functions/function_modules.php';
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');

@@ -19,45 +19,54 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  /** ensure this file is being included by a parent file */
-  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+/** ensure this file is being included by a parent file */
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
- /**
-  * Admin Kernel
-  *
-  * @link http://www.oos-shop.de/
-  * @package Admin Kernel
-  * @author r23 <info@r23.de>
-  * @copyright 2003 r23
-  * @version $Revision: 1.67 $ - changed by $Author: r23 $ on $Date: 2009/10/28 17:42:07 $
-  */
+/**
+ * Admin Kernel
+ *
+ * @link http://www.oos-shop.de/
+ * @package Admin Kernel
+ * @author r23 <info@r23.de>
+ * @copyright 2003 r23
+ * @version $Revision: 1.67 $ - changed by $Author: r23 $ on $Date: 2009/10/28 17:42:07 $
+ */
 
+/**
+ * Whether current user has capability or role.
+ *
+ * @since 2.0.0
+ *
+ * @param string $capability Capability or role name.
+ * @return bool
+ */
+function current_user_can( $page_key ) {
 
-  function oos_admin_check_login() {
+    if ( empty( $page_key ) )
+		    return false;
+
+    if ( !isset( $_SESSION['login_groups_id'] ) )
+        return false;
 
     // Get database information
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
 
-    $aFilename = oos_get_filename();
+    $admin_filestable = $oostable['admin_files'];
+    $query = "SELECT admin_files_name
+                FROM $admin_filestable
+               WHERE FIND_IN_SET( '" . intval($_SESSION['login_groups_id']) . "', admin_groups_id)
+                 AND admin_files_name = '" .  oos_db_input($page_key) . "'";
+    $result =& $dbconn->Execute($query);
+    $bReturnValue = false;
+    if ( $result->RecordCount() )
+      $bReturnValue = true;
 
-      $filename = basename($_SERVER['PHP_SELF']);;
-      $page_key = array_search($filename, $aFilename);
+    // Close result set
+    $result->Close();
 
-      if ($filename != $aFilename['default'] && $filename != $aFilename['forbiden'] && $filename != $aFilename['logoff'] && $filename != $aFilename['admin_account']  && $filename != $aFilename['popup_image'] && $filename != $aFilename['packingslip'] && $filename != $aFilename['popup_image_product']  && $filename != $aFilename['popup_image_news'] && $filename != $aFilename['popup_subimage_product'] && $filename != $aFilename['invoice'] && $filename != $aFilename['edit_orders']) {
-        $admin_filestable = $oostable['admin_files'];
-        $query = "SELECT admin_files_name
-                  FROM $admin_filestable
-                  WHERE FIND_IN_SET( '" . $_SESSION['login_groups_id'] . "', admin_groups_id)
-                    AND admin_files_name = '" . $page_key . "'";
-        $result =& $dbconn->Execute($query);
-
-        if (!$result->RecordCount()) {
-          oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
-        }
-      }
-    }
-  }
+    return $bReturnValue;
+}
 
   function oos_admin_check_boxes($filename, $boxes='') {
 
@@ -73,9 +82,9 @@
     $admin_filestable = $oostable['admin_files'];
     $query = "SELECT admin_files_id
               FROM $admin_filestable
-              WHERE FIND_IN_SET( '" . $_SESSION['login_groups_id'] . "', admin_groups_id)
-                AND admin_files_is_boxes = '" . $is_boxes . "'
-                AND admin_files_name = '" . $filename . "'";
+              WHERE FIND_IN_SET( '" . intval($_SESSION['login_groups_id']) . "', admin_groups_id)
+                AND admin_files_is_boxes = '" . oos_db_input($is_boxes) . "'
+                AND admin_files_name = '" . oos_db_input($filename) . "'";
     $result =& $dbconn->Execute($query);
 
     $return_value = false;

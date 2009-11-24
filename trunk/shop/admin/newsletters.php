@@ -27,6 +27,9 @@ if (!isset($_SESSION['login_id'])) {
 }
 
 
+if ( !current_user_can('newsletters') )
+    oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
+
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (!empty($action)) {
