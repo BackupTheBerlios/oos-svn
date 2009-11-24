@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -215,67 +215,6 @@ if (!isset($_SESSION['login_id'])) {
 
           // Move that ADOdb pointer!
           $manufacturers_result->MoveNext();
-        }
-        // newsfeed_categories
-        $newsfeed_categories_result = $dbconn->Execute("SELECT newsfeed_categories_id, newsfeed_categories_name
-                                                   FROM " . $oostable['newsfeed_categories'] . "
-                                                   WHERE newsfeed_categories_languages_id = '" . intval($_SESSION['language_id']) . "'");
-        while ($newsfeed_categories = $newsfeed_categories_result->fields) {
-          $dbconn->Execute("INSERT INTO " . $oostable['newsfeed_categories'] . "
-                        (newsfeed_categories_id,
-                         newsfeed_categories_languages_id,
-                         newsfeed_categories_name)
-                         VALUES ('" . $newsfeed_categories['newsfeed_categories_id'] . "',
-                                 '" . intval($insert_id) . "',
-                                 '" . oos_db_input($newsfeed_categories['newsfeed_categories_name']) . "')");
-
-          // Move that ADOdb pointer!
-          $newsfeed_categories_result->MoveNext();
-        }
-        // newsfeed_info
-       $newsfeed_result = $dbconn->Execute("SELECT n.newsfeed_id, ni.newsfeed_name, ni.newsfeed_title,
-                                               ni.newsfeed_description
-                                        FROM " . $oostable['newsfeed'] . " n LEFT JOIN
-                                             " . $oostable['newsfeed_info'] . " ni
-                                            ON n.newsfeed_id = ni.newsfeed_id
-                                        WHERE ni.newsfeed_languages_id = '" . intval($_SESSION['language_id']) . "'");
-        while ($newsfeed = $newsfeed_result->fields) {
-          $dbconn->Execute("INSERT INTO " . $oostable['newsfeed_info'] . "
-                      (newsfeed_id,
-                       newsfeed_name,
-                       newsfeed_title,
-                       newsfeed_description,
-                       newsfeed_languages_id)
-                       VALUES ('" . $newsfeed['newsfeed_id'] . "',
-                               '" . $newsfeed['newsfeed_name'] . "',
-                               '" . $newsfeed['newsfeed_title'] . "',
-                               '" . $newsfeed['newsfeed_description'] . "',
-                               '" . intval($insert_id) . "')");
-
-          // Move that ADOdb pointer!
-          $newsfeed_result->MoveNext();
-        }
-        // create additional news_categories_description records
-        $news_categories_result = $dbconn->Execute("SELECT n.news_categories_id, nd.news_categories_name, nd.news_categories_heading_title, nd.news_categories_description
-                                          FROM " . $oostable['news_categories'] . " n LEFT JOIN
-                                               " . $oostable['news_categories_description'] . " nd
-                                              ON n.news_categories_id = nd.news_categories_id
-                                          WHERE nd.news_categories_languages_id = '" . intval($_SESSION['language_id']) . "'");
-        while ($categories = $news_categories_result->fields) {
-          $dbconn->Execute("INSERT INTO " . $oostable['news_categories_description'] . "
-                      (news_categories_id,
-                       news_categories_languages_id,
-                       news_categories_name,
-                       news_categories_heading_title,
-                       news_categories_description)
-                       VALUES ('" . $categories['news_categories_id'] . "',
-                               '" . intval($insert_id) . "',
-                               '" . oos_db_input($categories['news_categories_name']) . "',
-                               '" . oos_db_input($categories['news_categories_heading_title']) . "',
-                               '" . oos_db_input($categories['news_categories_description']) . "')");
-
-          // Move that ADOdb pointer!
-          $news_categories_result->MoveNext();
         }
 
         // orders_status
@@ -531,9 +470,6 @@ if (!isset($_SESSION['login_id'])) {
         $dbconn->Execute("DELETE FROM " . $oostable['customers_status']  . " WHERE customers_status_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['information_description']  . " WHERE information_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['manufacturers_info'] . " WHERE manufacturers_languages_id = '" . intval($lID) . "'");
-        $dbconn->Execute("DELETE FROM " . $oostable['newsfeed_categories'] . " WHERE newsfeed_categories_languages_id = '" . intval($lID) . "'");
-        $dbconn->Execute("DELETE FROM " . $oostable['newsfeed_info'] . " WHERE newsfeed_languages_id = '" . intval($lID) . "'");
-        $dbconn->Execute("DELETE FROM " . $oostable['news_categories_description'] . " WHERE news_categories_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['orders_status'] . " WHERE orders_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['page_type'] . " WHERE page_type_languages_id = '" . intval($lID) . "'");
         $dbconn->Execute("DELETE FROM " . $oostable['products_description'] . " WHERE products_languages_id = '" . intval($lID) . "'");

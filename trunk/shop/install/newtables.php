@@ -725,81 +725,6 @@ $flds = "
 dosql($table, $flds);
 
 
-$table = $prefix_table . 'newsfeed';
-$flds = "
-  newsfeed_id I NOTNULL AUTO PRIMARY,
-  newsfeed_image C(64),
-  newsfeed_type C(64),
-  date_added T,
-  last_modified T
-";
-dosql($table, $flds);
-
-
-$table = $prefix_table . 'newsfeed_categories';
-$flds = "
-   newsfeed_categories_id I DEFAULT '0' NOTNULL PRIMARY,
-   newsfeed_categories_languages_id I NOTNULL DEFAULT '1' PRIMARY,
-   newsfeed_categories_name C(32) NOTNULL
-";
-dosql($table, $flds);
-
-
-$idxname = 'idx_newsfeed_categories';
-$idxflds = 'newsfeed_categories_name';
-idxsql($idxname, $table, $idxflds);
-
-
-
-$table = $prefix_table . 'newsfeed_info';
-$flds = "
-  newsfeed_id I NOTNULL PRIMARY,
-  newsfeed_name C(32) NOTNULL,
-  newsfeed_title C(200) NOTNULL,
-  newsfeed_description C(200) NOTNULL,
-  newsfeed_languages_id I NOTNULL DEFAULT '1' PRIMARY,
-  newsfeed_viewed I2 DEFAULT '0'
-";
-dosql($table, $flds);
-
-$idxname = 'idx_newsfeed_name';
-$idxflds = 'newsfeed_name';
-idxsql($idxname, $table, $idxflds);
-
-$idxname = 'idx_newsfeed_title';
-$idxflds = 'newsfeed_title';
-idxsql($idxname, $table, $idxflds);
-
-$idxname = 'idx_newsfeed_description';
-$idxflds = 'newsfeed_description';
-idxsql($idxname, $table, $idxflds);
-
-
-$table = $prefix_table . 'newsfeed_manager';
-$flds = "
-  newsfeed_manager_id I NOTNULL AUTO PRIMARY,
-  newsfeed_categories_id I DEFAULT '0',
-  newsfeed_manager_name C(55) NOTNULL,
-  newsfeed_manager_link C(255) NOTNULL,
-  newsfeed_manager_languages_id I NOTNULL DEFAULT '1' PRIMARY,
-  newsfeed_manager_numarticles I2 NOTNULL DEFAULT '1',
-  newsfeed_manager_refresh N '5' DEFAULT '3600',
-  newsfeed_manager_status I1 DEFAULT '0',
-  newsfeed_manager_date_added T,
-  newsfeed_manager_last_modified T,
-  newsfeed_manager_sort_order I1 DEFAULT '0'
-";
-dosql($table, $flds);
-
-$idxname = 'idx_newsfeed_manager_name';
-$idxflds = 'newsfeed_manager_name';
-idxsql($idxname, $table, $idxflds);
-
-$idxname = 'idx_newsfeed_manager_link';
-$idxflds = 'newsfeed_manager_link';
-idxsql($idxname, $table, $idxflds);
-
-
 
 
 $table = $prefix_table . 'orders';
@@ -1060,16 +985,6 @@ dosql($table, $flds);
 $idxname = 'idx_products_name';
 $idxflds = 'products_name';
 idxsql($idxname, $table, $idxflds);
-
-
-
-$table = $prefix_table . 'products_notifications';
-$flds = "
-  products_id I NOTNULL PRIMARY,
-  customers_id I NOTNULL PRIMARY,
-  date_added T
-";
-dosql($table, $flds);
 
 
 

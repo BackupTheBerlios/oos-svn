@@ -35,9 +35,6 @@ if (oos_admin_check_boxes('catalog.php') == true) {
 if (oos_admin_check_boxes('content.php') == true) {
     include 'includes/boxes/content.php';
 }
-if (oos_admin_check_boxes('newsfeed.php') == true) {
-    include 'includes/boxes/newsfeed.php';
-}
 if (oos_admin_check_boxes('modules.php') == true) {
     include 'includes/boxes/modules.php';
 }
@@ -67,9 +64,7 @@ if (oos_admin_check_boxes('tools.php') == true) {
 if (oos_admin_check_boxes('gv_admin.php') == true) {
     include 'includes/boxes/gv_admin.php';
 }
-if ( (oos_admin_check_boxes('rss_admin.php') == true)  && (DISPLAY_NEWSFEED == '1') ) {
-    include 'includes/boxes/rss_admin.php';
-}
+
 if (oos_admin_check_boxes('export.php') == true) {
     include 'includes/boxes/export.php';
 }
