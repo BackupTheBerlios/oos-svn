@@ -28,24 +28,24 @@ if (!defined('OOS_BASE_PRICE')) {
     define('OOS_BASE_PRICE', '0');
 }
 
-if (isset($_GET['products_id'])) {
+if ( isset( $_GET['products_id'] ) ) 
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
-}
+
+
+if ( empty( $nProductsId ) || !is_numeric( $nProductsId ) )
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+
+
+if ( empty( $nLanguageID ) || !is_numeric( $nLanguageID ) ) 
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+
+
+if ( empty( $nGroupID ) || !is_numeric( $nGroupID ) ) 
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+
 
 require 'includes/languages/' . $sLanguage . '/products_info.php';
 
-
-if ( empty( $nProductsId ) || !is_numeric( $nProductsId ) ) {
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
-}
-
-if ( empty( $nLanguageID ) || !is_numeric( $nLanguageID ) ) {
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
-}
-
-if ( empty( $nGroupID ) || !is_numeric( $nGroupID ) ) {
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
-}
 
 $productstable = $oostable['products'];
 $products_descriptiontable = $oostable['products_description'];
@@ -111,7 +111,7 @@ if (!$product_info_result->RecordCount()) {
 
     $product_info = $product_info_result->fields;
 
-    if ( (!oos_is_not_null($product_info['products_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
+    if ( (empty($product_info['products_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
         $product_description = oos_get_product_description($nProductsId);
         $product_info = array_merge($product_info, $product_description);
     }
@@ -163,8 +163,8 @@ if (!$product_info_result->RecordCount()) {
     }
 
     $sTemplateMain = $sTheme . '/products/product_info.html';
-	if (!empty($product_info['products_template']) and $product_info['products_template'] != 'default') {
-	    $sTemplateMain = 'default/product_info/' . $product_info['products_template'];
+	  if (!empty($product_info['products_template']) and $product_info['products_template'] != 'default') {
+	      $sTemplateMain = 'default/product_info/' . $product_info['products_template'];
     }
 
     $aOption['head_jquery'] = 'jquery/product_info.tpl';
