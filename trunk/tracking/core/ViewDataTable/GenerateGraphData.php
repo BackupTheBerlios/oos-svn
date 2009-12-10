@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GenerateGraphData.php 1564 2009-11-04 03:35:44Z vipsoft $
+ * @version $Id: GenerateGraphData.php 1660 2009-12-10 06:48:47Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -87,7 +87,10 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 		}
 		$this->mainAlreadyExecuted = true;
 
-		@header( "Content-type: application/json" );
+		if (!Zend_Registry::get('config')->General->serve_widget_and_data)
+		{
+			@header( "Content-type: application/json" );
+		}
 
 		// the queued filters will be manually applied later. This is to ensure that filtering using search
 		// will be done on the table before the labels are enhanced (see ReplaceColumnNames)

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1633 2009-12-08 22:53:17Z matt $
+ * @version $Id: API.php 1658 2009-12-10 01:34:52Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -132,7 +132,7 @@ class Piwik_Live_API
 			$sql = "SELECT DISTINCT`" .Piwik::prefixTable('log_action')."`.`name` AS pageUrl
 				FROM `" .Piwik::prefixTable('log_visit')."`
 					INNER JOIN `" .Piwik::prefixTable('log_link_visit_action')."` ON `" .Piwik::prefixTable('log_visit')."`.`idvisit` =  `" .Piwik::prefixTable('log_link_visit_action')."`.`idvisit`
-					INNER JOIN `" .Piwik::prefixTable('log_action')."` ON  `" .Piwik::prefixTable('log_link_visit_action')."`.`idaction` = `" .Piwik::prefixTable('log_action')."`.`idaction`
+					INNER JOIN `" .Piwik::prefixTable('log_action')."` ON  `" .Piwik::prefixTable('log_link_visit_action')."`.`idaction_url` = `" .Piwik::prefixTable('log_action')."`.`idaction`
 				WHERE `" .Piwik::prefixTable('log_visit')."`.`idvisit` = $idvisit;
 				 ";
 			
@@ -436,9 +436,9 @@ class Piwik_Live_API
 			$sqlWhere = " WHERE " . join(' AND ', $where);
 		}
 		
-		$sql = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".`idaction`," . Piwik::prefixTable('log_action') . ".`idaction`, " . Piwik::prefixTable('log_action') . ".`name` , " . Piwik::prefixTable('log_visit') . ".*
+		$sql = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".`idaction_url`," . Piwik::prefixTable('log_action') . ".`idaction`, " . Piwik::prefixTable('log_action') . ".`name` , " . Piwik::prefixTable('log_visit') . ".*
 				FROM " . Piwik::prefixTable('log_link_visit_action') . "
-				INNER JOIN " . Piwik::prefixTable('log_action') . " ON " . Piwik::prefixTable('log_link_visit_action') . ".`idaction`= " . Piwik::prefixTable('log_action') . ".`idaction` 
+				INNER JOIN " . Piwik::prefixTable('log_action') . " ON " . Piwik::prefixTable('log_link_visit_action') . ".`idaction_url`= " . Piwik::prefixTable('log_action') . ".`idaction` 
 				INNER JOIN " . Piwik::prefixTable('log_visit') . " ON " . Piwik::prefixTable('log_visit') . ".`idvisit` = " . Piwik::prefixTable('log_link_visit_action') . ".`idvisit`
 				$sqlWhere";
 		return Piwik_FetchAll($sql, $whereBind);
@@ -477,9 +477,9 @@ class Piwik_Live_API
 			$sqlWhere = " WHERE " . join(' AND ', $where);
 		}
 		
-		$sql = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".`idaction`, " . Piwik::prefixTable('log_action') . ".`idaction`, " . Piwik::prefixTable('log_action') . ".`name` , " . Piwik::prefixTable('log_link_visit_action') . ".*
+		$sql = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".`idaction_url`, " . Piwik::prefixTable('log_action') . ".`idaction`, " . Piwik::prefixTable('log_action') . ".`name` , " . Piwik::prefixTable('log_link_visit_action') . ".*
 				FROM " . Piwik::prefixTable('log_link_visit_action') . "
-				INNER JOIN " . Piwik::prefixTable('log_action') . " ON " . Piwik::prefixTable('log_link_visit_action') . ".`idaction`= " . Piwik::prefixTable('log_action') . ".`idaction` 
+				INNER JOIN " . Piwik::prefixTable('log_action') . " ON " . Piwik::prefixTable('log_link_visit_action') . ".`idaction_url`= " . Piwik::prefixTable('log_action') . ".`idaction` 
 				INNER JOIN " . Piwik::prefixTable('log_visit') . " ON " . Piwik::prefixTable('log_visit') . ".idvisit=" . Piwik::prefixTable('log_link_visit_action') . ".idvisit
 				$sqlWhere";
 
