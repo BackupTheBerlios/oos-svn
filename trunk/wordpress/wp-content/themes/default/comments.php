@@ -77,6 +77,20 @@
 <p><input type="text" name="url" id="url" value="<?php echo  esc_attr($comment_author_url); ?>" size="22" tabindex="3" />
 <label for="url"><small><?php _e('Website', 'kubrick'); ?></small></label></p>
 
+<?php
+/****** Math Comment Spam Protection Plugin ******/
+if ( function_exists('math_comment_spam_protection') ) {
+    $mcsp_info = math_comment_spam_protection();
+
+// Todo: l10n 
+?>
+<p><input type="text" name="mcspvalue" id="mcspvalue" value="" size="22" tabindex="4" />
+<label for="mcspvalue"><small>Summe von <?php echo $mcsp_info['operand1'] . ' + ' . $mcsp_info['operand2'] . '' ?></small></label>
+<input type="hidden" name="mcspinfo" value="<?php echo $mcsp_info['result']; ?>" /></p>
+<?php } ?>
+
+
+
 <?php endif; ?>
 
 <!--<p><small><?php printf(__('<strong>XHTML:</strong> You can use these tags: <code>%s</code>', 'kubrick'), allowed_tags()); ?></small></p>-->
