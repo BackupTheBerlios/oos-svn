@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleAPI.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: ExampleAPI.php 1691 2009-12-14 15:57:40Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleAPI
@@ -25,9 +25,10 @@ class Piwik_ExampleAPI extends Piwik_Plugin
 	{
 		return array(
 			'name' => 'Example API',
-			'description' => 'Example Plugin: How to create an API for your plugin, to export your data in multiple formats without any special coding? Visit the <a href="index.php?module=API&action=listAllAPI#ExampleAPI">ExampleAPI example methods</a>.',
+			'description' => 'Example Plugin: How to create an API for your plugin, to export your data in multiple formats without any special coding?',
+			'homepage' => 'index.php?module=API&action=listAllAPI#ExampleAPI',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}

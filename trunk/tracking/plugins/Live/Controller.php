@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1621 2009-12-03 02:50:14Z vipsoft $
+ * @version $Id: Controller.php 1681 2009-12-13 19:19:07Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -26,11 +26,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 	function index()
 	{
-		$view = Piwik_View::factory('index');
-		$this->setGeneralVariablesView($view);
-		$view->visitors = $this->getLastVisitsStart(true);
-		
-		echo $view->render();
+		$this->widget(true);
 	}	
 	
 	public function widget($fetch = false)
@@ -53,8 +49,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 							__FUNCTION__, 
 						'Live.getLastVisitsDetails',
 						'getPagesFromVisitId');											
-
-		
 // All colomns in DB which could be shown
 //'ip', 'idVisit', 'countActions', 'isVisitorReturning', 'country', 'countryFlag', 'continent', 'provider', 'providerUrl', 'idSite', 
 //'serverDate', 'visitLength', 'visitLengthPretty', 'firstActionTimestamp', 'lastActionTimestamp', 'refererType', 'refererName', 	
@@ -62,9 +56,40 @@ class Piwik_Live_Controller extends Piwik_Controller
 //'browserFamily', 'browserFamilyDescription', 'browser', 'browserIcon', 'screen', 'resolution', 'screenIcon', 'plugins', 'lastActionDateTime',
 //'serverDatePretty', 'serverTimePretty', 'actionDetails'
 		
-		$view->setColumnsToDisplay( array('label', 'idVisit', 'serverDatePretty', 'serverTimePretty', 'ip', 'countActions', 'visitLengthPretty', 'keywords', 'refererUrl',  
-											'operatingSystemShortName', 'browser', 'screen', 'resolution', 'plugins'
-											) );
+		$view->setColumnsToDisplay(array(
+//			'label',
+			'idVisit',
+			'serverDatePretty',
+			'serverTimePretty',
+			'ip',
+			'countActions',
+			'visitLengthPretty',
+			'keywords',
+			'refererUrl',
+			'operatingSystemShortName',
+			'browser',
+			'screen',
+			'resolution',
+			'plugins',
+		));
+
+		$view->setColumnsTranslations(array(
+//			'label' => Piwik_Translate('translation'),
+			'idVisit' => Piwik_Translate(''),
+			'serverDatePretty' => Piwik_Translate('Live_Date'),
+			'serverTimePretty' => Piwik_Translate('Live_Time'),
+			'ip' => 'IP', 
+			'countActions' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'),
+			'visitLengthPretty' => Piwik_Translate('VisitorInterest_ColumnVisitDuration'),
+			'keywords' => Piwik_Translate('Referers_ColumnKeyword'),
+			'refererUrl' => Piwik_Translate('Live_Referrer_URL'),
+			'operatingSystemShortName' => Piwik_Translate('UserSettings_ColumnOperatingSystem'),
+			'browser' => Piwik_Translate('UserSettings_ColumnBrowser'),
+			'screen' => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
+			'resolution' => Piwik_Translate('UserSettings_ColumnResolution'),
+			'plugins' => Piwik_Translate('UserSettings_ColumnPlugin'),
+		));
+
 		$view->disableSort();
 		$view->setLimit(10);
 		$view->disableExcludeLowPopulation();		
@@ -72,8 +97,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 		return $this->renderView($view, $fetch);
 	}
-	
-	
+
 	function getPagesFromVisitId( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory('');
@@ -151,5 +175,4 @@ class Piwik_Live_Controller extends Piwik_Controller
 		
 		echo $view->render();		
 	}	
-	
 }

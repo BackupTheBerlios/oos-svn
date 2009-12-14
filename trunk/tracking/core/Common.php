@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Common.php 1479 2009-09-22 21:43:27Z vipsoft $
+ * @version $Id: Common.php 1682 2009-12-13 21:25:01Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -508,6 +508,30 @@ class Piwik_Common
 	}
 
 	/**
+	 * Unserialize (serialized) array
+	 *
+	 * @param string
+	 * @return array or original string if not unserializable
+	 */
+	public static function unserialize_array( $str )
+	{
+		// we set the unserialized version only for arrays as you can have set a serialized string on purpose
+		if (preg_match('/^a:[0-9]+:{/', $str)
+			&& !preg_match('/(^|;|{|})O:[0-9]+:"/', $str)
+			&& strpos($str, "\0") === false)
+		{
+			if( ($arrayValue = @unserialize($str)) !== false
+				&& is_array($arrayValue) )
+			{
+				return $arrayValue;
+			}
+		}
+
+		// return original string
+		return $str;
+	}
+
+	/**
 	 * Returns a 32 characters long uniq ID
 	 *
 	 * @return string 32 chars
@@ -515,6 +539,32 @@ class Piwik_Common
 	static public function generateUniqId()
 	{
 		return md5(uniqid(rand(), true));
+	}
+
+	/**
+	 * Get salt from [superuser] section
+	 *
+	 * @return string
+	 */
+	static public function getSalt()
+	{
+		static $salt = null;
+		if(is_null($salt))
+		{
+			if(defined('PIWIK_TRACKER_MODE') && PIWIK_TRACKER_MODE)
+			{
+				$salt = Piwik_Tracker_Config::getInstance()->superuser['salt'];
+			}
+			else
+			{
+				$config = Zend_Registry::get('config');
+				if($config !== false)
+				{
+					$salt = $config->superuser->salt;
+				}
+			}
+		}
+		return $salt;
 	}
 
 	/**

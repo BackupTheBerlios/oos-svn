@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: WidgetsList.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: WidgetsList.php 1683 2009-12-13 21:51:55Z matt $
  * 
  * @category Piwik
  * @package PluginsFunctions
@@ -16,10 +16,15 @@
 class Piwik_WidgetsList
 {
 	static protected $widgets = null;
+	static protected $hookCalled = false;
 	
 	static function get()
 	{
-		Piwik_PostEvent('WidgetsList.add');
+		if(!self::$hookCalled)
+		{
+			self::$hookCalled = true;
+			Piwik_PostEvent('WidgetsList.add');
+		}
 		return self::$widgets;
 	}
 	
@@ -36,6 +41,23 @@ class Piwik_WidgetsList
 										) + $customParameters
 									);
 	}
+	
+	static function isDefined($controllerName, $controllerAction)
+	{
+		$widgetsList = self::get();
+		foreach($widgetsList as $widgetCategory => $widgets) 
+		{
+			foreach($widgets as $widget)
+			{
+    			if($widget['parameters']['module'] == $controllerName
+    				&& $widget['parameters']['action'] == $controllerAction)
+    			{
+    				return true;
+    			}
+			}
+		}
+		return false;
+	}
 }
 
 function Piwik_GetWidgetsList()
@@ -46,4 +68,9 @@ function Piwik_GetWidgetsList()
 function Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
 {
 	Piwik_WidgetsList::add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters);
+}
+
+function Piwik_IsWidgetDefined($controllerName, $controllerAction)
+{
+	return Piwik_WidgetsList::isDefined($controllerName, $controllerAction);
 }

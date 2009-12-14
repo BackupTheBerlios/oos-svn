@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Controller.php 1681 2009-12-13 19:19:07Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
@@ -58,7 +58,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										__FUNCTION__, 
 										'UserSettings.getOS'
 									);
-		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnOperatinsSystem'));
+		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnOperatingSystem'));
 		return $this->renderView($view, $fetch);
 	}
 	

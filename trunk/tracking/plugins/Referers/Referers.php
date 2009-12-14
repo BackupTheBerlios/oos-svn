@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Referers.php 1628 2009-12-08 16:21:47Z vipsoft $
+ * @version $Id: Referers.php 1665 2009-12-11 21:25:57Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -26,7 +26,7 @@ class Piwik_Referers extends Piwik_Plugin
 			'name' => 'Referers',
 			'description' => 'Reports the Referers data: Search Engines, Keywords, Websites, Campaign Tracking, Direct Entry. ',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 		

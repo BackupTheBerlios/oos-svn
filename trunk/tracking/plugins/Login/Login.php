@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Login.php 1628 2009-12-08 16:21:47Z vipsoft $
+ * @version $Id: Login.php 1665 2009-12-11 21:25:57Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -22,7 +22,7 @@ class Piwik_Login extends Piwik_Plugin
 			'name' => 'Login',
 			'description' => 'Login Authentication plugin, reading the credentials from the config/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 		return $info;

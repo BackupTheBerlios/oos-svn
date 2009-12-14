@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UpdateCheck.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: UpdateCheck.php 1682 2009-12-13 21:25:01Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -46,6 +46,7 @@ class Piwik_UpdateCheck
 				Piwik_SetOption(self::LATEST_VERSION, $latestVersion);
 			} catch(Exception $e) {
 				// e.g., disable_functions = fsockopen; allow_url_open = Off
+				Piwik_SetOption(self::LATEST_VERSION, '');
 			}
 			Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoload = 1);
 		}

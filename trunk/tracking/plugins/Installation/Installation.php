@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Installation.php 1628 2009-12-08 16:21:47Z vipsoft $
+ * @version $Id: Installation.php 1665 2009-12-11 21:25:57Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -24,7 +24,7 @@ class Piwik_Installation extends Piwik_Plugin
 			'name' => 'Installation',
 			'description' => 'Installation process of Piwik. The Installation is usually done once only. If the configuration file config/config.inc.php is deleted, the installation will start again.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
 		);
 		

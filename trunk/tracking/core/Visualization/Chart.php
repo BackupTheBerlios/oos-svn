@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Chart.php 1431 2009-08-23 14:27:44Z vipsoft $
+ * @version $Id: Chart.php 1702 2009-12-14 18:51:37Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -128,8 +128,11 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	
 	public function render()
 	{
-		@header("Pragma: ");
-		@header("Cache-Control: no-store, must-revalidate");
+		if(Piwik_Url::getCurrentScheme() == 'https')
+		{
+    		@header("Pragma: ");
+    		@header("Cache-Control: must-revalidate");
+		}
 		return $this->chart->toPrettyString();
 	}
 	

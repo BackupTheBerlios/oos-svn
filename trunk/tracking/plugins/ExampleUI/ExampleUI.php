@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleUI.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: ExampleUI.php 1665 2009-12-11 21:25:57Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
@@ -32,7 +32,7 @@ class Piwik_ExampleUI extends Piwik_Plugin
 			'name' => 'Example User Interface',
 			'description' => 'Example Plugin: This plugin shows how to work with the Piwik UI: create tables, graphs, etc.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}

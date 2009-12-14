@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: index.php 1609 2009-11-26 09:45:59Z vipsoft $
+ * @version $Id: index.php 1676 2009-12-13 06:24:21Z vipsoft $
  * 
  * @package Piwik
  */
@@ -53,6 +53,10 @@ if(ini_get('session.save_handler') == 'user')
 if(ini_get('session.save_handler') == 'files')
 {
 	$sessionPath = ini_get('session.save_path');
+	if(preg_match('/^[0-9]+;(.*)/', $sessionPath, $matches))
+	{
+		$sessionPath = $matches[1];
+	}
 	if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_writable($sessionPath))
 	{
 		$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';

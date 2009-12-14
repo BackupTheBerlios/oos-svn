@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Pgsql.php 1610 2009-11-26 19:39:32Z vipsoft $
+ * @version $Id: Pgsql.php 1670 2009-12-12 01:42:14Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -127,6 +127,10 @@ class Piwik_Db_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_i
 			// MySQL: Duplicate column name '%s'
 			// PostgreSQL: column "%s" of relation "%s" already exists
 			'1060' => '42701',
+
+			// MySQL: Duplicate key name '%s'
+			// PostgreSQL: relation "%s" already exists
+			'1061' => '42P07',
 
 			// MySQL: Duplicate entry '%s' for key '%s'
 			// PostgreSQL: duplicate key violates unique constraint

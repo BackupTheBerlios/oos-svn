@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExamplePlugin.php 1495 2009-10-12 13:54:46Z vipsoft $
+ * @version $Id: ExamplePlugin.php 1665 2009-12-11 21:25:57Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExamplePlugin
@@ -22,7 +22,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 			'name' => 'Example Plugin',
 			'description' => 'Example Plugin: This plugin shows how to create a very simple plugin, that exports two widgets in the Dashboard.',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 			'translationAvailable' => true,
 		);

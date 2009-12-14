@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleFeedburner.php 1609 2009-11-26 09:45:59Z vipsoft $
+ * @version $Id: ExampleFeedburner.php 1665 2009-12-11 21:25:57Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleFeedburner
@@ -22,7 +22,7 @@ class Piwik_ExampleFeedburner extends Piwik_Plugin
 			'name' => 'Example Feedburner',
 			'description' => 'Example Plugin: How to display your Feedburner subscriber in a Widget in the Dashboard?',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GenerateGraphHTML.php 1660 2009-12-10 06:48:47Z vipsoft $
+ * @version $Id: GenerateGraphHTML.php 1662 2009-12-10 21:01:42Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -135,7 +135,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
 		$_GET = $saveGet;
 
-		return str_replace(array("\r", "\n", "'", '\"'), array('', '', "\\'", '\\"'), $content);
+		return str_replace(array("\r", "\n", "'", '\"'), array('', '', "\\'", '\\\"'), $content);
 	}
 
 	protected function getFlashParameters()

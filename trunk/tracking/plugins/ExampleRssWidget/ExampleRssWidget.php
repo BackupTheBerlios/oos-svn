@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleRssWidget.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: ExampleRssWidget.php 1665 2009-12-11 21:25:57Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleRssWidget
@@ -22,7 +22,7 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 			'name' => 'Example Rss Widget',
 			'description' => 'Example Plugin: How to create a new widget that reads a RSS feed?',
 			'author' => 'Piwik',
-			'homepage' => 'http://piwik.org/',
+			'author_homepage' => 'http://piwik.org/',
 			'version' => '0.1',
 		);
 	}

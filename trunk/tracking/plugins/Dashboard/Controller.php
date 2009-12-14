@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1646 2009-12-09 09:15:53Z matt $
+ * @version $Id: Controller.php 1683 2009-12-13 21:51:55Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Dashboard
@@ -21,12 +21,12 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		$view = Piwik_View::factory($template);
 		$this->setGeneralVariablesView($view);
 
+		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		$layout = $this->getLayout();
 		if(empty($layout)) {
 			$layout = $this->getDefaultLayout();
 		}
 		$view->layout = $layout;
-		$view->availableWidgets = json_encode(Piwik_GetWidgetsList());
 		return $view;
 	}
 	
@@ -151,8 +151,9 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 				foreach($row as $widgetId => $widget)
 				{
 					if(isset($widget->parameters->module)) {
-    					$pluginName = $widget->parameters->module;
-    					if(!Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName))
+    					$controllerName = $widget->parameters->module;
+    					$controllerAction = $widget->parameters->action;
+    					if(!Piwik_IsWidgetDefined($controllerName, $controllerAction))
     					{
     						unset($row[$widgetId]);
     					}

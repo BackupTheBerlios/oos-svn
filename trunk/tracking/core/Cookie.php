@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Cookie.php 1637 2009-12-08 23:28:35Z matt $
+ * @version $Id: Cookie.php 1682 2009-12-13 21:25:01Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -162,18 +162,9 @@ class Piwik_Cookie
 			if(!is_numeric($varValue))
 			{
 				$varValue = base64_decode($varValue);
-  				// some of the values may be serialized array so we try to unserialize it
- 				if (preg_match('/^a:[0-9]+:\{/', $varValue)
- 					&& !preg_match('/(^|;|{|})O:[0-9]+:"/', $varValue)
- 					&& strpos($varValue, "\0") === false)
-  				{
- 					// we set the unserialized version only for arrays as you can have set a serialized string on purpose
- 					if( ($arrayValue = @unserialize($varValue)) !== false
- 						&& is_array($arrayValue) )
- 					{
- 						$varValue = $arrayValue;
- 					}
-  				}
+
+				// some of the values may be serialized array so we try to unserialize it
+				$varValue = Piwik_Common::unserialize_array($varValue);
 			}
 			
 			$this->set($varName, $varValue);
