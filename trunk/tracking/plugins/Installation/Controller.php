@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1616 2009-11-30 22:03:09Z vipsoft $
+ * @version $Id: Controller.php 1705 2009-12-14 22:24:19Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -319,6 +319,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 				'login' 		=> $form->getSubmitValue('login'),
 				'password' 		=> md5( $form->getSubmitValue('password') ),
 				'email' 		=> $form->getSubmitValue('email'),
+				'salt'			=> Piwik_Common::generateUniqId(),
 			);
 
 			$this->session->superuser_infos = $superUserInfos;
@@ -637,7 +638,45 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$infos['isWindows'] = substr(PHP_OS, 0, 3) == 'WIN';
 
+		$infos['protocol_ok'] = true;
+		$infos['protocol'] = self::getProtocolInformation();
+		if(Piwik_Url::getCurrentScheme() == 'http' &&
+			$infos['protocol'] !== null)
+		{
+			$infos['protocol_ok'] = false;
+		}
+
 		return $infos;
+	}
+
+	public static function getProtocolInformation()
+	{
+		if(Piwik_Common::getRequestVar('clientProtocol', 'http', 'string') == 'https')
+		{
+			return 'https';
+		}
+
+		if(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
+		{
+			return 'SERVER_PORT=443';
+		}
+
+		if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')
+		{
+			return 'X-Forwarded-Proto';
+		}
+
+		if(isset($_SERVER['HTTP_X_FORWARDED_SCHEME']) && strtolower($_SERVER['HTTP_X_FORWARDED_SCHEME']) == 'https')
+		{
+			return 'X-Forwarded-Scheme';
+		}
+
+		if(isset($_SERVER['HTTP_X_URL_SCHEME']) && strtolower($_SERVER['HTTPS']) == 'HTTP_X_URL_SCHEME')
+		{
+			return 'X-Url-Scheme';
+		}
+
+		return null;
 	}
 
 	protected function skipThisStep( $step )

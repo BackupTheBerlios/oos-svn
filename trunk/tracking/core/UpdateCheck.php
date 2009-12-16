@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UpdateCheck.php 1682 2009-12-13 21:25:01Z vipsoft $
+ * @version $Id: UpdateCheck.php 1713 2009-12-15 15:28:14Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -17,7 +17,7 @@
  */
 class Piwik_UpdateCheck 
 {
-	const CHECK_INTERVAL = 86400;
+	const CHECK_INTERVAL = 28800; // every 8 hours
 	const LAST_TIME_CHECKED = 'UpdateCheck_LastTimeChecked';
 	const LATEST_VERSION = 'UpdateCheck_LatestVersion';
 	const PIWIK_HOST = 'http://api.piwik.org/1.0/getLatestVersion/';

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Chart.php 1702 2009-12-14 18:51:37Z matt $
+ * @version $Id: Chart.php 1705 2009-12-14 22:24:19Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -128,10 +128,11 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 	
 	public function render()
 	{
-		if(Piwik_Url::getCurrentScheme() == 'https')
+		if(Piwik_Url::getCurrentScheme() == 'https' ||
+			Zend_Registry::get('config')->General->reverse_proxy)
 		{
-    		@header("Pragma: ");
-    		@header("Cache-Control: must-revalidate");
+			@header("Pragma: ");
+			@header("Cache-Control: must-revalidate");
 		}
 		return $this->chart->toPrettyString();
 	}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1664 2009-12-11 21:20:16Z vipsoft $
+ * @version $Id: Controller.php 1708 2009-12-15 06:52:26Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_SecurityInfo
@@ -29,6 +29,11 @@ class Piwik_SecurityInfo_Controller extends Piwik_Controller
 
 		// grab the results as a multidimensional array
 		$results = $psi->getResultsAsArray();
+
+		// suppress results
+		unset($results['test_results']['Core']['memory_limit']);
+		unset($results['test_results']['Core']['post_max_size']);
+		unset($results['test_results']['Core']['upload_max_filesize']);
 
 		$view = Piwik_View::factory('index');
 		$this->setGeneralVariablesView($view);

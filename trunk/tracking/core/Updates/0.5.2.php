@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: 0.5.2.php 1667 2009-12-11 22:33:11Z vipsoft $
+ * @version $Id: 0.5.2.php 1712 2009-12-15 15:12:45Z matt $
  *
  * @category Piwik
  * @package Updates
@@ -38,6 +38,6 @@ class Piwik_Updates_0_5_2 implements Piwik_iUpdate
 			}
 		} catch(Exception $e) { }
 
-		throw new Piwik_Updater_UpdateErrorException("Edit config.ini.php and add to <code>[superuser]</code> section: <code>salt = $salt</code>");
+		throw new Piwik_Updater_UpdateErrorException("Edit config.ini.php and add below <code>[superuser]</code> the following line <br/><code>salt = $salt</code>");
 	}
 }
