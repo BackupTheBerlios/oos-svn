@@ -8,6 +8,8 @@ Author: Matt Mullenweg
 Author URI: http://ma.tt/
 */
 
+define('AKISMET_VERSION', '2.2.6');
+
 // If you hardcode a WP.com API key here, all key config screens will be hidden
 if ( defined('WPCOM_API_KEY') )
 	$wpcom_api_key = constant('WPCOM_API_KEY');
@@ -313,6 +315,10 @@ function akismet_get_server_connectivity( $cache_timeout = 86400 ) {
 
 // Returns true if server connectivity was OK at the last check, false if there was a problem that needs to be fixed.
 function akismet_server_connectivity_ok() {
+	// skip the check on WPMU because the status page is hidden
+	global $wpcom_api_key;
+	if ( $wpcom_api_key )
+		return true;
 	$servers = akismet_get_server_connectivity();
 	return !( empty($servers) || !count($servers) || count( array_filter($servers) ) < count($servers) );
 }
@@ -367,12 +373,14 @@ function akismet_get_host($host) {
 // Returns array with headers in $response[0] and body in $response[1]
 function akismet_http_post($request, $host, $path, $port = 80, $ip=null) {
 	global $wp_version;
+	
+	$akismet_version = constant('AKISMET_VERSION');
 
 	$http_request  = "POST $path HTTP/1.0\r\n";
 	$http_request .= "Host: $host\r\n";
 	$http_request .= "Content-Type: application/x-www-form-urlencoded; charset=" . get_option('blog_charset') . "\r\n";
 	$http_request .= "Content-Length: " . strlen($request) . "\r\n";
-	$http_request .= "User-Agent: WordPress/$wp_version | Akismet/2.0\r\n";
+	$http_request .= "User-Agent: WordPress/$wp_version | Akismet/$akismet_version\r\n";
 	$http_request .= "\r\n";
 	$http_request .= $request;
 	
@@ -394,6 +402,14 @@ function akismet_http_post($request, $host, $path, $port = 80, $ip=null) {
 		$response = explode("\r\n\r\n", $response, 2);
 	}
 	return $response;
+}
+
+// filter handler used to return a spam result to pre_comment_approved
+function akismet_result_spam( $approved ) {
+	// bump the counter here instead of when the filter is added to reduce the possibility of overcounting
+	if ( $incr = apply_filters('akismet_spam_count_incr', 1) )
+		update_option( 'akismet_spam_count', get_option('akismet_spam_count') + $incr );
+	return 'spam';
 }
 
 function akismet_auto_check_comment( $comment ) {
@@ -419,8 +435,8 @@ function akismet_auto_check_comment( $comment ) {
 
 	$response = akismet_http_post($query_string, $akismet_api_host, '/1.1/comment-check', $akismet_api_port);
 	if ( 'true' == $response[1] ) {
-		add_filter('pre_comment_approved', create_function('$a', 'return \'spam\';'));
-		update_option( 'akismet_spam_count', get_option('akismet_spam_count') + 1 );
+		// akismet_spam_count will be incremented later by akismet_result_spam()
+		add_filter('pre_comment_approved', 'akismet_result_spam');
 
 		do_action( 'akismet_spam_caught' );
 
@@ -428,9 +444,13 @@ function akismet_auto_check_comment( $comment ) {
 		$last_updated = strtotime( $post->post_modified_gmt );
 		$diff = time() - $last_updated;
 		$diff = $diff / 86400;
-
-		if ( $post->post_type == 'post' && $diff > 30 && get_option( 'akismet_discard_month' ) == 'true' )
+		
+		if ( $post->post_type == 'post' && $diff > 30 && get_option( 'akismet_discard_month' ) == 'true' ) {
+			// akismet_result_spam() won't be called so bump the counter here
+			if ( $incr = apply_filters('akismet_spam_count_incr', 1) )
+				update_option( 'akismet_spam_count', get_option('akismet_spam_count') + $incr );
 			die;
+		}
 	}
 	akismet_delete_old();
 	return $comment;
