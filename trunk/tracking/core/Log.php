@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Log.php 1613 2009-11-27 20:57:13Z vipsoft $
+ * @version $Id: Log.php 1716 2009-12-15 20:13:50Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -166,7 +166,17 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 		if(Piwik_Common::isPhpCliMode())
 		{
 			$string = str_replace(array('<br>','<br />','<br/>'), "\n", $string);
-			$string = strip_tags($string);
+			if(is_array($string))
+			{
+				for($i=0; $i< count($string); $i++)
+				{
+					$string[i] = strip_tags($string[i]);
+				}
+			}
+			else
+			{
+				$string = strip_tags($string);
+			}
 		}
 		return $string;
 	}

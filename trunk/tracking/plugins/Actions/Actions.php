@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Actions.php 1665 2009-12-11 21:25:57Z vipsoft $
+ * @version $Id: Actions.php 1721 2009-12-17 18:15:27Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -349,9 +349,14 @@ class Piwik_Actions extends Piwik_Plugin
 		$rowsProcessed = 0;
 		while( $row = $query->fetch() )
 		{
+			// in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
+			if(empty($row['type'])) {
+				continue;
+			}
+			
 			$actionExplodedNames = $this->getActionExplodedNames($row['name'], $row['type']);
 
-			// we work on the root table of the given TYPE (either ACTION or DOWNLOAD or OUTLINK etc.)
+			// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
 			$currentTable =& $this->actionsTablesByType[$row['type']];
 
 			// go to the level of the subcategory

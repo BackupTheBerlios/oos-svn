@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Action.php 1550 2009-10-29 13:07:51Z mauser $
+ * @version $Id: Action.php 1719 2009-12-17 16:10:22Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -117,14 +117,18 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	
 	protected function setActionName($name)
 	{
+		$name = $this->truncate($name);
 		$this->actionName = $name;
 	}
+	
 	protected function setActionType($type)
 	{
 		$this->actionType = $type;
 	}
+	
 	protected function setActionUrl($url)
 	{
+		$url = $this->truncate($url);
 		$this->actionUrl = $url;
 	}
 	
@@ -134,6 +138,12 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$this->setActionName($info['name']);
 		$this->setActionType($info['type']);
 		$this->setActionUrl($info['url']);
+	}
+	
+	protected function truncate( $label )
+	{
+		$limit = Piwik_Tracker_Config::getInstance()->Tracker['page_maximum_length'];
+		return substr($label, 0, $limit);
 	}
 	
 	/**

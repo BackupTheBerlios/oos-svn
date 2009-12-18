@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Updater.php 1549 2009-10-29 12:49:32Z vipsoft $
+ * @version $Id: Updater.php 1719 2009-12-17 16:10:22Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -246,7 +246,8 @@ class Piwik_Updater
 			try {
 				Piwik_Exec( $update );
 			} catch(Exception $e) {
-				if(($ignoreError === false) || !Zend_Registry::get('db')->isErrNo($e, $ignoreError))
+				if(($ignoreError === false) 
+					|| !Zend_Registry::get('db')->isErrNo($e, $ignoreError))
 				{
 					$message =  $file .":\nError trying to execute the query '". $update ."'.\nThe error was: ". $e->getMessage();
 					throw new Piwik_Updater_UpdateErrorException($message);
