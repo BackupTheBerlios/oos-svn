@@ -28,16 +28,16 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-define('OOS_HTTP_SERVER', 'http://localhost'); // No trailing slash
-define('OOS_HTTPS_SERVER', 'https://localhost'); // No trailing slash
+define('OOS_HTTP_SERVER', ''); // No trailing slash
+define('OOS_HTTPS_SERVER', ''); // No trailing slash
 
 define('STATIC1_HTTP_SERVER', ''); // No trailing slash
 define('IMAGE01_HTTP_SERVER', ''); // No trailing slash
 define('PLANET_HTTP_SERVER', ''); // No trailing slash
 define('TRACKING_HTTP_SERVER', ''); // No trailing slash
 
-define('ENABLE_SSL', '0');
-define('OOS_SHOP', '/myoos/shop/');
+define('ENABLE_SSL', '');
+define('OOS_SHOP', '');
 
 define('OOS_IMAGES', 'images/');
 define('OOS_POPUP_IMAGES', 'images_big/');
@@ -49,7 +49,7 @@ define('OOS_ICONS', OOS_IMAGES . 'icons/');
 define('OOS_MEDIA', 'media/');
 define('OOS_DOWNLOAD', OOS_SHOP . 'pub/');
 
-define('OOS_ABSOLUTE_PATH', 'C:/xampp/htdocs/myoos/shop/');
+define('OOS_ABSOLUTE_PATH', '');
 define('OOS_DOWNLOAD_PATH', OOS_ABSOLUTE_PATH . 'download/');
 define('OOS_DOWNLOAD_PATH_PUBLIC', OOS_ABSOLUTE_PATH . 'pub/');
 define('OOS_EXPORT_PATH', OOS_ABSOLUTE_PATH . 'admin/export/');
@@ -60,7 +60,7 @@ define('OOS_WATERMARK_LOGO', OOS_ABSOLUTE_PATH . OOS_IMAGES . 'watermark.png');
 
 define('SMARTY_DIR', OOS_ABSOLUTE_PATH . 'includes/lib/smarty/libs/');
 
-define('OOS_TEMP_PATH', 'C:/xampp/htdocs/myoos/oos_temp/');
+define('OOS_TEMP_PATH', '');
 define('ADODB_ERROR_LOG_DEST', OOS_TEMP_PATH . 'logs/adodb_error.log');
 
 define('ADODB_ERROR_LOG_TYPE', 3);
@@ -68,14 +68,14 @@ define('ADODB_ASSOC_CASE', 0); // assoc lowercase for ADODB_FETCH_ASSOC
 
 define('OOS_WITH_PEAR', false);
 
-define('STORE_SESSIONS', '0');
-define('STORE_SESSIONS_CRYPT', '0');
+define('STORE_SESSIONS', '');
+define('STORE_SESSIONS_CRYPT', '');
 
-define('OOS_DB_TYPE', 'mysql');
-define('OOS_DB_SERVER', 'localhost');
-define('OOS_DB_USERNAME', 'cm9vdA==');
+define('OOS_DB_TYPE', '');
+define('OOS_DB_SERVER', '');
+define('OOS_DB_USERNAME', '');
 define('OOS_DB_PASSWORD', '');
-define('OOS_DB_DATABASE', 'moos');
-define('OOS_DB_PREFIX', 'r21');
-define('OOS_ENCODED', '1');
-define('OOS_SYSTEM', '0');
+define('OOS_DB_DATABASE', '');
+define('OOS_DB_PREFIX', '');
+define('OOS_ENCODED', '');
+define('OOS_SYSTEM', '');
