@@ -32,7 +32,7 @@ Todo:
 
 // Check version.
 global $wp_version;
-if ( strpos($wp_version, '2.7') !== false || strpos($wp_version, '2.8') !== false  ) {
+if ( strpos($wp_version, '2.7') !== false || strpos($wp_version, '2.8') !== false || strpos($wp_version, '2.9') !== false ) {
 	require(dirname(__FILE__).'/2.7/simple-tags.client.php');
 } elseif ( strpos($wp_version, '2.5') !== false || strpos($wp_version, '2.6') !== false  ) {
 	require(dirname(__FILE__).'/2.5/simple-tags.client.php');
