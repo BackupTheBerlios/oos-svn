@@ -29,12 +29,10 @@ if (!isset($_SESSION['login_id'])) {
 if ( !current_user_can('admin_members') )
     oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
+$current_boxes = OOS_ABSOLUTE_PATH . OOS_ADMIN . 'includes/boxes/';
+$action = (isset($_GET['action']) ? $_GET['action'] : '');
 
-
-  $current_boxes = OOS_ABSOLUTE_PATH . 'admin/includes/boxes/';
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
-
-  if (!empty($action)) {
+if (!empty($action)) {
     switch ($action) {
       case 'member_new':
         $admintable = $oostable['admin'];
@@ -63,7 +61,7 @@ if ( !current_user_can('admin_members') )
           oos_db_perform($oostable['admin'], $sql_data_array);
           $admin_id = $dbconn->Insert_ID();
 
-          oos_mail($_POST['admin_firstname'] . ' ' . $_POST['admin_lastname'], $_POST['admin_email_address'], ADMIN_EMAIL_SUBJECT, sprintf(ADMIN_EMAIL_TEXT, $_POST['admin_firstname'], OOS_HTTP_SERVER . OOS_SHOP . 'admin/', $_POST['admin_email_address'], $newpass, STORE_OWNER), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+          oos_mail($_POST['admin_firstname'] . ' ' . $_POST['admin_lastname'], $_POST['admin_email_address'], ADMIN_EMAIL_SUBJECT, sprintf(ADMIN_EMAIL_TEXT, $_POST['admin_firstname'], OOS_HTTP_SERVER . OOS_SHOP . OOS_ADMIN, $_POST['admin_email_address'], $newpass, STORE_OWNER), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
           oos_redirect_admin(oos_href_link_admin($aFilename['admin_members'], 'page=' . $_GET['page'] . '&mID=' . $admin_id));
         }
@@ -95,7 +93,7 @@ if ( !current_user_can('admin_members') )
 
           oos_db_perform($oostable['admin'], $sql_data_array, 'update', 'admin_id = \'' . $admin_id . '\'');
 
-          oos_mail($_POST['admin_firstname'] . ' ' . $_POST['admin_lastname'], $_POST['admin_email_address'], ADMIN_EMAIL_SUBJECT, sprintf(ADMIN_EMAIL_TEXT, $_POST['admin_firstname'], OOS_HTTP_SERVER . OOS_SHOP . 'admin/', $_POST['admin_email_address'], $hiddenPassword, STORE_OWNER), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+          oos_mail($_POST['admin_firstname'] . ' ' . $_POST['admin_lastname'], $_POST['admin_email_address'], ADMIN_EMAIL_SUBJECT, sprintf(ADMIN_EMAIL_TEXT, $_POST['admin_firstname'], OOS_HTTP_SERVER . OOS_SHOP . OOS_ADMIN, $_POST['admin_email_address'], $hiddenPassword, STORE_OWNER), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
           oos_redirect_admin(oos_href_link_admin($aFilename['admin_members'], 'page=' . $_GET['page'] . '&mID=' . $admin_id));
         }

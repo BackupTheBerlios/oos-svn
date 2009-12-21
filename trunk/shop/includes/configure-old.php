@@ -38,6 +38,7 @@ define('TRACKING_HTTP_SERVER', ''); // No trailing slash
 
 define('ENABLE_SSL', '');
 define('OOS_SHOP', '');
+define('OOS_ADMIN', 'admin/');
 
 define('OOS_IMAGES', 'images/');
 define('OOS_POPUP_IMAGES', 'images_big/');
@@ -52,7 +53,7 @@ define('OOS_DOWNLOAD', OOS_SHOP . 'pub/');
 define('OOS_ABSOLUTE_PATH', '');
 define('OOS_DOWNLOAD_PATH', OOS_ABSOLUTE_PATH . 'download/');
 define('OOS_DOWNLOAD_PATH_PUBLIC', OOS_ABSOLUTE_PATH . 'pub/');
-define('OOS_EXPORT_PATH', OOS_ABSOLUTE_PATH . 'admin/export/');
+define('OOS_EXPORT_PATH', OOS_ABSOLUTE_PATH . OOS_ADMIN . 'export/');
 define('OOS_FEEDS_EXPORT_PATH', OOS_ABSOLUTE_PATH . 'feed/');
 
 define('OOS_UPLOADS', OOS_ABSOLUTE_PATH . OOS_IMAGES . 'uploads/');

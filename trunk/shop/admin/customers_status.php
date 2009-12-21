@@ -47,9 +47,9 @@ if ( !current_user_can('customers_status') )
     oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
 
-  require 'includes/functions/function_customer.php';
+require 'includes/functions/function_customer.php';
+require 'includes/classes/class_currencies.php';
 
-  require 'includes/classes/class_currencies.php';
   $currencies = new currencies();
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');

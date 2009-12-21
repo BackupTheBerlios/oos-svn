@@ -19,10 +19,10 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
 
-  $current_boxes = OOS_ABSOLUTE_PATH . 'admin/includes/boxes/';
+$current_boxes = OOS_ABSOLUTE_PATH . OOS_ADMIN . 'includes/boxes/';
 
   require 'includes/oos_header.php';
 ?>

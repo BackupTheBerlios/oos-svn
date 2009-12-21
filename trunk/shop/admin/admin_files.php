@@ -30,8 +30,8 @@ if ( !current_user_can('admin_files') )
     oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
 
-  $current_boxes = OOS_ABSOLUTE_PATH . 'admin/includes/boxes/';
-  $current_files = OOS_ABSOLUTE_PATH . 'admin/';
+  $current_boxes = OOS_ABSOLUTE_PATH . OOS_ADMIN . 'includes/boxes/';
+  $current_files = OOS_ABSOLUTE_PATH . OOS_ADMIN;
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
@@ -182,7 +182,7 @@ if ( !current_user_can('admin_files') )
 
     $none = 0;
     $boxes = array();
-    $dir = dir(OOS_ABSOLUTE_PATH . 'admin/includes/boxes/');
+    $dir = dir(OOS_ABSOLUTE_PATH . OOS_ADMIN . 'includes/boxes/');
     while ($boxes_file = $dir->read()) {
       if ( (substr("$boxes_file", -4) == '.php') && !(in_array($boxes_file, $installed_boxes))){
         $boxes[] = array('admin_boxes_name' => $boxes_file,
@@ -277,7 +277,7 @@ if ( !current_user_can('admin_files') )
       $file_result->Close();
 
       $file_dir = array();
-      $dir = dir(OOS_ABSOLUTE_PATH . 'admin/');
+      $dir = dir(OOS_ABSOLUTE_PATH . OOS_ADMIN);
 
       while ($file = $dir->read()) {
         if ((substr("$file", -4) == '.php') && $file != $aFilename['default'] && $file != $aFilename['login'] && $file != $aFilename['logoff'] && $file != $aFilename['forbiden'] && $file != $aFilename['popup_image'] && $file != $aFilename['password_forgotten'] && $file != $aFilename['admin_account'] && $file != 'invoice.php' && $file != 'packingslip.php') {
