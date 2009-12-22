@@ -25,9 +25,6 @@
 
                 <li>{$lang.page_service}
                   <ul>
-{if $smarty.const.DISPLAY_NEWSFEED eq '1'}
-                    <li><a href="{html_href_link page=$pages.info_newsfeed}">{$lang.block_service_newsfeed}</a></li>
-{/if}
 {if $smarty.const.MODULE_ORDER_TOTAL_GV_STATUS eq '1'}
                     <li><a href="{html_href_link page=$pages.gv_faq}">{$lang.block_service_gv}</a></li>
 {/if}
