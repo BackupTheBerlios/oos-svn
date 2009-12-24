@@ -114,12 +114,23 @@ function show_error_shop_info() {
     global $dbhost, $dbuname, $dbpass, $dbname, $prefix_table, $dbtype;
     global $oos_server, $oos_ssl_server, $enable_ssl, $oos_root_path, $oos_shop_path, $oos_shop_dir, $oos_template_dir;
 
+    $static1 = oos_prepare_input($_POST['static1']);
+    $image01 = oos_prepare_input($_POST['image01']);
+    $planet = oos_prepare_input($_POST['planet']);
+    $tracking = oos_prepare_input($_POST['tracking']);
+    $wordpress = oos_prepare_input($_POST['wordpress']);
+          
 
     echo '<br /><br /><b>'. SHOW_ERROR_INFO . ' <b>~/includes/configure.php</b><br /><br />';
 echo <<< EOT
         <table><tr><td><font class="oos-normal">
         define('OOS_HTTP_SERVER', '$oos_server');<br />
         define('OOS_HTTPS_SERVER', '$oos_ssl_server');<br />
+        define('STATIC1_HTTP_SERVER', '$static1');<br />
+        define('IMAGE01_HTTP_SERVER', '$image01');<br />
+        define('PLANET_HTTP_SERVER', '$planet');<br />
+        define('TRACKING_HTTP_SERVER', '$tracking');<br />
+        define('BLOG_HTTP_SERVER', '$wordpress');<br />
         define('OOS_SHOP', '$oos_shop_dir');<br />
         define('OOS_ABSOLUTE_PATH', '$oos_root_path$oos_shop_dir');<br />
         define('OOS_TEMP_PATH', '$oos_template_dir'); <br />
@@ -144,6 +155,12 @@ function oosUpdateConfigShop($db_prefs = false) {
     global $dbhost, $dbuname, $dbpass, $dbname, $prefix_table, $dbtype;
     global $oos_server, $oos_ssl_server, $enable_ssl, $oos_root_path, $oos_shop_path, $oos_shop_dir, $oos_template_dir, $tmpsession, $tmp_session_crypt;
 
+    $static1 = oos_prepare_input($_POST['static1']);
+    $image01 = oos_prepare_input($_POST['image01']);
+    $planet = oos_prepare_input($_POST['planet']);
+    $tracking = oos_prepare_input($_POST['tracking']);
+    $wordpress = oos_prepare_input($_POST['wordpress']);
+    
     add_src_rep("OOS_HTTP_SERVER", $oos_server);
     add_src_rep("OOS_HTTPS_SERVER", $oos_ssl_server);
     if ($enable_ssl == 'on') {
@@ -151,6 +168,13 @@ function oosUpdateConfigShop($db_prefs = false) {
     } else {
       add_src_rep("ENABLE_SSL", '0');
     }
+    
+    add_src_rep("STATIC1_HTTP_SERVER", $static1);
+    add_src_rep("IMAGE01_HTTP_SERVER", $image01);
+    add_src_rep("PLANET_HTTP_SERVER", $planet);
+    add_src_rep("TRACKING_HTTP_SERVER", $tracking);
+    add_src_rep("BLOG_HTTP_SERVER", $wordpress);
+  
     add_src_rep("OOS_SHOP", $oos_shop_dir);
     add_src_rep("OOS_ABSOLUTE_PATH", $oos_root_path . $oos_shop_dir);
     add_src_rep("OOS_TEMP_PATH", $oos_template_dir);

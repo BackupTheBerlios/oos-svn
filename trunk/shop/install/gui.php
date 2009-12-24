@@ -145,6 +145,28 @@ function print_FormServer() {
         '   <td align="left"><font class="oos-normal">' . CONFIG_VIRTUAL_1 . '</font></td>' . "\n" .
         '   <td><font class="oos-normal">' . $ssl . '</font></td>' . "\n" .
         ' </tr>' . "\n" .
+  
+        ' <tr>' . "\n" .
+        '   <td align="left"><font class="oos-normal">SubDomain static1</font></td>' . "\n" .
+        '   <td><font class="oos-normal">' . $_POST['static1'] . '</font></td>' . "\n" .
+        ' </tr>' . "\n" .
+        ' <tr>' . "\n" .
+        '   <td align="left"><font class="oos-normal">SubDomain image01</font></td>' . "\n" .
+        '   <td><font class="oos-normal">' . $_POST['image01'] . '</font></td>' . "\n" .
+        ' </tr>' . "\n" .
+        ' <tr>' . "\n" .
+        '   <td align="left"><font class="oos-normal">SubDomain planet</font></td>' . "\n" .
+        '   <td><font class="oos-normal">' . $_POST['planet'] . '</font></td>' . "\n" .
+        ' </tr>' . "\n" .        
+        ' <tr>' . "\n" .
+        '   <td align="left"><font class="oos-normal">SubDomain tracking</font></td>' . "\n" .
+        '   <td><font class="oos-normal">' . $_POST['tracking'] . '</font></td>' . "\n" .
+        ' </tr>' . "\n" .
+        ' <tr>' . "\n" .
+        '   <td align="left"><font class="oos-normal">SubDomain wordpress</font></td>' . "\n" .
+        '   <td><font class="oos-normal">' . $_POST['wordpress'] . '</font></td>' . "\n" .
+        ' </tr>' . "\n" .
+                
         ' <tr>' . "\n" .
         '   <td align="left"><font class="oos-normal">' . VIRTUAL_7 . '</font></td>' . "\n" .
         '   <td><font class="oos-normal">' . $_POST['oos_shop_dir'] . '</font></td>' . "\n" .
@@ -256,6 +278,11 @@ function print_ServerHidden() {
    echo '<input type="hidden" name="host_conf" value="' . $_POST['host_conf'] . '">' . "\n" .
         '<input type="hidden" name="oos_server" value="' . $_POST['oos_server'] . '">' . "\n" .
         '<input type="hidden" name="oos_ssl_server" value="' . $_POST['oos_ssl_server'] . '">' . "\n" .
+        '<input type="hidden" name="static1" value="' . $_POST['static1'] . '">' . "\n" .
+        '<input type="hidden" name="image01" value="' . $_POST['image01'] . '">' . "\n" .
+        '<input type="hidden" name="planet" value="' . $_POST['planet'] . '">' . "\n" .
+        '<input type="hidden" name="tracking" value="' . $_POST['tracking'] . '">' . "\n" .
+        '<input type="hidden" name="wordpress" value="' . $_POST['wordpress'] . '">' . "\n" .      
         '<input type="hidden" name="enable_ssl" value="' . $_POST['enable_ssl'] . '">' . "\n" .
         '<input type="hidden" name="oos_root_path" value="' . $_POST['oos_root_path'] . '">' . "\n" .
         '<input type="hidden" name="oos_shop_path" value="' . $_POST['oos_shop_path'] . '">' . "\n" .
@@ -784,6 +811,27 @@ function print_ChangeServer() {
         '  <td align="left"><font class="oos-normal">' . VIRTUAL_3 . '</font></td>' . "\n" .
         '  <td>' . $ssl . '</td>' . "\n" .
         ' </tr>' . "\n" .
+
+        '   <td align="left"><font class="oos-normal">SubDomain static1</font></td>' . "\n" .
+        '   <td><input type="text" name="static1" SIZE=60 maxlength=180 value="' . $_POST['static1'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" .
+        ' <tr>' . "\n" .
+        '   <td align="left"><font class="oos-normal">SubDomain image01</font></td>' . "\n" .
+        '   <td><input type="text" name="image01" SIZE=60 maxlength=180 value="' . $_POST['image01'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" .
+        ' <tr>' . "\n" .
+        '   <td align="left"><font class="oos-normal">SubDomain planet</font></td>' . "\n" .
+        '   <td><input type="text" name="planet" SIZE=60 maxlength=180 value="' . $_POST['planet'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" .        
+        ' <tr>' . "\n" .
+        '   <td align="left"><font class="oos-normal">SubDomain tracking</font></td>' . "\n" .
+        '   <td><input type="text" name="tracking" SIZE=60 maxlength=180 value="' . $_POST['tracking'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" .
+        ' <tr>' . "\n" .
+        '   <td align="left"><font class="oos-normal">SubDomain wordpress</font></td>' . "\n" .
+        '   <td><input type="text" name="wordpress" SIZE=60 maxlength=180 value="' . $_POST['wordpress'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" .
+        
         ' <tr>' . "\n" .
         '  <td align="left"><font class="oos-normal">' . VIRTUAL_4 . '</font></td>' . "\n" .
         '  <td><input type="text" name="oos_root_path" SIZE=60 maxlength=180 value="' . $oos_root_path  .'"></td>' . "\n" .
@@ -841,6 +889,26 @@ function print_Confirm() {
         '  <td align="left"><font class="oos-normal">' . VIRTUAL_3 . '</font></td>' . "\n" .
         '  <td><input type="checkbox" name="enable_ssl"></td>' . "\n" .
         ' </tr>' . "\n" .
+        ' <tr>' . "\n" .       
+        '  <td align="left"><font class="oos-normal">SubDomain static1</font></td>' . "\n" .
+        '  <td><input type="text" name="static1" SIZE=60 maxlength=180 value="http://static1.' . $_SERVER['HTTP_HOST'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" .
+        ' <tr>' . "\n" .
+        '  <td align="left"><font class="oos-normal">SubDomain image01</font></td>' . "\n" .
+        '  <td><input type="text" name="image01" SIZE=60 maxlength=180 value="http://image01.' . $_SERVER['HTTP_HOST'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" .
+        ' <tr>' . "\n" .
+        '  <td align="left"><font class="oos-normal">SubDomain planet</font></td>' . "\n" .
+        '  <td><input type="text" name="planet" SIZE=60 maxlength=180 value="http://planet.' . $_SERVER['HTTP_HOST'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" .        
+        ' <tr>' . "\n" .
+        '  <td align="left"><font class="oos-normal">SubDomain tracking</font></td>' . "\n" .
+        '  <td><input type="text" name="tracking" SIZE=60 maxlength=180 value="http://tracking.' . $_SERVER['HTTP_HOST'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" .
+        ' <tr>' . "\n" .
+        '  <td align="left"><font class="oos-normal">SubDomain wordpress</font></td>' . "\n" .
+        '  <td><input type="text" name="wordpress" SIZE=60 maxlength=180 value="http://blog.' . $_SERVER['HTTP_HOST'] . '"></td>' . "\n" .
+        ' </tr>' . "\n" . 
         ' <tr>' . "\n" .
         '  <td align="left"><font class="oos-normal">' . VIRTUAL_7 . '</font></td>' . "\n" .
         '  <td><input type="test" name="oos_shop_dir" SIZE=60 maxlength=80 value="' . $shop_path . '"></td>' . "\n" .
@@ -855,7 +923,7 @@ function print_Confirm() {
         ' </tr>' . "\n" .
         ' <tr>' . "\n" .
         '  <td align="left"><font class="oos-normal">' . VIRTUAL_9 . '</font></td>' . "\n" .
-        '  <td><input type="text" name="oos_template_dir" SIZE=60 maxlength=80 value=""></td>' . "\n" .
+        '  <td><input type="text" name="oos_template_dir" SIZE=60 maxlength=80 value="'. $dir_fs_www_root . $shop_path . 'oos_temp/"></td>' . "\n" .
         ' </tr>' . "\n" .
         '</table>' . "\n" .
         '<br /><br />' . "\n";

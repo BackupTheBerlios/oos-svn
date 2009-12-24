@@ -199,4 +199,7 @@
 
   include_once 'footer.php';
 
+  echo '<pre>';
+  print_R($_POST);
+  echo '</pre>';
 ?>

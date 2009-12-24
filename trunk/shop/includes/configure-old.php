@@ -35,6 +35,7 @@ define('STATIC1_HTTP_SERVER', ''); // No trailing slash
 define('IMAGE01_HTTP_SERVER', ''); // No trailing slash
 define('PLANET_HTTP_SERVER', ''); // No trailing slash
 define('TRACKING_HTTP_SERVER', ''); // No trailing slash
+define('BLOG_HTTP_SERVER', ''); // No trailing slash
 
 define('ENABLE_SSL', '');
 define('OOS_SHOP', '');
