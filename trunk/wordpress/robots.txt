@@ -5,4 +5,4 @@ Disallow: /wp-login.php
 Disallow: /wp-trackback.php
 Disallow: /wp-content/plugins/
 Disallow: /?s*
-Sitemap: http://blog.r23.de/sitemap.xml
+
