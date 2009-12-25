@@ -109,12 +109,12 @@ if ( !current_user_can('default') )
                      'access' => oos_admin_check_boxes('tools.php'),
                      'image' => 'tools.gif',
                      'href' => oos_href_link_admin(oos_selected_file('tools.php'), 'selected_box=tools'),
-                     'children' => array(/*array('title' => TOOLS_BACKUP, 'link' => oos_href_link_admin($aFilename['backup'], 'selected_box=tools'),
-                                               'access' => oos_admin_check_boxes('backup', 'sub_boxes')),*/
-                                         array('title' => TOOLS_BANNERS, 'link' => oos_href_link_admin($aFilename['banner_manager'], 'selected_box=tools'),
-                                               'access' => oos_admin_check_boxes('banner_manager', 'sub_boxes')),
-                                         array('title' => TOOLS_FILES, 'link' => oos_href_link_admin($aFilename['file_manager'], 'selected_box=tools'),
-                                               'access' => oos_admin_check_boxes('file_manager', 'sub_boxes')))));
+                     'children' => array(array('title' => BOX_TOOLS_SERVER_INFO, 'link' => oos_href_link_admin($aFilename['server_info'], 'selected_box=tools'),
+                                               'access' => oos_admin_check_boxes('server_info', 'sub_boxes')),
+                                         array('title' => BOX_TOOLS_WHOS_ONLINE, 'link' => oos_href_link_admin($aFilename['whos_online'], 'selected_box=tools'),
+                                               'access' => oos_admin_check_boxes('whos_online', 'sub_boxes')),
+                                         array('title' => BOX_TOOLS_RECOVER_CART, 'link' => oos_href_link_admin($aFilename['recover_cart_sales'], 'selected_box=tools'),
+                                               'access' => oos_admin_check_boxes('recover_cart_sales', 'sub_boxes')))));
 
 
   $languages = oos_get_languages();
