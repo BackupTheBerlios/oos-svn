@@ -279,9 +279,6 @@ Zoom:<script type="text/javascript">
   </tr>
   <tr>
     <td colspan="2" align="left">
-{if $oos_banner}
-  {include file="$theme_set/system/banner.html"}
-{/if}
 	</td>
   </tr>
 </table>
@@ -293,7 +290,7 @@ Zoom:<script type="text/javascript">
 {literal}
 <!-- Piwik -->
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "{/literal}{$smarty.const.TRACKING_HTTP_SERVER}{literal}" : "{/literal}{$smarty.const.OOS_HTTP_SERVER}{literal}");
+var pkBaseURL = (("https:" == document.location.protocol) ? "{/literal}{$smarty.const.TRACKING_HTTP_SERVER}{literal}" : "{/literal}{$smarty.const.TRACKING_HTTP_SERVER}{literal}");
 document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
 </script><script type="text/javascript">
 try {
@@ -301,8 +298,9 @@ var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
 piwikTracker.trackPageView();
 piwikTracker.enableLinkTracking();
 } catch( err ) {}
-</script><noscript><p><img src="{/literal}{$smarty.const.OOS_HTTP_SERVER}{literal}/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
+</script><noscript><p><img src="{/literal}{$smarty.const.TRACKING_HTTP_SERVER}{literal}/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
 {/literal}
+
 </body>
 </html>

@@ -214,12 +214,6 @@ $result = $db->Execute("INSERT INTO " . $prefix_table . "admin_groups (admin_gro
 
 echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $prefix_table . "admin_groups " . UPDATED .'</font>';
 
-$result = $db->Execute("INSERT INTO " . $prefix_table . "banners (banners_id, banners_title, banners_url, banners_image, banners_group, banners_html_text, expires_impressions, expires_date, date_scheduled, date_added, date_status_change, status) VALUES (1, 'OOS [OSIS Online Shop]', 'http://www.oos-shop.de/', 'banners/oos_banner_1.gif', '468x60', '', NULL, NULL, NULL, " . $db->DBTimeStamp($today) . ", NULL, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "banners</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "banners (banners_id, banners_title, banners_url, banners_image, banners_group, banners_html_text, expires_impressions, expires_date, date_scheduled, date_added, date_status_change, status) VALUES (2, 'OOS [OSIS Online Shop]', 'http://www.oos-shop.de/', 'banners/oos_banner_2.gif', '468x60', '', NULL, NULL, NULL, " . $db->DBTimeStamp($today) . ", NULL, 1)") or die ("<b>".NOTUPDATED . $prefix_table . "banners</b>");
-
-
-echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $prefix_table . "banners " . UPDATED .'</font>';
-
 
 $result = $db->Execute("INSERT INTO " . $prefix_table . "block (block_id, block_side, block_status, block_file, block_cache, block_type, block_sort_order, block_login_flag, date_added, last_modified, set_function) VALUES (1, 'right', 1, 'languages', 'system', 1, 1, 0, " . $db->DBTimeStamp($today) . ", NULL, 'oos_block_select_option(array(\'left\', \'right\'),')") or die ("<b>".NOTUPDATED . $prefix_table . "block</b>");
 $result = $db->Execute("INSERT INTO " . $prefix_table . "block (block_id, block_side, block_status, block_file, block_cache, block_type, block_sort_order, block_login_flag, date_added, last_modified, set_function) VALUES (2, 'right', 1, 'customers_status', '', 1, 2, 0, " . $db->DBTimeStamp($today) . ", NULL, 'oos_block_select_option(array(\'left\', \'right\'),')") or die ("<b>".NOTUPDATED . $prefix_table . "block</b>");

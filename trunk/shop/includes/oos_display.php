@@ -16,13 +16,6 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 if (isset($option) && ($option == 'print')) {
     $oSmarty->display('default/print.html');
 } else {
-    if ($oEvent->installed_plugin('banner')) {
-        if ($banner = oos_banner_exists('dynamic', '468x60')) {
-            $oos_banner = oos_display_banner('static', $banner);
-            $oSmarty->assign('oos_banner', $oos_banner);
-        }
-    }
-
     // load_filter
     // $oSmarty->load_filter('output', 'png_image');
     // $oSmarty->load_filter('output', 'highlight');

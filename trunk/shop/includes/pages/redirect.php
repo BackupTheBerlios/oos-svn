@@ -25,20 +25,6 @@ if (count(get_included_files()) < 2) {
 }
 
 switch ($_GET['action']) {
-    case 'banner': $bannerstable = $oostable['banners'];
-                   $sql = "SELECT banners_url
-                           FROM $bannerstable
-                           WHERE banners_id = '" . oos_db_input($_GET['goto']) . "'";
-                   $banner_result = $dbconn->Execute($sql);
-                   if ($banner_result->RecordCount()) {
-                       $banner = $banner_result->fields;
-                       oos_update_banner_click_count($_GET['goto']);
-                       MyOOS_CoreApi::redirect($banner['banners_url']);
-                   } else {
-                       MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
-                   }
-                   break;
-
     case 'url':    if (isset($_GET['goto'])) {
                        MyOOS_CoreApi::redirect('http://' . $_GET['goto']);
                    } else {

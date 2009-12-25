@@ -174,35 +174,6 @@ $idxflds = 'orders_id';
 idxsql($idxname, $table, $idxflds);
 
 
-$table = $prefix_table . 'banners';
-$flds = "
-  banners_id I NOTNULL AUTO PRIMARY,
-  banners_title C(64) NOTNULL,
-  banners_url C(255) NOTNULL,
-  banners_image C(64) NOTNULL,
-  banners_group C(10) NOTNULL,
-  banners_html_text X,
-  expires_impressions I2 DEFAULT '0',
-  expires_date T,
-  date_scheduled T,
-  date_added T,
-  date_status_change T,
-  status I1 DEFAULT '1' NOTNULL
-";
-dosql($table, $flds);
-
-
-$table = $prefix_table . 'banners_history';
-$flds = "
-  banners_history_id I NOTNULL AUTO PRIMARY,
-  banners_id I NOTNULL,
-  banners_shown I2 NOTNULL DEFAULT '0',
-  banners_clicked I2 NOTNULL DEFAULT '0',
-  banners_history_date T
-";
-dosql($table, $flds);
-
-
 $table = $prefix_table . 'block';
 $flds = "
   block_id I NOTNULL AUTO PRIMARY,

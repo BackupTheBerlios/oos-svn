@@ -57,7 +57,6 @@ $aFilename['export_preissuchmaschine'] = $prefix_filename . 'export_psm.php';
 $aFilename['export_googlebase'] = $prefix_filename . 'export_googlebase.php';
 $aFilename['export_kelkoo'] = $prefix_filename . 'export_kelkoo.php';
 $aFilename['featured'] = $prefix_filename . 'featured.php';
-$aFilename['file_manager'] = $prefix_filename . 'file_manager.php';
 $aFilename['forbiden'] = $prefix_filename . 'forbiden.php';
 $aFilename['geo_zones'] = $prefix_filename . 'geo_zones.php';
 $aFilename['gv_queue'] = $prefix_filename . 'gv_queue.php';
