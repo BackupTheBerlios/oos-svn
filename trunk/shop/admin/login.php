@@ -19,24 +19,14 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-  define('OOS_VALID_MOD', 'yes');
-  require 'includes/oos_main.php';
-
-  //CAPTCHA
-  if (!defined('SHOW_CAPTCHA')) {
-    define('SHOW_CAPTCHA', '0');
-  }
+define('OOS_VALID_MOD', 'yes');
+require 'includes/oos_main.php';
 
   if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
 
     $email_address = oos_db_prepare_input($_POST['email_address']);
     $password = oos_db_prepare_input($_POST['password']);
 
-
-    //Check if userinput and CAPTCHA String are equal
-    if ( (SHOW_CAPTCHA == '1') && ($_SESSION['oos_captcha_string'] != $_POST['captchastring'])) {
-      $_GET['login'] = 'fail';
-    } else {
       // Check if email exists
       $check_admin_result = $dbconn->Execute("SELECT admin_id as login_id, admin_groups_id as login_groups_id, admin_firstname as login_firstname, admin_email_address as login_email_address, admin_password as login_password, admin_modified as login_modified, admin_logdate as login_logdate, admin_lognum as login_lognum FROM " . $oostable['admin'] . " WHERE admin_email_address = '" . oos_db_input($email_address) . "'");
       if (!$check_admin_result->RecordCount()) {
@@ -64,14 +54,9 @@
                         SET admin_logdate = '" . date("Y-m-d H:i:s", time()) . "', admin_lognum = admin_lognum+1
                         WHERE admin_id = '" . $_SESSION['login_id'] . "'");
 
-          if (($login_lognum == 0) || !($login_logdate) || ($login_email_address == 'admin@localhost') || ($login_modified == '0000-00-00 00:00:00')) {
-            oos_redirect_admin(oos_href_link_admin($aFilename['admin_account']));
-          } else {
-            oos_redirect_admin(oos_href_link_admin($aFilename['default']));
-          }
+          oos_redirect_admin(oos_href_link_admin($aFilename['default']));
         }
       }
-    }
   }
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -104,16 +89,6 @@ function setFocus() {
 
 			<div class="inputlabel"><?php echo ENTRY_PASSWORD; ?></div>
 			<div><?php echo oos_draw_password_field('password', '', 'class="inputbox" size="15"'); ?></div>
-<?php
-  if (SHOW_CAPTCHA == '1') {
-?>
-			<div class="clr"></div>
-			<div><img src="./captcha.php" alt="CAPTCHA"></div>
-                        <div class="inputlabel"><?php echo SECURITYCODE; ?></div>
-			<div><?php echo oos_draw_input_field('captchastring', '', 'class="inputbox" size="15"'); ?></div>
-<?php
-  }
-?>
 
 	        	<div align="left"><input type="submit" name="submit" class="button" value="Login" /></div>
                         <div class="ctr"><a href="<?php echo oos_href_link_admin($aFilename['password_forgotten'], '', 'SSL') . '">' . TEXT_PASSWORD_FORGOTTEN; ?></a></div>
