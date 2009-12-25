@@ -33,33 +33,38 @@ define('OOS_VALID_MOD', 'yes');
 
 // MyOOS requires PHP 5.2+
 version_compare(PHP_VERSION, '5.2', '<') and exit('MyOOS requires PHP 5.2 or newer.');
+define('MYOOS_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));
+
+if (!defined('MYOOS_INCLUDE_PATH'))
+{
+  define('MYOOS_INCLUDE_PATH', MYOOS_DOCUMENT_ROOT);
+}
 
 
-require(dirname(__FILE__) . '/includes/oos_main.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/oos_main.php';
 
 
 // Include OPML parser for OPML support
-require_once(dirname(__FILE__) . '/includes/lib/opml/iam_opml_parser.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/lib/opml/iam_opml_parser.php';
 // Include SimplePie for RSS/Atom support
-require_once(dirname(__FILE__) . '/includes/lib/simplepie/simplepie.php');
-require_once(dirname(__FILE__) . '/includes/lib/pdf-newspaper/SimplePie_Chronological.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/lib/simplepie/simplepie.php';
+require_once MYOOS_INCLUDE_PATH . '/includes/lib/pdf-newspaper/SimplePie_Chronological.php';
 // Include HTML Purifier to clean up and filter HTML input
-require_once(dirname(__FILE__) . '/includes/htmlpurifier/library/HTMLPurifier.auto.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/htmlpurifier/library/HTMLPurifier.auto.php';
 // Include SmartyPants to make pretty, curly quotes
-require_once(dirname(__FILE__) . '/includes/lib/smartypants/smartypants.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/lib/smartypants/smartypants.php';
 // Include TCPDF to turn all this into a PDF
-require_once(dirname(__FILE__) . '/includes/lib/tcpdf/config/lang/eng.php');
-require_once(dirname(__FILE__) . '/includes/lib/tcpdf/tcpdf.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/lib/tcpdf/config/lang/eng.php';
+require_once MYOOS_INCLUDE_PATH . '/includes/lib/tcpdf/tcpdf.php';
 // Include NewspaperPDF to let us add stories to our PDF easily
-require_once(dirname(__FILE__) . '/includes/lib/pdf-newspaper/NewspaperPDF.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/lib/pdf-newspaper/NewspaperPDF.php';
 
 ////////////////////////////////
 // Check for feed URL
 ////////////////////////////////
-if (!isset($_GET['feed'])) {
-	die('No URL supplied');
-}
-$url = $_GET['feed'];
+
+$url = BLOG_HTTP_SERVER . '/feed/';
+
 if (!preg_match('!^https?://.+!i', $url)) {
 	$url = 'http://'.$url;
 }

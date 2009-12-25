@@ -23,6 +23,14 @@
 
 define('OOS_VALID_MOD', 'yes');
 
+define('MYOOS_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));
+
+if (!defined('MYOOS_INCLUDE_PATH'))
+{
+  define('MYOOS_INCLUDE_PATH', MYOOS_DOCUMENT_ROOT);
+}
+
+
 // Set the local configuration parameters - mainly for developers
 if (is_readable('includes/local/configure.php')) {
     include('includes/local/configure.php');
@@ -31,42 +39,42 @@ if (is_readable('includes/local/configure.php')) {
 }
 
 // include server parameters
-require_once(dirname(__FILE__) . '/includes/oos_define.php');
-require_once(dirname(__FILE__) . '/includes/oos_tables.php');
-require_once(dirname(__FILE__) . '/includes/oos_filename.php');
-require_once(dirname(__FILE__) . '/includes/functions/function_global.php');
-require_once(dirname(__FILE__) . '/includes/functions/function_kernel.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/oos_define.php';
+require_once MYOOS_INCLUDE_PATH . '/includes/oos_tables.php';
+require_once MYOOS_INCLUDE_PATH . '/includes/oos_filename.php';
+require_once MYOOS_INCLUDE_PATH . '/includes/functions/function_global.php';
+require_once MYOOS_INCLUDE_PATH . '/includes/functions/function_kernel.php';
 
 // include the database functions
 if (!defined('ADODB_LOGSQL_TABLE')) {
     define('ADODB_LOGSQL_TABLE', $oostable['adodb_logsql']);
 }
-require_once(dirname(__FILE__) . '/includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php');
-require_once(dirname(__FILE__) . '/includes/classes/thirdparty/adodb/adodb.inc.php');
-require_once(dirname(__FILE__) . '/includes/functions/function_db.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/classes/thirdparty/adodb/adodb-errorhandler.inc.php';
+require_once MYOOS_INCLUDE_PATH . '/includes/classes/thirdparty/adodb/adodb.inc.php';
+require_once MYOOS_INCLUDE_PATH . '/includes/functions/function_db.php';
 
 
 // make a connection to the database... now
-  if (!oosDBInit()) {
+if (!oosDBInit()) {
     die('Unable to connect to database server!');
-  }
+}
 
-  $dbconn =& oosDBGetConn();
-  oosDB_importTables($oostable);
+$dbconn =& oosDBGetConn();
+oosDB_importTables($oostable);
 
-  function matheval($equation){
+function matheval($equation){
     $equation = preg_replace("/[^0-9+\-.*\/()%]/","",$equation);
     $equation = preg_replace("/([+-])([0-9]+)(%)/","*(1\$1.\$2)",$equation);
     // you could use str_replace on this next line
     // if you really, really want to fine-tune this equation
     $equation = preg_replace("/([0-9]+)(%)/",".\$1",$equation);
     if ( $equation == "" ) {
-      $return = 0;
+        $return = 0;
     } else {
-      eval("\$return=" . $equation . ";");
+        eval("\$return=" . $equation . ";");
     }
     return $return;
-  }
+}
 
   //Settings - changes made here
   $offset = '+2'; //Send birthday email how many days after(-)/during(blank)/before(+)
@@ -140,7 +148,7 @@ require_once(dirname(__FILE__) . '/includes/functions/function_db.php');
     while($customers = $customers_result->fields) {
 /*
       $sLanguage = oos_var_prep_for_os($customers['customers_language']);
-      require_once(dirname(__FILE__) . '/includes/languages/' . $sLanguage . '/cron_birthday.php');
+      require_once MYOOS_INCLUDE_PATH . '/includes/languages/' . $sLanguage . '/cron_birthday.php');
 */
 
       $name = $customers['customers_firstname'] . ' ' . $customers['customers_lastname'];
@@ -285,11 +293,11 @@ require_once(dirname(__FILE__) . '/includes/functions/function_db.php');
 */
 
 
-      oos_mail($name, $customers['customers_email_address'], $subject, $bd_msg, STORE_NAME, STORE_OWNER_EMAIL_ADDRESS, '');
+#      oos_mail($name, $customers['customers_email_address'], $subject, $bd_msg, STORE_NAME, STORE_OWNER_EMAIL_ADDRESS, '');
 
       // send emails to other people
       if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
-        oos_mail('', SEND_EXTRA_ORDER_EMAILS_TO, $subject, $bd_msg, STORE_NAME, STORE_OWNER_EMAIL_ADDRESS, '');
+#        oos_mail('', SEND_EXTRA_ORDER_EMAILS_TO, $subject, $bd_msg, STORE_NAME, STORE_OWNER_EMAIL_ADDRESS, '');
       }
 
       // Move that ADOdb pointer!
@@ -298,8 +306,8 @@ require_once(dirname(__FILE__) . '/includes/functions/function_db.php');
   } else {
     //no birthdays for today
     if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
-      oos_mail('', SEND_EXTRA_ORDER_EMAILS_TO, . ' Birthday Cron', 'No birthday for ' . date("Y-m-d") . ' offset: '. $offset, STORE_NAME, STORE_OWNER_EMAIL_ADDRESS, '');
+#      oos_mail('', SEND_EXTRA_ORDER_EMAILS_TO, . ' Birthday Cron', 'No birthday for ' . date("Y-m-d") . ' offset: '. $offset, STORE_NAME, STORE_OWNER_EMAIL_ADDRESS, '');
     }
   }
 
-  require_once(dirname(__FILE__) . '/includes/oos_nice_exit.php');
+require_once MYOOS_INCLUDE_PATH . '/includes/oos_nice_exit.php';

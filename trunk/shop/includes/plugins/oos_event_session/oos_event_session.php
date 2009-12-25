@@ -93,8 +93,6 @@
       }
 
       if ($spider_flag === false) {
-        // set the session name and save path
-        oos_session_name('OOSSID');
 
         // lets start our session
         oos_session_start();
