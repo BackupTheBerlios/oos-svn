@@ -17,10 +17,16 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
+if(file_exists('bootstrap.php'))
+{
+	require_once 'bootstrap.php';
+}
+
 error_reporting(E_ALL & ~E_STRICT);
 
-if (function_exists('ini_set')) {
-    ini_set('magic_quotes_runtime', 0);
+if (function_exists('ini_set'))
+{
+  ini_set('magic_quotes_runtime', 0);
 }
 
 
@@ -40,9 +46,12 @@ if(!defined('MYOOS_USER_PATH'))
   define('MYOOS_USER_PATH', MYOOS_DOCUMENT_ROOT);
 }
 
-if (!defined('MYOOS_SESSION_NAME')) {
-	  define('MYOOS_SESSION_NAME', 'MYOOS_SESSID');
+if (!defined('MYOOS_SESSION_NAME'))
+{
+  define('MYOOS_SESSION_NAME', 'MYOOS_SESSID');
 }
+
+
 
 @ini_set('session.name', MYOOS_SESSION_NAME);
 if(ini_get('session.save_handler') == 'user')
@@ -75,7 +84,6 @@ if(ini_get('session.save_handler') == 'files')
 		}
 	}
 }
-
 
 
 
