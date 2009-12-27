@@ -33,7 +33,7 @@ if (isset($oCurrencies) && is_object($oCurrencies)) {
 
     $hidden_get_variables = '';
     foreach ($_GET as $sKey => $value) {
-        if ( ($sKey != 'currency') && ($sKey != oos_session_name()) && ($sKey != 'x') && ($sKey != 'y') ) {
+        if ( is_string($value) && ($sKey != 'currency') && ($sKey != oos_session_name()) && ($sKey != 'x') && ($sKey != 'y') ) {
             $hidden_get_variables .= oos_draw_hidden_field($sKey, $value);
         }
     }

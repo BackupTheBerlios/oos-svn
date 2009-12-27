@@ -553,7 +553,7 @@ function oos_get_all_get_parameters($aExclude = '')
     $sUrl = '';
     if (is_array($_GET) && (count($_GET) > 0)) {
         foreach ($_GET as $sKey => $sValue) {
-            if (!empty($sValue)) {
+            if (!empty( $sValue ) && is_string( $sValue ) ) {
                 if ( ($sKey != oos_session_name()) && (!in_array($sKey, $aParameters)) && (!in_array($sKey, $aExclude)) ) {
                     $sUrl .= $sKey . '=' . rawurlencode($sValue) . '&amp;';
                 }
@@ -581,7 +581,7 @@ function oos_get_all_post_parameters($aExclude = '')
     $sUrl = '';
     if (is_array($_POST) && (count($_POST) > 0)) {
         foreach ($_POST as $sKey => $sValue) {
-            if ( (!empty($sValue)) && (!is_array($sValue)) ) {
+            if ( !empty($sValue) && is_string($sValue) )  {
                 if ( ($sKey != oos_session_name())  && (!in_array($sKey, $aParameters))  && (!in_array($sKey, $aExclude)) ) {
                     $sUrl .= $sKey . '=' . rawurlencode($sValue) . '&amp;';
                 }
@@ -1339,9 +1339,9 @@ function oos_mail($to_name, $to_email_address, $email_subject, $email_text, $fro
 
     // Instantiate a new mail object
     $mail = new PHPMailer;
-	$mail->ClearAllRecipients();
-	$mail->ClearAddresses();
-	$mail->ClearAttachments();
+    $mail->ClearAllRecipients();
+    $mail->ClearAddresses();
+    $mail->ClearAttachments();
 
     $mail->PluginDir = OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/';
     $mail->SetLanguage( $sLang, OOS_ABSOLUTE_PATH . 'includes/lib/phpmailer/language/' );
