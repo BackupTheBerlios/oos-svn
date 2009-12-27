@@ -1,4 +1,4 @@
-// $Id: farbtastic.js,v 1.2 2007/01/08 22:53:01 unconed Exp $
+// $Id$
 // Farbtastic 1.2
 
 var farbtastic_click = false;

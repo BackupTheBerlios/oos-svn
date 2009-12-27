@@ -2,7 +2,7 @@
 /**
  * Class for working with PO files
  *
- * @version $Id: po.php 283 2009-09-23 16:21:51Z nbachiyski $
+ * @version $Id$
  * @package pomo
  * @subpackage po
  */

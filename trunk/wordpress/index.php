@@ -23,7 +23,7 @@
  * 
  * @link http://www.oos-shop.de
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: index.php  $
+ * @version $Id$
  * 
  * @package Blog
  */
