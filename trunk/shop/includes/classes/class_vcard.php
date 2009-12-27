@@ -27,7 +27,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  *
  * {@link http://www.bitfolge.de/en Latest release of this class}
  */
-include 'includes/classes/vcard/vcard.php';
+include 'includes/lib/bitfolge/vcard.php';
 
 
 /**
