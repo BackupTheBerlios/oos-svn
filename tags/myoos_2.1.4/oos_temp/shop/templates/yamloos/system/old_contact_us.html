@@ -1,0 +1,89 @@
+{*  $Id$ *}
+
+{$oosPageHeading}
+
+
+{if $smarty.get.action eq 'success' }
+	<div class="subcolumns">
+		<div class="c33l">
+			<div class="subcl">
+				<img src="{$theme_image}/heading/man_on_board.gif" border="0" alt="{$oos_heading_title}" width="175" height="198" />
+
+			</div>
+		</div>
+
+		<div class="c66r">
+			<div class="subcr">
+
+				<h3>{$oos_heading_title}</h3>
+
+				<p>
+					{$lang.text_success}
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div id="break"></div>
+
+	{css_button page=$pages.main title=$lang.image_button_continue color="btnR green"}
+{else}
+
+<form name="contact_us" action="{html_get_link}" method="post">
+    <input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}">
+    <input type="hidden" name="formid" value="{$formid}">
+    <input type="hidden" name="action" value="send">
+    <input type="hidden" name="page" value="{$pages.contact_us}">
+
+		<fieldset class="">
+			<legend>{$oos_heading_title}</legend>
+
+			<span class="oneField">
+				<label for="entry_name" class="preField">{$lang.entry_name}</label>
+
+				{if (isset($smarty.session.customer_id)) }
+					<input type="hidden" name="name" value="{$customer.customers_firstname} {$customer.customers_lastname}" />{$customer.customers_firstname} {$customer.customers_lastname}
+				{else}
+					{if ($error_name) }
+						<input type="text" name="name" id="entry_name" value="" class="errFld" /><span class="reqMark">*</span>&nbsp;&nbsp;<span class="errMsg">{$lang.entry_error_no_name}<br /></span>
+					{else}
+						<input type="text" name="name" id="entry_name" value="{$smarty.post.name}" /><span class="reqMark">*</span><br />
+					{/if}
+				{/if}
+			</span>
+
+
+			<span class="oneField">
+				<label for="entry_email" class="preField">{$lang.entry_email}</label>
+
+				{if (isset($smarty.session.customer_id)) }
+					<input type="hidden" name="email" value="{$customer.customers_email_address}" />{$customer.customers_email_address}
+				{else}
+					{if $error eq '1'}
+						<input type="text" name="email" id="entry_email" value="" class="errFld" /><span class="reqMark">*</span>&nbsp;&nbsp;<span class="errMsg">{$lang.entry_email_address_check_error}<br /></span>
+					{else}
+						<input type="text" name="email" id="entry_email" value="{$smarty.post.email}" /><span class="reqMark">*</span><br />
+					{/if}
+				{/if}
+			</span>
+
+
+
+			<span class="oneField">
+				<label for="entry_enquiry" class="preField">{$lang.entry_enquiry}</label>
+				<span id="spell_container" style="background-color: #ddd"></span><br />
+				<textarea id="entry_enquiry" name="enquiry" class="textarea" rows="10" cols="21">{$smarty.post.enquiry|stripslashes}</textarea>
+
+			</span>
+		</fieldset>
+
+
+		<p>
+			{css_reset_button value=$lang.image_button_delete}
+			{css_submit_button value=$lang.image_button_continue}
+		</p>
+
+
+	</form>
+{/if}
+

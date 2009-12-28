@@ -1,0 +1,20 @@
+<div class="block" id="block_search">
+	<h4>
+		    <a href="{html_href_link page=$pages.advanced_search}">{$block_heading_search}</a>
+	</h4>
+	<div class="block_content">
+
+<form name="quick_find" action="{html_get_link}" method="get">
+	<input type="hidden" name="page" value="{$pages.advanced_search_result}" />
+	<input type="hidden" name="{$oos_session_name}" value="{$oos_session_id}" />
+	<input type="hidden" name="formid" value="{$formid}" />
+
+	<p>{html_js_inputbox name='keywords' size='12' value=$lang.text_search}
+	{html_image_submit image="quick_find.gif" alt=$block_heading_search}</p>
+</form>
+
+	<p>{$lang.block_search_text|wordwrap:25:"<br />\n"}<br />
+	<a href="{html_href_link page=$pages.advanced_search}" title="{$lang.block_search_advanced_search}" accesskey="4">{$lang.block_search_advanced_search}</a></p>
+
+	</div>
+</div>

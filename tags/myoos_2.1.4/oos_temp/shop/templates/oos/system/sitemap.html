@@ -1,0 +1,57 @@
+    <table border="0" width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td>{$oosPageHeading}</td>
+      </tr>
+      <tr>
+        <td height="10"></td>
+      </tr>
+      <tr>
+        <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+          <tr>
+            <td width="50%" class="main" valign="top">{$sitemap}</td>
+            <td width="50%" class="main" valign="top">
+              <ul>
+<li><a href="{html_href_link page=$pages.shopping_cart}" rel="nofollow">{$lang.page_shopping_cart}</a></li>
+<li><a href="{html_href_link page=$pages.checkout_shipping}" rel="nofollow">{$lang.page_checkout_shipping}</a></li>
+<li><a href="{html_href_link page=$pages.advanced_search}" rel="nofollow">{$lang.page_advanced_search}</a></li>
+<li><a href="{html_href_link page=$pages.products_new}">{$lang.page_products_new}</a></li>
+<li><a href="{html_href_link page=$pages.top_viewed}">{$lang.page_products_top_viewed}</a></li>
+{if $oEvent->installed_plugin('spezials')}
+<li><a href="{html_href_link page=$pages.specials}">{$lang.page_specials}</a></li>
+{/if}
+{if $oEvent->installed_plugin('reviews')}
+<li><a href="{html_href_link page=$pages.reviews}">{$lang.page_reviews}</a></li>
+{/if}
+                <li>{$lang.page_service}
+                  <ul>
+{if $smarty.const.MODULE_ORDER_TOTAL_GV_STATUS eq '1'}
+                    <li><a href="{html_href_link page=$pages.gv_faq}">{$lang.block_service_gv}</a></li>
+{/if}
+                    <li><a href="{html_href_link page=$pages.info_sitemap}">{$lang.block_service_sitemap}</a></li>
+                  </ul>
+                </li>
+
+                </li>{$lang.heading_information}
+                  <ul>
+{if $oEvent->installed_plugin('gallery')}
+                    <li><a href="{html_href_link page=$pages.info_gallery}">{$lang.block_information_gallery}</a></li>
+{/if}
+{foreach item=info from=$information}
+                    <li><a href="{html_href_link page=$pages.information information_id=$info.information_id}" title="{$info.information_name}" rel="nofollow">{$info.information_name}</a></li>
+{/foreach}
+                    <li><a href="{html_href_link page=$pages.contact_us}" rel="nofollow">{$lang.block_information_contact}</a></li>
+                    <li><a href="{html_href_link page=$pages.info_vcard}" rel="nofollow">{$lang.block_information_v_card}</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="10"></td>
+      </tr>
+      <tr>
+        <td align="right" class="main"><br><a href="{oos_back_link}">{html_image_button image="back.gif" alt=$lang.image_button_back}</a></td>
+      </tr>
+    </table>
