@@ -11,7 +11,7 @@
  *
  * Type:     function<br>
  * Name:     customers_image<br>
- * Date:     Apr 16, 2007<br>
+ * Date:     Apr 16, 2009<br>
  * Purpose:  format HTML tags for the image<br>
  * Input:<br>
  *         - image =image width (optional, default actual width)

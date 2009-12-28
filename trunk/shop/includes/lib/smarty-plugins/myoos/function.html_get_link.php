@@ -12,7 +12,7 @@
  *
  * Type:     function
  * Name:     html_get_link
- * @Version: $Revision: 1.3 $ - changed by $Author: r23 $ on $Date: 2007/10/23 15:56:54 $
+ * @Version: $Revision: 1.3 $ - changed by $Author: r23 $ on $Date: 2009/10/23 15:56:54 $
  * -------------------------------------------------------------
  */
 
