@@ -11,12 +11,12 @@
 
    File: compatibility.php,v 1.22 2004/07/22 16:36:22 hpdl
          compatibility.php,v 1.18 2003/02/11 01:31:01 hpdl
-         compatibility.php 1498 2007-03-29 14:04:50Z hpdl $
+         compatibility.php 1498 2009-03-29 14:04:50Z hpdl $
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
 
-   Copyright (c) 2007 osCommerce
+   Copyright (c) 2009 osCommerce
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */

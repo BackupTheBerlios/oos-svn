@@ -10,7 +10,7 @@
    Based on:
 
    File: html_output.php,v 1.49 2003/02/11 01:31:02 hpdl
-         html_output.php 1498 2007-03-29 14:04:50Z hpdl
+         html_output.php 1498 2009-03-29 14:04:50Z hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com

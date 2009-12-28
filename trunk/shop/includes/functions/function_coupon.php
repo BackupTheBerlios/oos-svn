@@ -28,7 +28,7 @@
   *
   * @link http://www.oos-shop.de/
   * @package Credit Class GV/Discount Coupon
-  * @version $Revision: 1.19 $ - changed by $Author: r23 $ on $Date: 2007/01/23 16:52:23 $
+  * @version $Revision: 1.19 $ - changed by $Author: r23 $ on $Date: 2009/01/23 16:52:23 $
   */
 
   /** ensure this file is being included by a parent file */

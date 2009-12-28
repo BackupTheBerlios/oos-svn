@@ -24,7 +24,7 @@
   *
   * @link http://www.oos-shop.de/
   * @package oos_address
-  * @version $Revision: 1.23 $ - changed by $Author: r23 $ on $Date: 2007/04/05 17:06:52 $
+  * @version $Revision: 1.23 $ - changed by $Author: r23 $ on $Date: 2009/04/05 17:06:52 $
   */
 
   /** ensure this file is being included by a parent file */

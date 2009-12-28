@@ -24,7 +24,7 @@
   *
   * @link http://www.oos-shop.de/
   * @package listing
-  * @version $Revision: 1.13 $ - changed by $Author: r23 $ on $Date: 2007/05/07 09:16:11 $
+  * @version $Revision: 1.13 $ - changed by $Author: r23 $ on $Date: 2009/05/07 09:16:11 $
   */
 
   /** ensure this file is being included by a parent file */
