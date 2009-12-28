@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007 Jörn Zaefferer
  *
- * $Id: jquery.delegate.js 4786 2008-02-19 20:02:34Z joern.zaefferer $
+ * $Id$
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
