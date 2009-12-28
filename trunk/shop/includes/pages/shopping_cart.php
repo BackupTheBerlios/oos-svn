@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- $Id: main_shopping_cart.php 340 2009-08-13 17:29:45Z r23 $
+ $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

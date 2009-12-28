@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: products_attributes.php 149 2009-04-02 14:01:20Z r23 $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

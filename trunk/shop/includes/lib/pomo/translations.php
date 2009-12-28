@@ -2,7 +2,7 @@
 /**
  * Class for a set of entries for translation and their associated headers
  *
- * @version $Id: translations.php 289 2009-10-01 15:18:49Z nbachiyski $
+ * @version $Id$
  * @package pomo
  * @subpackage translations
  */

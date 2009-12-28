@@ -1,5 +1,5 @@
 <?php
-/* $Id: phplot.php,v 1.154 2009/06/15 00:18:45 lbayuk Exp $ */
+/* $Id$ */
 /*
  * PHPLOT Version 5.0.7
  *

@@ -2,7 +2,7 @@
 /**
  * Class for working with MO files
  *
- * @version $Id: mo.php 221 2009-09-07 21:08:21Z nbachiyski $
+ * @version $Id$
  * @package pomo
  * @subpackage mo
  */

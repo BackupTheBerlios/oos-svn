@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: function_server.php 143 2009-04-01 16:41:11Z r23 $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/

@@ -1,5 +1,5 @@
 <?php
-/* $Id: phplot_data.php,v 1.12 2009/06/12 01:46:51 lbayuk Exp $ */
+/* $Id$ */
 /*
  * This file extends PHPlot by adding additional routines that can be used
  * to modify the data arrays.

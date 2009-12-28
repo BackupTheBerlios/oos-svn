@@ -8,7 +8,7 @@ define('TPL_DEBUG',0); // used if evaluationg of template fails
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: template.php,v 1.10.2.3 2002/12/21 19:09:57 psotfx Exp $
+ *   $Id$
  *
  *
  ***************************************************************************/

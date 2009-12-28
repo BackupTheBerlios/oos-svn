@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
-   $Id: stats_customers.php 44 2009-03-06 10:34:19Z r23 $
+   $Id$
 
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
