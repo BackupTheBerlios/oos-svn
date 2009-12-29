@@ -22,11 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-error_reporting(E_ALL ^ E_NOTICE);
-
-if (function_exists('ini_set')) {
-    ini_set('display_errors',1);
+if(file_exists('bootstrap.php'))
+{
+	require_once 'bootstrap.php';
 }
+
+error_reporting(E_ALL & ~E_STRICT);
+
 @set_time_limit(120);
 
 define('OOS_VALID_MOD', 'yes');

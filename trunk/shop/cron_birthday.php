@@ -21,6 +21,11 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
+if(file_exists('bootstrap.php'))
+{
+	require_once 'bootstrap.php';
+}
+
 define('OOS_VALID_MOD', 'yes');
 
 define('MYOOS_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));

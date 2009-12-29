@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -28,7 +28,7 @@
   * @package Content Block
   * @author r23 <info@r23.de>
   * @copyright 2003 r23
-  * @version $Revision: 1.18 $ - changed by $Author: r23 $ on $Date: 2007/04/08 03:41:18 $
+  * @version $Revision: 1.18 $ - changed by $Author: r23 $ on $Date: 2009/04/08 03:41:18 $
   */
 
  /**

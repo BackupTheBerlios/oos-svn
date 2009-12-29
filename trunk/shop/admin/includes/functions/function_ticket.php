@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2009 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -32,7 +32,7 @@
   *
   * @link http://www.oos-shop.de/
   * @package Support Ticket System
-  * @version $Revision: 1.15 $ - changed by $Author: r23 $ on $Date: 2007/04/08 03:41:18 $
+  * @version $Revision: 1.15 $ - changed by $Author: r23 $ on $Date: 2009/04/08 03:41:18 $
   */
 
  /**
