@@ -4,7 +4,7 @@
  * Framework class for all plugins. For WordPress 2.3+ only
  * Note: ...rename the prefix name of this class... 
  * @author Michael Wöhrer
- * @version 1.1, January 2009
+ * @version 1.2, January 2009
  */
 class LinkIndication_SWGPluginFramework {
 
@@ -13,13 +13,14 @@ class LinkIndication_SWGPluginFramework {
 	var $g_opt_default;		# plugin default options
 	var $g_contentmain;		# content in the main area
 	var $g_contentsidebar;	# content in the sidebar
-	var $g_message;			# message
 
 	/**
 	 * Set global variables & check version
-     * @param string $plugin_info
+     * 
+     * @param array $pluginInfo array of plugin information
+     * @param array $pluginDefaultOptions array of plugin default options
 	 */
-	function Initialize($pluginInfo, $pluginDefaultOptions, $pluginConvertBeforeSave='') {
+	function Initialize($pluginInfo, $pluginDefaultOptions) {
 		// Set global variable
 		$this->g_info = $pluginInfo;
 		
@@ -53,8 +54,11 @@ class LinkIndication_SWGPluginFramework {
 		// Register plugin options page
 		if ( method_exists($this, 'PluginOptionsPage') )
 			$this->RegisterPluginOptionsPage();
-		
+
 	}
+
+
+
 
  	/**
 	 * Register plugin options page
@@ -62,8 +66,22 @@ class LinkIndication_SWGPluginFramework {
   	function RegisterPluginOptionsPage() {	// Add a menu item to the "Settings" area in the WP administration
 		add_action('admin_menu', array(&$this, 'add_action_admin_menu_PluginMenuItem'));
 	}
-	function add_action_admin_menu_PluginMenuItem() {	// For adding a menu item to the "Settings" area in the WP administration
+	function add_action_admin_menu_PluginMenuItem() {
+		// Adding Options Page
 		add_options_page($this->g_info['Name'], $this->g_info['Name'], 9, basename($this->g_info['PluginFile']), array(&$this, 'PluginOptionsPage'));
+		
+		
+		// Add link "Settings" to the plugin in /wp-admin/plugins.php
+		global $wp_version;
+		if ( version_compare($wp_version, '2.7', '>=' ) ) {
+			add_filter( 'plugin_action_links_' . plugin_basename($this->g_info['PluginFile']), array(&$this, 'add_filter_plugin_action_links') );
+		}
+	}
+	function add_filter_plugin_action_links($links) {
+		$settings_link = '<a href="options-general.php?page=addquicktag/addquicktag.php">' . __('Settings') . '</a>';
+		$settings_link = '<a href="'.$this->GetPluginOptionsURL().'">' . __('Settings') . '</a>';
+		array_unshift($links, $settings_link);
+		return $links;
 	}
 
  	/**
@@ -112,16 +130,17 @@ class LinkIndication_SWGPluginFramework {
 		##########################
 		# Delete the options?
 		##########################
+		$isdeleted = false;
 		if ( isset($_POST['delete-settings-'.$this->g_info['ShortName']]) ) {
 			delete_option($this->g_info['OptionName']);
-			$this->g_message .= __('Settings deleted/reset.',$this->g_info['ShortName'])  . '<br />';
+			$isdeleted = true;
 		}
 
 		##########################
 		# Initialize options
 		##########################
 		$this->g_opt = get_option($this->g_info['OptionName']);
-		
+
 		##########################
 		# We check if we should set the default options
 		##########################				 
@@ -140,12 +159,48 @@ class LinkIndication_SWGPluginFramework {
 				$ResetOpt = true;
 			}
 		}
+		
 		##########################
 		# Reset to default options
 		##########################
 		if ($ResetOpt) {
 			// Options do not exist or have not yet been loaded or are old; so we set the default options
 			$this->g_opt = $this->g_opt_default;
+		}
+
+		##########################
+		# Copy old option values into new option values to not loose old options
+		##########################
+		// By doing so, we make sure that newly added options will have default
+		// values and old options will be overtaken into the new options...
+		// We consider also the array of old option names $this->g_info['DeleteOldOpt']
+		// and loop thru this reversed array. So if an option of the current option
+		// name does not exist, but an older one, we use the older one.
+		if ( (!$isdeleted) && ($this->g_opt['pluginversion'] != $this->g_info['Version']) ) { 
+			if (is_array($this->g_info['DeleteOldOpt'])) {
+				$savedoptnameArr = $this->g_info['DeleteOldOpt'];	// array of old option names we want to delete later
+			} else {
+				$savedoptnameArr = array();
+			}
+			$savedoptnameArr[] = $this->g_info['OptionName']; // append current option name to array
+			$savedoptnameArr = array_reverse($savedoptnameArr); // newest option first
+			foreach ($savedoptnameArr as $loopval) {
+				if ( get_option($loopval) != false ) {
+					$opttemp = get_option($loopval);
+					if ( (is_array($opttemp)) && (!empty($opttemp)) ) {
+						foreach ($opttemp as $lpOptionName => $lpOptionValue) {
+							if ($lpOptionName != 'pluginversion') {
+								$this->g_opt[$lpOptionName] = $lpOptionValue;
+							}
+						}
+						// We save the options here.
+						$this->g_opt['pluginversion'] = $this->g_info['Version'];
+						add_option($this->g_info['OptionName'], $this->g_opt); 	// adds option to table if it does not exist.
+						update_option($this->g_info['OptionName'], $this->g_opt);	// we save option since add_option does nothing if option already exists
+						break;	
+					}
+				}
+			}
 		}
 
 		##########################
@@ -170,8 +225,6 @@ class LinkIndication_SWGPluginFramework {
 			update_option($this->g_info['OptionName'], $optionsToBeSaved);	// we save option since add_option does nothing if option already exists 	
 			// Update Options in the class
 			$this->g_opt = $optionsToBeSaved;		
-			// Message
-			$this->g_message .= __('Settings saved.',$this->g_info['ShortName'])  . '<br />';
 		}
 	}
 
@@ -290,9 +343,12 @@ class LinkIndication_SWGPluginFramework {
 	 */
 	function GetGeneratedOptionsPage() {
 
-		// security question
+		// Security 
 		if ( function_exists('current_user_can') && (!current_user_can('manage_options')) ) {
 			wp_die('<p>'.__('You do not have permission to modify the options', $this->g_info['ShortName']).'</p>');
+		}
+		if ( isset($_POST['delete-settings-'.$this->g_info['ShortName']]) || isset($_POST['update-options-'.$this->g_info['ShortName']]) ) {
+			check_admin_referer($this->g_info['Name']);
 		}
 
 		// Delete old options if we have any. We perform the deletion here as we only want to do it
@@ -307,8 +363,14 @@ class LinkIndication_SWGPluginFramework {
 			}
 		}
 
-		//Display message
-		if($this->g_message != '') echo '<div class="updated"><strong><p>' . $this->g_message . '</p></strong></div>';
+		// Display message
+		// We generate output here and not in IniOrUpdateOptions() as there the __()
+		// does not show translated values.
+		if ( isset($_POST['delete-settings-'.$this->g_info['ShortName']]) ) {
+			echo '<div class="updated"><strong><p>' . __('Settings deleted/reset.',$this->g_info['ShortName']) . '</p></strong></div>';
+		} elseif ( isset($_POST['update-options-'.$this->g_info['ShortName']]) ) {
+			echo '<div class="updated"><strong><p>' . __('Settings saved.',$this->g_info['ShortName']) . '</p></strong></div>';
+		}
 
 		?>
 		<style type="text/css">
@@ -347,7 +409,7 @@ class LinkIndication_SWGPluginFramework {
 
 		<table id="outer"><tr><td class="left">
 		<!-- *********************** BEGIN: Main Content ******************* -->
-		<form name="form1" method="post" action="<?php echo $this->GetFormBackLink() ?>">
+		<form name="form1" method="post" action="<?php echo $this->GetPluginOptionsURL() ?>">
 		<?php wp_nonce_field($this->g_info['Name']); ?>
 
 		<fieldset class="options">
@@ -401,17 +463,18 @@ class LinkIndication_SWGPluginFramework {
 		return $this->g_data[$info];
 	}
 
-	function GetFormBackLink() {
-		$page = basename($this->g_info['PluginFile']);
-		if(isset($_GET['page']) && !empty($_GET['page'])) {
-			$page = preg_replace('[^a-zA-Z0-9\.\_\-]','',$_GET['page']);
+	/**
+	 * Returns the option URL of the plugin, e.g. http://testblog.com/wp-admin/options-general.php?page=myplugin.php
+	 * @return string 
+	 */
+	function GetPluginOptionsURL() {
+		if (function_exists('admin_url')) {	// since WP 2.6.0
+			$adminurl = trailingslashit(admin_url());			
+		} else {
+			$adminurl = trailingslashit(get_settings('siteurl')).'wp-admin/';
 		}
-		if(function_exists('admin_url')) return admin_url(basename($_SERVER['PHP_SELF'])) . '?page=' .  $page;
-		else return $_SERVER['PHP_SELF'] . '?page=' .  $page;
+			return $adminurl.'options-general.php'.'?page=' . basename($this->g_info['PluginFile']);		
 	}
-
-
-
 
 	/**
 	 * Get Icon URL 

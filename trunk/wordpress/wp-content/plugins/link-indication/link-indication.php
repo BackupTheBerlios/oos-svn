@@ -3,7 +3,7 @@
 Plugin Name: Link Indication
 Plugin URI: http://sw-guide.de/wordpress/plugins/link-indication/
 Description: Adds CSS class attributes to external links and optionally specific attributes to any other link types such as wikipedia.org, flickr, imdb, file extensions like .pdf or .zip, etc. Thereby you can indicate your links, e.g. by images, for characterizing your types of links. Furthermore you can add target="blank" to all external links, rel="nofollow" to specific hyperlinks or display websnapr preview thumbnails. Navigate to <a href="admin.php?page=link-indication.php">Settings &rarr; Link Indication</a>.
-Version: 4.1
+Version: 4.2
 Author: Michael Wöhrer
 Author URI: http://sw-guide.de/
 
@@ -67,9 +67,6 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 		if ($this->g_opt['mwli_usecssfile'] == '1') {
 			add_action('wp_head', array(&$this, 'ForAddAction_wp_head_style'));
 		}
-	
-	
-	
 	}
 	
 	function ForAddAction_template_redirect_ob_start() {
@@ -115,7 +112,6 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 				text of the link
 		**********************************************/
 		$pattern = '/<a (.*?)(href=("|\')(.*?)("|\')(.*?)|)>(.*?)<\/a>/i'; // don't remove space between '<a' and '(.*?)' to avoid that plugin is not applied when abbr or acronyms are used 
-	
 		$result = preg_replace_callback($pattern,array(&$this,'ParseLinks'),$content);
 	
 		return $result;
@@ -125,13 +121,20 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 	 * Parses the links
 	 */
 	function ParseLinks($matches){
-	
+
 		/**********************
 		* If there is no href...
 		*********************/
 		if ($matches[4] == '') {
 			// There is no href so we return it just at is was provided;
-			return '<a ' . $matches[1] . '>' . $matches[7] . '</a>';	// Don't remove space in '<a ' or it will cause an error for the "more" anchor: <aid="more-123"> 
+			return '<a ' . $matches[2] . '>' . $matches[7] . '</a>';	// Don't remove space in '<a ' or it will cause an error for the "more" anchor: <aid="more-123"> 
+		}
+
+		/**********************
+		* Because of problems with JS links we skip these
+		*********************/
+		if (strpos(strtolower($matches[4]), 'javascript') !== false) {
+			return '<a ' . $matches[2] . '>' . $matches[7] . '</a>';
 		}
 	
 		/**********************
@@ -147,9 +150,13 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 		/**********************
 		* Get the domain name
 		*********************/
-		$domainname_link = $this->GetDomainnameFromUri($matches[4]);
-	
-	
+		// Since plugin version 4.2, we do no longer use {$domainname_link = $this->GetDomainnameFromUri($matches[4]);}
+		// We don't want to use the domain name only but the entire URL for the search - but without its parameters...
+		$domainname_link = $matches[4];
+		if ( strpos($domainname_link, '?')  !== false) {
+			$domainname_link = substr($domainname_link, 0, strpos($domainname_link, '?'));
+		}
+
 		/**********************
 		* Get the type of the link
 		*********************/
@@ -159,7 +166,7 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 		if (substr($matches[4], 0, 7) == 'mailto:') $linktype = 'mailto';
 	
 	
-		if ( ($linktype == 'external-http') and ( in_array($domainname_link, $blogurlsArrayClean) ) ) {
+		if ( ($linktype == 'external-http') and ( in_array($this->GetDomainnameFromUri($matches[4]), $blogurlsArrayClean) ) ) {
 			// -- the link is internal but with leading http...
 			$linktype = 'internal';
 		}
@@ -187,7 +194,8 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 							$linktype = 'external-userdefined';
 							$csssetting = $this->g_opt['mwli_cssclasses'][$loopCount];
 							break;							
-						} elseif ( (substr($matches[4], -strlen($loopSearchString)) == $loopSearchString) && ($this->g_opt['mwli_types'][$loopCount] == 'File Extension') ) {
+						} elseif ((substr($matches[4], -(strlen($loopSearchString) + 1)) === ('.' . $loopSearchString))
+						          && ($this->g_opt['mwli_types'][$loopCount] == 'File Extension') ) {
 							$linktype = 'filename-extension';
 							$csssetting = $this->g_opt['mwli_cssclasses'][$loopCount];
 							break;
@@ -251,15 +259,24 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 				$csssetting = $this->g_opt['mwli_internal'];
 		} //switch
 
+	  	/**********************
+	  	* If it is an image url, do not add CSS, but add image link class
+	  	*********************/
+	  	if (substr_count($matches[7] , '<img ') > 0) {
+	    	if ($this->g_opt['mwli_toimages'] != '1') {
+	  			$csssetting = '';
+	  		}
+	    	if ($this->g_opt['mwli_imagelinks'] !== '') {
+	    	  if ($csssetting === '') {
+	      	  // nothing has been set or it has been reset above
+	      	  $csssetting = $this->g_opt['mwli_imagelinks'];
+	    	  } else {
+	    	    // append the image link class
+	    	    $csssetting = $csssetting . ' ' . $this->g_opt['mwli_imagelinks'];
+	    	  }
+	    	}
+	  	}
 
-		/**********************
-		* If it is an image url, do not add CSS
-		*********************/
-		if ($this->g_opt['mwli_toimages'] != '1') {
-			if (substr_count($matches[7] , '<img ') > 0) {
-				$csssetting = '';
-			}
-		}
 
 		/**********************
 		* Do not add CSS if we deactivated it;
@@ -299,8 +316,8 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 		// remove leading and trailing white space
 		$final_stuff = trim($final_stuff);
 		// replace single quotes (') with double quotes (")
-		$final_stuff = str_replace('\'', '"', $final_stuff);
-		
+		//$final_stuff = str_replace('\'', '"', $final_stuff);	// As of version 4.2: We do no longer do this due to problems with JS links
+
 		/**********************
 		* Return the result
 		*********************/
@@ -553,6 +570,13 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 				<td><input name="mwli_internal" type="text" id="mwli_internal" value="' . $this->COPTHTML('mwli_internal') . '" size="15" /></td> 
 				<td><small>'.__('All internal links.',$this->g_info['ShortName']).'</small></td>
 			</tr>
+
+	  		<tr valign="center">
+	  			<th align=left scope="row"><label for="mwli_imagelinks">'.__('Image links:',$this->g_info['ShortName']).'</label></th> 
+	  			<td><input name="mwli_imagelinks" type="text" id="mwli_imagelinks" value="' . $this->COPTHTML('mwli_imagelinks') . '" size="15" /></td> 
+				<td><small>'.__('All links containing an image (<em>&lt;img&gt;</em> tags inside the <em>&lt;a&gt;</em> tag).',$this->g_info['ShortName']).'</small></td>
+	  		</tr>
+
 			</table>
 
 			<hr />
@@ -638,7 +662,7 @@ if( !isset($myLinkIndication)  ) {
 			# Old option names to delete from the options table
 				'DeleteOldOpt' =>	array('mw_linkindication_plugin', 'plugin_linkindication', 'plugin_linkindication3'),
 			# Plugin version
-				'Version' => 		'4.1',
+				'Version' => 		'4.2',
 			# First plugin version of which we do not reset the plugin options to default;
 			# Normally we reset the plugin's options after an update; but if we for example
 			# update the plugin from version 2.3 to 2.4 und did only do minor changes and
@@ -646,7 +670,7 @@ if( !isset($myLinkIndication)  ) {
 			# options are being reset to default only if the old plugin version was < 2.3.
 				'UseOldOpt' => 		'4.0',
 			# Copyright year(s)
-				'CopyrightYear' => 	'2006-2009',
+				'CopyrightYear' => 	'2006-2010',
 			# Minimum WordPress version
 				'MinWP' => 			'2.3',				
 			# Do not change; full path and filename of the plugin
@@ -663,6 +687,7 @@ if( !isset($myLinkIndication)  ) {
 			'mwli_ftp' => 'liftp',
 			'mwli_mailto' => 'limailto',
 			'mwli_internal' => 'liinternal',
+			'mwli_imagelinks' => 'liimagelink',
 			'mwli_apply' => '1',
 			'mwli_toimages' => '',
 			'mwli_targetblank' => '',
