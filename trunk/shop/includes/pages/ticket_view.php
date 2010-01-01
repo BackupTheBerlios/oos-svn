@@ -239,7 +239,7 @@ $oSmarty->assign(
           'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
           'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
           'oos_heading_title' => $aLang['heading_title'],
-          'oos_heading_image' => 'contact_us.gif'
+          'oos_heading_image' => 'contact_us.gif',
 
           'tlid'                      => $tlid,
           'customers_tickets_numrows' => $customers_tickets_numrows,
