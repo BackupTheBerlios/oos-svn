@@ -252,8 +252,9 @@ if ($category_depth == 'nested') {
 
 // todo multilanguage support
         if (OOS_META_KATEGORIEN == "description tag by category description replace") {
-            $oos_meta_description =  substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '',$category['categories_description'])),0 , 250));
+            $oos_meta_description =  substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '', $category['categories_description'])), 0 , 250);
         }
+    
 // todo multilanguage support
         if (OOS_META_KATEGORIEN == "Meta Tag with categories edit") {
             $oos_meta_description = $category['categories_description_meta'];
