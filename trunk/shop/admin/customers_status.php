@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -81,7 +81,7 @@ require 'includes/classes/class_currencies.php';
                                   'customers_status_payment' => $customers_status_payment
                                   );
           if ($action == 'insert') {
-            if (oos_empty($customers_status_id)) {
+            if (empty($customers_status_id)) {
               $next_id_result = $dbconn->Execute("SELECT max(customers_status_id) as customers_status_id FROM " . $oostable['customers_status'] . "");
               $next_id = $next_id_result->fields;
               $customers_status_id = $next_id['customers_status_id'] + 1;

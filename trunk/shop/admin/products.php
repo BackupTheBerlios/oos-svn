@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -317,7 +317,7 @@ if ( !current_user_can('products') )
               $dbconn->Execute("INSERT INTO $products_to_categoriestable (products_id, categories_id) values ('" . $products_id . "', '" . $current_category_id . "')");
             }
           }
-          if (oos_empty($_GET['categories'])) {
+          if (empty($_GET['categories'])) {
             $categories = $current_category_id;
           }
 

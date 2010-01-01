@@ -50,7 +50,7 @@ if ( !current_user_can('ticket_reply') )
           $sql_data_array = array('ticket_reply_name' => oos_db_prepare_input($ticket_reply_name_array[$lang_id]),
                                   'ticket_reply_text' => oos_db_prepare_input($ticket_reply_text_array[$lang_id]));
           if ($action == 'insert') {
-            if (oos_empty($ticket_reply_id)) {
+            if (empty($ticket_reply_id)) {
 
               $ticket_replytable = $oostable['ticket_reply'];
               $next_id_result = $dbconn->Execute("SELECT max(ticket_reply_id) as ticket_reply_id FROM $ticket_replytable");

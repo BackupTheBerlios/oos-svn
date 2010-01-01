@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -106,42 +106,17 @@ function oos_get_product_id($uprid)
     }
 }
 
-
-function oos_is_not_null($value)
-{
-    if (is_array($value)) {
-        if (count($value) > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        if (($value != '') && (strtolower($value) != 'null') && (strlen(trim($value)) > 0)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
-
-
+/**
+ * Alias function for empty()
+ *
+ * @param mixed $value The object to check if it is empty or not
+ * @access public
+ */
 function oos_empty($value)
 {
-    if (is_array($value)) {
-      if (count($value) > 0) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      if ((strtolower($value) != 'null') && (strlen(trim($value)) > 0)) {
-        return false;
-      } else {
-        return true;
-      }
-    }
+    return empty($value);
 }
-
+  
 
 /**
  * Return a random value

@@ -274,7 +274,7 @@ if ( !current_user_can('recover_cart_sales') )
       $custname = $inrec['fname'] . ' ' . $inrec['lname'];
 
       $outEmailAddr = '"' . $custname . '" <' . $inrec['email'] . '>';
-      if (oos_is_not_null(RCS_EMAIL_COPIES_TO)) {
+      if (!oos_empty(RCS_EMAIL_COPIES_TO)) {
         $outEmailAddr .= ', ' . RCS_EMAIL_COPIES_TO;
       }
 

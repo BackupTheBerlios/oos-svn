@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -106,7 +106,7 @@ if ( !current_user_can('products_units') )
           $sql_data_array = array('products_unit_name' => oos_db_prepare_input($products_unit_name_array[$lang_id]));
 
           if ($action == 'insert') {
-            if (oos_empty($products_units_id)) {
+            if (empty($products_units_id)) {
 
               $products_unitstable = $oostable['products_units'];
               $next_id_result = $dbconn->Execute("SELECT max(products_units_id) as products_units_id FROM $products_unitstable");

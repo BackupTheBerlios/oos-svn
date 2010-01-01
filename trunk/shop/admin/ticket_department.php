@@ -49,7 +49,7 @@ if ( !current_user_can('ticket_department') )
           $sql_data_array = array('ticket_department_name' => oos_db_prepare_input($ticket_department_name_array[$lang_id]));
 
           if ($action == 'insert') {
-            if (oos_empty($ticket_department_id)) {
+            if (empty($ticket_department_id)) {
               $ticket_departmenttable = $oostable['ticket_department'];
               $next_id_result = $dbconn->Execute("SELECT max(ticket_department_id) as ticket_department_id FROM $ticket_departmenttable");
               $next_id = $next_id_result->fields;

@@ -111,7 +111,7 @@ function smarty_function_html_href_link($params, &$smarty)
 // Add the session ID when moving from HTTP and HTTPS servers or when SID is defined
     if ( (ENABLE_SSL == '1' ) && ($connection == 'SSL') && ($add_session_id == '1') ) {
       $_sid = oos_session_name() . '=' . oos_session_id();
-    } elseif ( ($add_session_id == '1') && (oos_is_not_null(SID)) ) {
+    } elseif ( ($add_session_id == '1') && (!oos_empty(SID)) ) {
       $_sid = SID;
     }
 

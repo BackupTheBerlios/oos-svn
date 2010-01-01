@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -49,7 +49,7 @@ if ( !current_user_can('ticket_admin') )
           $sql_data_array = array('ticket_admin_name' => oos_db_prepare_input($ticket_admin_name_array[$lang_id]));
 
           if ($action == 'insert') {
-            if (oos_empty($ticket_admin_id)) {
+            if (empty($ticket_admin_id)) {
               $ticket_adminstable = $oostable['ticket_admins'];
               $next_id_result = $dbconn->Execute("SELECT max(ticket_admin_id) as ticket_admin_id FROM $ticket_adminstable");
               $next_id = $next_id_result->fields;

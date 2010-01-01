@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -28,7 +28,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  *
  * @category   OOS [OSIS Online Shop]
  * @package    Shipping
- * @copyright  Copyright (c) 2003 - 2009 by the OOS Development Team. (http://www.oos-shop.de/)
+ * @copyright  Copyright (c) 2003 - 2010 by the OOS Development Team. (http://www.oos-shop.de/)
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 class shipping
@@ -40,7 +40,7 @@ class shipping
     {
         global $aLang;
 
-        if (defined('MODULE_SHIPPING_INSTALLED') && oos_is_not_null(MODULE_SHIPPING_INSTALLED)) {
+        if (defined('MODULE_SHIPPING_INSTALLED') && !oos_empty(MODULE_SHIPPING_INSTALLED)) {
             $this->modules = explode(';', MODULE_SHIPPING_INSTALLED);
 
             $include_modules = array();

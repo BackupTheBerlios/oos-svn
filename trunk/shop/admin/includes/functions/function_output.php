@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -27,7 +27,7 @@
   *
   * @link http://www.oos-shop.de/
   * @package Admin html output
-  * @version $Revision: 1.46 $ - changed by $Author: r23 $ on $Date: 2009/05/28 09:20:12 $
+  * @version $Revision: 1.46 $ - changed by $Author: r23 $ on $Date: 2010/05/28 09:20:12 $
   */
 
 
@@ -480,7 +480,7 @@
   * Hide form elements
   */
   function oos_hide_session_id() {
-    if (defined('SID') && oos_is_not_null(SID)) return oos_draw_hidden_field(oos_session_name(), oos_session_id());
+    if (defined('SID') && !oos_empty(SID)) return oos_draw_hidden_field(oos_session_name(), oos_session_id());
   }
 
 

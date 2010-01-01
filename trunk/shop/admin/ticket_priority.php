@@ -51,7 +51,7 @@ if ( !current_user_can('ticket_priority') )
           $sql_data_array = array('ticket_priority_name' => oos_db_prepare_input($ticket_priority_name_array[$lang_id]));
 
           if ($action == 'insert') {
-            if (oos_empty($ticket_priority_id)) {
+            if (empty($ticket_priority_id)) {
               $ticket_prioritytable = $oostable['ticket_priority'];
               $next_id_result = $dbconn->Execute("SELECT max(ticket_priority_id) as ticket_priority_id FROM $ticket_prioritytable");
               $next_id = $next_id_result->fields;

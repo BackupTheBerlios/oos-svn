@@ -5,12 +5,12 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
    File: html_output.php,v 1.49 2003/02/11 01:31:02 hpdl
-         html_output.php 1498 2009-03-29 14:04:50Z hpdl
+         html_output.php 1498 2010-03-29 14:04:50Z hpdl
    ----------------------------------------------------------------------
    osCommerce, Open Source E-Commerce Solutions
    http://www.oscommerce.com
@@ -25,7 +25,7 @@
  *
  * @link http://www.oos-shop.de/
  * @package html output
- * @version $Revision: 1.73 $ - changed by $Author: r23 $ on $Date: 2009/02/19 14:47:36 $
+ * @version $Revision: 1.73 $ - changed by $Author: r23 $ on $Date: 2010/02/19 14:47:36 $
  */
 
 /** ensure this file is being included by a parent file */
@@ -78,7 +78,7 @@ function oos_href_link($sPage = '', $parameters = null, $connection = 'NONSSL', 
     // Add the session ID when moving from HTTP and HTTPS servers or when SID is defined
     if ( (ENABLE_SSL == '1' ) && ($connection == 'SSL') && ($add_session_id == true) ) {
         $_sid = oos_session_name() . '=' . oos_session_id();
-    } elseif ( ($add_session_id == true) && (oos_is_not_null(SID)) ) {
+    } elseif ( ($add_session_id == true) && (!oos_empty(SID)) ) {
         $_sid = SID;
     }
 
@@ -398,7 +398,7 @@ function oos_draw_hidden_field($name, $value = '', $parameters = '')
  * Hide form elements
  */
 function oos_hide_session_id() {
-    if (defined('SID') && oos_is_not_null(SID)) return oos_draw_hidden_field(oos_session_name(), oos_session_id());
+    if (defined('SID') && !oos_empty(SID)) return oos_draw_hidden_field(oos_session_name(), oos_session_id());
  }
 
 

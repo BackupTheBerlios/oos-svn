@@ -40,7 +40,7 @@ if (!isset($_SESSION['sendto'])) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
 }
 
-if ( (oos_is_not_null(MODULE_PAYMENT_INSTALLED)) && (!isset($_SESSION['payment'])) ) {
+if ( (!oos_empty(MODULE_PAYMENT_INSTALLED)) && (!isset($_SESSION['payment'])) ) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['checkout_payment'], '', 'SSL'));
 }
 

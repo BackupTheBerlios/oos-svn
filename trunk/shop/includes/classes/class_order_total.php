@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -28,7 +28,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  *
  * @category   OOS [OSIS Online Shop]
  * @package    Order Total
- * @copyright  Copyright (c) 2003 - 2009 by the OOS Development Team. (http://www.oos-shop.de/)
+ * @copyright  Copyright (c) 2003 - 2010 by the OOS Development Team. (http://www.oos-shop.de/)
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 class order_total
@@ -40,7 +40,7 @@ class order_total
     {
         global $aLang;
 
-        if (defined('MODULE_ORDER_TOTAL_INSTALLED') && oos_is_not_null(MODULE_ORDER_TOTAL_INSTALLED)) {
+        if (defined('MODULE_ORDER_TOTAL_INSTALLED') && !oos_empty(MODULE_ORDER_TOTAL_INSTALLED)) {
             $this->modules = explode(';', MODULE_ORDER_TOTAL_INSTALLED);
 
             $sLanguage = oos_var_prep_for_os($_SESSION['language']);
@@ -70,7 +70,7 @@ class order_total
 
                     $nArrayCountClass = count($GLOBALS[$class]->output);
                     for ($i=0, $n=$nArrayCountClass; $i<$n; $i++) {
-                        if (oos_is_not_null($GLOBALS[$class]->output[$i]['title']) && oos_is_not_null($GLOBALS[$class]->output[$i]['text'])) {
+                        if (!empty($GLOBALS[$class]->output[$i]['title']) && !empty($GLOBALS[$class]->output[$i]['text'])) {
                             $order_total_array[] = array('code' => $GLOBALS[$class]->code,
                                                          'title' => $GLOBALS[$class]->output[$i]['title'],
                                                          'text' => $GLOBALS[$class]->output[$i]['text'],

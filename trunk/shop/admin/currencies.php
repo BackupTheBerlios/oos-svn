@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -85,7 +85,7 @@ if ( !current_user_can('currencies') )
           $quote_function = 'quote_' . CURRENCY_SERVER_PRIMARY . '_currency';
           $rate = $quote_function($currency['code']);
 
-          if (empty($rate) && (oos_is_not_null(CURRENCY_SERVER_BACKUP)) ) {
+          if (empty($rate) && (!oos_empty(CURRENCY_SERVER_BACKUP)) ) {
             $quote_function = 'quote_' . CURRENCY_SERVER_BACKUP . '_currency';
             $rate = $quote_function($currency['code']);
           }

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -158,7 +158,7 @@ while ($aCategories = $categories_result->fields)
 {
     $list_of_categories_ids[] = intval($aCategories['categories_id']);
 
-    if ( (!oos_is_not_null($aCategories['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
+    if ( (empty($aCategories['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
         $categories_description = oos_get_categories_description($aCategories['categories_id']);
         $aCategories = array_merge($aCategories, $categories_description);
     }
@@ -215,7 +215,7 @@ if (!empty($categories)) {
             {
                 $list_of_categories_ids[] = intval($row['categories_id']);
 
-                if ( (!oos_is_not_null($row['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
+                if ( (empty($row['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
                     $categories_description = oos_get_categories_description($row['categories_id']);
                     $row = array_merge($row, $categories_description);
                 }

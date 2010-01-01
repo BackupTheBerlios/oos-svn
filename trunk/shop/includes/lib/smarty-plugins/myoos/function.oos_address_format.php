@@ -6,7 +6,7 @@
    http://www.oos-shop.de/
 
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -104,7 +104,7 @@ function smarty_function_oos_address_format($params, &$smarty)
    eval("\$address = \"$fmt\";");
    $address = stripslashes($address);
 
-   if ( (ACCOUNT_COMPANY == '1') && (oos_is_not_null($company)) ) {
+   if ( (ACCOUNT_COMPANY == '1') && (!empty($company)) ) {
      $address = $company . $cr . $address;
    }
 

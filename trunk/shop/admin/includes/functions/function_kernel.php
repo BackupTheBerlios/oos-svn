@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -29,7 +29,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  * @package Admin Kernel
  * @author r23 <info@r23.de>
  * @copyright 2003 r23
- * @version $Revision: 1.67 $ - changed by $Author: r23 $ on $Date: 2009/10/28 17:42:07 $
+ * @version $Revision: 1.67 $ - changed by $Author: r23 $ on $Date: 2010/10/28 17:42:07 $
  */
 
 /**
@@ -394,7 +394,7 @@ function current_user_can( $page_key ) {
     eval("\$address = \"$fmt\";");
     $address = stripslashes($address);
 
-    if ( (ACCOUNT_COMPANY == '1') && (oos_is_not_null($company)) ) {
+    if ( (ACCOUNT_COMPANY == '1') && (!empty($company)) ) {
       $address = $company . $cr . $address;
     }
 

@@ -36,7 +36,7 @@ if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id']
     MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
 }
 
-if (oos_empty($_SESSION['member']->group['payment'])) {
+if (empty($_SESSION['member']->group['payment'])) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 

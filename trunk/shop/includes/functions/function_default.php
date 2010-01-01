@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -42,7 +42,7 @@ function oos_get_path($current_category_id = '', $parent_id = '', $gparent_id = 
             $categories_new = $current_category_id;
         } else {
             $categories_new = '';
-            if (oos_empty($parent_id) || oos_empty($gparent_id) ) {
+            if (empty($parent_id) || empty($gparent_id) ) {
                 $categoriestable = $oostable['categories'];
                 $query = "SELECT c.parent_id, p.parent_id as gparent_id
                           FROM $categoriestable AS c,

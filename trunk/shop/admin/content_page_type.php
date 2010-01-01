@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -102,7 +102,7 @@ if ( !current_user_can('content_page_type') )
           $sql_data_array = array('page_type_name' => oos_db_prepare_input($page_type_name_array[$lang_id]));
 
           if ($action == 'insert') {
-            if (oos_empty($page_type_id)) {
+            if (empty($page_type_id)) {
               $next_id_result = $dbconn->Execute("SELECT max(page_type_id) as page_type_id FROM " . $oostable['page_type'] . "");
               $next_id = $next_id_result->fields;
               $page_type_id = $next_id['page_type_id'] + 1;
