@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -23,7 +23,8 @@ if ( empty( $nProductsId ) || !is_numeric( $nProductsId ) ) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
-
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/products_cross_sell.php';
 
 $productstable = $oostable['products'];

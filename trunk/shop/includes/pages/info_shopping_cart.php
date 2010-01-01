@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -26,6 +26,10 @@ if (count(get_included_files()) < 2) {
 
 $_SESSION['navigation']->remove_current_page();
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
+require 'includes/languages/' . $sLanguage . '/main_info_shopping_cart.php';
+
 $aOption['info_shopping_cart'] = $sTheme . '/system/info_shopping_cart.html';
 
 //smarty
@@ -36,7 +40,6 @@ $oSmarty->caching = true;
 $info_shopping_cart_id = $sTheme . '|info_shopping_cart|' . $sLanguage;
 
 if (!$oSmarty->is_cached($aOption['info_shopping_cart'], $info_shopping_cart_id )) {
-    require 'includes/languages/' . $sLanguage . '/main_info_shopping_cart.php';
 
     // assign Smarty variables;
     $oSmarty->assign('oos_base', (($request_type == 'SSL') ? OOS_HTTPS_SERVER : OOS_HTTP_SERVER) . OOS_SHOP);

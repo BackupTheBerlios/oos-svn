@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -24,6 +24,8 @@ if (count(get_included_files()) < 2) {
     header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
 }
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/search_advanced_result.php';
 require 'includes/functions/function_search.php';
 
@@ -178,7 +180,7 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
                           IF(s.status, s.specials_new_products_price, NULL) AS specials_new_products_price,
                           IF(s.status, s.specials_new_products_price, p.products_price) AS final_price ";
 
-    if ( ($_SESSION['member']->group['show_price_tax'] == 1) && ( (isset($_GET['pfrom']) && oos_is_not_null($_GET['pfrom'])) || (isset($_GET['pto']) && oos_is_not_null($_GET['pto']))) ) {
+    if ( ($_SESSION['member']->group['show_price_tax'] == 1) && ( (isset($_GET['pfrom']) && !empty($_GET['pfrom'])) || (isset($_GET['pto']) && oos_is_not_null($_GET['pto']))) ) {
       $select_str .= ", SUM(tr.tax_rate) AS tax_rate ";
     }
 
@@ -186,7 +188,7 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
                       " . $oostable['manufacturers'] . " m using(manufacturers_id) LEFT JOIN
                       " . $oostable['specials'] . " s ON p.products_id = s.products_id";
 
-    if ( ($_SESSION['member']->group['show_price_tax'] == 1) && ( (isset($_GET['pfrom']) && oos_is_not_null($_GET['pfrom'])) || (isset($_GET['pto']) && oos_is_not_null($_GET['pto']))) ) {
+    if ( ($_SESSION['member']->group['show_price_tax'] == 1) && ( (isset($_GET['pfrom']) && !empty($_GET['pfrom'])) || (isset($_GET['pto']) && oos_is_not_null($_GET['pto']))) ) {
       if (!isset($_SESSION['customer_country_id'])) {
         $_SESSION['customer_country_id'] = STORE_COUNTRY;
         $_SESSION['customer_zone_id'] = STORE_ZONE;
@@ -214,7 +216,7 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
                       p.products_id = p2c.products_id AND
                       p2c.categories_id = c.categories_id ";
 
-    if (isset($_GET['categories_id']) && oos_is_not_null($_GET['categories_id'])) {
+    if (isset($_GET['categories_id']) && !empty($_GET['categories_id'])) {
       if ($_GET['inc_subcat'] == '1') {
         $subcategories_array = array();
         oos_get_subcategories($subcategories_array, $_GET['categories_id']);
@@ -235,12 +237,12 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
       }
     }
 
-    if (isset($_GET['manufacturers_id']) && oos_is_not_null($_GET['manufacturers_id'])) {
+    if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
       $manufacturers_id = intval($_GET['manufacturers_id']);
       $where_str .= " AND m.manufacturers_id = '" . intval($manufacturers_id) . "'";
     }
 
-    if (isset($_GET['keywords']) && oos_is_not_null($_GET['keywords'])) {
+    if (isset($_GET['keywords']) && !empty($_GET['keywords'])) {
       if (oos_parse_search_string(stripslashes($_GET['keywords']), $search_keywords)) {
         $where_str .= " AND (";
         for ($i=0, $n=count($search_keywords); $i<$n; $i++ ) {
@@ -266,11 +268,11 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
       }
     }
 
-    if (isset($_GET['dfrom']) && oos_is_not_null($_GET['dfrom']) && ($_GET['dfrom'] != DOB_FORMAT_STRING)) {
+    if (isset($_GET['dfrom']) && !empty($_GET['dfrom']) && ($_GET['dfrom'] != DOB_FORMAT_STRING)) {
       $where_str .= " AND p.products_date_added >= '" . oos_date_raw($dfrom_to_check) . "'";
     }
 
-    if (isset($_GET['dto']) && oos_is_not_null($_GET['dto']) && ($_GET['dto'] != DOB_FORMAT_STRING)) {
+    if (isset($_GET['dto']) && !empty($_GET['dto']) && ($_GET['dto'] != DOB_FORMAT_STRING)) {
       $where_str .= " AND p.products_date_added <= '" . oos_date_raw($dto_to_check) . "'";
     }
 
@@ -288,7 +290,7 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
       if ($pto)   $where_str .= " AND (IF(s.status, s.specials_new_products_price, p.products_price) <= " . oos_db_input($pto) . ")";
     }
 
-    if ( ($_SESSION['member']->group['show_price_tax'] == 1) && ((isset($_GET['pfrom']) && oos_is_not_null($_GET['pfrom'])) || (isset($_GET['pto']) && oos_is_not_null($_GET['pto']))) ) {
+    if ( ($_SESSION['member']->group['show_price_tax'] == 1) && ((isset($_GET['pfrom']) && !empty($_GET['pfrom'])) || (isset($_GET['pto']) && oos_is_not_null($_GET['pto']))) ) {
       $where_str .= " GROUP BY p.products_id, tr.tax_priority";
     }
 

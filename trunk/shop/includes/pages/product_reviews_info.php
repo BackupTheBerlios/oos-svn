@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -33,6 +33,8 @@ if (!isset($_GET['reviews_id'])) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']));
 }
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/reviews_product_info.php';
 
 // lets retrieve all $_GET keys and values..

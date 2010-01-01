@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -20,6 +20,10 @@ if (!defined('OOS_BASE_PRICE')) {
 }
 
 $_SESSION['navigation']->remove_current_page();
+
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
+require 'includes/languages/' . $sLanguage . '/products_info.php';
 
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
@@ -36,8 +40,7 @@ $oSmarty->caching = true;
 $popup_cache_id = $sTheme . '|products|' . $nGroupID . '|print|' . $nProductsId . '|' . $sLanguage;
 
 if (!$oSmarty->is_cached($aOption['popup_print'], $popup_cache_id )) {
-    require 'includes/languages/' . $sLanguage . '/products_info.php';
-
+ 
     $productstable = $oostable['products'];
     $products_descriptiontable = $oostable['products_description'];
     $product_info_sql = "SELECT p.products_id, pd.products_name, pd.products_description, pd.products_url,

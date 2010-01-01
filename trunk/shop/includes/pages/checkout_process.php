@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -25,6 +25,8 @@ if (count(get_included_files()) < 2) {
     header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
 }
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/checkout_process.php';
 require 'includes/functions/function_address.php';
 
@@ -305,7 +307,7 @@ for ($i=0, $n=count($oOrder->products); $i<$n; $i++) {
             // insert
             oos_db_perform($oostable['orders_products_attributes'], $sql_data_array);
 
-            if ((DOWNLOAD_ENABLED == '1') && isset($attributes_values['products_attributes_filename']) && oos_is_not_null($attributes_values['products_attributes_filename'])) {
+            if ((DOWNLOAD_ENABLED == '1') && isset($attributes_values['products_attributes_filename']) && !empty($attributes_values['products_attributes_filename'])) {
                 $sql_data_array = array('orders_id' => $insert_id,
                                         'orders_products_id' => $order_products_id,
                                         'orders_products_filename' => $attributes_values['products_attributes_filename'],

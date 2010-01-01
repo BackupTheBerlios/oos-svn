@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -24,6 +24,8 @@ if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_
     MyOOS_CoreApi::redirect(oos_href_link($aPages['password_edit'], '', 'SSL'));
 }
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/user_password_edit_process.php';
 
 if (ACCOUNT_GENDER == '1') $gender = oos_prepare_input($_POST['gender']);
@@ -173,7 +175,7 @@ if ($bError == true) {
 
     oos_db_perform($oostable['customers'], $sql_data_array, 'update', "customers_id = '" . intval($_SESSION['customer_id']) . "'");
 
-    if (oos_is_not_null($_COOKIE['password'])) {
+    if (!empty($_COOKIE['password'])) {
         $cookie_url_array = parse_url((ENABLE_SSL == true ? OOS_HTTPS_SERVER : OOS_HTTP_SERVER) . substr(OOS_SHOP, 0, -1));
         $cookie_path = $cookie_url_array['path'];
         setcookie('email_address', $email_address, time()+ (365 * 24 * 3600), $cookie_path, '', ((getenv('HTTPS') == 'on') ? 1 : 0));

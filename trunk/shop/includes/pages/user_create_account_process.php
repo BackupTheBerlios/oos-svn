@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -31,6 +31,8 @@ if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_
 
 MyOOS_CoreApi::requireOnce('functions/function_coupon.php');
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/user_create_account_process.php';
 require 'includes/functions/function_validate_vatid.php';
 
@@ -102,7 +104,7 @@ if (!oos_validate_is_email($email_address)) {
     $email_address_check_error = '1';
 }
 
-if ((ACCOUNT_VAT_ID == '1') && (ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && oos_is_not_null($vat_id)) {
+if ((ACCOUNT_VAT_ID == '1') && (ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && !empty($vat_id)) {
     if (!oos_validate_is_vatid($vat_id)) {
         $bError = true;
         $vatid_check_error = '1';

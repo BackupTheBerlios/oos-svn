@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -51,7 +51,7 @@ class upload
 
         $this->set_output_messages('direct');
 
-        if (!empty($this->file) && oos_is_not_null($this->destination)) {
+        if (!empty($this->file) && !empty($this->destination)) {
            $this->set_output_messages('session');
 
            if ( ($this->parse() == true) && ($this->save() == true) ) {
@@ -68,7 +68,7 @@ class upload
         global $oMessage, $aLang;
 
         if (isset($_FILES[$this->file])) {
-            if (oos_is_not_null($key)) {
+            if (!empty($key)) {
                 $file = array('name' => $_FILES[$this->file]['name'][$key],
                              'type' => $_FILES[$this->file]['type'][$key],
                              'size' => $_FILES[$this->file]['size'][$key],
@@ -81,10 +81,9 @@ class upload
             }
         }
 
-
-        if ( oos_is_not_null($file['tmp_name']) && ($file['tmp_name'] != 'none') && is_uploaded_file($file['tmp_name']) ) {
-
-            if (oos_is_not_null($file['size']) and ($file['size'] > 2048000)) {
+        if ( isset($file['tmp_name']) && !empty($file['tmp_name']) && ($file['tmp_name'] != 'none') && is_uploaded_file($file['tmp_name']) ) {
+ 
+            if (!empty($file['size']) and ($file['size'] > 2048000)) {
                 if ($this->message_location == 'direct') {
                     $oMessage->add('upload', $aLang['error_file_too_big'], 'error');
                 } else {
@@ -176,7 +175,7 @@ class upload
 
     function set_extensions($extensions)
     {
-        if (oos_is_not_null($extensions)) {
+        if (!empty($extensions)) {
             if (is_array($extensions)) {
                 $this->extensions = $extensions;
             } else {

@@ -43,7 +43,7 @@
       }
     }
 
-    if (oos_is_not_null($_COOKIE['password']) && oos_is_not_null($sEncrypted)) {
+    if (!empty($_COOKIE['password']) && !empty($sEncrypted)) {
       if ($_COOKIE['password'] == $sEncrypted) {
         return true;
       }

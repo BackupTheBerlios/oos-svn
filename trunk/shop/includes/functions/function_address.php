@@ -141,7 +141,7 @@
     eval("\$address = \"$fmt\";");
     $address = stripslashes($address);
 
-    if ( (ACCOUNT_COMPANY == '1') && (oos_is_not_null($company)) ) {
+    if ( (ACCOUNT_COMPANY == '1') && (!empty($company)) ) {
       $address = $company . $cr . $address;
     }
 

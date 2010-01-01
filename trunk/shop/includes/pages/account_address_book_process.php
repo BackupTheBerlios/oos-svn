@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -33,11 +33,12 @@ if ($_SESSION['navigation']->snapshot['page'] != $aPages['account_address_book']
     $_SESSION['navigation']->set_path_as_snapshot(1);
 }
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/account_address_book_process.php';
 
 
-
-if (isset($_GET['action']) && ($_GET['action'] == 'remove') && oos_is_not_null($_GET['entry_id']) ) {
+if (isset($_GET['action']) && ($_GET['action'] == 'remove') && !empty($_GET['entry_id']) ) {
     $entry_id = oos_db_prepare_input($_GET['entry_id']);
 
     if ( empty( $entry_id ) || !is_string( $entry_id ) ) {
@@ -224,7 +225,7 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
 
 
 
-if (isset($_GET['action']) && ($_GET['action'] == 'modify') && oos_is_not_null($_GET['entry_id'])) {
+if (isset($_GET['action']) && ($_GET['action'] == 'modify') && !empty($_GET['entry_id'])) {
     $address_booktable = $oostable['address_book'];
     $sql = "SELECT entry_gender, entry_company, entry_firstname, entry_lastname,
                    entry_street_address, entry_suburb, entry_postcode, entry_city,
@@ -245,7 +246,7 @@ if (!isset($process)) {
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
 $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['account_address_book'], '', 'SSL'));
 
-if ( (isset($_GET['action']) && ($_GET['action'] == 'modify')) || (isset($_POST['action']) && ($_POST['action'] == 'update') && oos_is_not_null($_POST['entry_id'])) ) {
+if ( (isset($_GET['action']) && ($_GET['action'] == 'modify')) || (isset($_POST['action']) && ($_POST['action'] == 'update') && !empty($_POST['entry_id'])) ) {
     $oBreadcrumb->add($aLang['navbar_title_modify_entry'], oos_href_link($aPages['account_address_book_process'], 'action=modify&amp;entry_id=' . ((isset($_GET['entry_id'])) ? intval($_GET['entry_id']) : intval($_POST['entry_id'])), 'SSL'), bookmark);
 } else {
     $oBreadcrumb->add($aLang['navbar_title_add_entry'], oos_href_link($aPages['account_address_book_process'], '', 'SSL'), bookmark);

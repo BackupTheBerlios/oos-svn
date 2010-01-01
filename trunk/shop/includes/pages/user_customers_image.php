@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -65,7 +65,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'add_customers_image')) &&
 
     require_once 'includes/classes/class_upload.php';
 
-    if (oos_is_not_null($_FILES['id']['tmp_name']) and ($_FILES['id']['tmp_name'] != 'none')) {
+    if (!empty($_FILES['id']['tmp_name']) and ($_FILES['id']['tmp_name'] != 'none')) {
 
         $customers_image_file = new upload('id');
         $customers_image_file->set_destination(OOS_ABSOLUTE_PATH . OOS_IMAGES . OOS_CUSTOMERS_IMAGES);
@@ -89,7 +89,8 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'add_customers_image')) &&
     }
 }
 
-
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/user_customers_image.php';
 
 $customerstable = $oostable['customers'];

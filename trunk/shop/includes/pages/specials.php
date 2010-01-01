@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -32,6 +32,8 @@ if (!$oEvent->installed_plugin('spezials')) {
 // split-page-results
 MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/products_specials.php';
 
 $aOption['template_main'] = $sTheme . '/products/specials.html';

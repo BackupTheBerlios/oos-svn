@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -73,7 +73,6 @@ if (ENABLE_SSL == '1') {
 
 // require  the list of project filenames
 require 'includes/oos_filename.php';
-
 
 // require  the list of project database tables
 require 'includes/oos_tables.php';

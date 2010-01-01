@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -33,6 +33,8 @@ if ( (!isset($_POST['action']) || ($_POST['action'] != 'process'))  || (isset($_
     MyOOS_CoreApi::redirect(oos_href_link($aPages['account_edit'], '', 'SSL'));
 }
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/user_account_edit_process.php';
 require 'includes/functions/function_validate_vatid.php';
 
@@ -106,7 +108,7 @@ if (!oos_validate_is_email($email_address)) {
     $email_address_check_error = '1';
 }
 
-if ((ACCOUNT_VAT_ID == '1') && (ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && oos_is_not_null($vat_id)) {
+if ((ACCOUNT_VAT_ID == '1') && (ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && !empty($vat_id)) {
     if (!oos_validate_is_vatid($vat_id)) {
         $bError = true;
         $vatid_check_error = '1';
@@ -376,7 +378,7 @@ if ($bError == true) {
 
     oos_db_perform($oostable['customers'], $sql_data_array, 'update', "customers_id = '" . intval($_SESSION['customer_id']) . "'");
 
-    if (oos_is_not_null($_COOKIE['password'])) {
+    if (!empty($_COOKIE['password'])) {
         $cookie_url_array = parse_url((ENABLE_SSL == true ? OOS_HTTPS_SERVER : OOS_HTTP_SERVER) . substr(OOS_SHOP, 0, -1));
         $cookie_path = $cookie_url_array['path'];
         setcookie('email_address', $email_address, time()+ (365 * 24 * 3600), $cookie_path, '', ((getenv('HTTPS') == 'on') ? 1 : 0));

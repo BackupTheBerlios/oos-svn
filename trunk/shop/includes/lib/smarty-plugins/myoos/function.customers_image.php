@@ -82,7 +82,7 @@ function smarty_function_customers_image($params, &$smarty)
     } elseif ( (CONFIG_CALCULATE_IMAGE_SIZE == '1') && (empty($width) || empty($height)) ) {
       if (file_exists(OOS_ABSOLUTE_PATH . $image)) {
         $image_size = @getimagesize($image);
-        if (empty($width) && oos_is_not_null($height)) {
+        if (empty($width) && !empty($height)) {
           $ratio = $height / $image_size[1];
           $width = $image_size[0] * $ratio;
         } elseif (!empty($width) && empty($height)) {

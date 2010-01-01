@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -55,9 +55,6 @@
 if (count(get_included_files()) < 2) {
     header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
 }
-
-require 'includes/languages/' . $sLanguage . '/admin_create_account.php';
-
 if (isset($_SESSION['customer_id'])) {
     unset($_SESSION['customer_id']);
     unset($_SESSION['customer_wishlist_link_id']);
@@ -88,6 +85,10 @@ require 'includes/modules/key_generate.php';
 if ( empty( $verif_key ) || !is_string( $verif_key ) ) {
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
+
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
+require 'includes/languages/' . $sLanguage . '/admin_create_account.php';
 
 $manual_infotable = $oostable['manual_info'];
 $login_result = $dbconn->Execute("SELECT man_key2, man_key3, status FROM $manual_infotable WHERE man_key = '" . oos_db_input($verif_key) . "' AND status = 1 ");

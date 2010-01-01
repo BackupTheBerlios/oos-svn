@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -26,7 +26,10 @@ if (count(get_included_files()) < 2) {
 
 $_SESSION['navigation']->remove_current_page();
 
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/gv_popup_coupon_help.php';
+
 $text_coupon_help = $aLang['text_coupon_help_header'];
 
 if (isset($_GET['cID']) && is_numeric($_GET['cID'])) {
@@ -49,7 +52,7 @@ if (isset($_GET['cID']) && is_numeric($_GET['cID'])) {
     $coupon_desc = $coupon_desc_result->fields;
 
     $text_coupon_help .= sprintf($aLang['text_coupon_help_name'], $coupon_desc['coupon_name']);
-    if (oos_is_not_null($coupon_desc['coupon_description'])) $text_coupon_help .= sprintf($aLang['text_coupon_help_desc'], $coupon_desc['coupon_description']);
+    if (!empty($coupon_desc['coupon_description'])) $text_coupon_help .= sprintf($aLang['text_coupon_help_desc'], $coupon_desc['coupon_description']);
     $coupon_amount = $coupon['coupon_amount'];
 
     switch ($coupon['coupon_type']) {
