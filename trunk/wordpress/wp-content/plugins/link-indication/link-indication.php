@@ -3,7 +3,7 @@
 Plugin Name: Link Indication
 Plugin URI: http://sw-guide.de/wordpress/plugins/link-indication/
 Description: Adds CSS class attributes to external links and optionally specific attributes to any other link types such as wikipedia.org, flickr, imdb, file extensions like .pdf or .zip, etc. Thereby you can indicate your links, e.g. by images, for characterizing your types of links. Furthermore you can add target="blank" to all external links, rel="nofollow" to specific hyperlinks or display websnapr preview thumbnails. Navigate to <a href="admin.php?page=link-indication.php">Settings &rarr; Link Indication</a>.
-Version: 4.2
+Version: 4.3
 Author: Michael Wöhrer
 Author URI: http://sw-guide.de/
 
@@ -127,14 +127,14 @@ class LinkIndication extends LinkIndication_SWGPluginFramework {
 		*********************/
 		if ($matches[4] == '') {
 			// There is no href so we return it just at is was provided;
-			return '<a ' . $matches[2] . '>' . $matches[7] . '</a>';	// Don't remove space in '<a ' or it will cause an error for the "more" anchor: <aid="more-123"> 
+			return '<a ' . $matches[1] . $matches[2] . '>' . $matches[7] . '</a>';	// Don't remove space in '<a ' or it will cause an error for the "more" anchor: <aid="more-123"> 
 		}
 
 		/**********************
 		* Because of problems with JS links we skip these
 		*********************/
 		if (strpos(strtolower($matches[4]), 'javascript') !== false) {
-			return '<a ' . $matches[2] . '>' . $matches[7] . '</a>';
+			return '<a ' . $matches[1] . $matches[2] . '>' . $matches[7] . '</a>';
 		}
 	
 		/**********************
@@ -662,7 +662,7 @@ if( !isset($myLinkIndication)  ) {
 			# Old option names to delete from the options table
 				'DeleteOldOpt' =>	array('mw_linkindication_plugin', 'plugin_linkindication', 'plugin_linkindication3'),
 			# Plugin version
-				'Version' => 		'4.2',
+				'Version' => 		'4.3',
 			# First plugin version of which we do not reset the plugin options to default;
 			# Normally we reset the plugin's options after an update; but if we for example
 			# update the plugin from version 2.3 to 2.4 und did only do minor changes and

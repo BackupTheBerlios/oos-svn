@@ -4,7 +4,7 @@ Donate link: http://sw-guide.de/donation/
 Tags: link, links, indication, external, anchor, target, blank, file, extension, websnapr, nofollow, dofollow, css
 Requires at least: 2.3
 Tested up to: 2.9
-Stable tag: 4.2
+Stable tag: 4.3
 
 Link Indication applies css class attributes to the links (anchor tags) in your posts, pages, and optionally in your comments. 
 
