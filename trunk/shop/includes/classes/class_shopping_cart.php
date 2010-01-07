@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -216,19 +216,16 @@ class shoppingCart
 
         if (is_numeric($nProductsId) && is_numeric($nQuantity)) {
             $productstable = $oostable['products'];
-            $check_product_sql = "SELECT products_status
+            $product_info_sql = "SELECT products_status, products_quantity_decimal
                                   FROM $productstable
                                   WHERE products_id = '" . intval($nProductsId) . "'";
-            $products_status = $dbconn->GetOne($check_product_sql);
-            if ($products_status >= '1') {
+            $product_info_result = $dbconn->Execute($product_info_sql);
+            $product_info = $product_info_result->fields;
+
+            if ($product_info['products_status']  >= '1') {
 
                 if (DECIMAL_CART_QUANTITY == '1') {
-                    $productstable = $oostable['products'];
-                    $decimal_sql = "SELECT products_quantity_decimal
-                                    FROM $productstable
-                                    WHERE products_id = '" . intval($nProductsId) . "'";
-                    $products_quantity_decimal = $dbconn->GetOne($decimal_sql);
-                    if ($products_quantity_decimal == 0) {
+                    if ($product_info['products_quantity_decimal'] == 0) {
                         $nQuantity = intval($nQuantity);
                     }
                 }
