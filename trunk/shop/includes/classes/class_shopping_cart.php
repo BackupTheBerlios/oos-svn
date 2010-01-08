@@ -211,8 +211,8 @@ class shoppingCart
         $dbconn =& oosDBGetConn();
         $oostable =& oosDBGetTables();
 
-        $sProductsId = oos_get_uprid($products_id, $attributes);
-        $nProductsId = oos_get_product_id($sProductsId);
+        $nProductsId = oos_get_product_id($products_id);
+        $sProductsId = oos_get_uprid($nProductsId, $attributes);
 
         if (is_numeric($nProductsId) && is_numeric($nQuantity)) {
             $productstable = $oostable['products'];
@@ -327,8 +327,8 @@ class shoppingCart
     function update_quantity($products_id, $nQuantity = '', $attributes = '', $towlid = '')
     {
 
-        $sProductsId = oos_get_uprid($products_id, $attributes);
-        $nProductsId = oos_get_product_id($sProductsId);
+        $nProductsId = oos_get_product_id($products_id);
+        $sProductsId = oos_get_uprid($nProductsId, $attributes);
 
         if (is_numeric($nProductsId) && isset($this->contents[$sProductsId]) && is_numeric($nQuantity)) {
 
