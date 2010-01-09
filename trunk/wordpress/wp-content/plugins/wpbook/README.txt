@@ -1,8 +1,8 @@
 === WPBook ===
 Contributors: johneckman, davelester, bandonrandon
 Tags: facebook, platform, application, blog, mirror
-Stable tag: 1.4
-Tested up to: 2.9
+Stable tag: 1.4.1
+Tested up to: 2.9.1
 Requires at least: 2.5
 
 Plugin to embed Wordpress Blog into Facebook Platform.
@@ -134,6 +134,9 @@ There's also a default/style.css which basically mimics Facebook's styles,
 as well as some other files for processing comments and the like.  
 
 == Version History ==
+
+= Version 1.4.1 =
+* Doh! Typo snuck into release package. (See http://wordpres.org/support/topic/348292)
 
 = Version 1.4 =
 * Fixed bug which made invite friends link only work on the home page
