@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -30,35 +30,36 @@ if ( !current_user_can('easypopulate') )
     oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
 
-  require 'includes/functions/function_modules.php';
-  require 'includes/functions/function_easypopulate.php';
+require 'includes/functions/function_modules.php';
+require 'includes/functions/function_easypopulate.php';
 
-  if (!defined('OOS_EP_VERSION')) {
+if (!defined('OOS_EP_VERSION')) {
     // Current EP Version
     define('OOS_EP_VERSION', '2.76-OOS');
-  }
+}
 
-  // vx anti register globals
-  if (isset($_GET['split']) && !empty($_GET['split'])) {
-    $split = $_GET['split'];
-  }
+// vx anti register globals
+if (isset($_GET['split']) && !empty($_GET['split'])) {
+    $split = oos_db_prepare_input($_GET['split']);
+}
 
-  if (isset($_FILES['usrfl']) && !empty($_FILES['usrfl'])) {
-    $usrfl = $_FILES['usrfl'];
-  }
+if (isset($_FILES['usrfl']) && !empty($_FILES['usrfl'])) {
+    $usrfl = oos_db_prepare_input($_FILES['usrfl']);
+}
 
-  if (isset($_POST['localfile']) && !empty($_POST['localfile'])) {
-    $localfile = $_POST['localfile'];
-  }
+if (isset($_POST['localfile']) && !empty($_POST['localfile'])) {
+    $localfile = oos_db_prepare_input($_POST['localfile']);
+}
 
-  if (isset($_GET['download']) && !empty($_GET['download'])) {
-    $download = $_GET['download'];
-  }
+if (isset($_GET['download']) && !empty($_GET['download'])) {
+    $download = oos_db_prepare_input($_GET['download']);
+}
 
-  if (isset($_GET['dltype']) && !empty($_GET['dltype'])) {
-    $dltype = $_GET['dltype'];
-  }
-  // eof vx anti register globals
+if (isset($_GET['dltype']) && !empty($_GET['dltype'])) {
+    $dltype = oos_db_prepare_input($_GET['dltype']);
+}
+// eof vx anti register globals
+
 
  /**
   * C O N F I G U R A T I O N    V A R I A B L E S
