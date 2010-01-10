@@ -27,17 +27,18 @@ if (!isset($_SESSION['login_id'])) {
 if ( !current_user_can('stats_recover_cart_sales') )
     oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
-  require('includes/classes/class_currencies.php');
 
-  $currencies = new currencies();
+require('includes/classes/class_currencies.php');
+$currencies = new currencies();
 
-  function oos_date_order_stat($raw_date) {
+
+function oos_date_order_stat($raw_date) {
     if ($raw_date == '') return false;
-    $year = substr($raw_date, 2, 2);
+    $year = (int)substr($raw_date, 2, 2);
     $month = (int)substr($raw_date, 4, 2);
     $day = (int)substr($raw_date, 6, 2);
     return date(DATE_FORMAT, mktime('', '', '', $month, $day, $year));
-  }
+}
 
   function seadate($day) {
     $ts = date("U");
