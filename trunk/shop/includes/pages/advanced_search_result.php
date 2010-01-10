@@ -99,7 +99,7 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
   }
 
   if (strlen($dfrom_to_check) > 0 && !(($errorno & 10) == 10) && strlen($dto_to_check) > 0 && !(($errorno & 100) == 100)) {
-    if (mktime(0, 0, 0, $dfrom_array[1], $dfrom_array[2], $dfrom_array[0]) > mktime(0, 0, 0, $dto_array[1], $dto_array[2], $dto_array[0])) {
+    if (mktime(0, 0, 0, (int)$dfrom_array[1], (int)$dfrom_array[2], (int)$dfrom_array[0]) > mktime(0, 0, 0, (int)$dto_array[1], (int)$dto_array[2], (int)$dto_array[0])) {
       $errorno += 1000;
       $error = 1;
     }

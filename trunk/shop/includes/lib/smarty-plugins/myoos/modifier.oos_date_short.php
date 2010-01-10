@@ -6,7 +6,7 @@
    http://www.oos-shop.de/
 
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -43,7 +43,7 @@ function smarty_modifier_oos_date_short($raw_date)
 {
     if ( ($raw_date == '0000-00-00 00:00:00') || ($raw_date == '') ) return false;
 
-    $year = substr($raw_date, 0, 4);
+    $year = (int)substr($raw_date, 0, 4);
     $month = (int)substr($raw_date, 5, 2);
     $day = (int)substr($raw_date, 8, 2);
     $hour = (int)substr($raw_date, 11, 2);

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -171,7 +171,7 @@
                                               array('title' => $aLang['module_payment_ipayment_text_credit_card_number'],
                                                     'field' => substr($this->cc_card_number, 0, 4) . str_repeat('X', (strlen($this->cc_card_number) - 8)) . substr($this->cc_card_number, -4)),
                                               array('title' => $aLang['module_payment_ipayment_text_credit_card_expires'],
-                                                    'field' => strftime('%B, %Y', mktime(0,0,0,$_POST['ipayment_cc_expires_month'], 1, '20' . $_POST['ipayment_cc_expires_year'])))));
+                                                    'field' => strftime('%B, %Y', mktime(0,0,0,(int)$_POST['ipayment_cc_expires_month'], 1, '20' . (int)$_POST['ipayment_cc_expires_year'])))));
 
       if (isset($_POST['ipayment_cc_checkcode'])) {
         $confirmation['fields'][] = array('title' => $aLang['module_payment_ipayment_text_credit_card_checknumber'],

@@ -909,7 +909,7 @@ class FeedDate {
 		}
 		if (preg_match("~(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\\s+)?(\\d{1,2})\\s+([a-zA-Z]{3})\\s+(\\d{4})\\s+(\\d{2}):(\\d{2}):(\\d{2})\\s+(.*)~",$dateString,$matches)) {
 			$months = Array("Jan"=>1,"Feb"=>2,"Mar"=>3,"Apr"=>4,"May"=>5,"Jun"=>6,"Jul"=>7,"Aug"=>8,"Sep"=>9,"Oct"=>10,"Nov"=>11,"Dec"=>12);
-			$this->unix = mktime($matches[4],$matches[5],$matches[6],$months[$matches[2]],$matches[1],$matches[3]);
+			$this->unix = mktime((int)$matches[4],(int)$matches[5],(int)$matches[6],(int)$months[$matches[2]],(int)$matches[1],(int)$matches[3]);
 			if (substr($matches[7],0,1)=='+' OR substr($matches[7],0,1)=='-') {
 				$tzOffset = (substr($matches[7],0,3) * 60 + substr($matches[7],-2)) * 60;
 			} else {
@@ -933,7 +933,7 @@ class FeedDate {
 			return;
 		}
 		if (preg_match("~(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(.*)~",$dateString,$matches)) {
-			$this->unix = mktime($matches[4],$matches[5],$matches[6],$matches[2],$matches[3],$matches[1]);
+			$this->unix = mktime((int)$matches[4],(int)$matches[5],(int)$matches[6],(int)$matches[2],(int)$matches[3],(int)$matches[1]);
 			if (substr($matches[7],0,1)=='+' OR substr($matches[7],0,1)=='-') {
 				$tzOffset = (substr($matches[7],0,3) * 60 + substr($matches[7],-2)) * 60;
 			} else {

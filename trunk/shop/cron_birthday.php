@@ -93,7 +93,7 @@ function matheval($equation){
   $year   = date("Y");
 
   if (($month > 1) && (matheval($day.$offset) < 1)) {
-    $mday = date("t", mktime(0, 0, 0, ($month - 1), 1, $year));
+    $mday = date("t", mktime(0, 0, 0, ($month - 1), 1, (int)$year));
   } elseif (($month == 1) && (matheval($day.$offset) < 1)) {
     $mday = '31';
   } else {

@@ -229,7 +229,7 @@ function InsertFP ($loginid, $txnkey, $amount, $sequence, $currency = "") {
                                               array('title' => $aLang['module_payment_authorizenet_text_credit_card_number'],
                                                     'field' => substr($this->cc_card_number, 0, 4) . str_repeat('X', (strlen($this->cc_card_number) - 8)) . substr($this->cc_card_number, -4)),
                                               array('title' => $aLang['module_payment_authorizenet_text_credit_card_expires'],
-                                                    'field' => strftime('%B, %Y', mktime(0,0,0,$_POST['authorizenet_cc_expires_month'], 1, '20' . $_POST['authorizenet_cc_expires_year'])))));
+                                                    'field' => strftime('%B, %Y', mktime(0,0,0, (int)$_POST['authorizenet_cc_expires_month'], 1, '20' . (int)$_POST['authorizenet_cc_expires_year'])))));
 
       return $confirmation;
     }

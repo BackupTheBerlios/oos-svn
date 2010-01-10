@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -100,7 +100,7 @@ if (!$downloads_result->RecordCount()) die;
 $downloads = $downloads_result->fields;
 // MySQL 3.22 does not have INTERVAL
 list($dt_year, $dt_month, $dt_day) = explode('-', $downloads['date_purchased_day']);
-$download_timestamp = mktime(23, 59, 59, $dt_month, $dt_day + $downloads['download_maxdays'], $dt_year);
+$download_timestamp = mktime(23, 59, 59, (int)$dt_month, (int)$dt_day + $downloads['download_maxdays'], (int)$dt_year);
 
 
 // Die if time expired (maxdays = 0 means no time limit)

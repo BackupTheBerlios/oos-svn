@@ -631,7 +631,7 @@ class IXR_Date {
         return '<dateTime.iso8601>'.$this->getIso().'</dateTime.iso8601>';
     }
     function getTimestamp() {
-        return mktime($this->hour, $this->minute, $this->second, $this->month, $this->day, $this->year);
+        return mktime((int)$this->hour, (int)$this->minute, (int)$this->second, (int)$this->month, (int)$this->day, (int)$this->year);
     }
 }
 

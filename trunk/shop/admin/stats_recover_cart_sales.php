@@ -33,11 +33,12 @@ $currencies = new currencies();
 
 
 function oos_date_order_stat($raw_date) {
-    if ($raw_date == '') return false;
+    if ( ($raw_date == '00000000') || (empty($raw_date)) ) return false;
+    
     $year = (int)substr($raw_date, 2, 2);
     $month = (int)substr($raw_date, 4, 2);
     $day = (int)substr($raw_date, 6, 2);
-    return date(DATE_FORMAT, mktime('', '', '', $month, $day, $year));
+    return date(DATE_FORMAT, mktime(0, 0, 0, $month, $day, $year));
 }
 
   function seadate($day) {

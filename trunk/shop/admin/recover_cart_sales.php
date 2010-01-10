@@ -41,25 +41,25 @@ if (!isset($_SESSION['login_id'])) {
 if ( !current_user_can('recover_cart_sales') )
     oos_redirect_admin(oos_href_link_admin($aFilename['forbiden']));
 
-  require 'includes/classes/class_currencies.php';
+require 'includes/classes/class_currencies.php';
 
 
-  function seadate($day) {
+function seadate($day) {
     $rawtime = strtotime("-" . $day . " days");
     $ndate = date("Ymd", $rawtime);
     return $ndate;
-  }
+}
 
-  function cart_date_short($raw_date) {
+function cart_date_short($raw_date) {
     if ( ($raw_date == '00000000') || (empty($raw_date)) ) return false;
 
-    $year = substr($raw_date, 0, 4);
+    $year = (int)substr($raw_date, 0, 4);
     $month = (int)substr($raw_date, 4, 2);
     $day = (int)substr($raw_date, 6, 2);
 
     return date(DATE_FORMAT, mktime(0, 0, 0, $month, $day, $year));
 
-  }
+}
 
 
  /**

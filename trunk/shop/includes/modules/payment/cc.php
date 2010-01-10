@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -264,11 +264,11 @@
 
       // startdate
       if (strtolower(USE_CC_START) == '1') {
-        $form_array = array_merge($form_array, array (array ('title' => $aLang['module_payment_cc_text_credit_card_start'], 'field' => strftime('%B, %Y', mktime(0, 0, 0, $_POST['cc_start_month'], 1, $_POST['cc_start_year'])))));
+        $form_array = array_merge($form_array, array (array ('title' => $aLang['module_payment_cc_text_credit_card_start'], 'field' => strftime('%B, %Y', mktime(0, 0, 0, (int)$_POST['cc_start_month'], 1, (int)$_POST['cc_start_year'])))));
       }
 
       //expire date
-      $form_array = array_merge($form_array, array (array ('title' => $aLang['module_payment_cc_text_credit_card_expires'], 'field' => strftime('%B, %Y', mktime(0, 0, 0, $_POST['cc_expires_month'], 1, '20'.$_POST['cc_expires_year'])))));
+      $form_array = array_merge($form_array, array (array ('title' => $aLang['module_payment_cc_text_credit_card_expires'], 'field' => strftime('%B, %Y', mktime(0, 0, 0, (int)$_POST['cc_expires_month'], 1, '20'.(int)$_POST['cc_expires_year'])))));
 
 
       if (USE_CC_CVV == '1') {

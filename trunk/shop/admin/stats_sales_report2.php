@@ -140,7 +140,7 @@ if ( !current_user_can('stats_sales_report2') )
     $sYear = date("Y");
   }
   if ($startDateG) {
-    $startDate = mktime(0, 0, 0, $sMon, $sDay, $sYear);
+    $startDate = mktime(0, 0, 0, (int)$sMon, (int)$sDay, (int)$sYear);
   } else {
     $startDate = mktime(0, 0, 0, date("m"), 1, date("Y"));
   }
@@ -166,7 +166,7 @@ if ( !current_user_can('stats_sales_report2') )
     $eYear = date("Y");
   }
   if ($endDateG) {
-    $endDate = mktime(0, 0, 0, $eMon, $eDay + 1, $eYear);
+    $endDate = mktime(0, 0, 0, (int)$eMon, (int)$eDay + 1, (int)$eYear);
   } else {
     $endDate = mktime(0, 0, 0, date("m"), date("d") + 1, date("Y"));
   }
@@ -258,7 +258,7 @@ if ( !current_user_can('stats_sales_report2') )
       }
       for ($i = 1; $i < 13; $i++) {
 ?>
-                      <option<?php if ($m == $i) echo ' selected="selected"'; ?> value="<?php echo $i; ?>"><?php echo strftime("%B", mktime(0, 0, 0, $i, 1)); ?></option>
+                      <option<?php if ($m == $i) echo ' selected="selected"'; ?> value="<?php echo $i; ?>"><?php echo strftime("%B", mktime(0, 0, 0, (int)$i, 1)); ?></option>
 <?php
       }
 ?>
@@ -354,7 +354,7 @@ if ( !current_user_can('stats_sales_report2') )
     }
     for ($i = 1; $i < 13; $i++) {
 ?>
-                      <option<?php if ($m == $i) echo ' selected="selected"'; ?> value="<?php echo $i; ?>"><?php echo strftime("%B", mktime(0, 0, 0, $i, 1)); ?></option>
+                      <option<?php if ($m == $i) echo ' selected="selected"'; ?> value="<?php echo $i; ?>"><?php echo strftime("%B", mktime(0, 0, 0, (int)$i, 1)); ?></option>
 <?php
     }
 ?>

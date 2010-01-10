@@ -41,12 +41,12 @@ function oos_date_long($raw_date)
 {
     if ( ($raw_date == '0000-00-00 00:00:00') || ($raw_date == '') ) return false;
 
-    $year = intval(substr($raw_date, 0, 4));
-    $month = intval(substr($raw_date, 5, 2));
-    $day = intval(substr($raw_date, 8, 2));
-    $hour = intval(substr($raw_date, 11, 2));
-    $minute = intval(substr($raw_date, 14, 2));
-    $second = intval(substr($raw_date, 17, 2));
+    $year = (int)substr($raw_date, 0, 4);
+    $month = (int)substr($raw_date, 5, 2);
+    $day = (int)substr($raw_date, 8, 2);
+    $hour = (int)substr($raw_date, 11, 2);
+    $minute = (int)substr($raw_date, 14, 2);
+    $second = (int)substr($raw_date, 17, 2);
 
     return strftime(DATE_FORMAT_LONG, mktime($hour,$minute,$second,$month,$day,$year));
 }
@@ -63,12 +63,12 @@ function oos_date_short($raw_date)
 {
     if ( ($raw_date == '0000-00-00 00:00:00') || ($raw_date == '') ) return false;
 
-    $year = substr($raw_date, 0, 4);
-    $month = intval(substr($raw_date, 5, 2));
-    $day = intval(substr($raw_date, 8, 2));
-    $hour = intval(substr($raw_date, 11, 2));
-    $minute = intval(substr($raw_date, 14, 2));
-    $second = intval(substr($raw_date, 17, 2));
+    $year = (int)substr($raw_date, 0, 4);
+    $month = (int)substr($raw_date, 5, 2);
+    $day = (int)substr($raw_date, 8, 2);
+    $hour = (int)substr($raw_date, 11, 2);
+    $minute = (int)substr($raw_date, 14, 2);
+    $second = (int)substr($raw_date, 17, 2);
 
     return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
 

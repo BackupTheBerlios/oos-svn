@@ -629,7 +629,7 @@ if ( !current_user_can('coupon_admin') )
       <tr>
         <td align="left"><?php echo COUPON_STARTDATE; ?></td>
 <?php
-    $start_date = date(DATE_FORMAT, mktime(0, 0, 0, $_POST['coupon_startdate_month'],$_POST['coupon_startdate_day'] ,$_POST['coupon_startdate_year'] ));
+    $start_date = date(DATE_FORMAT, mktime(0, 0, 0, (int)$_POST['coupon_startdate_month'], (int)$_POST['coupon_startdate_day'], (int)$_POST['coupon_startdate_year'] ));
 ?>
         <td align="left"><?php echo $start_date; ?></td>
       </tr>
@@ -637,8 +637,8 @@ if ( !current_user_can('coupon_admin') )
       <tr>
         <td align="left"><?php echo COUPON_FINISHDATE; ?></td>
 <?php
-    $finish_date = date(DATE_FORMAT, mktime(0, 0, 0, $_POST['coupon_finishdate_month'],$_POST['coupon_finishdate_day'] ,$_POST['coupon_finishdate_year'] ));
-    echo date('Y-m-d', mktime(0, 0, 0, $_POST['coupon_startdate_month'],$_POST['coupon_startdate_day'] ,$_POST['coupon_startdate_year'] ));
+    $finish_date = date(DATE_FORMAT, mktime(0, 0, 0, (int)$_POST['coupon_finishdate_month'], (int)$_POST['coupon_finishdate_day'], (int)$_POST['coupon_finishdate_year'] ));
+    echo date('Y-m-d', mktime(0, 0, 0, (int)$_POST['coupon_startdate_month'], (int)$_POST['coupon_startdate_day'], (int)$_POST['coupon_startdate_year'] ));
 ?>
         <td align="left"><?php echo $finish_date; ?></td>
       </tr>
@@ -657,8 +657,8 @@ if ( !current_user_can('coupon_admin') )
     echo oos_draw_hidden_field('coupon_uses_user', $_POST['coupon_uses_user']);
     echo oos_draw_hidden_field('coupon_products', $_POST['coupon_products']);
     echo oos_draw_hidden_field('coupon_categories', $_POST['coupon_categories']);
-    echo oos_draw_hidden_field('coupon_startdate', date('Y-m-d', mktime(0, 0, 0, $_POST['coupon_startdate_month'],$_POST['coupon_startdate_day'] ,$_POST['coupon_startdate_year'] )));
-    echo oos_draw_hidden_field('coupon_finishdate', date('Y-m-d', mktime(0, 0, 0, $_POST['coupon_finishdate_month'],$_POST['coupon_finishdate_day'] ,$_POST['coupon_finishdate_year'] )));
+    echo oos_draw_hidden_field('coupon_startdate', date('Y-m-d', mktime(0, 0, 0, (int)$_POST['coupon_startdate_month'], (int)$_POST['coupon_startdate_day'], (int)$_POST['coupon_startdate_year'] )));
+    echo oos_draw_hidden_field('coupon_finishdate', date('Y-m-d', mktime(0, 0, 0, (int)$_POST['coupon_finishdate_month'], (int)$_POST['coupon_finishdate_day'], (int)$_POST['coupon_finishdate_year'] )));
 ?>
      <tr>
         <td align="left"><?php echo oos_image_swap_submits('confirm', 'confirm_off.gif', COUPON_BUTTON_CONFIRM); ?></td>
@@ -806,12 +806,12 @@ if ( !current_user_can('coupon_admin') )
     }
 ?>
         <td align="left" class="main"><?php echo COUPON_STARTDATE; ?></td>
-        <td align="left"><?php echo oos_draw_date_selector('coupon_startdate', mktime(0,0,0, $coupon_startdate[1], $coupon_startdate[2], $coupon_startdate[0], 0)); ?></td>
+        <td align="left"><?php echo oos_draw_date_selector('coupon_startdate', mktime(0,0,0, (int)$coupon_startdate[1], (int)$coupon_startdate[2], (int)$coupon_startdate[0], 0)); ?></td>
         <td align="left" class="main"><?php echo COUPON_STARTDATE_HELP; ?></td>
       </tr>
       <tr>
         <td align="left" class="main"><?php echo COUPON_FINISHDATE; ?></td>
-        <td align="left"><?php echo oos_draw_date_selector('coupon_finishdate', mktime(0,0,0, $coupon_finishdate[1], $coupon_finishdate[2], $coupon_finishdate[0], 0)); ?></td>
+        <td align="left"><?php echo oos_draw_date_selector('coupon_finishdate', mktime(0,0,0, (int)$coupon_finishdate[1], (int)$coupon_finishdate[2], (int)$coupon_finishdate[0], 0)); ?></td>
         <td align="left" class="main"><?php echo COUPON_FINISHDATE_HELP; ?></td>
       </tr>
       <tr>
