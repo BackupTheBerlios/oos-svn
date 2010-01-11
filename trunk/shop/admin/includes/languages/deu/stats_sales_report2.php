@@ -6,7 +6,7 @@
    http://www.oos-shop.de/
    
    
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -22,10 +22,10 @@
 
 define('HEADING_TITLE', 'Verkaufs Report');
 
-define('REPORT_TYPE_YEARLY', 'J�rlich');
+define('REPORT_TYPE_YEARLY', 'J&auml;hrlich');
 define('REPORT_TYPE_MONTHLY', 'Monatlich');
-define('REPORT_TYPE_WEEKLY', 'W�hentlich');
-define('REPORT_TYPE_DAILY', 'T�lich');
+define('REPORT_TYPE_WEEKLY', 'W&ouml;chentlich');
+define('REPORT_TYPE_DAILY', 'T&auml;glich');
 define('REPORT_START_DATE', 'von Datum');
 define('REPORT_END_DATE', 'bis Datum (inklusive)');
 define('REPORT_DETAIL', 'Detail');
@@ -61,4 +61,4 @@ define('REPORT_STATUS_FILTER', 'Status');
 define('SR_SEPARATOR1', ';');
 define('SR_SEPARATOR2', ';');
 define('SR_NEWLINE', '<br />');
-?>
+
