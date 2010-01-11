@@ -3,7 +3,7 @@
 Plugin Name: NoSpamNX
 Plugin URI: http://www.svenkubiak.de/nospamnx-en
 Description: To protect your Blog from automated spambots, which fill you comments with junk, this plugin adds additional formfields (hidden to human-users) to your comment form. These Fields are checked every time a new comment is posted. 
-Version: 3.6
+Version: 3.7
 Author: Sven Kubiak
 Author URI: http://www.svenkubiak.de
 
@@ -38,6 +38,8 @@ if (!class_exists('NoSpamNX'))
 		var $nospamnx_cssname;
 		var $nospamnx_checkreferer;
 		var $nospamnx_activated;
+		var $nospamnx_dateformat;		
+		var $nospamnx_siteurl;
 		
 		function nospamnx() {		
 			if (function_exists('load_plugin_textdomain'))
@@ -47,19 +49,23 @@ if (!class_exists('NoSpamNX'))
 				add_action('admin_notices', array(&$this, 'wpVersionFail'));
 				return;
 			}
+
+			//tell wp what to do when plugin is activated and deactivated
+			if (function_exists('register_activation_hook'))
+				register_activation_hook(__FILE__, array(&$this, 'activate'));
+			if (function_exists('register_uninstall_hook'))
+				register_uninstall_hook(__FILE__, array(&$this, 'uninstall'));
+			if (function_exists('register_deactivation_hook'))
+				register_deactivation_hook(__FILE__, array(&$this, 'uninstall'));				
 			
+			//load nospamnx options
+			$this->getOptions();	
+
 			//add nospamnx wordpress actions	
 			add_action('init', array(&$this, 'checkCommentForm'));		
 			add_action('admin_menu', array(&$this, 'nospamnxAdminMenu'));		
 			add_action('rightnow_end', array(&$this, 'nospamnxStats'));		
 			add_action('comment_form', array(&$this, 'addHiddenFields'));	
-			
-			//tell wp what to do when plugin is activated and deactivated
-			register_activation_hook(__FILE__, array(&$this, 'activate'));
-			register_deactivation_hook(__FILE__, array(&$this, 'deactivate'));		
-
-			//load nospamnx options
-			$this->getOptions();
 			
 			//check if we have to include the nospamnx css style
 			if (empty($this->nospamnx_cssname) || (strtolower(trim($this->nospamnx_cssname)) == DEFAULTCSS))
@@ -96,18 +102,8 @@ if (!class_exists('NoSpamNX'))
 					$this->birdbrained();
 				
 				//check if referer check is enabled and check referer
-				if ($this->nospamnx_checkreferer == 1) {
-					//check if referer isnt empty
-					if (empty($_SERVER['HTTP_REFERER']))
-						$this->birdbrained();
-					
-					//get the host name for referer check
-					preg_match('@^(?:http://)?([^/]+)@i',$_SERVER['HTTP_REFERER'],$match);			
-				
-					//check if referer matches siteurl
-					if (!empty($match[0]) && $match[0] != get_option('siteurl'))
-						$this->birdbrained();				
-				}
+				if ($this->nospamnx_checkreferer == 1 && $this->checkReferer() == false)
+					$this->birdbrained();
 				
 				//get current formfield names from wp options
 				$nospamnx = $this->nospamnx_names;
@@ -145,7 +141,24 @@ if (!class_exists('NoSpamNX'))
 
 		function maybeBirdbrained() {		
 			add_filter('pre_comment_approved', create_function('$a', 'return \'spam\';'));
-		}		
+		}
+
+		function checkReferer() {
+			//check if referer isnt empty
+			if (empty($_SERVER['HTTP_REFERER']))
+				return false;
+			
+			//get the host name for referer check
+			preg_match('@^(?:http://)?([^/]+)@i',$_SERVER['HTTP_REFERER'],$match);			
+		
+			//check if referer isnt empty and matches siteurl
+			if (empty($match[0]))
+				return false;
+			else if ($match[0] != $this->nospamnx_siteurl)
+				return false;
+
+			return true;
+		}
 
 		function blacklistCheck($author, $email, $url, $comment, $remoteip) {
 			$blacklist = trim($this->nospamnx_blacklist);
@@ -208,11 +221,7 @@ if (!class_exists('NoSpamNX'))
 				
 			//do we have to test referer-check?
 			if ($_GET['refcheck'] == 1) {
-				//get the host name for referer check
-				preg_match('@^(?:http://)?([^/]+)@i',$_SERVER['HTTP_REFERER'],$match);	
-				
-				//check if referer matches siteurl
-				if (!empty($match[0]) && ($match[0] == get_option('siteurl')))
+				if ($this->checkReferer() == true)
 					echo "<div id='message' class='updated fade'><p>".__('Referer-Check successfull! You may turn on Referer-Check.','nospamnx')."</p></div>";
 				else
 					echo "<div id='message' class='error'><p>".__('Referer-Check failed! The referer does not match WordPress option "siteurl".','nospamnx')."</p></div>";		
@@ -388,7 +397,7 @@ if (!class_exists('NoSpamNX'))
 		}	
 		
 		function nospamnxStyle() {			
-			$css = get_option( 'siteurl' ) . '/' . PLUGINDIR . '/nospamnx/nospamnx.css';		
+			$css = $this->nospamnx_siteurl . '/' . PLUGINDIR . '/nospamnx/nospamnx.css';		
 			echo "<link rel=\"stylesheet\" href=\"$css\" type=\"text/css\" />\n";
 		}
 		
@@ -400,16 +409,18 @@ if (!class_exists('NoSpamNX'))
 				'nospamnx_blacklist'		=> '',
 				'nospamnx_checkreferer'		=> 0,	
 				'nospamnx_cssname'			=> DEFAULTCSS,
-				'nospamnx_activated'		=> time()							
+				'nospamnx_activated'		=> time(),
+				'nospamnx_dateformat'		=> get_option('date_format'),
+				'nospamnx_siteurl'			=> get_option('siteurl')								
 			);
 
 			if (function_exists( 'is_site_admin' ))
 				add_site_option('nospamnx', $options);
 			else
-		     	add_option('nospamnx', $options);			
+		     	add_option('nospamnx', $options);		
 		}	
 		
-		function deactivate() {
+		function uninstall() {
 			if (function_exists( 'is_site_admin' ))
 				delete_site_option('nospamnx');
 			else
@@ -421,7 +432,7 @@ if (!class_exists('NoSpamNX'))
 				$options = get_site_option('nospamnx');
 			else
 				$options = get_option('nospamnx');
-			
+				
 			$this->nospamnx_names 			= $options['nospamnx_names'];
 			$this->nospamnx_count			= $options['nospamnx_count'];
 			$this->nospamnx_operate			= $options['nospamnx_operate'];
@@ -429,6 +440,8 @@ if (!class_exists('NoSpamNX'))
 			$this->nospamnx_cssname			= $options['nospamnx_cssname'];			
 			$this->nospamnx_checkreferer	= $options['nospamnx_checkreferer'];
 			$this->nospamnx_activated		= $options['nospamnx_activated'];
+			$this->nospamnx_dateformat		= $options['nospamnx_dateformat'];
+			$this->nospamnx_siteurl			= $options['nospamnx_siteurl'];
 		}
 		
 		function setOptions() {
@@ -439,7 +452,9 @@ if (!class_exists('NoSpamNX'))
 				'nospamnx_blacklist'		=> $this->nospamnx_blacklist,
 				'nospamnx_cssname'			=> $this->nospamnx_cssname,		
 				'nospamnx_checkreferer'		=> $this->nospamnx_checkreferer,
-				'nospamnx_activated'		=> $this->nospamnx_activated,
+				'nospamnx_activated'			=> $this->nospamnx_activated,
+				'nospamnx_dateformat'		=> $this->nospamnx_dateformat,
+				'nospamnx_siteurl'			=> $this->nospamnx_siteurl
 			);
 			
 		     if (function_exists( 'is_site_admin' ))
@@ -462,21 +477,23 @@ if (!class_exists('NoSpamNX'))
 		}
 		
 		function displayStats($dashboard=false) {
-			$perDay = $this->getStatsPerDay();
+			if ($dashboard) {echo "<p>";}
+
+			if ($this->nospamnx_count <= 0)
+				echo __("NoSpamNX has stopped no birdbrained Spambots yet.", 'nospamnx');
+			else {
+					printf(__ngettext(
+						"Since its last activation on %s %s has stopped %s birdbrained Spambot (%s per Day).",
+						"Since its last activation on %s %s has stopped %s birdbrained Spambots (%s per Day).",
+						$this->nospamnx_count, 'nospamnx'),
+						date($this->nospamnx_dateformat, $this->nospamnx_activated),
+						'<a href="http://www.svenkubiak.de/nospamnx">NoSpamNX</a>',
+						$this->nospamnx_count,
+						$this->getStatsPerDay()
+					);
+			}
 			
-			if ($dashboard)
-				echo "<p>";
-				
-			echo '<a href="http://www.svenkubiak.de/nospamnx-en">NoSpamNX</a>';
-			printf(__ngettext(
-				" has stopped %s birdbrained Spambot since it last activation.",
-				" has stopped %s birdbrained Spambots since it last activation.",
-				$this->nospamnx_count, 'nospamnx'), $this->nospamnx_count);
-			if ($perDay > 0)
-				printf( __(' %1$d per Day.', 'nospamnx'), $perDay);
-				
-			if ($dashboard)
-				echo "</p>";			
+			if ($dashboard) {echo "</p>";}			
 		}
 	}
 	$nospamnx = new NoSpamNX();
