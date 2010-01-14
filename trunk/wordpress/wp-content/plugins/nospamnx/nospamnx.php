@@ -3,7 +3,7 @@
 Plugin Name: NoSpamNX
 Plugin URI: http://www.svenkubiak.de/nospamnx-en
 Description: To protect your Blog from automated spambots, which fill you comments with junk, this plugin adds additional formfields (hidden to human-users) to your comment form. These Fields are checked every time a new comment is posted. 
-Version: 3.8
+Version: 3.9
 Author: Sven Kubiak
 Author URI: http://www.svenkubiak.de
 
@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 global $wp_version;
 define('REQWP27', version_compare($wp_version, '2.7', '>='));
 define('DEFAULTCSS', 'lotsensurrt');
-define('NOSPAMNXV', 3.8);
+define('NOSPAMNXV', 3.9);
 
 if (!class_exists('NoSpamNX'))
 {
@@ -52,20 +52,20 @@ if (!class_exists('NoSpamNX'))
 				return;
 			}
 
-			//tell wp what to do when plugin is activated and deactivated
+			//tell wp what to do when plugin is activated and uninstall
 			if (function_exists('register_activation_hook'))
 				register_activation_hook(__FILE__, array(&$this, 'activate'));
 			if (function_exists('register_uninstall_hook'))
-				register_uninstall_hook(__FILE__, array(&$this, 'deactivate'));
+				register_uninstall_hook(__FILE__, array(&$this, 'uninstall'));	
 			if (function_exists('register_deactivation_hook'))
-				register_deactivation_hook(__FILE__, array(&$this, 'deactivate'));	
-
+				register_deactivation_hook(__FILE__, array(&$this, 'uninstall'));
+				
 			//load nospamnx options
 			$this->getOptions();
 			
-			//automated update does not reset options, lets do it manuelly
+			//automated update does not reset options, so lets do it manuelly
 			if (!version_compare($this->nospamnx_version, NOSPAMNXV, '=')) {
-				$this->deactivate();
+				$this->uninstall();
 				$this->activate();
 				$this->getOptions();
 			}
@@ -129,10 +129,6 @@ if (!class_exists('NoSpamNX'))
 				//check if the value of the second hidden field matches stored value
 				else if ($_POST[$nospamnx['nospamnx-2']] != $nospamnx['nospamnx-2-value'])
 					$this->birdbrained();
-
-				//comment seems valid, check HTTP_ACCEPT at last
-				if ($_SERVER['HTTP_ACCEPT'] == "*/*")
-					$this->maybeBirdbrained();
 			}
 		}
 		
@@ -147,10 +143,6 @@ if (!class_exists('NoSpamNX'))
 			else
 				wp_die(__('Sorry, but your comment seems to be Spam.','nospamnx'));
 		}	
-
-		function maybeBirdbrained() {		
-			add_filter('pre_comment_approved', create_function('$a', 'return \'spam\';'));
-		}
 
 		function checkReferer() {
 			//check if referer isnt empty
@@ -429,12 +421,11 @@ if (!class_exists('NoSpamNX'))
 		     	add_option('nospamnx', $options);		
 		}	
 		
-		function deactivate() {
+		function uninstall() {
 			if (function_exists( 'is_site_admin' ))
 				delete_site_option('nospamnx');
 			else
-				delete_option('nospamnx');
-				
+				delete_option('nospamnx');		
 		}
 		
 		function getOptions() {
@@ -498,7 +489,7 @@ if (!class_exists('NoSpamNX'))
 						"Since its last activation on %s %s has stopped %s birdbrained Spambot (%s per Day).",
 						"Since its last activation on %s %s has stopped %s birdbrained Spambots (%s per Day).",
 						$this->nospamnx_count, 'nospamnx'),
-						date($this->nospamnx_dateformat, $this->nospamnx_activated),
+						date_i18n($this->nospamnx_dateformat, $this->nospamnx_activated),
 						'<a href="http://www.svenkubiak.de/nospamnx">NoSpamNX</a>',
 						$this->nospamnx_count,
 						$this->getStatsPerDay()
