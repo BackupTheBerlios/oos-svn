@@ -6,7 +6,7 @@ Date: 2010, January 3rd
 Description: Plugin to embed Wordpress Blog into Facebook Canvas using the Facebook Platform. 
 Author: John Eckman
 Author URI: http://johneckman.com
-Version: 1.4.1
+Version: 1.4.2
 */
 
 /*
@@ -264,7 +264,8 @@ function wpbook_subpanel() {
     echo("checked");
 	$gravatar_defaults_custom = FALSE;
 	}
-	echo (" ><span class='gravatar_facebook_default'> Facebook Default </span> ");
+    echo (' ><span class="gravatar_facebook_default"> Facebook Default <img src="');
+    echo (WP_PLUGIN_URL.'/wpbook/admin_includes/images/gravatar_default.gif" /></span><br />');
 
   $gravatar_defaults = array('identicon','monsterid','wavatar');
 
@@ -275,7 +276,8 @@ function wpbook_subpanel() {
 			echo " checked='checked'";
 			$gravatar_defaults_custom = FALSE;
 		}
-		echo ' /> <span class="gravatar_'.$gravatar_default .'_default">' . $gravatar_default . "</span> ";
+		echo ' /> <span class="gravatar_'.$gravatar_default .'_default">' . $gravatar_default;
+    echo ' <img src="'. WP_PLUGIN_URL .'/wpbook/admin_includes/images/'. $gravatar_default .'_default.gif"> </span><br /> ';
 	}
 
   
@@ -308,7 +310,7 @@ echo'<p><strong> Socialize Options:</strong></p>';
   if( htmlentities($wpbookAdminOptions['enable_share']) == "true"){
     echo("checked");
   }
-  echo ' id="enable_share"> Enable "Share This Post" (within Facebook) <img src="'. WP_PLUGIN_DIR .'/wpbook/admin_includes/images/help.png" class="show_share" /> </p>';
+  echo ' id="enable_share"> Enable "Share This Post" (within Facebook) <img src="'. WP_PLUGIN_URL .'/wpbook/admin_includes/images/help.png" class="show_share" /> </p>';
   // show external link option 
   
   echo '<p class="options"><input type="checkbox" name="enable_external_link" value="true"';
