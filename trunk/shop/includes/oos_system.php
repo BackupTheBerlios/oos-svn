@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -22,7 +22,7 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
 
 //smarty
 require 'includes/classes/class_template.php';
-$oSmarty =& new Template();
+$oSmarty = new Template();
 
 //debug
 if ($oEvent->installed_plugin('debug')) {
@@ -72,41 +72,38 @@ if (empty($oos_meta_keywords)) $oos_meta_keywords = OOS_META_KEYWORDS;
 $sFormid = md5(uniqid(rand(), true));
 $_SESSION['formid'] = $sFormid;
 
+$cart_count_contents = $_SESSION['cart']->count_contents();
+$cart_show_total = $oCurrencies->format($_SESSION['cart']->show_total());
+
 $oSmarty->assign(
       array(
-          'pages'             => $aPages,
-          'page_file'         => $sPage,
+          'pages'               => $aPages,
+          'page_file'           => $sPage,
 
-          'formid'            => $sFormid,
+          'formid'              => $sFormid,
 
-          'request_type'      => $request_type,
+          'request_type'        => $request_type,
 
-          'is_xhtml'          => true,
-          'theme_set'         => $sTheme,
-          'theme_image'       => STATIC1_HTTP_SERVER . '/themes/' . $sTheme . '/images',
-          'theme_css'         => STATIC1_HTTP_SERVER . '/themes/' . $sTheme,
+          'cart_show_total'     => $cart_show_total,
+          'cart_count_contents' => $cart_count_contents,
 
-          'lang'              => $aLang,
-          'language'          => $sLanguage,
+          'is_xhtml'            => true,
+          'theme_set'           => $sTheme,
+          'theme_image'         => STATIC1_HTTP_SERVER . '/themes/' . $sTheme . '/images',
+          'theme_css'           => STATIC1_HTTP_SERVER . '/themes/' . $sTheme,
 
-          'pangv'             => $sPAngV,
-          'products_units'    => $products_units,
+          'lang'                => $aLang,
+          'language'            => $sLanguage,
 
-          'pagetitle'         => htmlspecialchars($oos_pagetitle),
+          'pangv'               => $sPAngV,
+          'products_units'      => $products_units,
 
-          'meta_description'  => htmlspecialchars($oos_meta_description),
-          'meta_keywords'     => htmlspecialchars($oos_meta_keywords)
+          'pagetitle'           => htmlspecialchars($oos_pagetitle),
+
+          'meta_description'    => htmlspecialchars($oos_meta_description),
+          'meta_keywords'       => htmlspecialchars($oos_meta_keywords)
       )
 );
 
 $oSmarty->assign('oos_base', (($request_type == 'SSL') ? OOS_HTTPS_SERVER : OOS_HTTP_SERVER) . OOS_SHOP);
 
-// shopping_cart
-$cart_show_total = 0;
-$cart_count_contents = $_SESSION['cart']->count_contents();
-if ($cart_count_contents > 0) {
-    $cart_show_total = $oCurrencies->format($_SESSION['cart']->show_total());
-}
-
-$oSmarty->assign('cart_show_total', $cart_show_total);
-$oSmarty->assign('cart_count_contents', $cart_count_contents);
