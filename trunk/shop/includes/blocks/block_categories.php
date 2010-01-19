@@ -73,7 +73,7 @@ function oos_count_products_in_category($category_id, $include_inactive = false)
  * @return string
  */
 function oos_show_category($nCounter) {
-    global $nPrevID, $aFoo, $aCategories, $categories_new, $id, $parent_child;
+    global $nPrevID, $aFoo, $aCategories, $categories_new, $id, $parent_child, $nCurrentCategoryId;
 
     $aCategory = array('counter' => $nCounter);
 
@@ -82,6 +82,13 @@ function oos_show_category($nCounter) {
     } else {
         $aCategory['isSelected'] = 0;
     }
+
+    if ($nCounter == $nCurrentCategoryId) {
+      $aCategory['isActive'] = 1; 
+    } else {
+      $aCategory['isActive'] = 0;
+    }
+
 
     if ( (isset($parent_child)) && (is_array($parent_child)) ) {
         foreach ($parent_child as $index_of => $sub_parent_child) {
