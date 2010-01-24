@@ -49,7 +49,6 @@ $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['contact_us']), 
 
 $aOption['template_main'] = $sTheme . '/system/old_contact_us.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 
@@ -77,7 +76,6 @@ $oSmarty->assign(
 );
 
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

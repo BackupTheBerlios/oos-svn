@@ -62,7 +62,6 @@ if ($category_depth == 'nested') {
 
     $aOption['template_main'] = $sTheme . '/system/nested.html';
     $aOption['page_heading'] = $sTheme . '/system/nested_heading.html';
-    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_CATALOG;
 
@@ -207,7 +206,6 @@ if ($category_depth == 'nested') {
         );
     }
 
-    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
     $oSmarty->caching = false;
@@ -219,7 +217,6 @@ if ($category_depth == 'nested') {
     $aOption['template_main'] = $sTheme . '/system/products.html';
     $aOption['page_heading'] = $sTheme . '/system/index_products_heading.html';
     $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
-    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_CATALOG;
 
@@ -560,7 +557,6 @@ if ($category_depth == 'nested') {
     }
 
     $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation'], $contents_cache_id));
-    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
     $oSmarty->caching = false;

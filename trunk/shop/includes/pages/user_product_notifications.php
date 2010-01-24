@@ -83,11 +83,10 @@ if (isset($_GET['action']) && ($_GET['action'] == 'update_notifications')) {
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['product_notifications'], '', 'SSL'), bookmark);
+$oBreadcrumb->add($aLang['navbar_title_2']);
 
 $aOption['template_main'] = $sTheme . '/modules/user_product_notifications.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
@@ -131,7 +130,6 @@ $sql = "SELECT pd.products_id, pd.products_name
         ORDER BY pd.products_name";
 $oSmarty->assign('products_array', $dbconn->GetAll($sql));
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

@@ -46,7 +46,6 @@ if (!$product_info_result->RecordCount()) {
 
     $aOption['template_main'] = $sTheme . '/system/info.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_PRODUCTS;
 
@@ -76,9 +75,9 @@ if (!$product_info_result->RecordCount()) {
 
     // links breadcrumb
     if (SHOW_PRODUCTS_MODEL == '1') {
-        $oBreadcrumb->add($product_info['products_model'], oos_href_link($aPages['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId), bookmark);
+        $oBreadcrumb->add($product_info['products_model']);
     } else {
-        $oBreadcrumb->add($product_info['products_name'], oos_href_link($aPages['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId), bookmark);
+        $oBreadcrumb->add($product_info['products_name']);
     }
 
     $aOption['template_main'] = $sTheme . '/products/cross_sell_products.html';
@@ -87,7 +86,6 @@ if (!$product_info_result->RecordCount()) {
     $aOption['xsell_products'] = $sTheme . '/products/xsell_products.html';
     $aOption['up_sell_products'] = $sTheme . '/products/up_sell_products.html';
     $aOption['featured'] = $sTheme . '/modules/products/featured.html';
-    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_PRODUCTS;
 
@@ -130,7 +128,7 @@ if (!$product_info_result->RecordCount()) {
     $oSmarty->caching = false;
 }
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
+
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

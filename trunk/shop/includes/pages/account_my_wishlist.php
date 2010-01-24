@@ -168,12 +168,11 @@ while ($wishlist = $wishlist_result->fields)
 
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['account_my_wishlist']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme . '/modules/my_wishlist.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 
@@ -205,7 +204,6 @@ $oSmarty->assign(
 );
 
 $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation']));
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

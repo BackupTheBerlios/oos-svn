@@ -25,11 +25,11 @@ require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/info_gallery.php';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['info_gallery']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme .  '/system/gallery.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
+
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 
@@ -54,7 +54,6 @@ $oSmarty->assign(
       )
 );
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

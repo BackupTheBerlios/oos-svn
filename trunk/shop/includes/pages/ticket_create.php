@@ -200,11 +200,10 @@ if (TICKET_USE_ORDER_IDS == '1' && isset($_SESSION['customer_id'])) {
 
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['ticket_create']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme . '/modules/ticket_create.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_SERVICE;
 
@@ -247,7 +246,7 @@ $oSmarty->assign(
 );
 
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
+
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

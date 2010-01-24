@@ -49,7 +49,6 @@ require 'includes/languages/' . $sLanguage . '/account_order_history.php';
 $aOption['template_main'] = $sTheme . '/modules/account_order_history.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 
@@ -171,7 +170,7 @@ if ($orders_result->RecordCount()) {
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['header_title_catalog'], oos_href_link($aPages['shop']));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['account_order_history']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 
 $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
@@ -189,7 +188,6 @@ $oSmarty->assign(
      )
 );
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));

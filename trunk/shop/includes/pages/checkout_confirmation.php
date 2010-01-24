@@ -142,7 +142,6 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
 
     $aOption['template_main'] = $sTheme . '/modules/checkout_confirmation.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_CHECKOUT;
 
@@ -194,7 +193,6 @@ if ( isset($_SESSION['formid']) && ($_SESSION['formid'] == $_POST['formid']) ) {
     $oSmarty->assign('form_action_url', $form_action_url);
     $oSmarty->assign('order', $oOrder);
 
-    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

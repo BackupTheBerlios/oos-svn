@@ -107,7 +107,7 @@ if (!isset($_GET['action']) && ($_GET['action'] != 'login_admin')) {
     if (($login_result_values['man_key2'] = $newkey2) && ($login_result_values['status'] !=0))  {
 
         // links breadcrumb
-        $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['admin_create_account'], '', 'NONSSL'), bookmark);
+        $oBreadcrumb->add($aLang['navbar_title']);
 
         ob_start();
         require 'js/form_check.js.php';
@@ -121,7 +121,6 @@ if (!isset($_GET['action']) && ($_GET['action'] != 'login_admin')) {
 
         $aOption['template_main'] = $sTheme . '/modules/create_account_admin.html';
         $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-        $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
         $nPageType = OOS_PAGE_TYPE_SERVICE;
         $read = '0';
@@ -160,7 +159,6 @@ if (!isset($_GET['action']) && ($_GET['action'] != 'login_admin')) {
         $oSmarty->assign('newsletter_ids', array(0,1));
         $oSmarty->assign('newsletter', array($aLang['entry_newsletter_no'],$aLang['entry_newsletter_yes']));
 
-        $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
         $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
         $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

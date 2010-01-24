@@ -39,7 +39,7 @@ require 'includes/languages/' . $sLanguage . '/products_specials.php';
 $aOption['template_main'] = $sTheme . '/products/specials.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
+
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 $sGroup = trim($_SESSION['member']->group['text']);
@@ -109,7 +109,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     }
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['specials']), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title']);
 
     $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
     $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
@@ -134,7 +134,6 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
 }
 
 $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation'], $contents_cache_id));
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
 $oSmarty->caching = false;

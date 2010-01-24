@@ -81,11 +81,10 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
     }
 } else {
 
-    $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['newsletters'], '', 'SSL'), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title_1']);
 
     $aOption['template_main'] = $sTheme . '/modules/newsletters.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_SERVICE;
 
@@ -110,7 +109,6 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
         )
     );
 
-    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

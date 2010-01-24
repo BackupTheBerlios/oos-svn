@@ -39,7 +39,7 @@ $show_password = true;
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['password_edit'], '', 'SSL'), bookmark);
+$oBreadcrumb->add($aLang['navbar_title_2']);
 
 ob_start();
 require 'js/form_check.js.php';
@@ -48,7 +48,6 @@ ob_end_clean();
 
 $aOption['template_main'] = $sTheme . '/modules/user_password_edit.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
@@ -81,7 +80,6 @@ $oSmarty->assign(
 // JavaScript
 $oSmarty->assign('oos_js', $javascript);
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

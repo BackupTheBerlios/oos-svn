@@ -112,9 +112,11 @@
 					<!-- Skiplink-Anker: Content -->
 					<a id="content" name="content"></a>
 
-                    <!-- begin: breadcrumb -->
-                    {$oosBreadcrumb}
-                    <!-- end: breadcrumb -->
+          <!-- start breadcrumb -->
+          <div id="breadcrumb">
+            {$breadcrumb}
+          </div>
+          <!-- stop breadcrumb-->
 
 					{foreach item=error from=$oos_error_message}
 						{include file="$theme_set/system/error_message.html"}

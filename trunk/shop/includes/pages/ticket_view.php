@@ -214,11 +214,10 @@ if (isset($tlid)) {
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['ticket_create']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme . '/modules/ticket_view.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_SERVICE;
 
@@ -254,7 +253,6 @@ $oSmarty->assign('ticket_status_array', $ticket_status_array);
 $oSmarty->assign('ticket_department_array', $ticket_department_array);
 $oSmarty->assign('ticket_priority_array', $ticket_priority_array);
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

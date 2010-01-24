@@ -151,7 +151,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
     MyOOS_CoreApi::redirect(oos_href_link($aPages['product_reviews'], $get_parameters));
 }
 
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['product_reviews'], $get_parameters), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $customerstable = $oostable['customers'];
 $sql = "SELECT customers_firstname, customers_lastname
@@ -167,7 +167,6 @@ ob_end_clean();
 
 $aOption['template_main'] = $sTheme . '/modules/product_reviews_write.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_REVIEWS;
 
@@ -199,7 +198,6 @@ $oSmarty->assign(
 );
 
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

@@ -119,11 +119,10 @@ $sAccountCreated = oos_date_short($myworld['date_account_created']);
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['text_yourstore'], oos_href_link($aPages['yourstore']));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['customers_image']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme .  '/modules/customers_image.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
@@ -153,7 +152,6 @@ $oSmarty->assign(
       )
   );
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

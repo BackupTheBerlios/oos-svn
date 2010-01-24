@@ -233,7 +233,7 @@ if ($bError == true) {
 
     // links breadcrumb
     $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
-    $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['account_edit'], '', 'SSL'));
+    $oBreadcrumb->add($aLang['navbar_title_2']);
 
     ob_start();
     require 'js/form_check.js.php';
@@ -242,7 +242,6 @@ if ($bError == true) {
 
     $aOption['template_main'] = $sTheme . '/modules/user_account_edit_process.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
@@ -350,7 +349,6 @@ if ($bError == true) {
     $oSmarty->assign('newsletter_ids', array(0,1));
     $oSmarty->assign('newsletter', array($aLang['entry_newsletter_no'],$aLang['entry_newsletter_yes']));
 
-    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

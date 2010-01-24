@@ -75,12 +75,11 @@ while ($reviews = $reviews_result->fields)
 
 // links breadcrumb
 $oBreadcrumb->add($product_info['products_name'], oos_href_link($aPages['product_info'], 'categories=' . $categories . '&amp;products_id=' . $nProductsId));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['product_reviews'], $get_params), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme . '/modules/product_reviews.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_REVIEWS;
 
@@ -108,7 +107,6 @@ $oSmarty->assign(
 );
 
 $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation']));
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

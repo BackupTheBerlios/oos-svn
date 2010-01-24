@@ -244,7 +244,7 @@ if (!isset($process)) {
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['account_address_book'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2']);
 
 if ( (isset($_GET['action']) && ($_GET['action'] == 'modify')) || (isset($_POST['action']) && ($_POST['action'] == 'update') && !empty($_POST['entry_id'])) ) {
     $oBreadcrumb->add($aLang['navbar_title_modify_entry'], oos_href_link($aPages['account_address_book_process'], 'action=modify&amp;entry_id=' . ((isset($_GET['entry_id'])) ? intval($_GET['entry_id']) : intval($_POST['entry_id'])), 'SSL'), bookmark);
@@ -269,7 +269,6 @@ ob_end_clean();
 
 $aOption['template_main'] = $sTheme . '/modules/address_book_process.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
@@ -369,7 +368,6 @@ $oSmarty->assign('country_name', $country_name);
 
 $oSmarty->assign('entry', $entry);
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

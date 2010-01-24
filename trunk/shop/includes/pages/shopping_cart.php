@@ -35,7 +35,6 @@ $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['shopping_cart']
 
 $aOption['template_main'] = $sTheme . '/system/shopping_cart.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 
@@ -148,7 +147,6 @@ if (isset($_SESSION['navigation']->path[$back])) {
     $oSmarty->assign('back_link', $back_link);
 }
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

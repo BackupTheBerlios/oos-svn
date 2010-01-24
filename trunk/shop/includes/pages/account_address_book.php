@@ -101,11 +101,10 @@ while ($address_book = $address_book_result->fields)
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['account_address_book'], '', 'SSL'), bookmark);
+$oBreadcrumb->add($aLang['navbar_title_2']);
 
 $aOption['template_main'] = $sTheme . '/modules/address_book.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
@@ -133,7 +132,6 @@ $oSmarty->assign(
       )
 );
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

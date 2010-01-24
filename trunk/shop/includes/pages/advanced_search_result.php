@@ -140,7 +140,7 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
   } else {
     // links breadcrumb
     $oBreadcrumb->add($aLang['navbar_title1'], oos_href_link($aPages['advanced_search']));
-    $oBreadcrumb->add($aLang['navbar_title2'], oos_href_link($aPages['advanced_search_result'], 'keywords=' . oos_var_prep_for_os($_GET['keywords']) . '&search_in_description=' . oos_var_prep_for_os($_GET['search_in_description']) . '&categories_id=' . intval($_GET['categories_id']) . '&inc_subcat=' . intval($_GET['inc_subcat']) . '&manufacturers_id=' . intval($_GET['manufacturers_id']) . '&pfrom=' . oos_var_prep_for_os($_GET['pfrom']) . '&pto=' . oos_var_prep_for_os($_GET['pto']) . '&dfrom=' . oos_var_prep_for_os($_GET['dfrom']) . '&dto=' . oos_var_prep_for_os($_GET['dto'])), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title2']);
 
     // Search enhancement mod start
     $search_keywords = oos_var_prep_for_os($_GET['keywords']);
@@ -344,7 +344,6 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
     $aOption['template_main'] = $sTheme . '/modules/advanced_search_result.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
     $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
-    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_CATALOG;
 
@@ -376,7 +375,6 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
     $oSmarty->assign('pw_string', $pw_string);
     $oSmarty->assign('oos_get_all_get_params', oos_get_all_get_parameters(array('sort', 'nv')));
 
-    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
     $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation']));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));

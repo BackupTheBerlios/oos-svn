@@ -69,7 +69,6 @@ if ($oEvent->installed_plugin('featured')) $aOption['featured'] = $sTheme . '/mo
 if ($oEvent->installed_plugin('manufacturers')) $aOption['mod_manufacturers'] = $sTheme . '/modules/products/manufacturers.html';
 $aOption['new_products'] = $sTheme . '/modules/products/new_products.html';
 $aOption['upcoming_products'] = $sTheme . '/modules/products/upcoming_products.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 
@@ -154,7 +153,6 @@ $oSmarty->assign('upcoming_products', $oSmarty->fetch($aOption['upcoming_product
 $oSmarty->caching = false;
 
 
-$oSmarty->assign('breadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

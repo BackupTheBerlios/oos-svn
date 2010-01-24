@@ -29,7 +29,7 @@ require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/user_create_account.php';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['create_account']));
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $snapshot = count($_SESSION['navigation']->snapshot);
 if (isset($_GET['email_address'])) {
@@ -44,7 +44,6 @@ ob_end_clean();
 
 $aOption['template_main'] = $sTheme . '/modules/user_create_account.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_ACCOUNT;
 
@@ -89,7 +88,6 @@ $oSmarty->assign('login_orgin_text', sprintf($aLang['text_origin_login'], oos_hr
 $oSmarty->assign('newsletter_ids', array(0,1));
 $oSmarty->assign('newsletter', array($aLang['entry_newsletter_no'],$aLang['entry_newsletter_yes']));
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

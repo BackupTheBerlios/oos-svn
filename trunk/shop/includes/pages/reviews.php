@@ -68,7 +68,6 @@ require 'includes/languages/' . $sLanguage . '/reviews_reviews.php';
 $aOption['template_main'] = $sTheme . '/modules/reviews.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
 $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CATALOG;
 
@@ -130,10 +129,10 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     // assign Smarty variables;
     $oSmarty->assign(
         array(
-            'pagetitle'         => htmlspecialchars($oos_pagetitle),
-            'meta_description'  => htmlspecialchars($oos_meta_description),
-            'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
-            'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
+              'pagetitle'         => htmlspecialchars($oos_pagetitle),
+              'meta_description'  => htmlspecialchars($oos_meta_description),
+              'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
+              'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
               'oos_heading_title' => $aLang['heading_title'],
               'oos_heading_image' => 'specials.gif',
 
@@ -146,7 +145,6 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     );
 }
 $oSmarty->assign('oosPageNavigation', $oSmarty->fetch($aOption['page_navigation'], $contents_cache_id));
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
 $oSmarty->caching = false;

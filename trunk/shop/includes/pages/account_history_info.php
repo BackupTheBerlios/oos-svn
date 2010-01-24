@@ -53,14 +53,13 @@ if ($customer_number != $_SESSION['customer_id']) {
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['account'], '', 'SSL'));
 $oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['account_history'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_3'], oos_href_link($aPages['account_history_info'], 'order_id=' . intval($_GET['order_id']), 'SSL'), bookmark);
+$oBreadcrumb->add($aLang['navbar_title_3']);
 
 require 'includes/classes/class_order.php';
 $oOrder = new order($_GET['order_id']);
 
 $aOption['template_main'] = $sTheme . '/modules/account_history_info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 if (DOWNLOAD_ENABLED == '1') {
   $aOption['download'] = $sTheme . '/modules/download.html';
@@ -109,7 +108,6 @@ if (DOWNLOAD_ENABLED == '1') {
     $oSmarty->assign('download', $oSmarty->fetch($aOption['download']));
 }
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

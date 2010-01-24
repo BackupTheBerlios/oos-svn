@@ -271,7 +271,6 @@ if ($bError == true) {
 
     $aOption['template_main'] = $sTheme . '/modules/create_account_admin_process.html';
     $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-    $aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
     $nPageType = OOS_PAGE_TYPE_SERVICE;
 
@@ -374,7 +373,6 @@ if ($bError == true) {
     $oSmarty->assign('newsletter_ids', array(0,1));
     $oSmarty->assign('newsletter', array($aLang['entry_newsletter_no'],$aLang['entry_newsletter_yes']));
 
-    $oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
     $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
     $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

@@ -29,7 +29,6 @@ require 'includes/languages/' . $sLanguage . '.php';
 
 $aOption['template_main'] = $sTheme . '/modules/information.html';
 $aOption['page_heading'] = $sTheme . '/heading/print_page.html';;
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 
@@ -62,7 +61,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     $information = $dbconn->GetRow($sql);
 
     // links breadcrumb
-    $oBreadcrumb->add($information['information_heading_title'], oos_href_link($aPages['information'], 'information_id=' . intval($nInformationsID)), bookmark);
+    $oBreadcrumb->add($information['information_heading_title']);
 
     $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
     $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
@@ -83,7 +82,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     );
 
 }
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
+
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
 $oSmarty->caching = false;

@@ -21,7 +21,7 @@ require 'includes/languages/' . $sLanguage . '/error_error404.php';
 
 $aOption['template_main'] = $sTheme . '/system/info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
+
 
 $nPageType = OOS_PAGE_TYPE_MAINPAGE;
 $contents_cache_id = $sTheme . '|error404|' . $sLanguage;
@@ -40,7 +40,7 @@ if ( (USE_CACHE == '1') && (!SID) ) {
 if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['error404']));
+    $oBreadcrumb->add($aLang['navbar_title']);
 
     $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
     $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
@@ -57,7 +57,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
         )
     );
 }
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb'], $contents_cache_id));
+
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading'], $contents_cache_id));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main'], $contents_cache_id));
 $oSmarty->caching = false;

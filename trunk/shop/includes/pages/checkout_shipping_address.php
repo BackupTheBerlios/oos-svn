@@ -273,7 +273,7 @@ if (!isset($process)) $process = '0';
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['checkout_shipping_address'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2']);
 
 ob_start();
 require 'js/checkout_shipping_address.js.php';
@@ -282,7 +282,6 @@ ob_end_clean();
 
 $aOption['template_main'] = $sTheme . '/modules/shipping_address.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CHECKOUT;
 
@@ -363,7 +362,6 @@ $oSmarty->assign('country_name', $country_name);
 $state = oos_get_zone_name($country, $zone_id, $state);
 $oSmarty->assign('state', $state);
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 

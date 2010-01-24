@@ -110,7 +110,7 @@ $credit_selection = $oOrderTotalModules->credit_selection();
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['checkout_shipping'], '', 'SSL'));
-$oBreadcrumb->add($aLang['navbar_title_2'], oos_href_link($aPages['checkout_payment'], '', 'SSL'));
+$oBreadcrumb->add($aLang['navbar_title_2']);
 
 if (ENABLE_SSL == '1') {
     $condition_link = OOS_HTTPS_SERVER;
@@ -127,7 +127,6 @@ ob_end_clean();
 
 $aOption['template_main'] = $sTheme . '/modules/checkout_payment.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
-$aOption['breadcrumb'] = 'default/system/breadcrumb.html';
 
 $nPageType = OOS_PAGE_TYPE_CHECKOUT;
 
@@ -193,7 +192,6 @@ if ($campaigns_result->RecordCount()) {
 // JavaScript
 $oSmarty->assign('oos_js', $javascript);
 
-$oSmarty->assign('oosBreadcrumb', $oSmarty->fetch($aOption['breadcrumb']));
 $oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
 $oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
 
