@@ -32,17 +32,13 @@ if (!$oEvent->installed_plugin('reviews')) {
 if (isset($_GET['products_id'])) {
     if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 } else {
+    $_SESSION['navigation']->remove_current_page();
     MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']));
 }
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/reviews_product.php';
-
-
-// lets retrieve all $_GET keys and values..
-$get_params = oos_get_all_get_parameters(array('reviews_id'));
-$get_params = oos_remove_trailing($get_params);
 
 $productstable = $oostable['products'];
 $products_descriptiontable = $oostable['products_description'];
@@ -53,7 +49,10 @@ $sql = "SELECT pd.products_name, p.products_model
             AND p.products_status >= '1'
             AND pd.products_id = '" . intval($nProductsId) . "'";
 $product_info_result = $dbconn->Execute($sql);
-if (!$product_info_result->RecordCount()) MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']));
+if (!$product_info_result->RecordCount()) {
+    $_SESSION['navigation']->remove_current_page();
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']));
+}
 $product_info = $product_info_result->fields;
 
 $reviewstable  = $oostable['reviews'];

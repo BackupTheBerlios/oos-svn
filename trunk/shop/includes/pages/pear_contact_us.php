@@ -24,7 +24,7 @@ require 'includes/languages/' . $sLanguage . '/main_contact_us.php';
 
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['contact_us']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 // $aOption['template_main'] = $sTheme . '/system/contact_us.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

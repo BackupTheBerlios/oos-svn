@@ -145,7 +145,7 @@ if (isset($_GET['send_to'])) {
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['tell_a_friend'], 'send_to=' . $friendemail . '&amp;products_id=' . intval($_GET['products_id'])), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme . '/modules/tell_a_friend.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

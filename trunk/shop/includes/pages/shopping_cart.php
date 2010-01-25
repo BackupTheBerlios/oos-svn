@@ -31,7 +31,7 @@ require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/main_shopping_cart.php';
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['shopping_cart']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme . '/system/shopping_cart.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

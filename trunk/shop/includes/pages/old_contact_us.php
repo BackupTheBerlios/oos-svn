@@ -45,7 +45,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'send')) && (isset($_SESSI
 }
 
 // links breadcrumb
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['contact_us']), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme . '/system/old_contact_us.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

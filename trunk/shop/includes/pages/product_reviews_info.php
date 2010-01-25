@@ -30,16 +30,13 @@ if (!$oEvent->installed_plugin('reviews')) {
 }
 
 if (!isset($_GET['reviews_id'])) {
+    $_SESSION['navigation']->remove_current_page();
     MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']));
 }
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/reviews_product_info.php';
-
-// lets retrieve all $_GET keys and values..
-$get_parameters = oos_get_all_get_parameters(array('reviews_id'));
-$get_parameters = oos_remove_trailing($get_parameters);
 
 $reviewstable  = $oostable['reviews'];
 $productstable = $oostable['products'];
@@ -60,7 +57,10 @@ $sql = "SELECT rd.reviews_text, r.reviews_rating, r.reviews_id, r.products_id,
             AND p.products_id = pd.products_id
             AND pd.products_languages_id = '" . intval($nLanguageID) . "'";
 $reviews_result = $dbconn->Execute($sql);
-if (!$reviews_result->RecordCount()) MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']));
+if (!$reviews_result->RecordCount()){
+    $_SESSION['navigation']->remove_current_page();
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+}
 $reviews = $reviews_result->fields;
 
 $dbconn->Execute("UPDATE " . $oostable['reviews'] . "
@@ -69,7 +69,7 @@ $dbconn->Execute("UPDATE " . $oostable['reviews'] . "
 
 // links breadcrumb
 $oBreadcrumb->add($reviews['products_name'], oos_href_link($aPages['product_info'], 'categories=' . $categories . '&amp;products_id=' . $reviews['products_id']));
-$oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['product_reviews'], $get_parameters), bookmark);
+$oBreadcrumb->add($aLang['navbar_title']);
 
 $aOption['template_main'] = $sTheme . '/modules/product_reviews_info.html';
 $aOption['page_heading'] = $sTheme . '/heading/page_heading.html';

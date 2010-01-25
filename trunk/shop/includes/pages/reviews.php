@@ -121,7 +121,7 @@ if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
     }
 
     // links breadcrumb
-    $oBreadcrumb->add($aLang['navbar_title'], oos_href_link($aPages['reviews']), bookmark);
+    $oBreadcrumb->add($aLang['navbar_title']);
 
     $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
     $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;

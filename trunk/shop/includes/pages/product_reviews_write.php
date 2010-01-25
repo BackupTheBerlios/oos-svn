@@ -45,10 +45,12 @@ if (isset($_GET['products_id'])) {
 
 
 if ( empty( $nProductsId ) || !is_numeric( $nProductsId ) ) {
+    $_SESSION['navigation']->remove_current_page();
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
 if ( empty( $nLanguageID ) || !is_numeric( $nLanguageID ) ) {
+    $_SESSION['navigation']->remove_current_page();
     MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
 }
 
