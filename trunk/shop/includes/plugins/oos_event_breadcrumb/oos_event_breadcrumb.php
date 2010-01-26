@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -66,10 +66,11 @@ class oos_event_breadcrumb
         $oBreadcrumb = new breadcrumb();
 
         if (isset($_GET['page']) && ($_GET['page'] == $aPages['main']) || !isset($_GET['page']) ){
-            $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']), bookmark, '1');
+            $oBreadcrumb->add($aLang['header_title_top']);
         } else{
             $oBreadcrumb->add($aLang['header_title_top'], oos_href_link($aPages['main']), null, '1');
         }
+
 
         // add category names or the manufacturer name to the breadcrumb trail
         if (isset($aCategoryPath) && (count($aCategoryPath) > 0)) {
@@ -89,7 +90,7 @@ class oos_event_breadcrumb
                 $categories = $dbconn->Execute($categories_sql);
                 if ($categories->RecordCount() > 0) {
                     if (isset($_GET['page']) && ($_GET['page'] == $aPages['shop']) && ($nCount == 0) ){
-                        $oBreadcrumb->add($categories->fields['categories_name'], oos_href_link($aPages['shop'], 'categories=' . implode('_', array_slice($aCategoryPath, 0, ($i+1)))), bookmark);
+                        $oBreadcrumb->add($categories->fields['categories_name']);
                     } else {
                         $oBreadcrumb->add($categories->fields['categories_name'], oos_href_link($aPages['shop'], 'categories=' . implode('_', array_slice($aCategoryPath, 0, ($i+1)))));
                     }

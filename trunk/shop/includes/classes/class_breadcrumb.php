@@ -55,7 +55,7 @@ class breadcrumb
     function trail($separator = ' - ')
     {
 
-        $trail_string = '<ol>' . "\n";
+        $trail_string = '<ul>' . "\n";
 
         $nTrailTitle = count($this->_trail);
         for ($i=0, $n=$nTrailTitle; $i<$n; $i++) {
@@ -64,13 +64,13 @@ class breadcrumb
                 $trail_string .= '<li><a class="page_item-' . $i . '" href="' . $this->_trail[$i]['link'] . '"';
 
                 if (isset($this->_trail[$i]['accesskey'])) {
-			        $trail_string .= ' accesskey="' . $this->_trail[$i]['accesskey'] . '"';
-			    }
+			              $trail_string .= ' accesskey="' . $this->_trail[$i]['accesskey'] . '"';
+			          }
 
                 if (isset($this->_trail[$i]['rel'])) {
-			        $trail_string .= ' rel="bookmark" title="Permalink zu ' . $this->_trail[$i]['title'] . '"><strong>' . $this->_trail[$i]['title'] . '</strong></a></li>' . "\n";
-			    } else {
-			        $trail_string .= ' title="' . $this->_trail[$i]['title'] . '"><span>' . $this->_trail[$i]['title'] . '</span></a></li>' . "\n";
+			             $trail_string .= ' rel="bookmark" title="Permalink zu ' . $this->_trail[$i]['title'] . '"><strong>' . $this->_trail[$i]['title'] . '</strong></a></li>' . "\n";
+			          } else {
+			             $trail_string .= ' title="' . $this->_trail[$i]['title'] . '"><span>' . $this->_trail[$i]['title'] . '</span></a></li>' . "\n";
                 }
             } else {
                 $trail_string .= '<li><strong>' . $this->_trail[$i]['title'] . '</strong></li>' . "\n";
@@ -78,7 +78,7 @@ class breadcrumb
 
         }
 
-        $trail_string .= '</ol>'. "\n";
+        $trail_string .= '</ul>'. "\n";
 
 
         return $trail_string;
