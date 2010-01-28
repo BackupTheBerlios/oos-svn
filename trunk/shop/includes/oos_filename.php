@@ -54,7 +54,6 @@ $aPages['info_max_order'] = $prefix_filename . 'info_max_order';
 $aPages['info_sitemap'] = $prefix_filename . 'sitemap';
 $aPages['info_vcard'] = $prefix_filename . 'vcard';
 $aPages['information'] = $prefix_filename . 'information';
-$aPages['info_skype'] = $prefix_filename . 'skype';
 $aPages['info_gallery'] = $prefix_filename . 'gallery';
 
 $aPages['main'] = $prefix_filename . 'main';
@@ -65,13 +64,8 @@ $aPages['info_autologon'] = $prefix_filename . 'info_autologon';
 $aPages['info_shopping_cart'] = $prefix_filename . 'info_shopping_cart';
 $aPages['main_wishlist'] = $prefix_filename . 'main_wishlist';
 
-if (OOS_WITH_PEAR == true) {
-// Todo
-    $aPages['contact_us'] = $prefix_filename . 'pear_contact_us';
-    $aPages['contact_us_success'] = $prefix_filename . 'pear_contact_us_success';
-} else {
-    $aPages['contact_us'] = $prefix_filename . 'old_contact_us';
-}
+$aPages['contact_us'] = $prefix_filename . 'old_contact_us';
+
 
 $aPages['newsletters'] = $prefix_filename . 'newsletters';
 $aPages['newsletters_subscribe_success'] = $prefix_filename . 'newsletters_subscribe_success';

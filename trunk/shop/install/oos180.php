@@ -129,6 +129,7 @@ $aKeys = array('affiliate',
                'babelfish',
                'news_reviews',
                'product_notifications',
+               'skype',
                'translate_google');
 $db->Execute("DELETE FROM " . $table . " WHERE block_file in ('" . implode("', '", $aKeys) . "')");
 
