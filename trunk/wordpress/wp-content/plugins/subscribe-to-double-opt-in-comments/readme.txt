@@ -4,13 +4,16 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: comments, subscribe, double opt in, kommentar, abonnieren, opt in, optin, kommentare, benachrichtigung
 Requires at least: 2.5
 Tested up to: 2.9
-Stable tag: 4.1
+Stable tag: 4.2
 
 Based on the well known Subscribe-to-Comments PlugIn, but now with double-opt-in feature to prevent spam.
 
 == Changelog ==
 
-= 4.0 =
+= 4.2 =
+* Added Russian language support.
+
+= 4.1 =
 * Stable and working with WP 2.9.
 * No e-mail on spam comments anymore.
 * Check if comment exists on confirmation, error message if not.
