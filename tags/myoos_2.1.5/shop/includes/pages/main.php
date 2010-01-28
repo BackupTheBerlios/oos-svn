@@ -1,0 +1,161 @@
+<?php
+/* ----------------------------------------------------------------------
+   $Id$
+
+   OOS [OSIS Online Shop]
+   http://www.oos-shop.de/
+
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
+   ----------------------------------------------------------------------
+   Based on:
+
+   File: default.php,v 1.2 2003/01/09 09:40:07 elarifr
+   orig: default.php,v 1.81 2003/02/13 04:23:23 hpdl
+   ----------------------------------------------------------------------
+   osCommerce, Open Source E-Commerce Solutions
+   http://www.oscommerce.com
+
+   Copyright (c) 2003 osCommerce
+   ----------------------------------------------------------------------
+   Released under the GNU General Public License
+   ---------------------------------------------------------------------- */
+
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
+
+$sLanguage = oos_var_prep_for_os($_SESSION['language']);
+require 'includes/languages/' . $sLanguage . '.php';
+require 'includes/languages/' . $sLanguage . '/main_main.php';
+require 'includes/functions/function_default.php';
+
+/**
+ * Return a customer greeting
+ *
+ * @return string
+ */
+function oos_customer_greeting() {
+    global $aLang;
+
+    $aPages = oos_get_pages();
+
+    $personal_text = '';
+    if ( (isset($_SESSION['customer_lastname'])) && (ACCOUNT_GENDER == '1') ) {
+        if ($_SESSION['customer_gender'] == 'm') {
+            $personal_text = $aLang['male_address'] . ' ' . $_SESSION['customer_lastname'];
+        } else {
+            $personal_text = $aLang['female_address'] . ' ' . $_SESSION['customer_lastname'];
+        }
+    }
+
+    if (isset($_SESSION['customer_lastname']) && isset($_SESSION['customer_id'])) {
+        $sGreeting = sprintf($aLang['text_greeting_personal'], $personal_text, oos_href_link($aPages['products_new']));
+    } else {
+        $sGreeting = sprintf($aLang['text_greeting_guest'], oos_href_link($aPages['login'], '', 'SSL'), oos_href_link($aPages['create_account'], '', 'SSL'));
+    }
+
+    return $sGreeting;
+}
+
+
+
+// default
+
+$aOption['template_main'] = $sTheme . '/system/main.html';
+$aOption['page_heading'] = $sTheme . '/heading/page_heading.html';
+if ($oEvent->installed_plugin('spezials')) $aOption['new_spezials'] = $sTheme . '/modules/products/new_spezials.html';
+if ($oEvent->installed_plugin('featured')) $aOption['featured'] = $sTheme . '/modules/products/featured.html';
+if ($oEvent->installed_plugin('manufacturers')) $aOption['mod_manufacturers'] = $sTheme . '/modules/products/manufacturers.html';
+$aOption['new_products'] = $sTheme . '/modules/products/new_products.html';
+$aOption['upcoming_products'] = $sTheme . '/modules/products/upcoming_products.html';
+
+$nPageType = OOS_PAGE_TYPE_MAINPAGE;
+
+require 'includes/oos_system.php';
+if (!isset($option)) {
+    require 'includes/info_message.php';
+    require 'includes/oos_blocks.php';
+}
+
+if (TIME_BASED_GREETING == '1') {
+    $heading_title = oos_time_based_greeting();
+} else {
+    $heading_title = $aLang['heading_title'];
+}
+
+$oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+$oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+
+// assign Smarty variables;
+$oSmarty->assign(
+      array(
+          'pagetitle'         => htmlspecialchars($oos_pagetitle),
+          'meta_description'  => htmlspecialchars($oos_meta_description),
+          'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
+          'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
+          'oos_heading_title' => $heading_title,
+          'oos_heading_image' => 'default.gif'
+      )
+);
+
+
+/*
+if (isset($_SESSION['customer_id'])) {
+    $oSmarty->assign('customer_greeting', oos_customer_greeting());
+}
+*/
+
+if ( (USE_CACHE == '1') && (!SID) && (!isset($_SESSION['customer_id'])) ){
+    $oSmarty->caching = true;
+}
+
+
+// new_spezials
+if ($oEvent->installed_plugin('spezials')) {
+    if (!$oSmarty->is_cached($aOption['new_spezials'], $oos_modules_cache_id)) {
+         require 'includes/modules/new_spezials.php';
+    }
+    $oSmarty->assign('new_spezials', $oSmarty->fetch($aOption['new_spezials'], $oos_modules_cache_id));
+}
+
+
+// featured
+if ($oEvent->installed_plugin('featured')) {
+    if (!$oSmarty->is_cached($aOption['featured'], $oos_modules_cache_id)) {
+        require 'includes/modules/featured.php';
+    }
+    $oSmarty->assign('featured', $oSmarty->fetch($aOption['featured'], $oos_modules_cache_id));
+}
+
+
+// new_products
+if (!$oSmarty->is_cached($aOption['new_products'], $oos_modules_cache_id)) {
+    require 'includes/modules/new_products.php';
+}
+$oSmarty->assign('new_products', $oSmarty->fetch($aOption['new_products'], $oos_modules_cache_id));
+
+
+// mod_manufacturers
+if ($oEvent->installed_plugin('manufacturers')) {
+    if (!$oSmarty->is_cached($aOption['mod_manufacturers'], $oos_modules_cache_id)) {
+        require 'includes/modules/mod_manufacturers.php';
+    }
+    $oSmarty->assign('mod_manufacturers', $oSmarty->fetch($aOption['mod_manufacturers'], $oos_modules_cache_id));
+}
+
+
+// upcoming_products
+if (!$oSmarty->is_cached($aOption['upcoming_products'], $oos_modules_cache_id)) {
+    require 'includes/modules/upcoming_products.php';
+}
+$oSmarty->assign('upcoming_products', $oSmarty->fetch($aOption['upcoming_products'], $oos_modules_cache_id));
+$oSmarty->caching = false;
+
+
+$oSmarty->assign('oosPageHeading', $oSmarty->fetch($aOption['page_heading']));
+$oSmarty->assign('contents', $oSmarty->fetch($aOption['template_main']));
+
+// display the template
+require 'includes/oos_display.php';
+

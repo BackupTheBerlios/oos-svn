@@ -1,0 +1,22 @@
+<ul class="vlist">
+  <h6 class="vlist">{$block_heading_categories}</h6>
+{strip}
+{foreach item=category from=$categories_contents}
+	{if $category.isGroupStart eq 1}<ul>{/if}
+	{if $category.isActive eq 1}
+       <li class="active"><strong>{$category.name}</strong>
+  {else}
+	     <li><a href="{if $category.parent eq 0}{html_href_link page=$pages.shop categories=$category.counter}{else}{html_href_link page=$pages.shop categories=$category.path}{/if}" title="{$category.name}">{$category.name}</a>
+
+	{if $category.isSelected eq 1}
+		{if $category.isHasSubElements eq 0}
+			</li>
+		{/if}
+	{else}
+		</li>
+	{/if}
+	{if $category.nElements > 0}{$category.nElements|repeat:"</ul></li>"}{/if}
+{/foreach}
+{/strip}
+</ul>
+

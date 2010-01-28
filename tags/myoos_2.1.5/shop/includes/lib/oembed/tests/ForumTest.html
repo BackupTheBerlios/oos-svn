@@ -1,0 +1,58 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js">
+</script>
+<script>
+function displayLink(text){
+var urlArray=text.match(/(http\S+)/g)
+for(var i=0;i<urlArray.length;i++){
+url=urlArray[i];
+var id = url.replace(/[^a-z]/g,"x");
+//window.alert(url);
+text = text.replace(url,'<a href="'+url+'" id="'+id+'">'+url+'</a>');
+}
+function replaceURL(url,id){
+jQuery.getJSON('/oembed/Embed.php',{
+  //url:$('#inText').contents()
+ url:url
+ // url: url 
+  },
+  function(data){
+  //window.alert(data.author_name);
+  var thumbnail = "";
+  if(data.thumbnail_url!='') {
+  thumbnail='(here\'s the thumbnail: <img border="0" src="'+data.thumbnail_url+'">)';
+  }   
+  $('#'+id).html(data.title + " by " + data.author_name + " on " + data.provider_name + thumbnail);
+  });
+}
+//$('#forum').html('<a href="'+url+'" id="'+id+'">'+url+'</a>');
+$('#forum').html(text);
+for(var i=0;i<urlArray.length;i++){
+url=urlArray[i];
+//window.alert(url);
+var id = url.replace(/[^a-z]/g,"x");
+replaceURL(url,id);
+}
+  return;
+}
+
+function onSubmit(){
+//window.alert($('#inText').val());
+//var url = "http://www.flickr.com/photos/bees/2341623661/";
+
+var id='123abc';
+displayLink($('#inText').val());
+return false;
+}
+</script>
+</head>
+<body>
+Use the source - or otherwise drop a few youtube / flickr links here:
+<form onSubmit="onSubmit();return false">
+<textarea cols=50 rowss=30 id="inText">hello</textarea>
+<input type="submit" value="Send" onClick="onSubmit();return false;">
+</form>
+<div id="forum"></div>
+</body>
+</html>

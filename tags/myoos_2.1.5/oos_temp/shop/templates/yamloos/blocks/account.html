@@ -1,0 +1,18 @@
+<div class="block" id="block_login">
+	<h4>
+		{$block_heading_login}
+	</h4>
+	<div class="block_content">
+		<ul>
+			<li><a href="{html_href_link page=$pages.account connection=SSL}" title="{$lang.login_block_my_account}" rel="nofollow">{$lang.login_block_my_account}</a></li>
+			<li><a href="{html_href_link page=$pages.account_edit connection=SSL}" title="{$lang.login_block_account_edit}" rel="nofollow">{$lang.login_block_account_edit}</a></li>
+			<li><a href="{html_href_link page=$pages.account_history connection=SSL}" title="{$lang.login_block_account_history}" rel="nofollow">{$lang.login_block_account_history}</a></li>
+			<li><a href="{html_href_link page=$pages.account_order_history connection=SSL}" title="{$lang.login_block_order_history}" rel="nofollow">{$lang.login_block_order_history}</a></li>
+			<li><a href="{html_href_link page=$pages.account_address_book connection=SSL}" title="{$lang.login_block_address_book}" rel="nofollow">{$lang.login_block_address_book}</a></li>
+{if $oEvent->installed_plugin('notify')}
+			<li><a href="{html_href_link page=$pages.product_notifications connection=SSL}" title="{$lang.login_block_product_notifications}" rel="nofollow">{$lang.login_block_product_notifications}</a></li>
+{/if}
+			<li><a href="{html_href_link page=$pages.logoff}" title="{$lang.login_block_logoff}" rel="nofollow">{$lang.login_block_logoff}</a></li>
+		</ul>
+	</div>
+</div>

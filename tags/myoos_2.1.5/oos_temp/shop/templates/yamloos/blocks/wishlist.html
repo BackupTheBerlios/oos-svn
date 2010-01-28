@@ -1,0 +1,21 @@
+{if $wishlist_block eq '1'}
+<div class="block" id="block_wishlist">
+	<h4>
+		<a href="{html_href_link page=$pages.account_my_wishlist connection=SSL}"" title="{$block_heading_customer_wishlist}">{$block_heading_customer_wishlist}</a>
+	</h4>
+	<div class="block_content">
+
+{if $show_wishlist eq '1'}
+	{foreach name=block item=wishlist from=$wishlist_contents}
+		{if $smarty.const.BLOCK_WISHLIST_IMAGE eq '1'}
+			<p><a href="{product_info_link products_id=$wishlist.products_id}">{small_product_image image=$wishlist.products_image alt=$wishlist.products_name|strip_tags}</a></p>
+		{/if}
+
+		{$smarty.foreach.block.iteration|number_format}. <a href="{product_info_link products_id=$wishlist.products_id}">{$wishlist.products_name}</a>
+	{/foreach}
+{else}
+		<p>{$lang.block_wishlist_empty}</p>
+{/if}
+	</div>
+</div>
+{/if}

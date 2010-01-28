@@ -1,0 +1,16 @@
+{if $news_reviews_block eq '1'}
+<div class="block" id="block_reviews">
+	<h4>
+		<a href="{html_href_link page=$pages.news_comments}" title="{$block_heading_reviews}">{$block_heading_reviews}</a>
+	</h4>
+	<div class="block_content">
+
+	{if $random_news.news_reviews_text}
+		<div align="center"><a href="{html_href_link page=$pages.news_reviews_info news_id=$random_news.news_id news_reviews_id=$random_news.news_reviews_id}" title="{$block_heading_reviews}">{html_oos_image basedir=$smarty.const.OOS_IMAGES image=$random_news.news_image alt=$random_news.news_name|escape:"quotes" width=$smarty.const.SMALL_IMAGE_WIDTH height=$smarty.const.SMALL_IMAGE_HEIGHT}</a></div>
+		<div align="left"><a href="{html_href_link page=$pages.news_reviews_info news_id=$random_news.news_id news_reviews_id=$random_news.news_reviews_id}" title="{$block_heading_reviews}">{$random_news.news_reviews_text|strip|truncate:55:"...":true|close_tags|bbcode2html|B2Smilies}</a></div>
+		<div align="center"><img src="{$smarty.const.OOS_IMAGES}stars_{$random_news.news_reviews_rating}.gif" border="0" alt="{$random_news.news_reviews_rating|string_format:$lang.block_reviews_text_of_5_stars}" width="59" height="11" /></div>
+	{/if}
+
+	</div>
+</div>
+{/if}
