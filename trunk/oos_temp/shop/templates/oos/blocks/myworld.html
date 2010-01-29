@@ -18,10 +18,6 @@
           </tr>
           <tr>
             <td align="left" valign="top" class="block_content">
-{if (isset($smarty.session.customer_id)) }
-  {$lang.text_date_account_created} {$account_created}<br>
-  {$lang.entry_city} {$myworld.entry_city} / {$country_name}<br>
-{/if}
 <br>
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.yourstore connection=SSL}">{$lang.text_yourstore}</a><br>
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.account connection=SSL}">{$lang.login_block_my_account}</a><br>
@@ -29,9 +25,6 @@
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.account_history connection=SSL}">{$lang.login_block_account_history}</a><br>
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.account_order_history connection=SSL}">{$lang.login_block_order_history}</a><br>
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.account_address_book connection=SSL}">{$lang.login_block_address_book}</a><br>
-{if $oEvent->installed_plugin('notify')}
-<strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.product_notifications connection=SSL}">{$lang.login_block_product_notifications}</a><br>
-{/if}
 <strong><big>&middot;</big></strong>&nbsp;<a href="{html_href_link page=$pages.logoff}">{$lang.login_block_logoff}</a></td>
           </tr>
         </table></td>
