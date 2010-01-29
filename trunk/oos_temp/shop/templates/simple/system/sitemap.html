@@ -34,9 +34,6 @@
 
                 </li>{$lang.heading_information}
                   <ul>
-{if $oEvent->installed_plugin('gallery')}
-                    <li><a href="{html_href_link page=$pages.info_gallery}">{$lang.block_information_gallery}</a></li>
-{/if}
 {foreach item=info from=$information}
                     <li><a href="{html_href_link page=$pages.information information_id=$info.information_id}" title="{$info.information_name}" rel="nofollow">{$info.information_name}</a></li>
 {/foreach}

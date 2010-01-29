@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
@@ -54,7 +54,7 @@ $aPages['info_max_order'] = $prefix_filename . 'info_max_order';
 $aPages['info_sitemap'] = $prefix_filename . 'sitemap';
 $aPages['info_vcard'] = $prefix_filename . 'vcard';
 $aPages['information'] = $prefix_filename . 'information';
-$aPages['info_gallery'] = $prefix_filename . 'gallery';
+
 
 $aPages['main'] = $prefix_filename . 'main';
 $aPages['shop'] = $prefix_filename . 'shop';

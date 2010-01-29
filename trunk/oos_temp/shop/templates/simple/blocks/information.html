@@ -15,9 +15,6 @@
 	<table width="100%"  border="0" cellspacing="3" cellpadding="0">
   <tr>
     <td>
-{if $oEvent->installed_plugin('gallery')}
-  <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.info_gallery}">{$lang.block_information_gallery}</a><br />
-{/if}
 {foreach item=info from=$information}
   <img src="{$theme_image}/link.gif" alt=" "><a href="{html_href_link page=$pages.information information_id=$info.information_id}" title="{$info.information_name}" rel="nofollow">{$info.information_name}</a><br />
 {/foreach}
