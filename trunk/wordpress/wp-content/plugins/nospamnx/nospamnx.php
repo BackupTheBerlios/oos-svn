@@ -3,7 +3,7 @@
 Plugin Name: NoSpamNX
 Plugin URI: http://www.svenkubiak.de/nospamnx-en
 Description: To protect your Blog from automated spambots, which fill you comments with junk, this plugin adds additional formfields (hidden to human-users) to your comment form. These Fields are checked every time a new comment is posted. 
-Version: 3.9
+Version: 3.10
 Author: Sven Kubiak
 Author URI: http://www.svenkubiak.de
 
@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 global $wp_version;
 define('REQWP27', version_compare($wp_version, '2.7', '>='));
 define('DEFAULTCSS', 'lotsensurrt');
-define('NOSPAMNXV', 3.9);
+define('NOSPAMNXV', 3.10);
 
 if (!class_exists('NoSpamNX'))
 {
@@ -40,7 +40,7 @@ if (!class_exists('NoSpamNX'))
 		var $nospamnx_checkreferer;
 		var $nospamnx_activated;
 		var $nospamnx_dateformat;		
-		var $nospamnx_siteurl;
+		var $nospamnx_home;
 		var $nospamnx_version;
 		
 		function nospamnx() {		
@@ -52,21 +52,20 @@ if (!class_exists('NoSpamNX'))
 				return;
 			}
 
-			//tell wp what to do when plugin is activated and uninstall
+			//tell wp what to do when plugin is activated and uninstalled
 			if (function_exists('register_activation_hook'))
 				register_activation_hook(__FILE__, array(&$this, 'activate'));
 			if (function_exists('register_uninstall_hook'))
 				register_uninstall_hook(__FILE__, array(&$this, 'uninstall'));	
 			if (function_exists('register_deactivation_hook'))
-				register_deactivation_hook(__FILE__, array(&$this, 'uninstall'));
+				register_deactivation_hook(__FILE__, array(&$this, 'deactivate'));
 				
 			//load nospamnx options
 			$this->getOptions();
 			
 			//automated update does not reset options, so lets do it manuelly
 			if (!version_compare($this->nospamnx_version, NOSPAMNXV, '=')) {
-				$this->uninstall();
-				$this->activate();
+				$this->reactivate();
 				$this->getOptions();
 			}
 			
@@ -76,7 +75,7 @@ if (!class_exists('NoSpamNX'))
 			add_action('rightnow_end', array(&$this, 'nospamnxStats'));		
 			add_action('comment_form', array(&$this, 'addHiddenFields'));	
 			
-			//check if we have to include the nospamnx css style
+			//check if we have to include the nospamnx css default style
 			if (empty($this->nospamnx_cssname) || (strtolower(trim($this->nospamnx_cssname)) == DEFAULTCSS))
 				add_action('wp_head', array(&$this, 'nospamnxStyle'));
 		}
@@ -152,10 +151,10 @@ if (!class_exists('NoSpamNX'))
 			//get the host name for referer check
 			preg_match('@^(?:http://)?([^/]+)@i',$_SERVER['HTTP_REFERER'],$match);			
 		
-			//check if referer isnt empty and matches siteurl
+			//check if referer isnt empty and matches 'home'
 			if (empty($match[0]))
 				return false;
-			else if ($match[0] != $this->nospamnx_siteurl)
+			else if ($match[0] != $this->nospamnx_home)
 				return false;
 
 			return true;
@@ -210,10 +209,7 @@ if (!class_exists('NoSpamNX'))
 		}
 
 		function nospamnxAdminMenu() {
-			if( function_exists( 'is_site_admin' ) && !is_site_admin() )
-				return;
-			else
-				add_options_page('NoSpamNX', 'NoSpamNX', 8, 'nospamnx', array(&$this, 'nospamnxOptionPage'));	
+			add_options_page('NoSpamNX', 'NoSpamNX', 8, 'nospamnx', array(&$this, 'nospamnxOptionPage'));	
 		}
 
 		function nospamnxOptionPage() {	
@@ -225,7 +221,7 @@ if (!class_exists('NoSpamNX'))
 				if ($this->checkReferer() == true)
 					echo "<div id='message' class='updated fade'><p>".__('Referer-Check successfull! You may turn on Referer-Check.','nospamnx')."</p></div>";
 				else
-					echo "<div id='message' class='error'><p>".__('Referer-Check failed! The referer does not match WordPress option "siteurl".','nospamnx')."</p></div>";		
+					echo "<div id='message' class='error'><p>".__('Referer-Check failed! The referer does not match WordPress option "home".','nospamnx')."</p></div>";		
 			}
 
 			//do we have to update any settings?
@@ -398,72 +394,80 @@ if (!class_exists('NoSpamNX'))
 		}	
 		
 		function nospamnxStyle() {			
-			$css = $this->nospamnx_siteurl . '/' . PLUGINDIR . '/nospamnx/nospamnx.css';		
+			$css = $this->nospamnx_home . '/' . PLUGINDIR . '/nospamnx/nospamnx.css';		
 			echo "<link rel=\"stylesheet\" href=\"$css\" type=\"text/css\" />\n";
 		}
 		
 		function activate() {	
 			$options = array(
-				'nospamnx_names' 			=> $this->generateNames(),
-				'nospamnx_count'			=> 0,
-				'nospamnx_operate'			=> 'mark',
-				'nospamnx_blacklist'		=> '',
-				'nospamnx_checkreferer'		=> 0,	
-				'nospamnx_cssname'			=> DEFAULTCSS,
-				'nospamnx_activated'		=> time(),
-				'nospamnx_dateformat'		=> get_option('date_format'),
-				'nospamnx_siteurl'			=> get_option('siteurl')								
+				'nospamnx_names' 		=> $this->generateNames(),
+				'nospamnx_count'		=> 0,
+				'nospamnx_operate'		=> 'mark',
+				'nospamnx_checkreferer'	=> 0,	
+				'nospamnx_cssname'		=> DEFAULTCSS,
+				'nospamnx_activated'	=> time(),
+				'nospamnx_dateformat'	=> get_option('date_format'),
+				'nospamnx_home'			=> get_option('home')								
 			);
 
-			if (function_exists( 'is_site_admin' ))
-				add_site_option('nospamnx', $options);
-			else
-		     	add_option('nospamnx', $options);		
+			add_option('nospamnx-blacklist', '');
+	     	add_option('nospamnx', $options);		
 		}	
 		
+		function deactivate() {
+			delete_option('nospamnx');		
+		}		
+		
+		function reactivate() {
+			$options = array(
+				'nospamnx_names' 		=> $this->generateNames(),
+				'nospamnx_count'		=> 0,
+				'nospamnx_operate'		=> 'mark',
+				'nospamnx_checkreferer'	=> 0,	
+				'nospamnx_cssname'		=> DEFAULTCSS,
+				'nospamnx_activated'	=> time(),
+				'nospamnx_dateformat'	=> get_option('date_format'),
+				'nospamnx_home'			=> get_option('home')								
+			);
+
+			update_option('nospamnx', $options);
+		}
+		
 		function uninstall() {
-			if (function_exists( 'is_site_admin' ))
-				delete_site_option('nospamnx');
-			else
-				delete_option('nospamnx');		
+			delete_option('nospamnx');	
+			delete_option('nospamnx-blacklist');	
 		}
 		
 		function getOptions() {
-			if (function_exists( 'is_site_admin' ))
-				$options = get_site_option('nospamnx');
-			else
-				$options = get_option('nospamnx');
+			$options = get_option('nospamnx');
 				
 			$this->nospamnx_names 			= $options['nospamnx_names'];
 			$this->nospamnx_count			= $options['nospamnx_count'];
 			$this->nospamnx_operate			= $options['nospamnx_operate'];
-			$this->nospamnx_blacklist		= $options['nospamnx_blacklist'];
 			$this->nospamnx_cssname			= $options['nospamnx_cssname'];			
 			$this->nospamnx_checkreferer	= $options['nospamnx_checkreferer'];
 			$this->nospamnx_activated		= $options['nospamnx_activated'];
 			$this->nospamnx_dateformat		= $options['nospamnx_dateformat'];
-			$this->nospamnx_siteurl			= $options['nospamnx_siteurl'];
+			$this->nospamnx_home			= $options['nospamnx_home'];
 			$this->nospamnx_version			= $options['nospamnx_version'];
+			$this->nospamnx_blacklist		= get_option('nospamnx-blacklist');
 		}
 		
 		function setOptions() {
 			$options = array(
-				'nospamnx_names'			=> $this->nospamnx_names,
-				'nospamnx_count'			=> $this->nospamnx_count,
-				'nospamnx_operate'			=> $this->nospamnx_operate,
-				'nospamnx_blacklist'		=> $this->nospamnx_blacklist,
-				'nospamnx_cssname'			=> $this->nospamnx_cssname,		
-				'nospamnx_checkreferer'		=> $this->nospamnx_checkreferer,
-				'nospamnx_activated'		=> $this->nospamnx_activated,
-				'nospamnx_dateformat'		=> $this->nospamnx_dateformat,
-				'nospamnx_siteurl'			=> $this->nospamnx_siteurl,
-				'nospamnx_version'			=> NOSPAMNXV
+				'nospamnx_names'		=> $this->nospamnx_names,
+				'nospamnx_count'		=> $this->nospamnx_count,
+				'nospamnx_operate'		=> $this->nospamnx_operate,
+				'nospamnx_cssname'		=> $this->nospamnx_cssname,		
+				'nospamnx_checkreferer'	=> $this->nospamnx_checkreferer,
+				'nospamnx_activated'	=> $this->nospamnx_activated,
+				'nospamnx_dateformat'	=> $this->nospamnx_dateformat,
+				'nospamnx_home'			=> $this->nospamnx_home,
+				'nospamnx_version'		=> NOSPAMNXV
 			);
 			
-		     if (function_exists( 'is_site_admin' ))
-		     	update_site_option('nospamnx', $options);
-		     else
-		        update_option('nospamnx', $options);
+			update_option('nospamnx-blacklist', $this->nospamnx_blacklist);
+		    update_option('nospamnx', $options);
 		}
 		
 		function nospamnxStats() {	
