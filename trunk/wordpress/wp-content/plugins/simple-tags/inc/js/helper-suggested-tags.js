@@ -2,6 +2,33 @@ jQuery(document).ready(function() {
 	jQuery("#suggestedtags h3.hndle span").html( html_entity_decode(stHelperSuggestedTagsL10n.title_bloc) );
 	jQuery("#suggestedtags .inside .container_clicktags").html( stHelperSuggestedTagsL10n.content_bloc );
 	
+	// OpenCalais API
+	jQuery("a.opencalais_api").click(function() {
+		jQuery('#st_ajax_loading').show();
+		jQuery("#suggestedtags .container_clicktags").load( stHelperSuggestedTagsL10n.site_url + '?st_ajax_action=tags_from_opencalais', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
+			registerClickTags();
+		});
+		return false;
+	});
+	
+	// Alchemy API
+	jQuery("a.alchemyapi").click(function() {
+		jQuery('#st_ajax_loading').show();
+		jQuery("#suggestedtags .container_clicktags").load( stHelperSuggestedTagsL10n.site_url + '?st_ajax_action=tags_from_alchemyapi', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
+			registerClickTags();
+		});
+		return false;
+	});
+	
+	// Zemanta API
+	jQuery("a.zemanta").click(function() {
+		jQuery('#st_ajax_loading').show();
+		jQuery("#suggestedtags .container_clicktags").load( stHelperSuggestedTagsL10n.site_url + '?st_ajax_action=tags_from_zemanta', {content:getContentFromEditor(),title:jQuery("#title").val(),tags:jQuery("#tags-input").val()}, function(){
+			registerClickTags();
+		});
+		return false;
+	});
+	
 	// Yahoo API
 	jQuery("a.yahoo_api").click(function() {
 		jQuery('#st_ajax_loading').show();
@@ -9,7 +36,7 @@ jQuery(document).ready(function() {
 			registerClickTags();
 		});
 		return false;
-	});	
+	});
 	
 	// Tag The Net API
 	jQuery("a.ttn_api").click(function() {
@@ -35,25 +62,25 @@ function getContentFromEditor() {
 	if ( (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden() ) { // Tiny MCE
 		
 		var ed = tinyMCE.activeEditor;
-		if ( 'mce_fullscreen' == ed.id ) { 
+		if ( 'mce_fullscreen' == ed.id ) {
 			tinyMCE.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
 		}
 		tinyMCE.get('content').save();
 		data = jQuery("#content").val();
-		
-	} else if ( typeof FCKeditorAPI != "undefined" ) { // FCK Editor
 	
+	} else if ( typeof FCKeditorAPI != "undefined" ) { // FCK Editor
+		
 		var oEditor = FCKeditorAPI.GetInstance('content') ;
 		data = oEditor.GetHTML().stripTags();
-		
+	
 	} else if ( typeof WYM_INSTANCES != "undefined" ) { // Simple WYMeditor
-	
+		
 		data = WYM_INSTANCES[0].xhtml();
-		
-	} else { // No editor, just quick tags
 	
-		data = jQuery("#content").val();	
+	} else { // No editor, just quick tags
 		
+		data = jQuery("#content").val();
+	
 	}
 	
 	// Trim data
@@ -66,14 +93,14 @@ function getContentFromEditor() {
 }
 
 function registerClickTags() {
-	jQuery("#suggestedtags .container_clicktags span").click(function() { 
-		addTag(this.innerHTML); 
+	jQuery("#suggestedtags .container_clicktags span").click(function() {
+		addTag(this.innerHTML);
 	});
 	
 	jQuery('#st_ajax_loading').hide();
 	if ( jQuery('#suggestedtags .inside').css('display') != 'block' ) {
 		jQuery('#suggestedtags').toggleClass('closed');
-	}	
+	}
 }
 
 function html_entity_decode(str) {

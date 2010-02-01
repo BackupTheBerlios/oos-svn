@@ -1,26 +1,26 @@
 <?php
 class SimpleTagsBase {
-	var $version = '1.7.1-rc1.2';
+	var $version = '1.7.4.2';
 	var $options;
-
+	
 	function SimpleTagsBase() {
 		return true;
 	}
 	
 	function initOptions() {
 		// Options
-		$this->options = $this->getDefaultOptions(); 
-
+		$this->options = $this->getDefaultOptions();
+		
 		// Get options from WP options
 		$options_from_table = get_option( STAGS_OPTIONS_NAME );
-
+		
 		// Update default options by getting not empty values from options table
 		foreach( (array) $this->options as $key => $value ) {
 			if ( !is_null($options_from_table[$key]) ) {
 				$this->options[$key] = $options_from_table[$key];
 			}
 		}
-
+		
 		// Clean memory
 		$options_from_table = array();
 		unset($options_from_table, $value);
@@ -46,7 +46,7 @@ class SimpleTagsBase {
 			$this->resetToDefaultOptions();
 		}
 	}
-
+	
 	/**
 	 * Remove ST options when user delete plugin (use WP API Uninstall)
 	 *
@@ -65,15 +65,15 @@ class SimpleTagsBase {
 	function setOption( $optname = '', $optval = '') {
 		$this->options[$optname] = $optval;
 	}
-
+	
 	/**
 	 * Save all current options
 	 *
 	 */
 	function saveOptions() {
-		return update_option(STAGS_OPTIONS_NAME, $this->options);
+		return update_option( STAGS_OPTIONS_NAME, $this->options );
 	}
-
+	
 	/**
 	 * Reset to default options
 	 *
@@ -83,7 +83,7 @@ class SimpleTagsBase {
 		return update_option( STAGS_OPTIONS_NAME, $this->options );
 	}
 	
-	/* 
+	/*
 	 * Get all array options.
 	 *
 	 * */
@@ -93,7 +93,7 @@ class SimpleTagsBase {
 			'use_tag_pages' 		=> 1,
 			'allow_embed_tcloud' 	=> 0,
 			'no_follow' 			=> 0,
-		
+			
 			// Auto link
 			'auto_link_tags' 		=> 0,
 			'auto_link_min' 		=> 1,
@@ -104,6 +104,9 @@ class SimpleTagsBase {
 			// Administration
 			'use_click_tags' 	 => 1,
 			'use_suggested_tags' => 1,
+			'opencalais_key' 	 => '',
+			'alchemy_api' 		 => '',
+			'zemanta_key' 		 => '',
 			'use_autocompletion' => 1,
 			
 			// Embedded Tags
@@ -124,7 +127,7 @@ class SimpleTagsBase {
 			// Tag cloud
 			'cloud_selectionby' => 'count',
 			'cloud_selection' 	=> 'desc',
-			'cloud_orderby' 	=> 'random', 
+			'cloud_orderby' 	=> 'random',
 			'cloud_order' 		=> 'asc',
 			'cloud_limit_qty' 	=> 45,
 			'cloud_notagstext' 	=> __('No tags.', 'simpletags'),
