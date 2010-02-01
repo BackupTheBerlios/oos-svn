@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WordPress
- * @subpackage Default_Theme
+ * @subpackage MyOOS_Theme
  */
 
 get_header();

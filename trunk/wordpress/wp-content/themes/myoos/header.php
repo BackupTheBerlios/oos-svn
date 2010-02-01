@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WordPress
- * @subpackage Default_Theme
+ * @subpackage MyOOS_Theme
  */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -28,7 +28,7 @@ if ( empty($withcomments) && !is_single() ) {
 
 </style>
 
-<?php if ( is_singular() ) wp_enqueue_script( 'comment-reply' ); ?> 
+<?php if ( is_singular() ) wp_enqueue_script( 'comment-reply' ); ?>
 
 <?php wp_head(); ?>
 </head>

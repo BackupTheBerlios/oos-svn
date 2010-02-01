@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WordPress
- * @subpackage Default_Theme
+ * @subpackage MyOOS_Theme
  */
 
 get_header();
@@ -9,7 +9,7 @@ get_header();
 
 	<div id="content" class="narrowcolumn">
 
-		<h2 class="center"><?php _e('Error 404 - Not Found', 'kubrick'); ?></h2>
+		<h2 class="center"><?php _e('Error 404 - Not Found', 'myoos'); ?></h2>
 
 	</div>
 
