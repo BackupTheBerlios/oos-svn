@@ -2,9 +2,9 @@
 //============================================================+
 // File name   : tcpdf.php
 // Begin       : 2002-08-03
-// Last Update : 2010-01-25
+// Last Update : 2010-02-04
 // Author      : Nicola Asuni - info@tecnick.com - http://www.tcpdf.org
-// Version     : 4.8.027
+// Version     : 4.8.032
 // License     : GNU LGPL (http://www.gnu.org/copyleft/lesser.html)
 // 	----------------------------------------------------------------------------
 //  Copyright (C) 2002-2010  Nicola Asuni - Tecnick.com S.r.l.
@@ -128,7 +128,7 @@
  * @copyright 2002-2010 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
  * @link http://www.tcpdf.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
- * @version 4.8.027
+ * @version 4.8.032
  */
 
 /**
@@ -152,14 +152,14 @@ if (!class_exists('TCPDF', false)) {
 	/**
 	 * define default PDF document producer
 	 */ 
-	define('PDF_PRODUCER', 'TCPDF 4.8.027 (http://www.tcpdf.org)');
+	define('PDF_PRODUCER', 'TCPDF 4.8.032 (http://www.tcpdf.org)');
 	
 	/**
 	* This is a PHP class for generating PDF documents without requiring external extensions.<br>
 	* TCPDF project (http://www.tcpdf.org) has been originally derived in 2002 from the Public Domain FPDF class by Olivier Plathey (http://www.fpdf.org), but now is almost entirely rewritten.<br>
 	* @name TCPDF
 	* @package com.tecnick.tcpdf
-	* @version 4.8.027
+	* @version 4.8.032
 	* @author Nicola Asuni - info@tecnick.com
 	* @link http://www.tcpdf.org
 	* @license http://www.gnu.org/copyleft/lesser.html LGPL
@@ -2618,7 +2618,7 @@ if (!class_exists('TCPDF', false)) {
 			$this->SetTextColor(0, 0, 0);
 			// header title
 			$this->SetFont($headerfont[0], 'B', $headerfont[2] + 1);
-			$this->SetX($header_x);			
+			$this->SetX($header_x);
 			$this->Cell(0, $cell_height, $headerdata['title'], 0, 1, '', 0, '', 0);
 			// header string
 			$this->SetFont($headerfont[0], $headerfont[1], $headerfont[2]);
@@ -3856,7 +3856,7 @@ if (!class_exists('TCPDF', false)) {
 				// count number of spaces
 				$ns = substr_count($txt, ' ');
 				// Justification
-				if ($align == 'J') {
+				if (($align == 'J') AND ($ns > 0)) {
 					if (($this->CurrentFont['type'] == 'TrueTypeUnicode') OR ($this->CurrentFont['type'] == 'cidfont0')) {
 						// get string width without spaces
 						$width = $this->GetStringWidth(str_replace(' ', '', $txt));
@@ -3886,9 +3886,7 @@ if (!class_exists('TCPDF', false)) {
 						}
 						break;
 					}
-					case 'L':
-					case 'J':
-					default: {
+					case 'L': {
 						if ($this->rtl) {
 							$dx = $w - $width - $this->cMargin;
 						} else {
@@ -3896,12 +3894,16 @@ if (!class_exists('TCPDF', false)) {
 						}
 						break;
 					}
+					case 'J':
+					default: {
+						$dx = $this->cMargin;
+						break;
+					}
 				}
 				if ($this->rtl) {
 					$xdx = $this->x - $dx - $width;
 				} else {
 					$xdx = $this->x + $dx;
-					
 				}
 				$xdk = $xdx * $k;
 				// calculate approximate position of the font base line
@@ -4042,7 +4044,7 @@ if (!class_exists('TCPDF', false)) {
 				$nl = 1;
 			} else {
 				// ******* Write text
-				$nl = $this->Write($this->lasth, $txt, '', 0, $align, true, $stretch, false, false, $maxh);
+				$nl = $this->Write($this->lasth, $txt, '', 0, $align, true, $stretch, false, true, $maxh);
 			}
 			if ($autopadding) {
 				// add bottom padding
@@ -4327,7 +4329,7 @@ if (!class_exists('TCPDF', false)) {
 			// for each character
 			while ($i < $nb) {
 				if (($maxh > 0) AND ($this->y >= $maxy) ) {
-					$firstline = true;
+					break;
 				}
 				//Get the current character
 				$c = $chars[$i];
@@ -4361,6 +4363,9 @@ if (!class_exists('TCPDF', false)) {
 						if ($maxh == 0) {
 							$this->cMargin = 0;
 						}
+					}
+					if ($firstblock AND $this->isRTLTextDir()) {
+						$tmpstr = rtrim($tmpstr);
 					}
 					$this->Cell($w, $h, $tmpstr, 0, 1, $talign, $fill, $link, $stretch);
 					unset($tmpstr);
@@ -4445,6 +4450,9 @@ if (!class_exists('TCPDF', false)) {
 										$this->cMargin = 0;
 									}
 								}
+								if ($firstblock AND $this->isRTLTextDir()) {
+									$tmpstr = rtrim($tmpstr);
+								}
 								$this->Cell($w, $h, $tmpstr, 0, 1, $align, $fill, $link, $stretch);
 								unset($tmpstr);
 								if ($firstline) {
@@ -4497,6 +4505,9 @@ if (!class_exists('TCPDF', false)) {
 								}
 							}
 							// print the line
+							if ($firstblock AND $this->isRTLTextDir()) {
+								$tmpstr = rtrim($tmpstr);
+							}
 							$this->Cell($w, $h, $shy_char_left.$tmpstr.$shy_char_right, 0, 1, $align, $fill, $link, $stretch);
 							unset($tmpstr);
 							if ($firstline) {
@@ -4576,6 +4587,9 @@ if (!class_exists('TCPDF', false)) {
 					if ($maxh == 0) {
 						$this->cMargin = 0;
 					}
+				}
+				if ($firstblock AND $this->isRTLTextDir()) {
+					$tmpstr = rtrim($tmpstr);
 				}
 				$this->Cell($w, $h, $tmpstr, 0, $ln, $align, $fill, $link, $stretch);
 				unset($tmpstr);
@@ -12711,7 +12725,7 @@ if (!class_exists('TCPDF', false)) {
 		 */
 		protected function getHtmlDomArray($html) {
 			// remove all unsupported tags (the line below lists all supported tags)
-			$html = strip_tags($html, '<marker/><a><b><blockquote><br><br/><dd><del><div><dl><dt><em><font><form><h1><h2><h3><h4><h5><h6><hr><i><img><input><label><li><ol><option><p><pre><select><small><span><strong><sub><sup><table><tablehead><tcpdf><td><textarea><th><thead><tr><tt><u><ul>');
+			$html = strip_tags($html, '<marker/><a><b><blockquote><body><br><br/><dd><del><div><dl><dt><em><font><form><h1><h2><h3><h4><h5><h6><hr><i><img><input><label><li><ol><option><p><pre><select><small><span><strong><sub><sup><table><tablehead><tcpdf><td><textarea><th><thead><tr><tt><u><ul>');
 			//replace some blank characters
 			$html = preg_replace('/<pre/', '<xre', $html); // preserve pre tag
 			$html = preg_replace('/<(table|tr|td|th|tcpdf|blockquote|dd|div|dt|form|h1|h2|h3|h4|h5|h6|br|hr|li|ol|ul|p)([^\>]*)>[\n\r\t]+/', '<\\1\\2>', $html);
@@ -13517,7 +13531,7 @@ if (!class_exists('TCPDF', false)) {
 							} elseif (($plalign == 'J') AND ($plalign == $lalign)) {
 								// Justification
 								if ($this->isRTLTextDir()) {
-									$t_x = $this->lMargin - $this->endlinex;
+									$t_x = $this->lMargin - $this->endlinex + $this->cMargin;
 								}
 								$one_space_width = $this->GetStringWidth(chr(32));
 								$no = 0; // spaces without trim
@@ -13553,7 +13567,7 @@ if (!class_exists('TCPDF', false)) {
 										$lnstring[5][$kk] = $ns;
 									}
 									if ($this->isRTLTextDir()) {
-										$t_x = $this->lMargin - $this->endlinex - (($no - $ns - 1) * $one_space_width);
+										$t_x = $this->lMargin - $this->endlinex + $this->cMargin - (($no - $ns) * $one_space_width);
 									}
 									// calculate additional space to add to each space
 									$spacelen = $one_space_width;
@@ -13715,7 +13729,7 @@ if (!class_exists('TCPDF', false)) {
 													create_function('$matches', 'global $spacew;
 													$matches[1] = str_replace("#!#OP#!#", "(", $matches[1]);
 													$matches[1] = str_replace("#!#CP#!#", ")", $matches[1]);
-													return "[(".str_replace(chr(0).chr(32), ") ".($spacew)." (", $matches[1]).")]";'), $pmidtemp);
+													return "[(".str_replace(chr(0).chr(32), ") ".sprintf("%.3F", $spacew)." (", $matches[1]).")]";'), $pmidtemp);
 										$this->setPageBuffer($startlinepage, $pstart."\n".$pmid."\n".$pend);
 										$endlinepos = strlen($pstart."\n".$pmid."\n");
 									} else {
@@ -13791,7 +13805,7 @@ if (!class_exists('TCPDF', false)) {
 							}
 							if (isset($dom[$key]['attribute']['nested']) AND ($dom[$key]['attribute']['nested'] == 'true')) {
 								// add margin for nested tables
-								$wtmp -= $this->cMargin; // DEBUG
+								$wtmp -= $this->cMargin;
 							}
 							// table width
 							if (isset($dom[$key]['width'])) {
@@ -14040,8 +14054,6 @@ if (!class_exists('TCPDF', false)) {
 						// HTML <a> Link
 						$strrest = $this->addHtmlLink($this->HREF['url'], $dom[$key]['value'], $wfill, true, $this->HREF['color'], $this->HREF['style']);
 					} else {
-						$ctmpmargin = $this->cMargin;
-						$this->cMargin = 0;
 						if ($this->rtl) {
 							$this->x -= $this->textindent;
 						} else {
@@ -14050,7 +14062,6 @@ if (!class_exists('TCPDF', false)) {
 						// ****** write only until the end of the line and get the rest ******
 						$strrest = $this->Write($this->lasth, $dom[$key]['value'], '', $wfill, '', false, 0, true, $firstblock);
 						$this->textindent = 0;
-						$this->cMargin = $ctmpmargin;
 					}
 					if (strlen($strrest) > 0) {
 						// store the remaining string on the previous $key position
@@ -14138,6 +14149,7 @@ if (!class_exists('TCPDF', false)) {
 						$tw += ($prevrMargin - $this->rMargin);
 					}
 					$mdiff = abs($tw - $linew);
+					$t_x = 0;
 					if ($plalign == 'C') {
 						if ($this->rtl) {
 							$t_x = -($mdiff / 2);
@@ -14150,8 +14162,6 @@ if (!class_exists('TCPDF', false)) {
 					} elseif (($plalign == 'L') AND ($this->rtl)) {
 						// left alignment on RTL document
 						$t_x = -$mdiff;
-					} else {
-						$t_x = 0;
 					}
 					if (($t_x != 0) OR ($yshift < 0)) {
 						// shift the line
@@ -16107,6 +16117,7 @@ if (!class_exists('TCPDF', false)) {
 
 		/**
 		* Output a Table of Content Index (TOC).
+		* After calling this method you have to call addPage() to add other content.
 		* You can override this method to achieve different styles.
 		* @param int $page page number where this TOC should be inserted (leave empty for current page).
 		* @param string $numbersfont set the font for page numbers (please use monospaced font for better alignment).
@@ -16251,7 +16262,6 @@ if (!class_exists('TCPDF', false)) {
 					$this->movePage($page_last, $page);
 				}
 			}
-			$this->SetFont($fontfamily, $fontstyle, $fontsize);
 		}
 
 		/**

@@ -1,3 +1,20 @@
+4.8.032 (2010-02-04)
+	- A bug related to $maxh parameter on Write() and MultiCell() was fixed.
+	- Support for body tag was added.
+
+4.8.031 (2010-01-30)
+	- Bug item #2941589 "paragraph justify not working on some non-C locales" was fixed.
+
+4.8.030 (2010-01-27)
+	- Some text alignment cases were fixed.
+
+4.8.029 (2010-01-27)
+	- Bug item #2941057 "TOC Error in PDF File Output" was fixed. 
+	- Some text alignment cases were fixed.
+
+4.8.028 (2010-01-26)
+	- Text alignment for RTL mode was fixed.
+
 4.8.027 (2010-01-25)
 	- Bug item #2938412 "Table related problems - thead, nobr, table width" was fixed.
 
