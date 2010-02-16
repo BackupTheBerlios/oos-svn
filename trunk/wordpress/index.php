@@ -28,38 +28,22 @@
  * @package Blog
  */
 
+define('MOOS_VALID_MOD', 'yes');
+
+// MyOOS requires PHP 5.2+
+version_compare(PHP_VERSION, '5.2', '<') and exit('MyOOS requires PHP 5.2 or newer.');
 
 if(file_exists('bootstrap.php'))
 {
 	require_once 'bootstrap.php';
 }
 
-if (function_exists('ini_set'))
-{
-  ini_set('magic_quotes_runtime', 0);
-}
-
-
-define('MOOS_VALID_MOD', 'yes');
-
-// MyOOS requires PHP 5.2+
-version_compare(PHP_VERSION, '5.2', '<') and exit('MyOOS requires PHP 5.2 or newer.');
+@ini_set('magic_quotes_runtime', 0);
 
 define('WP_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));
-
-$root_path = WP_DOCUMENT_ROOT;
-$root_path = str_replace("\\","/", $root_path); // "
-$root_path = str_replace("/wordpress", "", $root_path);
-// mainly for developers
-if (is_readable( $root_path . '/shop/index.php')) {
-  define('MYOOS_DOCUMENT_ROOT',  $root_path . '/shop');
-} else {
-  define('MYOOS_DOCUMENT_ROOT',  $root_path);
-}
-
 if(!defined('MYOOS_USER_PATH'))
 {
-  define('MYOOS_USER_PATH', MYOOS_DOCUMENT_ROOT);
+	define('MYOOS_USER_PATH', WP_DOCUMENT_ROOT);
 }
 
 if (!defined('MYOOS_SESSION_NAME'))
@@ -67,13 +51,11 @@ if (!defined('MYOOS_SESSION_NAME'))
   define('MYOOS_SESSION_NAME', 'MYOOS_SESSID');
 }
 
-
-
 @ini_set('session.name', MYOOS_SESSION_NAME);
 if(ini_get('session.save_handler') == 'user')
 {
-    @ini_set('session.save_handler', 'files');
-    @ini_set('session.save_path', '');
+	@ini_set('session.save_handler', 'files');
+	@ini_set('session.save_path', '');
 }
 if(ini_get('session.save_handler') == 'files')
 {
@@ -94,7 +76,7 @@ if(ini_get('session.save_handler') == 'files')
 				die("Error: Unable to mkdir $sessionPath");
 			}
 		}
-		elseif(!@is_writable($sessionPath))
+		else if(!@is_writable($sessionPath))
 		{
 			die("Error: $sessionPath is not writable");
 		}

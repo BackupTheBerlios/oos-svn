@@ -1,10 +1,10 @@
 <?php
 /**
  * @package WordPress
- * @subpackage Default_Theme
+ * @subpackage MyOOS_Theme
  */
 
-load_theme_textdomain( 'kubrick' );
+load_theme_textdomain( 'myoos' );
 
 automatic_feed_links();
 
