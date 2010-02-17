@@ -501,6 +501,25 @@ function popupImageWindow(url) {
     $form_action = ($_GET['pID']) ? 'update_product' : 'insert_product';
     if (NEW_PRODUCT_PREVIEW == '1') {
       $form_action = 'new_product_preview';
+    } else {
+// Construct an array of the available locale folders
+$locale_dir = OOS_TEMP_PATH . 'shop/templates/default/product_info/';
+$allowedLocales = array();
+if(is_dir($locale_dir)) {
+    if ($dh = opendir($locale_dir)) {
+        while (($file = readdir($dh)) !== false) {
+            // Exclude the current, previous and the Bitkeeper folder 
+            // (just for us to be able to test, wont affect users who use a build)
+            if($file == '.' || $file == '..' || $file == 'SCCS' || filetype($locale_dir . $file) == 'file' ) continue;
+            if(filetype(realpath($locale_dir . $file)) == 'dir' &&
+               file_exists(realpath($locale_dir . $file . '/locale.xml'))) {
+                $allowedLocales[] = $file;
+            }
+        }
+        closedir($dh);
+    }
+}    
+    
     }
 ?>
 <link rel="stylesheet" type="text/css" href="includes/javascript/spiffyCal/spiffyCal_v2_1.css">

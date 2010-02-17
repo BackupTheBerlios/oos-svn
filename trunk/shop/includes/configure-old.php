@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -57,6 +57,8 @@ define('OOS_DOWNLOAD_PATH_PUBLIC', OOS_ABSOLUTE_PATH . 'pub/');
 define('OOS_EXPORT_PATH', OOS_ABSOLUTE_PATH . OOS_ADMIN . 'export/');
 define('OOS_FEEDS_EXPORT_PATH', OOS_ABSOLUTE_PATH . 'feed/');
 
+define('IMAGE01_ABSOLUTE_PATH', '');
+
 define('OOS_UPLOADS', OOS_ABSOLUTE_PATH . OOS_IMAGES . 'uploads/');
 define('OOS_WATERMARK_LOGO', OOS_ABSOLUTE_PATH . OOS_IMAGES . 'watermark.png');
 
@@ -67,8 +69,6 @@ define('ADODB_ERROR_LOG_DEST', OOS_TEMP_PATH . 'logs/adodb_error.log');
 
 define('ADODB_ERROR_LOG_TYPE', 3);
 define('ADODB_ASSOC_CASE', 0); // assoc lowercase for ADODB_FETCH_ASSOC
-
-define('OOS_WITH_PEAR', false);
 
 define('STORE_SESSIONS', '');
 define('STORE_SESSIONS_CRYPT', '');
