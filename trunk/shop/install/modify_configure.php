@@ -116,7 +116,7 @@ function show_error_shop_info() {
 
     $static1 = oos_prepare_input($_POST['static1']);
     $image01 = oos_prepare_input($_POST['image01']);
-    $planet = oos_prepare_input($_POST['planet']);
+    $chive = oos_prepare_input($_POST['chive']);
     $tracking = oos_prepare_input($_POST['tracking']);
     $wordpress = oos_prepare_input($_POST['wordpress']);
           
@@ -128,7 +128,7 @@ echo <<< EOT
         define('OOS_HTTPS_SERVER', '$oos_ssl_server');<br />
         define('STATIC1_HTTP_SERVER', '$static1');<br />
         define('IMAGE01_HTTP_SERVER', '$image01');<br />
-        define('PLANET_HTTP_SERVER', '$planet');<br />
+        define('CHIVE_HTTP_SERVER', '$chive');<br />
         define('TRACKING_HTTP_SERVER', '$tracking');<br />
         define('BLOG_HTTP_SERVER', '$wordpress');<br />
         define('OOS_SHOP', '$oos_shop_dir');<br />
@@ -157,7 +157,7 @@ function oosUpdateConfigShop($db_prefs = false) {
 
     $static1 = oos_prepare_input($_POST['static1']);
     $image01 = oos_prepare_input($_POST['image01']);
-    $planet = oos_prepare_input($_POST['planet']);
+    $chive = oos_prepare_input($_POST['chive']);
     $tracking = oos_prepare_input($_POST['tracking']);
     $wordpress = oos_prepare_input($_POST['wordpress']);
     
@@ -171,7 +171,7 @@ function oosUpdateConfigShop($db_prefs = false) {
     
     add_src_rep("STATIC1_HTTP_SERVER", $static1);
     add_src_rep("IMAGE01_HTTP_SERVER", $image01);
-    add_src_rep("PLANET_HTTP_SERVER", $planet);
+    add_src_rep("CHIVE_HTTP_SERVER", $chive);
     add_src_rep("TRACKING_HTTP_SERVER", $tracking);
     add_src_rep("BLOG_HTTP_SERVER", $wordpress);
   
