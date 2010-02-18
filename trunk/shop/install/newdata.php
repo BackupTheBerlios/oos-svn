@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -1709,4 +1709,3 @@ $result = $db->Execute("INSERT INTO " . $prefix_table . "zones_to_geo_zones (ass
 
 echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $prefix_table . "zones_to_geo_zones " . UPDATED .'</font>';
 
-?>

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -1178,41 +1178,6 @@ $flds = "
   last_modified T,
   date_added T
 ";
-dosql($table, $flds);
-
-
-$table = $prefix_table . 'telecash_info';
-$flds = "
-  tcph_transaction_id I NOTNULL AUTO PRIMARY,
-  tcph_amount C(11) NOTNULL DEFAULT '',
-  tcph_currency C(3) NOTNULL DEFAULT '',
-  tcph_order_description C(10) NOTNULL DEFAULT '',
-  tcph_session_id C(32) NOTNULL DEFAULT ''
-";
-dosql($table, $flds);
-
-
-$table = $prefix_table . 'telecash_log';
-$flds = "
- log_id I NOTNULL AUTO PRIMARY,
- timestamp C(20) NOTNULL,
- tcph_cc_flag I2 NOTNULL DEFAULT '0',
- tcph_Merchant_id C(18) NOTNULL,
- tcph_payment_type C(12) NOTNULL,
- tcph_remote_address C(15) NOTNULL,
- tcph_result_additional_data B NOTNULL,
- tcph_result_authorization_id C(16) NOTNULL,
- tcph_result_capture_token B NOTNULL,
- tcph_result_code C(8) NOTNULL,
- tcph_result_date C(30) NOTNULL,
- tcph_result_message B NOTNULL,
- tcph_result_response_code I4 NOTNULL DEFAULT '0',
- tcph_result_sequence_no I8 NOTNULL DEFAULT '0',
- tcph_result_trace_audit_number I8 NOTNULL DEFAULT '0',
- tcph_result_terminal_id C(8) NOTNULL,
- tcph_transaction_id C(100) NOTNULL,
- tcph_user_agent C(8) NOTNULL
- ";
 dosql($table, $flds);
 
 
