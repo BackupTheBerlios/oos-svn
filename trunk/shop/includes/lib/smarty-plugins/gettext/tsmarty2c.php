@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/usr/local/bin/php -qn
 <?php
 /**
  * tsmarty2c.php - rips gettext strings from smarty template
@@ -19,9 +19,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  * ------------------------------------------------------------------------- *
  *
- * This command line script rips gettext strings from smarty file,
- * and prints them to stdout in C format, that can later be used with the
- * standard gettext tools.
+ * This command line script rips gettext strings from smarty file, and prints them to stdout in C format, 
+ * that can later be used with the standard gettext tools.
  *
  * Usage:
  * ./tsmarty2c.php <filename or directory> <file2> <..> > smarty.c
@@ -32,7 +31,7 @@
  * @version	$Id$
  * @link	http://smarty-gettext.sf.net/
  * @author	Sagi Bashari <sagi@boom.org.il>
- * @copyright 2004-2005 Sagi Bashari
+ * @copyright 2004 Sagi Bashari
  */
 
 // smarty open tag
@@ -67,23 +66,14 @@ function do_file($file)
 
 	global $ldq, $rdq, $cmd;
 
-	preg_match_all(
-			"/{$ldq}\s*({$cmd})\s*([^{$rdq}]*){$rdq}([^{$ldq}]*){$ldq}\/\\1{$rdq}/",
-			$content,
-			$matches
-	);
-
+	preg_match_all("/{$ldq}\s*({$cmd})\s*([^{$rdq}]*){$rdq}([^{$ldq}]*){$ldq}\/\\1{$rdq}/", $content, $matches);
+	
 	for ($i=0; $i < count($matches[0]); $i++) {
-		// TODO: add line number
-		echo "/* $file */\n"; // credit: Mike van Lammeren 2005-02-14
-
 		if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
-			echo 'ngettext("'.fs($matches[3][$i]).'","'.fs($match[1]).'",x);'."\n";
+			print 'ngettext("'.fs($matches[3][$i]).'","'.fs($match[1]).'",x);'."\n";
 		} else {
-			echo 'gettext("'.fs($matches[3][$i]).'");'."\n";
+			print 'gettext("'.fs($matches[3][$i]).'");'."\n";
 		}
-
-		echo "\n";
 	}
 }
 
@@ -103,7 +93,7 @@ function do_dir($dir)
 			do_dir($entry);
 		} else { // if file, parse only if extension is matched
 			$pi = pathinfo($entry);
-
+			
 			if (isset($pi['extension']) && in_array($pi['extension'], $GLOBALS['extensions'])) {
 				do_file($entry);
 			}
@@ -121,4 +111,4 @@ for ($ac=1; $ac < $_SERVER['argc']; $ac++) {
 	}
 }
 
-
+?>
