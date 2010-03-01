@@ -153,11 +153,7 @@ function print_FormServer() {
         ' <tr>' . "\n" .
         '   <td align="left"><font class="oos-normal">SubDomain image01</font></td>' . "\n" .
         '   <td><font class="oos-normal">' . $_POST['image01'] . '</font></td>' . "\n" .
-        ' </tr>' . "\n" .
-        ' <tr>' . "\n" .
-        '   <td align="left"><font class="oos-normal">SubDomain chive</font></td>' . "\n" .
-        '   <td><font class="oos-normal">' . $_POST['chive'] . '</font></td>' . "\n" .
-        ' </tr>' . "\n" .        
+        ' </tr>' . "\n" .      
         ' <tr>' . "\n" .
         '   <td align="left"><font class="oos-normal">SubDomain tracking</font></td>' . "\n" .
         '   <td><font class="oos-normal">' . $_POST['tracking'] . '</font></td>' . "\n" .
@@ -280,7 +276,6 @@ function print_ServerHidden() {
         '<input type="hidden" name="oos_ssl_server" value="' . $_POST['oos_ssl_server'] . '">' . "\n" .
         '<input type="hidden" name="static1" value="' . $_POST['static1'] . '">' . "\n" .
         '<input type="hidden" name="image01" value="' . $_POST['image01'] . '">' . "\n" .
-        '<input type="hidden" name="chive" value="' . $_POST['chive'] . '">' . "\n" .
         '<input type="hidden" name="tracking" value="' . $_POST['tracking'] . '">' . "\n" .
         '<input type="hidden" name="wordpress" value="' . $_POST['wordpress'] . '">' . "\n" .      
         '<input type="hidden" name="enable_ssl" value="' . $_POST['enable_ssl'] . '">' . "\n" .
@@ -818,11 +813,7 @@ function print_ChangeServer() {
         ' <tr>' . "\n" .
         '   <td align="left"><font class="oos-normal">SubDomain image01</font></td>' . "\n" .
         '   <td><input type="text" name="image01" SIZE=60 maxlength=180 value="' . $_POST['image01'] . '"></td>' . "\n" .
-        ' </tr>' . "\n" .
-        ' <tr>' . "\n" .
-        '   <td align="left"><font class="oos-normal">SubDomain chive</font></td>' . "\n" .
-        '   <td><input type="text" name="chive" SIZE=60 maxlength=180 value="' . $_POST['chive'] . '"></td>' . "\n" .
-        ' </tr>' . "\n" .        
+        ' </tr>' . "\n" .       
         ' <tr>' . "\n" .
         '   <td align="left"><font class="oos-normal">SubDomain tracking</font></td>' . "\n" .
         '   <td><input type="text" name="tracking" SIZE=60 maxlength=180 value="' . $_POST['tracking'] . '"></td>' . "\n" .
@@ -896,11 +887,7 @@ function print_Confirm() {
         ' <tr>' . "\n" .
         '  <td align="left"><font class="oos-normal">SubDomain image01</font></td>' . "\n" .
         '  <td><input type="text" name="image01" SIZE=60 maxlength=180 value="http://image01.' . $_SERVER['HTTP_HOST'] . '"></td>' . "\n" .
-        ' </tr>' . "\n" .
-        ' <tr>' . "\n" .
-        '  <td align="left"><font class="oos-normal">SubDomain chive</font></td>' . "\n" .
-        '  <td><input type="text" name="chive" SIZE=60 maxlength=180 value="http://chive.' . $_SERVER['HTTP_HOST'] . '"></td>' . "\n" .
-        ' </tr>' . "\n" .        
+        ' </tr>' . "\n" .      
         ' <tr>' . "\n" .
         '  <td align="left"><font class="oos-normal">SubDomain tracking</font></td>' . "\n" .
         '  <td><input type="text" name="tracking" SIZE=60 maxlength=180 value="http://tracking.' . $_SERVER['HTTP_HOST'] . '"></td>' . "\n" .
