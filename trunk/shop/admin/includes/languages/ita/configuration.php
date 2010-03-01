@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -346,39 +346,6 @@ define('DOWNLOADS_CONTROLLER_ON_HOLD_MSG_DESC', 'Controllo downloads messaggio d
 
 define('DOWNLOADS_CONTROLLER_ORDERS_STATUS_TITLE', 'Controllo downloads messaggio di stato dell\'ordine');
 define('DOWNLOADS_CONTROLLER_ORDERS_STATUS_DESC', 'Controllo downloads messaggio di download in attesa - Default=2');
-
-define('TICKET_ENTRIES_MIN_LENGTH_TITLE', 'Ticket di Soppurto');
-define('TICKET_ENTRIES_MIN_LENGTH_DESC', 'Le informazioni più importanti dei Ticket di Supporto');
-
-define('TICKET_ADMIN_NAME_TITLE', 'Amminisistratore Tickets');
-define('TICKET_ADMIN_NAME_DESC', 'Il Nome Amministratore');
-
-define('TICKET_USE_STATUS_TITLE', 'Indicatore di stato nel Negozio');
-define('TICKET_USE_STATUS_DESC', 'Si vuole indicare lo stato per il Tiket di sopporto?');
-
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS_TITLE', 'Permetti all\'utente');
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS_DESC', 'Permetti all\'utente di cambiare lo stato dopo aver risposto');
-
-define('TICKET_USE_DEPARTMENT_TITLE', 'Usare il reparto');
-define('TICKET_USE_DEPARTMENT_DESC', 'Usare il reparto ne catalogo');
-
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_DEPARTMENT_TITLE', 'Reparto');
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_DEPARTMENT_DESC', 'Permetti all\'utente di modificare lo stato dopo aver risposto');
-
-define('TICKET_USE_PRIORITY_TITLE', 'Usa Priorità');
-define('TICKET_USE_PRIORITY_DESC', 'Usa Priorità nel Catalogo');
-
-define('TICKET_USE_ORDER_IDS_TITLE', 'ID dell\'ordine');
-define('TICKET_USE_ORDER_IDS_DESC', 'Se il cliente è loggato , i suoi ordini sono mostrati');
-
-define('TICKET_USE_SUBJECT_TITLE', 'Visualizza Soggetto');
-define('TICKET_USE_SUBJECT_DESC', 'Visualizza Soggetto');
-
-define('TICKET_CHANGE_CUSTOMER_LOGIN_REQUIREMENT_TITLE', 'Login');
-define('TICKET_CHANGE_CUSTOMER_LOGIN_REQUIREMENT_DESC', 'Se si imposta questo valore True so può permettere - non permettere agli utenti registrati di visualizzare i Tickets quando sono loggati ');
-
-define('TICKET_CUSTOMER_LOGIN_REQUIREMENT_DEFAULT_TITLE', 'Shop - Login');
-define('TICKET_CUSTOMER_LOGIN_REQUIREMENT_DEFAULT_DESC', '0 i clienti rgistratit devono essere loggati per vedere i Tickets <br />1 gli utenti registrati non devono essere loggati per vedere i Tickets');
 
 define('SECURITY_CODE_LENGTH_TITLE', 'Codice Acquisto');
 define('SECURITY_CODE_LENGTH_DESC', 'Imposta la lunghezza del codice di acquisto più lunga e più sicura');

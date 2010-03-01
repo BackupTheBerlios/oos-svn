@@ -145,10 +145,18 @@ $aKeys = array('affiliate_reset',
                'affiliate_statistics',
                'affiliate_summary',
                'affiliate_reset',
-               'content_news',
                'backup',
+               'banner_manager',
+               'banner_statistics',
+               'content_news',
                'file_manager',
-               'keyword_show');
+               'keyword_show', 
+               'ticket_admin',
+               'ticket_department',
+               'ticket_priority',
+               'ticket_reply',
+               'ticket_status',
+               'ticket_view');
 $db->Execute("DELETE FROM " . $table . " WHERE admin_files_name in ('" . implode("', '", $aKeys) . "')");
 
 
@@ -159,6 +167,7 @@ $aKeys = array('affiliate',
                'news_reviews',
                'product_notifications',
                'skype',
+               'ticket',
                'translate_google');
 $db->Execute("DELETE FROM " . $table . " WHERE block_file in ('" . implode("', '", $aKeys) . "')");
 

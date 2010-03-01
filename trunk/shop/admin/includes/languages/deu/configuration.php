@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -342,39 +342,6 @@ define('DOWNLOADS_CONTROLLER_ON_HOLD_MSG_DESC', 'Downloads Controller Download o
 
 define('DOWNLOADS_CONTROLLER_ORDERS_STATUS_TITLE', 'Downloads Controller Order Status Value');
 define('DOWNLOADS_CONTROLLER_ORDERS_STATUS_DESC', 'Downloads Controller Order Status Value - Default=2');
-
-define('TICKET_ENTRIES_MIN_LENGTH_TITLE', 'Supporttickets');
-define('TICKET_ENTRIES_MIN_LENGTH_DESC', 'Die minimale Zeichenanzahl f&uuml;r Supporttickets');
-
-define('TICKET_ADMIN_NAME_TITLE', 'Ticket Admin Name');
-define('TICKET_ADMIN_NAME_DESC', 'Name des Administrators');
-
-define('TICKET_USE_STATUS_TITLE', 'Statusanzeige im Shop');
-define('TICKET_USE_STATUS_DESC', 'M&ouml;chten Sie den Supportticketstatus anzeigen?');
-
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS_TITLE', 'Erlaube &Auml;nderungen vom Kunden');
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS_DESC', 'Erlaube dem Kunden beim Antworten den Status zu &auml;ndern.');
-
-define('TICKET_USE_DEPARTMENT_TITLE', 'Benutze Abteilung');
-define('TICKET_USE_DEPARTMENT_DESC', 'Zeige die Abteilung im Ticket an.');
-
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_DEPARTMENT_TITLE', 'Abteilung');
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_DEPARTMENT_DESC', 'Erlaube dem Kunden beim Antworten die Abteilung zu &auml;ndern.');
-
-define('TICKET_USE_PRIORITY_TITLE', 'Benutze Priorit&auml;t');
-define('TICKET_USE_PRIORITY_DESC', 'Use Priority in Catalog');
-
-define('TICKET_USE_ORDER_IDS_TITLE', 'Auftragsnummer');
-define('TICKET_USE_ORDER_IDS_DESC', 'Wenn der Benutzer angemeldet ist, sind seine Auftragsnummern sichtbar.');
-
-define('TICKET_USE_SUBJECT_TITLE', 'Show Subject');
-define('TICKET_USE_SUBJECT_DESC', 'Show Subject');
-
-define('TICKET_CHANGE_CUSTOMER_LOGIN_REQUIREMENT_TITLE', 'Login');
-define('TICKET_CHANGE_CUSTOMER_LOGIN_REQUIREMENT_DESC', 'if you set this to true you can allow - notallow registered customers to view tickets without beeing logged in');
-
-define('TICKET_CUSTOMER_LOGIN_REQUIREMENT_DEFAULT_TITLE', 'Shop - Login');
-define('TICKET_CUSTOMER_LOGIN_REQUIREMENT_DEFAULT_DESC', '0 registered Customer must not be logged in to view ticket<br>1 registered Customer must  be logged in to view ticket');
 
 define('SECURITY_CODE_LENGTH_TITLE', 'Einl&ouml;sungscode');
 define('SECURITY_CODE_LENGTH_DESC', 'Setzt die L&auml;nge des Einl&ouml;ngscodes, je l&auml;nger dieser ist, desto sicherer ist er.');

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -346,39 +346,6 @@ define('DOWNLOADS_CONTROLLER_ON_HOLD_MSG_DESC', 'Downloadsbeheerder download wac
 
 define('DOWNLOADS_CONTROLLER_ORDERS_STATUS_TITLE', 'Downloads beheerder order statuswaarde');
 define('DOWNLOADS_CONTROLLER_ORDERS_STATUS_DESC', 'Downloadsbeheerder order statuswaarde - standaard=2');
-
-define('TICKET_ENTRIES_MIN_LENGTH_TITLE', 'Hulpaanvraag');
-define('TICKET_ENTRIES_MIN_LENGTH_DESC', 'Het minimale aantal karakters van de hulpaanvraag');
-
-define('TICKET_ADMIN_NAME_TITLE', 'Naam hulpaanvraagbeheerder');
-define('TICKET_ADMIN_NAME_DESC', 'De naam van de beheerder die de hulpaanvragen behartigd');
-
-define('TICKET_USE_STATUS_TITLE', 'Statusaanduiding in de winkel');
-define('TICKET_USE_STATUS_DESC', 'Wilt u de status van de hulpaanvragen tonen?');
-
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS_TITLE', 'Sta klant toe');
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_STATUS_DESC', 'Sta de klant toe, de status te veranderen bij beantwoorden');
-
-define('TICKET_USE_DEPARTMENT_TITLE', 'Gebruik afdeling');
-define('TICKET_USE_DEPARTMENT_DESC', 'Gebruik afdeling in de catalogus');
-
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_DEPARTMENT_TITLE', 'Sta klant toe');
-define('TICKET_ALLOW_CUSTOMER_TO_CHANGE_DEPARTMENT_DESC', 'Sta klant toe, de status te veranderen bij beantwoorden');
-
-define('TICKET_USE_PRIORITY_TITLE', 'Gebruik prioriteit');
-define('TICKET_USE_PRIORITY_DESC', 'Gebruik prioriteit in de catalogus');
-
-define('TICKET_USE_ORDER_IDS_TITLE', 'Bestel-ID');
-define('TICKET_USE_ORDER_IDS_DESC', 'Als de klant is ingelogd, worden zijn bestel-id \'s getoond');
-
-define('TICKET_USE_SUBJECT_TITLE', 'Toon onderwerp');
-define('TICKET_USE_SUBJECT_DESC', 'Toon onderwerp');
-
-define('TICKET_CHANGE_CUSTOMER_LOGIN_REQUIREMENT_TITLE', 'Inloggen');
-define('TICKET_CHANGE_CUSTOMER_LOGIN_REQUIREMENT_DESC', 'Als u dit op true zet kan u toestaan/niet toestaan of geregistreerde klanten kaarten mogen bekijken zonder te zijn ingelogd');
-
-define('TICKET_CUSTOMER_LOGIN_REQUIREMENT_DEFAULT_TITLE', 'Winkel - inlog');
-define('TICKET_CUSTOMER_LOGIN_REQUIREMENT_DEFAULT_DESC', '0 = geregistreerde klant hoeft niet ingelogd te zijn om kaart te bekijkent<br>1 = geregistrerde klant moet ingelogd zijn om kaart te bekijken');
 
 define('SECURITY_CODE_LENGTH_TITLE', 'Inleveringscode');
 define('SECURITY_CODE_LENGTH_DESC', 'Stel de lengte van de inleveringscode in, hoe langer hoe veiliger');

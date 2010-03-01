@@ -97,9 +97,6 @@ $aPages['quickfind'] = $prefix_filename . 'quickfind';
 
 $aPages['tell_a_friend'] = $prefix_filename . 'tell_a_friend';
 
-$aPages['ticket_create'] = $prefix_filename . 'ticket_create';
-$aPages['ticket_view'] = $prefix_filename . 'ticket_view';
-
 $aPages['account'] = $prefix_filename . 'user_account';
 $aPages['account_edit'] = $prefix_filename . 'user_account_edit';
 $aPages['account_edit_process'] = $prefix_filename . 'user_account_edit_process';

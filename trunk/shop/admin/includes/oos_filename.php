@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -112,12 +112,6 @@ $aFilename['stats_referer'] = $prefix_filename . 'stats_referer.php';
 $aFilename['stats_sales_report2'] = $prefix_filename . 'stats_sales_report2.php';
 $aFilename['tax_classes'] = $prefix_filename . 'tax_classes.php';
 $aFilename['tax_rates'] = $prefix_filename . 'tax_rates.php';
-$aFilename['ticket_admin'] = $prefix_filename . 'ticket_admin.php';
-$aFilename['ticket_department'] = $prefix_filename . 'ticket_department.php';
-$aFilename['ticket_priority'] = $prefix_filename . 'ticket_priority.php';
-$aFilename['ticket_reply'] = $prefix_filename . 'ticket_reply.php';
-$aFilename['ticket_status'] = $prefix_filename . 'ticket_status.php';
-$aFilename['ticket_view'] = $prefix_filename . 'ticket_view.php';
 $aFilename['validcategories'] = $prefix_filename . 'validcategories.php';
 $aFilename['validproducts'] = $prefix_filename . 'validproducts.php';
 $aFilename['whos_online'] = $prefix_filename . 'whos_online.php';
