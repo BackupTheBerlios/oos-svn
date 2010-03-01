@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -377,9 +377,6 @@ $aLang['cart_coupon'] = 'Coupon :';
 $aLang['cart_coupon_info'] = 'more info';
 
 $aLang['category_payment_details'] = 'You get your money by:';
-
-$aLang['block_ticket_generate'] = 'Open Support Ticket';
-$aLang['block_ticket_view'] = 'View Ticket';
 
 $aLang['down_for_maintenance_text'] = 'Down for Maintenance ... Please try back later'; // Message to display when down for maintenance
 $aLang['down_for_maintenance_no_prices_display'] = 'Down for Maintenance'; // Display something for prices could be text or an image

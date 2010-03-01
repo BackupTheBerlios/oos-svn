@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -373,8 +373,6 @@ $aLang['cart_coupon_info'] = 'meer info';
 
 $aLang['category_payment_details'] = 'Uitbetaling kan volgen via';
 
-$aLang['block_ticket_generate'] = 'Hulpaanvraag';
-$aLang['block_ticket_view'] = 'Aanvraag bekijken';
 
 $aLang['down_for_maintenance_text'] = 'Gesloten wegens onder onderhoud ... Probeer het a.u.b. straks weer';
 $aLang['down_for_maintenance_no_prices_display'] = 'Gesloten wegens onderhoud';
