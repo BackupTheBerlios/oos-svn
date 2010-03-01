@@ -10,7 +10,16 @@
 <head profile="http://gmpg.org/xfn/11">
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 
-<title><?php wp_title('&laquo;', true, 'right'); ?> <?php bloginfo('name'); ?></title>
+<title>
+		<?php if ( is_home() ) { ?><?php bloginfo('description'); ?> | <?php bloginfo('name'); ?><?php } ?>
+		<?php if ( is_search() ) { ?><?php echo $s; ?> | <?php bloginfo('name'); ?><?php } ?>
+		<?php if ( is_single() ) { ?><?php wp_title(''); ?> | <?php bloginfo('name'); ?><?php } ?>
+		<?php if ( is_page() ) { ?><?php wp_title(''); ?> | <?php bloginfo('name'); ?><?php } ?>
+		<?php if ( is_category() ) { ?><?php _e('Archive', 'elegant-grunge') ?> <?php single_cat_title(); ?> | <?php bloginfo('name'); ?><?php } ?>
+		<?php if ( is_month() ) { ?><?php _e('Archive', 'myoos') ?> <?php the_time('F'); ?> | <?php bloginfo('name'); ?><?php } ?>
+		<?php if ( is_tag() ) { ?><?php single_tag_title();?> | <?php bloginfo('name'); ?><?php } ?>
+</title>
+
 
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
