@@ -1,4 +1,0 @@
-<FilesMatch "\.(spc|spi|cache)$">
-Order deny,allow
-deny from all
-</FilesMatch>
