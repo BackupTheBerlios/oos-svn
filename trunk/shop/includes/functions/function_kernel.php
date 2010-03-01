@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -1293,7 +1293,7 @@ function oos_get_extension($filename)
 {
 
     $filename  = strtolower($filename);
-    $extension = split("[/\\.]", $filename);
+    $extension = explode('.', $filename);
     $n = count($extension)-1;
     $extension = $extension[$n];
 
