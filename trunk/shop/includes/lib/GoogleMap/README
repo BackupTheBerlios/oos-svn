@@ -6,16 +6,14 @@ AUTHOR:
     Monte Ohrt <monte [AT] ohrt [DOT] com>
 
 LATEST VERSION:
-    2.0 - April 27th, 2006
+    2.5 - Sep 20th, 2007
 
 SYNOPSIS:
 
     <?php
     require('GoogleMapAPI.class.php');
 
-    // pass yahoo app id (something unique) if you are using the
-    // YAHOO lookup service, which is default
-    $map = new GoogleMapAPI('map', 'YourYahooAppId');
+    $map = new GoogleMapAPI('map');
     // setup database for geocode caching
     $map->setDSN('mysql://USER:PASS@localhost/GEOCODES');
     // enter YOUR Google Map Key
@@ -70,6 +68,15 @@ DESCRIPTION:
     http://www.google.com/apis/maps/
     
 
+DISCUSSION:
+-----------
+
+    Discussions are currently held in the Smarty add-on forum (although Smarty
+    is not necessary to use GoogleMapAPI.)
+
+    http://www.phpinsider.com/smarty-forum/viewforum.php?f=19
+    
+
 BASE CLASS METHODS:
 -------------------
 
@@ -78,8 +85,8 @@ BASE CLASS METHODS:
     
         Class Constructor.
         The map id is needed only if you have multiple maps on the same page.
-        The App ID is used for the Yahoo GeoCode API, which is the default
-        lookup service. Use a unique App ID per application.
+        The App ID is used for the Yahoo GeoCode API, if you use Yahoo for lookups.
+        Use a unique App ID per application.
         
         Example:
         
@@ -284,7 +291,8 @@ BASE CLASS METHODS:
     
         This enables the onLoad() javascript function, which is used by default.
         This allows the map javascript to be put into the <head></head> tag,
-        then loaded upon page entry with <body onload="onLoad()">. With onLoad
+        then loaded upon page entry with either <body onload="onLoad()"> right
+        in the body tag, or use printOnLoad() to place this elsewhere. With onLoad
         disabled, the map javascript must be embedded inside the <body></body>
         tags. Using onLoad() is the best method to use for browser
         compatability.
@@ -302,6 +310,34 @@ BASE CLASS METHODS:
 
         disables info windows on map markers.
         Enabled by default.
+
+
+    enableScaleControl()
+    --------------------
+    
+    enables the map scale.
+    Enabled by default.
+    
+
+    disableScaleControl()
+    ---------------------
+    
+    disables the map scale.
+    Enabled by default.
+
+
+    enableOverviewControl()
+    -----------------------
+    
+    enables the map overview.
+    Disabled by default.
+
+
+    disableOverviewControl()
+    ------------------------
+    
+    disable the map overview.
+    Disabled by default.
 
         
     disableOnLoad()
@@ -336,6 +372,10 @@ BASE CLASS METHODS:
         no html is provided, the title will be used.
         
         Note: map centering is done automatically as markers are added.
+        
+        Note: You can use tabbed windows by passing an array of
+            title=>text values as the $html parameter. If driving directions
+            are enabled, they show up under the first tab.
                 
         Example:
         
@@ -400,13 +440,13 @@ BASE CLASS METHODS:
         and you know what you are doing.
 
 
-    setLookupService('YAHOO')
+    setLookupService('GOOGLE')
     -------------------------
                 
-        This sets the geocode lookup service. Default is YAHOO, which uses the
-        Yahoo Geocode API. This (currently) works for US addresses only. Also
-        available is GOOGLE which can do intl addresses. Be warned this is a
-        hack, not an official API. Use at your own risk, no guarantees.
+        This sets the geocode lookup service. Default is GOOGLE, which uses the
+        GOOGLE Geocode API. If you use the YAHOO Geocode API, be sure to set
+        your application ID when instantiating GoogleMapAPI. NOTE: Yahoo API
+        works only for US addresses (AFAIK).
     
     
     setMarkerIcon($iconImage,$iconShadowImage,$iconAnchorX,$iconAnchorY,$infoWindowAnchorX,$infoWindowAnchorY)
@@ -484,8 +524,11 @@ BASE CLASS METHODS:
     ------------
 
         This prints the map javascript. If onLoad() is enabled, put this in the
-        <head></head> tags, and supply <body onload="onLoad()"> in the body tag.
-        Otherwise, put this just before the </body> tag.
+        <head></head> tags, and supply <body onload="onLoad()"> in the body tag
+        (or use printOnLoad()).
+        
+        Otherwise, put this just before the </body> tag to make it load
+        automatically. Note that using onLoad() is recommended over this method.
         
         To return the map javascript in a variable, use getMapJS().
         
@@ -510,6 +553,49 @@ BASE CLASS METHODS:
         <head>
         <?php echo $mapjs; ?>
         </head>
+
+
+    printOnLoad()
+    -------------
+
+        This prints the onLoad() javascript call. This is an alternate to
+        using <body onload="onLoad()"> in the body tag. You can place
+        this anywhere in the html body.
+        
+        To return the onLoad() javascript in a variable, use getOnLoad().
+        
+        Example:
+        
+        <head>
+        <?php $map->printMapJS(); ?>
+        </head>
+        <body>
+        <?php echo $map->printMap(); ?>
+        <?php $map->printOnLoad(); ?>
+        </body>
+    
+    
+    getOnLoad()
+    -----------
+
+        This returns the map javascript that goes into the <head></head> tags.
+        To print the map javascript directly, use printMapJS().
+        
+        Example:
+        
+        <?php
+        $onload = $map->getOnLoad();
+        $mapjs = $map->getMapJS();
+        $map = $map->getMap();
+        ?>
+        <head>
+        <?php echo $mapjs; ?>
+        </head>
+        <body>
+        <?php echo $map; ?>
+        <?php echo $onload; ?>
+        </body>
+
         
         
     printMap()
@@ -520,9 +606,23 @@ BASE CLASS METHODS:
         
         Example:
         
+        <head>
+        <?php $map->printMapJS(); ?>
+        </head>
         <body onload="onLoad()">
         <?php echo $map->printMap(); ?>
         </body>
+
+        Example 2 (using printOnLoad):
+        
+        <head>
+        <?php $map->printMapJS(); ?>
+        </head>
+        <body>
+        <?php echo $map->printMap(); ?>
+        <?php echo $map->printOnLoad(); ?>
+        </body>
+
     
     
     getMap()
@@ -650,6 +750,17 @@ BASE CLASS METHODS:
         echo $geocode['lon'];
         echo $geocode['lat'];
 
+    geoGetDistance($lat1,$lon1,$lat2,$lon2,$unit)
+    ---------------------------------------------
+
+        This gets the distance between too coordinate points using the great
+        circle formula. $unit can be M (miles),K (kilometers),N (nautical
+        miles),I (inches), or F (feet). Default is M.   
+        
+        Example:
+        
+        $distance = $map->geoGetDistance($lat1,$lon1,$lat2,$lon2,$unit);
+
         
         
 INTEGRATING GOOGLE MAPS WITH SMARTY TEMPLATES
@@ -699,9 +810,9 @@ INTEGRATING GOOGLE MAPS WITH SMARTY TEMPLATES
     {$google_map_js}
     <!-- necessary for google maps polyline drawing in IE -->
     <style type="text/css">
-      v\:* {
+      v\:* {ldelim}
         behavior:url(#default#VML);
-      }
+     {rdelim} 
     </style>
     </head>
     <body onload="onLoad()">
@@ -726,6 +837,10 @@ People who have helped/contributed:
 Charlie Dawes
 Jake Krohn
 Clark Freifeld <clark AT users DOT sourceforge DOT net>
+Angelo Conforti
+Jerome Combaz
+drakos7 (from forums)
+nmweb (from forums)
 
 Anyone I missed, drop me a line!
 

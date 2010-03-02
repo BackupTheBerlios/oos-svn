@@ -1,3 +1,41 @@
+2.5
+---
+
+fix "from address" bug (Thomas Jackson, mohrt)
+
+2.4
+---
+
+fix a couple bugs with drawing the javascript map (drakos7,nmweb,mohrt)
+fix lat/lon decimal when locale uses a comma (mohrt, Rene Schmidt)
+fix javascript escapement errors (Greg Wilson, Jerome Combaz, mohrt)
+
+2.3
+---
+
+* fixed db_cache_insert table issue (ezar, mohrt)
+
+2.2
+---
+
+* add geoGetDistance() to compute distance between two coords
+  using great circle distance formula (mohrt)
+* update Google lookup to use official Google geo API (mohrt)
+
+2.1
+---
+
+* fix adjustCenterCoords to cast values as floats (hemmeter, mohrt)
+* made GOOGLE default lookup service
+* added support for tabbed info windows: pass an array of title => html pairs as the $html argument
+  to addMarker. Directions, if enabled, appear in the first tab. (clark)
+* minor bugfix: only zoom encompass if there are two or more markers (clark)
+* added print/getOnLoad() so you can set window onload dynamically (Vaughn Anderson)
+* add (dis/en)ableOverviewControl() features (Antonio Costa, monte)
+* add (dis/en)ableScaleControl() features (Antonio Costa, monte)
+* use first suggestion with "Did you mean" result from google lookups, avoid loops, add property $use_suggest (Angelo Conforti,  monte)
+* make GEOCODES db table configurable (Angelo Conforti, monte)
+
 2.0
 ---
 
