@@ -743,7 +743,14 @@ class MyOOS {
             header('Content-length: ' . $contentLength);
             header('Expires: ' . $this->getHttpDate(2147483647));
             header('Cache-Control: public');
-            set_magic_quotes_runtime(0);
+
+            if(!defined('PHP_VERSION_ID')) {
+				       $version = PHP_VERSION;
+				       define('PHP_VERSION_ID', (($version{0} * 10000) + ($version{2} * 100) + $version{4}));
+		      	}
+			      if (PHP_VERSION_ID < 50300) {
+				        @set_magic_quotes_runtime(0);
+			      }
             set_time_limit(0);
             while (!feof($fd)) {
                 print fread($fd, 4096);

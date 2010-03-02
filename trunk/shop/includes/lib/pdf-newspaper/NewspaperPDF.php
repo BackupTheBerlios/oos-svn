@@ -1397,7 +1397,13 @@ class NewspaperPDF extends TCPDF
 				$type = 'jpeg';
 			}
 			$mqr = get_magic_quotes_runtime();
-			set_magic_quotes_runtime(0);
+  		if(!defined('PHP_VERSION_ID')) {
+	  	    $version = PHP_VERSION;
+		  		define('PHP_VERSION_ID', (($version{0} * 10000) + ($version{2} * 100) + $version{4}));
+			}
+			if (PHP_VERSION_ID < 50300) {
+				@set_magic_quotes_runtime( 0 );
+			}
 			// Specific image handlers
 			$mtd = '_parse'.$type;
 			// GD image handler function
