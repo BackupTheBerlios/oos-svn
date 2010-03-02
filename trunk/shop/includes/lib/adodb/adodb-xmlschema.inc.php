@@ -2193,7 +2193,13 @@ class adoSchema {
 	* @deprecated adoSchema now cleans up automatically.
 	*/
 	function Destroy() {
-		set_magic_quotes_runtime( $this->mgq );
+  		if(!defined('PHP_VERSION_ID')) {
+	  	    $version = PHP_VERSION;
+		  		define('PHP_VERSION_ID', (($version{0} * 10000) + ($version{2} * 100) + $version{4}));
+			}
+			if (PHP_VERSION_ID < 50300) {
+				@set_magic_quotes_runtime( $this->mgq );
+			}
 		unset( $this );
 	}
 }
