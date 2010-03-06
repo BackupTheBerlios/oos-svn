@@ -999,21 +999,6 @@ function current_user_can( $page_key ) {
   }
 
 
- /**
-  * Return File Extension
-  *
-  * @param $filename
-  * @return string
-  */
-  function oos_get_extension($filename) {
-    $filename  = strtolower($filename);
-    $extension = preg_split("/[/\\.]/", $filename);
-    $n = count($extension)-1;
-    $extension = $extension[$n];
-
-    return $extension;
-  }
-
 
   /**
    * Mail function (uses phpMailer)

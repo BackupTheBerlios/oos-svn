@@ -73,7 +73,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'add_customers_image')) &&
         if ($customers_image_file->parse()) {
             if (isset($_SESSION['customer_id'])) {
 
-                $extension = oos_get_extension($_FILES['id']['name']);
+                $extension = MyOOS_Utilities::getFileExtension($_FILES['id']['name']);
                 $picture_tempname = oos_get_random_picture_name(26, $extension);
                 $customers_image_file->set_filename($picture_tempname);
 

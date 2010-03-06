@@ -702,66 +702,6 @@ class MyOOS {
     return is_array($value) ? $value['text'] : $value;  /* Just pass the text through */
     }
 
-    /**
-     * Send a data file out to the browser as quickly as possible.
-     *
-     * @param string $relativePath the relative path to the file from the g2data/ directory
-     * @param string $filename logical name of the file (used for the Content-Disposition header)
-     * @param string $lastModified the last modified date string (used for the Last-Modified header)
-     * @param string $mimeType the mime type (used for the Content-type header)
-     * @param int $contentLength the size of the file (used for the Content-length header)
-     * @return boolean true if we transferred the file successfully
-     */
-    function fastDownload($relativePath, $filename, $lastModified, $mimeType, $contentLength)
-    {
-        global $gallery;
-
-        /*
-         * Note: don't use GalleryPlatform or MyOOS_Utilities here because this code is
-         * a shortcut that is used before we load those classes.
-         */
-        $fileNameParam = MYOOS_FORM_VARIABLE_PREFIX . 'fileName';
-        $requestFileName = isset($_GET[$fileNameParam]) ? $_GET[$fileNameParam] : null;
-        if (!empty($requestFileName) && $requestFileName != $filename) {
-            return false;
-        }
-
-        /**
-         * Try to prevent Apache's mod_deflate from gzipping this output since it's likely already
-         * a binary file and broken versions of mod_deflate sometimes get the byte count wrong.
-         */
-        if (function_exists('apache_setenv') && !@$gallery->getConfig('apacheSetenvBroken')) {
-            apache_setenv('no-gzip', '1');
-        }
-
-        $base = $this->getConfig('data.gallery.base');
-        $path = $base . $relativePath;
-        if (file_exists($path) && $fd = fopen($path, 'rb')) {
-            header('Content-Disposition: inline; filename="' . $filename . '"');
-            header('Last-Modified: ' . $lastModified);
-            header('Content-type: ' . $mimeType);
-            header('Content-length: ' . $contentLength);
-            header('Expires: ' . $this->getHttpDate(2147483647));
-            header('Cache-Control: public');
-
-            if(!defined('PHP_VERSION_ID')) {
-				       $version = PHP_VERSION;
-				       define('PHP_VERSION_ID', (($version{0} * 10000) + ($version{2} * 100) + $version{4}));
-		      	}
-			      if (PHP_VERSION_ID < 50300) {
-				        @set_magic_quotes_runtime(0);
-			      }
-            set_time_limit(0);
-            while (!feof($fd)) {
-                print fread($fd, 4096);
-            }
-            fclose($fd);
-
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * Return a date and time string that is conformant to RFC 2616

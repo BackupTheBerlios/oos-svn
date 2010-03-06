@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2008 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -38,7 +38,7 @@ function oos_copy_uploaded_file($filename, $target) {
   if (OOS_RANDOM_PICTURE_NAME == '1') {
     $picture_tempname = oos_get_random_picture_name(26);
     $picture_tempname .= '.';
-    $picture_tempname .= oos_get_extension($filename['name']);
+    $picture_tempname .= MyOOS_Utilities::getFileExtension($filename['name']);
   } else {
     $picture_tempname = $filename['name'];
   }

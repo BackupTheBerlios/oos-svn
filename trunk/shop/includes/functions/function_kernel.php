@@ -1282,25 +1282,6 @@ function oos_get_pages()
 }
 
 
-
-/**
- * Return File Extension
- *
- * @param $filename
- * @return string
- */
-function oos_get_extension($filename)
-{
-
-    $filename  = strtolower($filename);
-    $extension = explode('.', $filename);
-    $n = count($extension)-1;
-    $extension = $extension[$n];
-
-    return $extension;
-}
-
-
 /**
  * Strip non-alpha & non-numeric except ._-:
  *
