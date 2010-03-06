@@ -1304,8 +1304,10 @@ class adoSchema {
 	function adoSchema( &$db ) {
 		// Initialize the environment
 		$this->mgq = get_magic_quotes_runtime();
-		set_magic_quotes_runtime(0);
 
+		// set_magic_quotes_runtime(0);
+    @ini_set('magic_quotes_runtime', 0);
+    
 		$this->db = $db;
 		$this->debug = $this->db->debug;
 		$this->dict = NewDataDictionary( $this->db );
