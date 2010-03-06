@@ -9,7 +9,7 @@
  * @package Piwik
  */
 
-if(file_exists('bootstrap.php'))
+if(is_readable('bootstrap.php'))
 {
 	require_once 'bootstrap.php';
 }

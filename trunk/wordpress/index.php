@@ -33,7 +33,7 @@ define('MOOS_VALID_MOD', 'yes');
 // MyOOS requires PHP 5.2+
 version_compare(PHP_VERSION, '5.2', '<') and exit('MyOOS requires PHP 5.2 or newer.');
 
-if(file_exists('bootstrap.php'))
+if(is_readable('bootstrap.php'))
 {
 	require_once 'bootstrap.php';
 }
