@@ -1058,59 +1058,6 @@ $result = $db->Execute("INSERT INTO " . $prefix_table . "tax_rates (tax_rates_id
 echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $prefix_table . "tax_rates " . UPDATED .'</font>';
 
 
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_admins (ticket_admin_id, ticket_languages_id, ticket_admin_name) VALUES (1, 2, 'John Doe<br>Support')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_admins</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_admins (ticket_admin_id, ticket_languages_id, ticket_admin_name) VALUES (1, 1, 'John Doe<br>Support')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_admins</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_admins (ticket_admin_id, ticket_languages_id, ticket_admin_name) VALUES (1, 6, 'John Doe<br>Support')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_admins</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_admins (ticket_admin_id, ticket_languages_id, ticket_admin_name) VALUES (1, 3, 'Anoniem<br>Support')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_admins</b>");
-
-echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $prefix_table . "ticket_admins " . UPDATED .'</font>';
-
-
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_department (ticket_department_id, ticket_languages_id, ticket_department_name) VALUES (1, 2, 'Sale')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_department</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_department (ticket_department_id, ticket_languages_id, ticket_department_name) VALUES (1, 1, 'Verkauf')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_department</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_department (ticket_department_id, ticket_languages_id, ticket_department_name) VALUES (1, 6, 'Sale')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_department</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_department (ticket_department_id, ticket_languages_id, ticket_department_name) VALUES (1, 3, 'Verkoop')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_department</b>");
-
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_department (ticket_department_id, ticket_languages_id, ticket_department_name) VALUES (2, 2, 'Affiliate')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_department</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_department (ticket_department_id, ticket_languages_id, ticket_department_name) VALUES (2, 1, 'Affiliate')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_department</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_department (ticket_department_id, ticket_languages_id, ticket_department_name) VALUES (2, 6, 'Affiliate')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_department</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_department (ticket_department_id, ticket_languages_id, ticket_department_name) VALUES (2, 3, 'Partner')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_department</b>");
-
-echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $prefix_table . "ticket_department " . UPDATED .'</font>';
-
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_priority (ticket_priority_id, ticket_languages_id, ticket_priority_name) VALUES (1, 2, 'High')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_priority</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_priority (ticket_priority_id, ticket_languages_id, ticket_priority_name) VALUES (1, 1, 'Hoch')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_priority</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_priority (ticket_priority_id, ticket_languages_id, ticket_priority_name) VALUES (1, 6, 'High')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_priority</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_priority (ticket_priority_id, ticket_languages_id, ticket_priority_name) VALUES (1, 3, 'Hoog')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_priority</b>");
-
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_priority (ticket_priority_id, ticket_languages_id, ticket_priority_name) VALUES (2, 2, 'Low')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_priority</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_priority (ticket_priority_id, ticket_languages_id, ticket_priority_name) VALUES (2, 1, 'Low')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_priority</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_priority (ticket_priority_id, ticket_languages_id, ticket_priority_name) VALUES (2, 6, 'Low')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_priority</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_priority (ticket_priority_id, ticket_languages_id, ticket_priority_name) VALUES (2, 3, 'Laag')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_priority</b>");
-
-echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $prefix_table . "ticket_priority " . UPDATED .'</font>';
-
-
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_reply (ticket_reply_id, ticket_languages_id, ticket_reply_name, ticket_reply_text) VALUES (1, 2, 'A Reply', 'This is a reply you can insert by pressing a button')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_reply</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_reply (ticket_reply_id, ticket_languages_id, ticket_reply_name, ticket_reply_text) VALUES (1, 1, 'Eine Antwort', 'Dies ist eine Antwort die per Knopfdruck eingespielt werden kann')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_reply</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_reply (ticket_reply_id, ticket_languages_id, ticket_reply_name, ticket_reply_text) VALUES (1, 6, 'A Reply', 'This is a reply you can insert by pressing a button')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_reply</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_reply (ticket_reply_id, ticket_languages_id, ticket_reply_name, ticket_reply_text) VALUES (1, 3, 'Een antwoord', 'Dit is een antwoord dat per knopdruk ingevoegd kan worden')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_reply</b>");
-
-echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $prefix_table . "ticket_reply " . UPDATED .'</font>';
-
-
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_status (ticket_status_id, ticket_languages_id, ticket_status_name) VALUES (1, 2, 'Open')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_status</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_status (ticket_status_id, ticket_languages_id, ticket_status_name) VALUES (1, 1, 'Offen')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_status</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_status (ticket_status_id, ticket_languages_id, ticket_status_name) VALUES (1, 6, 'Open')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_status</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_status (ticket_status_id, ticket_languages_id, ticket_status_name) VALUES (1, 3, 'Open')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_status</b>");
-
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_status (ticket_status_id, ticket_languages_id, ticket_status_name) VALUES (2, 2, 'Closed')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_status</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_status (ticket_status_id, ticket_languages_id, ticket_status_name) VALUES (2, 1, 'Geschlossen')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_status</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_status (ticket_status_id, ticket_languages_id, ticket_status_name) VALUES (2, 6, 'Closed')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_status</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "ticket_status (ticket_status_id, ticket_languages_id, ticket_status_name) VALUES (2, 3, 'Gesloten')") or die ("<b>".NOTUPDATED . $prefix_table . "ticket_status</b>");
-
-echo '<br /><img src="images/yes.gif" alt="" border="0" align="absmiddle"> <font class="oos-title">' . $prefix_table . "ticket_status " . UPDATED .'</font>';
-
 $result = $db->Execute("INSERT INTO " . $prefix_table . "zones (zone_id, zone_country_id, zone_code, zone_name) VALUES (66, 38, 'AB', 'Alberta')") or die ("<b>".NOTUPDATED . $prefix_table . "zones</b>");
 $result = $db->Execute("INSERT INTO " . $prefix_table . "zones (zone_id, zone_country_id, zone_code, zone_name) VALUES (67, 38, 'BC', 'British Columbia')") or die ("<b>".NOTUPDATED . $prefix_table . "zones</b>");
 $result = $db->Execute("INSERT INTO " . $prefix_table . "zones (zone_id, zone_country_id, zone_code, zone_name) VALUES (68, 38, 'MB', 'Manitoba')") or die ("<b>".NOTUPDATED . $prefix_table . "zones</b>");
