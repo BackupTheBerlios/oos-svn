@@ -15,6 +15,9 @@ if (count(get_included_files()) < 2) {
     header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
 }
 
+header('HTTP/1.0 404 Not found');
+header('Status: 404 Not found');
+
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/error_error404.php';

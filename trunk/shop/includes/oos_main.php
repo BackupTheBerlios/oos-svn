@@ -28,12 +28,6 @@ define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 define('BP', dirname(__FILE__));
 
-/**
- * Error reporting
- */
-error_reporting(E_ALL);
-//  error_reporting(0);
-
 
 // Set the local configuration parameters - mainly for developers
 if (is_readable('includes/local/configure.php')) {
@@ -139,8 +133,7 @@ while ($configuration = $configuration_result->fields)
 //for debugging purposes
 require 'includes/oos_debug.php';
 
-
-require 'includes/classes/class_plugin_event.php';
+require 'includes/classes/class_plugin_event.php'; 
 $oEvent = new plugin_event();
 $oEvent->getInstance();
 

@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -40,7 +40,7 @@ class MyOOS_CoreApi {
      *
      * @return array major number, minor number
      */
-    function getApiVersion() {
+    public static function getApiVersion() {
         return array(2, 1);
     }
 
@@ -55,7 +55,7 @@ class MyOOS_CoreApi {
      *
      * @param string $file
      */
-    function requireOnce($file)
+    public static function requireOnce($file)
     {
         static $loaded;
         if (!isset($loaded[$file])) {
@@ -76,7 +76,7 @@ class MyOOS_CoreApi {
      * @param  string  HTTP method of redirect
      * @return void
      */
-    function redirect($sUrl, $sMethod = '302')
+    public static function redirect($sUrl, $sMethod = '302')
     {
 
         $aCodes = array
@@ -87,7 +87,7 @@ class MyOOS_CoreApi {
                    '303' => 'See Other',
                    '304' => 'Not Modified',
                    '305' => 'Use Proxy',
-                   '307' => 'Temporary Redirect' 
+                   '307' => 'Temporary Redirect'
              );
 
         // Validate the method and default to 302
@@ -102,10 +102,11 @@ class MyOOS_CoreApi {
             $sUrl = str_replace('&amp;', '&', $sUrl);
         }
 
+   
         if ($sMethod === 'refresh') {
 			       header('Refresh: 0; url=' . $sUrl);
         } else {
-			       header('HTTP/1.1 ' . $sMethod . ' ' .$aCodes[$sMethod]);
+			       header('HTTP/1.1 ' . $sMethod . ' ' . $aCodes[$sMethod]);
 			       header('Location: ' . $sUrl);
 		    }
 

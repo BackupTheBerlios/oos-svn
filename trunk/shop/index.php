@@ -17,11 +17,11 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-if(is_readable('bootstrap.php'))
-{
-	require_once 'bootstrap.php';
-}
 
+/**
+ * Set the error reporting level. Unless you have a special need, E_ALL is a
+ * good level for error reporting.
+ */
 error_reporting(E_ALL & ~E_STRICT);
 
 if (function_exists('ini_set'))
@@ -29,11 +29,21 @@ if (function_exists('ini_set'))
   ini_set('magic_quotes_runtime', 0);
 }
 
+if(is_readable('bootstrap.php'))
+{
+	require_once 'bootstrap.php';
+}
 
 define('OOS_VALID_MOD', 'yes');
 
-// MyOOS requires PHP 5.2+
+/**
+ * Test to make sure that MyOOS is running on PHP 5.2 or newer. Once you are
+ * sure that your environment is compatible with MyOOS, you can comment this
+ * line out. When running an application on a new server, uncomment this line
+ * to check the PHP version quickly.
+ */
 version_compare(PHP_VERSION, '5.2', '<') and exit('MyOOS requires PHP 5.2 or newer.');
+
 
 define('MYOOS_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));
 
@@ -50,8 +60,6 @@ if (!defined('MYOOS_SESSION_NAME'))
 {
   define('MYOOS_SESSION_NAME', 'MYOOS_SESSID');
 }
-
-
 
 @ini_set('session.name', MYOOS_SESSION_NAME);
 if(ini_get('session.save_handler') == 'user')
@@ -86,9 +94,7 @@ if(ini_get('session.save_handler') == 'files')
 }
 
 
-
 require_once MYOOS_INCLUDE_PATH . '/includes/oos_main.php';
-
 
 $sPage = oos_var_prep_for_os($sPage);
 

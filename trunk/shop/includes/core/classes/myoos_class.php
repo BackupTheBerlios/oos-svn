@@ -231,52 +231,6 @@ class MyOOS {
     return array(null, $results);
     }
 
-    /**
-     * Set the id of the active user.  The active user is the user who is logged on in this session.
-     *
-     * @param GalleryUser $user the current user
-     */
-    function setActiveUser($user) {
-    $this->_activeUser = $user;
-
-    /* It's possible for the session not to exist during bootstrap time */
-    $session =& $this->getSession();
-    if (isset($session)) {
-        $activeUserId = $session->getUserId();
-        if ($activeUserId != $user->getId()) {
-        $session->setUserId($user->getId());
-        $language = $user->getLanguage();
-        if (!empty($language)) {
-            $session->put('core.language', $language);
-        }
-        }
-    }
-    }
-
-    /**
-     * Get the Id of the active user.
-     * The active user is the user who is logged on in this session.
-     *
-     * @return int the id of the current user
-     */
-    function getActiveUserId() {
-    if (isset($this->_activeUser)) {
-        return (int) $this->_activeUser->getId();
-    } else {
-        $session =& $this->getSession();
-        return (int) $session->getUserId();
-    }
-    }
-
-    /**
-     * Get the active user.
-     * Cache the results of the first call and return that same value each time.
-     *
-     * @return GalleryUser the active user
-     */
-    function getActiveUser() {
-    return $this->_activeUser;
-    }
 
     /**
      * Store a value in the Gallery config table
@@ -301,24 +255,6 @@ class MyOOS {
     }
 
     /**
-     * Initialize session.
-     *
-     * @return GalleryStatus a status code
-     */
-    function initSession() {
-    MyOOS_CoreApi::requireOnce('modules/core/classes/GallerySession.class');
-    if (empty($this->_session)) {
-        $this->_session = new GallerySession();
-        $ret = $this->_session->init();
-        if ($ret) {
-        return $ret;
-        }
-    }
-
-    return null;
-    }
-
-    /**
      * Initialize an empty session.
      */
     function initEmptySession() {
@@ -326,214 +262,6 @@ class MyOOS {
     $this->_session = new GallerySession();
     }
 
-    /**
-     * Get the Gallery session object.
-     * Return a reference to the unique Gallery session object.  Any changes made to this object
-     * will be saved in the session.
-     *
-     * @return GallerySession a session instance
-     */
-    function &getSession() {
-    return $this->_session;
-    }
-
-    /**
-     * Set the Gallery platform object.
-     *
-     * @param GalleryPlatform $platform the Gallery platform object
-     */
-    function setPlatform(&$platform) {
-    unset($this->_platform);
-    $this->_platform =& $platform;
-    }
-
-    /**
-     * Get the Gallery platform object.
-     * Return a reference to the unique Gallery platform object.
-     *
-     * @return GalleryPlatform the Gallery platform object
-     */
-    function &getPlatform() {
-    return $this->_platform;
-    }
-
-    /**
-     * Return the active lock system.
-     *
-     * @param boolean $canInit (optional) if false and lockSystem isn't yet initialized, return null
-     * @return array GalleryStatus a status code
-     *               GalleryLockSystem the lock implementation (reference)
-     */
-    function &getLockSystem($canInit=true) {
-    if (!isset($this->_lockSystem)) {
-        if ($canInit) {
-        list ($ret, $which) =
-            MyOOS_CoreApi::getPluginParameter('module', 'core', 'lock.system');
-        if ($ret) {
-            $ret = array($ret, null);
-            return $ret;
-        }
-        } else {
-        $which = 'null';
-        }
-
-        switch($which) {
-        case 'flock':
-        MyOOS_CoreApi::requireOnce('modules/core/classes/FlockLockSystem.class');
-        $this->_lockSystem = new FlockLockSystem();
-        break;
-
-        case 'database':
-        MyOOS_CoreApi::requireOnce('modules/core/classes/DatabaseLockSystem.class');
-        $this->_lockSystem = new DatabaseLockSystem();
-        break;
-
-        case 'null':
-        $this->_lockSystem = null;
-        break;
-
-        default:
-        $ret = array(MyOOS_CoreApi::error(ERROR_BAD_PARAMETER), null);
-        return $ret;
-        }
-    }
-
-    $ret = array(null, &$this->_lockSystem);
-    return $ret;
-    }
-
-    /**
-     * Perform any necessary shutdown tasks.
-     * This should only be invoked as a register_shutdown callback.
-     *
-     * @access private
-     */
-    function _shutdown() {
-    if (isset($this->_lockSystem)) {
-        /* Bitch about open locks */
-        $lockIds = $this->_lockSystem->getLockIds();
-        foreach ($lockIds as $lockId) {
-        if ($this->getDebug()) {
-            $this->debug(sprintf('Lock id %d was left hanging!', $lockId));
-        }
-        }
-
-        /* Release all locks and ignore any errors */
-        $this->_lockSystem->releaseAllLocks();
-        $this->_lockSystem->releaseQueue();
-    }
-
-    /* Roll back any transactions */
-    if (isset($this->_storage)) {
-        $this->_storage->rollbackTransaction();
-    }
-    }
-
-    /**
-     * Return an instance of the GalleryStorage class
-     *
-     * @return GalleryStorage a storage instance
-     */
-    function &getStorage() {
-    if (!isset($this->_storage)) {
-        $config = $this->getConfig('storage.config');
-        switch ($config['type']) {
-        case 'mysql':
-        case 'mysqlt':
-        case 'mysqli':
-        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryStorage.class');
-        $this->_storage = new MySqlStorage($config);
-        break;
-
-        case 'postgres':
-        case 'postgres7':
-        MyOOS_CoreApi::requireOnce(
-            'modules/core/classes/GalleryStorage/PostgreSqlStorage.class');
-        $this->_storage = new PostgreSqlStorage($config);
-        break;
-
-        case 'db2':
-        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryStorage/Db2Storage.class');
-        $this->_storage = new Db2Storage($config);
-        break;
-
-        case 'oci8':
-        case 'oci805':
-        case 'oci8po':
-        case 'oracle':
-        MyOOS_CoreApi::requireOnce(
-            'modules/core/classes/GalleryStorage/OracleStorage.class');
-        $this->_storage = new OracleStorage($config);
-        break;
-
-        case 'ado_mssql':
-        MyOOS_CoreApi::requireOnce(
-            'modules/core/classes/GalleryStorage/MSSqlStorage.class');
-        $this->_storage = new MSSqlStorage($config);
-        break;
-
-        case 'pdo_sqlite':
-        MyOOS_CoreApi::requireOnce(
-            'modules/core/classes/GalleryStorage/SQLiteStorage.class');
-        $this->_storage = new SQLiteStorage($config);
-        break;
-
-        default:
-        $this->debug('Unknown storage type');
-        $this->debug_r($config);
-        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryStorage.class', true);
-        $this->_storage = new GalleryStorage($config);
-        }
-    }
-
-    return $this->_storage;
-    }
-
-    /**
-     * Check if GalleryStorage has been instantiated
-     *
-     * @return boolean
-     */
-    function isStorageInitialized() {
-    return isset($this->_storage);
-    }
-
-    /**
-     * Set the URL generator
-     *
-     * @param GalleryUrlGenerator $urlGenerator
-     */
-    function setUrlGenerator(&$urlGenerator) {
-    unset($this->_urlGenerator);
-    $this->_urlGenerator =& $urlGenerator;
-    }
-
-    /**
-     * Get the URL generator
-     *
-     * @return GalleryUrlGenerator
-     */
-    function &getUrlGenerator() {
-    return $this->_urlGenerator;
-    }
-
-    /**
-     * Set the current view
-     *
-     * @param string $view the view name
-     */
-    function setCurrentView($view) {
-    $this->_currentView = $view;
-    }
-
-    /**
-     * Get the current view
-     *
-     * @return string the current view name
-     */
-    function getCurrentView() {
-    return $this->_currentView;
-    }
 
     /**
      * Return a reference to our GalleryTranslator instance
@@ -576,39 +304,6 @@ class MyOOS {
     return null;
     }
 
-    /**
-     * Get the active language code.
-     *
-     * @return array GalleryStatus a status code
-     *               string language code
-     */
-    function getActiveLanguageCode() {
-    $session =& $this->getSession();
-    /* During installation, we don't have a session yet */
-    if (!empty($session)) {
-        $language = $session->get('core.language');
-    } else {
-        $language = '';
-    }
-
-    return array(null, $language);
-    }
-
-    /**
-     * Set the active language code for this session.
-     *
-     * @param string $language language code
-     * @return GalleryStatus a status code
-     */
-    function setActiveLanguageCode($language) {
-    $session =& $this->getSession();
-    /* During installation, we don't have a session yet */
-    if (!empty($session)) {
-        $session->put('core.language', $language);
-    }
-
-    return null;
-    }
 
     /**
      * Output a debug message
@@ -661,19 +356,6 @@ class MyOOS {
     }
     }
 
-    /**
-     * Return the template adapter.  There is only ever one in the system.
-     *
-     * @return GalleryTemplateAdapter
-     */
-    function &getTemplateAdapter() {
-    if (!isset($this->_templateAdapter)) {
-        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryTemplateAdapter.class');
-        $this->_templateAdapter = new GalleryTemplateAdapter();
-    }
-
-    return $this->_templateAdapter;
-    }
 
     /**
      * Mark a string as being internationalized.  This is a semaphore method; it does nothing but it
@@ -728,62 +410,6 @@ class MyOOS {
         $month = $months[gmstrftime('%m', $time)];
         $out = gmstrftime('%%s, %d %%s %Y %H:%M:%S GMT', $time);
         return sprintf($out, $dow, $month);
-    }
-
-    /**
-     * Check if Gallery is in embedded mode
-     *
-     * @return boolean true if Gallery is in embedded mode, false otherwise
-     */
-    function isEmbedded() {
-    return GalleryDataCache::containsKey('G2_EMBED') && GalleryDataCache::get('G2_EMBED');
-    }
-
-    /**
-     * Add an action to be performed at the end of the request.
-     *
-     * @param callback $callback
-     * @param array $parameters
-     */
-    function addShutdownAction($callback, $parameters) {
-    if (!isset($this->_shutdownActions)) {
-        $this->_shutdownActions = array();
-    }
-    $action = array($callback, $parameters);
-    /* Skip duplicate actions */
-    foreach ($this->_shutdownActions as $item) {
-        if ($item == $action) {
-        $duplicate = true;
-        break;
-        }
-    }
-    if (!isset($duplicate)) {
-        $this->_shutdownActions[] = $action;
-    }
-    }
-
-    /**
-     * Process registered shutdown actions.
-     */
-    function performShutdownActions() {
-    if (isset($this->_shutdownActions)) {
-        foreach ($this->_shutdownActions as $action) {
-        $ret = @call_user_func_array($action[0], $action[1]);
-        if ($this->getDebug() || class_exists('GalleryTestCase')) {
-            /* Ignore errors unless debug is on */
-            if (is_array($ret) && MyOOS_Utilities::isA($ret[0], 'GalleryStatus')) {
-            $ret = $ret[0];
-            } elseif (!MyOOS_Utilities::isA($ret, 'GalleryStatus')) {
-            $ret = null;
-            }
-            if (isset($ret) && $ret) {
-            $this->debug('Error from shutdown action:');
-            $this->debug_r($action);
-            $this->debug_r($ret);
-            }
-        }
-        }
-    }
     }
 
 
