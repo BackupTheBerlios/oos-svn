@@ -126,14 +126,14 @@
 
 	{if $cart_count_contents gt 0}
 		{if $smarty.session.member->group.show_price eq 1}
-			{css_button page=$pages.checkout_payment connection=SSL title=$lang.image_button_checkout color="btnC green"}
+		    {html_image_button image="checkout.gif" alt=$lang.image_button_checkout}
 		{/if}
 	{/if}
 
 	{if $smarty.session.member->group.show_price eq 1}
-                {css_submit_button value=$lang.image_button_in_cart color="btnR pink"}
+                {html_image_submit image="in_cart.gif" alt=$lang.image_button_in_cart}
 	{else}
-		{css_button page=$pages.login connection=SSL title=$lang.image_button_login color="btnR lime"}
+		<a href="{html_href_link page=$pages.login connection=SSL}">{html_image_button image="sign_in.gif" alt=$lang.image_button_login}</a>
 	{/if}
 
 </form>

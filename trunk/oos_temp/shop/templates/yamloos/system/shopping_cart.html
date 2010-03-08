@@ -32,13 +32,13 @@
 
 		<div id="break"></div>
 
-		{css_submit_button value=$lang.image_button_update_cart color="btn pink"}
+		{html_image_submit image="update_cart.gif" alt=$lang.image_button_update_cart}
 
 		{if isset($back_link)}
-			<a href="{$back_link}" title="{$lang.image_button_continue_shopping}" class="btnC lime">{$lang.image_button_continue_shopping}</a>
+			<a href="{$back_link}">{html_image_button image="continue_shopping.gif" alt=$lang.image_button_continue_shopping}</a>
 		{/if}
 
-		{if $smarty.session.member->group.show_price eq 1}{css_button page=$pages.checkout_shipping connection=SSL title=$lang.image_button_continue}{/if}
+		{if $smarty.session.member->group.show_price eq 1}<a href="{html_href_link page=$pages.checkout_shipping connection=SSL}">{html_image_button image="checkout.gif" alt=$lang.image_button_continue}</a>{/if}
 	</form>
 
 {else}
