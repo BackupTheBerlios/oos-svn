@@ -25,13 +25,13 @@
 				</script>
 
 
-				{if $product_info.products_image != '' }
+				{if $product_info.products_image != ''}
 						<a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} ><img src="{$smarty.const.OOS_IMAGES}{$product_info.products_image}" alt="{$product_info.products_name|escape:"quotes"}" border="0"></a><br />
 						<br /><br />
 						<a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} >{html_js_icon image="zoom.gif" alt=$lang.icon_button_zoom}{$lang.text_click_to_enlarge}</a>
 				{/if}
 
-				{if $product_info.products_zoomify != '' }
+				{if $product_info.products_zoomify != ''}
 
 				<script type="text/javascript" language="JavaScript">
 				/*<![CDATA[*/
@@ -66,19 +66,19 @@
 	</p>
 
 
-	{if $reviews_total gt 0 }
+	{if $reviews_total gt 0}
 		<p>
 			{$lang.text_current_reviews}&nbsp;{$reviews_total}
 		</p>
 	{/if}
 
-	{if $product_info.products_url != '' }
+	{if $product_info.products_url != ''}
 		<p>
 			{$redirect|string_format:$lang.text_more_information}
 		</p>
 	{/if}
 
-	{if ($product_info.products_date_available > $oosDate) }
+	{if ($product_info.products_date_available > $oosDate)}
 		<span class="smallText">{$product_info.products_date_available|oos_date_long|string_format:$lang.text_date_available}</span>
 	{else}
 		{if $smarty.const.SHOW_DATE_ADDED_AVAILABLE eq '1'}
@@ -103,10 +103,10 @@
 	<p class="float_right">
 			{$lang.products_order_qty_text}
 			<input type="text" name="cart_quantity" value="{$product_info.products_quantity_order_min|quantity}" size="3" />
-		{if $product_info.products_quantity_order_min > 1 }
+		{if $product_info.products_quantity_order_min > 1}
 			{$lang.products_order_qty_min_text} {$product_info.products_quantity_order_min|quantity}
 		{/if}
-		{if $product_info.products_quantity_order_units > 1 }
+		{if $product_info.products_quantity_order_units > 1}
 			{$lang.products_order_qty_unit_text} {$product_info.products_quantity_order_units|quantity}
 		{/if}
 	</p>
@@ -114,7 +114,7 @@
 
 
 	{if $oEvent->installed_plugin('reviews')}
-		{if $reviews_total gt 0 }
+		{if $reviews_total gt 0}
 		     {css_button page=$pages.create_account title=$lang.image_button_continue}
         		{css_button page=$pages.product_reviews products_id=$product_info.products_id title=$lang.image_button_reviews color="btn blue"}
 		{else}
@@ -124,13 +124,13 @@
 
 
 
-	{if $cart_count_contents gt 0 }
-		{if $smarty.session.member->group.show_price eq 1 }
+	{if $cart_count_contents gt 0}
+		{if $smarty.session.member->group.show_price eq 1}
 			{css_button page=$pages.checkout_payment connection=SSL title=$lang.image_button_checkout color="btnC green"}
 		{/if}
 	{/if}
 
-	{if $smarty.session.member->group.show_price eq 1 }
+	{if $smarty.session.member->group.show_price eq 1}
                 {css_submit_button value=$lang.image_button_in_cart color="btnR pink"}
 	{else}
 		{css_button page=$pages.login connection=SSL title=$lang.image_button_login color="btnR lime"}

@@ -56,7 +56,7 @@
 			<span class="pangv">{$pangv}</span><br />
 
 			<p>
-				{if $smarty.session.member->group.show_price eq 1 }
+				{if $smarty.session.member->group.show_price eq 1}
 					<a href="{html_href_link page=$pages.products_new action=buy_now products_id=$products_new.id}">{html_image_button image="in_cart.gif" alt=$lang.image_button_in_cart}</a>
 				{else}
 					<a href="{html_href_link page=$pages.login connection=SSL}">{html_image_button image="sign_in.gif" alt=$lang.image_button_login}</a>

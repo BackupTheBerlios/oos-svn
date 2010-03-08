@@ -19,20 +19,20 @@
        <tr>
          <td>{$lang.text_info_csname}<br /><center>{$smarty.session.member->group.text}</center></td>
        </tr>
-{if ($smarty.session.member->group.discount > 0 ) && ($smarty.session.member->group.ot_discount_flag eq 1 ) }
+{if ($smarty.session.member->group.discount > 0 ) && ($smarty.session.member->group.ot_discount_flag eq 1 )}
        <tr>
          <td>{$lang.table_heading_discount}: {$smarty.session.member->group.discount|number:"2"} %.<br />
             {$lang.sub_title_ot_discount}<br />
             {$lang.text_info_minimum_amount} : {$customers_discount}<br />
             {$lang.table_heading_discount} : {$smarty.session.member->group.ot_discount|number:"2"} %</td>
        </tr>
-  {elseif $smarty.session.member->group.discount > 0 }
+  {elseif $smarty.session.member->group.discount > 0}
        <tr>
          <td>{$lang.table_heading_discount}: {$smarty.session.member->group.discount|number:"2"} %.<br /></td>
        </tr>
 {/if}
-{if $smarty.session.member->group.show_price eq 1 }
-    {if $smarty.session.member->group.show_price_tax eq 1 }
+{if $smarty.session.member->group.show_price eq 1}
+    {if $smarty.session.member->group.show_price_tax eq 1}
        <tr>
          <td>{$lang.text_info_show_price_with_tax_yes}</td>
        </tr>

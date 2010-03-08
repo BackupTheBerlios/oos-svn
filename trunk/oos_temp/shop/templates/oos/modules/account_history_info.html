@@ -20,7 +20,7 @@
       <tr>
         <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
           <tr class="oos-BoxContents">
-{if $order->delivery != false }
+{if $order->delivery != false}
 
             <td width="30%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr>
@@ -29,7 +29,7 @@
               <tr>
                 <td class="main">{oos_address_format address_format_id=$order->delivery.format_id address=$order->delivery html=1}</td>
               </tr>
-  {if $order->info.shipping_method }
+  {if $order->info.shipping_method}
               <tr>
                 <td class="main"><b>{$lang.heading_shipping_method}</b></td>
               </tr>
@@ -42,7 +42,7 @@
             <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-{if sizeof($order->info.tax_groups) gt 1 }
+{if sizeof($order->info.tax_groups) gt 1}
                   <tr>
                     <td class="main" colspan="2"><b>{$lang.heading_products}</b></td>
                     <td class="smallText" align="right"><b>{$lang.heading_tax}</b></td>
@@ -57,15 +57,15 @@
 {foreach item=products from=$order->products}
            <tr>
             <td class="main" align="right" valign="top" width="30">{$products.qty|quantity}&nbsp;x</td>
-            <td class="main" valign="top">{$products.name}{if $products.serial_number != '' }&nbsp;&nbsp;({$lang.serial}{$products.serial_number}){/if}
+            <td class="main" valign="top">{$products.name}{if $products.serial_number != ''}&nbsp;&nbsp;({$lang.serial}{$products.serial_number}){/if}
 
-  {if ( isset($products.attributes) && sizeof($products.attributes) gt 0 ) }
+  {if ( isset($products.attributes) && sizeof($products.attributes) gt 0 )}
       {foreach item=attributes from=$products.attributes}
                 <br><nobr><small>&nbsp;<i> - {$attributes.option}: {$attributes.value}</i></small></nobr>
       {/foreach}
   {/if}
                   </td>
-  {if sizeof($order->info.tax_groups) gt 1 }
+  {if sizeof($order->info.tax_groups) gt 1}
                   <td class="main" valign="top" align="right">{oos_display_tax_value value=$products.tax}%</td>
   {/if}
                   <td class="main" align="right" valign="top">{oos_display_price price=$products.final_price tax=$products.tax qty=$products.qty currency=$order->info.currency currency_value=$order->info.currency_value}</td>

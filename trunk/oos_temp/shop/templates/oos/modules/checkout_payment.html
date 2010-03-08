@@ -78,7 +78,7 @@
         <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
           <tr class="oos-BoxContents">
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-{if sizeof($selection) > 1 }
+{if sizeof($selection) > 1}
               <tr>
                 <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="10" height="1"></td>
                 <td class="main" width="50%" valign="top">{$lang.text_select_payment_method}</td>
@@ -96,7 +96,7 @@
               <tr>
                 <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="10" height="1"></td>
                 <td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-    {if ( ($selection[i].id eq $smarty.session.payment) || ($smarty.section.i.total eq 1) ) }
+    {if ( ($selection[i].id eq $smarty.session.payment) || ($smarty.section.i.total eq 1) )}
                   <tr id="defaultSelected" class="moduleRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, {$smarty.section.i.rownum})">
     {else}
                   <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, {$smarty.section.i.rownum})">
@@ -104,7 +104,7 @@
                     <td width="10"><img src="{$theme_image}/trans.gif" border="0" alt=" " width="10" height="1"></td>
                     <td class="main" colspan="3"><b>{$selection[i].module}</b></td>
                     <td class="main" align="right">
-    {if sizeof($selection) > 1 }
+    {if sizeof($selection) > 1}
       <input type="radio" name="payment" value="{$selection[i].id}" {if $selection[i].id eq $smarty.session.payment}checked="checked"{/if} >
     {else}
       <input type="hidden" name="payment" value="{$selection[i].id}">

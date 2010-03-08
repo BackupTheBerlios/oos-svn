@@ -33,7 +33,7 @@
         <tbody><tr>
 
            <td align="center" valign="top">
-{if $product_info.products_image != '' }
+{if $product_info.products_image != ''}
  {html_oos_image basedir=$smarty.const.OOS_IMAGES image=$product_info.products_image alt=$product_info.products_name width=$smarty.const.SMALL_IMAGE_WIDTH height=$smarty.const.SMALL_IMAGE_HEIGHT hspace=5 vspace=5}<br>
 {/if}
                </td>
@@ -53,7 +53,7 @@
                </tr>
 {/if}
 
-{if ($product_info.products_date_available > $oosDate) }
+{if ($product_info.products_date_available > $oosDate)}
                <tr><td height="10"></td></tr>
                <tr><td width="310" class="main">{$product_info.products_date_available|oos_date_long|string_format:$lang.text_date_available}</td>
                </tr>

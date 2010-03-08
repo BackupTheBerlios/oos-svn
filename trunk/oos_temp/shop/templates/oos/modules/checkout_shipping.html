@@ -44,7 +44,7 @@
       <tr>
         <td height="10"></td>
       </tr>
- {if $counts_shipping_modules > 0 }
+ {if $counts_shipping_modules > 0}
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
@@ -56,14 +56,14 @@
         <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
           <tr class="oos-BoxContents">
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-    {if sizeof($quotes) > 1 }
+    {if sizeof($quotes) > 1}
               <tr>
                 <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="10" height="1"></td>
                 <td class="main" width="50%" valign="top">{$lang.text_choose_shipping_method}</td>
                 <td class="main" width="50%" valign="top" align="right"><b>{$lang.title_please_select}</b><br><img src="{$theme_image}/arrow_east_south.gif" border="0" alt=" " width="40" height="32"></td>
                 <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="10" height="1"></td>
               </tr>
-    {elseif $free_shipping eq false }
+    {elseif $free_shipping eq false}
               <tr>
                 <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="10" height="1"></td>
                 <td class="main" width="100%" colspan="2">{$lang.text_enter_shipping_information}</td>
@@ -71,7 +71,7 @@
               </tr>
     {/if}
 
-    {if $free_shipping eq true }
+    {if $free_shipping eq true}
               <tr>
                 <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="10" height="1"></td>
                 <td colspan="2" width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -107,16 +107,16 @@
                   </tr>
         {else}
           {section name=n loop=$quotes[i].methods}
-            {if ( ($quotes[i].methods[n].id eq $sess_method) || ($counts_shipping_modules eq (int)1) ) }
+            {if ( ($quotes[i].methods[n].id eq $sess_method) || ($counts_shipping_modules eq (int)1) )}
                   <tr id="defaultSelected" class="moduleRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, {counter})">
             {else}
                   <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, {counter})">
             {/if}
                     <td width="10"><img src="{$theme_image}/trans.gif" border="0" alt=" " width="10" height="1"></td>
                     <td class="main" width="75%">{$quotes[i].methods[n].title}</td>
-            {if ( ($smarty.section.i.total > 1) || ($smarty.section.n.total > 1) ) }
+            {if ( ($smarty.section.i.total > 1) || ($smarty.section.n.total > 1) )}
                     <td class="main">{oos_cost price=$quotes[i].methods[n].cost tax=$quotes[i].tax}</td>
-               {if $quotes[i].methods[n].id eq $sess_method }
+               {if $quotes[i].methods[n].id eq $sess_method}
                     <td class="main" align="right"><input type="radio" name="shipping" value="{$quotes[i].id}_{$quotes[i].methods[n].id}" CHECKED></td>
                {else}
                    <td class="main" align="right"><input type="radio" name="shipping" value="{$quotes[i].id}_{$quotes[i].methods[n].id}"></td>

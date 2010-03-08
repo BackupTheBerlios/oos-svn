@@ -90,7 +90,7 @@
               <tr>
                 <td width="10"></td>
                 <td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-     {if $addresses.address_book_id eq $smarty.session.billto }
+     {if $addresses.address_book_id eq $smarty.session.billto}
                   <tr id="defaultSelected" class="moduleRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, {$addresses.radio_buttons})">
      {else}
                   <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, {$addresses.radio_buttons})">
@@ -99,7 +99,7 @@
                     <td width="10"></td>
                     <td class="main" colspan="2"><b>{$addresses.firstname} {$addresses.lastname}</b></td>
                     <td class="main" align="right">
-      {if $addresses.address_book_id eq $smarty.session.billto }
+      {if $addresses.address_book_id eq $smarty.session.billto}
          <input type="radio" name="address" value="{$addresses.address_book_id}" CHECKED>
       {else}
          <input type="radio" name="address" value="{$addresses.address_book_id}">

@@ -3,7 +3,7 @@
 {$oosPageHeading}
 
 
-{if $smarty.get.action eq 'success' }
+{if $smarty.get.action eq 'success'}
 	<div class="subcolumns">
 		<div class="c33l">
 			<div class="subcl">
@@ -41,10 +41,10 @@
 			<span class="oneField">
 				<label for="entry_name" class="preField">{$lang.entry_name}</label>
 
-				{if (isset($smarty.session.customer_id)) }
+				{if (isset($smarty.session.customer_id))}
 					<input type="hidden" name="name" value="{$customer.customers_firstname} {$customer.customers_lastname}" />{$customer.customers_firstname} {$customer.customers_lastname}
 				{else}
-					{if ($error_name) }
+					{if ($error_name)}
 						<input type="text" name="name" id="entry_name" value="" class="errFld" /><span class="reqMark">*</span>&nbsp;&nbsp;<span class="errMsg">{$lang.entry_error_no_name}<br /></span>
 					{else}
 						<input type="text" name="name" id="entry_name" value="{$smarty.post.name}" /><span class="reqMark">*</span><br />
@@ -56,7 +56,7 @@
 			<span class="oneField">
 				<label for="entry_email" class="preField">{$lang.entry_email}</label>
 
-				{if (isset($smarty.session.customer_id)) }
+				{if (isset($smarty.session.customer_id))}
 					<input type="hidden" name="email" value="{$customer.customers_email_address}" />{$customer.customers_email_address}
 				{else}
 					{if $error eq '1'}

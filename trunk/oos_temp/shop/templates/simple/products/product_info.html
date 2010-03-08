@@ -25,12 +25,12 @@ document.write('<a href="javascript:void window.open(\'{html_href_link page=$pag
 
     </td>
     <td align="right" valign="top" class="smallText">
-{if $product_info.products_image != '' }
+{if $product_info.products_image != ''}
     <a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} ><img src="{$smarty.const.OOS_IMAGES}{$product_info.products_image}" alt="{$product_info.products_name|escape:"quotes"}" border="0"></a><br>
     <br><br><a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} >{html_js_icon image="zoom.gif" alt=$lang.icon_button_zoom}{$lang.text_click_to_enlarge}</a>
 {/if}
 
-{if $product_info.products_zoomify != '' }
+{if $product_info.products_zoomify != ''}
 <script language="javascript"><!--
 document.write('<br /><a href="javascript:popupZoom(\'{html_href_link page=$pages.product_zoom products_id=$product_info.products_id}\')">{html_js_icon image="zoom.gif" alt=$lang.icon_button_zoom}</a>');
 //--></script>
@@ -51,17 +51,17 @@ document.write('<br /><a href="javascript:popupZoom(\'{html_href_link page=$page
        <tr>
          <td>{$options}</td>
        <tr>
-{if $reviews_total > 0 }
+{if $reviews_total > 0}
       <tr>
         <td><br />{$lang.text_current_reviews}&nbsp;{$reviews_total}</td>
       </tr>
 {/if}
-{if $product_info.products_url != '' }
+{if $product_info.products_url != ''}
       <tr>
         <td class="main"><br />{$redirect|string_format:$lang.text_more_information}</td>
       </tr>
 {/if}
-{if ($product_info.products_date_available > $oosDate) }
+{if ($product_info.products_date_available > $oosDate)}
       <tr>
         <td align="center" class="smallText"><br />{$product_info.products_date_available|oos_date_long|string_format:$lang.text_date_available}</td>
       </tr>
@@ -91,10 +91,10 @@ document.write('<br /><a href="javascript:popupZoom(\'{html_href_link page=$page
 {/if}
       <tr>
         <td align="right" class="main">{$lang.products_order_qty_text}&nbsp;<input type="text" name="cart_quantity" value="{$product_info.products_quantity_order_min|quantity}" size="3">
-   {if $product_info.products_quantity_order_min > 1 }
+   {if $product_info.products_quantity_order_min > 1}
      {$lang.products_order_qty_min_text} {$product_info.products_quantity_order_min|quantity}
    {/if}
-   {if $product_info.products_quantity_order_units > 1 }
+   {if $product_info.products_quantity_order_units > 1}
      {$lang.products_order_qty_unit_text} {$product_info.products_quantity_order_units|quantity}
    {/if}
         </td>
@@ -106,7 +106,7 @@ document.write('<br /><a href="javascript:popupZoom(\'{html_href_link page=$page
 
     <td class="main">
 {if $oEvent->installed_plugin('reviews')}
-   {if $reviews_total > 0 }
+   {if $reviews_total > 0}
         <a href="{html_href_link page=$pages.product_reviews products_id=$product_info.products_id}">{html_image_button image="reviews.gif" alt=$lang.image_button_reviews}</a></td>
    {else}
         <a href="{html_href_link page=$pages.product_reviews_write products_id=$product_info.products_id}">{html_image_button image="write_review.gif" alt=$lang.image_button_write_review}</a></td>
@@ -114,15 +114,15 @@ document.write('<br /><a href="javascript:popupZoom(\'{html_href_link page=$page
     <td align="center" class="main">
 {/if}
 
-{if $cart_count_contents gt 0 }
-   {if $smarty.session.member->group.show_price eq 1 }
+{if $cart_count_contents gt 0}
+   {if $smarty.session.member->group.show_price eq 1}
         <a href="{html_href_link page=$pages.checkout_payment connection=SSL}">{html_image_button image="checkout.gif" alt=$lang.image_button_checkout}</a></td>
    {/if}
 {/if}
 
 
         <td align="right" class="main"><input type="hidden" name="products_id" value="{$product_info.products_id}">
-{if $smarty.session.member->group.show_price eq 1 }
+{if $smarty.session.member->group.show_price eq 1}
 {html_image_submit image="in_cart.gif" alt=$lang.image_button_in_cart}
 {else}
 <a href="{html_href_link page=$pages.login connection=SSL}">{html_image_button image="login.gif" alt=$lang.image_button_login}</a>

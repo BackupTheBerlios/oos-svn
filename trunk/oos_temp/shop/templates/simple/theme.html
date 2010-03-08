@@ -132,7 +132,7 @@ if (efa_fontSize) efa_fontSize.efaInit();
     <TD ALIGN="RIGHT" VALIGN="MIDDLE" class="uppercase">
 <!-- start customernavi -->
 <b>
-{if (isset($smarty.session.customer_id)) }
+{if (isset($smarty.session.customer_id))}
    <a href="{html_href_link page=$pages.logoff connection=SSL}" class="headerNavigation" rel="nofollow">{$lang.header_title_logoff}</a>
 {else}
    <a href="{html_href_link page=$pages.login connection=SSL}" class="headerNavigation" rel="nofollow">{$lang.header_title_login}</a>

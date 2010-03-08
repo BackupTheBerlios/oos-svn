@@ -50,13 +50,13 @@
       {oos_check_stock products_id=$products.id products_quantity=$products.qty}
     {/if}
 
-    {if ( isset($products.attributes) && sizeof($products.attributes) gt 0 ) }
+    {if ( isset($products.attributes) && sizeof($products.attributes) gt 0 )}
        {foreach item=attributes from=$products.attributes}
          <br /><nobr><small>&nbsp;<i> - {$attributes.option}: {$attributes.value}</i></small></nobr>
       {/foreach}
   {/if}
 </td>
-    {if sizeof($order->info.tax_groups) gt 1 }
+    {if sizeof($order->info.tax_groups) gt 1}
             <td class="main" valign="top" align="right">{oos_display_tax_value value=$products.tax} %</td>
     {/if}
             <td class="main" align="right" valign="top">{oos_price price=$products.final_price tax=$products.tax qty=$products.qty}</td>
@@ -184,7 +184,7 @@
       <tr>
         <td align="right" class="main">
         <form name="checkout_confirmation" action="{$form_action_url}" method="post">
-{if $payment_modules_process_button != '' }
+{if $payment_modules_process_button != ''}
   {$payment_modules_process_button}
 {/if}
 {html_image_submit image="confirm_order.gif" alt=$lang.image_button_confirm_order}</form>

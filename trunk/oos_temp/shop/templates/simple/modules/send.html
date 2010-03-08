@@ -24,7 +24,7 @@
           <tr>
             <td class="main">{$main_message}</td>
           </tr>
-      {if $message != '' }
+      {if $message != ''}
            <tr>
             <td class="main">{$gv_result.customers_firstname|string_format:$lang.personal_message}</td>
           </tr>
@@ -65,7 +65,7 @@
         </table>
         <table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
-  {if $back_link != '' }
+  {if $back_link != ''}
             <td class="main"><a href="{$back_link}">{html_image_button image="back.gif" alt=$lang.image_button_back}</a></td>
   {/if}
              <td class="main" align="right">{html_image_submit image="continue.gif" alt=$lang.image_button_continue}</td>
