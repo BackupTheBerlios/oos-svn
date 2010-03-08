@@ -10,9 +10,11 @@
  * -------------------------------------------------------------
  */
 function smarty_prefilter_improvetypo($content, &$smarty)
-	{
-	require_once $smarty->_get_plugin_filepath('shared','improvetypo');
+{
+    MyOOS_CoreApi::requireOnce('lib/smarty-plugins/myoos/shared.improvetypo.php');
+
 	return smarty_improvetypo($content);
-	}
+
+}
 
 

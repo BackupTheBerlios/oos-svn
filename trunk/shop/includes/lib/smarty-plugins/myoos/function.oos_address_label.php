@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -44,7 +44,7 @@ function smarty_function_oos_address_label($params, &$smarty)
     $eoln = '<br>';
 
     MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/shared.escape_special_chars.php');
-    require_once $smarty->_get_plugin_filepath('function','oos_address_format');
+    MyOOS_CoreApi::requireOnce('lib/smarty-plugins/myoos/function.oos_address_format.php');
 
     foreach($params as $_key => $_val) {
       $$_key = smarty_function_escape_special_chars($_val);

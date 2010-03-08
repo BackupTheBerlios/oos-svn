@@ -10,7 +10,7 @@
  * -------------------------------------------------------------
  */
 
-require_once $smarty->_get_plugin_filepath('shared','improvetypo');
+MyOOS_CoreApi::requireOnce('lib/smarty-plugins/myoos/shared.improvetypo.php');
 
 function smarty_modifier_improvetypo($content,$diff = false)
 	{

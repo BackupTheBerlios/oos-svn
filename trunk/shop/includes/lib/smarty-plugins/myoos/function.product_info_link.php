@@ -27,7 +27,7 @@
 function smarty_function_product_info_link($params, &$smarty)
 {
 
-  require_once $smarty->_get_plugin_filepath('function','html_href_link');
+  MyOOS_CoreApi::requireOnce('lib/smarty-plugins/myoos/function.html_href_link.php');
 
   $aPages = oos_get_pages();
 

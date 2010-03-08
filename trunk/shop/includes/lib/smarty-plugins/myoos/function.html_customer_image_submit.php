@@ -33,7 +33,7 @@ function smarty_function_html_customer_image_submit($params, &$smarty)
       return '';
     }
 
-    require_once $smarty->_get_plugin_filepath('function','html_image_submit');
+    MyOOS_CoreApi::requireOnce('lib/smarty-plugins/myoos/function.html_image_submit.php');
 
     return smarty_function_html_image_submit($params, $smarty);
 

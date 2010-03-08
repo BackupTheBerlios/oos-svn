@@ -39,8 +39,8 @@ function smarty_function_oos_get_country_list($params, &$smarty)
     global $aLang;
 
     MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/shared.escape_special_chars.php');
+    MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/function.html_options.php');
 
-    require_once $smarty->_get_plugin_filepath('function','html_options');
 
     /* Set the name of the <select> tag. */
     $name  = 'country';
