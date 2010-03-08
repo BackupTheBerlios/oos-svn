@@ -36,4 +36,5 @@ if (!defined('PHPEXCEL_ROOT')) {
 
 /** Require FPDF library */
 $k_path_url = dirname(__FILE__) . '/PDF';
-require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/PDF/tcpdf.php';
+// require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/PDF/tcpdf.php';
+MyOOS_CoreApi::requireOnce('lib/tcpdf/tcpdf.php');
