@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -103,7 +103,7 @@ $oostable['search_queries_sorted'] = $prefix_table . 'search_queries_sorted';
 $oostable['searchword_swap'] = $prefix_table . 'searchword_swap';
 $oostable['sessions'] = $prefix_table . 'sessions';
 $oostable['specials'] = $prefix_table . 'specials';
-$oostable['spelling_words'] = $prefix_table . 'spelling_words';
+$oostable['successor'] = $prefix_table . 'successor';
 $oostable['tax_class'] = $prefix_table . 'tax_class';
 $oostable['tax_rates'] = $prefix_table . 'tax_rates';
 $oostable['geo_zones'] = $prefix_table . 'geo_zones';

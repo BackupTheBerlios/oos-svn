@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2007 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -77,4 +77,10 @@ $flds = "
 ";
 dosql($table, $flds);
 
-?>
+
+$table = $prefix_table . 'successor';
+$flds = "
+  products_id I NOTNULL PRIMARY,
+  successor_id I NOTNULL PRIMARY
+";
+dosql($table, $flds);

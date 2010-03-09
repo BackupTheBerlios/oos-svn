@@ -1155,6 +1155,15 @@ $flds = "
 dosql($table, $flds);
 
 
+$table = $prefix_table . 'successor';
+$flds = "
+  products_id I NOTNULL PRIMARY,
+  successor_id I NOTNULL PRIMARY
+";
+dosql($table, $flds);
+
+
+
 $table = $prefix_table . 'tax_class';
 $flds = "
   tax_class_id I NOTNULL AUTO PRIMARY,
