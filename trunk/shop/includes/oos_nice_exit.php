@@ -22,15 +22,32 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
-if ($oEvent->installed_plugin('debug')) {
-    echo '<pre>';
-    print_r($_SESSION);
-    echo '<br />';
-    print_r($_GET);
-    echo '<br />';
-    print_r($_POST);
-    echo '</pre>';
-}
+# if ($oEvent->installed_plugin('debug')) {
+
+   MyOOS_CoreApi::requireOnce('lib/krumo/class.krumo.php');
+
+    echo '$_SESSION';
+    krumo($_SESSION);
+
+    echo '$_GET'; 
+    krumo($_GET);
+
+    echo '$_POST';
+    krumo($_POST); 
+
+    // print all the included(or required) files 
+    krumo::includes();
+ 
+    // print all the included functions 
+    krumo::functions();
+ 
+    // print all the declared classes 
+    krumo::classes();
+ 
+    // print all the defined constants 
+    krumo::defines();     
+    
+# }
 
 // shopping_cart
 if (isset($_SESSION['new_products_id_in_cart'])) {
