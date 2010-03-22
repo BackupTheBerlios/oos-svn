@@ -22,7 +22,7 @@ DirectoryIndex {PREFIX}{indexFile}
 #
 #  Rules
 #
-
+ RewriteCond %{REQUEST_URI} !(\.gif$)|(\.jpg$)|(\.png$)|(\.css$)|(\.js$) 
  RewriteRule ^(.*)-p-(.*).html$ {indexFile}?page=product_info&products_id=$2&rewrite=true& [L,NC,QSA]
  RewriteRule ^(.*)-c-(.*).html$ {indexFile}?page=shop&categories=$2&rewrite=true& [L,NC,QSA]
  RewriteRule ^(.*)-m-(.*).html$ {indexFile}?page=shop&manufacturers_id=$2&rewrite=true& [L,NC,QSA]
