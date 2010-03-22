@@ -19,8 +19,10 @@
    Released under the GNU General Public License
    ---------------------------------------------------------------------- */
 
-/** ensure this file is being included by a parent file */
-defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
 
 if (DISPLAY_CART == '1') {
     $goto_file = $aPages['shopping_cart'];
@@ -294,7 +296,7 @@ switch ($action) {
               $_SESSION['error_cart_msg'] = $aLang['error_products_quantity_order_min_text'] . $aLang['error_products_quantity_invalid'] . $cart_quantity . ' - ' . $aLang['products_order_qty_min_text_info'] . ' ' . $products_order_min;
             }
           }
-          if ($_SESSION['error_cart_msg'] == '') {
+          if ( !isset( $_SESSION['error_cart_msg'] ) ) {
             MyOOS_CoreApi::redirect(oos_href_link( $goto_file, oos_get_all_post_parameters($parameters), 'NONSSL'));
           } else {
             MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_POST['products_id']));
@@ -326,7 +328,7 @@ switch ($action) {
             $_SESSION['error_cart_msg'] = $aLang['error_products_quantity_order_min_text'] . $aLang['error_products_quantity_invalid'] . $cart_quantity . ' - ' . $aLang['products_order_qty_min_text_info'] . ' ' . $products_order_min;
           }
         }
-        if ($_SESSION['error_cart_msg'] == '') {
+        if ( !isset( $_SESSION['error_cart_msg'] ) ) {
           MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
         } else {
           MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_GET['slave_id']));
@@ -359,7 +361,7 @@ switch ($action) {
             }
           }
         }
-        if ($_SESSION['error_cart_msg'] == '') {
+        if ( !isset( $_SESSION['error_cart_msg'] ) ) {
           MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_post_parameters($parameters), 'NONSSL'));
         } else {
           MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_POST['slave_id']));
@@ -406,7 +408,7 @@ switch ($action) {
             } else {
               $_SESSION['error_cart_msg'] = $aLang['error_products_quantity_order_min_text'] . $aLang['error_products_quantity_invalid'] . $cart_quantity . ' - ' . $aLang['products_order_qty_min_text_info'] . ' ' . $products_order_min;
             }
-            if ($_SESSION['error_cart_msg'] == '') {
+            if ( !isset( $_SESSION['error_cart_msg'] ) ) {
               MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
             } else {
               MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $products_quickie['products_id']));
@@ -454,7 +456,7 @@ switch ($action) {
             $_SESSION['error_cart_msg'] = $aLang['error_products_quantity_order_min_text'] . $aLang['error_products_quantity_invalid'] . $cart_quantity . ' - ' . $aLang['products_order_qty_min_text_info'] . ' ' . $products_order_min;
           }
         }
-        if ($_SESSION['error_cart_msg'] == '') {
+        if ( !isset( $_SESSION['error_cart_msg'] ) ) {
           MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
         } else {
           MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_POST['products_id']));
@@ -480,7 +482,7 @@ switch ($action) {
         } else {
           $_SESSION['error_cart_msg'] = $aLang['error_products_quantity_order_min_text'] . $aLang['error_products_quantity_invalid'] . $cart_quantity . ' - ' . $aLang['products_order_qty_min_text_info'] . ' ' . $products_order_min;
         }
-        if ($_SESSION['error_cart_msg'] == '') {
+        if ( !isset( $_SESSION['error_cart_msg'] ) ) {
           MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
         } else {
           MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_POST['products_id']));

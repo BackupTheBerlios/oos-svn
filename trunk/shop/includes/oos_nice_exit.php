@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -19,12 +19,14 @@
    Released under the GNU General Public License
    --------------------------------------------------------------------- */
 
-/** ensure this file is being included by a parent file */
-defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+// DO NOT RUN THIS SCRIPT STANDALONE
+if (count(get_included_files()) < 2) {
+    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+}
 
-# if ($oEvent->installed_plugin('debug')) {
+if ($oEvent->installed_plugin('debug')) {
 
-   MyOOS_CoreApi::requireOnce('lib/krumo/class.krumo.php');
+    MyOOS_CoreApi::requireOnce('lib/krumo/class.krumo.php');
 
     echo '$_SESSION';
     krumo($_SESSION);
@@ -46,14 +48,12 @@ defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowe
  
     // print all the defined constants 
     krumo::defines();     
-    
-# }
+}
 
 // shopping_cart
 if (isset($_SESSION['new_products_id_in_cart'])) {
     unset($_SESSION['new_products_id_in_cart']);
 }
-$_SESSION['error_cart_msg'] = '';
 
 // close session (store variables)
 oos_session_close();
