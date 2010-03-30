@@ -93,9 +93,44 @@
       }
 
       if ($spider_flag === false) {
+          if (!defined('MYOOS_SESSION_NAME'))
+          {
+              define('MYOOS_SESSION_NAME', 'MYOOS_SESSID');
+          }
 
-        // lets start our session
-        oos_session_start();
+          @ini_set('session.name', MYOOS_SESSION_NAME);
+          if(ini_get('session.save_handler') == 'user')
+          {
+              @ini_set('session.save_handler', 'files');
+              @ini_set('session.save_path', '');
+          }
+          if(ini_get('session.save_handler') == 'files')
+          {
+              $sessionPath = ini_get('session.save_path');
+              if (preg_match('/^[0-9]+;(.*)/', $sessionPath, $matches))
+              {
+                  $sessionPath = $matches[1];
+              }
+              if (ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_writable($sessionPath))
+              {
+                  $sessionPath = MYOOS_USER_PATH . '/tmp/sessions';
+                  @ini_set('session.save_path', $sessionPath);
+                  if (!is_dir($sessionPath))
+                  {
+                      @mkdir($sessionPath, 0755, true);
+                      if (!is_dir($sessionPath))
+                      {
+                          die("Error: Unable to mkdir $sessionPath");
+                      }
+                  }
+                  elseif (!@is_writable($sessionPath))
+                  {
+                      die("Error: $sessionPath is not writable");
+                  }
+              }
+          }
+          // lets start our session
+          oos_session_start();
       }
 
       if (!isset($_SESSION)) {

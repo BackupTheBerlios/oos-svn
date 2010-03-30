@@ -57,14 +57,16 @@ class MyOOS_CoreApi {
      */
     public static function requireOnce($file)
     {
+        // echo BP . DS . $file .'<br>';
         static $loaded;
         if (!isset($loaded[$file])) {
             $loaded[$file] = true;
             if (strpos($file, '..') !== false) {
                 return;
             }
-            // debug echo BP . DS . $file .'<br>';
-            require BP . DS . $file;
+            // debug 
+            // echo BP . DS . $file .'<br>';
+            require_once BP . DS . $file;
         }
     }
 

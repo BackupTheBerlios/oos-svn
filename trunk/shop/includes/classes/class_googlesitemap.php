@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -394,17 +394,6 @@ class GoogleSitemap
          return implode('', $lines);
     }
 
-
-    /**
-     * Utility function to generate the submit URL
-     *
-     * @return string
-     */
-     function GenerateSubmitURL()
-     {
-         $url = urlencode($this->base_url . 'sitemapindex.xml');
-         return htmlspecialchars(utf8_encode('http://www.google.com/webmasters/sitemaps/ping?sitemap=' . $url));
-     }
 
 }
 

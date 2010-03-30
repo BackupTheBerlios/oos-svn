@@ -68,7 +68,7 @@ class MyOOS_Utilities {
      * @param string $filename
      * @return array the file basename, the file extension
      */
-    function getFileNameComponents($filename)
+    public static function getFileNameComponents($filename)
     {
 
         $pos = strrpos($filename, '.');
@@ -95,7 +95,7 @@ class MyOOS_Utilities {
      * @param string $filename
      * @return array the file extension
      */
-    function getFileExtension($filename)
+    public static function getFileExtension($filename)
     {
         list ($base, $extension) = MyOOS_Utilities::getFileNameComponents($filename);
         return $extension;
@@ -108,7 +108,7 @@ class MyOOS_Utilities {
      * @param string $filename
      * @return array the file base
      */
-    function getFileBase($filename)
+    public static function getFileBase($filename)
     {
         list ($base, $extension) = MyOOS_Utilities::getFileNameComponents($filename);
         return $base;
@@ -120,7 +120,7 @@ class MyOOS_Utilities {
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      * @return array file data
      */
-    function getFile($key, $prefix=true)
+    public static function getFile($key, $prefix=true)
     {
         $file = array();
         if ($prefix) {
@@ -150,7 +150,7 @@ class MyOOS_Utilities {
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      * @return array key value pairs
      */
-    function getFormVariables($key, $prefix=true)
+    public static function getFormVariables($key, $prefix=true)
     {
         if ($prefix) {
             $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
@@ -191,7 +191,7 @@ class MyOOS_Utilities {
      * @param boolean $prefix (optional) if true, remove form variable prefix from keys in result
      * @return array unsanitized key value pairs
      */
-    function getUrlVariablesFiltered($skip=array(), $prefix=false)
+    public static function getUrlVariablesFiltered($skip=array(), $prefix=false)
     {
         $filter = array();
         foreach ($skip as $key) {
@@ -222,7 +222,7 @@ class MyOOS_Utilities {
      * @author Tobias Tom <t.tom@succont.de>
      * @todo Verify that both arguments are arrays.
      */
-    function array_merge_replace($array, $newValues)
+    public static function array_merge_replace($array, $newValues)
     {
         foreach ($newValues as $key => $value) {
             if (is_array($value)) {
@@ -251,7 +251,7 @@ class MyOOS_Utilities {
      * @param string $key
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      */
-    function removeFormVariables($key, $prefix=true)
+    public static function removeFormVariables($key, $prefix=true)
     {
         /* Remove all matching GET and POST variables */
         if ($prefix) {
@@ -268,7 +268,7 @@ class MyOOS_Utilities {
      * @param one or more string parameters
      * @return mixed a single string value or many values
      */
-    function getRequestVariables()
+    public static function getRequestVariables()
     {
         $values = array();
         foreach (func_get_args() as $argName) {
@@ -289,7 +289,7 @@ class MyOOS_Utilities {
      * Return all request variables with the Gallery variable prefix.
      * @return array request variable name => value
      */
-    function getAllRequestVariables()
+    public static function getAllRequestVariables()
     {
         $values = array();
         $prefixLength = strlen(MYOOS_FORM_VARIABLE_PREFIX);
@@ -318,7 +318,7 @@ class MyOOS_Utilities {
      * @param one or more string parameters
      * @return mixed a single string value or many values
      */
-    function getRequestVariablesNoPrefix()
+    public static function getRequestVariablesNoPrefix()
     {
         $values = array();
         foreach (func_get_args() as $argName) {
@@ -345,7 +345,7 @@ class MyOOS_Utilities {
      * @param mixed $value
      * @param array $array the destination
      */
-    function _internalPutRequestVariable($keyPath, $value, &$array)
+    public static function _internalPutRequestVariable($keyPath, $value, &$array)
     {
         $key = array_shift($keyPath);
         while (!empty($keyPath)) {
@@ -361,7 +361,7 @@ class MyOOS_Utilities {
      * @param string $key
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      */
-    function hasRequestVariable($key, $prefix=true)
+    public static function hasRequestVariable($key, $prefix=true)
     {
         if ($prefix) {
             $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
@@ -375,7 +375,7 @@ class MyOOS_Utilities {
      * @param string $key
      * @param boolean $prefix (optional) false to omit Gallery variable prefix (not recommended)
      */
-    function removeRequestVariable($key, $prefix=true)
+    public static function removeRequestVariable($key, $prefix=true)
     {
         if ($prefix) {
             $key = MYOOS_FORM_VARIABLE_PREFIX . $key;
@@ -394,7 +394,7 @@ class MyOOS_Utilities {
      * @param array $array the source
      * @access private
      */
-    function _internalRemoveRequestVariable($keyPath, &$array)
+    public static function _internalRemoveRequestVariable($keyPath, &$array)
     {
         $key = array_shift($keyPath);
         while (!empty($keyPath)) {
@@ -414,7 +414,7 @@ class MyOOS_Utilities {
      * @param string $key form variable name
      * @return string prefixed form variable name
      */
-    function prefixFormVariable($key)
+    public static function prefixFormVariable($key)
     {
         return MYOOS_FORM_VARIABLE_PREFIX . $key;
     }
@@ -424,7 +424,7 @@ class MyOOS_Utilities {
      * @param int $count the number of markers to return
      * @return string
      */
-    function makeMarkers($count, $markerFragment='?')
+    public static function makeMarkers($count, $markerFragment='?')
     {
         if (is_array($count)) {
             $count = count($count);
@@ -448,7 +448,7 @@ class MyOOS_Utilities {
      * @param int $precision defaults to zero
      * @return string rounded value
      */
-    function roundToString($floatValue, $precision=0)
+    public static function roundToString($floatValue, $precision=0)
     {
         return str_replace(',', '.', round($floatValue, $precision));
     }
@@ -459,7 +459,7 @@ class MyOOS_Utilities {
      * can ditch this method and just cast to (float).  (Note that newer PHP versions may accept
      * only "." even if locale uses ",").
      */
-    function castToFloat($value)
+    public static function castToFloat($value)
     {
         if (is_string($value) && (float)'1.1' != 1.1
             && ($test = (string)1.1) != '1.1' && strlen($test) == 3) {
@@ -476,7 +476,7 @@ class MyOOS_Utilities {
      * @param string $className
      * @return boolean
      */
-    function isA($instance, $className)
+    public static function isA($instance, $className)
     {
         return is_a($instance, $className);
     }
@@ -489,7 +489,7 @@ class MyOOS_Utilities {
      * @param string $className
      * @return boolean
      */
-    function isExactlyA($instance, $className)
+    public static function isExactlyA($instance, $className)
     {
         return (($instanceClass = get_class($instance)) == $className || $instanceClass ==
             strtr($className, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'));
@@ -507,7 +507,7 @@ class MyOOS_Utilities {
      * @return array int the number of entities in the string
      *               string the output string
      */
-    function entitySubstr($string, $start, $length=null, $countEntitiesAsOne=true)
+    public static function entitySubstr($string, $start, $length=null, $countEntitiesAsOne=true)
     {
         $stringLength = strlen($string);
         if ($stringLength < $start) {
@@ -572,7 +572,7 @@ class MyOOS_Utilities {
      * @param string $source encoded using UTF-8
      * @return string of unicode entities
      */
-    function utf8ToUnicodeEntities($source)
+    public static function utf8ToUnicodeEntities($source)
     {
         /*
          * Array used to figure what number to decrement from character order value according to
@@ -656,7 +656,7 @@ class MyOOS_Utilities {
      * @param boolean $adaptForMagicQuotes (optional) false to skip undoing the damage caused
      *                by magic_quotes
      */
-    function sanitizeInputValues(&$value, $adaptForMagicQuotes=true)
+    public static function sanitizeInputValues(&$value, $adaptForMagicQuotes=true)
     {
         if (is_array($value)) {
             foreach (array_keys($value) as $key) {
@@ -695,7 +695,7 @@ class MyOOS_Utilities {
      * @param boolean $adaptForMagicQuotes (optional) false to skip redoing the damage caused
      *                by magic_quotes
      */
-    function unsanitizeInputValues(&$value, $adaptForMagicQuotes=true)
+    public static function unsanitizeInputValues(&$value, $adaptForMagicQuotes=true)
     {
         if (is_array($value)) {
             foreach (array_keys($value) as $key) {
@@ -720,7 +720,7 @@ class MyOOS_Utilities {
      * @param string $string the input string with UTF-8 entities
      * @return string the UTF-8 string
      */
-    function unicodeEntitiesToUtf8($string)
+    public static function unicodeEntitiesToUtf8($string)
     {
         $string = preg_replace('/&#([xa-f\d]+);/mei',
             "MyOOS_Utilities::unicodeValueToUtf8Value('\\1')", $string);
@@ -735,7 +735,7 @@ class MyOOS_Utilities {
      * @return string a multibyte safe substring of input value
      * @deprecated Please use MyOOS_CoreApi::utf8Substring instead
      */
-    function utf8Substring($string, $start, $length)
+    public static function utf8Substring($string, $start, $length)
     {
         return MyOOS_CoreApi::utf8Substring($string, $start, $length);
     }
@@ -747,7 +747,7 @@ class MyOOS_Utilities {
      * @param int $num the unicode value
      * @return string the UTF-8 string
      */
-    function unicodeValueToUtf8Value($num)
+    public static function unicodeValueToUtf8Value($num)
     {
         if ($num[0] == 'x') {
             /* Convert hex to decimal */
@@ -786,7 +786,7 @@ class MyOOS_Utilities {
      * @deprecated
      * @todo Remove at the next major version bump of core API
      */
-    function htmlEntityDecode($string)
+    public static function htmlEntityDecode($string)
     {
         return empty($string) ? $string : html_entity_decode($string, ENT_COMPAT);
     }
@@ -797,7 +797,7 @@ class MyOOS_Utilities {
      * @param string $markupType (optional) markup type, defaults from core markup parameter
      * @return string resulting text
      */
-    function markup($text, $markupType=null)
+    public static function markup($text, $markupType=null)
     {
         MyOOS_CoreApi::requireOnce('lib/smarty_plugins/modifier.markup.php');
         return smarty_modifier_markup($text, $markupType);
@@ -810,7 +810,7 @@ class MyOOS_Utilities {
      * @param boolean $decode (optional) true to decode entities, process, then recode
      * @return string safe HTML
      */
-    function HTMLPurifier($dirty_html, $decode=false)
+    public static function HTMLPurifier($dirty_html, $decode=false)
     {
 
         MyOOS_CoreApi::requireOnce('htmlpurifier/library/HTMLPurifier.auto.php');
@@ -842,7 +842,7 @@ class MyOOS_Utilities {
      * @return string a single value
      * @access private
      */
-    function _getRequestVariable($key)
+    public static function _getRequestVariable($key)
     {
         $keyPath = preg_split('/[\[\]]/', $key, -1, PREG_SPLIT_NO_EMPTY);
         $result = MyOOS_Utilities::_internalGetRequestVariable($keyPath, $_GET);
@@ -862,7 +862,7 @@ class MyOOS_Utilities {
      * @return the value or null if it does not exist
      * @access private
      */
-    function _internalGetRequestVariable($keyPath, $array)
+    public static function _internalGetRequestVariable($keyPath, $array)
     {
         $key = array_shift($keyPath);
         while (!empty($keyPath)) {
@@ -882,7 +882,7 @@ class MyOOS_Utilities {
       * @param string $key the key in the _SERVER superglobal
       * @return string the value
       */
-     function getServerVar($key)
+     public static function getServerVar($key)
      {
          if (!isset($_SERVER[$key])) {
              return null;
@@ -898,7 +898,7 @@ class MyOOS_Utilities {
      * @param string $addr an address in dotted quad form
      * @return boolean
      */
-    function isTrustedProxy($addr)
+    public static function isTrustedProxy($addr)
     {
         return (boolean)preg_match('/^((10\.\d{1,3}\.\d{1,3}\.\d{1,3})|'
             . '(172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3})|'
@@ -909,7 +909,7 @@ class MyOOS_Utilities {
      * Return the address of the remote host.
      * @return string the remote host address (or null)
      */
-    function getRemoteHostAddress()
+    public static function getRemoteHostAddress()
     {
         $addr = null;
         if (isset($_SERVER['REMOTE_ADDR'])) {
@@ -933,7 +933,7 @@ class MyOOS_Utilities {
      * @param string $string
      * @return string lowercase version of the string
      */
-    function strToLower($string)
+    public static function strToLower($string)
     {
         return strtr($string, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
     }
@@ -943,10 +943,40 @@ class MyOOS_Utilities {
      * @param string $string
      * @return string uppercase version of the string
      */
-    function strToUpper($string)
+    public static function strToUpper($string)
     {
         return strtr($string, 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
     }
 
+
+    /**
+     * Opens a remote file using  Snoopy
+     * @param $url The URL to open
+     * @param $method get or post
+     * @param $postData An array with key=>value paris
+     * @param $timeout Timeout for the request, by default 10
+     * @return mixed False on error, the body of the response on success
+     */
+    public static function RemoteOpen($url, $method = 'get', $postData = null, $timeout = 10)
+    {
+	
+        MyOOS_CoreApi::requireOnce('lib/snoopy/snoopy.class.php');		
+			
+        $oS = new Snoopy();
+			
+        $oS->read_timeout = $timeout;
+			
+        if ($method == 'get') {
+            $oS->fetch($url);
+        } else {
+            $oS->submit($url,$postData);
+        }
+			
+        if ($oS->status != "200") {
+            trigger_error('Snoopy Web Request failed: Status: ' . $oS->status . "; Content: " . htmlspecialchars($oS->results),E_USER_NOTICE);
+        }
+			
+        return $oS->results;
+		}
 
 }
