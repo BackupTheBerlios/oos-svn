@@ -23,8 +23,8 @@
  */
 function smarty_function_html_select_time($params, &$smarty)
 {
-    require_once $smarty->_get_plugin_filepath('shared','make_timestamp');
-    require_once $smarty->_get_plugin_filepath('function','html_options');
+    MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/shared.make_timestamp.php');
+    MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/function.html_options.php');
     /* Default values. */
     $prefix             = "Time_";
     $time               = time();

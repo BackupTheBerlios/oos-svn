@@ -36,7 +36,7 @@
  */
 function smarty_function_html_image($params, &$smarty)
 {
-    require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
+    MyOOS_CoreApi::requireOnce('lib/smarty/libs/plugins/shared.escape_special_chars.php');
 
     $alt = '';
     $file = '';
@@ -109,7 +109,7 @@ function smarty_function_html_image($params, &$smarty)
         }
         if ($smarty->security &&
             ($_params = array('resource_type' => 'file', 'resource_name' => $_image_path)) &&
-            (require_once(SMARTY_CORE_DIR . 'core.is_secure.php')) &&
+            (MyOOS_CoreApi::requireOnce('lib/smarty/libs/internals/core.is_secure.php')) &&
             (!smarty_core_is_secure($_params, $smarty)) ) {
             $smarty->trigger_error("html_image: (secure) '$_image_path' not in secure directory", E_USER_NOTICE);
         }
