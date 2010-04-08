@@ -49,7 +49,7 @@ function oos_exit()
  * @param $limit
  * @return string
  */
-function oos_random_select($query, $limit = '')
+function oos_random_select($query, $limit = null)
 {
 
     // Get database information
@@ -263,32 +263,6 @@ function oos_get_categories_description($nCurrentCategoryId)
     oos_db_perform($categories_descriptiontable, $sql_data_array, 'update', 'categories_id = \'' . intval($nCurrentCategoryId) . '\' and categories_languages_id = \'' . intval($nLanguageID) . '\'');
 
     return $categories_description;
-}
-
-
-
-/**
- * Return News Author Name
- *
- * @param $nNewsAuthorId
- * @return string
- */
-function oos_get_news_author_name($nNewsAuthorId)
-{
-
-    // Get database information
-    $dbconn =& oosDBGetConn();
-    $oostable =& oosDBGetTables();
-
-    $admintable = $oostable['admin'];
-    $query  = "SELECT admin_firstname, admin_lastname
-               FROM $admintable
-               WHERE admin_id  = '" . intval($nNewsAuthorId) . "'";
-    $result =& $dbconn->Execute($query);
-
-    $sAdminName = $result->fields['admin_firstname'] . ' ' . $result->fields['admin_lastname'];
-
-    return $sAdminName;
 }
 
 
@@ -1126,7 +1100,7 @@ function oos_has_product_attributes($products_id)
 }
 
 
-function oos_count_modules($modules = '')
+function oos_count_modules($modules = null)
 {
 
     $nCount = 0;
