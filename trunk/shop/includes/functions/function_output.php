@@ -162,13 +162,13 @@ function oos_image($src, $title = null, $width = 0, $height = 0, $parameters = n
  * @param $parameters
  * @return string
  */
-function oos_image_button($image, $alt = '', $parameters = '')
+function oos_image_button($image, $alt = null, $parameters = null)
 {
 
     $sTheme = oos_var_prep_for_os($_SESSION['theme']);
     $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 
-    return oos_image(STATIC1_HTTP_SERVER .'/themes/' . $sTheme . '/images/buttons/' . $sLanguage . '/' . $image, $alt, '', '', $parameters);
+    return oos_image(STATIC1_HTTP_SERVER . '/themes/' . $sTheme . '/images/buttons/' . $sLanguage . '/' . $image, $alt, '', '', $parameters);
 }
 
 
@@ -228,21 +228,6 @@ function oos_image_swap_button($id, $image, $alt = '', $params = '') {
      return oos_image_swap($id, OOS_IMAGES . 'buttons/' . $_SESSION['language'] . '/' . $image, $alt, '', '', $params);
 }
 
-
-/**
- * Output a folder image
- *
- * @param $image
- * @param $alt
- * @param $parameters
- * @return string
- */
-function oos_image_folder($image, $alt = '', $parameters = '')
-{
-
-     $sTheme = oos_var_prep_for_os($_SESSION['theme']);
-     return oos_image('themes/' . $sTheme . '/images/icons/' . $image, $alt, '', '', $parameters);
-}
 
 
 /**
@@ -356,24 +341,16 @@ function oos_draw_radio_field($name, $value = '', $checked = false, $parameters 
 }
 
 
-
 /**
- * Output a form hidden field
+ * Outputs a form hidden field
  *
- * @param $name
- * @param $value
- * @param $parameters
+ * @param string $name The name of the hidden field
+ * @param string $value The value for the hidden field
+ * @param string $parameters Additional parameters for the hidden field
+ * @access public
  */
-function oos_draw_hidden_field($name, $value = '', $parameters = '')
+function oos_draw_hidden_field($name, $value = null, $parameters = null)
 {
-
-    if (empty($value)) {
-        if (isset($_GET[$name])) {
-            $value = $_GET[$name];
-        } elseif (isset($_POST[$name])) {
-            $value = $_POST[$name];
-        }
-    }
 
     $field = '<input type="hidden" name="' . oos_output_string($name) . '"';
 
@@ -415,7 +392,7 @@ function oos_get_all_as_hidden_field($aExclude = '')
     if (is_array($_GET) && (count($_GET) > 0)) {
         foreach ($_GET as $sKey => $sValue) {
            if (!empty($sValue)) {
-               if ( ($sKey != oos_session_name()) && ($sKey != 'error') && ($sKey != 'p') && ($sKey != 'rewrite') && ($sKey != 'c') && ($sKey != 'm') && ($sKey != 'mp') && ($sKey != 'file') && ($sKey != 'index.php') && ($sKey != 'history_back') && (!in_array($sKey, $aExclude)) && ($sKey != 'x') && ($sKey != 'y') ) {
+               if ( ($sKey != oos_session_name()) && ($sKey != 'error') && ($sKey != 'p') && ($sKey != 'rewrite') && ($sKey != 'c') && ($sKey != 'm') && ($sKey != 'page') && ($sKey != 'index.php') && ($sKey != 'history_back') && (!in_array($sKey, $aExclude)) && ($sKey != 'x') && ($sKey != 'y') ) {
                    $sField = '<input type="hidden" name="' . oos_output_string($sKey) . '"';
                    $sField .= ' value="' . oos_output_string($sValue) . '" />';
                 }
