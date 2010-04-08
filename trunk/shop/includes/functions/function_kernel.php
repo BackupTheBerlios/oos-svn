@@ -267,34 +267,6 @@ function oos_get_categories_description($nCurrentCategoryId)
 
 
 /**
- * Return News Average Rating
- *
- * @param $nNewsId
- * @return string
- */
-function oos_get_news_reviews($nNewsId)
-{
-
-    // Get database information
-    $dbconn =& oosDBGetConn();
-    $oostable =& oosDBGetTables();
-
-    $news_reviewstable = $oostable['news_reviews'];
-    $query  = "SELECT (avg(news_reviews_rating ) / 5 * 100) AS average_rating
-               FROM $news_reviewstable
-               WHERE news_id  = '" . intval($nNewsId)  . "'";
-    $result =& $dbconn->Execute($query);
-
-    $sAverage = $result->fields['average_rating'];
-
-    // Close result set
-    $result->Close();
-
-    return $sAverage;
-}
-
-
-/**
  * Return Wishlist Customer Name
  *
  * @param $wlid
@@ -825,7 +797,8 @@ function oos_get_tax_description($class_id, $country_id, $zone_id)
  * @param $price
  * @param $tax
  */
-function oos_add_tax($price, $tax) {
+function oos_add_tax($price, $tax)
+{
 
     if( ($_SESSION['member']->group['show_price_tax'] == 1) && ($tax > 0) )
     {
