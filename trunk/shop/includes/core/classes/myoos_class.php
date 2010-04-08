@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -68,40 +68,7 @@ class MyOOS {
      */
     var $_config;
 
-    /**
-     * The current debugging mode.  One of 'buffered', 'logged', 'immediate' or false.
-     * @var string
-     * @access private
-     */
-    var $_debug;
 
-    /**
-     * Where to send debug output (when the debugging mode is set to 'logged')
-     * @var string
-     * @access private
-     */
-    var $_debugLogFile;
-
-    /**
-     * A place to temporarily store debug output when the debugging mode is set to 'buffered'
-     * @var string
-     * @access private
-     */
-    var $_debugBuffer;
-
-    /**
-     * A secondary debug buffer used to record debug output even if regular debug mode is disabled.
-     * @var string
-     * @access private
-     */
-    var $_debugSnippet = null;
-
-    /**
-     * Are we currently recording a debug snippet?
-     * @var boolean
-     * @access private
-     */
-    var $_debugSnippetActive = false;
 
     /**
      * The active GalleryLockSystem implementation
@@ -124,19 +91,6 @@ class MyOOS {
      */
     var $_profile;
 
-    /**
-     * Storage for all session variables.
-     * @var GallerySession
-     * @access private
-     */
-    var $_session;
-
-    /**
-     * The backend persistent store for the Gallery class
-     * @var GalleryStorage
-     * @access private
-     */
-    var $_storage;
 
     /**
      * The adapter between the template system and any Gallery callbacks that want to use in the
@@ -218,171 +172,7 @@ class MyOOS {
         );
     }
 
-    /**
-     * @see GalleryStorage::search
-     */
-    function search($query, $data=array(), $options=array()) {
-    $storage =& $this->getStorage();
-    list ($ret, $results) = $storage->search($query, $data, $options);
-    if ($ret) {
-        return array($ret, null);
-    }
 
-    return array(null, $results);
-    }
-
-
-    /**
-     * Store a value in the Gallery config table
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    function setConfig($key, $value)
-    {
-        assert('!empty($key)');
-        $this->_config[$key] = $value;
-    }
-
-    /**
-     * Get a value from the Gallery configuration settings
-     *
-     * @return mixed an arbitrary value
-     */
-    function getConfig($key) {
-    assert('!empty($key)');
-    return $this->_config[$key];
-    }
-
-    /**
-     * Initialize an empty session.
-     */
-    function initEmptySession() {
-    MyOOS_CoreApi::requireOnce('modules/core/classes/GallerySession.class');
-    $this->_session = new GallerySession();
-    }
-
-
-    /**
-     * Return a reference to our GalleryTranslator instance
-     *
-     * @return GalleryTranslator
-     */
-    function &getTranslator() {
-    return $this->_translator;
-    }
-
-    /**
-     * Initialize our GalleryTranslator
-     *
-     * @param boolean $dontUseDatabase (optional) true if we should not use the database
-     * @return GalleryStatus a status code
-     */
-    function initTranslator($dontUseDatabase=false) {
-    if (empty($this->_translator)) {
-        /* Load the translator class */
-        MyOOS_CoreApi::requireOnce('modules/core/classes/GalleryTranslator.class');
-
-        /* Do we already have an activeLanguage for this session? */
-        list ($ret, $language) = $this->getActiveLanguageCode();
-        if ($ret) {
-        return $ret;
-
-        }
-
-        $this->_translator = new GalleryTranslator();
-        list ($ret, $languageCode) = $this->_translator->init($language, $dontUseDatabase);
-        if ($ret) {
-        return $ret;
-        }
-        $ret = $this->setActiveLanguageCode($languageCode);
-        if ($ret) {
-        return $ret;
-        }
-    }
-
-    return null;
-    }
-
-
-    /**
-     * Output a debug message
-     * @param string $msg a message
-     */
-    function debug($msg) {
-    if (empty($msg)) {
-        return;
-    }
-
-    if (!empty($this->_debug)) {
-        if (!strcmp($this->_debug, 'buffered')) {
-        $this->_debugBuffer .= wordwrap($msg) . "\n";
-        } elseif (!strcmp($this->_debug, 'logged')) {
-        /* Don't use platform calls for these as they call debug internally! */
-        if ($fd = fopen($this->_debugLogFile, 'a')) {
-            $date = date('Y-m-d H:i:s');
-            $session =& $this->getSession();
-            if (!empty($session)) {
-            $id = $session->getId();
-            } else {
-            $id = '<no session id>';
-            }
-            fwrite($fd, "$date [" . $id . "] $msg\n");
-            fclose($fd);
-        }
-        } elseif (!strcmp($this->_debug, 'immediate')) {
-        print "$msg\n";
-        }
-    }
-
-    if ($this->_debugSnippetActive) {
-        $this->_debugSnippet .= wordwrap($msg) . "\n";
-    }
-    }
-
-    /**
-     * Output a print_r style debug message
-     *
-     * @param mixed $object any object or value
-     * @param boolean $escapeHtmlEntities true if the output should be run through htmlentities()
-     */
-    function debug_r($object, $escapeHtmlEntities=false) {
-    if (!empty($this->_debug)) {
-        $buf = print_r($object, true);
-        if ($escapeHtmlEntities) {
-        $buf = htmlentities($buf);
-        }
-        $this->debug($buf);
-    }
-    }
-
-
-    /**
-     * Mark a string as being internationalized.  This is a semaphore method; it does nothing but it
-     * allows us to easily identify strings that require translation.  Generally this is used to
-     * mark strings that will be stored in the database (like module names and descriptions).
-     *
-     * Consider this case:
-     *   $message_to_be_localized = 'TEST to be displayed in different languages';
-     *   print $this->translate($message_to_be_localized);
-     *
-     * The translate() method is called in the right place for runtime handling, but there is no
-     * message at gettext preprocessing time to be given to the translation teams, just a variable
-     * name. Translation of the variable name would break the code! So all places potentially
-     * feeding this variable have to be marked to be given to translation teams, but not translated
-     * at runtime!
-     *
-     * This method resolves all such cases. Simply mark the candidates:
-     *   $message_to_be_localized = $gallery->i18n('TEST to be displayed in different languages');
-     *   print $this->translate($message_to_be_localized);
-     *
-     * @param mixed $value string or array (array must have 'text' key; hint/cFormat keys optional)
-     * @return string the text value
-     * @see GalleryPlugin::translate
-     */
-    function i18n($value) {
-    return is_array($value) ? $value['text'] : $value;  /* Just pass the text through */
-    }
 
 
     /**

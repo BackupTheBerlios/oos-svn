@@ -26,12 +26,12 @@ if (count(get_included_files()) < 2) {
 
 if (!$oEvent->installed_plugin('reviews')) {
     $_SESSION['navigation']->remove_current_page();
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']), 301);
 }
 
 if (!isset($_GET['reviews_id'])) {
     $_SESSION['navigation']->remove_current_page();
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['reviews']), 301);
 }
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
@@ -82,7 +82,7 @@ if (!isset($option)) {
     require 'includes/oos_blocks.php';
 }
 
-$oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+$oos_pagetitle = sprintf($aLang['heading_title'], $reviews['products_name'];
 $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
 
 // assign Smarty variables;
@@ -92,7 +92,6 @@ $oSmarty->assign(
            'meta_description'  => htmlspecialchars($oos_meta_description),
            'meta_keywords'     => htmlspecialchars($oos_meta_keywords),
            'oos_breadcrumb'    => $oBreadcrumb->trail(BREADCRUMB_SEPARATOR),
-           'oos_heading_title' => sprintf($aLang['heading_title'], $reviews['products_name']),
            'oos_heading_image' => 'reviews.gif',
 
            'popup_window' => 'popup_window.js',

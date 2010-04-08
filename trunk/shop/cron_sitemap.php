@@ -123,14 +123,15 @@ if ($submit){
         trigger_error("Failed to ping Ask.com: " . htmlspecialchars(strip_tags($pingres)),E_USER_NOTICE);
     }
 
-/*		
     //Ping YAHOO
-    $sPingUrl = "http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=" . YAHOOKEY . "&url=" . urlencode($pingUrl);
-    $pingres = MyOOS_Utilities::RemoteOpen($sPingUrl);
-    if ($pingres==NULL || $pingres===false || strpos(strtolower($pingres),"success")===false) {
-        trigger_error("Failed to ping YAHOO: " . htmlspecialchars(strip_tags($pingres)),E_USER_NOTICE);
-    }
-*/		
+    if (!oos_empty(YAHOOKEY)) {
+        $sPingUrl = "http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=" . YAHOOKEY . "&url=" . urlencode($pingUrl);
+        $pingres = MyOOS_Utilities::RemoteOpen($sPingUrl);
+        if ($pingres==NULL || $pingres===false || strpos(strtolower($pingres),"success")===false) {
+            trigger_error("Failed to ping YAHOO: " . htmlspecialchars(strip_tags($pingres)),E_USER_NOTICE);
+        }
+	  }
+	  
     //Ping Bing
     $sPingUrl = "http://www.bing.com/webmaster/ping.aspx?siteMap=" . urlencode($pingUrl);
     $pingres = MyOOS_Utilities::RemoteOpen($sPingUrl);
