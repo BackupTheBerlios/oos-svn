@@ -29,7 +29,7 @@
        </tr>
        <tr>
          <td valign="bottom" class="smallText">
-           <s>{$oos_specials_array[i].products_price}</s><br>
+           <del>{$oos_specials_array[i].products_price}</del><br>
            {$oos_specials_array[i].products_special_price|price2image:true}<br>
          </td>
          <td><img src="{$theme_image}/trans.gif" border="0" alt=" " width="5" height="1"></td>
@@ -42,7 +42,7 @@
           <td valign="top" colspan="3">
 {if $oos_specials_array[i].products_base_price != 1}
   <span class="smallText">{$lang.text_products_base_price}: </span>
-  <span class="special_base_price">{$oos_specials_array[i].products_base_unit} = {$oos_specials_array[i].base_product_special_price}</span></s><br>
+  <span class="special_base_price">{$oos_specials_array[i].products_base_unit} = {$oos_specials_array[i].base_product_special_price}</span></del><br>
 {/if}
 <span class="pangv">{$pangv}</span><br>
           </td>

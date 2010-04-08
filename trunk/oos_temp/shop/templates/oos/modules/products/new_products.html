@@ -22,11 +22,11 @@
        <tr>
          <td valign="bottom" class="smallText" nowrap="nowrap">
 {if (!empty($new_products_array[i].new_product_special_price))}
-   <s>{$new_products_array[i].new_product_price}{$new_products_array[i].new_product_units}</s><br>
+   <del>{$new_products_array[i].new_product_price}{$new_products_array[i].new_product_units}</del><br>
    <span class="special_price">{$new_products_array[i].new_product_special_price|price2image:true}</span><br>
 {else}
   {if $new_products_array[i].new_max_product_discount != 0}
-    <s>{$new_products_array[i].new_product_price}</s>&nbsp;-{$new_products_array[i].new_max_product_discount}%<br>
+    <del>{$new_products_array[i].new_product_price}</del>&nbsp;-{$new_products_array[i].new_max_product_discount}%<br>
     <span class="discount_price">{$new_products_array[i].new_product_discount_price|price2image:true}{$new_products_array[i].new_product_units}</span><br>
 
   {else}

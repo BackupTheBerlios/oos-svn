@@ -12,6 +12,9 @@
 <meta name="author" content="{$smarty.const.OOS_META_AUTHOR}">
 <meta name="copyright" content="Copyright (c) {$smarty.now|date_format:"%Y"} by {$smarty.const.OOS_META_COPYRIGHT}">
 <meta name="page-type" content="{$smarty.const.OOS_META_PAGE_TYPE}">
+{if $page_file == $pages.main}
+<link rel="canonical" href="{$smarty.const.OOS_HTTP_SERVER}{$smarty.const.OOS_SHOP}">
+{/if}
 
 <meta name="publisher" content="{$smarty.const.OOS_META_PUBLISHER}">
 <meta name="robots" content="{$smarty.const.OOS_META_ROBOTS}">
@@ -197,7 +200,6 @@ piwikTracker.enableLinkTracking();
 </script><noscript><p><img src="{/literal}{$smarty.const.TRACKING_HTTP_SERVER}{literal}/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
 {/literal}
-
 
 </body>
 </html>

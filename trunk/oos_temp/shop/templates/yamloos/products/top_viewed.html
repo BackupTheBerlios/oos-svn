@@ -36,15 +36,15 @@
 
 			<p>
 				{if (!empty($products_new.new_product_special_price))}
-					{$lang.text_price} <s>{$products_new.new_product_price}{$products_new.new_product_units}</s><br />
-					{if $products_new.products_base_price != 1}<s>{$lang.text_products_base_price}: <span class="base_price">{$products_new.new_products_base_unit} = {$products_new.new_base_product_price}</span></s><br />{/if}
+					{$lang.text_price} <del>{$products_new.new_product_price}{$products_new.new_product_units}</del><br />
+					{if $products_new.products_base_price != 1}<del>{$lang.text_products_base_price}: <span class="base_price">{$products_new.new_products_base_unit} = {$products_new.new_base_product_price}</span></del><br />{/if}
 
 					<span class="special_price">{$lang.text_price} {$products_new.new_product_special_price}{$products_new.products_units}</span><br />
 					{if $products_new.products_base_price != 1}<span class="special_base_price">{$lang.text_products_base_price}: {$products_new.new_products_base_unit} = {$products_new.new_base_product_special_price}</span><br />{/if}
 
 				{else}
 					{if $products_new.new_max_product_discount != 0}
-						{$lang.text_price} <s>{$products_new.new_product_price}</s> -{$products_new.new_max_product_discount}%<br />
+						{$lang.text_price} <del>{$products_new.new_product_price}</del> -{$products_new.new_max_product_discount}%<br />
 						<span class="discount_price">{$products_new.new_product_discount_price}{$products_new.new_product_units}</span><br />
 						{if $products_new.products_base_price != 1}<span class="discount_base_price">{$lang.text_products_base_price}: {$products_new.new_products_base_unit} = {$products_new.new_base_product_special_price}</span><br />{/if}
 					{else}
