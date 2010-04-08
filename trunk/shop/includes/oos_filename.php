@@ -80,7 +80,6 @@ $aPages['products_new'] = $prefix_filename . 'products_new';
 $aPages['product_zoom'] = $prefix_filename . 'product_zoom';
 $aPages['product_movie'] = $prefix_filename . 'movie';
 $aPages['specials'] = $prefix_filename . 'specials';
-$aPages['top_viewed'] = $prefix_filename . 'top_viewed';
 $aPages['popup_image'] = $prefix_filename . 'popup_image';
 $aPages['popup_print'] = $prefix_filename . 'popup_print';
 
