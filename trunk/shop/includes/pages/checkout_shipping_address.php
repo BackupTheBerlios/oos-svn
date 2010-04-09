@@ -21,7 +21,10 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
@@ -32,12 +35,12 @@ require 'includes/functions/function_address.php';
 // if the customer is not logged on, redirect them to the login page
 if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'), '301');
 }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
 if ($_SESSION['cart']->count_contents() < 1) {
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']), '301');
 }
 
 // if the order contains only virtual products, forward the customer to the billing page as

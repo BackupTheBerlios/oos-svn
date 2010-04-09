@@ -53,7 +53,10 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
@@ -94,10 +97,10 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
     $keyb = oos_prepare_input($_POST['keyb']);
 
     if ( empty( $keya ) || !is_string( $keya ) ) {
-        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']), '301');
     }
     if ( empty( $keyb ) || !is_string( $keyb ) ) {
-        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']), '301');
     }
 
     $manual_infotable = $oostable['manual_info'];
@@ -119,7 +122,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
 
     // Check if email exists
     if ( empty( $email_addressb ) || !is_string( $email_addressb ) ) {
-        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']), '301');
     }
 
     $customerstable = $oostable['customers'];

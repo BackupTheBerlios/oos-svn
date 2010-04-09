@@ -22,12 +22,15 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
 // if the customer is not logged on, redirect them to the shopping cart page
 if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart']), '301');
 }
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);

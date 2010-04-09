@@ -22,7 +22,10 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
@@ -563,7 +566,7 @@ if ($category_depth == 'nested') {
 
 } else {
     // $category_depth = 'top';
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']), '301');
 }
 
 // display the template

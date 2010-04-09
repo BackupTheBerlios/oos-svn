@@ -12,12 +12,15 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
 if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'), '301');
 }
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
@@ -92,7 +95,7 @@ if ($_SESSION['cart']->count_contents() > 0) {
     $up_sell_products_result = $dbconn->SelectLimit($sql, MAX_DISPLAY_XSELL_PRODUCTS);
 
     if ($up_sell_products_result->RecordCount() >=  0) {
-      $oSmarty->assign('oos_up_sell_products_array', $up_sell_products_result->GetArray());
+        $oSmarty->assign('oos_up_sell_products_array', $up_sell_products_result->GetArray());
     }
 }
 

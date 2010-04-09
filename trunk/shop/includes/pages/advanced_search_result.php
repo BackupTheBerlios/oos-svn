@@ -21,7 +21,10 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
@@ -32,15 +35,20 @@ require 'includes/functions/function_search.php';
 // Search enhancement mod start
 if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
 
+    $keywords = oos_prepare_input($_GET['keywords']);
 
-    $pw_keywords = explode(' ',stripslashes(strtolower($_GET['keywords'])));
+    if ( empty( $keywords ) || !is_string( $keywords ) ) {
+        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']), '301');
+    }
+
+    $pw_keywords = explode(' ',stripslashes(strtolower($keywords)));
     $pw_boldwords = $pw_keywords;
     $sql = "SELECT sws_word, sws_replacement FROM " . $oostable['searchword_swap'];
     $sql_words = $dbconn->Execute($sql);
     $pw_replacement = '';
     while ($sql_words_result = $sql_words->fields)
     {
-      if (stripslashes(strtolower($_GET['keywords'])) == stripslashes(strtolower($sql_words_result['sws_word']))) {
+      if (stripslashes(strtolower($keywords)) == stripslashes(strtolower($sql_words_result['sws_word']))) {
        	$pw_replacement = stripslashes($sql_words_result['sws_replacement']);
        	$pw_link_text = '<b><i>' . stripslashes($sql_words_result['sws_replacement']) . '</i></b>';
        	$pw_phrase = 1;
@@ -349,8 +357,8 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
 
     require 'includes/oos_system.php';
     if (!isset($option)) {
-      require 'includes/info_message.php';
-      require 'includes/oos_blocks.php';
+        require 'includes/info_message.php';
+        require 'includes/oos_blocks.php';
     }
 
     $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
@@ -381,5 +389,5 @@ if (isset($_GET['keywords']) && $_GET['keywords'] != '') {
 
     // display the template
     require 'includes/oos_display.php';
-  }
+}
 

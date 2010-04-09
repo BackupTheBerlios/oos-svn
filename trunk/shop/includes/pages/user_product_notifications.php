@@ -21,12 +21,15 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
 if (!$oEvent->installed_plugin('notify')) {
     $_SESSION['navigation']->remove_current_page();
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['main']), '301');
 }
 
 if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {

@@ -33,7 +33,7 @@ require 'includes/functions/function_address.php';
 // if the customer is not logged on, redirect them to the login page
 if ( !isset( $_SESSION['customer_id'] ) || !is_numeric( $_SESSION['customer_id'] )) {
     $_SESSION['navigation']->set_snapshot();
-    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'));
+    MyOOS_CoreApi::redirect(oos_href_link($aPages['login'], '', 'SSL'), '301');
 }
 
 if (empty($_SESSION['member']->group['payment'])) {
