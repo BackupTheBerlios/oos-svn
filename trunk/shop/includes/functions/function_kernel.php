@@ -1107,30 +1107,21 @@ function oos_count_shipping_modules()
 }
 
 
-
-function oos_output_string($sStr, $bTranslate = false, $bProtected = false)
-{
-    if ($bProtected == true) {
-        return htmlspecialchars($sStr);
-    } else {
-        if ($bTranslate == false) {
-            return oos_parse_input_field_data($sStr, array('"' => '&quot;'));
-        } else {
-            return oos_parse_input_field_data($sStr, $bTranslate);
-        }
-    }
-}
-
 /**
- * Parse the data used in the html tags to ensure the tags will not break
+ * Parse and output a user submited value
  *
- * @param $data
- * @param $parse
- * @return string
+ * @param string $sStr The string to parse and output
+ * @param array $aTranslate An array containing the characters to parse
+ * @access public
  */
-function oos_parse_input_field_data($data, $parse)
+function oos_output_string($sStr, $aTranslate = null)
 {
-    return strtr(trim($data), $parse);
+
+    if (empty($aTranslate)) {
+        $aTranslate = array('"' => '&quot;');
+    }
+
+    return strtr(trim($sStr), $aTranslate);
 }
 
 

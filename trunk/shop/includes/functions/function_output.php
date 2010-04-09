@@ -294,17 +294,17 @@ function oos_draw_input_field($name, $value = '', $parameters = '', $type = 'tex
  * @param $parameters
  * @return string
  */
-function oos_draw_select_field($name, $type, $value = '', $checked = false, $parameters = '')
+function oos_draw_select_field($name, $type, $value = null, $checked = false, $parameters = null)
 {
-    $selection = '<input type="' . oos_parse_input_field_data($type, array('"' => '&quot;')) . '" name="' . oos_parse_input_field_data($name, array('"' => '&quot;')) . '"';
+    $selection = '<input type="' . oos_output_string($type) . '" name="' . oos_output_string($name) . '"';
 
-    if (!empty($value)) $selection .= ' value="' . oos_parse_input_field_data($value, array('"' => '&quot;')) . '"';
+    if (!empty( $value ) && is_string( $value ) ) $selection .= ' value="' . oos_output_string($value) . '"';
 
     if ( ($checked === true) || ( isset($GLOBALS[$name]) && is_string($GLOBALS[$name]) && ( ($GLOBALS[$name] == 'on') || (isset($value) && (stripslashes($GLOBALS[$name]) == $value)) ) ) ) {
         $selection .= ' checked="checked"';
     }
 
-    if (!empty($parameters)) {
+    if (!empty( $parameters ) && is_string( $parameters ) ) {
         $selection .= ' ' . $parameters;
     }
 
@@ -323,7 +323,7 @@ function oos_draw_select_field($name, $type, $value = '', $checked = false, $par
  * @param $checked
  * @param $parameters
  */
-function oos_draw_checkbox_field($name, $value = '', $checked = false, $parameters = '') {
+function oos_draw_checkbox_field($name, $value = null, $checked = false, $parameters = null) {
     return oos_draw_select_field($name, 'checkbox', $value, $checked, $parameters);
 }
 
@@ -336,7 +336,7 @@ function oos_draw_checkbox_field($name, $value = '', $checked = false, $paramete
   * @param $checked
   * @param $parameters
   */
-function oos_draw_radio_field($name, $value = '', $checked = false, $parameters = '') {
+function oos_draw_radio_field($name, $value = null, $checked = false, $parameters = null) {
     return oos_draw_select_field($name, 'radio', $value, $checked, $parameters);
 }
 
@@ -354,11 +354,11 @@ function oos_draw_hidden_field($name, $value = null, $parameters = null)
 
     $field = '<input type="hidden" name="' . oos_output_string($name) . '"';
 
-    if (!empty($value)) {
+    if (!empty( $value ) && is_string( $value ) ) {
         $field .= ' value="' . oos_output_string($value) . '"';
     }
 
-    if (!empty($parameters)) {
+    if (!empty( $parameters ) && is_string( $parameters ) ) {
         $field .= ' ' . $parameters;
     }
 
@@ -383,7 +383,7 @@ function oos_hide_session_id() {
  * Return all GET variables, except those passed as a parameter
  *
  */
-function oos_get_all_as_hidden_field($aExclude = '')
+function oos_get_all_as_hidden_field($aExclude = null)
 {
 
     if (!is_array($aExclude)) $aExclude = array();
@@ -391,7 +391,7 @@ function oos_get_all_as_hidden_field($aExclude = '')
     $sField = '';
     if (is_array($_GET) && (count($_GET) > 0)) {
         foreach ($_GET as $sKey => $sValue) {
-           if (!empty($sValue)) {
+            if ( !empty($sValue) && is_string($sValue) )  {
                if ( ($sKey != oos_session_name()) && ($sKey != 'error') && ($sKey != 'p') && ($sKey != 'rewrite') && ($sKey != 'c') && ($sKey != 'm') && ($sKey != 'page') && ($sKey != 'index.php') && ($sKey != 'history_back') && (!in_array($sKey, $aExclude)) && ($sKey != 'x') && ($sKey != 'y') ) {
                    $sField = '<input type="hidden" name="' . oos_output_string($sKey) . '"';
                    $sField .= ' value="' . oos_output_string($sValue) . '" />';
@@ -413,24 +413,24 @@ function oos_get_all_as_hidden_field($aExclude = '')
  * @param $parameters
  * @param $required
  */
-function oos_draw_pull_down_menu($name, $values, $default = '', $parameters = '', $required = false)
+function oos_draw_pull_down_menu($name, $values, $default = null, $parameters = null, $required = false)
 {
 
-    $field = '<select name="' . oos_parse_input_field_data($name, array('"' => '&quot;')) . '"';
+    $field = '<select name="' . oos_output_string($name) . '"';
 
-    if (!empty($parameters)) $field .= ' ' . $parameters;
+    if (!empty( $parameters ) && is_string( $parameters ) ) $field .= ' ' . $parameters;
 
     $field .= '>';
 
     if (empty($default) && isset($GLOBALS[$name])) $default = $GLOBALS[$name];
 
     for ($i=0, $n=count($values); $i<$n; $i++) {
-        $field .= '<option value="' . oos_parse_input_field_data($values[$i]['id'], array('"' => '&quot;')) . '"';
+        $field .= '<option value="' . oos_output_string($values[$i]['id']) . '"';
         if ($default == $values[$i]['id']) {
             $field .= ' selected="selected"';
         }
 
-        $field .= '>' . oos_parse_input_field_data($values[$i]['text'], array('"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;')) . '</option>';
+        $field .= '>' . oos_output_string($values[$i]['text']) . '</option>';
     }
     $field .= '</select>';
 
