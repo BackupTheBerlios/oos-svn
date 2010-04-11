@@ -96,7 +96,6 @@ if ($category_depth == 'nested') {
         )
     );
 
-
     if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
         $categoriestable = $oostable['categories'];
         $categories_descriptiontable = $oostable['categories_description'];
@@ -110,15 +109,27 @@ if ($category_depth == 'nested') {
         $category = $dbconn->GetRow($sql);
 
 
-// todo multilanguage support
-        if (OOS_META_KATEGORIEN == "description tag by category description replace") {
-            $oSmarty->assign('meta_description', substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '',$category['categories_description'])),0 , 250));
+        if (empty($category['categories_description_meta'])) {         
+           $categories_description_meta = oos_truncate($category['categories_description']);
+           if ( !empty( $categories_description_meta ) {
+               $categories_descriptiontable = $oostable['categories_description']
+               $dbconn->Execute("UPDATE $categories_descriptiontable SET categories_description_meta = " . oos_db_input($categories_description_meta) . " WHERE categories_id = '" . intval($nCurrentCategoryId) . "' AND categories_languages_id = '" .  intval($nLanguageID) . "'";);
+               $oos_meta_description = $categories_description_meta;
+           }
         }
-// todo multilanguage support
-        if (OOS_META_KATEGORIEN == "Meta Tag with categories edit") {
-            $oSmarty->assign('meta_description', $category['categories_description_meta']);
-            $oSmarty->assign('meta_keywords', $category['categories_keywords_meta']);
-        }
+        $oos_pagetitle = $category['categories_name'];
+        $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+        
+        $oos_meta_description = $category['categories_description_meta'];
+        $oos_meta_keywords = $category['categories_keywords_meta'];
+
+        $oSmarty->assign(
+            array(
+                'pagetitle'         => htmlspecialchars($oos_pagetitle),
+                'meta_description'  => htmlspecialchars($oos_meta_description),
+                'meta_keywords'     => htmlspecialchars($oos_meta_keywords)
+            )
+        );
 
         if (isset($categories) && strpos('_', $categories)) {
             // check to see if there are deeper categories within the current category
@@ -250,17 +261,16 @@ if ($category_depth == 'nested') {
                   AND cd.categories_languages_id = '" .  intval($nLanguageID) . "'";
         $category = $dbconn->GetRow($sql);
 
-// todo multilanguage support
-        if (OOS_META_KATEGORIEN == "description tag by category description replace") {
-            $oos_meta_description =  substr(strip_tags(preg_replace('!(\r\n|\r|\n)!', '', $category['categories_description'])), 0 , 250);
+        if (empty($category['categories_description_meta'])) {         
+           $categories_description_meta = oos_truncate($category['categories_description']);
+           if ( !empty( $categories_description_meta ) {
+               $categories_descriptiontable = $oostable['categories_description']
+               $dbconn->Execute("UPDATE $categories_descriptiontable SET categories_description_meta = " . oos_db_input($categories_description_meta) . " WHERE categories_id = '" . intval($nCurrentCategoryId) . "' AND categories_languages_id = '" .  intval($nLanguageID) . "'";);
+               $oos_meta_description = $categories_description_meta;
+           }
         }
-    
-// todo multilanguage support
-        if (OOS_META_KATEGORIEN == "Meta Tag with categories edit") {
-            $oos_meta_description = $category['categories_description_meta'];
-            $oos_meta_keywords = $category['categories_keywords_meta'];
-        }
-    }
+        $oos_meta_description = $category['categories_description_meta'];
+        $oos_meta_keywords = $category['categories_keywords_meta'];
 
     if ( (USE_CACHE == '1') && (!SID) ) {
         $oSmarty->caching = 2;
