@@ -24,26 +24,13 @@
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 // split-page-results
-if (isset($_GET['nv'])) {
-    $nCurrentPageNumber = filter_input(INPUT_GET, 'nv', FILTER_VALIDATE_INT);
-} elseif (isset($_POST['nv'])) {
-    $nCurrentPageNumber = filter_input(INPUT_POST, 'nv', FILTER_VALIDATE_INT);
-} else {
-    $nCurrentPageNumber = 1;
-}
-
-if (empty($nCurrentPageNumber) || !is_numeric($nCurrentPageNumber)) $nCurrentPageNumber = 1;
-
 MyOOS_CoreApi::requireOnce('classes/class_split_page_results.php');
-
 
 // define our listing functions
 include 'includes/functions/function_listing.php';
 
-
 $listing_numrows_sql = $listing_sql;
-$listing_split = new splitPageResults($nCurrentPageNumber, MAX_DISPLAY_SEARCH_RESULTS, $listing_sql, $listing_numrows);
-
+$listing_split = new splitPageResults($nNV, MAX_DISPLAY_SEARCH_RESULTS, $listing_sql, $listing_numrows);
 
 $listing_numrows = $dbconn->Execute($listing_numrows_sql);
 $listing_numrows = $listing_numrows->RecordCount();
@@ -54,11 +41,12 @@ $listing_numrows = $listing_numrows->RecordCount();
       }
 */
 
-if ($listing_numrows > 0) {
+$all_get_listing = '';
+if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
+    $all_get_listing .= 'manufacturers_id=' .  $nManufacturersID . '&amp;';
+}
 
-    // todo remove oos_get_all_get_parameters
-    // 'nv='. $nCurrentPageNumber
-    if (!isset($all_get_listing)) $all_get_listing = oos_get_all_get_parameters(array('action'));
+if ($listing_numrows > 0) {
 
     $listing_result = $dbconn->Execute($listing_sql);
     while ($listing = $listing_result->fields)
@@ -66,7 +54,7 @@ if ($listing_numrows > 0) {
 
         // $sProductListLink
         if (isset($_GET['manufacturers_id'])) {
-            $sProductListLink = oos_href_link($aPages['product_info'], 'manufacturers_id=' . $_GET['manufacturers_id'] . '&amp;products_id=' . $listing['products_id']);
+            $sProductListLink = oos_href_link($aPages['product_info'], 'manufacturers_id=' . $nManufacturersID . '&amp;products_id=' . $listing['products_id']);
         } else {
             if ($oEvent->installed_plugin('sefu')) {
                $sProductListLink =  oos_href_link($aPages['product_info'], 'products_id=' . $listing['products_id']);
@@ -74,7 +62,6 @@ if ($listing_numrows > 0) {
                $sProductListLink =  oos_href_link($aPages['product_info'], ($categories ? 'categories=' . $categories . '&amp;' : '') . 'products_id=' . $listing['products_id']);
             }
         }
-
 
         // $sProductListUVP
         if ($listing['products_price_list'] > 0) {
@@ -159,24 +146,31 @@ if ($listing_numrows > 0) {
             if (PRODUCT_LISTING_WITH_QTY == '1') {
                 if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
                 $sProductListBuyNow = '<form name="buy_slave" action="' . OOS_HTTP_SERVER . OOS_SHOP . 'index.php" method="post">';
-                $sProductListBuyNow .='<input type="hidden" name="action" value="buy_slave">';
-                $sProductListBuyNow .='<input type="hidden" name="slave_id" value="' . $listing['products_id'] .'">';
-                $sProductListBuyNow .='<input type="hidden" name="page" value="' . $sPage .'">';
-                $sProductListBuyNow .='<input type="hidden" name="formid" value="' . $sFormid .'">';
-                $sProductListBuyNow .='<input type="hidden" name="categories" value="' . $categories .'">';
-                $sProductListBuyNow .='<input type="hidden" name="products_id" value="' . $nProductsId .'">';
-                $sProductListBuyNow .=oos_hide_session_id();
+                $sProductListBuyNow .= '<input type="hidden" name="action" value="buy_slave">';
+                $sProductListBuyNow .= '<input type="hidden" name="slave_id" value="' . $listing['products_id'] .'">';
+                $sProductListBuyNow .= '<input type="hidden" name="page" value="' . $sPage .'">';
+                $sProductListBuyNow .= '<input type="hidden" name="formid" value="' . $sFormid .'">';
+                $sProductListBuyNow .= '<input type="hidden" name="categories" value="' . $categories .'">';
+                $sProductListBuyNow .= '<input type="hidden" name="products_id" value="' . $nProductsId .'">';
+                $sProductListBuyNow .= oos_hide_session_id();
 
+                 if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
+                     $sProductListBuyNow .= '<input type="hidden" name="manufacturers_id" value="' . $nManufacturersID .'">';
+                 }
+
+                 $sProductListBuyNow .= '<input type="hidden" name="sort" value="' . $sSort .'">';
+                 $sProductListBuyNow .= '<input type="hidden" name="nv" value="' . $nNV .'">';
 // todo remove oos_get_all_as_hidden_field
-$sProductListBuyNow .=oos_get_all_as_hidden_field(array('action'));
-                 $sProductListBuyNow .='<input type="hidden" name="nv" value="' . $nCurrentPageNumber .'">';
+// $sProductListBuyNow .=oos_get_all_as_hidden_field(array('action'));
+                 $sProductListBuyNow .= '<input type="hidden" name="sort" value="' . $sSort .'">';
+                 $sProductListBuyNow .= '<input type="hidden" name="nv" value="' . $nNV .'">';
 
-                 $sProductListBuyNow .=$aLang['products_order_qty_text'];
-                 $sProductListBuyNow .=' <input type="text" name="cart_quantity" value="' . $order_min . '" size="3" /><br />';
-                 $sProductListBuyNow .=oos_image_submit('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']);
-                 $sProductListBuyNow .='</form>';
+                 $sProductListBuyNow .= $aLang['products_order_qty_text'];
+                 $sProductListBuyNow .= '<input type="text" name="cart_quantity" value="' . $order_min . '" size="3" /><br />';
+                 $sProductListBuyNow .= oos_image_submit('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']);
+                 $sProductListBuyNow .= '</form>';
             } else {
-                 $sProductListBuyNow = '<a href="' . oos_href_link($sPage, $all_get_listing . 'action=buy_slave&amp;slave_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '" title="' . $listing['products_name'] . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
+                 $sProductListBuyNow = '<a href="' . oos_href_link($sPage, 'action=buy_slave&amp;sort=' . rawurlencode($sSort) . '&amp;nv=' . $nNV . '&amp;slave_id=' . $listing['products_id'] . '&amp;cart_quantity=' . $order_min ) . '" title="' . $listing['products_name'] . '">' . oos_image_button('buy_now.gif', $aLang['text_buy'] . $listing['products_name'] . $aLang['text_now']) . '</a>&nbsp;';
             }
 
         }
@@ -204,8 +198,8 @@ $sProductListBuyNow .=oos_get_all_as_hidden_field(array('action'));
 
 
 
-    $oSmarty->assign(array('oos_page_split' => $listing_split->display_count($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, $nCurrentPageNumber, $aLang['text_display_number_of_products']),
-                           'oos_display_links' => $listing_split->display_links($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $nCurrentPageNumber, oos_get_all_get_parameters(array('nv', 'info'))),
+    $oSmarty->assign(array('oos_page_split' => $listing_split->display_count($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, $nNV, $aLang['text_display_number_of_products']),
+                           'oos_display_links' => $listing_split->display_links($listing_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $nNV, $all_get_listing),
                            'oos_page_numrows' => $listing_numrows));
 
     $oSmarty->assign('list_box_contents', $aProductListing);

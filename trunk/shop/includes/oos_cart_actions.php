@@ -21,39 +21,73 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
+$parameters = '';
 if (DISPLAY_CART == '1') {
     $goto_file = $aPages['shopping_cart'];
-    $parameters = array('action', 'categories', 'products_id', 'pid', 'formid');
 } else {
     $goto_file = $sPage;
-    if ($_GET['action'] == 'buy_now') {
-        $parameters = array('action', 'pid', 'cart_quantity', 'formid');
-    } elseif ($_POST['action'] == 'buy_now') {
-        $parameters = array('action', 'pid', 'cart_quantity', 'formid');
-    } elseif ($_GET['action'] == 'buy_slave')  {
-        $parameters = array('action', 'pid', 'slave_id', 'cart_quantity', 'formid');
-    } elseif ($_POST['action'] == 'buy_slave')  {
-        $parameters = array('action', 'pid', 'slave_id', 'cart_quantity', 'formid');
-    } else {
-        $parameters = array('action', 'pid', 'cart_quantity', 'formid');
+
+    if (isset($aData['manufacturers_id']) && is_numeric($aData['manufacturers_id'])) 
+       $parameters .= 'manufacturers_id=' .  intval($aData['manufacturers_id']) . '&amp;';
+
+    if (isset($aData['nv']) && is_numeric($aData['nv'])) 
+       $parameters .= 'nv=' .  intval($aData['nv']) . '&amp;';
+
+    if (isset($aData['filter_id']) && is_numeric($aData['filter_id'])) 
+       $parameters .= 'filter_id=' .  intval($aData['filter_id']) . '&amp;';
+ 
+    if (isset($aData['categories']) && is_string($aData['categories'])) 
+       $parameters .= 'categories=' .  rawurlencode(oos_var_prep_for_os($aData['categories'])) . '&amp;';
+
+    if (isset($aData['sort']) && is_string($aData['sort'])) 
+       $parameters .= 'filter_id=' .  rawurlencode(oos_var_prep_for_os($aData['sort'])) . '&amp;';
+   
+    if (isset($_GET['dfrom'])) 
+        $dfrom = (($_GET['dfrom'] == DOB_FORMAT_STRING) ? '' : oos_prepare_input($_GET['dfrom']));
+        $parameters .= 'dfrom=' . rawurlencode($dfrom) . '&amp;';
+
+    if (isset($_GET['dto'])) 
+        $dto = (($_GET['dto'] == DOB_FORMAT_STRING) ? '' : oos_prepare_input($_GET['dto']));
+        $parameters .= 'dto=' . rawurlencode($dto) . '&amp;'; 
+
+    if (isset($_GET['pfrom'])) 
+        $pfrom = oos_prepare_input($_GET['pfrom']);
+        $parameters .= 'pfrom=' . rawurlencode($pfrom) . '&amp;';
+
+    if (isset($_GET['pto'])) 
+        $pto = oos_prepare_input($_GET['pto']);
+        $parameters .= 'pfrom=' . rawurlencode($pto) . '&amp;';
+
+    if (isset($_GET['keywords'])) {
+        $sKeywords = oos_prepare_input($_GET['keywords']);
+
+        if ( isset( $sKeywords ) || is_string( $sKeywords ) )      
+            $parameters .= 'keywords=' . rawurlencode($sKeywords) . '&amp;';
     }
+
+    if (isset($_GET['categories_id']) && is_numeric($_GET['categories_id'])) {
+        $parameters .= 'categories_id=' . intval($_GET['categories_id']) . '&amp;';
+        if (isset($_GET['inc_subcat']) && ($_GET['inc_subcat'] == '1')) {
+            $parameters .= 'inc_subcat=1&amp;';
+        }
+    }    
 }
 
-if (isset($_GET['action'])) {
-    $action = oos_var_prep_for_os($_GET['action']);
-} elseif (isset($_POST['action'])) {
-    $action = oos_var_prep_for_os($_POST['action']);
-}
-
+if (isset($aData['action'])) {
+    $action = oos_var_prep_for_os($aData['action']);
+} 
 
 switch ($action) {
     case 'update_product' :
       // customer wants to update the product quantity in their shopping cart
       $nArrayCountProducts = count( $_POST['products_id'] );
-      for ($i=0; $i<$nArrayCountProducts; $i++) {
+      for ($i=0, $n=$nArrayCountProducts; $i<$n; $i++) {
         if (in_array($_POST['products_id'][$i], (is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array())) or $_POST['cart_quantity'][$i] == 0) {
           $_SESSION['cart']->remove($_POST['products_id'][$i]);
         } else {
@@ -80,7 +114,7 @@ switch ($action) {
 
       $_SESSION['navigation']->remove_last_page();
 
-      MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
+      MyOOS_CoreApi::redirect(oos_href_link($aPages['shopping_cart'], '', 'NONSSL'));
       break;
 
     case 'add_product' :
@@ -196,7 +230,7 @@ switch ($action) {
             }
 
             if ($_SESSION['error_cart_msg'] == '') {
-              MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_post_parameters($parameters), 'NONSSL'));
+              MyOOS_CoreApi::redirect(oos_href_link($goto_file, $parameters, 'NONSSL'));
             } else {
               MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_POST['products_id']));
             }
@@ -264,7 +298,7 @@ switch ($action) {
           }
         }
         if ($_SESSION['error_cart_msg'] == '') {
-          MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($goto_file, $parameters, 'NONSSL'));
         } else {
           MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_GET['products_id']));
         }
@@ -297,7 +331,7 @@ switch ($action) {
             }
           }
           if ( !isset( $_SESSION['error_cart_msg'] ) ) {
-            MyOOS_CoreApi::redirect(oos_href_link( $goto_file, oos_get_all_post_parameters($parameters), 'NONSSL'));
+            MyOOS_CoreApi::redirect(oos_href_link( $goto_file, $parameters, 'NONSSL'));
           } else {
             MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_POST['products_id']));
           }
@@ -329,7 +363,7 @@ switch ($action) {
           }
         }
         if ( !isset( $_SESSION['error_cart_msg'] ) ) {
-          MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($goto_file, $parameters, 'NONSSL'));
         } else {
           MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_GET['slave_id']));
         }
@@ -362,7 +396,7 @@ switch ($action) {
           }
         }
         if ( !isset( $_SESSION['error_cart_msg'] ) ) {
-          MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_post_parameters($parameters), 'NONSSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($goto_file, $parameters, 'NONSSL'));
         } else {
           MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_POST['slave_id']));
         }
@@ -377,15 +411,16 @@ switch ($action) {
       }
 
       if (isset($_POST['cart_quantity']) && is_numeric($_POST['cart_quantity'])) {
-        if (isset($_POST['quickie'])) {
+        if (isset($_POST['quickie']) && is_string($_POST['quickie'])) {
+          $sQuickie = oos_var_prep_for_os($aData['sort']);
           $productstable = $oostable['products'];
-          $quickie_result = $dbconn->Execute("SELECT products_id FROM $productstable WHERE (products_model = '" . addslashes($quickie) . "' OR products_ean = '" . addslashes($quickie) . "')");
+          $quickie_result = $dbconn->Execute("SELECT products_id FROM $productstable WHERE (products_model = '" . addslashes($sQuickie) . "' OR products_ean = '" . addslashes($sQuickie) . "')");
           if (!$quickie_result->RecordCount()) {
             $productstable = $oostable['products'];
-            $quickie_result = $dbconn->Execute("SELECT products_id FROM $productstable WHERE (products_model LIKE '%" . addslashes($quickie) . "%' OR products_ean LIKE '%" . addslashes($quickie) . "%')");
+            $quickie_result = $dbconn->Execute("SELECT products_id FROM $productstable WHERE (products_model LIKE '%" . addslashes($sQuickie) . "%' OR products_ean LIKE '%" . addslashes($sQuickie) . "%')");
           }
           if ($quickie_result->RecordCount() != 1) {
-            MyOOS_CoreApi::redirect(oos_href_link($aPages['advanced_search_result'], 'keywords=' . $quickie, 'NONSSL'));
+            MyOOS_CoreApi::redirect(oos_href_link($aPages['advanced_search_result'], 'keywords=' . rawurlencode($sQuickie), 'NONSSL'));
           }
           $products_quickie = $quickie_result->fields;
 
@@ -409,7 +444,7 @@ switch ($action) {
               $_SESSION['error_cart_msg'] = $aLang['error_products_quantity_order_min_text'] . $aLang['error_products_quantity_invalid'] . $cart_quantity . ' - ' . $aLang['products_order_qty_min_text_info'] . ' ' . $products_order_min;
             }
             if ( !isset( $_SESSION['error_cart_msg'] ) ) {
-              MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
+              MyOOS_CoreApi::redirect(oos_href_link($goto_file, $parameters, 'NONSSL'));
             } else {
               MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $products_quickie['products_id']));
             }
@@ -428,7 +463,7 @@ switch ($action) {
           $_SESSION['cart']->add_cart($_GET['pid'], intval($news_qty));
         }
       }
-      MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters)));
+      MyOOS_CoreApi::redirect(oos_href_link($goto_file, $parameters));
       break;
 
     case 'cust_wishlist_add_product' :
@@ -457,7 +492,7 @@ switch ($action) {
           }
         }
         if ( !isset( $_SESSION['error_cart_msg'] ) ) {
-          MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($goto_file, $parameters, 'NONSSL'));
         } else {
           MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_POST['products_id']));
         }
@@ -483,7 +518,7 @@ switch ($action) {
           $_SESSION['error_cart_msg'] = $aLang['error_products_quantity_order_min_text'] . $aLang['error_products_quantity_invalid'] . $cart_quantity . ' - ' . $aLang['products_order_qty_min_text_info'] . ' ' . $products_order_min;
         }
         if ( !isset( $_SESSION['error_cart_msg'] ) ) {
-          MyOOS_CoreApi::redirect(oos_href_link($goto_file, oos_get_all_get_parameters($parameters), 'NONSSL'));
+          MyOOS_CoreApi::redirect(oos_href_link($goto_file, $parameters, 'NONSSL'));
         } else {
           MyOOS_CoreApi::redirect(oos_href_link($aPages['product_info'], 'products_id=' . $_POST['products_id']));
         }

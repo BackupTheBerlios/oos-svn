@@ -23,6 +23,15 @@
 /** ensure this file is being included by a parent file */
 defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
+
+if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
+$nNV = isset($_GET['nv']) ? $_GET['nv']+0 : 1;
+$sSort = oos_var_prep_for_os($_GET['sort']);
+
+// $contents_cache_id = $sTheme . '|shop|slavery_products|' . intval($nProductsId) . '|' . $nNV . '|' .  $nGroupID . '|' . $sLanguage;
+// if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) { }
+
+
 // create column list
 $aDefineList = array('PRODUCT_LIST_MODEL' => SLAVE_LIST_MODEL,
                      'PRODUCT_LIST_MANUFACTURER' => SLAVE_LIST_MANUFACTURER,
@@ -39,7 +48,6 @@ foreach ($aDefineList as $column => $value) {
    if ($value) $column_list[] = $column;
 }
 
-if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
 
 $productstable = $oostable['products'];
 $products_to_mastertable = $oostable['products_to_master'];
