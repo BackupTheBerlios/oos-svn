@@ -19,9 +19,11 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
-
 //smarty
 require 'includes/classes/class_template.php';
 $oSmarty = new Template();
@@ -47,13 +49,6 @@ $oos_system_cache_id            = $sTheme . '|block|' . $sLanguage. '|' . intval
 $oos_categories_cache_id        = $sTheme . '|block|categories|' . $sLanguage . '|' . $categories . '|' . intval($nGroupID);
 $oos_modules_cache_id           = $sTheme . '|modules|' . $sLanguage . '|' . $_SESSION['currency']. '|' . intval($nGroupID);
 $oos_news_cache_id              = $sTheme . '|modules|news|' . $sLanguage. '|' . intval($nGroupID);
-
-if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
-    $nManufacturersId = intval($_GET['manufacturers_id']);
-} else {
-    $nManufacturersId  = 0;
-}
-
 $oos_manufacturers_cache_id     = $sTheme . '|block|manufacturers|' . $sLanguage . '|' . intval($nManufacturersId) . '|' . intval($nGroupID);
 $oos_manufacturer_info_cache_id = $sTheme . '|block|manufacturer_info|' . $sLanguage . '|' . intval($nManufacturersId) . '|' . intval($nGroupID);
 

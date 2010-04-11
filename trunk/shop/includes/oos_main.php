@@ -22,7 +22,10 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
 define('DS', DIRECTORY_SEPARATOR);
@@ -93,7 +96,8 @@ require 'includes/classes/class_shopping_cart.php';
 require 'includes/classes/class_navigation_history.php';
 
 require 'includes/functions/function_session.php';
-
+// Cross-Site Scripting attack defense
+oos_secure_input();
 
 // require  the database functions
 $adodb_logsqltable = $oostable['adodb_logsql'];
@@ -144,21 +148,19 @@ $nLanguageID = isset($_SESSION['language_id']) ? $_SESSION['language_id']+0 : 1;
 // set the Group
 $nGroupID = intval($_SESSION['member']->group['id']);
 
+// POST overrides GET data
+// We don't use $_REQUEST here to avoid interference from cookies...
+$aData = array();
+$aData = $_POST + $_GET;
+
 // determine the page directory
-if (isset($_GET['page'])) {
-    $sPage = oos_var_prep_for_os($_GET['page']);
-} elseif (isset($_POST['page'])) {
-    $sPage = oos_var_prep_for_os($_POST['page']);
-}
+if (isset($aData['page'])) {
+    $sPage = oos_var_prep_for_os($aData['page']);
+} 
 
 if ( empty( $sPage ) || !is_string( $sPage ) ) {
     $sPage = $aPages['main'];
 }
-
-
-// Cross-Site Scripting attack defense
-oos_secure_input();
-
 // PrintPage
 if (isset($_GET['option'])) {
     $option = oos_var_prep_for_os($_GET['option']);

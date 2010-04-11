@@ -21,7 +21,10 @@
 
 // DO NOT RUN THIS SCRIPT STANDALONE
 if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /");
+    header("Connection: close");
+    exit;
 }
 
 if ($oEvent->installed_plugin('debug')) {
@@ -55,6 +58,7 @@ if (isset($_SESSION['new_products_id_in_cart'])) {
     unset($_SESSION['new_products_id_in_cart']);
 }
 
+  
 // close session (store variables)
 oos_session_close();
 
