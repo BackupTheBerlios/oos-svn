@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -54,9 +54,7 @@
     }
 
     function menuBox($heading, $contents) {
-      global $menu_dhtml;
 
-      if ($menu_dhtml == false) {
         $this->table_data_parameters = 'class="menuBoxHeading"';
         if ($heading[0]['link']) {
           $this->table_data_parameters .= ' onmouseover="this.style.cursor=\'hand\'" onclick="document.location.href=\'' . $heading[0]['link'] . '\'"';
@@ -70,15 +68,6 @@
         $this->contents = $this->tableBlock($contents);
 
         return $this->heading . $this->contents;
-      } else {
-        $selected = substr(strrchr ($heading[0]['link'], '='), 1);
-        $dhtml_contents = $contents[0]['text'];
-        $change_style = array ('<br />'=>' ','<br />'=>' ', 'a href='=> 'a class="menuItem" href=','class="menuBoxContentLink"'=>' ');
-        $dhtml_contents = strtr($dhtml_contents,$change_style);
-        $dhtml_contents = '<div id="'.$selected.'Menu" class="menu" onmouseover="menuMouseover(event)">'. $dhtml_contents . '</div>';
-        return $dhtml_contents;
-      }
     }
   }
 
-?>

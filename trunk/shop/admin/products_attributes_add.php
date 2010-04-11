@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -170,10 +170,6 @@ function go_option() {
     <td class="headerBarContent" align="right"><?php echo '<a href="http://www.oos-shop.de/" class="headerLink">' . HEADER_TITLE_SUPPORT_SITE . '</a> &nbsp;|&nbsp; <a href="' . oos_catalog_link($aCatalogPage['default']) . '" class="headerLink">' . HEADER_TITLE_ONLINE_CATALOG . '</a>&nbsp;|&nbsp; <a href="' . oos_href_link_admin($aFilename['default'], '', 'NONSSL') . '" class="headerLink">' . HEADER_TITLE_ADMINISTRATION . '</a>'; ?>&nbsp;&nbsp;</td>
   </tr>
 </table>
-
-<?php if (MENU_DHTML == true) require 'includes/header_navigation.php'; ?>
-
-
 <!-- header_eof //-->
 
 <!-- body //-->
