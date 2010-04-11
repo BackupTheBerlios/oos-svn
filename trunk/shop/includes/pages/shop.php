@@ -228,7 +228,7 @@ if ($category_depth == 'nested') {
     $nFilterID = intval($_GET['filter_id']) ? $_GET['filter_id']+0 : 0;
     $sSort = oos_var_prep_for_os($_GET['sort']);
 
-    $contents_cache_id = $sTheme . '|shop|products|' . intval($nCurrentCategoryId) . '|' . $categories . '|' . $nManufacturersID . '|' . $nPage . '|' . $nFilterID . '|' . $nGroupID . '|' . $sLanguage;
+    $contents_cache_id = $sTheme . '|shop|products|' . intval($nCurrentCategoryId) . '|' . $categories . '|' . $nManufacturersID . '|' . $nNV . '|' . $nFilterID . '|' . $nGroupID . '|' . $sLanguage;
 
     require 'includes/oos_system.php';
     if (!isset($option)) {
@@ -305,7 +305,6 @@ if ($category_depth == 'nested') {
 
 // show the products of a specified manufacturer
         if (isset($_GET['manufacturers_id'])) {
-            $nManufacturersID = intval($_GET['manufacturers_id']);
             if (isset($_GET['filter_id'])) {
                 // We are asked to show only a specific category
                 $productstable = $oostable['products'];
@@ -332,7 +331,7 @@ if ($category_depth == 'nested') {
                                   AND p.products_id = p2c.products_id
                                   AND pd.products_id = p2c.products_id
                                   AND pd.products_languages_id = '" .  intval($nLanguageID) . "'
-                                  AND p2c.categories_id = '" . intval($_GET['filter_id']) . "'";
+                                  AND p2c.categories_id = '" . intval($nFilterID) . "'";
             } else {
                 // We show them all
                 $productstable = $oostable['products'];
@@ -400,7 +399,7 @@ if ($category_depth == 'nested') {
                                 WHERE p.products_status >= '1'
                                   AND (p.products_access = '0' OR p.products_access = '" . intval($nGroupID) . "')
                                   AND p.manufacturers_id = m.manufacturers_id
-                                  AND m.manufacturers_id = '" . intval($_GET['filter_id']) . "'
+                                  AND m.manufacturers_id = '" . intval($nFilterID) . "'
                                   AND p.products_id = p2c.products_id
                                   AND pd.products_id = p2c.products_id
                                   AND pd.products_languages_id = '" .  intval($nLanguageID) . "'
@@ -496,12 +495,12 @@ if ($category_depth == 'nested') {
             if ($filterlist_result->RecordCount() > 1) {
                 $product_filter_select .= '            <td align="center" class="main">' . $aLang['text_show'] . '<select size="1" onChange="if(options[selectedIndex].value) window.location.href=(options[selectedIndex].value)">';
                 if (isset($_GET['manufacturers_id'])) {
-                    $manufacturers_id = intval($_GET['manufacturers_id']);
-                    $arguments = 'manufacturers_id=' . intval($manufacturers_id);
+                    $arguments = 'manufacturers_id=' . $nManufacturersID;
                 } else {
                     $arguments = 'categories=' . $categories;
                 }
-                $arguments .= '&amp;sort=' . oos_var_prep_for_os($_GET['sort']);
+                $arguments .= '&amp;sort=' . $sSort;
+                $arguments .= '&amp;nv=' . $nNV;
 
                 $option_url = oos_href_link($aPages['shop'], $arguments);
 
@@ -529,8 +528,7 @@ if ($category_depth == 'nested') {
 
 // Get the right image for the top-right
         $image = 'list.gif';
-        if (isset($_GET['manufacturers_id'])) {
-            $nManufacturersID = intval($_GET['manufacturers_id']);
+        if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
             $manufacturerstable = $oostable['manufacturers'];
             $sql = "SELECT manufacturers_image FROM $manufacturerstable WHERE manufacturers_id = '" . intval($nManufacturersID) . "'";
             $image_value = $dbconn->GetOne($sql);

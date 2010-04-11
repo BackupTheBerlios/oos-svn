@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2006 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -32,11 +32,10 @@ define('TABLE_HEADING_TOTAL_INCLUDING_TAX', 'Summe (inkl.)');
 
 define('ENTRY_SOLD_TO', 'Rechnungsanschrift:');
 define('ENTRY_SHIP_TO', 'Lieferanschrift:');
-define('ENTRY_ORDER_NUMBER', 'Order #');
-define('ENTRY_ORDER_DATE', 'Order Date & Time');
+define('ENTRY_ORDER_NUMBER', 'Rechnung Nr.:');
+define('ENTRY_ORDER_DATE', 'Bestelldatum:');
 define('ENTRY_PAYMENT_METHOD', 'Zahlungsweise:');
 define('ENTRY_SUB_TOTAL', 'Zwischensumme:');
 define('ENTRY_TAX', 'MwSt.:');
 define('ENTRY_SHIPPING', 'Versandkosten:');
 define('ENTRY_TOTAL', 'Gesamtsumme:');
-?>

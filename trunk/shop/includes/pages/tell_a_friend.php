@@ -84,13 +84,12 @@ if ($valid_product != false) {
     $from = oos_prepare_input($_POST['from']);
     $yourmessage = oos_prepare_input($_POST['yourmessage']);
 
-
     if (isset($_GET['action']) && ($_GET['action'] == 'process') && !oos_validate_is_email(trim($friendemail))) {
         $friendemail_error = '1';
         $error = '1';
     }
 
-    if (isset($_GET['action']) && ($_GET['action'] == 'process') && empty($friendname)) {
+    if (isset($_GET['action']) && ($_GET['action'] == 'process') && empty($friendname) || !is_string($friendemail)) {
         $friendname_error = '1';
         $error = '1';
     }

@@ -296,9 +296,10 @@ function oos_draw_input_field($name, $value = '', $parameters = '', $type = 'tex
  */
 function oos_draw_select_field($name, $type, $value = null, $checked = false, $parameters = null)
 {
+
     $selection = '<input type="' . oos_output_string($type) . '" name="' . oos_output_string($name) . '"';
 
-    if (!empty( $value ) && is_string( $value ) ) $selection .= ' value="' . oos_output_string($value) . '"';
+    if (!empty( $value )) $selection .= ' value="' . oos_output_string($value) . '"';
 
     if ( ($checked === true) || ( isset($GLOBALS[$name]) && is_string($GLOBALS[$name]) && ( ($GLOBALS[$name] == 'on') || (isset($value) && (stripslashes($GLOBALS[$name]) == $value)) ) ) ) {
         $selection .= ' checked="checked"';
@@ -354,7 +355,7 @@ function oos_draw_hidden_field($name, $value = null, $parameters = null)
 
     $field = '<input type="hidden" name="' . oos_output_string($name) . '"';
 
-    if (!empty( $value ) && is_string( $value ) ) {
+    if (!empty( $value )) {
         $field .= ' value="' . oos_output_string($value) . '"';
     }
 

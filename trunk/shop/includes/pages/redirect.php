@@ -28,7 +28,7 @@ if (count(get_included_files()) < 2) {
 }
 
 switch ($_GET['action']) {
-    case 'url':    if (isset($_GET['goto'])) {
+    case 'url':    if (isset($_GET['goto']) && !empty($_GET['goto'])) {
                        MyOOS_CoreApi::redirect('http://' . $_GET['goto']);
                    } else {
                        MyOOS_CoreApi::redirect(oos_href_link($aPages['main']));
@@ -36,7 +36,7 @@ switch ($_GET['action']) {
                    break;
 
 
-    case 'manufacturer' : if (isset($_GET['manufacturers_id'])) {
+    case 'manufacturer' :  if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
                               $manufacturers_id = intval($_GET['manufacturers_id']);
                               $manufacturers_infotable = $oostable['manufacturers_info'];
                               $sql = "SELECT manufacturers_url

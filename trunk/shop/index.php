@@ -96,7 +96,8 @@ if(ini_get('session.save_handler') == 'files')
 
 require_once MYOOS_INCLUDE_PATH . '/includes/oos_main.php';
 
-$sPage = oos_var_prep_for_os($sPage);
+
+
 
 if (is_readable('includes/pages/' . $sPage . '.php')) {
     if (isset($_GET['history_back'])){

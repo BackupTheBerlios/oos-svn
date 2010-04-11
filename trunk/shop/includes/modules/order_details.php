@@ -112,9 +112,9 @@ for ($i=0, $n=$nArrayCountProducts; $i<$n; $i++) {
 
     // Product name, with or without link
     if ($sPage == $aPages['shopping_cart']) {
-    $shopping_cart_detail .= '    <td valign="top" class="main"><a href="' . oos_href_link($aPages['product_info'], 'products_id=' . $products[$i]['id']) . '"><b>' . $products[$i]['name'] . '</b></a>';
+        $shopping_cart_detail .= '    <td valign="top" class="main"><a href="' . oos_href_link($aPages['product_info'], 'products_id=' . $products[$i]['id']) . '"><b>' . $products[$i]['name'] . '</b></a>';
     } else {
-    $shopping_cart_detail .= '    <td valign="top" class="main"><b>' . $products[$i]['name'] . '</b>';
+        $shopping_cart_detail .= '    <td valign="top" class="main"><b>' . $products[$i]['name'] . '</b>';
     }
 
     // Display marker if stock quantity insufficient
