@@ -360,7 +360,6 @@ $result = $db->Execute("INSERT INTO " . $prefix_table . "configuration (configur
 $result = $db->Execute("INSERT INTO " . $prefix_table . "configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('OOS_META_REVISIT_AFTER', '10 days', 24, 13, NULL, " . $db->DBTimeStamp($today) . ", NULL, NULL)") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
 
 $result = $db->Execute("INSERT INTO " . $prefix_table . "configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('OOS_META_PRODUKT', 'Meta Tag with article edit', 24, 15, NULL, " . $db->DBTimeStamp($today) . ", NULL, 'oos_cfg_select_option(array(\'Meta Tag with article edit\', \'description tag by article description replace\', \'no description tag per article\'),')") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
-$result = $db->Execute("INSERT INTO " . $prefix_table . "configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('OOS_META_KATEGORIEN', 'Meta Tag with categories edit',  24, 16, NULL, " . $db->DBTimeStamp($today) . ", NULL, 'oos_cfg_select_option(array(\'Meta Tag with categories edit\', \'description tag by category description replace\', \'no description tag per category\'),')") or die ("<b>".NOTUPDATED . $prefix_table . "configuration</b>");
 
 //25
 // FEATURED

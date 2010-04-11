@@ -489,9 +489,6 @@ define('OOS_META_REVISIT_AFTER_DESC', 'Wanneer  moet de zoekmachine uw pagina we
 define('OOS_META_PRODUKT_TITLE', 'Onderhouden in artikel');
 define('OOS_META_PRODUKT_DESC', 'Wilt u zoekwoorden en beschrijving voor ieder artikel onderhouden?');
 
-define('OOS_META_KATEGORIEN_TITLE', 'Zoekwoordbeheer in categorie&euml;n');
-define('OOS_META_KATEGORIEN_DESC', 'Wilt u zoekwoorden en beschrijving voor iedere categorie beheren');
-
 define('OOS_META_INDEX_PAGE_TITLE', 'Indexpagina genereren');
 define('OOS_META_INDEX_PAGE_DESC', 'Wilt u een indexpagina met alle artikelen voor zoekmachines genereren?');
 

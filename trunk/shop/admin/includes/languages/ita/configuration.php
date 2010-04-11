@@ -490,9 +490,6 @@ define('OOS_META_REVISIT_AFTER_DESC', 'Quando il motore di ricerca deve rivisita
 define('OOS_META_PRODUKT_TITLE', 'Mantieni l\'articolo');
 define('OOS_META_PRODUKT_DESC', 'Mantenere le parole chiavi e le descrizioni per ogni articolo?');
 
-define('OOS_META_KATEGORIEN_TITLE', 'mantieni le categorie');
-define('OOS_META_KATEGORIEN_DESC', 'Mantenere le parole chiavi e le descrizioni per ogni articolo?');
-
 define('OOS_META_INDEX_PAGE_TITLE', 'Indice prodotti a lato');
 define('OOS_META_INDEX_PAGE_DESC', 'Produrre un indice di tutti i prodotti per i motori di ricerca?');
 
