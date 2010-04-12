@@ -81,9 +81,30 @@ if ($category_depth == 'nested') {
         $oSmarty->cache_lifetime = 8 * 24 * 3600;
     }
 
+    $categoriestable = $oostable['categories'];
+    $categories_descriptiontable = $oostable['categories_description'];
+    $sql = "SELECT cd.categories_name, cd.categories_heading_title, cd.categories_description,
+                   cd.categories_description_meta, cd.categories_keywords_meta, c.categories_image
+            FROM $categoriestable c,
+                 $categories_descriptiontable cd
+            WHERE c.categories_id = '" . intval($nCurrentCategoryId) . "'
+              AND cd.categories_id = '" . intval($nCurrentCategoryId) . "'
+              AND cd.categories_languages_id = '" .  intval($nLanguageID) . "'";
+    $category = $dbconn->GetRow($sql);
 
-    $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+    if (empty($category['categories_description_meta'])) {         
+       $categories_description_meta = oos_truncate($category['categories_description']);
+       if ( !empty( $categories_description_meta ) {
+           $categories_descriptiontable = $oostable['categories_description']
+           $dbconn->Execute("UPDATE $categories_descriptiontable SET categories_description_meta = " . oos_db_input($categories_description_meta) . " WHERE categories_id = '" . intval($nCurrentCategoryId) . "' AND categories_languages_id = '" .  intval($nLanguageID) . "'";);
+           $oos_meta_description = $categories_description_meta;
+        }
+    }
+    $oos_pagetitle = $category['categories_name'];
     $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
+        
+    $oos_meta_description = $category['categories_description_meta'];
+    $oos_meta_keywords = $category['categories_keywords_meta'];
 
     // assign Smarty variables;
     $oSmarty->assign(
@@ -96,41 +117,8 @@ if ($category_depth == 'nested') {
         )
     );
 
+
     if (!$oSmarty->is_cached($aOption['template_main'], $contents_cache_id)) {
-        $categoriestable = $oostable['categories'];
-        $categories_descriptiontable = $oostable['categories_description'];
-        $sql = "SELECT cd.categories_name, cd.categories_heading_title, cd.categories_description,
-                       cd.categories_description_meta, cd.categories_keywords_meta, c.categories_image
-                FROM $categoriestable c,
-                     $categories_descriptiontable cd
-                WHERE c.categories_id = '" . intval($nCurrentCategoryId) . "'
-                  AND cd.categories_id = '" . intval($nCurrentCategoryId) . "'
-                  AND cd.categories_languages_id = '" .  intval($nLanguageID) . "'";
-        $category = $dbconn->GetRow($sql);
-
-
-        if (empty($category['categories_description_meta'])) {         
-           $categories_description_meta = oos_truncate($category['categories_description']);
-           if ( !empty( $categories_description_meta ) {
-               $categories_descriptiontable = $oostable['categories_description']
-               $dbconn->Execute("UPDATE $categories_descriptiontable SET categories_description_meta = " . oos_db_input($categories_description_meta) . " WHERE categories_id = '" . intval($nCurrentCategoryId) . "' AND categories_languages_id = '" .  intval($nLanguageID) . "'";);
-               $oos_meta_description = $categories_description_meta;
-           }
-        }
-        $oos_pagetitle = $category['categories_name'];
-        $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
-        
-        $oos_meta_description = $category['categories_description_meta'];
-        $oos_meta_keywords = $category['categories_keywords_meta'];
-
-        $oSmarty->assign(
-            array(
-                'pagetitle'         => htmlspecialchars($oos_pagetitle),
-                'meta_description'  => htmlspecialchars($oos_meta_description),
-                'meta_keywords'     => htmlspecialchars($oos_meta_keywords)
-            )
-        );
-
         if (isset($categories) && strpos('_', $categories)) {
             // check to see if there are deeper categories within the current category
             $aCategoryLinks = array_reverse($aCategoryPath);
@@ -237,9 +225,11 @@ if ($category_depth == 'nested') {
     $nManufacturersID = isset($_GET['manufacturers_id']) ? $_GET['manufacturers_id']+0 : 0;
     $nNV = isset($_GET['nv']) ? $_GET['nv']+0 : 1;
     $nFilterID = intval($_GET['filter_id']) ? $_GET['filter_id']+0 : 0;
-    $sSort = oos_var_prep_for_os($_GET['sort']);
 
     $contents_cache_id = $sTheme . '|shop|products|' . intval($nCurrentCategoryId) . '|' . $categories . '|' . $nManufacturersID . '|' . $nNV . '|' . $nFilterID . '|' . $nGroupID . '|' . $sLanguage;
+
+    $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
+    $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
 
     require 'includes/oos_system.php';
     if (!isset($option)) {
@@ -269,17 +259,16 @@ if ($category_depth == 'nested') {
                $oos_meta_description = $categories_description_meta;
            }
         }
+        $oos_pagetitle = $category['categories_name']
         $oos_meta_description = $category['categories_description_meta'];
         $oos_meta_keywords = $category['categories_keywords_meta'];
 
+    }
+    
     if ( (USE_CACHE == '1') && (!SID) ) {
         $oSmarty->caching = 2;
         $oSmarty->cache_lifetime = 8 * 24 * 3600;
     }
-
-    $oos_pagetitle = $oBreadcrumb->trail_title(' &raquo; ');
-    $oos_pagetitle .= '&raquo;' . OOS_META_TITLE;
-
     // assign Smarty variables;
     $oSmarty->assign(
         array(
@@ -314,8 +303,8 @@ if ($category_depth == 'nested') {
 
 
 // show the products of a specified manufacturer
-        if (isset($_GET['manufacturers_id'])) {
-            if (isset($_GET['filter_id'])) {
+        if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
+            if (isset($_GET['filter_id']) && is_numeric($_GET['filter_id'])) {
                 // We are asked to show only a specific category
                 $productstable = $oostable['products'];
                 $products_descriptiontable = $oostable['products_description'];
@@ -387,7 +376,7 @@ if ($category_depth == 'nested') {
                               ORDER BY cd.categories_name";
         } else {
             // show the products in a given categorie
-            if (isset($_GET['filter_id'])) {
+            if (isset($_GET['filter_id']) && is_numeric($_GET['filter_id'])) {
                 // We are asked to show only specific catgeory
                 $productstable = $oostable['products'];
                 $products_descriptiontable = $oostable['products_description'];
@@ -458,7 +447,7 @@ if ($category_depth == 'nested') {
         }
 
         if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-8][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($aColumnList)) ) {
-          $_GET['sort'] = 'products_sort_order';
+          $sSort = 'products_sort_order';
           $listing_sql .= " ORDER BY p.products_sort_order, pd.products_name";
         } else {
             $sort_col = substr($_GET['sort'], 0 , 1);
