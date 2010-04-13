@@ -57,7 +57,9 @@ if ($oEvent->installed_plugin('debug')) {
 if (isset($_SESSION['new_products_id_in_cart'])) {
     unset($_SESSION['new_products_id_in_cart']);
 }
-
+if (isset($_SESSION['error_cart_msg'])) {
+    unset($_SESSION['error_cart_msg']);
+}
   
 // close session (store variables)
 oos_session_close();
