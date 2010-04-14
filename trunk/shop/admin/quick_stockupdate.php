@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -91,7 +91,7 @@ if ( !current_user_can('quick_stockupdate') )
 
       // update the quantity in stock
       $productstable = $oostable['products'];
-      $sql = "UPDATE $productstable SET products_quantity = '" . $items['stock'] . "', products_model = '" . $items['model'] . "', products_price = '" . $items['price'] . "', products_weight = '" . $items['weight'] . "' WHERE products_id = '" . $key . "'";
+      $sql = "UPDATE $productstable SET products_quantity = '" . $items['stock'] . "', products_model = '" . $items['model'] . "', products_price = '" . $items['price'] . "', products_weight = '" . $items['weight'] . "', products_last_modified = '" . date("Y-m-d H:i:s", time()) . "' WHERE products_id = '" . $key . "'";
       $dbconn->Execute($sql);
       $stock_i++;
 

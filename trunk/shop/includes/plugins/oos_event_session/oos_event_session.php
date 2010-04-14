@@ -147,10 +147,6 @@
         $_SESSION['navigation'] = new oosNavigationHistory;
       }
 
-      if (!isset($_SESSION['error_cart_msg'])) {
-        $_SESSION['error_cart_msg'] = '';
-      }
-
       $aPages = oos_get_pages();
 
       // verify the browser user agent

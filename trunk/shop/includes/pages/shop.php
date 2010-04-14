@@ -28,16 +28,22 @@ if (count(get_included_files()) < 2) {
     exit;
 }
 
+ 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 require 'includes/languages/' . $sLanguage . '.php';
 require 'includes/languages/' . $sLanguage . '/main_shop.php';
 require 'includes/functions/function_default.php';
 
-// the following categories references come from oos_main.php
+
 $category_depth = 'top';
 $aLang['heading_title'] = $aLang['heading_title_top'];
+$all_get_listing = '';
 
+// the following categories references come from oos_main.php
 if (isset($categories) && !empty($categories)) {
+
+    $all_get_listing .= 'categories=' .  rawurlencode(oos_var_prep_for_os($categories)) . '&amp;';
+
     $products_to_categoriestable = $oostable['products_to_categories'];
     $sql = "SELECT COUNT(*) AS total
             FROM $products_to_categoriestable
@@ -94,9 +100,9 @@ if ($category_depth == 'nested') {
 
     if (empty($category['categories_description_meta'])) {         
        $categories_description_meta = oos_truncate($category['categories_description']);
-       if ( !empty( $categories_description_meta ) {
-           $categories_descriptiontable = $oostable['categories_description']
-           $dbconn->Execute("UPDATE $categories_descriptiontable SET categories_description_meta = " . oos_db_input($categories_description_meta) . " WHERE categories_id = '" . intval($nCurrentCategoryId) . "' AND categories_languages_id = '" .  intval($nLanguageID) . "'";);
+       if ( !empty( $categories_description_meta ) ) {
+           $categories_descriptiontable = $oostable['categories_description'];
+           $dbconn->Execute("UPDATE $categories_descriptiontable SET categories_description_meta = '" . oos_db_input($categories_description_meta) . "' WHERE categories_id = '" . intval($nCurrentCategoryId) . "' AND categories_languages_id = '" .  intval($nLanguageID) . "'");
            $oos_meta_description = $categories_description_meta;
         }
     }
@@ -215,7 +221,6 @@ if ($category_depth == 'nested') {
 
 } elseif ($category_depth == 'products' || isset($_GET['manufacturers_id'])) {
 
-
     $aOption['template_main'] = $sTheme . '/system/products.html';
     $aOption['page_heading'] = $sTheme . '/system/index_products_heading.html';
     $aOption['page_navigation'] = $sTheme . '/heading/page_navigation.html';
@@ -224,7 +229,7 @@ if ($category_depth == 'nested') {
 
     $nManufacturersID = isset($_GET['manufacturers_id']) ? $_GET['manufacturers_id']+0 : 0;
     $nNV = isset($_GET['nv']) ? $_GET['nv']+0 : 1;
-    $nFilterID = intval($_GET['filter_id']) ? $_GET['filter_id']+0 : 0;
+    $nFilterID = isset($_GET['filter_id']) ? $_GET['filter_id']+0 : 0;
 
     $contents_cache_id = $sTheme . '|shop|products|' . intval($nCurrentCategoryId) . '|' . $categories . '|' . $nManufacturersID . '|' . $nNV . '|' . $nFilterID . '|' . $nGroupID . '|' . $sLanguage;
 
@@ -253,13 +258,13 @@ if ($category_depth == 'nested') {
 
         if (empty($category['categories_description_meta'])) {         
            $categories_description_meta = oos_truncate($category['categories_description']);
-           if ( !empty( $categories_description_meta ) {
-               $categories_descriptiontable = $oostable['categories_description']
-               $dbconn->Execute("UPDATE $categories_descriptiontable SET categories_description_meta = " . oos_db_input($categories_description_meta) . " WHERE categories_id = '" . intval($nCurrentCategoryId) . "' AND categories_languages_id = '" .  intval($nLanguageID) . "'";);
+           if ( !empty( $categories_description_meta ) ) {
+               $categories_descriptiontable = $oostable['categories_description'];
+               $dbconn->Execute("UPDATE $categories_descriptiontable SET categories_description_meta = '" . oos_db_input($categories_description_meta) . "' WHERE categories_id = '" . intval($nCurrentCategoryId) . "' AND categories_languages_id = '" .  intval($nLanguageID) . "'");
                $oos_meta_description = $categories_description_meta;
            }
         }
-        $oos_pagetitle = $category['categories_name']
+        $oos_pagetitle = $category['categories_name'];
         $oos_meta_description = $category['categories_description_meta'];
         $oos_meta_keywords = $category['categories_keywords_meta'];
 
@@ -493,7 +498,7 @@ if ($category_depth == 'nested') {
             $filterlist_result = $dbconn->Execute($filterlist_sql);
             if ($filterlist_result->RecordCount() > 1) {
                 $product_filter_select .= '            <td align="center" class="main">' . $aLang['text_show'] . '<select size="1" onChange="if(options[selectedIndex].value) window.location.href=(options[selectedIndex].value)">';
-                if (isset($_GET['manufacturers_id'])) {
+                if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
                     $arguments = 'manufacturers_id=' . $nManufacturersID;
                 } else {
                     $arguments = 'categories=' . $categories;

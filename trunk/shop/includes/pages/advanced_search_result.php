@@ -51,28 +51,28 @@ if ( (isset($_GET['keywords']) && empty($_GET['keywords'])) &&
     $nNV = isset($_GET['nv']) ? $_GET['nv']+0 : 1;
 
     if (!isset($all_get_listing)) $all_get_listing = '';
- 
-    if (isset($_GET['dfrom'])) {
+
+    if (isset($_GET['dfrom']) && !empty($_GET['dfrom']))  {   
         $dfrom = (($_GET['dfrom'] == DOB_FORMAT_STRING) ? '' : oos_prepare_input($_GET['dfrom']));
         $all_get_listing .= 'dfrom=' . rawurlencode($dfrom) . '&amp;';
     }
 
-    if (isset($_GET['dto'])) {
+    if (isset($_GET['dto']) && !empty($_GET['dto']))  {
         $dto = (($_GET['dto'] == DOB_FORMAT_STRING) ? '' : oos_prepare_input($_GET['dto']));
         $all_get_listing .= 'dto=' . rawurlencode($dto) . '&amp;';
     }
 
-    if (isset($_GET['pfrom'])) {
+    if (isset($_GET['pfrom']) && !empty($_GET['pfrom']))  {
         $pfrom = oos_prepare_input($_GET['pfrom']);
         $all_get_listing .= 'pfrom=' . rawurlencode($pfrom) . '&amp;';
     }
-
-    if (isset($_GET['pto'])) {
+    
+    if (isset($_GET['pto']) && !empty($_GET['pto']))  {
         $pto = oos_prepare_input($_GET['pto']);
         $all_get_listing .= 'pfrom=' . rawurlencode($pto) . '&amp;';
     }
-
-    if (isset($_GET['keywords'])) {
+    
+    if (isset($_GET['keywords']) && !empty($_GET['keywords']))  {
         $sKeywords = oos_prepare_input($_GET['keywords']);
 
         if ( empty( $sKeywords ) || !is_string( $sKeywords ) ) {
