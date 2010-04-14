@@ -3,12 +3,22 @@ Contributors: Tobiask
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3736248
 Tags: comments, subscribe, double opt in, kommentar, abonnieren, opt in, optin, kommentare, benachrichtigung
 Requires at least: 2.5
-Tested up to: 2.9
-Stable tag: 4.2
+Tested up to: 2.9.2
+Stable tag: 4.5
 
 Based on the well known Subscribe-to-Comments PlugIn, but now with double-opt-in feature to prevent spam.
 
 == Changelog ==
+
+= 4.5 =
+* Added Belorussian. Thanks to Marcis G. (http://pc.de/)
+
+= 4.4 =
+* Changed some language files, new translations needed! New .pot file is attached.
+
+= 4.3 =
+* Changed FAQ
+* Changed Settings Title
 
 = 4.2 =
 * Added Russian language support.
@@ -102,7 +112,7 @@ First, the user will get an e-mail with a confirmation link, after the user has 
 Plugin based on Mark Jaquith "Subscribe to Comments".
 More information on my blog: <a href="http://www.sjmp.de/internet/subscribe-to-comments-mit-double-opt-in-pruefung/">sjmp.de</a>.
 
-Language support: English, German, Slovak, Turkish, Danish, French.
+Language support: English, German, Slovak, Turkish, Danish, French, Belorussian.
 
 = Deutsch =
 
@@ -111,7 +121,7 @@ Jetzt mit Double-Opt-In Feature. Wichtig f&uuml;r deutsche Blogger. User muessen
 Danach erhalten sie erst eine Mail falls ein neuer Kommentar gepostet wurde. So werden Spameintragungen ausgeschlossen.
 Mehr dazu auch auf meinem Blog: <a href="http://www.sjmp.de/internet/subscribe-to-comments-mit-double-opt-in-pruefung/">sjmp.de</a>.
 
-Sprachunterst&uuml;tzung: Deutsch, Englisch, Slowakisch, Tuerkisch, Daenisch, Franzoesisch.
+Sprachunterst&uuml;tzung: Deutsch, Englisch, Slowakisch, Tuerkisch, Daenisch, Franzoesisch, Weiﬂrussisch.
 
 == Installation ==
 
@@ -137,7 +147,7 @@ Use this code (within the loop) in your template file, to change the place of th
 
 = Can people subscribe manually without commenting? =
 
-Yes, just place this code snippet in your template: <code><?php show_manual_subscription_form(); ?></code>
+Yes, just place this code snippet in your template (outside the comments form): <code><?php show_manual_subscription_form(); ?></code>
 
 == Screenshots ==
 

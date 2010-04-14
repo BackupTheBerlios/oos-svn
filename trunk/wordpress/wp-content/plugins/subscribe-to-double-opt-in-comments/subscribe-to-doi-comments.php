@@ -2,7 +2,7 @@
 /*
 Plugin Name: Subscribe To "Double-Opt-In" Comments
 Plugin URI: http://www.sjmp.de/internet/subscribe-to-comments-mit-double-opt-in-pruefung/
-Version: 4.2
+Version: 4.5
 Description: Allows readers to receive notifications of new comments that are posted to an entry, with Double-Opt-In Feature.  Based on version 2 of "Subscribe to Comments" from Mark Jaquith (http://txfx.net/).
 Author: Tobias Koelligan
 Author URI: http://www.sjmp.de/
@@ -100,7 +100,7 @@ if ( !$sg_subscribe->current_viewer_subscription_status() ) :
 	<input type="hidden" name="ref" value="<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . attribute_escape($_SERVER['REQUEST_URI'])); ?>" />
 
 	<p class="solo-subscribe-to-doi-comments">
-	<?php _e('Subscribe without commenting', 'subscribe-to-doi-comments'); ?>
+	<?php echo $sg_subscribe->withoutCom_text; ?>
 	<br />
 	<label for="solo-subscribe-email"><?php _e('E-Mail:', 'subscribe-to-doi-comments'); ?>
 	<input type="text" name="email" id="solo-subscribe-email" size="22" value="<?php echo $user_email; ?>" /></label>
@@ -163,6 +163,8 @@ class sg_subscribe_settings {
 		echo '<li><label for="subscribed_text">' . __('Subscribed', 'subscribe-to-doi-comments') . '</label><br /><textarea style="width: 98%; font-size: 12px;" rows="2" cols="60" id="subscribed_text" name="sg_subscribe_settings[subscribed_text]">' . (sg_subscribe_settings::textarea_setting('subscribed_text')) . '</textarea></li>';
 
 		echo '<li><label for="author_text">' . __('Entry Author', 'subscribe-to-doi-comments') . '</label><br /><textarea style="width: 98%; font-size: 12px;" rows="2" cols="60" id="author_text" name="sg_subscribe_settings[author_text]">' . (sg_subscribe_settings::textarea_setting('author_text')) . '</textarea></li>';
+		
+		echo '<li><label for="withoutCom_text">' . __('"Subscribe without Commenting" Text', 'subscribe-to-doi-comments') . '</label><br /><textarea style="width: 98%; font-size: 12px;" rows="2" cols="60" id="withoutCom_text" name="sg_subscribe_settings[withoutCom_text]">' . (sg_subscribe_settings::textarea_setting('withoutCom_text')) . '</textarea></li>';
 		
 		echo '<li><label for="confirmation_text">' . __('Confirmation Text (will be shown after user has clicked on the confirmation link)', 'subscribe-to-doi-comments') . '</label><br /><textarea style="width: 98%; font-size: 12px;" rows="2" cols="60" id="confirmation_text" name="sg_subscribe_settings[confirmation_text]">' . (sg_subscribe_settings::textarea_setting('confirmation_text')) . '</textarea></li>';
 		
@@ -835,7 +837,7 @@ class sg_subscribe {
 	function add_admin_menu() {
 		add_management_page(__('Comment Subscription Manager', 'subscribe-to-doi-comments'), __('Subscriptions', 'subscribe-to-doi-comments'), 8, 'stc-management', 'sg_subscribe_admin');
 
-		add_options_page(__('Subscribe to Comments', 'subscribe-to-doi-comments'), __('Subscribe to Comments', 'subscribe-to-doi-comments'), 5, 'stc-options', array('sg_subscribe_settings', 'options_page'));
+		add_options_page(__('Subscribe to DOI Comments', 'subscribe-to-doi-comments'), __('Subscribe to DOI Comments', 'subscribe-to-doi-comments'), 5, 'stc-options', array('sg_subscribe_settings', 'options_page'));
 	}
 
 

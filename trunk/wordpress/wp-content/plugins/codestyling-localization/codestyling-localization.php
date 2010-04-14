@@ -3,7 +3,7 @@
 Plugin Name: CodeStyling Localization
 Plugin URI: http://www.code-styling.de/english/development/wordpress-plugin-codestyling-localization-en
 Description: Now you can freely manage, edit and modify your WordPress language translation files (*.po / *.mo) as usual. You won't need any additional editor have been installed. Also supports WPMU plugins, if WPMU versions has been detected.
-Version: 1.95
+Version: 1.96
 Author: Heiko Rabe
 Author URI: http://www.code-styling.de/english/
 
@@ -159,6 +159,13 @@ if (!function_exists('_x')) {
 	}
 }
 
+if (!function_exists('esc_js')) {
+	function esc_js() {
+		$args = func_get_args();
+		return call_user_func_array('js_escape', $args);
+	}
+}
+
 if (!function_exists('file_get_contents')) {
 	function file_get_contents($filename, $incpath = false, $resource_context = null) {
 		if (false === $fh = fopen($filename, 'rb', $incpath)) {
@@ -269,7 +276,7 @@ function csp_fetch_remote_content($url) {
 }
 
 function csp_po_check_security() {
-	if (!is_user_logged_in() || !current_user_can('level_10')) {
+	if (!is_user_logged_in() || !current_user_can('manage_options')) {
 		wp_die(__('You do not have permission to manage translation files.', CSP_PO_TEXTDOMAIN));
 	}
 }
@@ -433,7 +440,10 @@ function csp_po_get_plugin_mu_capabilities($plug, $values){
 	$data['version'] = $values['Version'];
 	$data['description'] = $values['Description'];
 	$data['status'] = __("activated",CSP_PO_TEXTDOMAIN);
-	$data['base_path'] = str_replace("\\","/", WPMU_PLUGIN_DIR.'/'.dirname($plug).'/');
+	if (dirname($plug) != '.')
+		$data['base_path'] = str_replace("\\","/", WPMU_PLUGIN_DIR.'/'.dirname($plug).'/');
+	else
+		$data['base_path'] = str_replace("\\","/", WPMU_PLUGIN_DIR.'/');
 	$data['special_path'] = '';
 	$data['filename'] = "";
 	$data['is-simple'] = true;
@@ -695,6 +705,7 @@ if (function_exists('add_action')) {
 }
 
 //WP 2.7 help extensions
+//TODO: doesn't work as expected beginning at WP 3.0 (object now!) and never gets called while already object skipps filtering!
 function csp_po_filter_screen_meta_screen($screen) {
 	if (preg_match('/codestyling-localization$/', $screen)) return "codestyling-localization";
 	return $screen;
@@ -703,17 +714,38 @@ function csp_po_filter_screen_meta_screen($screen) {
 //WP 2.7 help extensions
 function csp_po_filter_help_list_filter($_wp_contextual_help) {
 
-	require_once(ABSPATH.'/wp-includes/rss.php');
-	$rss = fetch_rss('http://www.code-styling.de/online-help/plugins.php?type=config&locale='.get_locale().'&plug=codestyling-localization');
-	if ( $rss ) {
-		$_wp_contextual_help['codestyling-localization'] = '';
-		foreach ($rss->items as $item ) {
-			if ($item['category'] == 'thickbox') {
-				$_wp_contextual_help['codestyling-localization'] .= '<a href="'. $item['link'] . '&amp;TB_iframe=true" class="thickbox" name="<strong>'. $item['title'] . '</strong>">'. $item['title'] . '</a> | ';
-			} else {
-				$_wp_contextual_help['codestyling-localization'] .= '<a target="_blank" href="'. $item['link'] . '" >'. $item['title'] . '</a> | ';
+	global $wp_version;
+	if (version_compare($wp_version, '3', '<')) {
+
+		require_once(ABSPATH.'/wp-includes/rss.php');
+		$rss = fetch_rss('http://www.code-styling.de/online-help/plugins.php?type=config&locale='.get_locale().'&plug=codestyling-localization');	
+		if ( $rss ) {
+			$_wp_contextual_help['codestyling-localization'] = '';
+			foreach ($rss->items as $item ) {
+				if ($item['category'] == 'thickbox') {
+					$_wp_contextual_help['codestyling-localization'] .= '<a href="'. $item['link'] . '&amp;TB_iframe=true" class="thickbox" name="<strong>'. $item['title'] . '</strong>">'. $item['title'] . '</a> | ';
+				} else {
+					$_wp_contextual_help['codestyling-localization'] .= '<a target="_blank" href="'. $item['link'] . '" >'. $item['title'] . '</a> | ';
+				}
 			}
 		}
+		
+	} else {
+	
+		//TODO: WP 3.0 introduces only accepts the new classes without depreciate, furthermore the screen key is handled different now (see function above!)
+		require_once(ABSPATH.'/wp-includes/feed.php');
+		$rss = fetch_feed('http://www.code-styling.de/online-help/plugins.php?type=config&locale='.get_locale().'&plug=codestyling-localization');
+		if ( $rss ) {
+			$_wp_contextual_help['tools_page_codestyling-localization/codestyling-localization'] = '';
+			foreach ($rss->get_items(0, 9999) as $item ) {		
+				if ($item->get_category()->get_term() == 'thickbox') {
+					$_wp_contextual_help['tools_page_codestyling-localization/codestyling-localization'] .= '<a href="'. $item->get_link() . '&amp;TB_iframe=true" class="thickbox" name="<strong>'. $item->get_title() . '</strong>">'. $item->get_title() . '</a> | ';
+				} else {
+					$_wp_contextual_help['tools_page_codestyling-localization/codestyling-localization'] .= '<a target="_blank" href="'. $item->get_link() . '" >'. $item->get_title() . '</a> | ';
+				}
+			}
+		}
+		
 	}
 	return $_wp_contextual_help;
 }
@@ -794,9 +826,16 @@ function csp_po_ajax_handle_dlg_rescan() {
 		$excludes = array(str_replace("\\","/",WP_CONTENT_DIR));
 		rscandir_php($_POST['path'], $excludes, $files);
 		$excludes = array();
-		rscandir_php(str_replace("\\","/",WP_CONTENT_DIR)."/themes/default/",$excludes, $files);
-		rscandir_php(str_replace("\\","/",WP_CONTENT_DIR)."/themes/classic/",$excludes, $files);
+		$dir = str_replace("\\","/",WP_CONTENT_DIR)."/themes/default/";
+		if (is_dir($dir))
+			rscandir_php($dir,$excludes, $files);
+		$dir = str_replace("\\","/",WP_CONTENT_DIR)."/themes/classic/";
+		if (is_dir($dir))
+			rscandir_php($dir,$excludes, $files);
 		$files[] = str_replace("\\","/",WP_PLUGIN_DIR)."/akismet/akismet.php";
+	}
+	elseif ($_POST['type'] == 'plugins_mu') {
+		$files[] = $_POST['path'].rtrim($_POST['subpath'],'-').'.php';
 	}
 	else{
 		$files = array();
@@ -1006,6 +1045,7 @@ function csp_po_ajax_handle_destroy() {
 function csp_po_ajax_handle_scan_source_file() {
 	csp_po_check_security();
 	require_once('includes/class-translationfile.php');
+	require_once('includes/locale-definitions.php');
 	$textdomain = $_POST['textdomain'];
 	//TODO: give the domain into translation file as default domain
 	$pofile = new CspTranslationFile();
@@ -1290,7 +1330,7 @@ function csp_po_admin_head() {
 
 function csp_po_admin_menu() {
 	load_plugin_textdomain(CSP_PO_TEXTDOMAIN, PLUGINDIR.'/codestyling-localization', 'codestyling-localization');
-	$hook = add_management_page(__('WordPress Localization',CSP_PO_TEXTDOMAIN), __('Localization', CSP_PO_TEXTDOMAIN), 10, __FILE__, 'csp_po_main_page');
+	$hook = add_management_page(__('WordPress Localization',CSP_PO_TEXTDOMAIN), __('Localization', CSP_PO_TEXTDOMAIN), 'manage_options', __FILE__, 'csp_po_main_page');
 	add_action('load-'.$hook, 'csp_load_po_edit_admin_page'); //only load the scripts and stylesheets by hook, if this admin page will be shown
 }
 

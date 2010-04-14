@@ -2,8 +2,8 @@
 Contributors: codestyling
 Tags: gettext, language, translation, poedit, localization, plugin, wpmu
 Requires at least: 2.5
-Tested up to: 2.9
-Stable tag: 1.95
+Tested up to: 3.0-beta1
+Stable tag: 1.96
 
 You can manage and edit all gettext translation files (*.po/*.mo) directly out of WordPress Admin Center without any need of an external editor.
 
@@ -41,7 +41,7 @@ Please visit [the official website](http://www.code-styling.de/english/developme
 As i stated at one of my articles [Features and Future Development](http://www.code-styling.de/english/wordpress-localization-features-and-future-development) this Version 1.x trunk will be maintained now only.
 This is because of complete rewrite and massive feature implementation of version 2.x series. This may also imply, that the new upcomming version (planned for end of September) will run at first release from WP 2.7 and not lower versions.
 I will nevertheless support the 1.x trunk, but it would not get more features from now. Please look at the article, it also shows more sneak peak screens of upcomming features. 
-Additionally to the statement above (moved to September 2009) i did a step between 1.x and 2.x trunc. The version 1.9 already contains some fully rewritten new core parts out of 2.0 version. 
+Additionally to the statement above (moved to September 2010) i did a step between 1.x and 2.x trunc. The version 1.9 already contains some fully rewritten new core parts out of 2.0 version. 
 The UI is planned to be redesigned in 2.0 version.
 
 == Installation ==
@@ -52,6 +52,14 @@ The UI is planned to be redesigned in 2.0 version.
 1. Translate your resources using 'Manage' menu at new 'Localization' sub menu
 
 == Changelog ==
+
+= Version 1.96 =
+* Bugfix: WPMU plugin handling problems fixed
+* Bugfix: changes at WP 3.0 help system adapted (temporary work arround)
+* Bugfix: WordPress scanning sanatized because of WP 3.0 default theme changes
+* Bugfix: changed javascipt escape functions adapted
+* Bugfix: level_10 security replaced by manage_options
+* Hint: not fully tested at activated multi-site installations 
 
 = Version 1.95 =
 * Bugfix: WP localization engine has been changed in 2.9, freezes parsing and avoids loading of generated mo files! 
