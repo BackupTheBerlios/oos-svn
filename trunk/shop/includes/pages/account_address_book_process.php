@@ -128,7 +128,7 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
         }
 
         if (isset($_POST['country']) && is_numeric($_POST['country']) && ($_POST['country'] >= 1)) {
-            $country = intval($_POST['country']);
+            $country = (int)$_POST['country'];
             $country_error = '0';
         } else {
             $country = 0;
@@ -262,7 +262,7 @@ if (count($_SESSION['navigation']->snapshot) > 0) {
 }
 
 if (isset($_GET['entry_id'])) {
-    $entry_id = intval($_GET['entry_id']);
+    $entry_id = (int)$_GET['entry_id'];
 }
 
 ob_start();

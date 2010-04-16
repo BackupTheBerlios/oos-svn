@@ -5,7 +5,7 @@
    OOS [OSIS Online Shop]
    http://www.oos-shop.de/
 
-   Copyright (c) 2003 - 2009 by the OOS Development Team.
+   Copyright (c) 2003 - 2010 by the OOS Development Team.
    ----------------------------------------------------------------------
    Based on:
 
@@ -93,7 +93,7 @@ class splitPageResults
         if ( !empty($parameters) && (substr($parameters, -5) != '&amp;') ) $parameters .= '&amp;';
 
         // calculate number of pages needing links
-        $num_pages = intval($query_numrows / $max_rows_per_page);
+        $num_pages = (int)($query_numrows / $max_rows_per_page);
 
         // $num_pages now contains int of pages needed unless there is a remainder from division
         if ($query_numrows % $max_rows_per_page) $num_pages++; // has remainder so add one page
@@ -102,10 +102,10 @@ class splitPageResults
         if ($nCurrentPageNumber > 1) $display_link .= '<a href="' . oos_href_link($sPage, $parameters . 'nv=' . ($nCurrentPageNumber - 1)) . '" ' . $class . ' title=" ' . $aLang['prevnext_title_previous_page'] . ' ">[<u>' . $aLang['prevnext_button_prev'] . '</u>]</a>&nbsp;&nbsp;';
 
         // check if num_pages > $max_page_links
-        $cur_window_num = intval($nCurrentPageNumber / $max_page_links);
+        $cur_window_num = (int)($nCurrentPageNumber / $max_page_links);
         if ($nCurrentPageNumber % $max_page_links) $cur_window_num++;
 
-        $max_window_num = intval($num_pages / $max_page_links);
+        $max_window_num = (int)($num_pages / $max_page_links);
         if ($num_pages % $max_page_links) $max_window_num++;
 
         // previous window of pages

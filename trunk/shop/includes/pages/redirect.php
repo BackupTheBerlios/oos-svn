@@ -37,7 +37,7 @@ switch ($_GET['action']) {
 
 
     case 'manufacturer' :  if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
-                              $manufacturers_id = intval($_GET['manufacturers_id']);
+                              $manufacturers_id = (int)$_GET['manufacturers_id'];
                               $manufacturers_infotable = $oostable['manufacturers_info'];
                               $sql = "SELECT manufacturers_url
                                       FROM $manufacturers_infotable

@@ -226,7 +226,7 @@ class shoppingCart
 
                 if (DECIMAL_CART_QUANTITY == '1') {
                     if ($product_info['products_quantity_decimal'] == 0) {
-                        $nQuantity = intval($nQuantity);
+                        $nQuantity = (int)$nQuantity;
                     }
                 }
 
@@ -343,7 +343,7 @@ class shoppingCart
                                 WHERE products_id = '" . intval($nProductsId) . "'";
                 $products_quantity_decimal = $dbconn->GetOne($decimal_sql);
                 if ($products_quantity_decimal == 0) {
-                    $nQuantity = intval($nQuantity);
+                    $nQuantity = (int)$nQuantity;
                 }
             }
 
@@ -454,7 +454,7 @@ class shoppingCart
         if (isset($this->contents[$products_id])) {
             $nQuantity = $this->contents[$products_id]['qty'];
             if (DECIMAL_CART_QUANTITY != '1') {
-                $nQuantity = intval($nQuantity);
+                $nQuantity = (int)$nQuantity;
             }
             return $nQuantity;
         } else {

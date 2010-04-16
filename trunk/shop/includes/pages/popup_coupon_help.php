@@ -36,7 +36,7 @@ require 'includes/languages/' . $sLanguage . '/gv_popup_coupon_help.php';
 $text_coupon_help = $aLang['text_coupon_help_header'];
 
 if (isset($_GET['cID']) && is_numeric($_GET['cID'])) {
-    $nCouponID = intval($_GET['cID']);
+    $nCouponID = (int)$_GET['cID'];
 
     $couponstable = $oostable['coupons'];
     $sql = "SELECT coupon_amount, coupon_type, coupon_amount, coupon_minimum_order,

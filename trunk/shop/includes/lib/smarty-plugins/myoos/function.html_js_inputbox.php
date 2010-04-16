@@ -47,7 +47,7 @@ function smarty_function_html_js_inputbox($params, &$smarty)
 
             case 'size':
             case 'maxlength':
-                $$_key = intval($_val);
+                $$_key = (int)$_val;
                 break;
 
             default:

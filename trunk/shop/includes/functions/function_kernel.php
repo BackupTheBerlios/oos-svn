@@ -831,7 +831,7 @@ function oos_get_categories($aCategories = '', $parent_id = '0', $indent = '')
 {
 
     $parent_id = oos_db_prepare_input($parent_id);
-    $nGroupID = intval($_SESSION['member']->group['id']);
+    $nGroupID = (int)$_SESSION['member']->group['id'];
 
     if (!is_array($aCategories)) $aCategories = array();
 

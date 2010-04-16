@@ -136,7 +136,7 @@ if (strlen($city) < ENTRY_CITY_MIN_LENGTH) {
 
 
 if (isset($_POST['country']) && is_numeric($_POST['country']) && ($_POST['country'] >= 1)) {
-    $country = intval($_POST['country']);
+    $country = (int)$_POST['country'];
 } else {
     $country = 0;
     $bError = true;

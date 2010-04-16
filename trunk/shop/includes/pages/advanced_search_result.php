@@ -272,7 +272,7 @@ foreach ($aDefineList as $column => $value) {
                       p2c.categories_id = c.categories_id ";
 
     if (isset($_GET['categories_id']) && !empty($_GET['categories_id'])) {
-     $nCategoriesID = intval($_GET['categories_id']);
+     $nCategoriesID = (int)$_GET['categories_id'];
      if (isset($_GET['inc_subcat']) && ($_GET['inc_subcat'] == '1')) {
         $aSsubcategories = array();
         oos_get_subcategories($aSsubcategories, $_GET['categories_id']);
@@ -295,7 +295,7 @@ foreach ($aDefineList as $column => $value) {
     }
 
     if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
-      $nManufacturersID = intval($_GET['manufacturers_id']);
+      $nManufacturersID = (int)$_GET['manufacturers_id'];
       $where_str .= " AND m.manufacturers_id = '" . intval($nManufacturersID) . "'";
     }
 

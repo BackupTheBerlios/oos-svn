@@ -29,7 +29,7 @@ $tell_a_friend_block = '0';
 if ($sPage != $aPages['tell_a_friend']) {
     if (isset($_GET['products_id'])) {
         if (!isset($nProductsId)) $nProductsId = oos_get_product_id($_GET['products_id']);
-        $tell_products_id = intval($nProductsId);
+        $tell_products_id = (int)$nProductsId;
 
         $tell_a_friend_block = '1';
 

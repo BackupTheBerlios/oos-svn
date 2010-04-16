@@ -53,6 +53,7 @@ class url_rewrite{
             $extention = '.html';
 
             $nArrayCountUrl = count($url_array);
+
             for ($i=0; $i < $nArrayCountUrl; $i++){
                 switch ($url_array[$i]) {
                     case 'categories':

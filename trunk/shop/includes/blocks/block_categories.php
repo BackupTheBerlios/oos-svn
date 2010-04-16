@@ -49,7 +49,7 @@ function oos_count_products_in_category($category_id, $include_inactive = false)
     }
     $products_count += $products->fields['total'];
 
-    $nGroupID = intval($_SESSION['member']->group['id']);
+    $nGroupID = (int)$_SESSION['member']->group['id'];
 
     $categoriestable = $oostable['categories'];
     $child_categories_result = $dbconn->Execute("SELECT categories_id FROM $categoriestable WHERE ( access = '0' OR access = '" . intval($nGroupID) . "' ) AND parent_id = '" . intval($category_id) . "'");
@@ -165,7 +165,7 @@ $categories_result = $dbconn->Execute($query);
 
 while ($aCategories = $categories_result->fields)
 {
-    $list_of_categories_ids[] = intval($aCategories['categories_id']);
+    $list_of_categories_ids[] = (int)$aCategories['categories_id'];
 
     if ( (empty($aCategories['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
         $categories_description = oos_get_categories_description($aCategories['categories_id']);
@@ -202,7 +202,7 @@ if (!empty($categories)) {
         unset($prev_id);
         unset($first_id);
 
-        $nGroupID = intval($_SESSION['member']->group['id']);
+        $nGroupID = (int)$_SESSION['member']->group['id'];
 
         $categoriestable = $oostable['categories'];
         $categories_descriptiontable = $oostable['categories_description'];
@@ -222,7 +222,7 @@ if (!empty($categories)) {
             $new_path .= $value;
             while ($row = $categories_result->fields)
             {
-                $list_of_categories_ids[] = intval($row['categories_id']);
+                $list_of_categories_ids[] = (int)$row['categories_id'];
 
                 if ( (empty($row['categories_name'])) and (DEFAULT_LANGUAGE != $_SESSION['language']) ) {
                     $categories_description = oos_get_categories_description($row['categories_id']);

@@ -146,7 +146,7 @@ $oEvent->getInstance();
 $nLanguageID = isset($_SESSION['language_id']) ? $_SESSION['language_id']+0 : 1;
 
 // set the Group
-$nGroupID = intval($_SESSION['member']->group['id']);
+$nGroupID = (int)$_SESSION['member']->group['id'];
 
 // POST overrides GET data
 // We don't use $_REQUEST here to avoid interference from cookies...

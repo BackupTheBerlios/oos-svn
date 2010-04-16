@@ -46,8 +46,8 @@ require 'includes/functions/function_address.php';
  */
 function oos_address_summary($nCustomersId, $nAddressId) {
 
-    $nCustomersId = intval($nCustomersId);
-    $nAddressId = intval($nAddressId);
+    $nCustomersId = (int)$nCustomersId;
+    $nAddressId = (int)$nAddressId;
 
     $dbconn =& oosDBGetConn();
     $oostable =& oosDBGetTables();
