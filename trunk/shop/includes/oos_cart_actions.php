@@ -50,36 +50,35 @@ if (DISPLAY_CART == '1') {
     if (isset($aData['sort']) && is_string($aData['sort'])) { 
        $parameters .= 'sort=' .  rawurlencode(oos_var_prep_for_os($aData['sort'])) . '&amp;';
     }   
-    if (isset($_GET['dfrom']) && !empty($_GET['dfrom']))  {
-        $dfrom = (($_GET['dfrom'] == DOB_FORMAT_STRING) ? '' : oos_prepare_input($_GET['dfrom']));
+    if (isset($aData['dfrom']) && !empty($aData['dfrom']))  {
+        $dfrom = (($aData['dfrom'] == DOB_FORMAT_STRING) ? '' : oos_prepare_input($aData['dfrom']));
         $parameters .= 'dfrom=' . rawurlencode($dfrom) . '&amp;';
     }
-    if (isset($_GET['dto']) && !empty($_GET['dto']))  {
+    if (isset($aData['dto']) && !empty($aData['dto']))  {
         $dto = (($_GET['dto'] == DOB_FORMAT_STRING) ? '' : oos_prepare_input($_GET['dto']));
         $parameters .= 'dto=' . rawurlencode($dto) . '&amp;'; 
     }
-    if (isset($_GET['pfrom']) && !empty($_GET['pfrom']))  {
+    if (isset($aData['pfrom']) && !empty($aData['pfrom']))  {
         $pfrom = oos_prepare_input($_GET['pfrom']);
         $parameters .= 'pfrom=' . rawurlencode($pfrom) . '&amp;';
     }
-    if (isset($_GET['pto']) && !empty($_GET['pto']))  {
+    if (isset($aData['pto']) && !empty($aData['pto']))  {
         $pto = oos_prepare_input($_GET['pto']);
         $parameters .= 'pfrom=' . rawurlencode($pto) . '&amp;';
     }
-    if (isset($_GET['keywords']) && !empty($_GET['keywords']))  {
-        $sKeywords = oos_prepare_input($_GET['keywords']);
+    if (isset($aData['keywords']) && !empty($aData['keywords']))  {
+        $sKeywords = oos_prepare_input($aData['keywords']);
 
         if ( isset( $sKeywords ) || is_string( $sKeywords ) )      
             $parameters .= 'keywords=' . rawurlencode($sKeywords) . '&amp;';
     }
 
-    if (isset($_GET['categories_id']) && is_numeric($_GET['categories_id'])) {
-        if (isset($_GET['inc_subcat']) && ($_GET['inc_subcat'] == '1')) {
+    if (isset($aData['categories_id']) && is_numeric($aData['categories_id'])) {
+        if (isset($aData['inc_subcat']) && ($aData['inc_subcat'] == '1')) {
             $parameters .= 'inc_subcat=1&amp;';
         }
     }    
 }
-
 
 if (isset($aData['action'])) {
     $action = oos_var_prep_for_os($aData['action']);

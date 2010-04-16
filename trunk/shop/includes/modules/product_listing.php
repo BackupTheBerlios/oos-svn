@@ -90,16 +90,26 @@ $listing_numrows = $listing_numrows->RecordCount();
 */
 
 if (!isset($all_get_listing)) $all_get_listing = '';
+if (!isset($sProductListBuyNowHidden)) $sProductListBuyNowHidden = '';
+
 if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
     $all_get_listing .= 'manufacturers_id=' .  $nManufacturersID  . '&amp;';
+    $sProductListBuyNowHidden .= '<input type="hidden" name="manufacturers_id" value="' . $nManufacturersID .'">';
 }
 if (isset($_GET['filter_id']) && is_numeric($_GET['filter_id'])) {
     $all_get_listing .= 'filter_id=' . $nFilterID . '&amp;';
+    $sProductListBuyNowHidden .= '<input type="hidden" name="filter_id" value="' . $nFilterID .'">';
 }
-
+if (isset($_GET['categories']) && is_string($_GET['categories'])) {
+    $all_get_listing .= 'categories=' . $categories . '&amp;';
+    $sProductListBuyNowHidden .= '<input type="hidden" name="categories" value="' . $categories .'">';
+}
 
 if ($listing_numrows > 0) {
 
+             if (PRODUCT_LISTING_WITH_QTY == '1') {
+                 $sProductListBuyNowHidden .= oos_hide_session_id();
+             }
 
     $listing_result = $dbconn->Execute($listing_sql);
     while ($listing = $listing_result->fields)
@@ -204,16 +214,10 @@ if ($listing_numrows > 0) {
                  $sProductListBuyNow .= '<input type="hidden" name="action" value="buy_now">';
                  $sProductListBuyNow .= '<input type="hidden" name="products_id" value="' . $listing['products_id'] .'">';
                  $sProductListBuyNow .= '<input type="hidden" name="page" value="' . $sPage .'">';
-                 $sProductListBuyNow .= '<input type="hidden" name="categories" value="' . $categories .'">';
                  $sProductListBuyNow .= '<input type="hidden" name="formid" value="' . $sFormid .'">';
-                 $sProductListBuyNow .= oos_hide_session_id();
 
-                 if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
-                     $sProductListBuyNow .= '<input type="hidden" name="manufacturers_id" value="' . $nManufacturersID .'">';
-                 }
-                 if (isset($_GET['filter_id']) && is_numeric($_GET['filter_id'])) {
-                     $sProductListBuyNow .= '<input type="hidden" name="filter_id" value="' . $nFilterID .'">';
-                 }
+                 $sProductListBuyNow .= $sProductListBuyNowHidden;
+
                  $sProductListBuyNow .= '<input type="hidden" name="sort" value="' . $sSort .'">';
                  $sProductListBuyNow .= '<input type="hidden" name="nv" value="' . $nNV .'">';
 

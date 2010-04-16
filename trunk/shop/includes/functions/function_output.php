@@ -46,23 +46,23 @@ function oos_href_link($sPage = '', $parameters = null, $connection = 'NONSSL', 
 {
     global $oEvent, $spider_flag;
 
-
     if ($connection == 'NONSSL') {
-        $link = OOS_HTTP_SERVER . OOS_SHOP;
+        $url = OOS_HTTP_SERVER . OOS_SHOP;
     } elseif ($connection == 'SSL') {
         if (ENABLE_SSL == '1') {
-            $link = OOS_HTTPS_SERVER . OOS_SHOP;
+            $url = OOS_HTTPS_SERVER . OOS_SHOP;
         } else {
-            $link = OOS_HTTP_SERVER . OOS_SHOP;
+            $url = OOS_HTTP_SERVER . OOS_SHOP;
         }
     } else {
         die('</td></tr></table></td></tr></table><br /><br /><font color="#ff0000"><b>Error!</b></font><br /><br /><b>Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</b><br /><br />');
     }
 
+    $link = '';
     if (!empty($parameters)) {
-        $link .= 'index.php?page=' . $sPage . '&amp;' . oos_output_string($parameters);
+        $link .= 'index.php?page=' . oos_output_string($sPage) . '&amp;' . oos_output_string($parameters);
     } else {
-        $link .= 'index.php?page=' . $sPage;
+        $link .= 'index.php?page=' . oos_output_string($sPage);
     }
 
     $separator = '&amp;';
@@ -101,7 +101,9 @@ function oos_href_link($sPage = '', $parameters = null, $connection = 'NONSSL', 
         $link .= $separator . oos_output_string($_sid);
     }
 
-    return $link;
+    $url .= $link;
+
+    return $url;
 }
 
 

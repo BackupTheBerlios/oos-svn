@@ -51,25 +51,31 @@ if ( (isset($_GET['keywords']) && empty($_GET['keywords'])) &&
     $nNV = isset($_GET['nv']) ? $_GET['nv']+0 : 1;
 
     if (!isset($all_get_listing)) $all_get_listing = '';
-
+    if (!isset($sProductListBuyNowHidden)) $sProductListBuyNowHidden = '';
+    
+    
     if (isset($_GET['dfrom']) && !empty($_GET['dfrom']))  {   
         $dfrom = (($_GET['dfrom'] == DOB_FORMAT_STRING) ? '' : oos_prepare_input($_GET['dfrom']));
         $all_get_listing .= 'dfrom=' . rawurlencode($dfrom) . '&amp;';
+        $sProductListBuyNowHidden .= '<input type="hidden" name="dfrom" value="' . $dfrom . '">';
     }
 
     if (isset($_GET['dto']) && !empty($_GET['dto']))  {
         $dto = (($_GET['dto'] == DOB_FORMAT_STRING) ? '' : oos_prepare_input($_GET['dto']));
         $all_get_listing .= 'dto=' . rawurlencode($dto) . '&amp;';
+        $sProductListBuyNowHidden .= '<input type="hidden" name="dto" value="' . $dto . '">';
     }
 
     if (isset($_GET['pfrom']) && !empty($_GET['pfrom']))  {
         $pfrom = oos_prepare_input($_GET['pfrom']);
         $all_get_listing .= 'pfrom=' . rawurlencode($pfrom) . '&amp;';
+        $sProductListBuyNowHidden .= '<input type="hidden" name="pfrom" value="' . $pfrom . '">';
     }
     
     if (isset($_GET['pto']) && !empty($_GET['pto']))  {
         $pto = oos_prepare_input($_GET['pto']);
-        $all_get_listing .= 'pfrom=' . rawurlencode($pto) . '&amp;';
+        $all_get_listing .= 'pto=' . rawurlencode($pto) . '&amp;';
+        $sProductListBuyNowHidden .= '<input type="hidden" name="pto" value="' . $pto . '">';
     }
     
     if (isset($_GET['keywords']) && !empty($_GET['keywords']))  {
@@ -89,12 +95,14 @@ if ( (isset($_GET['keywords']) && empty($_GET['keywords'])) &&
         }
         
         $all_get_listing .= 'keywords=' . rawurlencode($sKeywords) . '&amp;';
+        $sProductListBuyNowHidden .= '<input type="hidden" name="keywords" value="' . $sKeywords . '">';
     }
 
     if (isset($_GET['categories_id']) && is_numeric($_GET['categories_id'])) {
         $all_get_listing .= 'categories_id=' . intval($_GET['categories_id']) . '&amp;';
         if (isset($_GET['inc_subcat']) && ($_GET['inc_subcat'] == '1')) {
             $all_get_listing .= 'inc_subcat=1&amp;';
+            $sProductListBuyNowHidden .= '<input type="hidden" name="inc_subcat" value="1">';
         }
     }
 
@@ -356,9 +364,10 @@ foreach ($aDefineList as $column => $value) {
     if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-8][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0 , 1) > count($column_list)) ) {
 // Todo check $col = 1
        $col = 0;
-       $_GET['sort'] = $col+1 . 'a';
+       $sSort = $col+1 . 'a';
        $order_str = ' ORDER BY pd.products_name';
     } else {
+      $sSort = oos_var_prep_for_os($_GET['sort']);
       $sort_col = substr($_GET['sort'], 0 , 1);
       $sort_order = substr($_GET['sort'], 1);
       $order_str = ' ORDER BY ';

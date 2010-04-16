@@ -455,6 +455,7 @@ if ($category_depth == 'nested') {
           $sSort = 'products_sort_order';
           $listing_sql .= " ORDER BY p.products_sort_order, pd.products_name";
         } else {
+            $sSort = oos_var_prep_for_os($_GET['sort']);
             $sort_col = substr($_GET['sort'], 0 , 1);
             $sort_order = substr($_GET['sort'], 1);
             $listing_sql .= ' ORDER BY ';

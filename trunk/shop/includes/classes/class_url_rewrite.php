@@ -35,7 +35,7 @@ class url_rewrite{
 
         $path = $uri[1];
         $base = $uri[0];
-
+      
         $url_array = explode('/', $path);
 
         $aPages = oos_get_pages();
