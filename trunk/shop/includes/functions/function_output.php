@@ -396,7 +396,7 @@ function oos_get_all_as_hidden_field($aExclude = null)
         foreach ($_GET as $sKey => $sValue) {
             if ( !empty($sValue) && is_string($sValue) )  {
                if ( ($sKey != oos_session_name()) && ($sKey != 'error') && ($sKey != 'p') && ($sKey != 'rewrite') && ($sKey != 'c') && ($sKey != 'm') && ($sKey != 'page') && ($sKey != 'index.php') && ($sKey != 'history_back') && (!in_array($sKey, $aExclude)) && ($sKey != 'x') && ($sKey != 'y') ) {
-                   $sField = '<input type="hidden" name="' . oos_output_string($sKey) . '"';
+                   $sField .= '<input type="hidden" name="' . oos_output_string($sKey) . '"';
                    $sField .= ' value="' . oos_output_string($sValue) . '" />';
                 }
             }
