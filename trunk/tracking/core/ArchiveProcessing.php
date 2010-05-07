@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ArchiveProcessing.php 2095 2010-04-13 06:47:19Z matt $
+ * @version $Id: ArchiveProcessing.php 2141 2010-05-06 07:51:28Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -624,8 +624,8 @@ abstract class Piwik_ArchiveProcessing
 		Piwik_Query($query, 
 							array(	$this->idArchive,
 									$this->idsite, 
-									$this->period->getDateStart(), 
-									$this->period->getDateEnd(), 
+									$this->period->getDateStart()->toString('Y-m-d'), 
+									$this->period->getDateEnd()->toString('Y-m-d'), 
 									$this->periodId, 
 									date("Y-m-d H:i:s"),
 									$record->name,

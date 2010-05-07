@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2065 2010-04-08 20:35:00Z vipsoft $
+ * @version $Id: Controller.php 2149 2010-05-06 20:10:49Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -656,6 +656,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos = array();
 
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
+		Piwik::createHtAccessFiles();
+
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
 		$infos['phpVersion'] = phpversion();
 		$infos['phpVersion_ok'] = version_compare( $minimumPhpVersion, $infos['phpVersion']) === -1;

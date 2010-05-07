@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Common.php 2051 2010-04-04 15:38:50Z vipsoft $
+ * @version $Id: Common.php 2149 2010-05-06 20:10:49Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -327,10 +327,11 @@ class Piwik_Common
 	 * Apache-specific; for IIS @see web.config
 	 *
 	 * @param string $path without trailing slash
+	 * @param string $content
 	 */
-	static public function createHtAccess( $path )
+	static public function createHtAccess( $path, $content = "<Files \"*\">\nDeny from all\n</Files>\n" )
 	{
-		@file_put_contents($path . '/.htaccess', 'Deny from all');
+		@file_put_contents($path . '/.htaccess', $content);
 	}
 
 	/**
@@ -684,7 +685,7 @@ class Piwik_Common
 	 *
 	 * @return string first element before ','
 	 */
-	static private function getFirstIpFromList($ip)
+	static public function getFirstIpFromList($ip)
 	{
 		$p = strpos($ip, ',');
 		if($p!==false)

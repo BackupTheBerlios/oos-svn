@@ -4,14 +4,11 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Piwik.php 2136 2010-05-05 11:02:38Z matt $
+ * @version $Id: Piwik.php 2149 2010-05-06 20:10:49Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
  */
-
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
 
 /**
  * @see core/Translate.php
@@ -113,6 +110,38 @@ class Piwik
 			}
 		}
 		return $resultCheck;
+	}
+
+	/**
+	 * Generate .htaccess files at runtime to avoid permission problems.
+	 */
+	static public function createHtAccessFiles()
+	{
+		// deny access to these folders
+		$directoriesToProtect = array(
+			'/config',
+			'/core',
+			'/lang',
+		); 
+		foreach($directoriesToProtect as $directoryToProtect)
+		{
+			Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect);
+		}
+
+		// more selective allow/deny filters
+		$allowAny = "<Files \"*\">\nAllow from all\nSatisfy any\n</Files>\n";
+		$allowStaticAssets = "<Files ~ \"\\.(gif|ico|jpg|png|js|css|swf)$\">\nSatisfy any\nAllow from all\n</Files>\n";
+		$denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl)$\">\nDeny from all\n</Files>\n";
+		$directoriesToProtect = array(
+			'/js' => $allowAny,
+			'/libs' => $denyDirectPhp . $allowStaticAssets,
+			'/plugins' => $denyDirectPhp . $allowStaticAssets,
+			'/themes' => $denyDirectPhp . $allowStaticAssets,
+		); 
+		foreach($directoriesToProtect as $directoryToProtect => $content)
+		{
+			Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $content);
+		}
 	}
 
 	/**

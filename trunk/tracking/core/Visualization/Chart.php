@@ -4,14 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Chart.php 1705 2009-12-14 22:24:19Z vipsoft $
+ * @version $Id: Chart.php 2147 2010-05-06 18:50:38Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
  */
-
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
 
 /**
  * @see libs/open-flash-chart/php-ofc-library/open-flash-chart.php

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GenerateGraphHTML.php 1796 2010-01-22 14:43:11Z vipsoft $
+ * @version $Id: GenerateGraphHTML.php 2151 2010-05-07 08:57:27Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -68,7 +68,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	/**
 	 * We persist the parametersToModify values in the javascript footer.
-	 * This is used by the "export links" that use the "date" attribute from the json properties array in the datatable footer.
+	 * This is used by the "export links" that use the "date" attribute 
+	 * from the json properties array in the datatable footer.
 	 */
 	protected function getJavascriptVariablesToSet()
 	{
@@ -126,9 +127,19 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
 		foreach($this->parametersToModify as $key => $val)
 		{
-			if (is_array($val)) {
+			// We do not forward filter data to the graph controller.
+			// This would cause the graph to have filter_limit=5 set by default, 
+			// which would break them (graphs need the full dataset to build the "Others" aggregate value)
+			if(strpos($key, 'filter_') !== false)
+			{
+				continue;
+			}
+			if (is_array($val)) 
+			{
 				$_GET[$key] = unserialize(serialize($val));
-			} else {
+			} 
+			else 
+			{
 				$_GET[$key] = $val;
 			}
 		}

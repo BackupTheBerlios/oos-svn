@@ -4,14 +4,11 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Sparkline.php 1983 2010-03-23 23:02:54Z vipsoft $
+ * @version $Id: Sparkline.php 2147 2010-05-06 18:50:38Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
  */
-
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
 
 /**
  * @see libs/sparkline/lib/Sparkline_Line.php

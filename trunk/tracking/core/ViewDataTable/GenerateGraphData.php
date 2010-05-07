@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GenerateGraphData.php 1660 2009-12-10 06:48:47Z vipsoft $
+ * @version $Id: GenerateGraphData.php 2145 2010-05-06 15:09:02Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -92,6 +92,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 			@header( "Content-type: application/json" );
 		}
 
+		// Graphs require the full dataset, setting limit to null (same as 'no limit')
+		$this->setLimit(null);
+		
 		// the queued filters will be manually applied later. This is to ensure that filtering using search
 		// will be done on the table before the labels are enhanced (see ReplaceColumnNames)
 		$this->disableQueuedFilters();

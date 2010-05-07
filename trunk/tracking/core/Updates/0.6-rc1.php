@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: 0.6-rc1.php 2099 2010-04-13 19:26:25Z vipsoft $
+ * @version $Id: 0.6-rc1.php 2144 2010-05-06 09:54:00Z matt $
  *
  * @category Piwik
  * @package Updates
@@ -20,6 +20,8 @@ class Piwik_Updates_0_6_rc1 extends Piwik_Updates
 		$defaultTimezone = 'UTC';
 		$defaultCurrency = 'USD';
 		return array(
+			'ALTER TABLE ' . Piwik::prefixTable('user') . ' CHANGE date_registered date_registered TIMESTAMP NULL' => false,
+			'ALTER TABLE ' . Piwik::prefixTable('site') . ' CHANGE ts_created ts_created TIMESTAMP NULL' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('site') . ' ADD `timezone` VARCHAR( 50 ) NOT NULL AFTER `ts_created` ;' => false,
 			'UPDATE ' . Piwik::prefixTable('site') . ' SET `timezone` = "'.$defaultTimezone.'";' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('site') . ' ADD currency CHAR( 3 ) NOT NULL AFTER `timezone` ;' => false,
@@ -31,8 +33,6 @@ class Piwik_Updates_0_6_rc1 extends Piwik_Updates
 			'ALTER TABLE ' . Piwik::prefixTable('log_conversion') . ' DROP INDEX index_idsite_date' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('log_conversion') . ' DROP visit_server_date;' => false,
 			'ALTER TABLE ' . Piwik::prefixTable('log_conversion') . ' ADD INDEX index_idsite_datetime ( `idsite` , `server_time` )' => false,
-			'ALTER TABLE ' . Piwik::prefixTable('user') . ' CHANGE date_registered date_registered TIMESTAMP NULL' => false,
-			'ALTER TABLE ' . Piwik::prefixTable('site') . ' CHANGE ts_created ts_created TIMESTAMP NULL' => false,
 		);
 	}
 

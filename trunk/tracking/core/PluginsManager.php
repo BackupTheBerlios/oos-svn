@@ -4,14 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: PluginsManager.php 2117 2010-04-24 05:40:05Z vipsoft $
+ * @version $Id: PluginsManager.php 2147 2010-05-06 18:50:38Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
  */
-
-// no direct access
-defined('PIWIK_INCLUDE_PATH') or die;
 
 /**
  * @see core/PluginsFunctions/Menu.php

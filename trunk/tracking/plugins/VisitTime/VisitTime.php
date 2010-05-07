@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitTime.php 2126 2010-05-05 08:52:12Z matt $
+ * @version $Id: VisitTime.php 2156 2010-05-07 12:17:33Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
@@ -73,7 +73,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 		$labelSQL = "HOUR(visitor_localtime)";
 		$this->interestByLocalTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		
-		$labelSQL = "HOUR(visit_first_action_time)";
+		$labelSQL = "HOUR(visit_last_action_time)";
 		$this->interestByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$this->interestByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
 	}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ChartEvolution.php 2020 2010-03-30 12:36:04Z matt $
+ * @version $Id: ChartEvolution.php 2141 2010-05-06 07:51:28Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -157,7 +157,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 							'action' => 'index',
 							'idSite' => $idSite,
 							'period' => $period->getLabel(),
-							'date' => $dateInUrl,
+							'date' => $dateInUrl->toString(),
 						));
 				$axisXOnClick[] = $link;
 			}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1823 2010-02-02 18:32:07Z vipsoft $
+ * @version $Id: Controller.php 2152 2010-05-07 11:21:27Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -127,7 +127,6 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		{
 			$view->setTemplate('CoreHome/templates/datatable_actions_recursive.tpl');
 		}
-		$view->disableSort();
 		$view->disableOffsetInformation();
 		$view->disableShowAllViewsIcons();
 		$view->disableShowAllColumns();

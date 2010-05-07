@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ViewDataTable.php 1478 2009-09-22 15:06:57Z vipsoft $
+ * @version $Id: ViewDataTable.php 2145 2010-05-06 15:09:02Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -721,7 +721,7 @@ abstract class Piwik_ViewDataTable
 	 */
 	public function setLimit( $limit )
 	{
-		if($limit != 0)
+		if($limit !== 0)
 		{
 			$this->variablesDefault['filter_limit'] = $limit;
 		}
