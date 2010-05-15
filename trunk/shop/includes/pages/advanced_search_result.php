@@ -322,12 +322,21 @@ foreach ($aDefineList as $column => $value) {
               break;
 
             default:
-              $where_str .= "   (pd.products_name LIKE '%" . addslashes($search_keywords[$i]) . "%'
-                              OR p.products_model LIKE '%" . addslashes($search_keywords[$i]) . "%'
-                              OR p.products_ean LIKE '%" . addslashes($search_keywords[$i]) . "%'
-                              OR m.manufacturers_name LIKE '%" . addslashes($search_keywords[$i]) . "%'";
-              if (isset($_GET['search_in_description']) && ($_GET['search_in_description'] == '1')) $where_str .= " OR pd.products_description LIKE '%" . addslashes($search_keywords[$i]) . "%'";
-                $where_str .= ')';
+              $sEntitiesKeyword = htmlentities($search_keywords[$i]);
+            	$sEntitiesKeyword = ($sEntitiesKeyword != $search_keywords[$i]) ? addslashes($sEntitiesKeyword) : false;
+
+              $sSearchKeywords = addslashes($search_keywords[$i]);
+           	  $where_str .= "  (pd.products_name LIKE '%" . $sSearchKeywords . "%' ";
+	            $where_str .= ($sEntitiesKeyword) ? " OR pd.products_name LIKE '%" . $sEntitiesKeyword . "%' " : '';
+              $where_str .= " OR p.products_model LIKE '%" . $sSearchKeywords . "%'
+                              OR p.products_ean LIKE '%" . $sSearchKeywords . "%'
+                              OR m.manufacturers_name LIKE '%" . $sSearchKeywords . "%'";
+              $where_str .= ($sEntitiesKeyword) ? " OR m.manufacturers_name LIKE '%" . $sEntitiesKeyword . "%' " : '';                
+              if (isset($_GET['search_in_description']) && ($_GET['search_in_description'] == '1')) {
+                  $where_str .= " OR pd.products_description LIKE '%" . $sSearchKeywords . "%'";
+                  $where_str .= ($sEntitiesKeyword) ? " OR pd.products_description LIKE '%" . $sEntitiesKeyword . "%' " : '';
+              }
+              $where_str .= ')';
               break;
           }
         }

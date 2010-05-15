@@ -162,6 +162,11 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'login_process')) && (isse
         $_SESSION['customer_zone_id'] = $check_country['entry_zone_id'];
         if (ACCOUNT_VAT_ID == '1') $_SESSION['customers_vat_id_status'] = $check_customer['customers_vat_id_status'];
 
+        if (isset($_SESSION['tax_excl']) && ($_SESSION['tax_excl'] == 1)) {
+            $_SESSION['tax_excl'] = 0;
+        }
+
+
         $_SESSION['man_key'] = $keya;
         $_SESSION['member']->restore_group();
 

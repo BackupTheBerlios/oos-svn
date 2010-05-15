@@ -63,6 +63,7 @@ unset($_SESSION['comments']);
 if (ACCOUNT_VAT_ID == '1') {
     $_SESSION['customers_vat_id_status'] = 0;
 }
+unset( $_SESSION['tax_excl']);
 
 $_SESSION['cart']->reset();
 $_SESSION['member']->default_member();

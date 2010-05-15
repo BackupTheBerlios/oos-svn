@@ -468,7 +468,9 @@ if ($bError == true) {
             $_SESSION['customers_vat_id_status'] = 0;
         }
     }
-
+    if (isset($_SESSION['tax_excl']) && ($_SESSION['tax_excl'] == 1)) {
+        $_SESSION['tax_excl'] = 0;
+    }
 // restore cart contents
     $_SESSION['cart']->restore_contents();
 

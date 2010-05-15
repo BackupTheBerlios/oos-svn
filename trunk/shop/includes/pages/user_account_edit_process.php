@@ -426,7 +426,10 @@ if ($bError == true) {
             $_SESSION['customers_vat_id_status'] = 0;
         }
     }
-
+    
+    if (isset($_SESSION['tax_excl']) && ($_SESSION['tax_excl'] == 1)) {
+        $_SESSION['tax_excl'] = 0;
+    }
 
     if (SEND_CUSTOMER_EDIT_EMAILS == '1') {
         $email_owner = $aLang['owner_email_subject'] . "\n" .
