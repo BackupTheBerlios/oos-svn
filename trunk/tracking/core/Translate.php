@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Translate.php 2022 2010-03-31 05:38:24Z vipsoft $
+ * @version $Id: Translate.php 2202 2010-05-20 08:49:42Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -47,8 +47,12 @@ class Piwik_Translate
 		{
 			return;
 		}
-		
-		require PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
+		$path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
+		if(!is_readable($path))
+		{
+			throw new Exception('Language file '.$language.' not found.');
+		}
+		require $path;
 		$this->mergeTranslationArray($translations);
 		$this->setLocale();
 	}

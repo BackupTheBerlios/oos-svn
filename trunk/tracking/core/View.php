@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: View.php 2036 2010-04-01 21:08:24Z matt $
+ * @version $Id: View.php 2228 2010-05-28 04:46:21Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -34,7 +34,8 @@ class Piwik_View implements Piwik_iView
 	private $template = '';
 	private $smarty = false;
 	private $variables = array();
-	
+	private $contentType = 'text/html; charset=utf-8';
+
 	public function __construct( $templateFile, $smConf = array(), $filter = true )
 	{
 		$this->template = $templateFile;
@@ -104,6 +105,9 @@ class Piwik_View implements Piwik_iView
 		return $this->smarty->get_template_vars($key);
 	}
 
+	/**
+	 * Render view
+	 */
 	public function render()
 	{
 		try {
@@ -139,13 +143,28 @@ class Piwik_View implements Piwik_iView
 			$this->totalNumberOfQueries = 0;
 		}
  
-		@header('Content-Type: text/html; charset=utf-8');
+		@header('Content-Type: '.$this->contentType);
 		@header("Pragma: ");
 		@header("Cache-Control: no-store, must-revalidate");
 		
 		return $this->smarty->fetch($this->template);
 	}
-	
+
+	/**
+	 * Set Content-Type field in HTTP response
+	 *
+	 * @param string $contentType
+	 */
+	public function setContentType( $contentType )
+	{
+		$this->contentType = $contentType;
+	}
+
+	/**
+	 * Add form to view
+	 *
+	 * @param Piwik_Form $form
+	 */
 	public function addForm( $form )
 	{
 		// Create the renderer object	
@@ -158,7 +177,13 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->assign('form_data', $renderer->toArray());
 		$this->smarty->assign('element_list', $form->getElementList());
 	}
-	
+
+	/**
+	 * Assign value to a variable for use in Smarty template
+	 *
+	 * @param string|array $var
+	 * @param mixed $value
+	 */
 	public function assign($var, $value=null)
 	{
 		if (is_string($var))
@@ -174,6 +199,9 @@ class Piwik_View implements Piwik_iView
 		}
 	}
 
+	/**
+	 * Clear compiled Smarty templates 
+	 */
 	public function clearCompiledTemplates()
 	{
 		$this->smarty->clear_compiled_tpl();
@@ -196,6 +224,13 @@ class Piwik_View implements Piwik_iView
 	}
 */
 
+	/**
+	 * Prepend relative paths with absolute Piwik path
+	 *
+	 * @param string $value relative path (pass by reference)
+	 * @param int $key (don't care)
+	 * @param string $path Piwik root
+	 */
 	static public function addPiwikPath(&$value, $key, $path)
 	{
 		if($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR)

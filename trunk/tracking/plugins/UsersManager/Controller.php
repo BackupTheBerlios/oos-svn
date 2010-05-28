@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2143 2010-05-06 09:47:29Z matt $
+ * @version $Id: Controller.php 2227 2010-05-28 04:24:46Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
@@ -88,6 +88,10 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		{
 			$view->userAlias = $userLogin;
 			$view->userEmail = Zend_Registry::get('config')->superuser->email;
+			if(!Zend_Registry::get('config')->isFileWritable())
+			{
+				$view->configFileNotWritable = true;
+			}
 		}
 		else
 		{
@@ -119,7 +123,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		
 		$view->ignoreCookieSet = $this->isIgnoreCookieFound();
 		$this->initViewAnonymousUserSettings($view);
-		
+		$view->piwikHost = Piwik_Url::getCurrentHost();
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
@@ -143,7 +147,9 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 
 	protected function getIgnoreCookie()
 	{
-		return new Piwik_Cookie(Piwik_Tracker_Visit::COOKIE_IGNORE_VISITS);
+		$cookie_name = Zend_Registry::get('config')->Tracker->ignore_visits_cookie_name;
+		$cookie_path = Zend_Registry::get('config')->Tracker->cookie_path;
+		return new Piwik_Cookie($cookie_name, null, $cookie_path);
 	}
 	
 	protected function isIgnoreCookieFound()

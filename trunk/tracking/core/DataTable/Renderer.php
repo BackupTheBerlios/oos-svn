@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Renderer.php 2057 2010-04-07 09:11:51Z matt $
+ * @version $Id: Renderer.php 2181 2010-05-13 18:29:01Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -25,6 +25,10 @@ abstract class Piwik_DataTable_Renderer
 {
 	protected $table;
 	protected $renderSubTables = false;
+	
+	public function __construct()
+	{
+	}
 	
 	public function setRenderSubTables($enableRenderSubTable)
 	{

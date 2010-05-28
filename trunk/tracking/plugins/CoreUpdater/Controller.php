@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2136 2010-05-05 11:02:38Z matt $
+ * @version $Id: Controller.php 2198 2010-05-19 23:31:44Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
@@ -282,8 +282,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 			{
 				$this->warningMessages[] = '<b>'.Piwik_Translate('General_FileIntegrityWarningExplanation').'</b>';
 			}
-			$this->warningMessages += array_slice($integrityInfo, 1);
-
+			$this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
 		}
 
 		$view->coreError = $this->coreError;

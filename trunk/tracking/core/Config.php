@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Config.php 2130 2010-05-05 10:34:45Z matt $
+ * @version $Id: Config.php 2183 2010-05-14 08:04:11Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -161,6 +161,11 @@ class Piwik_Config
 			chdir($this->correctCwd);
 			@file_put_contents($this->pathIniFileUserConfig, $configFile );
 		}
+	}
+	
+	public function isFileWritable()
+	{
+		return is_writable($this->pathIniFileUserConfig);
 	}
 	
 	/**

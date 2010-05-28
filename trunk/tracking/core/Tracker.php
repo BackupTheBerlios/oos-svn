@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Tracker.php 1974 2010-03-22 15:06:01Z matt $
+ * @version $Id: Tracker.php 2215 2010-05-25 19:30:02Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -241,7 +241,7 @@ class Piwik_Tracker
 		if( !isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG'] ) 
 		{
 			$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-			header("Content-type: image/gif");
+			header("Content-Type: image/gif");
 			print(base64_decode($trans_gif_64));
 		}
 	}

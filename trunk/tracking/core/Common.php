@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Common.php 2149 2010-05-06 20:10:49Z vipsoft $
+ * @version $Id: Common.php 2175 2010-05-13 16:32:14Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -916,13 +916,26 @@ class Piwik_Common
 		{
 			return false;
 		}
+		// some search engines (eg. Bing Images) use the same domain 
+		// as an existing search engine (eg. Bing), we must also use the url path 
+		$refererPath = '';
+		if(isset($refererParsed['path']))
+		{
+			$refererPath = $refererParsed['path'];
+		}
+		// no search query
 		if(!isset($refererParsed['query']))
 		{
 			return false;
 		}
 		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 
-		if(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
+		$refererHostPath = $refererHost . $refererPath;
+		if(array_key_exists($refererHostPath, $GLOBALS['Piwik_SearchEngines']))
+		{
+			$refererHost = $refererHostPath;
+		}
+		elseif(!array_key_exists($refererHost, $GLOBALS['Piwik_SearchEngines']))
 		{
 			return false;
 		}
@@ -943,10 +956,12 @@ class Piwik_Common
 		}
 		$query = $refererParsed['query'];
 
-		if($searchEngineName == 'Google Images')
+		if($searchEngineName == 'Google Images'
+			|| ($searchEngineName == 'Google' && strpos($refererUrl, '/imgres') !== false) )
 		{
 			$query = urldecode(trim(strtolower(self::getParameterFromQueryString($query, 'prev'))));
 			$query = str_replace('&', '&amp;', strstr($query, '?'));
+			$searchEngineName = 'Google Images';
 		}
 
 		foreach($variableNames as $variableName)

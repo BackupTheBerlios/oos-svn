@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: HtmlTable.php 1796 2010-01-22 14:43:11Z vipsoft $
+ * @version $Id: HtmlTable.php 2202 2010-05-20 08:49:42Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -82,14 +82,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	}
 
 	/**
-	 * Hook called after the dataTable has been loaded from the API
-	 * Can be used to add, delete or modify the data freshly loaded
-	 */
-	protected function postDataTableLoadedFromAPI()
-	{
-	}
-
-	/**
 	 * @return Piwik_View with all data set
 	 */
 	protected function buildView()
@@ -103,10 +95,11 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		else
 		{
 			$columns = $this->getColumnsToDisplay();
-			$columnTranslations = array();
+			$columnTranslations = $columnDescriptions = array();
 			foreach($columns as $columnName)
 			{
 				$columnTranslations[$columnName] = $this->getColumnTranslation($columnName);
+				$columnDescriptions[$columnName] = $this->getColumnDescription($columnName);
 			}
 			$nbColumns = count($columns);
 			// case no data in the array we use the number of columns set to be displayed 
@@ -118,6 +111,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 			$view->arrayDataTable 	= $this->getPHPArrayFromDataTable();
 			$view->dataTableColumns = $columns;
 			$view->columnTranslations = $columnTranslations;
+			$view->columnDescriptions = $columnDescriptions;
 			$view->nbColumns = $nbColumns;
 			$view->defaultWhenColumnValueNotDefined = '-';
 		}

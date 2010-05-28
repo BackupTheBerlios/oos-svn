@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Goals.php 1968 2010-03-21 17:42:23Z vipsoft $
+ * @version $Id: Goals.php 2204 2010-05-20 09:27:54Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -67,14 +67,14 @@ class Piwik_Goals extends Piwik_Plugin
 		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
 		if(count($goals)==0)
 		{
-			Piwik_AddMenu('Goals', 'Add a new Goal', array('module' => 'Goals', 'action' => 'addNewGoal'));
+			Piwik_AddMenu('Goals_Goals', 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
 		}
 		else
 		{
-			Piwik_AddMenu('Goals', 'Overview', array('module' => 'Goals'));
+			Piwik_AddMenu('Goals_Goals', 'Goals_Overview', array('module' => 'Goals'));
 			foreach($goals as $goal) 
 			{
-				Piwik_AddMenu('Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+				Piwik_AddMenu('Goals_Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
 			}
 		}
 	}
@@ -88,7 +88,7 @@ class Piwik_Goals extends Piwik_Plugin
 	static public function getRecordName($recordName, $idGoal = false, $visitorReturning = false)
 	{
 		$idGoalStr = $returningStr = '';
-		if($idGoal !== false)
+		if(!empty($idGoal))
 		{
 			$idGoalStr = $idGoal . "_";
 		}

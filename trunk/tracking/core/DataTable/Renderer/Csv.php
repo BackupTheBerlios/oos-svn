@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Csv.php 2131 2010-05-05 10:35:24Z matt $
+ * @version $Id: Csv.php 2216 2010-05-25 19:32:43Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -61,14 +61,19 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	 */
 	public $exportIdSubtable = true;
 	
-	function setConvertToUnicode($bool)
+	public function render()
+	{
+		return $this->output($this->renderTable($this->table));
+	}
+	
+	public function setConvertToUnicode($bool)
 	{
 		$this->convertToUnicode = $bool;
 	}
 	
-	function render()
+	public function setSeparator($separator)
 	{
-		return $this->output($this->renderTable($this->table));
+		$this->separator = $separator;
 	}
 	
 	protected function renderTable($table)
@@ -253,7 +258,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			return 'No data available';
 		}
 		// silent fail otherwise unit tests fail
-		@header("Content-type: application/vnd.ms-excel");
+		@header("Content-Type: application/vnd.ms-excel");
 		@header("Content-Disposition: attachment; filename=piwik-report-export.csv");
 		if($this->convertToUnicode 
 			&& function_exists('mb_convert_encoding'))

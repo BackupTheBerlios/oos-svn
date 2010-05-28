@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Url.php 2039 2010-04-02 04:37:47Z vipsoft $
+ * @version $Id: Url.php 2214 2010-05-25 04:04:15Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -26,9 +26,10 @@ class Piwik_Url
 	 */
 	static public function getCurrentUrl()
 	{
-		return	self::getCurrentHost()
-				. self::getCurrentScriptName() 
-				. self::getCurrentQueryString();
+		return self::getCurrentScheme() . '://'
+			. self::getCurrentHost()
+			. self::getCurrentScriptName() 
+			. self::getCurrentQueryString();
 	}
 
 	/**
@@ -39,8 +40,9 @@ class Piwik_Url
 	 */
 	static public function getCurrentUrlWithoutQueryString()
 	{
-		return	self::getCurrentHost()
-				. self::getCurrentScriptName() ;
+		return self::getCurrentScheme() . '://'
+			. self::getCurrentHost()
+			. self::getCurrentScriptName();
 	}
 
 	/**
@@ -51,9 +53,9 @@ class Piwik_Url
 	 */
 	static public function getCurrentUrlWithoutFileName()
 	{
-		$host = self::getCurrentHost();
-		$urlDir = self::getCurrentScriptPath();
-		return $host.$urlDir;
+		return self::getCurrentScheme() . '://'
+			. self::getCurrentHost()
+			. self::getCurrentScriptPath();
 	}
 
 	/**
@@ -117,9 +119,9 @@ class Piwik_Url
 	 */
 	static public function getCurrentScheme()
 	{
-    	if(isset($_SERVER['HTTPS'])
-    			&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)
-    			)
+		if(isset($_SERVER['HTTPS'])
+				&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)
+			)
 		{
 			$scheme = 'https';
 		}
@@ -138,23 +140,17 @@ class Piwik_Url
 	 */
 	static public function getCurrentHost()
 	{
-		$url = self::getCurrentScheme();
-		$url .= '://';
-
 		if (!empty($_SERVER['HTTP_X_FORWARDED_HOST']))
 		{
-			$proxies = Piwik_Common::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_HOST']);
-			$url .=  $proxies[0];
+			return Piwik_Common::getFirstIpFromList($_SERVER['HTTP_X_FORWARDED_HOST']);
 		}
-		else if(isset($_SERVER['HTTP_HOST']))
+
+		if(isset($_SERVER['HTTP_HOST']))
 		{
-			$url .= $_SERVER['HTTP_HOST'];
+			return $_SERVER['HTTP_HOST'];
 		}
-		else
-		{
-			$url .= 'unknown';
-		}
-		return $url;
+
+		return 'unknown';
 	}
 
 	/**

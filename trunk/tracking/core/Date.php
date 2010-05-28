@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Date.php 2126 2010-05-05 08:52:12Z matt $
+ * @version $Id: Date.php 2186 2010-05-15 20:51:26Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -194,16 +194,16 @@ class Piwik_Date
 		// I decided to get the date without the timezone information, and create the timestamp from the truncated string. 
 		// Unit tests pass (@see Date.test.php) but I'm pretty sure this is not the right way to do it
 		date_default_timezone_set($this->timezone);
-		$dtzone = new DateTimeZone('UTC');
-        $time = date('r', $this->timestamp);
-        $dtime = new DateTime($time);
-        $dtime->setTimezone($dtzone);
-        $dateWithTimezone = $dtime->format('r');
-        $dateWithoutTimezone = substr( $dateWithTimezone, 0, -6);
-        $timestamp = strtotime($dateWithoutTimezone);
+		$dtzone = timezone_open('UTC');
+		$time = date('r', $this->timestamp);
+		$dtime = date_create($time);
+		date_timezone_set($dtime, $dtzone);
+		$dateWithTimezone = date_format($dtime, 'r');
+		$dateWithoutTimezone = substr($dateWithTimezone, 0, -6);
+		$timestamp = strtotime($dateWithoutTimezone);
 		date_default_timezone_set('UTC');
-		
-        return (int)$timestamp;
+
+		return (int)$timestamp;
 	}
 	
 	/**

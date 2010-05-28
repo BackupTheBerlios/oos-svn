@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2149 2010-05-06 20:10:49Z vipsoft $
+ * @version $Id: Controller.php 2198 2010-05-19 23:31:44Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -153,7 +153,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		if($form->validate())
 		{
 			$adapter = $form->getSubmitValue('adapter');
-			$port = Piwik_Db::getDefaultPortForAdapter($adapter);
+			$port = Piwik_Db_Adapter::getDefaultPortForAdapter($adapter);
 
 			$dbInfos = array(
 				'host' 			=> $form->getSubmitValue('host'),
@@ -183,7 +183,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					Piwik::createDatabaseObject($dbInfos);
 					$this->session->databaseCreated = true;
 				} catch (Zend_Db_Adapter_Exception $e) {
-					$db = Piwik_Db::factory($adapter, $dbInfos);
+					$db = Piwik_Db_Adapter::factory($adapter, $dbInfos);
 
 					// database not found, we try to create  it
 					if($db->isErrNo($e, '1049'))
@@ -686,7 +686,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['pdo_ok'] = true;
 		}
 
-		$infos['adapters'] = Piwik_Db::getAdapters();
+		$infos['adapters'] = Piwik_Db_Adapter::getAdapters();
 
 		$infos['json'] = false;
 		if(in_array('json', $extensions))
@@ -772,8 +772,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['memoryMinimum'] = $minimumMemoryLimit;
 
 		$infos['memory_ok'] = true;
-		// on windows the ini_get is not working?
-		$infos['memoryCurrent'] = '?M';
+		$infos['memoryCurrent'] = '-1';
 
 		$raised = Piwik::raiseMemoryLimitIfNecessary();
 		if(	$memoryValue = Piwik::getMemoryLimitValue() )
@@ -802,7 +801,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			{
 				$infos['integrityErrorMessages'][] = '<b>'.Piwik_Translate('General_FileIntegrityWarningExplanation').'</b>';
 			}
-			$infos['integrityErrorMessages'] += array_slice($integrityInfo, 1);
+			$infos['integrityErrorMessages'] = array_merge($infos['integrityErrorMessages'], array_slice($integrityInfo, 1));
 		}
 
 		$infos['timezone'] = Piwik::isTimezoneSupportEnabled();

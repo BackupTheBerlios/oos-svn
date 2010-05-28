@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Visit.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Visit.php 2211 2010-05-24 08:02:52Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -32,10 +32,14 @@ class Piwik_Tracker_Generator_Visit extends Piwik_Tracker_Visit
 	
 	protected function getCurrentTimestamp()
 	{
-		self::$timestampToUse = max(@$this->visitorInfo['visit_last_action_time'],self::$timestampToUse);
-		self::$timestampToUse += mt_rand(4,1840);
 		return self::$timestampToUse;
 	}
+	
+	public function generateTimestamp()
+	{
+		self::$timestampToUse = max(@$this->visitorInfo['visit_last_action_time'],self::$timestampToUse);
+		self::$timestampToUse += mt_rand(4,1840);
+	}		
 	
 	protected function updateCookie()
 	{

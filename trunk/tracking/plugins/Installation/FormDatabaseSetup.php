@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FormDatabaseSetup.php 2070 2010-04-09 13:36:32Z matt $
+ * @version $Id: FormDatabaseSetup.php 2167 2010-05-12 05:12:45Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -22,7 +22,7 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_Form
 	}
 	function init()
 	{		
-		$availableAdapters = Piwik_Db::getAdapters();
+		$availableAdapters = Piwik_Db_Adapter::getAdapters();
 		$adapters = array();
 		foreach($availableAdapters as $adapter => $port)
 		{

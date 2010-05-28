@@ -2,10 +2,9 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Piwik &rsaquo; Administration</title>
+<title>Piwik &rsaquo; {'CoreAdminHome_Administration'|translate}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Piwik {$piwik_version}" />
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 
 {include file="CoreHome/templates/js_global_variables.tpl"}
@@ -47,8 +46,13 @@
 	{include file="CoreAdminHome/templates/menu.tpl"}
 {/if}
 
-{if strpos($url, 'updated=1')}	
+{if !empty($configFileNotWritable)}
+<div class="ajaxSuccess" style="display:normal">
+	<p>{'General_ConfigFileIsNotWritable'|translate:"(config/config.ini.php)":"<br/>"}</p>
+</div>
+{elseif strpos($url, 'updated=1')}	
 <div class="ajaxSuccess" style="display:normal">
 	<p>{'General_YourChangesHaveBeenSaved'|translate}</p>
 </div>
 {/if}
+

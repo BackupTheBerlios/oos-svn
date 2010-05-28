@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2053 2010-04-05 05:08:29Z vipsoft $
+ * @version $Id: Controller.php 2183 2010-05-14 08:04:11Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CorePluginsAdmin
@@ -21,7 +21,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		Piwik::checkUserIsSuperUser();
 		
 		$plugins = array();
-
+	
 		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
 		foreach($listPlugins as $pluginName)
 		{
@@ -45,6 +45,11 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 		$view->pluginsName = $plugins;
 		$this->setGeneralVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
+		if(!Zend_Registry::get('config')->isFileWritable())
+		{
+			$view->configFileNotWritable = true;
+		}
+		
 		echo $view->render();
 	}
 

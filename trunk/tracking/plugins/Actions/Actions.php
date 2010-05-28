@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Actions.php 2043 2010-04-02 12:21:09Z matt $
+ * @version $Id: Actions.php 2202 2010-05-20 08:49:42Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -76,6 +76,8 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	function addWidgets()
 	{
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesEntry', 'Actions', 'getEntryPageUrls');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesExit', 'Actions', 'getExitPageUrls');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPageTitles', 'Actions', 'getPageTitles');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
@@ -85,6 +87,8 @@ class Piwik_Actions extends Piwik_Plugin
 	function addMenus()
 	{
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'getPageUrls'));
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'getEntryPageUrls'));
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'getExitPageUrls'));
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'getPageTitles'));
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'getOutlinks'));
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'getDownloads'));
@@ -426,6 +430,14 @@ class Piwik_Actions extends Piwik_Plugin
 							Piwik_DataTable_Row::METADATA => array('url' => (string)$row['name']),
 						));
 				}
+			}
+			
+			// For pages that bounce, we don't know the time on page.
+			if($row['type'] == Piwik_Tracker_Action::TYPE_ACTION_URL
+				&& isset($row['nb_visits'])
+				&& !isset($row['sum_time_spent']))
+			{
+				$row['sum_time_spent'] = Zend_Registry::get('config')->Tracker->default_time_one_page_visit * $row['nb_visits'];
 			}
 			
 			foreach($row as $name => $value)

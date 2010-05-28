@@ -143,8 +143,8 @@ datatable_archiving_maximum_rows_providers = 500
 use_ajax_cdn = 0
 
 ; required AJAX library versions
-jquery_version = 1.3.2
-jqueryui_version = 1.7.2
+jquery_version = 1.4.2
+jqueryui_version = 1.8.1
 swfobject_version = 2.2
 
 ; If set to 0, Flash widgets require separate HTTP requests
@@ -162,8 +162,8 @@ record_statistics			= 1
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds after his last page view, it will be recorded as a new visit  
 visit_standard_length       = 1800
 
-; visitors that stay on the website and view only one page will be considered staying 10 seconds
-default_time_one_page_visit = 10
+; visitors that stay on the website and view only one page will be considered staying 0 second
+default_time_one_page_visit = 0
 
 ; if set to 0, any goal conversion will be credited to the last more recent non empty referer. 
 ; when set to 1, the first ever referer used to reach the website will be used
@@ -189,6 +189,9 @@ cookie_expire = 63072000
 ; The path on the server in which the cookie will be available on. 
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
 cookie_path = 
+
+; name of the cookie to ignore visits
+ignore_visits_cookie_name = piwik_ignore 
 
 ; variable name to track any campaign, for example CPC campaign
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'

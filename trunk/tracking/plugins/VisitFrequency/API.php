@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1832 2010-02-10 08:14:15Z vipsoft $
+ * @version $Id: API.php 2202 2010-05-20 08:49:42Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
@@ -54,7 +54,7 @@ class Piwik_VisitFrequency_API
 		$dataTable = $archive->getDataTableFromNumeric($toFetch);
 		if($bounceRateReturningRequested !== false)
 		{
-			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_count_returning', 'bounce_rate_returning', 'nb_visits_returning', 0));
+			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate_returning', 'bounce_count_returning', 'nb_visits_returning', 0));
 			$dataTable->deleteColumns($toFetch);
 		}
 		return $dataTable;

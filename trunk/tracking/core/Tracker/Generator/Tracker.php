@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Tracker.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Tracker.php 2211 2010-05-24 08:02:52Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -43,6 +43,7 @@ class Piwik_Tracker_Generator_Tracker extends Piwik_Tracker
 	protected function getNewVisitObject()
 	{
 		$visit = new Piwik_Tracker_Generator_Visit();
+		$visit->generateTimestamp();
 		return $visit;
 	}	
 	

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2127 2010-05-05 10:07:16Z matt $
+ * @version $Id: API.php 2230 2010-05-28 06:58:38Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
@@ -636,7 +636,7 @@ class Piwik_SitesManager_API
     		'USD' => 'US Dollar ($)',
             'EUR' => 'Euro (€)',
             'JPY' => 'Japanese Yen (¥)',
-            'GBP' => 'British Pound Sterling (K£)',
+            'GBP' => 'British Pound Sterling (£)',
             'AUD' => 'Australian Dollar (A$)',
             'KRW' => 'South Korean Won (₩)',
             'BRL' => 'Brazilian Real (R$)',

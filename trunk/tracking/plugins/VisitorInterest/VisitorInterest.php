@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitorInterest.php 1817 2010-01-30 01:51:09Z vipsoft $
+ * @version $Id: VisitorInterest.php 2173 2010-05-13 10:02:47Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitorInterest
@@ -74,7 +74,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 	function addMenu()
 	{
 		Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency', 
-							  'General_Visitors', 'VisitorInterest_SubmenuFrequencyLoyalty' );
+							  'General_Visitors', 'VisitorInterest_Engagement' );
 	}
 
 	function postLoad()

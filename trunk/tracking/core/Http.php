@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Http.php 1988 2010-03-24 17:27:35Z vipsoft $
+ * @version $Id: Http.php 2207 2010-05-23 22:25:02Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -32,7 +32,7 @@ class Piwik_Http
 			if(@ini_get('allow_url_fopen') != '1')
 			{
 				$method = 'socket';
-				if(preg_match('/(^|,|\s)fsockopen($|,|\s)/', @ini_get('disable_functions')))
+				if(!function_exists('fsockopen'))
 				{
 					return null;
 				}
@@ -85,12 +85,13 @@ class Piwik_Http
 	 */
 	static public function sendHttpRequestBy($method = 'socket', $aUrl, $timeout, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0)
 	{
-		if ($followDepth > 3)
+		if ($followDepth > 5)
 		{
 			throw new Exception('Too many redirects ('.$followDepth.')');
 		}
 
 		$contentLength = 0;
+		$fileLength = 0;
 
 		if($method == 'socket')
 		{
@@ -139,7 +140,6 @@ class Piwik_Http
 			// process header
 			$status = null;
 			$expectRedirect = false;
-			$fileLength = 0;
 
 			while(!feof($fsock))
 			{
@@ -223,10 +223,12 @@ class Piwik_Http
 					throw new Exception('Timed out waiting for server response');
 				}
 
+				$fileLength += strlen($line);
+
 				if(is_resource($file))
 				{
 					// save to file
-					$fileLength += fwrite($file, $line);
+					fwrite($file, $line);
 				}
 				else
 				{
@@ -254,7 +256,7 @@ class Piwik_Http
 					'http' => array(
 						'header' => 'User-Agent: Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : '')."\r\n"
 						           .'Referer: http://'.Piwik_Common::getIpString()."/\r\n",
-						'max_redirects' => 3, // PHP 5.1.0
+						'max_redirects' => 5, // PHP 5.1.0
 						'timeout' => $timeout, // PHP 5.2.1
 					)
 				);
@@ -262,6 +264,8 @@ class Piwik_Http
 			}
 
 			$response = @file_get_contents($aUrl, 0, $ctx);
+			$fileLength = strlen($response);
+
 			if(is_resource($file))
 			{
 				// save to file
@@ -281,22 +285,36 @@ class Piwik_Http
 			$curl_options = array(
 				CURLOPT_URL => $aUrl,
 				CURLOPT_HEADER => false,
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_TIMEOUT => $timeout,
+				CURLOPT_CONNECTTIMEOUT => $timeout,
 				CURLOPT_BINARYTRANSFER => is_resource($file),
 				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_MAXREDIRS => 3,
+				CURLOPT_MAXREDIRS => 5,
 				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
 				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
 			);
+			if(is_resource($file))
+			{
+				// write directly to file
+				$curl_options[CURLOPT_FILE] = $file;
+			}
+			else
+			{
+				$curl_options[CURLOPT_RETURNTRANSFER] = true;
+			}
 			@curl_setopt_array($ch, $curl_options);
 
 			$response = @curl_exec($ch);
-			if(is_resource($file))
+			if($response === false)
 			{
-				// save to file
-				fwrite($file, $response);
+				$errstr = curl_error($ch);
+				if($errstr != '')
+				{
+					throw new Exception('curl_exec: '.$errstr);
+				}
 			}
+
+			$contentLength = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+			$fileLength = is_resource($file) ? curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : strlen($response);
 
 			@curl_close($ch);
 			unset($ch);
@@ -310,14 +328,16 @@ class Piwik_Http
 		{
 			fflush($file);
 			@fclose($file);
-			if($contentLength && (($fileLength != $contentLength) || (filesize($destinationPath) != $contentLength)))
+
+			$fileSize = filesize($destinationPath);
+			if((($contentLength > 0) && ($fileLength != $contentLength)) || ($fileSize != $fileLength))
 			{
-				throw new Exception('File size error: '.$destinationPath.'; expected '.$contentLength.' bytes; received '.$fileLength.' bytes');
+				throw new Exception('File size error: '.$destinationPath.'; expected '.$contentLength.' bytes; received '.$fileLength.' bytes; saved '.$fileSize.' bytes to file');
 			}
 			return true;
 		}
 
-		if($contentLength && strlen($response) != $contentLength)
+		if(($contentLength > 0) && ($fileLength != $contentLength))
 		{
 			throw new Exception('Content length error: expected '.$contentLength.' bytes; received '.$fileLength.' bytes');
 		}
@@ -333,6 +353,8 @@ class Piwik_Http
 	 */
 	static public function fetchRemoteFile($url, $pathDestination, $tries = 0)
 	{
+		@ignore_user_abort(true);
+		Piwik::setMaxExecutionTime(0);
 		return self::sendHttpRequest($url, 10, 'Update', $pathDestination, $tries);
 	}
 }

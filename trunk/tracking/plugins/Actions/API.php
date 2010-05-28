@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1832 2010-02-10 08:14:15Z vipsoft $
+ * @version $Id: API.php 2202 2010-05-20 08:49:42Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -62,7 +62,18 @@ class Piwik_Actions_API
 	
 	public function getPageUrls( $idSite, $period, $date, $expanded = false, $idSubtable = false )
 	{
-		return $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
+		$dataTable = $this->getDataTable('Actions_actions_url', $idSite, $period, $date, $expanded, $idSubtable );
+		
+		// Average time on page = total time on page / number visits on that page
+		$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_page', 'sum_time_spent', 'nb_visits', 0));
+		
+		// Bounce rate = single page visits on this page / visits started on this page
+		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'entry_bounce_count', 'entry_nb_visits', 0));
+		
+		// % Exit = Number of visits that finished on this page / visits on this page
+		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_visits', 0));
+		
+		return $dataTable;
 	}
 
 	public function getPageTitles( $idSite, $period, $date, $expanded = false, $idSubtable = false)

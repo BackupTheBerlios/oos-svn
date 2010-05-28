@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Sort.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Sort.php 2225 2010-05-27 18:20:37Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -161,6 +161,10 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 			return;
 		}
 		$row = current($rows);
+		if($row === false)
+		{
+			return;
+		}
 		$this->columnToSort = $this->selectColumnToSort($row);
 		
 		$value = $row->getColumn($this->columnToSort);

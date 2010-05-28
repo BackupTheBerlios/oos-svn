@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2020 2010-03-30 12:36:04Z matt $
+ * @version $Id: Controller.php 2204 2010-05-20 09:27:54Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -129,7 +129,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->urlSparklineConversionRate 	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('conversion_rate'))));
 		$view->urlSparklineRevenue 			= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('revenue'))));
 
-		$request = new Piwik_API_Request("method=Goals.get&format=original");
+		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=0");
 		$datatable = $request->process();
 		$dataRow = $datatable->getFirstRow();
 		$view->nb_conversions = $dataRow->getColumn('Goal_nb_conversions');

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Piwik.php 2149 2010-05-06 20:10:49Z vipsoft $
+ * @version $Id: Piwik.php 2223 2010-05-27 17:26:18Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -130,7 +130,7 @@ class Piwik
 
 		// more selective allow/deny filters
 		$allowAny = "<Files \"*\">\nAllow from all\nSatisfy any\n</Files>\n";
-		$allowStaticAssets = "<Files ~ \"\\.(gif|ico|jpg|png|js|css|swf)$\">\nSatisfy any\nAllow from all\n</Files>\n";
+		$allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|js|css|swf)$\">\nSatisfy any\nAllow from all\n</Files>\n";
 		$denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl)$\">\nDeny from all\n</Files>\n";
 		$directoriesToProtect = array(
 			'/js' => $allowAny,
@@ -165,49 +165,48 @@ class Piwik
 		}
 
 		$manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
-		if(file_exists($manifest))
-		{
-			require_once $manifest;
-
-			$files = Manifest::$files;
-
-			$hasMd5file = function_exists('md5_file');
-			foreach($files as $path => $props)
-			{
-				if(in_array($path, $exclude))
-				{
-					continue;
-				}
-
-				$file = PIWIK_INCLUDE_PATH . '/' . $path;
-				
-				if(!file_exists($file))
-				{
-					$messages[] = Piwik_Translate('General_ExceptionMissingFile', $file);
-				}
-				else if(filesize($file) != $props[0])
-				{
-					$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
-				}
-				else if($hasMd5file && (@md5_file($file) !== $props[1]))
-				{
-					$messages[] = Piwik_Translate('General_ExceptionFileIntegrity', $file);
-				}
-			}
-
-			if(count($messages) > 1)
-			{
-				$messages[0] = false;
-			}
-
-			if(!$hasMd5file)
-			{
-				$messages[] = Piwik_Translate('General_WarningFileIntegrityNoMd5file');
-			}
-		}
-		else
+		if(!file_exists($manifest))
 		{
 			$messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest');
+			return $messages;
+		}
+
+		require_once $manifest;
+
+		$files = Manifest::$files;
+
+		$hasMd5file = function_exists('md5_file');
+		foreach($files as $path => $props)
+		{
+			if(in_array($path, $exclude))
+			{
+				continue;
+			}
+
+			$file = PIWIK_INCLUDE_PATH . '/' . $path;
+				
+			if(!file_exists($file))
+			{
+				$messages[] = Piwik_Translate('General_ExceptionMissingFile', $file);
+			}
+			else if(filesize($file) != $props[0])
+			{
+				$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+			}
+			else if($hasMd5file && (@md5_file($file) !== $props[1]))
+			{
+				$messages[] = Piwik_Translate('General_ExceptionFileIntegrity', $file);
+			}
+		}
+
+		if(count($messages) > 1)
+		{
+			$messages[0] = false;
+		}
+
+		if(!$hasMd5file)
+		{
+			$messages[] = Piwik_Translate('General_WarningFileIntegrityNoMd5file');
 		}
 
 		return $messages;
@@ -249,6 +248,9 @@ class Piwik
 	/**
 	 * Get php memory_limit
 	 * 
+	 * Prior to PHP 5.2.1, or on Windows, --enable-memory-limit is not a
+	 * compile-time default, so ini_get('memory_limit') may return false.
+	 *
 	 * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
 	 * @return int memory limit in megabytes
 	 */
@@ -591,20 +593,21 @@ class Piwik
 		
 		if($days > 0)
 		{
-			return sprintf("%d days %d hours", $days, $hours);
+			$return = sprintf(Piwik_Translate('General_DaysHours'), $days, $hours);
 		}
 		elseif($hours > 0)
 		{
-			return sprintf("%d hours %d min", $hours, $minutes);
+			$return = sprintf(Piwik_Translate('General_HoursMinutes'), $hours, $minutes);
 		}
 		elseif($minutes > 0)
 		{
-			return sprintf("%d&nbsp;min&nbsp;%ds", $minutes, $seconds);		
+			$return = sprintf(Piwik_Translate('General_MinutesSeconds'), $minutes, $seconds);		
 		}
 		else
 		{
-			return sprintf("%ds", $seconds);		
+			$return = sprintf(Piwik_Translate('General_Seconds'), $seconds);		
 		}
+		return str_replace(' ', '&nbsp;', $return);
 	}
 	
 	static public function getRandomTitle()
@@ -622,7 +625,7 @@ class Piwik
 						'Free web analytics',
 						'Free web statistics',
 				);
-		$id = abs(intval(md5(substr(Piwik_Url::getCurrentHost(),7))));
+		$id = abs(intval(md5(Piwik_Url::getCurrentHost())));
 		$title = $titles[ $id % count($titles)];
 		return $title;
 	}
@@ -1425,7 +1428,7 @@ class Piwik
 			unset($dbInfos['tables_prefix']);
 			unset($dbInfos['adapter']);
 
-			$db = Piwik_Db::factory($adapter, $dbInfos);
+			$db = Piwik_Db_Adapter::factory($adapter, $dbInfos);
 			$db->getConnection();
 
 			Zend_Db_Table::setDefaultAdapter($db);

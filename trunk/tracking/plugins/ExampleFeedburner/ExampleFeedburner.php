@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleFeedburner.php 1988 2010-03-24 17:27:35Z vipsoft $
+ * @version $Id: ExampleFeedburner.php 2206 2010-05-22 12:37:23Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleFeedburner
@@ -92,14 +92,15 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	 */
 	protected function getFeedData($uri)
 	{
-		// Awareness API only supports yesterday and back   
-		// we get stats for previous two days
-		// http://code.google.com/apis/feedburner/awareness_api.html#dates
-		$yesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-1,   date("Y")));
-		$beforeYesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-2,   date("Y")));
+		// Awareness API only supports yesterday and back;
+		// we get stats for previous two days;
+		// @see http://code.google.com/apis/feedburner/awareness_api.html#dates
+		$yesterday = Piwik_Date::factory('-1 day', 'America/Los_Angeles');
+		$beforeYesterday = Piwik_Date::factory('-2 day', 'America/Los_Angeles');
 		
 		//create url to gather XML feed from
-		$url = 'http://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.$uri.'&dates='.$beforeYesterday.','.$yesterday.'';
+		$url = 'https://feedburner.google.com/api/awareness/1.0/GetFeedData?uri='.$uri.'&dates='.$beforeYesterday->toString().','.$yesterday->toString();
+		$data = '';
 		try {
 			$data = Piwik_Http::sendHttpRequest($url, 5);
 			$xml = new SimpleXMLElement($data);

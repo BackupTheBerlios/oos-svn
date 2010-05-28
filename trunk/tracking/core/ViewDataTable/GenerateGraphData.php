@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GenerateGraphData.php 2145 2010-05-06 15:09:02Z matt $
+ * @version $Id: GenerateGraphData.php 2216 2010-05-25 19:32:43Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -89,7 +89,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 
 		if (!Zend_Registry::get('config')->General->serve_widget_and_data)
 		{
-			@header( "Content-type: application/json" );
+			@header( "Content-Type: application/json" );
 		}
 
 		// Graphs require the full dataset, setting limit to null (same as 'no limit')
