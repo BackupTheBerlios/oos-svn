@@ -1,28 +1,14 @@
-// Register onclick event
-function registerClick() {
-	jQuery('#taglist ul li span').bind("click", function(){
+jQuery(document).ready(function() {
+	jQuery("#term-list-inner a").click(function(event) {
+		event.preventDefault();
+		
 		addTag(this.innerHTML, "renametag_old");
 		addTag(this.innerHTML, "deletetag_name");
 		addTag(this.innerHTML, "addtag_match");
 		addTag(this.innerHTML, "tagname_match");
-	});
-}
-	
-// Register ajax nav and reload event once ajax data loaded
-function registerAjaxNav() {
-	jQuery(".navigation a").click(function() {
-		jQuery("#ajax_area_tagslist").load(this.href, function(){
-  			registerClick();
-  			registerAjaxNav();
-		});
+		
 		return false;
 	});
-}
-
-// Register initial event
-jQuery(document).ready(function() {
-	registerClick();
-	registerAjaxNav();
 });
 
 // Add tag into input

@@ -2,16 +2,16 @@
 Contributors: momo360modena
 Donate link: http://www.herewithme.fr/wordpress-plugins/simple-tags#donation
 Tags: tag, posts, tags, admin, administration, tagging, navigation, import
-Requires at least: 2.8
-Tested up to: 2.9.1
-Stable tag: 1.7.4.4
+Requires at least: 3.0
+Tested up to: 3.0
+Stable tag: 1.8
 
-Simple Tags is THE perfect tool to manage perfectly your WP 2.8 and 2.9 tags (Tags suggestion, Mass Edit Terms (Tags and Category), Auto link tags, Ajax Autocompletion, Click tags, Related Posts, Related Tags, Advanced edit tags, etc.)
+Simple Tags is THE perfect tool to manage perfectly your WP 3.0 tags (Tags suggestion, Mass Edit Terms (Tags and Category), Auto link tags, Ajax Autocompletion, Click tags, Related Posts, Related Tags, Advanced edit tags, etc.)
 
 == Description ==
 
 Simple Tags is the successor of Simple Tagging Plugin
-**This is THE perfect tool to manage perfeclty your WP 2.8 and 2.9 tags**
+**This is THE perfect tool to manage perfeclty your WP 3.0 tags**
 
 It was written with this philosophy : best performances, more secured and brings a lot of new functions
 
@@ -56,6 +56,7 @@ The Simple Tags can be installed in 4 easy steps:
 
 = Simple Tags is compatible with which WordPress versions ? =
 
+1.8   and upper are compatible only with WordPress 3.0 and upper !
 1.7   and upper are compatible only with WordPress 2.8, 2.9 and upper !
 1.6.7 and before are compatible with WordPress 2.3 to 2.7
 Before WP 2.3, you must use the plugin Simple Tagging.
@@ -81,10 +82,23 @@ Then: Manage - Import - Embedded Tags
 3. Autotagging your content !
 4. Add tags easily with click tags !
 3. To help you to add easily tags, Simple Tags has an autocompletion script. When you begin to tape a letter or more, a list a tags appears : you have only to choose ! You can choose the down direction to see all the tags.
-6. You also can suggest tags from lot's of service (local, tag the net, yahoo!)
+6. You also can suggest tags from lot's of service (Yahoo! Term Extraction API, OpenCalais, Alchemy, Zemanta, Tag The Net, Local DB)
 
 == Changelog ==
 
+* Version 1.8.0 :
+	* Compatibility 3.0
+	* Add an option for auto-tags
+	* Remove somes notices
+	* Fix a bug with tag cloud and empty terms
+	* Fix a bug with comma on font-size CSS depending locales
+* Version 1.7.5 :
+	* Fix a bug with auto links terms. (type input)
+	* Fix cache conflict key
+	* Fix a opencalais bug on firt pass integration
+	* Fix a bug with limit days/category filter for tag cloud.
+	* Fix javascript autocomplete for allow enter new tag.
+	* Re-add list of tags on manage page.
 * Version 1.7.4.4 :
 	* Fix a stupid during the first activation. (PHP4/PHP5)
 * Version 1.7.4.3 :

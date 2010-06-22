@@ -14,6 +14,14 @@ return array(
 	'administration' => array(
 		array('use_click_tags', __('Activate click tags feature:', 'simpletags'), 'checkbox', '1',
 			__('This feature add a link allowing you to display all the tags of your database. Once displayed, you can click over to add tags to post.', 'simpletags')),
+		array('order_click_tags', __('Click tags order', 'simpletags'), 'dropdown', 'count-asc/count-desc/name-asc/name-desc/random',
+			'<ul>
+				<li>'.__('<code>count-asc</code> &ndash; Least used.', 'simpletags').'</li>
+				<li>'.__('<code>count-desc</code> &ndash; Most popular. (default)', 'simpletags').'</li>
+				<li>'.__('<code>name-asc</code> &ndash; Alphabetical.', 'simpletags').'</li>
+				<li>'.__('<code>name-desc</code> &ndash; Inverse Alphabetical.', 'simpletags').'</li>
+				<li>'.__('<code>random</code> &ndash; Random.', 'simpletags').'</li>
+			</ul>'),
 		array('use_autocompletion', __('Activate autocompletion feature with old input:', 'simpletags'), 'checkbox', '1',
 			__('This feature displays a visual help allowing to enter tags more easily. As well add tags is easier than the autocompletion default of WordPress', 'simpletags')),
 		array('use_suggested_tags', __('Activate suggested tags feature: (Yahoo! Term Extraction API, OpenCalais, Alchemy, Zemanta, Tag The Net, Local DB)', 'simpletags'), 'checkbox', '1',
@@ -34,9 +42,8 @@ return array(
 			__('This setting determines the maximum number of links created by article. Default: 10.', 'simpletags')),
 		array('auto_link_case', __('Ignore case for auto link feature ?', 'simpletags'), 'checkbox', '1',
 			__('Example: If you ignore case, auto link feature will replace the word "wordpress" by the tag link "WordPress".', 'simpletags')),
-		array('auto_link_exclude', __('Exclude some terms from tag link. For Ads Link subtition, etc.', 'simpletags'), 'checkbox', '1',
+		array('auto_link_exclude', __('Exclude some terms from tag link. For Ads Link subtition, etc.', 'simpletags'), 'text', '',
 			__('Example: If you enter the term "Paris", the auto link tags feature will never replace this term by this link.', 'simpletags'))
-	
 	),
 	'metakeywords' => array(
 		array('meta_autoheader', __('Automatically include in header:', 'simpletags'), 'checkbox', '1',
@@ -70,10 +77,10 @@ return array(
 			__('You must set zero (0) for display all tags.', 'simpletags')),
 		array('tt_inc_cats', __('Include categories in result ?', 'simpletags'), 'checkbox', '1'),
 		array('tt_xformat', __('Tag link format:', 'simpletags'), 'text', 80,
-			__('You can find markers and explanations <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">in the online documentation.</a>', 'simpletags')),
+			__('You can find markers and explanations <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">in the online documentation.</a>', 'simpletags')),
 		array('tt_notagstext', __('Text to display if no tags found:', 'simpletags'), 'text', 80),
 		array('tt_adv_usage', __('<strong>Advanced usage</strong>:', 'simpletags'), 'text', 80,
-			__('You can use the same syntax as <code>st_the_tags()</code> function to customize display. See <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">documentation</a> for more details.', 'simpletags'))
+			__('You can use the same syntax as <code>st_the_tags()</code> function to customize display. See <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">documentation</a> for more details.', 'simpletags'))
 	),
 	'relatedposts' => array(
 		array('rp_feed', __('Automatically display related posts into feeds', 'simpletags'), 'checkbox', '1'),
@@ -98,12 +105,12 @@ return array(
 				<li>'.__('<code>random</code> &ndash; Random.', 'simpletags').'</li>
 			</ul>'),
 		array('rp_xformat', __('Post link format:', 'simpletags'), 'text', 80,
-			__('You can find markers and explanations <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">in the online documentation.</a>', 'simpletags')),
+			__('You can find markers and explanations <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">in the online documentation.</a>', 'simpletags')),
 		array('rp_limit_qty', __('Maximum number of related posts to display: (default: 5)', 'simpletags'), 'text', 10),
 		array('rp_notagstext', __('Enter the text to show when there is no related post:', 'simpletags'), 'text', 80),
 		array('rp_title', __('Enter the positioned title before the list, leave blank for no title:', 'simpletags'), 'text', 80),
 		array('rp_adv_usage', __('<strong>Advanced usage</strong>:', 'simpletags'), 'text', 80,
-			__('You can use the same syntax as <code>st_related_posts()</code>function to customize display. See <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">documentation</a> for more details.', 'simpletags'))
+			__('You can use the same syntax as <code>st_related_posts()</code>function to customize display. See <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">documentation</a> for more details.', 'simpletags'))
 	),
 	'relatedtags' => array(
 		array('rt_number', __('Maximum number of related tags to display: (default: 5)', 'simpletags'), 'text', 10),
@@ -126,13 +133,13 @@ return array(
 				<li>'.__('<code>AND</code> &ndash; Fetches posts with both the "Tag1" <strong>and</strong> the "Tag2" tag.', 'simpletags').'</li>
 			</ul>'),
 		array('rt_xformat', __('Related tags link format:', 'simpletags'), 'text', 80,
-			__('You can find markers and explanations <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">in the online documentation.</a>', 'simpletags')),
+			__('You can find markers and explanations <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">in the online documentation.</a>', 'simpletags')),
 		array('rt_separator', __('Related tags separator:', 'simpletags'), 'text', 10,
 			__('Leave empty for list format.', 'simpletags')),
 		array('rt_notagstext', __('Enter the text to show when there is no related tags:', 'simpletags'), 'text', 80),
 		array('rt_title', __('Enter the positioned title before the list, leave blank for no title:', 'simpletags'), 'text', 80),
 		array('rt_adv_usage', __('<strong>Advanced usage</strong>:', 'simpletags'), 'text', 80,
-			__('You can use the same syntax as <code>st_related_tags()</code>function to customize display. See <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">documentation</a> for more details.', 'simpletags')),
+			__('You can use the same syntax as <code>st_related_tags()</code>function to customize display. See <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">documentation</a> for more details.', 'simpletags')),
 		// Remove related tags
 		array('text_helper', 'text_helper', 'helper', '', '<h3>'.__('Remove related Tags', 'simpletags').'</h3>'),
 		array('rt_format', __('Remove related Tags type format:', 'simpletags'), 'dropdown', 'list/flat',
@@ -144,7 +151,7 @@ return array(
 			__('Leave empty for list format.', 'simpletags')),
 		array('rt_remove_notagstext', __('Enter the text to show when there is no remove related tags:', 'simpletags'), 'text', 80),
 		array('rt_remove_xformat', __('Remove related tags  link format:', 'simpletags'), 'text', 80,
-			__('You can find markers and explanations <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">in the online documentation.</a>', 'simpletags')),
+			__('You can find markers and explanations <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">in the online documentation.</a>', 'simpletags')),
 	),
 	'tagcloud' => array(
 		array('text_helper', 'text_helper', 'helper', '', __('Which difference between <strong>&#8216;Order tags selection&#8217;</strong> and <strong>&#8216;Order tags display&#8217;</strong> ?<br />', 'simpletags')
@@ -183,7 +190,7 @@ return array(
 				<li>'.__('<code>flat</code> &ndash; Display inline (no list, just a div)', 'simpletags').'</li>
 			</ul>'),
 		array('cloud_xformat', __('Tag link format:', 'simpletags'), 'text', 80,
-			__('You can find markers and explanations <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">in the online documentation.</a>', 'simpletags')),
+			__('You can find markers and explanations <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">in the online documentation.</a>', 'simpletags')),
 		array('cloud_limit_qty', __('Maximum number of tags to display: (default: 45)', 'simpletags'), 'text', 10),
 		array('cloud_notagstext', __('Enter the text to show when there is no tag:', 'simpletags'), 'text', 80),
 		array('cloud_title', __('Enter the positioned title before the list, leave blank for no title:', 'simpletags'), 'text', 80),
@@ -196,7 +203,7 @@ return array(
 		array('cloud_unit', __('The units to display the font sizes with, on tag clouds:', 'simpletags'), 'dropdown', 'pt/px/em/%',
 			__("The font size units option determines the units that the two font sizes use.", 'simpletags')),
 		array('cloud_adv_usage', __('<strong>Advanced usage</strong>:', 'simpletags'), 'text', 80,
-			__('You can use the same syntax as <code>st_tag_cloud()</code> function to customize display. See <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">documentation</a> for more details.', 'simpletags'))
+			__('You can use the same syntax as <code>st_tag_cloud()</code> function to customize display. See <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">documentation</a> for more details.', 'simpletags'))
 	),
 );
 ?>

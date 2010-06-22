@@ -12,15 +12,21 @@ class SimpleTagsAdmin {
 	
 	// Application entrypoint -> http://redmine.beapi.fr/projects/show/simple-tags/
 	var $yahoo_id 			= 'h4c6gyLV34Fs7nHCrHUew7XDAU8YeQ_PpZVrzgAGih2mU12F0cI.ezr6e7FMvskR7Vu.AA--';
-
+	
 	// Error management
 	var $message = '';
 	var $status = '';
 	
+	/**
+	 * Put in var class the current taxonomy choose by the user
+	 *
+	 * @return void
+	 * @author Amaury Balmer
+	 */
 	function determineTaxonomy() {
 		$this->taxo_name = __('Post tags', 'simpletags');
 		
-		if ( isset($_GET['taxonomy']) && !empty($_GET['taxonomy']) && is_taxonomy($_GET['taxonomy']) ) {
+		if ( isset($_GET['taxonomy']) && !empty($_GET['taxonomy']) && taxonomy_exists($_GET['taxonomy']) ) {
 			$taxo = get_taxonomy($_GET['taxonomy']);
 			$this->taxonomy = $taxo->name;
 			$this->taxo_name = $taxo->label;
@@ -31,7 +37,8 @@ class SimpleTagsAdmin {
 	/**
 	 * PHP4 Constructor - Intialize Admin
 	 *
-	 * @return SimpleTagsAdmin
+	 * @return void
+	 * @author Amaury Balmer
 	 */
 	function SimpleTagsAdmin() {
 		// Get options
@@ -42,7 +49,7 @@ class SimpleTagsAdmin {
 		
 		// Update default options by getting not empty values from options table
 		foreach( (array) $this->options as $key => $value ) {
-			if ( !is_null($options_from_table[$key]) ) {
+			if ( isset($options_from_table[$key]) && !is_null($options_from_table[$key]) ) {
 				$this->options[$key] = $options_from_table[$key];
 			}
 		}
@@ -58,8 +65,8 @@ class SimpleTagsAdmin {
 		// Admin Capabilities
 		add_action('init', array(&$this, 'initRoles'));
 		
-		// Init taxonomy class variable
-		add_action('init', array(&$this, 'determineTaxonomy'));
+		// Init taxonomy class variable, load this action after all actions on init !
+		add_action( 'init', array(&$this, 'determineTaxonomy'), 99999999 );
 		
 		// Admin menu
 		add_action('admin_menu', array(&$this, 'adminMenu'));
@@ -71,17 +78,17 @@ class SimpleTagsAdmin {
 		
 		// Embedded Tags
 		if ( $this->options['use_embed_tags'] == 1 ) {
-			add_actions( array('save_post', 'publish_post', 'post_syndicated_item'), array(&$this, 'saveEmbedTags') );
+			add_actions( array('save_post', 'publish_post', 'post_syndicated_item'), array(&$this, 'saveEmbedTags'), 10, 2 );
 		}
 		
 		// Auto tags
 		if ( $this->options['use_auto_tags'] == 1 ) {
-			add_actions( array('save_post', 'publish_post', 'post_syndicated_item'), array(&$this, 'saveAutoTags') );
+			add_actions( array('save_post', 'publish_post', 'post_syndicated_item'), array(&$this, 'saveAutoTags'), 10, 2 );
 		}
 		
 		// Save tags from advanced input
 		if ( $this->options['use_autocompletion'] == 1 ) {
-			add_actions( array('save_post', 'publish_post'), array(&$this, 'saveAdvancedTagsInput') );
+			add_actions( array('save_post', 'publish_post'), array(&$this, 'saveAdvancedTagsInput'), 10, 2 );
 			add_action('do_meta_boxes', array(&$this, 'removeOldTagsInput'), 1 );
 		}
 		
@@ -101,10 +108,22 @@ class SimpleTagsAdmin {
 		$this->initJavaScript();
 	}
 	
+	/**
+	 * Remove the old tags input
+	 *
+	 * @return void
+	 * @author Amaury Balmer
+	 */
 	function removeOldTagsInput() {
 		remove_meta_box('tagsdiv-post_tag', 'post', 'side');
 	}
 	
+	/**
+	 * Init somes JS and CSS need for simple tags.
+	 *
+	 * @return void
+	 * @author Amaury Balmer
+	 */
 	function initJavaScript() {
 		global $pagenow;
 		
@@ -117,6 +136,7 @@ class SimpleTagsAdmin {
 		wp_register_script('st-helper-autocomplete', 	STAGS_URL.'/inc/js/helper-autocomplete.min.js', array('jquery', 'jquery-autocomplete'), STAGS_VERSION);
 		wp_register_script('st-helper-add-tags', 		STAGS_URL.'/inc/js/helper-add-tags.min.js', array('jquery'), STAGS_VERSION);
 		wp_register_script('st-helper-options', 		STAGS_URL.'/inc/js/helper-options.min.js', array('jquery'), STAGS_VERSION);
+		wp_register_script('st-helper-manage', 			STAGS_URL.'/inc/js/helper-manage.min.js', array('jquery'), STAGS_VERSION);
 		wp_register_script('st-helper-click-tags', 		STAGS_URL.'/inc/js/helper-click-tags.min.js', array('jquery', 'st-helper-add-tags'), STAGS_VERSION);
 		wp_localize_script('st-helper-click-tags', 'stHelperClickTagsL10n', array( 'site_url' => admin_url('admin.php'), 'show_txt' => __('Display click tags', 'simpletags'), 'hide_txt' => __('Hide click tags', 'simpletags') ) );
 		wp_register_script('st-helper-suggested-tags', 	STAGS_URL.'/inc/js/helper-suggested-tags.min.js', array('jquery', 'st-helper-add-tags'), STAGS_VERSION);
@@ -162,6 +182,11 @@ class SimpleTagsAdmin {
 			wp_enqueue_script('st-helper-options');
 		}
 		
+		// add JS for manage click tags
+		if ( isset($_GET['page']) && $_GET['page'] == 'st_manage' ) {
+			wp_enqueue_script('st-helper-manage');
+		}
+		
 		// add JS for Auto Tags, Mass Edit Tags and Manage tags !
 		if ( isset($_GET['page']) && in_array( $_GET['page'], array('st_auto', 'st_mass_tags', 'st_manage') ) ) {
 			wp_enqueue_script('jquery-autocomplete');
@@ -170,6 +195,12 @@ class SimpleTagsAdmin {
 		}
 	}
 	
+	/**
+	 * Add simple tags caps on two roles : admin, editor
+	 *
+	 * @return void
+	 * @author Amaury Balmer
+	 */
 	function initRoles() {
 		if ( function_exists('get_role') ) {
 			$role = get_role('administrator');
@@ -192,6 +223,8 @@ class SimpleTagsAdmin {
 	/**
 	 * Add WP admin menu for Tags
 	 *
+	 * @return void
+	 * @author Amaury Balmer
 	 */
 	function adminMenu() {
 		add_posts_page( __('Simple Terms: Manage Terms', 'simpletags'), __('Manage Terms', 'simpletags'), 'simple_tags', 'st_manage', array(&$this, 'pageManageTags'));
@@ -203,10 +236,12 @@ class SimpleTagsAdmin {
 	/**
 	 * Build HTML form for allow user to change taxonomy for the current page.
 	 *
-	 **/
-	function boxSelectorTaxonomy( $page_value = '', $include_category = false ) {
-		global $wp_taxonomies;
-		
+	 * @param string $page_value 
+	 * @param string $post_type 
+	 * @return void
+	 * @author Amaury Balmer
+	 */
+	function boxSelectorTaxonomy( $page_value = '', $post_type = 'post' ) {
 		echo '<div class="box-selector-taxonomy">' . "\n";
 			echo '<p class="current-taxonomy">'.sprintf(__('You currently use the taxonomy : <span>%s</span>', 'simpletags'), $this->taxo_name).'</p>' . "\n";
 			
@@ -216,9 +251,12 @@ class SimpleTagsAdmin {
 						echo '<input type="hidden" name="page" value="'.$page_value.'" />' . "\n";
 					}
 					echo '<select name="taxonomy">' . "\n";
-						foreach( (array) $wp_taxonomies as $wp_taxonomy ) {
-							if ( in_array($wp_taxonomy->object_type, array('post', 'page')) || ($wp_taxonomy->name=='category'&&$include_category==true) )
-								echo '<option '.(($wp_taxonomy->name==$this->taxonomy)?'selected="selected"':'').' value="'.esc_attr($wp_taxonomy->name).'">'.esc_html($wp_taxonomy->label).'</option>' . "\n";
+						foreach ( get_object_taxonomies($post_type) as $tax_name ) {
+							$taxonomy = get_taxonomy($tax_name);
+							if ( $taxonomy->show_ui == false )
+								continue;
+								
+							echo '<option '.selected( $tax_name, $this->taxonomy, false ).' value="'.esc_attr($tax_name).'">'.esc_html($taxonomy->label).'</option>' . "\n";
 						}
 					echo '</select>' . "\n";
 					
@@ -231,6 +269,8 @@ class SimpleTagsAdmin {
 	/**
 	 * WP Page - Auto Tags
 	 *
+	 * @return void
+	 * @author Amaury Balmer
 	 */
 	function pageAutoTags() {
 		$action = false;
@@ -264,6 +304,13 @@ class SimpleTagsAdmin {
 				$this->setOption( 'at_empty', '1' );
 			} else {
 				$this->setOption( 'at_empty', '0' );
+			}
+			
+			// Full word ?
+			if ( isset($_POST['only_full_word']) && $_POST['only_full_word'] == '1' ) {
+				$this->setOption( 'only_full_word', '1' );
+			} else {
+				$this->setOption( 'only_full_word', '0' );
 			}
 			
 			$this->saveOptions();
@@ -317,6 +364,13 @@ class SimpleTagsAdmin {
 							<td>
 								<input type="checkbox" id="at_empty" name="at_empty" value="1" <?php echo ( $this->options['at_empty'] == 1 ) ? 'checked="checked"' : ''; ?>  />
 								<label for="at_empty"><?php _e('Autotag only posts without terms.', 'simpletags'); ?></label>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php _e('Whole Word ?', 'simpletags'); ?></th>
+							<td>
+								<input type="checkbox" id="only_full_word" name="only_full_word" value="1" <?php echo ( $this->options['only_full_word'] == 1 ) ? 'checked="checked"' : ''; ?>  />
+								<label for="only_full_word"><?php _e('Autotag only a post when tags finded in the content are a the same name. (whole word only)', 'simpletags'); ?></label>
 							</td>
 						</tr>
 						<tr valign="top">
@@ -468,11 +522,16 @@ class SimpleTagsAdmin {
 			}
 			elseif ( $_POST['tag_action'] == 'editslug'  ) {
 				$matchtag = (isset($_POST['tagname_match'])) ? $_POST['tagname_match'] : '';
-				$newslug   = (isset($_POST['tagslug_new'])) ? $_POST['tagslug_new'] : '';
+				$newslug  = (isset($_POST['tagslug_new'])) ? $_POST['tagslug_new'] : '';
 				$this->editTagSlug( $matchtag, $newslug );
 			} elseif ( $_POST['tag_action'] == 'cleandb'  ) {
 				$this->cleanDatabase();
 			}
+		}
+		
+		// Default order 
+		if ( !isset($_GET['order']) ) {
+			$_GET['order'] = 'name-asc';
 		}
 		
 		$this->displayMessage();
@@ -485,9 +544,39 @@ class SimpleTagsAdmin {
 		
 		<div class="wrap st_wrap">
 			<h2><?php _e('Simple Tags: Manage Terms', 'simpletags'); ?></h2>
-			<p><?php _e('Visit the <a href="http://redmine.beapi.fr/projects/show/simple-tags/wiki/ThemeIntegration">plugin\'s homepage</a> for further details. If you find a bug, or have a fantastic idea for this plugin, <a href="mailto:amaury@wordpress-fr.net">ask me</a> !', 'simpletags'); ?></p>
+			<p><?php _e('Visit the <a href="http://redmine.beapi.fr/wiki/simple-tags/Theme_integration">plugin\'s homepage</a> for further details. If you find a bug, or have a fantastic idea for this plugin, <a href="mailto:amaury@wordpress-fr.net">ask me</a> !', 'simpletags'); ?></p>
 			
-			<table class="form-table">
+			<div class="clear"></div>
+			<div id="term-list">
+				<h3><?php _e('Click terms list:', 'simpletags'); ?></h3>
+				<form action="" method="get">
+					<div>
+						<input type="hidden" name="page" value="st_manage" />
+						<select name="order">
+							<option <?php if($_GET['order']=='count-asc') echo'selected="selected"'; ?> value="count-asc"><?php _e('Least used', 'simpletags'); ?></option>
+							<option <?php if($_GET['order']=='count-desc') echo'selected="selected"'; ?> value="count-desc"><?php _e('Most popular', 'simpletags'); ?></option>
+							<option <?php if($_GET['order']=='name-asc') echo'selected="selected"'; ?> value="name-asc"><?php _e('Alphabetical (default)', 'simpletags'); ?></option>
+							<option <?php if($_GET['order']=='name-desc') echo'selected="selected"'; ?> value="name-desc"><?php _e('Inverse Alphabetical', 'simpletags'); ?></option>
+							<option <?php if($_GET['order']=='random') echo'selected="selected"'; ?> value="random"><?php _e('Random', 'simpletags'); ?></option>
+						</select>
+						<input class="button" type="submit" value="<?php _e('Sort', 'simpletags'); ?>" />
+					</div>
+				</form>
+				
+				<div id="term-list-inner">
+					<?php 
+					if ( isset($_GET['order']) ) {
+						$order = explode('-', stripslashes($_GET['order']));
+						$order = '&selectionby='.$order[0].'&selection='.$order[1].'&orderby='.$order[0].'&order='.$order[1];
+					} else {
+						$order = '&selectionby=name&selection=asc&orderby=name&order=asc';
+					}
+					st_tag_cloud('hide_empty=false&number=&color=false&get=all&title='.$order);
+					?>
+				</div>
+			</div>
+			
+			<table id="manage-table-tags" class="form-table">
 				<tr valign="top">
 					<th scope="row"><strong><?php _e('Rename/Merge Terms', 'simpletags'); ?></strong></th>
 					<td>
@@ -495,7 +584,7 @@ class SimpleTagsAdmin {
 						<p><?php _e('You can specify multiple terms to rename by separating them with commas.', 'simpletags'); ?></p>
 						
 						<fieldset>
-							<form action="<?php echo $action_url; ?>" method="post">
+							<form action="" method="post">
 								<input type="hidden" name="tag_action" value="renametag" />
 								<input type="hidden" name="tag_nonce" value="<?php echo wp_create_nonce('simpletags_admin'); ?>" />
 								
@@ -524,7 +613,7 @@ class SimpleTagsAdmin {
 						<p><?php _e('You can specify multiple terms to delete by separating them with commas', 'simpletags'); ?>.</p>
 						
 						<fieldset>
-							<form action="<?php echo $action_url; ?>" method="post">
+							<form action="" method="post">
 								<input type="hidden" name="tag_action" value="deletetag" />
 								<input type="hidden" name="tag_nonce" value="<?php echo wp_create_nonce('simpletags_admin'); ?>" />
 								
@@ -547,7 +636,7 @@ class SimpleTagsAdmin {
 						<p><?php _e('You can specify multiple terms to add by separating them with commas.  If you want the term(s) to be added to all posts, then don\'t specify any terms to match.', 'simpletags'); ?></p>
 						
 						<fieldset>
-							<form action="<?php echo $action_url; ?>" method="post">
+							<form action="" method="post">
 								<input type="hidden" name="tag_action" value="addtag" />
 								<input type="hidden" name="tag_nonce" value="<?php echo wp_create_nonce('simpletags_admin'); ?>" />
 								
@@ -576,7 +665,7 @@ class SimpleTagsAdmin {
 						<p><?php _e('You can specify multiple terms to rename by separating them with commas.', 'simpletags'); ?></p>
 						
 						<fieldset>
-							<form action="<?php echo $action_url; ?>" method="post">
+							<form action="" method="post">
 								<input type="hidden" name="tag_action" value="editslug" />
 								<input type="hidden" name="tag_nonce" value="<?php echo wp_create_nonce('simpletags_admin'); ?>" />
 								
@@ -604,7 +693,7 @@ class SimpleTagsAdmin {
 						<p><?php _e('Old WordPress versions have a small bug and allow to create empty terms. Remove it !', 'simpletags'); ?></p>
 						
 						<fieldset>
-							<form action="<?php echo $action_url; ?>" method="post">
+							<form action="" method="post">
 								<input type="hidden" name="tag_action" value="cleandb" />
 								<input type="hidden" name="tag_nonce" value="<?php echo wp_create_nonce('simpletags_admin'); ?>" />
 								
@@ -625,11 +714,19 @@ class SimpleTagsAdmin {
 				</tr>
 			</table>
 			
+			<div class="clear"></div>
 			<?php $this->printAdminFooter(); ?>
 		</div>
 		<?php
 	}
 	
+	/**
+	 * Clone the core WP function, add the possibility to manage the post type
+	 *
+	 * @param string $q 
+	 * @return void
+	 * @author Amaury Balmer
+	 */
 	function edit_data_query( $q = false ) {
 		if ( false === $q ) {
 			$q = $_GET;
@@ -706,7 +803,7 @@ class SimpleTagsAdmin {
 		</script>
 		
 		<div class="wrap">
-			<?php $this->boxSelectorTaxonomy( 'st_mass_tags' ); ?>
+			<?php $this->boxSelectorTaxonomy( 'st_mass_tags', 'post' ); ?>
 			
 			<form id="posts-filter" action="" method="get">
 				<input type="hidden" name="page" value="st_mass_tags" />
@@ -778,6 +875,9 @@ class SimpleTagsAdmin {
 						
 						$month_count = count($arc_result);
 						
+						if ( !isset($_GET['m']) )
+							$_GET['m'] = '';
+							
 						if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?>
 							<select name='m'>
 							<option<?php selected( @$_GET['m'], 0 ); ?> value='0'><?php _e('Show all dates', 'simpletags'); ?></option>
@@ -888,18 +988,16 @@ class SimpleTagsAdmin {
 		return $terms;
 	}
 	
-	function saveAdvancedTagsInput( $post_id = null, $post_data = null ) {
+	function saveAdvancedTagsInput( $post_id = 0, $post_data = null ) {
 		$object = get_post($post_id);
 		if ( $object == false || $object == null ) {
 			return false;
 		}
 		
 		if ( isset($_POST['adv-tags-input']) ) {
-			// Post data
-			$tags = stripslashes($_POST['adv-tags-input']);
-			
-			// Trim data
-			$tags = trim(stripslashes($tags));
+			// Trim/format data
+			$tags = preg_replace( "/[\n\r]/", ', ', stripslashes($_POST['adv-tags-input']) );
+			$tags = trim($tags);
 			
 			// String to array
 			$tags = explode( ',', $tags );
@@ -979,7 +1077,7 @@ class SimpleTagsAdmin {
 		$result = $this->autoTagsPost( $object );
 		if ( $result == true ) {
 			// Clean cache
-			if ( 'page' == $object->post_type ) {
+			if ( isset($object->post_type) && 'page' == $object->post_type ) {
 				clean_page_cache($post_id);
 			} else {
 				clean_post_cache($post_id);
@@ -1002,8 +1100,11 @@ class SimpleTagsAdmin {
 		$tags_to_add = array();
 		
 		// Merge title + content + excerpt to compare with tags
-		$content = $object->post_content. ' ' . $object->post_title. ' ' . $object->post_excerpt;
-		$content = trim($content);
+		$content = $object->post_content. ' ' . $object->post_title;
+		if ( isset($object->post_excerpt) )
+		 	$content .= ' ' . $object->post_excerpt;
+		
+		$content = trim(strip_tags($content));
 		if ( empty($content) ) {
 			return false;
 		}
@@ -1011,7 +1112,15 @@ class SimpleTagsAdmin {
 		// Auto tag with specifik auto tags list
 		$tags = (array) maybe_unserialize($this->options['auto_list']);
 		foreach ( $tags as $tag ) {
-			if ( is_string($tag) && !empty($tag) && stristr($content, $tag) ) {
+			if ( !is_string($tag) && empty($tag) )
+			 	continue;
+			
+			// Whole word ?
+			if ( (int) $this->options['only_full_word'] == 1 ) {
+				$tag = ' '.$tag.' '; // Add space before and after !
+			}
+			
+			if ( stristr($content, $tag) ) {
 				$tags_to_add[] = $tag;
 			}
 		}
@@ -1031,7 +1140,16 @@ class SimpleTagsAdmin {
 			
 			foreach ( $terms as $term ) {
 				$term = stripslashes($term);
-				if ( is_string($term) && !empty($term) && stristr($content, $term) ) {
+				
+				if ( !is_string($term) && empty($term) )
+				 	continue;
+				
+				// Whole word ?
+				if ( (int) $this->options['only_full_word'] == 1 ) {
+					$term = ' '.$term.' '; // Add space before and after !
+				}
+				
+				if ( stristr($content, $term) ) {
 					$tags_to_add[] = $term;
 				}
 			}
@@ -1055,7 +1173,7 @@ class SimpleTagsAdmin {
 			wp_set_object_terms( $object->ID, $tags_to_add, 'post_tag', true );
 			
 			// Clean cache
-			if ( 'page' == $object->post_type ) {
+			if ( isset($object->post_type) && 'page' == $object->post_type ) {
 				clean_page_cache($object->ID);
 			} else {
 				clean_post_cache($object->ID);
@@ -1066,16 +1184,35 @@ class SimpleTagsAdmin {
 		return false;
 	}
 	
+	/**
+	 * Call meta box function if option is active on page
+	 *
+	 * @return void
+	 * @author Amaury Balmer
+	 */
 	function helperAdvancedTags_Page() {
 		if ( $this->options['use_autocompletion'] == 1 )
-			add_meta_box('adv-tagsdiv', __('Tags (Simple Tags)', 'simpletags'), array(&$this, 'boxTags'), 'page', 'side', 'core');
+			add_meta_box('adv-tagsdiv', __('Tags (Simple Tags)', 'simpletags'), array(&$this, 'boxTags'), 'page', 'side', 'core', array('taxonomy'=>'post_tag') );
 	}
 	
+	/**
+	 * Call meta box function if option is active on post
+	 *
+	 * @return void
+	 * @author Amaury Balmer
+	 */
 	function helperAdvancedTags_Post() {
 		if ( $this->options['use_autocompletion'] == 1 )
-			add_meta_box('adv-tagsdiv', __('Tags (Simple Tags)', 'simpletags'), array(&$this, 'boxTags'), 'post', 'side', 'core');
+			add_meta_box('adv-tagsdiv', __('Tags (Simple Tags)', 'simpletags'), array(&$this, 'boxTags'), 'post', 'side', 'core', array('taxonomy'=>'post_tag') );
 	}
 	
+	/**
+	 * Content of custom meta box of Simple Tags
+	 *
+	 * @param object $post 
+	 * @return void
+	 * @author Amaury Balmer
+	 */
 	function boxTags( $post ) {
 		?>
 		<textarea name="adv-tags-input" id="adv-tags-input" tabindex="3" rows="3" cols="5"><?php echo $this->getTermsToEdit( 'post_tag', $post->ID ); ?></textarea>
@@ -1084,7 +1221,8 @@ class SimpleTagsAdmin {
 			initAutoComplete( '#adv-tags-input', '<?php echo admin_url('admin.php') .'?st_ajax_action=helper_js_collection'; ?>', 300 );
 			-->
 		</script>
-		<?php _e('Separate tags with commas', 'simpletags');
+		<?php
+		_e('Separate tags with commas', 'simpletags');
 	}
 	
 	/*
@@ -1626,8 +1764,10 @@ class SimpleTagsAdmin {
 		
 		if( !is_wp_error($reponse) && $reponse != null ) {
 			if ( wp_remote_retrieve_response_code($reponse) == 200 ) {
+				$data = $results = array();
 				preg_match('/<CalaisSimpleOutputFormat>(.*?)<\/CalaisSimpleOutputFormat>/s', wp_remote_retrieve_body($reponse), $data );
-				$data = explode("\n", $data[1]);
+				preg_match_all('/<(.*?)>(.*?)<\/(.*?)>/s', $data[1], $results );
+				$data = $results[2];
 			}
 		}
 		
@@ -1654,7 +1794,7 @@ class SimpleTagsAdmin {
 	function ajaxAlchemyApi() {
 		status_header( 200 );
 		header("Content-Type: text/javascript; charset=" . get_bloginfo('charset'));
-
+		
 		// API Key ?
 		if ( empty($this->options['alchemy_api']) ) {
 			echo '<p>'.__('AlchemyAPI need an API key to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags').'</p>';
@@ -1708,13 +1848,13 @@ class SimpleTagsAdmin {
 	function ajaxZemanta() {
 		status_header( 200 );
 		header("Content-Type: text/javascript; charset=" . get_bloginfo('charset'));
-
+		
 		// API Key ?
 		if ( empty($this->options['zemanta_key']) ) {
 			echo '<p>'.__('Zemanta need an API key to work. You can register on service website to obtain a key and set it on Simple Tags options.', 'simpletags').'</p>';
 			exit();
 		}
-
+		
 		// Get data
 		$content = stripslashes($_POST['content']) .' '. stripslashes($_POST['title']);
 		$content = trim($content);
@@ -1893,7 +2033,6 @@ class SimpleTagsAdmin {
 		}
 		
 		// Get all terms
-		global $wpdb;
 		$terms = $this->getTermsForAjax( $this->taxonomy, '' );
 		if ( empty($terms) || $terms == false ) {
 			echo '<p>'.__('No results from your WordPress database.', 'simpletags').'</p>';
@@ -1932,7 +2071,7 @@ class SimpleTagsAdmin {
 		$search = trim(stripslashes($_GET['q']));
 		
 		// Get all terms, or filter with search
-		$terms = $this->getTermsForAjax( $this->taxonomy, $search );
+		$terms = $this->getTermsForAjax( $this->taxonomy, $search, $format );
 		if ( empty($terms) || $terms == false ) {
 			if ( $format == 'html_span' ) {
 				echo '<p>'.__('No results from your WordPress database.', 'simpletags').'</p>';
@@ -1953,23 +2092,51 @@ class SimpleTagsAdmin {
 			default:
 				
 				// Format terms
-				$_terms = array();
-				foreach ( (array) $terms as $_k => $term ) {
+				foreach ( (array) $terms as $term ) {
 					$term->name = stripslashes($term->name);
 					$term->name = str_replace( array("\r\n", "\r", "\n"), '', $term->name );
 					
 					echo "$term->term_id|$term->name\n";
 				}
-				
 				break;
-		
 		}
-		
 		exit();
 	}
 	
-	function getTermsForAjax( $taxonomy = 'post_tag', $search = '' ) {
+	function getTermsForAjax( $taxonomy = 'post_tag', $search = '', $format = '' ) {
 		global $wpdb;
+		
+		if ( $format == 'html_span' ) { // Click tags ? allow order.
+			// Order tags before selection (count-asc/count-desc/name-asc/name-desc/random)
+			$this->options['order_click_tags'] = strtolower($this->options['order_click_tags']);
+			$order_by = $order = '';
+			switch ( $this->options['order_click_tags'] ) {
+				case 'count-asc':
+					$order_by = 'tt.count';
+					$order = 'ASC';
+					break;
+				case 'random':
+					$order_by = 'RAND()';
+					$order = '';
+					break;
+				case 'count-desc':
+					$order_by = 'tt.count';
+					$order = 'DESC';
+					break;
+				case 'name-desc':
+					$order_by = 't.name';
+					$order = 'DESC';
+					break;
+				default : // name-asc
+					$order_by = 't.name';
+					$order = 'ASC';
+				break;
+			}
+		} else {
+			$order_by = 'name';
+			$order = 'ASC';
+		}
+		
 		
 		if ( !empty($search) ) {
 			return $wpdb->get_results( $wpdb->prepare("
@@ -1978,6 +2145,7 @@ class SimpleTagsAdmin {
 				INNER JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id
 				WHERE tt.taxonomy = %s
 				AND name LIKE %s
+				ORDER BY $order_by $order
 			", $taxonomy, '%'.$search.'%' ) );
 		} else {
 			return $wpdb->get_results( $wpdb->prepare("
@@ -1985,6 +2153,7 @@ class SimpleTagsAdmin {
 				FROM {$wpdb->terms} AS t
 				INNER JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id
 				WHERE tt.taxonomy = %s
+				ORDER BY $order_by $order
 			", $taxonomy) );
 		}
 	}
@@ -2036,9 +2205,13 @@ class SimpleTagsAdmin {
 			foreach((array) $options as $option) {
 				// Helper
 				if (  $option[2] == 'helper' ) {
-						$output .= '<tr style="vertical-align: middle;"><td class="helper" colspan="2">' . stripslashes($option[4]) . '</td></tr>' . "\n";
-						continue;
+					$output .= '<tr style="vertical-align: middle;"><td class="helper" colspan="2">' . stripslashes($option[4]) . '</td></tr>' . "\n";
+					continue;
 				}
+				
+				// Fix notices
+				if ( !isset($option_actual[ $option[0] ]) )
+					$option_actual[ $option[0] ] = '';
 				
 				switch ( $option[2] ) {
 					case 'checkbox':

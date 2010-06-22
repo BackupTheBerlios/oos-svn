@@ -17,6 +17,7 @@ return array(
 	
 	// Administration
 	'use_click_tags' 	 => 1,
+	'order_click_tags'	 => 'name-asc',
 	'use_suggested_tags' => 1,
 	'opencalais_key' 	 => '',
 	'alchemy_api' 		 => '',
@@ -93,6 +94,7 @@ return array(
 	'use_auto_tags' => 0,
 	'at_all' 		=> 0,
 	'at_empty' 		=> 0,
-	'auto_list' 	=> ''
+	'auto_list' 	=> '',
+	'only_full_word'=> 0
 );
 ?>
