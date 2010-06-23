@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2198 2010-05-19 23:31:44Z vipsoft $
+ * @version $Id: Controller.php 2315 2010-06-18 04:18:07Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -110,6 +110,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'parse_ini_file'  => 'Installation_SystemCheckParseIniFileHelp',
 			'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
 			'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
+			'eval'            => 'Installation_SystemCheckEvalHelp',
 		);
 
 		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
@@ -656,7 +657,16 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos = array();
 
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
-		Piwik::createHtAccessFiles();
+
+		$serverSoftware = $_SERVER['SERVER_SOFTWARE'];
+		if(preg_match('/^Microsoft-IIS\/(.+)/', $serverSoftware, $matches) && version_compare($matches[1], '7') >= 0)
+		{
+			Piwik::createWebConfigFiles();
+		}
+		else if(strpos($serverSoftware, 'Apache/') === 0)
+		{
+			Piwik::createHtAccessFiles();
+		}
 
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
 		$infos['phpVersion'] = phpversion();
@@ -703,6 +713,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$needed_functions = array(
 			'debug_backtrace',
 			'create_function',
+			'eval',
 		);
 		$infos['needed_functions'] = $needed_functions;
 		$infos['missing_functions'] = array();
@@ -764,7 +775,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['isIpv4'] = false;
 		}
 
-		$infos['serverVersion'] = addslashes($_SERVER['SERVER_SOFTWARE']);
+		$infos['serverVersion'] = addslashes($serverSoftware);
 		$infos['serverOs'] = @php_uname();
 		$infos['serverTime'] = date('H:i:s');
 
@@ -851,16 +862,28 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 */
 	public static function functionExists($functionName)
 	{
+		// eval() is a language construct
+		if($functionName == 'eval')
+		{
+			// does not check suhosin.executor.eval.whitelist (or blacklist)
+			if(extension_loaded('suhosin'))
+			{
+				return @ini_get("suhosin.executor.disable_eval") != "1";
+			}
+			return true;
+		}
+
+		$exists = function_exists($functionName);
 		if(extension_loaded('suhosin'))
 		{
 			$blacklist = @ini_get("suhosin.executor.func.blacklist");
 			if(!empty($blacklist))
 			{
 				$blacklistFunctions = array_map('strtolower', array_map('trim', explode(',', $blacklist)));
-				return function_exists($functionName) && !in_array($functionName, $blacklistFunctions);
+				return $exists && !in_array($functionName, $blacklistFunctions);
 			}
 
 		}
-		return function_exists($functionName);
+		return $exists;
 	}
 }

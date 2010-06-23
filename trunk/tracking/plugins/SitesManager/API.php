@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2230 2010-05-28 06:58:38Z matt $
+ * @version $Id: API.php 2265 2010-06-03 17:46:05Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
@@ -68,7 +68,7 @@ class Piwik_SitesManager_API
 	public function getSiteFromId( $idSite )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
-		$site = Zend_Registry::get('db')->fetchRow("SELECT * FROM ".Piwik::prefixTable("site")." WHERE idsite = ?", $idSite);
+		$site = Zend_Registry::get('db')->fetchRow("SELECT * FROM ".Piwik_Common::prefixTable("site")." WHERE idsite = ?", $idSite);
 		return $site;
 	}
 	
@@ -82,7 +82,7 @@ class Piwik_SitesManager_API
 	{
 		$db = Zend_Registry::get('db');
 		$result = $db->fetchAll("SELECT url 
-								FROM ".Piwik::prefixTable("site_url"). " 
+								FROM ".Piwik_Common::prefixTable("site_url"). " 
 								WHERE idsite = ?", $idsite);
 		$urls = array();
 		foreach($result as $url)
@@ -114,7 +114,7 @@ class Piwik_SitesManager_API
 	public function getAllSitesId()
 	{
 		Piwik::checkUserIsSuperUser();
-		$result = Piwik_FetchAll("SELECT idsite FROM ".Piwik::prefixTable('site'));
+		$result = Piwik_FetchAll("SELECT idsite FROM ".Piwik_Common::prefixTable('site'));
 		$idSites = array();
 		foreach($result as $idSite)
 		{
@@ -208,7 +208,7 @@ class Piwik_SitesManager_API
 		}
 		$db = Zend_Registry::get('db');
 		$sites = $db->fetchAll("SELECT * 
-								FROM ".Piwik::prefixTable("site")." 
+								FROM ".Piwik_Common::prefixTable("site")." 
 								WHERE idsite IN (".implode(", ", $idSites).")
 								ORDER BY idsite ASC");
 		return $sites;
@@ -227,16 +227,16 @@ class Piwik_SitesManager_API
 		if(Piwik::isUserIsSuperUser())
 		{
 			$ids = Zend_Registry::get('db')->fetchAll(
-					'SELECT idsite FROM ' . Piwik::prefixTable('site') . ' WHERE main_url = ? ' .
-					'UNION SELECT idsite FROM ' . Piwik::prefixTable('site_url') . ' WHERE url = ?', array($url, $url));
+					'SELECT idsite FROM ' . Piwik_Common::prefixTable('site') . ' WHERE main_url = ? ' .
+					'UNION SELECT idsite FROM ' . Piwik_Common::prefixTable('site_url') . ' WHERE url = ?', array($url, $url));
 		}
 		else
 		{
 			$login = Piwik::getCurrentUserLogin();
 			$ids = Zend_Registry::get('db')->fetchAll(
-					'SELECT idsite FROM ' . Piwik::prefixTable('site') . ' WHERE main_url = ? ' .
+					'SELECT idsite FROM ' . Piwik_Common::prefixTable('site') . ' WHERE main_url = ? ' .
 					'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ') ' .
-					'UNION SELECT idsite FROM ' . Piwik::prefixTable('site_url') . ' WHERE url = ? ' .
+					'UNION SELECT idsite FROM ' . Piwik_Common::prefixTable('site_url') . ' WHERE url = ? ' .
 					'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ')', array($url, $login, $url, $login));
 		}
 
@@ -293,7 +293,7 @@ class Piwik_SitesManager_API
 		$bind['excluded_parameters'] = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
 		$bind['timezone'] = $timezone;
 		$bind['currency'] = $currency;
-		$db->insert(Piwik::prefixTable("site"), $bind);
+		$db->insert(Piwik_Common::prefixTable("site"), $bind);
 									
 		$idSite = $db->lastInsertId();
 		
@@ -335,13 +335,13 @@ class Piwik_SitesManager_API
 		
 		$db = Zend_Registry::get('db');
 		
-		$db->query("DELETE FROM ".Piwik::prefixTable("site")." 
+		$db->query("DELETE FROM ".Piwik_Common::prefixTable("site")." 
 					WHERE idsite = ?", $idSite);
 		
-		$db->query("DELETE FROM ".Piwik::prefixTable("site_url")." 
+		$db->query("DELETE FROM ".Piwik_Common::prefixTable("site_url")." 
 					WHERE idsite = ?", $idSite);
 		
-		$db->query("DELETE FROM ".Piwik::prefixTable("access")." 
+		$db->query("DELETE FROM ".Piwik_Common::prefixTable("access")." 
 					WHERE idsite = ?", $idSite);
 		
 		Piwik_Common::deleteCacheWebsiteAttributes($idSite);
@@ -374,15 +374,15 @@ class Piwik_SitesManager_API
 					return true;
 				}
 			}
-		}
-		throw new Exception('The timezone "'.$timezone.'" is not valid. Please enter a valid timezone.');
+		}		
+		throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidTimezone', array($timezone)));
 	}
 	
 	private function checkValidCurrency($currency)
 	{
 		if(!in_array($currency, array_keys($this->getCurrencyList())))
-		{
-			throw new Exception('The currency "'.$currency.'" is not valid. Please enter a valid currency symbol (USD, EUR, etc.)');
+		{			
+			throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
 		}
 	}
 	
@@ -402,7 +402,7 @@ class Piwik_SitesManager_API
 		{
 			if(!$this->isValidIp($ip))
 			{
-				throw new Exception('The IP to exclude "'.$ip.'" does not have a valid IP format (eg. 1.2.3.4 or 1.2.3.*).');
+				throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4 or 1.2.3.*")));
 			}
 		}
 		$ips = implode(',', $ips);
@@ -596,7 +596,7 @@ class Piwik_SitesManager_API
 		$bind['excluded_parameters'] = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
 		$bind['name'] = $siteName;
 		$db = Zend_Registry::get('db');
-		$db->update(Piwik::prefixTable("site"), 
+		$db->update(Piwik_Common::prefixTable("site"), 
 							$bind,
 							"idsite = $idSite"
 								);
@@ -780,7 +780,7 @@ class Piwik_SitesManager_API
 			$db = Zend_Registry::get('db');
 			foreach($urls as $url)
 			{
-				$db->insert(Piwik::prefixTable("site_url"), array(
+				$db->insert(Piwik_Common::prefixTable("site_url"), array(
 										'idsite' => $idSite,
 										'url' => $url
 										)
@@ -795,7 +795,7 @@ class Piwik_SitesManager_API
 	private function deleteSiteAliasUrls($idsite)
 	{
 		$db = Zend_Registry::get('db');
-		$db->query("DELETE FROM ".Piwik::prefixTable("site_url") ." 
+		$db->query("DELETE FROM ".Piwik_Common::prefixTable("site_url") ." 
 					WHERE idsite = ?", $idsite);
 	}
 	

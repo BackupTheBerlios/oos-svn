@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2109 2010-04-14 19:20:39Z vipsoft $
+ * @version $Id: Controller.php 2258 2010-06-02 14:50:18Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -110,24 +110,20 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$password = Piwik_Common::getRequestVar('password', null, 'string');
 		if(strlen($password) != 32)
 		{
-			throw new Exception("The password parameter is expected to be a MD5 hash of the password.");
+			throw new Exception(Piwik_TranslateException('Login_ExceptionPasswordMD5HashExpected'));
 		}
 
 		$login = Piwik_Common::getRequestVar('login', null, 'string');
 		if($login == Zend_Registry::get('config')->superuser->login)
-		{
-			throw new Exception("The Super User cannot be authenticated using the 'logme' mechanism.");
+		{			
+			throw new Exception(Piwik_TranslateException('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
 		}
 
 		$currentUrl = 'index.php';
 		$urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
 		$urlToRedirect = htmlspecialchars_decode($urlToRedirect);
 
-		$authenticated = $this->authenticateAndRedirect($login, $password, $urlToRedirect);
-		if($authenticated === false)
-		{
-			echo Piwik_Translate('Login_LoginPasswordNotCorrect');
-		}
+		$this->authenticateAndRedirect($login, $password, $urlToRedirect);
 	}
 
 	/**

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitFrequency.php 2006 2010-03-29 06:32:46Z matt $
+ * @version $Id: VisitFrequency.php 2264 2010-06-03 16:53:43Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
@@ -19,7 +19,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'VisitFrequency',
 			'description' => Piwik_Translate('VisitFrequency_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
@@ -47,7 +46,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency'));
+		Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency', 'action' => 'index'));
 	}
 	
 	function archivePeriod( $notification )

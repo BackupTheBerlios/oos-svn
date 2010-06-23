@@ -1,21 +1,29 @@
-
-<div id="AddEditGoals">
 {if isset($onlyShowAddNewGoal)}
     <h2>{'Goals_AddNewGoal'|translate}</h2>
+    <p>{'Goals_DescriptionGoalsManagement'|translate} </p>
+    <p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
+    </p>
 {else}
-	<h2>
-	{'Goals_AddNewGoalOrEditExistingGoal'|translate:"<a onclick='' name='linkAddNewGoal'>+":"</a>":"<a onclick='' name='linkEditGoals'>":"</a>"}
-	</h2>
+	<h2>{'Goals_GoalsManagement'|translate}</h2>
+	<ul class='listCircle'>
+		<li><a onclick='' name='linkAddNewGoal'><u>{'Goals_CreateNewGOal'|translate}</u></a></li>
+		<li><a onclick='' name='linkEditGoals'>{'Goals_ViewAndEditGoals'|translate}</a></li>
+		<li>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}</li>
+	</ul>
+	<br/>
 {/if}
 
 {ajaxErrorDiv}
 {ajaxLoadingDiv id=goalAjaxLoading}
 	
-{if !isset($onlyShowAddNewGoal)}
-	{include file="Goals/templates/list_goal_edit.tpl"}
-{/if}
+<div id="AddEditGoals">
+	{if !isset($onlyShowAddNewGoal)}
+		{include file="Goals/templates/list_goal_edit.tpl"}
+	{/if}
 	{include file="Goals/templates/form_add_goal.tpl"}
-	
+	{if !isset($onlyShowAddNewGoal)}
+		<div id='goalsCancel'>{'General_OrCancel'|translate:"<a id='goalsCancelLink'>":"</a>"}</div>
+	{/if}
 	<a id='bottom'></a>
 </div>
 
@@ -24,20 +32,20 @@
 <script type="text/javascript">
 
 var mappingMatchTypeName = {ldelim} 
-	"url": "URL", 
-	"file": "filename", 
-	"external_website": "external website URL" 
+	"url": "{'Goals_URL'|translate|escape}", 
+	"file": "{'Goals_Filename'|translate|escape}", 
+	"external_website": "{'Goals_ExternalWebsiteUrl'|translate|escape}" 
 {rdelim};
 var mappingMatchTypeExamples = {ldelim}
-	"url": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'checkout/confirmation'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://example.com/thank-you.html'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"matches the expression '(.*)\\\/demo\\\/(.*)'"}", 
-	"file": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'files/brochure.pdf'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://example.com/files/brochure.pdf'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"'(.*)\\\.zip'"}", 
-	"external_website": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'amazon.com'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_IsExactly'|translate:"'http://mypartner.com/landing.html'"} \
-		<br />{'General_ForExampleShort'|translate} {'Goals_MatchesExpression'|translate:"'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'"}" 
+	"url": "{'General_ForExampleShort'|translate} {'Goals_Contains'|translate:"'checkout/confirmation'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://example.com/thank-you.html'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"'(.*)\\\/demo\\\/(.*)'"|escape}", 
+	"file": "{'General_ForExampleShort'|translate|escape} {'Goals_Contains'|translate:"'files/brochure.pdf'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://example.com/files/brochure.pdf'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"'(.*)\\\.zip'"|escape}", 
+	"external_website": "{'General_ForExampleShort'|translate|escape} {'Goals_Contains'|translate:"'amazon.com'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_IsExactly'|translate:"'http://mypartner.com/landing.html'"|escape} \
+		<br />{'General_ForExampleShort'|translate|escape} {'Goals_MatchesExpression'|translate:"'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'"|escape}" 
 {rdelim};
 bindGoalForm();
 

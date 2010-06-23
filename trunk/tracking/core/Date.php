@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Date.php 2186 2010-05-15 20:51:26Z vipsoft $
+ * @version $Id: Date.php 2246 2010-05-31 11:57:21Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -63,7 +63,7 @@ class Piwik_Date
 		elseif (!is_int($dateString)
 			&& ($dateString = strtotime($dateString)) === false) 
 		{
-			throw new Exception("Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information)");
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")));
 		}
 		else
 		{

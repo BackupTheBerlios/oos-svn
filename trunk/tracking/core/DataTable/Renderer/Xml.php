@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Xml.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Xml.php 2294 2010-06-11 15:14:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -25,6 +25,20 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	function render()
 	{
 		return $this->renderTable($this->table);
+	}
+	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		
+		@header("Content-Type: text/xml;charset=utf-8");
+		$return = 
+			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
+			"<result>\n".
+			"\t<error message=\"".$exceptionMessage."\" />\n".
+			"</result>";		
+		
+		return $return;
 	}
 	
 	protected function getArrayFromDataTable($table)

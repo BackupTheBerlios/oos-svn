@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Provider.php 1926 2010-03-16 11:11:19Z matt $
+ * @version $Id: Provider.php 2305 2010-06-15 10:04:53Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Provider
@@ -19,7 +19,6 @@ class Piwik_Provider extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Provider',
 			'description' => Piwik_Translate('Provider_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
@@ -45,7 +44,7 @@ class Piwik_Provider extends Piwik_Plugin
 	function install()
 	{
 		// add column hostname / hostname ext in the visit table
-		$query = "ALTER IGNORE TABLE `".Piwik::prefixTable('log_visit')."` ADD `location_provider` VARCHAR( 100 ) NULL";
+		$query = "ALTER IGNORE TABLE `".Piwik_Common::prefixTable('log_visit')."` ADD `location_provider` VARCHAR( 100 ) NULL";
 		
 		// if the column already exist do not throw error. Could be installed twice...
 		try {
@@ -63,7 +62,7 @@ class Piwik_Provider extends Piwik_Plugin
 	function uninstall()
 	{
 		// add column hostname / hostname ext in the visit table
-		$query = "ALTER TABLE `".Piwik::prefixTable('log_visit')."` DROP `location_provider`";
+		$query = "ALTER TABLE `".Piwik_Common::prefixTable('log_visit')."` DROP `location_provider`";
 		Piwik_Exec($query);
 	}
 	
@@ -86,10 +85,10 @@ class Piwik_Provider extends Piwik_Plugin
 
 	function archivePeriod( $notification )
 	{
-		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_providers;
+		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
 		$archiveProcessing = $notification->getNotificationObject();
 		$dataTableToSum = array( 'Provider_hostnameExt' );
-		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTableLevelZero);
+		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
 	}
 
 	/**
@@ -104,8 +103,8 @@ class Piwik_Provider extends Piwik_Plugin
 		$interestByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 		$tableProvider = $archiveProcessing->getDataTableFromArray($interestByProvider);
 		$columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-		$maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_providers;
-		$archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTableLevelZero, null, $columnToSortByBeforeTruncation));
+		$maximumRowsInDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_standard;
+		$archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 		destroy($tableProvider);
 	}
 	

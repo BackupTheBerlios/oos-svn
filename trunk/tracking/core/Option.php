@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Option.php 2023 2010-03-31 08:47:57Z matt $
+ * @version $Id: Option.php 2266 2010-06-03 17:47:32Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -54,7 +54,7 @@ class Piwik_Option
 			return $this->all[$name];
 		}
 		$value = Piwik_FetchOne( 'SELECT option_value 
-							FROM `' . Piwik::prefixTable('option') . '`
+							FROM `' . Piwik_Common::prefixTable('option') . '`
 							WHERE option_name = ?', $name);
 		if($value === false)
 		{
@@ -74,7 +74,7 @@ class Piwik_Option
 	public function set($name, $value, $autoload = 0)
 	{
 		$autoload = (int)$autoload;
-		Piwik_Query('INSERT INTO `'. Piwik::prefixTable('option') . '` (option_name, option_value, autoload) '.
+		Piwik_Query('INSERT INTO `'. Piwik_Common::prefixTable('option') . '` (option_name, option_value, autoload) '.
 					' VALUES (?, ?, ?) '.
 					' ON DUPLICATE KEY UPDATE option_value = ?', 
 					array($name, $value, $autoload, $value));
@@ -89,7 +89,7 @@ class Piwik_Option
 			return;
 		}
 		$all = Piwik_FetchAll('SELECT option_value, option_name
-								FROM `'. Piwik::prefixTable('option') . '` 
+								FROM `'. Piwik_Common::prefixTable('option') . '` 
 								WHERE autoload = 1');
 		foreach($all as $option)
 		{

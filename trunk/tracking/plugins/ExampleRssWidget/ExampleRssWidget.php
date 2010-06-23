@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleRssWidget.php 1964 2010-03-20 18:31:52Z vipsoft $
+ * @version $Id: ExampleRssWidget.php 2264 2010-06-03 16:53:43Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleRssWidget
@@ -26,7 +26,6 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'ExampleRssWidget',
 			'description' => Piwik_Translate('ExampleRssWidget_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

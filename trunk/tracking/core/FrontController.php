@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FrontController.php 2147 2010-05-06 18:50:38Z vipsoft $
+ * @version $Id: FrontController.php 2283 2010-06-08 00:44:43Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -160,13 +160,14 @@ class Piwik_FrontController
 		try {
 			Piwik::printSqlProfilingReportZend();
 			Piwik::printQueryCount();
+/*		
+			if(Piwik::getModule() !== 'API')
+			{
+				Piwik::printMemoryUsage();
+				Piwik::printTimer();
+			}
+ */
 		} catch(Exception $e) {}
-		
-		if(Piwik::getModule() !== 'API')
-		{
-//			Piwik::printMemoryUsage();
-//			Piwik::printTimer();
-		}
 	}
 	
 	/**
@@ -203,7 +204,7 @@ class Piwik_FrontController
 			}
 
 			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 
 			if($exceptionToThrow)
 			{

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: functions.php 2147 2010-05-06 18:50:38Z vipsoft $
+ * @version $Id: functions.php 2305 2010-06-15 10:04:53Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
@@ -126,11 +126,19 @@ function Piwik_getBrowserVersion($str)
 function Piwik_getBrowsersLogo($label)
 {
 	$id = Piwik_getBrowserId($label);
+	// For aggregated row 'Others'
+	if(empty($id)) {
+		$id = 'UNK';
+	}
 	return  'plugins/UserSettings/images/browsers/'. $id . '.gif';
 }
 
 function Piwik_getOSLogo($label)
 {
+	// For aggregated row 'Others'
+	if(empty($label)) {
+		$label = 'UNK';
+	}
 	$path = 'plugins/UserSettings/images/os/'. $label . '.gif';
 	return $path;
 }

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Php.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Php.php 2294 2010-06-11 15:14:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -62,6 +62,20 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			$toReturn =  "<pre>" . var_export($toReturn, true ) . "</pre>";
 		}
 		return $toReturn;
+	}
+	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		
+		$return = array('result' => 'error', 'message' => $exceptionMessage);
+		
+		if($this->serialize)
+		{
+			$return = serialize($return);
+		}
+		
+		return $return;
 	}
 	
 	/**

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UserCountry.php 1816 2010-01-29 21:27:47Z vipsoft $
+ * @version $Id: UserCountry.php 2321 2010-06-18 10:46:38Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
@@ -19,7 +19,6 @@ class Piwik_UserCountry extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'UserCountry',
 			'description' => Piwik_Translate('UserCountry_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
@@ -35,6 +34,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
 		);
 		return $hooks;
 	}	
@@ -47,7 +47,26 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry'));
+		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
+	}
+	
+	function addGoalSegments( $notification )
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments = array_merge($segments, array(
+        		array(
+        			'group'  => Piwik_Translate('UserCountry_Location'),
+        			'name'   => Piwik_Translate('UserCountry_Country'),
+        			'module' => 'UserCountry',
+        			'action' => 'getCountry',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('UserCountry_Location'),
+        			'name'   => Piwik_Translate('UserCountry_Continent'),
+        			'module' => 'UserCountry',
+        			'action' => 'getContinent',
+        		),
+        	));
 	}
 	
 	function archivePeriod( $notification )

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Console.php 1968 2010-03-21 17:42:23Z vipsoft $
+ * @version $Id: Console.php 2294 2010-06-11 15:14:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -23,6 +23,12 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 	function render()
 	{
 		return $this->renderTable($this->table);
+	}
+	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		return 'Error: '.$exceptionMessage;
 	}
 	
 	function setPrefixRow($str)

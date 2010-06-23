@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Auth.php 1833 2010-02-10 08:26:40Z vipsoft $
+ * @version $Id: Auth.php 2265 2010-06-03 17:46:05Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -42,7 +42,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 		}
 
 		$login = Piwik_FetchOne(
-					'SELECT login FROM '.Piwik::prefixTable('user').' WHERE token_auth = ?',
+					'SELECT login FROM '.Piwik_Common::prefixTable('user').' WHERE token_auth = ?',
 					array($this->token_auth)
 		);
 		if($login !== false)

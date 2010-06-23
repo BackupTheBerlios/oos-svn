@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: 0.2.27.php 1980 2010-03-22 18:46:56Z vipsoft $
+ * @version $Id: 0.2.27.php 2266 2010-06-03 17:47:32Z vipsoft $
  *
  * @category Piwik
  * @package Updates
@@ -18,10 +18,10 @@ class Piwik_Updates_0_2_27 extends Piwik_Updates
 	static function getSql($adapter = 'PDO_MYSQL')
 	{
 		$sqlarray = array(
-			'ALTER TABLE `'. Piwik::prefixTable('log_visit') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
 				ADD `visit_goal_converted` VARCHAR( 1 ) NOT NULL AFTER `visit_total_time`' => false,
 			// 0.2.27 [826]
-			'ALTER IGNORE TABLE `'. Piwik::prefixTable('log_visit') .'`
+			'ALTER IGNORE TABLE `'. Piwik_Common::prefixTable('log_visit') .'`
 				CHANGE `visit_goal_converted` `visit_goal_converted` TINYINT(1) NOT NULL' => false,
 		);
 

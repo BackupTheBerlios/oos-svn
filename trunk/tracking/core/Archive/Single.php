@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Single.php 2091 2010-04-13 06:30:50Z matt $
+ * @version $Id: Single.php 2246 2010-05-31 11:57:21Z matt $
  * 
  * 
  * @category Piwik
@@ -452,7 +452,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		if($data === false 
 			&& $idSubTable !== null)
 		{
-			throw new Exception("You are requesting a precise subTable but there is not such data in the Archive.");
+			throw new Exception(Piwik_TranslateException('General_ExceptionSubtableNotFoundInArchive'));
 		}
 	
 		return $table;

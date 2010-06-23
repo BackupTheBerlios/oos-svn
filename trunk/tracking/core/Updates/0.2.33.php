@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: 0.2.33.php 1980 2010-03-22 18:46:56Z vipsoft $
+ * @version $Id: 0.2.33.php 2266 2010-06-03 17:47:32Z vipsoft $
  *
  * @category Piwik
  * @package Updates
@@ -19,9 +19,9 @@ class Piwik_Updates_0_2_33 extends Piwik_Updates
 	{
 		$sqlarray = array(
 			// 0.2.33 [1020]
-			'ALTER TABLE `'. Piwik::prefixTable('user_dashboard') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('user_dashboard') .'`
 				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '1146',
-			'ALTER TABLE `'. Piwik::prefixTable('user_language') .'`
+			'ALTER TABLE `'. Piwik_Common::prefixTable('user_language') .'`
 				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '1146',
 		);
 

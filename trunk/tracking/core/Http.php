@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Http.php 2207 2010-05-23 22:25:02Z vipsoft $
+ * @version $Id: Http.php 2244 2010-05-30 18:02:04Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -283,34 +283,59 @@ class Piwik_Http
 			$ch = @curl_init();
 
 			$curl_options = array(
+				// internal to ext/curl
+				CURLOPT_BINARYTRANSFER => is_resource($file),
+
+				// curl options (sorted oldest to newest)
 				CURLOPT_URL => $aUrl,
+				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
+				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
 				CURLOPT_HEADER => false,
 				CURLOPT_CONNECTTIMEOUT => $timeout,
-				CURLOPT_BINARYTRANSFER => is_resource($file),
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_MAXREDIRS => 5,
-				CURLOPT_USERAGENT => 'Piwik/'.Piwik_Version::VERSION.($userAgent ? " $userAgent" : ''),
-				CURLOPT_REFERER => 'http://'.Piwik_Common::getIpString(),
 			);
+			@curl_setopt_array($ch, $curl_options);
+
+			/*
+			 * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
+			 * in safe_mode or open_basedir is set
+			 */
+			if((string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '')
+			{ 
+				$curl_options = array(
+					// curl options (sorted oldest to newest)
+					CURLOPT_FOLLOWLOCATION => true,
+					CURLOPT_MAXREDIRS => 5, 
+				);
+				@curl_setopt_array($ch, $curl_options);
+			}
+
 			if(is_resource($file))
 			{
-				// write directly to file
-				$curl_options[CURLOPT_FILE] = $file;
+				// write output directly to file
+				@curl_setopt($ch, CURLOPT_FILE, $file);
 			}
 			else
 			{
-				$curl_options[CURLOPT_RETURNTRANSFER] = true;
+				// internal to ext/curl
+				@curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			}
-			@curl_setopt_array($ch, $curl_options);
 
+			ob_start();
 			$response = @curl_exec($ch);
-			if($response === false)
+			ob_end_clean();
+
+			if($response === true)
+			{
+				$response = '';
+			}
+			else if($response === false)
 			{
 				$errstr = curl_error($ch);
 				if($errstr != '')
 				{
 					throw new Exception('curl_exec: '.$errstr);
 				}
+				$response = '';
 			}
 
 			$contentLength = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2198 2010-05-19 23:31:44Z vipsoft $
+ * @version $Id: Controller.php 2275 2010-06-04 23:59:08Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
@@ -211,7 +211,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		
 		Piwik::setMaxExecutionTime(0);
 		
-		if(Piwik::isPhpCliMode())
+		if(Piwik_Common::isPhpCliMode())
 		{
 			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
@@ -245,8 +245,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$coreToUpdate = false;
 
 		// handle case of existing database with no tables
-		$tablesInstalled = Piwik::getTablesInstalled();
-		if(count($tablesInstalled) == 0)
+		if(!Piwik::isInstalled())
 		{
 			$this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Zend_Registry::get('config')->database->dbname);
 			$this->coreError = true;

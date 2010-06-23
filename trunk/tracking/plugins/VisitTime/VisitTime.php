@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitTime.php 2156 2010-05-07 12:17:33Z matt $
+ * @version $Id: VisitTime.php 2321 2010-06-18 10:46:38Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
@@ -19,7 +19,6 @@ class Piwik_VisitTime extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'VisitTime',
 			'description' =>  Piwik_Translate('VisitTime_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
@@ -35,6 +34,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
 		);
 		return $hooks;
 	}
@@ -47,9 +47,20 @@ class Piwik_VisitTime extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime'));
+		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
 	}
 
+	function addGoalSegments( $notification )
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments[] = array(
+					'group'  => Piwik_Translate('VisitTime_ColumnServerTime'),
+        			'name'   => Piwik_Translate('VisitTime_ColumnServerTime'),
+        			'module' => 'VisitTime',
+        			'action' => 'getVisitInformationPerServerTime',
+    	);
+	}
+	
 	function archivePeriod( $notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -95,9 +106,15 @@ class Piwik_VisitTime extends Piwik_Plugin
 	protected function archiveDayAggregateGoals($archiveProcessing)
 	{
 		$query = $archiveProcessing->queryConversionsBySingleSegment("HOUR(server_time)");
+		$goalByServerTime = array();
 		while($row = $query->fetch())
 		{
-			$this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+			$goalByServerTime[$row['label']][$row['idgoal']] = $archiveProcessing->getGoalRowFromQueryRow($row);
+		}
+		$goalByServerTime = $this->convertServerTimeToLocalTimezone($goalByServerTime, $archiveProcessing);
+		foreach($goalByServerTime as $hour => $goals)
+		{
+			$this->interestByServerTime[$hour][Piwik_Archive::INDEX_GOALS] = $goals;
 		}
 		$archiveProcessing->enrichConversionsByLabelArray($this->interestByServerTime);
 	}

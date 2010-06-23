@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ColumnCallbackReplace.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: ColumnCallbackReplace.php 2303 2010-06-14 17:31:41Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -35,7 +35,13 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
 	{
 		foreach($this->table->getRows() as $key => $row)
 		{
-			$parameters = array($this->getElementToReplace($row, $this->columnToFilter));
+			// when a value is not defined, we set it to zero by default (rather than displaying '-')
+			$value = $this->getElementToReplace($row, $this->columnToFilter);
+			if($value === false)
+			{
+				$value = 0;
+			}
+			$parameters = array($value);
 			if(!is_null($this->functionParameters))
 			{
 				$parameters = array_merge($parameters, $this->functionParameters);

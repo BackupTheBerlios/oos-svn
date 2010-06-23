@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Actions.php 2202 2010-05-20 08:49:42Z matt $
+ * @version $Id: Actions.php 2264 2010-06-03 16:53:43Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -32,7 +32,6 @@ class Piwik_Actions extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Actions',
 			'description' => Piwik_Translate('Actions_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

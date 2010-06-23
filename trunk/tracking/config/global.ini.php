@@ -126,17 +126,19 @@ login_password_recovery_email_name = Piwik
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
-datatable_archiving_maximum_rows_referers = 500
+datatable_archiving_maximum_rows_referers = 1000
 ; maximum number of rows for any of the Referers subtable (search engines by keyword, keyword by campaign, etc.)
 datatable_archiving_maximum_rows_subtable_referers = 50
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
 datatable_archiving_maximum_rows_actions = 500
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
+; note: should not exceed the display limit in Piwik_Actions_Controller::ACTIONS_REPORT_ROWS_DISPLAY
+;       because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
 datatable_archiving_maximum_rows_subtable_actions = 100
 
-; maximum number of rows for the provider table
-datatable_archiving_maximum_rows_providers = 500
+; maximum number of rows for other tables (Providers, User settings configurations)
+datatable_archiving_maximum_rows_standard = 500
 
 ; by default, Piwik uses self-hosted AJAX libraries.
 ; If set to 1, Piwik uses a Content Distribution Network
@@ -144,7 +146,7 @@ use_ajax_cdn = 0
 
 ; required AJAX library versions
 jquery_version = 1.4.2
-jqueryui_version = 1.8.1
+jqueryui_version = 1.8.2
 swfobject_version = 2.2
 
 ; If set to 0, Flash widgets require separate HTTP requests
@@ -252,6 +254,7 @@ Plugins[] 		= Dashboard
 Plugins[] 		= MultiSites
 Plugins[] 		= Referers
 Plugins[] 		= UserSettings
+Plugins[]       = Goals
 
 Plugins[] 		= UserCountry
 Plugins[] 		= VisitsSummary

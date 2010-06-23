@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GoalManager.php 2024 2010-03-31 09:39:20Z matt $
+ * @version $Id: GoalManager.php 2246 2010-05-31 11:57:21Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -52,7 +52,7 @@ class Piwik_Tracker_GoalManager
 				return $goal;
 			}
 		}
-		throw new Exception("The goal id = $idGoal couldn't be found.");
+		throw new Exception(Piwik_TranslateException('General_ExceptionGoalNotFound', array($idGoal)));
 	}
 
 	static public function getGoalIds( $idSite )
@@ -129,7 +129,7 @@ class Piwik_Tracker_GoalManager
 					$match = ($matched == 0);
 					break;
 				default:
-					throw new Exception("Pattern type $pattern_type not valid.");
+					throw new Exception(Piwik_TranslateException('General_ExceptionInvalidGoalPattern', array($pattern_type)));
 					break;
 			}
 			if($match)

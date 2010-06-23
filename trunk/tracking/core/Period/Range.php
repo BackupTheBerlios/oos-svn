@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Range.php 2067 2010-04-09 09:18:01Z matt $
+ * @version $Id: Range.php 2246 2010-05-31 11:57:21Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -71,10 +71,6 @@ class Piwik_Period_Range extends Piwik_Period
 			
 			case 'year':
 				$startDate = $date->subMonth( 12 * $n );					
-			break;
-			
-			default:
-				throw new Exception(sprintf(self::$unknowPeriodException, $this->strPeriod));
 			break;
 		}
 		return $startDate;
@@ -155,7 +151,7 @@ class Piwik_Period_Range extends Piwik_Period
 		}
 		else
 		{
-			throw new Exception("The date '$this->strDate' is not a date range. Should have the following format: 'lastN' or 'previousN' or 'YYYY-MM-DD,YYYY-MM-DD'.");
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
 		}
 		$endSubperiod = Piwik_Period::factory($this->strPeriod, $endDate);
 		

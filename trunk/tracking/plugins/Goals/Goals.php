@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Goals.php 2204 2010-05-20 09:27:54Z matt $
+ * @version $Id: Goals.php 2303 2010-06-14 17:31:41Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -26,7 +26,6 @@ class Piwik_Goals extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Goals',
 			'description' => Piwik_Translate('Goals_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
@@ -60,6 +59,15 @@ class Piwik_Goals extends Piwik_Plugin
 	
 	function addWidgets()
 	{
+		Piwik_AddWidget('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
+		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
+		if(count($goals) > 0)
+		{
+			foreach($goals as $goal) 
+			{
+        		Piwik_AddWidget('Goals_Goals', $goal['name'], 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+			}
+		}
 	}
 	
 	function addMenus()
@@ -71,7 +79,7 @@ class Piwik_Goals extends Piwik_Plugin
 		}
 		else
 		{
-			Piwik_AddMenu('Goals_Goals', 'Goals_Overview', array('module' => 'Goals'));
+			Piwik_AddMenu('Goals_Goals', 'Goals_Overview', array('module' => 'Goals', 'action' => 'index'));
 			foreach($goals as $goal) 
 			{
 				Piwik_AddMenu('Goals_Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));

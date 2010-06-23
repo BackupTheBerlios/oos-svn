@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Period.php 2006 2010-03-29 06:32:46Z matt $
+ * @version $Id: Period.php 2246 2010-05-31 11:57:21Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -30,8 +30,7 @@ abstract class Piwik_Period
 	protected $subperiodsProcessed = false;
 	protected $label = null;
 	protected $date = null;
-	
-	protected static $unknowPeriodException = "The period '%s' is not supported. Try 'day' or 'week' or 'month' or 'year'";
+	static protected $errorAvailablePeriods = 'day, week, month, year';
 	
 	public function __construct( $date )
 	{	
@@ -64,11 +63,12 @@ abstract class Piwik_Period
 				break;
 				
 			default:
-				throw new Exception(sprintf(self::$unknowPeriodException, $strPeriod));
+				throw new Exception(Piwik_TranslateException('General_ExceptionInvalidPeriod', array($strPeriod, self::$errorAvailablePeriods))); 
 				break;
 		}
 	}
 
+	
 	/**
 	 * Returns the first day of the period
 	 *

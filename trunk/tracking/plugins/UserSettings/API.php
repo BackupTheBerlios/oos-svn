@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2147 2010-05-06 18:50:38Z vipsoft $
+ * @version $Id: API.php 2305 2010-06-15 10:04:53Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
@@ -39,6 +39,7 @@ class Piwik_UserSettings_API
 		$dataTable = $archive->getDataTable($name);
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('ReplaceColumnNames');
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
 	}
 

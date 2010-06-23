@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2204 2010-05-20 09:27:54Z matt $
+ * @version $Id: Controller.php 2360 2010-06-23 03:04:01Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -18,14 +18,35 @@ class Piwik_Goals_Controller extends Piwik_Controller
 {
 	const CONVERSION_RATE_PRECISION = 1;
 	
-	function __construct()
+	protected $goalColumnNameToLabel = array(
+		'nb_conversions' => 'Goals_ColumnConversions',
+		'conversion_rate'=> 'Goals_ColumnConversionRate',
+		'revenue' => 'Goals_ColumnRevenue',
+	);
+	
+	public function __construct()
 	{
 		parent::__construct();
 		$this->idSite = Piwik_Common::getRequestVar('idSite');
 		$this->goals = Piwik_Goals_API::getInstance()->getGoals($this->idSite);
 	}
 	
-	function goalReport()
+	public function widgetGoalReport()
+	{
+		$view = $this->getGoalReportView();
+		$view->displayFullReport = false;
+		echo $view->render();
+	}
+	
+	public function goalReport()
+	{
+		$view = $this->getGoalReportView();
+		$view->displayFullReport = true;
+        $view->goalSegments = $this->getAvailableGoalSegments();
+		echo $view->render();
+	}
+	
+	protected function getGoalReportView()
 	{
 		$idGoal = Piwik_Common::getRequestVar('idGoal', null, 'int');
 		if(!isset($this->goals[$idGoal]))
@@ -41,10 +62,10 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$view->$name = $value;
 		}
-		$view->name = $goalDefinition['name'];
-		$view->title = $goalDefinition['name'] . ' - Conversions';
+		$view->idGoal = $idGoal;
+		$view->goalName = $goalDefinition['name'];
 		$view->graphEvolution = $this->getEvolutionGraph(true, array(Piwik_Goals::getRecordName('nb_conversions', $idGoal)), $idGoal);
-		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph';
+		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph'.$idGoal;
 		$view->topSegments = $this->getTopSegments($idGoal);
 		
 		// conversion rate for new and returning visitors
@@ -52,75 +73,31 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->conversion_rate_returning = round( $request->process(), self::CONVERSION_RATE_PRECISION );
 		$request = new Piwik_API_Request("method=Goals.getConversionRateNewVisitors&format=original");
 		$view->conversion_rate_new = round( $request->process(), self::CONVERSION_RATE_PRECISION );
-		
-		$verticalSlider = array();
-		// string label
-		// array parameters to ajax call on click (module, action)
-		// specific order
-		// (intermediate labels)
-		// automatically load the first from the list, highlights it
-		$view->tableByConversion = Piwik_FrontController::getInstance()->fetchDispatch('Referers', 'getKeywords', array(false, 'tableGoals'));
+		return $view;
+	}
+	
+	public function index()
+	{
+		$view = $this->getOverviewView();
+		$view->goalsJSON = json_encode($this->goals);
+        $view->goalSegments = $this->getAvailableGoalSegments();
+		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+		$view->displayFullReport = true;
 		echo $view->render();
 	}
 	
-	protected function getTopSegments($idGoal)
+	public function widgetGoalsOverview( )
 	{
-		$columnNbConversions = 'goal_'.$idGoal.'_nb_conversions';
-		$columnConversionRate = 'goal_'.$idGoal.'_conversion_rate';
-		
-		$topSegmentsToLoad = array(
-			'country' => 'UserCountry.getCountry',
-			'keyword' => 'Referers.getKeywords',
-			'website' => 'Referers.getWebsites',
-		);
-		
-		$topSegments = array();
-		foreach($topSegmentsToLoad as $segmentName => $apiMethod)
-		{
-			$request = new Piwik_API_Request("method=$apiMethod
-												&format=original
-												&filter_update_columns_when_show_all_goals=1
-												&filter_sort_order=desc
-												&filter_sort_column=$columnNbConversions
-												&filter_limit=3");
-			$datatable = $request->process();
-			$topSegment = array();
-			foreach($datatable->getRows() as $row)
-			{
-				$topSegment[] = array (
-					'name' => $row->getColumn('label'),
-					'nb_conversions' => $row->getColumn($columnNbConversions),
-					'conversion_rate' => $row->getColumn($columnConversionRate),
-					'metadata' => $row->getMetadata(),
-				);
-			}
-			$topSegments[$segmentName] = $topSegment;
-		}
-		return $topSegments;
+		$view = $this->getOverviewView();
+		$view->displayFullReport = false;
+		echo $view->render();
 	}
 	
-	protected function getMetricsForGoal($idGoal)
-	{
-		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=$idGoal");
-		$datatable = $request->process();
-		$dataRow = $datatable->getFirstRow();
-		return array (
-				'id'				=> $idGoal,
-				'nb_conversions' 	=> $dataRow->getColumn(Piwik_Goals::getRecordName('nb_conversions', $idGoal)),
-				'conversion_rate'	=> round($dataRow->getColumn(Piwik_Goals::getRecordName('conversion_rate', $idGoal)), 1),
-				'revenue'			=> $dataRow->getColumn(Piwik_Goals::getRecordName('revenue', $idGoal)),
-				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('nb_conversions', $idGoal)), 'idGoal' => $idGoal)),
-				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('conversion_rate', $idGoal)), 'idGoal' => $idGoal)),
-				'urlSparklineRevenue' 			=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('revenue', $idGoal)), 'idGoal' => $idGoal)),
-		);
-	}
-	
-	function index()
+	protected function getOverviewView()
 	{
 		$view = Piwik_View::factory('overview');
 		$this->setGeneralVariablesView($view);
 		
-		$view->title = 'All goals - evolution';
 		$view->graphEvolution = $this->getEvolutionGraph(true, array(Piwik_Goals::getRecordName('nb_conversions')));
 		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph'; 
 
@@ -145,12 +122,28 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		
 		$view->goalMetrics = $goalMetrics;
 		$view->goals = $this->goals;
-		$view->goalsJSON = json_encode($this->goals);
-		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
-		echo $view->render();
+		return $view;
+	}
+
+	public function getLastNbConversionsGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getConversions');
+		return $this->renderView($view, $fetch);
 	}
 	
-	function addNewGoal()
+	public function getLastConversionRateGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getConversionRate');
+		return $this->renderView($view, $fetch); 
+	}
+
+	public function getLastRevenueGraph( $fetch = false )
+	{
+		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getRevenue');
+		return $this->renderView($view, $fetch);
+	}
+	
+	public function addNewGoal()
 	{
 		$view = Piwik_View::factory('add_new_goal');
 		$this->setGeneralVariablesView($view);
@@ -159,12 +152,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
-	protected $goalColumnNameToLabel = array(
-		'nb_conversions' => 'Goals_ColumnConversions',
-		'conversion_rate'=> 'Goals_ColumnConversionRate',
-		'revenue' => 'Goals_ColumnRevenue',
-	);
-	
 	public function getEvolutionGraph( $fetch = false, $columns = false, $idGoal = false)
 	{
 		if(empty($columns))
@@ -193,7 +180,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			if(!empty($idGoal) && isset($this->goals[$idGoal]))
 			{
 				$goalName = $this->goals[$idGoal]['name'];
-				$columnTranslation = "$columnTranslation (goal \"$goalName\")";
+				$columnTranslation = "$columnTranslation (".Piwik_Translate('Goals_GoalX', "$goalName").")";
 			}
 			$view->setColumnTranslation($columnName, $columnTranslation);
 		}
@@ -201,21 +188,74 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-	function getLastNbConversionsGraph( $fetch = false )
+	protected function getAvailableGoalSegments()
 	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getConversions');
-		return $this->renderView($view, $fetch);
+		$segments = array();
+		Piwik_PostEvent('Goals.getAvailableGoalSegments', $segments);
+		$segmentsByGroup = array();
+		foreach($segments as $segment)
+		{
+			$group = $segment['group'];
+			unset($segment['group']);
+			$segmentsByGroup[$group][] = $segment;
+		}
+		return $segmentsByGroup;
 	}
 	
-	function getLastConversionRateGraph( $fetch = false )
+	protected function getTopSegments($idGoal)
 	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getConversionRate');
-		return $this->renderView($view, $fetch); 
+		$columnNbConversions = 'goal_'.$idGoal.'_nb_conversions';
+		$columnConversionRate = 'goal_'.$idGoal.'_conversion_rate';
+		
+		$topSegmentsToLoad = array(
+			'country' => 'UserCountry.getCountry',
+			'keyword' => 'Referers.getKeywords',
+			'website' => 'Referers.getWebsites',
+		);
+		
+		$topSegments = array();
+		foreach($topSegmentsToLoad as $segmentName => $apiMethod)
+		{
+			$request = new Piwik_API_Request("method=$apiMethod
+												&format=original
+												&filter_update_columns_when_show_all_goals=1
+												&filter_only_display_idgoal=". Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_FULL_TABLE ."
+												&filter_sort_order=desc
+												&filter_sort_column=$columnNbConversions
+												&filter_limit=3");
+			$datatable = $request->process();
+			$topSegment = array();
+			foreach($datatable->getRows() as $row)
+			{
+				$conversions = $row->getColumn($columnNbConversions);
+				if($conversions > 0)
+				{
+    				$topSegment[] = array (
+    					'name' => $row->getColumn('label'),
+    					'nb_conversions' => $conversions,
+    					'conversion_rate' => $row->getColumn($columnConversionRate),
+    					'metadata' => $row->getMetadata(),
+    				);
+				}
+			}
+			$topSegments[$segmentName] = $topSegment;
+		}
+		return $topSegments;
 	}
-
-	function getLastRevenueGraph( $fetch = false )
+	
+	protected function getMetricsForGoal($idGoal)
 	{
-		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getRevenue');
-		return $this->renderView($view, $fetch);
+		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=$idGoal");
+		$datatable = $request->process();
+		$dataRow = $datatable->getFirstRow();
+		return array (
+				'id'				=> $idGoal,
+				'nb_conversions' 	=> $dataRow->getColumn(Piwik_Goals::getRecordName('nb_conversions', $idGoal)),
+				'conversion_rate'	=> round($dataRow->getColumn(Piwik_Goals::getRecordName('conversion_rate', $idGoal)), 1),
+				'revenue'			=> $dataRow->getColumn(Piwik_Goals::getRecordName('revenue', $idGoal)),
+				'urlSparklineConversions' 		=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('nb_conversions', $idGoal)), 'idGoal' => $idGoal)),
+				'urlSparklineConversionRate' 	=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('conversion_rate', $idGoal)), 'idGoal' => $idGoal)),
+				'urlSparklineRevenue' 			=> $this->getUrlSparkline('getEvolutionGraph', array('columns' => array(Piwik_Goals::getRecordName('revenue', $idGoal)), 'idGoal' => $idGoal)),
+		);
 	}
 }

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Controller.php 2308 2010-06-16 13:47:41Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
@@ -16,7 +16,7 @@
  */
 class Piwik_VisitTime_Controller extends Piwik_Controller 
 {
-	function index()
+	public function index()
 	{
 		$view = Piwik_View::factory('index');
 		$view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
@@ -24,7 +24,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 		
-	function getVisitInformationPerServerTime( $fetch = false)
+	public function getVisitInformationPerServerTime( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitTime.getVisitInformationPerServerTime" );
@@ -42,7 +42,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-	function getVisitInformationPerLocalTime( $fetch = false)
+	public function getVisitInformationPerLocalTime( $fetch = false)
 	{
 		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
 		$view->init( $this->pluginName,  __FUNCTION__, "VisitTime.getVisitInformationPerLocalTime" );

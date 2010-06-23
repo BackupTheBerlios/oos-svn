@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: MultiSites.php 1872 2010-02-25 14:51:15Z mauser $
+ * @version $Id: MultiSites.php 2264 2010-06-03 16:53:43Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
@@ -19,7 +19,6 @@ class Piwik_MultiSites extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'MultiSites',
 			'description' => Piwik_Translate('MultiSites_PluginDescription'),
 			'author' => 'ClearCode.cc',
 			'author_homepage' => "http://clearcode.cc/",

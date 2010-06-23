@@ -4,12 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: View.php 2228 2010-05-28 04:46:21Z vipsoft $
+ * @version $Id: View.php 2333 2010-06-22 04:58:13Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
  */
-
 /*
  * Transition for pre-Piwik 0.4.4
  * @todo Remove this post-1.0
@@ -112,7 +111,7 @@ class Piwik_View implements Piwik_iView
 	{
 		try {
 			$this->currentModule = Piwik::getModule();
-			$this->currentPluginName = Piwik::getCurrentPlugin()->getName();
+			$this->currentPluginName = Piwik::getCurrentPlugin()->getClassName();
 			$this->userLogin = Piwik::getCurrentUserLogin();
 			
 			$showWebsiteSelectorInUserInterface = Zend_Registry::get('config')->General->show_website_selector_in_user_interface;

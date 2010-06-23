@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Common.php 2175 2010-05-13 16:32:14Z matt $
+ * @version $Id: Common.php 2329 2010-06-22 01:37:10Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -107,7 +107,7 @@ class Piwik_Common
 			}
 
 			$pluginsManager = Piwik_PluginsManager::getInstance();
-			$pluginsManager->setPluginsToLoad( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
+			$pluginsManager->loadPlugins( Zend_Registry::get('config')->Plugins->Plugins->toArray() );
 		}
 
 		$isSuperUser = Piwik::isUserIsSuperUser();
@@ -1026,7 +1026,8 @@ class Piwik_Common
 	 */
 	static public function isPhpCliMode()
 	{
+		$remoteAddr = @$_SERVER['REMOTE_ADDR'];
 		return	PHP_SAPI == 'cli' ||
-				(substr(PHP_SAPI, 0, 3) == 'cgi' && @$_SERVER['REMOTE_ADDR'] == '');
+				(substr(PHP_SAPI, 0, 3) == 'cgi' && empty($remoteAddr));
 	}
 }

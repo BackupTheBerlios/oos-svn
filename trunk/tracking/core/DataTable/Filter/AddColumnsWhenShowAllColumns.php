@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: AddColumnsWhenShowAllColumns.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: AddColumnsWhenShowAllColumns.php 2308 2010-06-16 13:47:41Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -17,7 +17,13 @@
 class Piwik_DataTable_Filter_AddColumnsWhenShowAllColumns extends Piwik_DataTable_Filter
 {
 	protected $roundPrecision = 1;
-	public function __construct( $table )
+	
+	/**
+	 * @param $table
+	 * @param $enable Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
+	 * @return void
+	 */
+	public function __construct( $table, $enable = true )
 	{
 		parent::__construct($table);
 		$this->filter();

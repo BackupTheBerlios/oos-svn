@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ArchiveProcessing.php 2141 2010-05-06 07:51:28Z matt $
+ * @version $Id: ArchiveProcessing.php 2323 2010-06-21 10:44:45Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -244,7 +244,7 @@ abstract class Piwik_ArchiveProcessing
 		$timeToLiveSeconds = (int)$timeToLiveSeconds;
 		if($timeToLiveSeconds <= 0)
 		{
-			throw new Exception('Today archive time to live must be a number of seconds greater than zero');
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidArchiveTimeToLive'));
 		}
 		Piwik_SetOption(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoload = true);
 	}
@@ -426,10 +426,10 @@ abstract class Piwik_ArchiveProcessing
 	{
 		$this->loadNextIdarchive();
 		$this->insertNumericRecord('done', Piwik_ArchiveProcessing::DONE_ERROR);
-		$this->logTable 			= Piwik::prefixTable('log_visit');
-		$this->logVisitActionTable 	= Piwik::prefixTable('log_link_visit_action');
-		$this->logActionTable	 	= Piwik::prefixTable('log_action');
-		$this->logConversionTable	= Piwik::prefixTable('log_conversion');
+		$this->logTable 			= Piwik_Common::prefixTable('log_visit');
+		$this->logVisitActionTable 	= Piwik_Common::prefixTable('log_link_visit_action');
+		$this->logActionTable	 	= Piwik_Common::prefixTable('log_action');
+		$this->logConversionTable	= Piwik_Common::prefixTable('log_conversion');
 		
 		$temporary = 'definitive archive';
 		if($this->isArchiveTemporary())
@@ -607,9 +607,15 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	protected function insertRecord($record)
 	{
+		
 		// table to use to save the data
 		if(is_numeric($record->value))
 		{
+    		// We choose not to record records with a value of 0 
+    		if($record->value == 0)
+    		{
+    			return;
+    		}
 			$table = $this->tableArchiveNumeric;
 		}
 		else

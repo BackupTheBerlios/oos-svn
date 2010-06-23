@@ -3,7 +3,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: common.js 2069 2010-04-09 13:10:37Z matt $
+ * @version $Id: common.js 2307 2010-06-15 17:55:16Z matt $
  */
 
 function piwikHelper()
@@ -111,20 +111,28 @@ piwikHelper.ajaxHandleResponse = function(response, loadingDivID, errorDivID)
 		{
 			urlToRedirect += '&' + updatedUrl;
 		}
+		var currentHashStr = window.location.hash;
+		if(currentHashStr.length > 0) {
+			urlToRedirect += currentHashStr;
+		}
 		piwikHelper.redirectToUrl(urlToRedirect);
 	}
 }
 
-// Scrolls the window to the jquery element 'elem' if necessary.
-// "time" specifies the duration of the animation in ms
+/**
+ * Scrolls the window to the jquery element 'elem' 
+ * if the top of the element is not currently visible on screen
+ * @param elem Selector for the DOM node to scroll to, eg. '#myDiv'  
+ * @param time Specifies the duration of the animation in ms
+ */ 
 piwikHelper.lazyScrollTo = function(elem, time)
 {
 	var elemTop = $(elem).offset().top;
-	//only scroll the page if the graph is not visible 
+	// only scroll the page if the graph is not visible 
 	if(elemTop < $(window).scrollTop()
 	|| elemTop > $(window).scrollTop()+$(window).height())
 	{
-		//scroll the page smoothly to the graph
+		// scroll the page smoothly to the graph
 		$.scrollTo(elem, time);
 	}
 }

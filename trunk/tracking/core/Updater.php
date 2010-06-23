@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Updater.php 2147 2010-05-06 18:50:38Z vipsoft $
+ * @version $Id: Updater.php 2353 2010-06-23 00:50:30Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -122,7 +122,7 @@ class Piwik_Updater
 				}
 			}
 			// unfortunately had to extract this query from the Piwik_Option class
-    		$queries[] = 'UPDATE '.Piwik::prefixTable('option').' 
+    		$queries[] = 'UPDATE '.Piwik_Common::prefixTable('option').' 
     				SET option_value = "' .$fileVersion.'" 
     				WHERE option_name = "'. $this->getNameInOptionTable($componentName).'";';
 		}
@@ -203,7 +203,10 @@ class Piwik_Updater
 			foreach( $files as $file)
 			{
 				$fileVersion = basename($file, '.php');
-				if(version_compare($currentVersion, $fileVersion) == -1)
+				if( // if the update is from a newer version
+					version_compare($currentVersion, $fileVersion) == -1
+					// but we don't execute updates from non existing future releases 
+					&& version_compare($fileVersion, $newVersion) <= 0)
 				{
 					$componentsWithUpdateFile[$name][$file] = $fileVersion;
 				}

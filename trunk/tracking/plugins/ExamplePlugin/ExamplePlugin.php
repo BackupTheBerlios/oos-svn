@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExamplePlugin.php 2031 2010-03-31 14:47:46Z matt $
+ * @version $Id: ExamplePlugin.php 2265 2010-06-03 17:46:05Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExamplePlugin
@@ -26,7 +26,6 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'ExamplePlugin',
 			'description' => Piwik_Translate('ExamplePlugin_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
@@ -130,7 +129,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= '<h3>Misc</h3>';
 		$out .= '<code>Piwik_AddMenu( $mainMenuName, $subMenuName, $url );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L146">UserCountry Plugin file</a>)<br />';
 		$out .= '<code>Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array());</code> - Adds a widget that users can add in the dashboard, or export using the Widgets link at the top of the screen. See the example in the <a href="http://dev.piwik.org/trac/browser/trunk/plugins/UserCountry/UserCountry.php#L143">UserCountry Plugin file</a> or any other plugin)<br />';
-		$out .= '<code>Piwik::prefixTable("site")</code> = <b>' . Piwik::prefixTable("site") . '</b><br />';
+		$out .= '<code>Piwik_Common::prefixTable("site")</code> = <b>' . Piwik_Common::prefixTable("site") . '</b><br />';
 		
 		
 		$out .= '<h2>User access</h2>';
@@ -141,7 +140,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		$out .= '<code>Piwik::isUserIsSuperUser()</code> = <b>' . self::boolToString(Piwik::isUserIsSuperUser()) . '</b><br />';
 		
 		$out .= '<h2>Execute SQL queries</h2>';
-		$txtQuery = "SELECT token_auth FROM ".Piwik::prefixTable('user')." WHERE login = ?";
+		$txtQuery = "SELECT token_auth FROM ".Piwik_Common::prefixTable('user')." WHERE login = ?";
 		$result = Piwik_FetchOne($txtQuery, array('anonymous'));
 		$out .= '<code>Piwik_FetchOne("'.$txtQuery.'", array("anonymous"))</code> = <b>' . var_export($result,true) . '</b><br />';
 		$out .= '<br />';

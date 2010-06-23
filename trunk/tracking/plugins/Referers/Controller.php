@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Controller.php 2307 2010-06-15 17:55:16Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -76,9 +76,9 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 
-	function getKeywords( $fetch = false, $viewDataTable = null)
+	function getKeywords( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory($viewDataTable);
+		$view = Piwik_ViewDataTable::factory();
 		$view->init( $this->pluginName, 	__FUNCTION__, 
 											'Referers.getKeywords', 
 											'getSearchEnginesFromKeywordId'

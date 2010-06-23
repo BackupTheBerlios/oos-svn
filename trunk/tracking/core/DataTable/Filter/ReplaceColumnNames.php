@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ReplaceColumnNames.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: ReplaceColumnNames.php 2308 2010-06-16 13:47:41Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -77,9 +77,10 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 		$newColumns = array();
 		foreach($columns as $columnName => $columnValue)
 		{
-			if(isset(Piwik_Archive::$mappingFromIdToName[$columnName]))
+			if(isset($this->mappingToApply[$columnName]))
 			{
-				$columnName = Piwik_Archive::$mappingFromIdToName[$columnName];
+				$columnName = $this->mappingToApply[$columnName];
+				
 				if($columnName == 'goals')
 				{
 					$newSubColumns = array();

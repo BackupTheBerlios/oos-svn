@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: index.php 1761 2010-01-03 17:04:00Z vipsoft $
+ * @version $Id: index.php 2328 2010-06-21 22:36:37Z vipsoft $
  */
 
 if(!empty($_SERVER['QUERY_STRING'])) {
@@ -75,7 +75,7 @@ if (file_exists($file) && function_exists('readfile')) {
 	} else {
 		header('Last-Modified: ' . $lastModified);
 		header('Content-Length: ' . filesize($file));
-		header('Content-Type: application/x-javascript; charset=UTF-8');
+		header('Content-Type: application/javascript; charset=UTF-8');
 
 		if ($compressed) {
 			header('Content-Encoding: ' . $encoding);

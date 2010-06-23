@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: PluginsManager.php 2147 2010-05-06 18:50:38Z vipsoft $
+ * @version $Id: PluginsManager.php 2309 2010-06-16 15:00:54Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -157,7 +157,7 @@ class Piwik_PluginsManager
 		Zend_Registry::get('config')->Plugins = $plugins;
 	}
 	
-	public function setPluginsToLoad( array $pluginsToLoad )
+	public function loadPlugins( array $pluginsToLoad )
 	{
 		// case no plugins to load
 		if(is_null($pluginsToLoad))
@@ -165,7 +165,7 @@ class Piwik_PluginsManager
 			$pluginsToLoad = array();
 		}
 		$this->pluginsToLoad = $pluginsToLoad;
-		$this->loadPlugins();
+		$this->reloadPlugins();
 	}
 	
 	public function doNotLoadPlugins()
@@ -240,7 +240,7 @@ class Piwik_PluginsManager
 	 * Register the observers for every plugin.
 	 * 
 	 */
-	public function loadPlugins()
+	private function reloadPlugins()
 	{
 		$this->pluginsToLoad = array_unique($this->pluginsToLoad);
 
@@ -361,7 +361,7 @@ class Piwik_PluginsManager
 		try{
 			$plugin->install();
 		} catch(Exception $e) {
-			throw new Piwik_PluginsManager_PluginException($plugin->getName(), $plugin->getClassName(), $e->getMessage());		}	
+			throw new Piwik_PluginsManager_PluginException($plugin->getClassName(), $e->getMessage());		}	
 	}
 	
 	
@@ -493,13 +493,13 @@ class Piwik_PluginsManager
  */
 class Piwik_PluginsManager_PluginException extends Exception 
 {
-	function __construct($pluginName, $className, $message)
+	function __construct($pluginName, $message)
 	{
 		parent::__construct("There was a problem installing the plugin ". $pluginName . ": " . $message. "
 				If this plugin has already been installed, and if you want to hide this message</b>, you must add the following line under the 
 				[PluginsInstalled] 
 				entry in your config/config.ini.php file:
-				PluginsInstalled[] = $className" );
+				PluginsInstalled[] = $pluginName" );
 	}
 }
 
@@ -507,8 +507,9 @@ class Piwik_PluginsManager_PluginException extends Exception
  * Post an event to the dispatcher which will notice the observers
  * 
  * @param $eventName The event name
- * @param $object Object or array that the listeners can read and/or modify
- * @param $info Additional array of data that can be used by the listeners, but not changed
+ * @param $object Object, array or string that the listeners can read and/or modify.
+ *                Listeners can call $object =& $notification->getNotificationObject(); to fetch and then modify this variable.
+ * @param $info Additional array of data that can be used by the listeners, but not edited
  * @return void
  */
 function Piwik_PostEvent( $eventName,  &$object = null, $info = array() )

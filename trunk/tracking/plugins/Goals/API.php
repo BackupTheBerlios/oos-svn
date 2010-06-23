@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1968 2010-03-21 17:42:23Z vipsoft $
+ * @version $Id: API.php 2265 2010-06-03 17:46:05Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -53,7 +53,7 @@ class Piwik_Goals_API
 		// save in db
 		$db = Zend_Registry::get('db');
 		$idGoal = $db->fetchOne("SELECT max(idgoal) + 1 
-								FROM ".Piwik::prefixTable('goal')." 
+								FROM ".Piwik_Common::prefixTable('goal')." 
 								WHERE idsite = ?", $idSite);
 		if($idGoal == false)
 		{
@@ -62,7 +62,7 @@ class Piwik_Goals_API
 		$this->checkPatternIsValid($patternType, $pattern);
 		$name = $this->checkName($name);
 		$pattern = $this->checkPattern($pattern);
-		$db->insert(Piwik::prefixTable('goal'),
+		$db->insert(Piwik_Common::prefixTable('goal'),
 					array( 
 						'idsite' => $idSite,
 						'idgoal' => $idGoal,
@@ -84,7 +84,7 @@ class Piwik_Goals_API
 		$name = $this->checkName($name);
 		$pattern = $this->checkPattern($pattern);
 		$this->checkPatternIsValid($patternType, $pattern);
-		Zend_Registry::get('db')->update( Piwik::prefixTable('goal'), 
+		Zend_Registry::get('db')->update( Piwik_Common::prefixTable('goal'), 
 					array(
 						'name' => $name,
 						'match_attribute' => $matchAttribute,
@@ -103,8 +103,7 @@ class Piwik_Goals_API
 		if($patternType == 'exact' 
 			&& substr($pattern, 0, 4) != 'http')
 		{
-			throw new Exception("If you choose 'exact match', the matching string must be a 
-				URL starting with http:// or https://. For example, 'http://www.yourwebsite.com/newsletter/subscribed.html'.");
+			throw new Exception(Piwik_TranslateException('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
 		}
 	}
 	
@@ -121,12 +120,12 @@ class Piwik_Goals_API
 	public function deleteGoal( $idSite, $idGoal )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
-		Piwik_Query("UPDATE ".Piwik::prefixTable('goal')."
+		Piwik_Query("UPDATE ".Piwik_Common::prefixTable('goal')."
 										SET deleted = 1
 										WHERE idsite = ? 
 											AND idgoal = ?",
 									array($idSite, $idGoal));
-		Piwik_Query("DELETE FROM ".Piwik::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
+		Piwik_Query("DELETE FROM ".Piwik_Common::prefixTable("log_conversion")." WHERE idgoal = ?", $idGoal);
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 	}
 	

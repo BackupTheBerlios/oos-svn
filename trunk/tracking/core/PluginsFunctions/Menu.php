@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Menu.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Menu.php 2253 2010-06-01 15:23:07Z matt $
  * 
  * @category Piwik
  * @package PluginsFunctions
@@ -60,6 +60,21 @@ class Piwik_Menu
 		}
 	}
 	
+	function isUrlFound($url)
+	{
+		$menu = Piwik_Menu::getInstance()->get();
+		foreach($menu as $mainMenuName => $subMenus)
+		{
+			foreach($subMenus as $subMenuName => $menuUrl)
+			{
+				if($menuUrl == $url)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	/*
 	 * 
 	 */
@@ -161,6 +176,11 @@ class Piwik_Menu
 			}
 		}
 	}
+}
+
+function Piwik_IsMenuUrlFound($url)
+{
+	return Piwik_Menu::getInstance()->isUrlFound($url);
 }
 
 function Piwik_GetMenu()

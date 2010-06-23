@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Renderer.php 2181 2010-05-13 18:29:01Z matt $
+ * @version $Id: Renderer.php 2294 2010-06-11 15:14:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -24,6 +24,7 @@
 abstract class Piwik_DataTable_Renderer
 {
 	protected $table;
+	protected $exception;
 	protected $renderSubTables = false;
 	
 	public function __construct()
@@ -46,6 +47,13 @@ abstract class Piwik_DataTable_Renderer
 	 * @return string
 	 */
 	abstract public function render();
+	
+	/**
+	 * Computes the exception output and returns the string/binary
+	 * 
+	 * @return string
+	 */
+	abstract public function renderException();	
 	
 	/**
 	 * @see render()
@@ -71,6 +79,19 @@ abstract class Piwik_DataTable_Renderer
 	}
 	
 	/**
+	 * Set the Exception to be rendered
+	 * @param Exception $exception to be rendered
+	 */
+	public function setException($exception)
+	{
+		if(!($exception instanceof Exception))
+		{
+			throw new Exception("The exception renderer accepts only an Exception object.");
+		}
+		$this->exception = $exception;
+	}
+	
+	/**
 	 * Returns the DataTable associated to the output format $name
 	 * 
 	 * @throws exception If the renderer is unknown
@@ -85,7 +106,19 @@ abstract class Piwik_DataTable_Renderer
 			Piwik_Loader::autoload($className);
 			return new $className;			
 		} catch(Exception $e) {
-			throw new Exception("Renderer format '$name' not valid. Try 'xml' or 'json' or 'csv' or 'html' or 'php' or 'original' instead.");
+			$availableRenderers = 'xml, json, csv, tsv, html, php, original';
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($name, $availableRenderers)));
 		}		
-	}	
+	}
+	
+	/**
+	 * Returns $rawData after all applicable characters have been converted to HTML entities.
+	 * 
+	 * @param String $rawData to be converted
+	 * @return String
+	 */
+	static protected function renderHtmlEntities( $rawData )
+	{
+		return htmlentities($rawData, ENT_COMPAT, "UTF-8");
+	}
 }

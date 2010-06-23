@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 1832 2010-02-10 08:14:15Z vipsoft $
+ * @version $Id: API.php 2265 2010-06-03 17:46:05Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_LanguagesManager
@@ -148,7 +148,7 @@ class Piwik_LanguagesManager_API
 	public function getLanguageForUser( $login )
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
-		return Piwik_FetchOne('SELECT language FROM '.Piwik::prefixTable('user_language') .
+		return Piwik_FetchOne('SELECT language FROM '.Piwik_Common::prefixTable('user_language') .
 					' WHERE login = ? ', array($login ));
 	}
 	
@@ -162,7 +162,7 @@ class Piwik_LanguagesManager_API
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
 		$paramsBind = array($login, $languageCode, $languageCode);
-		Piwik_Query('INSERT INTO '.Piwik::prefixTable('user_language') .
+		Piwik_Query('INSERT INTO '.Piwik_Common::prefixTable('user_language') .
 					' (login, language)
 						VALUES (?,?)
 					ON DUPLICATE KEY UPDATE language=?',

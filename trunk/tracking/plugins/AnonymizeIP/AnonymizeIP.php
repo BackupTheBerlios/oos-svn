@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: AnonymizeIP.php 1877 2010-02-28 16:08:43Z vipsoft $
+ * @version $Id: AnonymizeIP.php 2264 2010-06-03 16:53:43Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_AnonymizeIP
@@ -23,7 +23,6 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'AnonymizeIP',
 			'description' => Piwik_Translate('AnonymizeIP_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

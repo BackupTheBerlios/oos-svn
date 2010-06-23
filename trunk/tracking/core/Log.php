@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Log.php 2117 2010-04-24 05:40:05Z vipsoft $
+ * @version $Id: Log.php 2266 2010-06-03 17:47:32Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -42,7 +42,7 @@ abstract class Piwik_Log extends Zend_Log
 
 		$this->fileFormatter = $fileFormatter;
 		$this->screenFormatter = $screenFormatter;
-		$this->logToDatabaseTableName = Piwik::prefixTable($logToDatabaseTableName);
+		$this->logToDatabaseTableName = Piwik_Common::prefixTable($logToDatabaseTableName);
 		$this->logToDatabaseColumnMapping = $logToDatabaseColumnMapping;
 	}
 	

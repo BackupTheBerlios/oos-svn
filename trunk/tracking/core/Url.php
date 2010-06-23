@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Url.php 2214 2010-05-25 04:04:15Z vipsoft $
+ * @version $Id: Url.php 2342 2010-06-22 20:08:55Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -107,6 +107,11 @@ class Piwik_Url
 		if(empty($url))
 		{
 			$url = $_SERVER['SCRIPT_NAME'];
+		}
+
+		if($url[0] !== '/')
+		{
+			$url = '/' . $url;
 		}
 		return $url;
 	}

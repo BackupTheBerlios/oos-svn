@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: WidgetsList.php 1683 2009-12-13 21:51:55Z matt $
+ * @version $Id: WidgetsList.php 2303 2010-06-14 17:31:41Z matt $
  * 
  * @category Piwik
  * @package PluginsFunctions
@@ -33,6 +33,10 @@ class Piwik_WidgetsList
 		$widgetCategory = Piwik_Translate($widgetCategory);
 		$widgetName = Piwik_Translate($widgetName);
 		$widgetUniqueId = 'widget' . $controllerName . $controllerAction;
+		foreach($customParameters as $name => $value)
+		{
+			$widgetUniqueId .= $name . $value;
+		}
 		self::$widgets[$widgetCategory][] = array( 
 					'name' => $widgetName,
 					'uniqueId' => $widgetUniqueId,

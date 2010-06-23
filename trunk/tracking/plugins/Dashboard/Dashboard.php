@@ -4,14 +4,13 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Dashboard.php 2129 2010-05-05 10:17:41Z matt $
+ * @version $Id: Dashboard.php 2333 2010-06-22 04:58:13Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Dashboard
  */
 
 /**
- *
  * @package Piwik_Dashboard
  */
 class Piwik_Dashboard extends Piwik_Plugin
@@ -19,7 +18,6 @@ class Piwik_Dashboard extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'Dashboard',
 			'description' => Piwik_Translate('Dashboard_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
@@ -53,14 +51,14 @@ class Piwik_Dashboard extends Piwik_Plugin
 	function deleteDashboardLayout($notification)
 	{
 		$userLogin = $notification->getNotificationObject();
-		Piwik_Query('DELETE FROM ' . Piwik::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
+		Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
 	}
 
 	public function install()
 	{
 		// we catch the exception
 		try{
-			$sql = "CREATE TABLE ". Piwik::prefixTable('user_dashboard')." (
+			$sql = "CREATE TABLE ". Piwik_Common::prefixTable('user_dashboard')." (
 					login VARCHAR( 100 ) NOT NULL ,
 					iddashboard INT NOT NULL ,
 					layout TEXT NOT NULL,
@@ -79,7 +77,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 	
 	public function uninstall()
 	{
-		$sql = "DROP TABLE ". Piwik::prefixTable('user_dashboard') ;
+		$sql = "DROP TABLE ". Piwik_Common::prefixTable('user_dashboard') ;
 		Piwik_Exec($sql);		
 	}
 	

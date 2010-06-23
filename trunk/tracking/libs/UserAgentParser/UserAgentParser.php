@@ -70,6 +70,7 @@ class UserAgentParser
 			'flock'							=> 'FL',
 			'fluid'							=> 'FD',
 			'galeon'						=> 'GA',
+			'google earth'					=> 'GE',
 			'hana'							=> 'HA',
 			'hotjava'						=> 'HJ',
 			'ibrowse'						=> 'IB',
@@ -120,14 +121,16 @@ class UserAgentParser
 	// browser family (by layout engine)
 	static protected $browserType = array(
 			'ie'	 => array('IE'),
-			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'FL', 'KP', 'KZ'),
+			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE'),
 			'opera'  => array('OP'),
 		);
 
 	// WebKit version numbers to Apple Safari version numbers (if Version/X.Y.Z not present)
 	static protected $safariVersions = array(
+			'533.16'	=> array('5', '0'),
+			'533.4'		=> array('4', '1'),
 			'526.11.2'	=> array('4', '0'),
 			'525.26'	=> array('3', '2'),
 			'525.13'	=> array('3', '1'),
@@ -191,6 +194,7 @@ class UserAgentParser
 			'iPod'					=> 'IPD',
 			'iPad'					=> 'IPA',
 			'iPhone'				=> 'IPH',
+//			'iOS'					=> 'IOS',
 			'Darwin'				=> 'MAC',
 			'Macintosh'				=> 'MAC',
 			'Power Macintosh'		=> 'MAC',
@@ -295,24 +299,34 @@ class UserAgentParser
 		);
 
 		$browsers = self::$browsers;
+
+		// derivative browsers often clone the base browser's useragent
 		unset($browsers['firefox']);
 		unset($browsers['mozilla']);
 		unset($browsers['safari']);
-		unset($browsers['opera']);
+
 		$browsersPattern = str_replace(')', '\)', implode('|', array_keys($browsers)));
 
 		$results = array();
 
-		if (preg_match_all("/(^opera|$browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
+		// Misbehaving IE add-ons
+		$userAgent = preg_replace('/[; ]Mozilla\/[0-9.]+ \([^)]+\)/', '', $userAgent);
+
+		if (preg_match_all("/($browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| preg_match_all("/(firefox|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/([0-9]+)([\.0-9a-z-]+)?(?: \[[a-z]{2}\])? (?:\([^)]*\))$/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
 			)
 		 {
-			$count = count($results[0])-1;
+			// browser code (usually the first match)
+			$count = 0;
+			$info['id'] = self::$browsers[strtolower($results[1][0])];
 
-		 	// browser code
-		 	$info['id'] = self::$browsers[strtolower($results[1][$count])];
+			// sometimes there's a better match at the end
+			if(($info['id'] == 'IE' || $info['id'] == 'LX') && (count($results[0]) > 1)) {
+				$count = count($results[0]) - 1;
+				$info['id'] = self::$browsers[strtolower($results[1][$count])];
+			}
 
 			// Netscape fix
 			if($info['id'] == 'MO' && $count == 0) {

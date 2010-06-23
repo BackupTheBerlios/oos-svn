@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ViewDataTable.php 2202 2010-05-20 08:49:42Z matt $
+ * @version $Id: ViewDataTable.php 2338 2010-06-22 07:33:35Z mauser $
  * 
  * @category Piwik
  * @package Piwik
@@ -135,6 +135,13 @@ abstract class Piwik_ViewDataTable
 	 * @var array
 	 */
 	protected $columnsToDisplay = array();
+
+	/**
+	 * Variable that is used as the DIV ID in the rendered HTML
+	 *
+	 * @var string
+	 */
+	protected $uniqIdTable = null;
 	
 	/**
 	 * Method to be implemented by the ViewDataTable_*.
@@ -263,7 +270,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_all_views_icons'] = Piwik_Common::getRequestVar('show_all_views_icons', true);
 		$this->viewProperties['show_export_as_image_icon'] = Piwik_Common::getRequestVar('show_export_as_image_icon', false);
 		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
-		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);;
+		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);
 		$this->viewProperties['show_footer'] = Piwik_Common::getRequestVar('show_footer', true);
 		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
@@ -442,7 +449,7 @@ abstract class Piwik_ViewDataTable
 	 * @see datatable.js
 	 * @return string
 	 */
-	protected function getUniqueIdViewDataTable()
+	protected function loadUniqueIdViewDataTable()
 	{
 		// if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
 		// we make the DIV ID really unique by appending the ID of the subtable requested
@@ -460,6 +467,27 @@ abstract class Piwik_ViewDataTable
 			$uniqIdTable = $this->currentControllerName . $this->currentControllerAction;
 		}
 		return $uniqIdTable;
+	}
+
+	/**
+	 *  Sets the $uniqIdTable variable that is used as the DIV ID in the rendered HTML
+	 */
+	public function setUniqueIdViewDataTable($uniqIdTable)
+	{
+		$this->viewProperties['uniqueId'] = $uniqIdTable;
+		$this->uniqIdTable = $uniqIdTable;
+	}
+
+	/**
+	 *  Returns current value of $uniqIdTable variable that is used as the DIV ID in the rendered HTML
+	 */
+	public function getUniqueIdViewDataTable()
+	{
+		if( $this->uniqIdTable == null )
+		{
+			$this->uniqIdTable = $this->loadUniqueIdViewDataTable();
+		}
+		return $this->uniqIdTable;
 	}
 	
 	/**
@@ -766,6 +794,15 @@ abstract class Piwik_ViewDataTable
 		$this->variablesDefault['filter_sort_order'] = $order;
 	}
 	
+	/**
+	 * Returns the column name on which the table will be sorted
+	 * 
+	 * @return string
+	 */
+	public function getSortedColumn()
+	{
+		return $this->variablesDefault['filter_sort_column'];
+	}
 
 	/**
 	 * Sets translation string for given column

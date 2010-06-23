@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2147 2010-05-06 18:50:38Z vipsoft $
+ * @version $Id: API.php 2333 2010-06-22 04:58:13Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -15,6 +15,9 @@
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 
+/**
+ * @package Piwik_Live
+ */
 class Piwik_Live_API
 {
 	static private $instance = null;
@@ -139,21 +142,21 @@ class Piwik_Live_API
 			$idvisit = $visitorDetailsArray['idVisit'];
 
 			$sql = "
-				SELECT DISTINCT " .Piwik::prefixTable('log_action').".name AS pageUrl
-				FROM " .Piwik::prefixTable('log_link_visit_action')."
-					INNER JOIN " .Piwik::prefixTable('log_action')." 
-					ON  " .Piwik::prefixTable('log_link_visit_action').".idaction_url = " .Piwik::prefixTable('log_action').".idaction
-				WHERE " .Piwik::prefixTable('log_link_visit_action').".idvisit = $idvisit;
+				SELECT DISTINCT " .Piwik_Common::prefixTable('log_action').".name AS pageUrl
+				FROM " .Piwik_Common::prefixTable('log_link_visit_action')."
+					INNER JOIN " .Piwik_Common::prefixTable('log_action')." 
+					ON  " .Piwik_Common::prefixTable('log_link_visit_action').".idaction_url = " .Piwik_Common::prefixTable('log_action').".idaction
+				WHERE " .Piwik_Common::prefixTable('log_link_visit_action').".idvisit = $idvisit;
 				 ";
 
 			$visitorDetailsArray['actionDetails'] = Piwik_FetchAll($sql);
 
 			$sql = "
-				SELECT DISTINCT " .Piwik::prefixTable('log_action').".name AS pageUrl
-				FROM " .Piwik::prefixTable('log_link_visit_action')."
-					INNER JOIN " .Piwik::prefixTable('log_action')." 
-					ON  " .Piwik::prefixTable('log_link_visit_action').".idaction_name = " .Piwik::prefixTable('log_action').".idaction
-				WHERE " .Piwik::prefixTable('log_link_visit_action').".idvisit = $idvisit;
+				SELECT DISTINCT " .Piwik_Common::prefixTable('log_action').".name AS pageUrl
+				FROM " .Piwik_Common::prefixTable('log_link_visit_action')."
+					INNER JOIN " .Piwik_Common::prefixTable('log_action')." 
+					ON  " .Piwik_Common::prefixTable('log_link_visit_action').".idaction_name = " .Piwik_Common::prefixTable('log_action').".idaction
+				WHERE " .Piwik_Common::prefixTable('log_link_visit_action').".idvisit = $idvisit;
 				 ";
 
 			$visitorDetailsArray['actionDetailsTitle'] = Piwik_FetchAll($sql);
@@ -170,18 +173,18 @@ class Piwik_Live_API
 	{
 		$where = $whereBind = array();
 
-		$where[] = Piwik::prefixTable('log_visit') . ".idsite = ? ";
+		$where[] = Piwik_Common::prefixTable('log_visit') . ".idsite = ? ";
 		$whereBind[] = $idSite;
 
 		if(!empty($visitorId))
 		{
-			$where[] = Piwik::prefixTable('log_visit') . ".visitor_idcookie = ? ";
+			$where[] = Piwik_Common::prefixTable('log_visit') . ".visitor_idcookie = ? ";
 			$whereBind[] = $visitorId;
 		}
 
 		if(!empty($minIdVisit))
 		{
-			$where[] = Piwik::prefixTable('log_visit') . ".idvisit > ? ";
+			$where[] = Piwik_Common::prefixTable('log_visit') . ".idvisit > ? ";
 			$whereBind[] = $minIdVisit;
 		}
 
@@ -191,15 +194,15 @@ class Piwik_Live_API
 			$sqlWhere = " WHERE " . join(' AND ', $where);
 		}
 
-		$sql = "SELECT 	" . Piwik::prefixTable('log_visit') . ".* , 
-						" . Piwik::prefixTable ( 'goal' ) . ".match_attribute
-				FROM " . Piwik::prefixTable('log_visit') . "
-					LEFT JOIN ".Piwik::prefixTable('log_conversion')." 
-					ON " . Piwik::prefixTable('log_visit') . ".idvisit = " . Piwik::prefixTable('log_conversion') . ".idvisit
-					LEFT JOIN ".Piwik::prefixTable('goal')." 
-					ON (" . Piwik::prefixTable('goal') . ".idsite = " . Piwik::prefixTable('log_visit') . ".idsite
-						AND  " . Piwik::prefixTable('goal') . ".idgoal = " . Piwik::prefixTable('log_conversion') . ".idgoal)
-					AND " . Piwik::prefixTable('goal') . ".deleted = 0
+		$sql = "SELECT 	" . Piwik_Common::prefixTable('log_visit') . ".* , 
+						" . Piwik_Common::prefixTable ( 'goal' ) . ".match_attribute
+				FROM " . Piwik_Common::prefixTable('log_visit') . "
+					LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')." 
+					ON " . Piwik_Common::prefixTable('log_visit') . ".idvisit = " . Piwik_Common::prefixTable('log_conversion') . ".idvisit
+					LEFT JOIN ".Piwik_Common::prefixTable('goal')." 
+					ON (" . Piwik_Common::prefixTable('goal') . ".idsite = " . Piwik_Common::prefixTable('log_visit') . ".idsite
+						AND  " . Piwik_Common::prefixTable('goal') . ".idgoal = " . Piwik_Common::prefixTable('log_conversion') . ".idgoal)
+					AND " . Piwik_Common::prefixTable('goal') . ".deleted = 0
 				$sqlWhere
 				ORDER BY idsite,idvisit DESC
 				LIMIT $limit";
@@ -221,7 +224,7 @@ class Piwik_Live_API
 	{
 		$where = $whereBind = array();
 
-		$where[] = " " . Piwik::prefixTable('log_visit') . ".idsite = ? ";
+		$where[] = " " . Piwik_Common::prefixTable('log_visit') . ".idsite = ? ";
 		$whereBind[] = $idSite;
 
 		if($minutes != 0)
@@ -245,18 +248,18 @@ class Piwik_Live_API
 		// Details
 		if($type == self::TYPE_FETCH_VISITS)
 		{
-			$sql = "SELECT 	" . Piwik::prefixTable('log_visit') . ".idvisit
-				FROM " . Piwik::prefixTable('log_visit') . "
+			$sql = "SELECT 	" . Piwik_Common::prefixTable('log_visit') . ".idvisit
+				FROM " . Piwik_Common::prefixTable('log_visit') . "
 				$sqlWhere
 				ORDER BY idsite,idvisit DESC";
 		 }
 		 // Pages
 		 elseif($type == self::TYPE_FETCH_PAGEVIEWS)
 		 {
-			$sql = "SELECT " . Piwik::prefixTable('log_link_visit_action') . ".idaction_url
-					FROM " . Piwik::prefixTable('log_link_visit_action') . "
-    					INNER JOIN " . Piwik::prefixTable('log_visit') . " 
-    					ON " . Piwik::prefixTable('log_visit') . ".idvisit = " . Piwik::prefixTable('log_link_visit_action') . ".idvisit
+			$sql = "SELECT " . Piwik_Common::prefixTable('log_link_visit_action') . ".idaction_url
+					FROM " . Piwik_Common::prefixTable('log_link_visit_action') . "
+    					INNER JOIN " . Piwik_Common::prefixTable('log_visit') . " 
+    					ON " . Piwik_Common::prefixTable('log_visit') . ".idvisit = " . Piwik_Common::prefixTable('log_link_visit_action') . ".idvisit
 				$sqlWhere";
 		 }
 		 else

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: 0.4.4.php 1980 2010-03-22 18:46:56Z vipsoft $
+ * @version $Id: 0.4.4.php 2246 2010-05-31 11:57:21Z matt $
  *
  * @category Piwik
  * @package Updates
@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_4_4 extends Piwik_Updates
 {
-	static function update($adapter = 'PDO_MYSQL')
+	static function update()
 	{
 		$obsoleteFile = PIWIK_DOCUMENT_ROOT . '/libs/open-flash-chart/php-ofc-library/ofc_upload_image.php';
 		if(file_exists($obsoleteFile))
@@ -23,7 +23,7 @@ class Piwik_Updates_0_4_4 extends Piwik_Updates
 			$rc = @unlink($obsoleteFile);
 			if(!$rc)
 			{
-				throw new Piwik_Updater_UpdateErrorException("Unable to delete $obsoleteFile");
+				throw new Exception(Piwik_TranslateException('General_ExceptionUndeletableFile', array($obsoleteFile))); 
 			}
 		}
 	}

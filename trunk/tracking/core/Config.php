@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Config.php 2183 2010-05-14 08:04:11Z matt $
+ * @version $Id: Config.php 2336 2010-06-22 05:32:04Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -20,6 +20,7 @@
  * will read the value minimumMemoryLimit under the [General] section of the config file
  * 
  * @package Piwik
+ * @subpackage Piwik_Config
  */
 class Piwik_Config
 {
@@ -105,16 +106,25 @@ class Piwik_Config
 	
 	public function init()
 	{
+		if(!is_readable($this->pathIniFileDefaultConfig))
+		{
+			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathIniFileDefaultConfig)));
+		}
 		$this->defaultConfig = new Piwik_Config_Ini($this->pathIniFileDefaultConfig, null, true);
+		if(is_null($this->defaultConfig) || count($this->defaultConfig->toArray()) == 0)
+		{
+			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathIniFileDefaultConfig, "parse_ini_file()")));
+		}
+
 		if(!is_readable($this->pathIniFileUserConfig))
 		{
-			throw new Exception("The configuration file {$this->pathIniFileUserConfig} has not been found.");
-		}
-		if(is_null($this->defaultConfig))
-		{
-			throw new Exception("The configuration file {$this->pathIniFileUserConfig} could not be read. Your host may have disabled parse_ini_file().");
+			throw new Exception(Piwik_TranslateException('General_ExceptionConfigurationFileNotFound', array($this->pathIniFileUserConfig)));
 		}
 		$this->userConfig = new Piwik_Config_Ini($this->pathIniFileUserConfig, null, true);
+		if(is_null($this->userConfig) || count($this->userConfig->toArray()) == 0)
+		{
+			Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathIniFileUserConfig, "parse_ini_file()")));
+		}
 	}
 	
 	/**
@@ -319,6 +329,12 @@ class Piwik_Config
 	}
 }
 
+/**
+ * Subclasses Zend_Config_Ini so we can use our own parse_ini_file() wrapper.
+ *
+ * @package Piwik
+ * @subpackage Piwik_Config
+ */
 class Piwik_Config_Ini extends Zend_Config_Ini
 {
     /**
@@ -356,4 +372,3 @@ class Piwik_Config_Ini extends Zend_Config_Ini
 		return $iniArray;
 	}
 }
-

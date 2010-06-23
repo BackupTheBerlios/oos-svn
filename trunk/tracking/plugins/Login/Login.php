@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Login.php 2069 2010-04-09 13:10:37Z matt $
+ * @version $Id: Login.php 2264 2010-06-03 16:53:43Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -19,7 +19,6 @@ class Piwik_Login extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Login',
 			'description' => Piwik_Translate('Login_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',

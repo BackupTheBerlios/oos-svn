@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Proxy.php 2117 2010-04-24 05:40:05Z vipsoft $
+ * @version $Id: Proxy.php 2333 2010-06-22 04:58:13Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -12,6 +12,9 @@
 
 /**
  * To differentiate between "no value" and default value of null
+ * 
+ * @package Piwik
+ * @subpackage Piwik_API
  */
 class Piwik_API_Proxy_NoDefaultValue {}
 
@@ -215,8 +218,8 @@ class Piwik_API_Proxy
 					}
 				}
 			} catch(Exception $e) {
-				throw new Exception("The required variable '$name' is not correct or has not been found in the API Request. ");
-			}			
+				throw new Exception(Piwik_TranslateException('General_ExceptionVariableNotFound', array($name)));
+			}
 			$finalParameters[] = $requestValue;
 		}
 		return $finalParameters;
@@ -282,7 +285,7 @@ class Piwik_API_Proxy
 	{
 		if(!$this->isMethodAvailable($className, $methodName))
 		{
-			throw new Exception("The method '$methodName' does not exist or is not available in the module '".$className."'.");
+			throw new Exception(Piwik_TranslateException('General_ExceptionMethodNotFound', array($methodName,$className)));
 		}
 	}
 	

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Plugin.php 1964 2010-03-20 18:31:52Z vipsoft $
+ * @version $Id: Plugin.php 2272 2010-06-04 21:56:12Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -20,7 +20,6 @@ abstract class Piwik_Plugin
 {
 	/**
 	 * Returns the plugin details
-	 * 	'name' => string               // plugin name
 	 * 	'description' => string        // 1-2 sentence description of the plugin
 	 * 	'author' => string             // plugin author 
 	 * 	'author_homepage' => string    // author homepage URL (or email "mailto:youremail@example.org")
@@ -70,17 +69,6 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the plugin name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		$info = $this->getInformation();
-		return $info['name'];
-	}
-
-	/**
 	 * Returns the plugin version number
 	 *
 	 * @return string
@@ -92,12 +80,13 @@ abstract class Piwik_Plugin
 	}
 	
 	/**
-	 * Returns the UserCountry part when the plugin class is Piwik_UserCountry
+	 * Returns the plugin's base name without the "Piwik_" prefix,
+	 * e.g., "UserCountry" when the plugin class is "Piwik_UserCountry"
 	 *
 	 * @return string
 	 */
-	public function getClassName()
+	final public function getClassName()
 	{
-		return substr(get_class($this), strlen("Piwik_"));
+		return Piwik::unprefixClass(get_class($this));
 	}
 }

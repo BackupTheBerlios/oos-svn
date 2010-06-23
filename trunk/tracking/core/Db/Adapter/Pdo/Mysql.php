@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Mysql.php 2167 2010-05-12 05:12:45Z vipsoft $
+ * @version $Id: Mysql.php 2335 2010-06-22 05:31:16Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -12,8 +12,9 @@
 
 /**
  * @package Piwik
+ * @subpackage Piwik_Db
  */
-class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_iAdapter
+class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_Adapter_Interface
 {
 	/**
 	 * Returns connection handle

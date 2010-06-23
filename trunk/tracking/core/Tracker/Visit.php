@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Visit.php 2227 2010-05-28 04:24:46Z vipsoft $
+ * @version $Id: Visit.php 2246 2010-05-31 11:57:21Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -62,7 +62,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		Piwik_PostEvent('Tracker.setRequest.idSite', $idsite);
 		if($idsite <= 0)
 		{
-			throw new Exception("The 'idsite' in the request is invalid.");
+			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidIdsite'));
 		}
 		$this->idsite = $idsite;
 	}

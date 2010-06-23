@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Tracker.php 2215 2010-05-25 19:30:02Z vipsoft $
+ * @version $Id: Tracker.php 2245 2010-05-31 10:30:02Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -285,7 +285,7 @@ class Piwik_Tracker
 				&& count($pluginsTracker) != 0)
 			{
 				Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
-				Piwik_PluginsManager::getInstance()->setPluginsToLoad( $pluginsTracker['Plugins_Tracker'] );
+				Piwik_PluginsManager::getInstance()->loadPlugins( $pluginsTracker['Plugins_Tracker'] );
 				
 				printDebug("Loading plugins: { ". implode(",", $pluginsTracker['Plugins_Tracker']) . "}");
 			}

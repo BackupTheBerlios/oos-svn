@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Referers.php 2006 2010-03-29 06:32:46Z matt $
+ * @version $Id: Referers.php 2321 2010-06-18 10:46:38Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -23,7 +23,6 @@ class Piwik_Referers extends Piwik_Plugin
 	public function getInformation()
 	{
 		$info = array(
-			'name' => 'Referers',
 			'description' => Piwik_Translate('Referers_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
@@ -40,6 +39,7 @@ class Piwik_Referers extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
+			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
 		);
 		return $hooks;
 	}
@@ -62,10 +62,47 @@ class Piwik_Referers extends Piwik_Plugin
 	
 	function addMenus()
 	{
-		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers'));
+		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuEvolution', array('module' => 'Referers', 'action' => 'index'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'getWebsites'));
 		Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'getCampaigns'));
+	}
+	
+	function addGoalSegments( $notification )
+	{
+		$segments =& $notification->getNotificationObject();
+		$segments = array_merge($segments, array(
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Keywords'),
+        			'module' => 'Referers',
+        			'action' => 'getKeywords',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_SearchEngines'),
+        			'module' => 'Referers',
+        			'action' => 'getSearchEngines',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Websites'),
+        			'module' => 'Referers',
+        			'action' => 'getWebsites',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Campaigns'),
+        			'module' => 'Referers',
+        			'action' => 'getCampaigns',
+        		),
+        		array(
+        			'group'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Type'),
+        			'module' => 'Referers',
+        			'action' => 'getRefererType',
+        		),
+    	));
 	}
 	
 	function archivePeriod( $notification )

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2067 2010-04-09 09:18:01Z matt $
+ * @version $Id: Controller.php 2266 2010-06-03 17:47:32Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -407,7 +407,7 @@ abstract class Piwik_Controller
 		if(Piwik::isUserIsSuperUser())
 		{
 			Piwik_ExitWithMessage("Error: no website were found in this Piwik installation. 
-			<br />Check the table '". Piwik::prefixTable('site') ."' that should contain your Piwik websites.", false, true);
+			<br />Check the table '". Piwik_Common::prefixTable('site') ."' that should contain your Piwik websites.", false, true);
 		}
 		
 		$currentLogin = Piwik::getCurrentUserLogin();
@@ -499,7 +499,7 @@ abstract class Piwik_Controller
 	protected function checkTokenInUrl()
 	{
 		if(Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
-			throw new Piwik_Access_NoAccessException('Token is not valid.');
+			throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
 		}
 	}
 }

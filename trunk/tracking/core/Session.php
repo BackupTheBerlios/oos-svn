@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Session.php 2122 2010-04-25 14:38:03Z vipsoft $
+ * @version $Id: Session.php 2280 2010-06-06 19:27:36Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -39,7 +39,7 @@ class Piwik_Session extends Zend_Session
 			{
 				$sessionPath = $matches[1];
 			}
-			if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_writable($sessionPath))
+			if(ini_get('safe_mode') || ini_get('open_basedir') || empty($sessionPath) || !@is_readable($sessionPath) || !@is_writable($sessionPath))
 			{
 				$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
 				$ok = true;

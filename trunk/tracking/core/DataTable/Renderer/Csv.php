@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Csv.php 2216 2010-05-25 19:32:43Z vipsoft $
+ * @version $Id: Csv.php 2294 2010-06-11 15:14:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -64,6 +64,12 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 	public function render()
 	{
 		return $this->output($this->renderTable($this->table));
+	}
+	
+	function renderException()
+	{
+		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		return 'Error: '.$exceptionMessage;
 	}
 	
 	public function setConvertToUnicode($bool)

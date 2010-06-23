@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: LanguagesManager.php 2128 2010-05-05 10:16:31Z matt $
+ * @version $Id: LanguagesManager.php 2265 2010-06-03 17:46:05Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_LanguagesManager
@@ -20,7 +20,6 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'name' => 'LanguagesManager',
 			'description' => Piwik_Translate('LanguagesManager_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
@@ -67,7 +66,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	function deleteUserLanguage($notification)
 	{
 		$userLogin = $notification->getNotificationObject();
-		Piwik_Query('DELETE FROM ' . Piwik::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
+		Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
 	}
 
 	/**
@@ -77,7 +76,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	{
 		// we catch the exception
 		try{
-			$sql = "CREATE TABLE ". Piwik::prefixTable('user_language')." (
+			$sql = "CREATE TABLE ". Piwik_Common::prefixTable('user_language')." (
 					login VARCHAR( 100 ) NOT NULL ,
 					language VARCHAR( 10 ) NOT NULL ,
 					PRIMARY KEY ( login )
@@ -98,7 +97,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	public function uninstall()
 	{
-		$sql = "DROP TABLE ". Piwik::prefixTable('user_language') ;
+		$sql = "DROP TABLE ". Piwik_Common::prefixTable('user_language') ;
 		Piwik_Exec($sql);		
 	}
 

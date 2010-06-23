@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Translate.php 2202 2010-05-20 08:49:42Z matt $
+ * @version $Id: Translate.php 2327 2010-06-21 22:27:18Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -50,7 +50,7 @@ class Piwik_Translate
 		$path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
 		if(!is_readable($path))
 		{
-			throw new Exception('Language file '.$language.' not found.');
+			throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
 		}
 		require $path;
 		$this->mergeTranslationArray($translations);
@@ -135,9 +135,17 @@ class Piwik_Translate
 		return $js;
 	}
 
+	/**
+	 * Set locale
+	 *
+	 * @see http://php.net/setlocale
+	 */
 	private function setLocale()
 	{
-		setlocale(LC_ALL, $GLOBALS['Piwik_translations']['General_Locale']);
+		$locale = $GLOBALS['Piwik_translations']['General_Locale'];
+		$locale_variant = str_replace('UTF-8', 'UTF8', $locale);
+		setlocale(LC_ALL, $locale, $locale_variant);
+		setlocale(LC_CTYPE, '');
 	}
 }
 
