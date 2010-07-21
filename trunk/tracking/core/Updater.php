@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Updater.php 2353 2010-06-23 00:50:30Z matt $
+ * @version $Id: Updater.php 2612 2010-07-21 09:57:20Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -81,7 +81,7 @@ class Piwik_Updater
 	 */
 	public function getComponentsWithUpdateFile()
 	{
-		$this->componentsWithNewVersion = $this->loadComponentsWithNewVersion();
+		$this->componentsWithNewVersion = $this->getComponentsWithNewVersion();
 		$this->componentsWithUpdateFile = $this->loadComponentsWithUpdateFile();
 		return $this->componentsWithUpdateFile;
 	}
@@ -231,7 +231,7 @@ class Piwik_Updater
 	 *
 	 * @return array array( componentName => array( oldVersion, newVersion), [...])
 	 */
-	private function loadComponentsWithNewVersion()
+	public function getComponentsWithNewVersion()
 	{
 		$componentsToUpdate = array();
 		

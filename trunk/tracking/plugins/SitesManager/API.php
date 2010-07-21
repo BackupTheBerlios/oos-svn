@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2265 2010-06-03 17:46:05Z vipsoft $
+ * @version $Id: API.php 2429 2010-07-06 00:04:35Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
@@ -41,20 +41,20 @@ class Piwik_SitesManager_API
 	 * This tag must be included on every page to be tracked by Piwik
 	 *
 	 * @param int $idSite
+	 * @param string $customTitle Custom title given to the pageview
 	 * @return string The Javascript tag ready to be included on the HTML pages
 	 */
-	public function getJavascriptTag( $idSite, $piwikUrl = '', $actionName = '')
+	public function getJavascriptTag( $idSite, $piwikUrl = '')
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		
-		$actionName = "'".addslashes(Piwik_Common::sanitizeInputValues($actionName))."'";
 		if(empty($piwikUrl))
 		{
 			$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 		}
 		$piwikUrl = addslashes(Piwik_Common::sanitizeInputValues($piwikUrl));
 		
-		$htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $actionName);
+		$htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl);
 		$htmlEncoded = str_replace(array('<br>','<br />','<br/>'), '', $htmlEncoded);
 		return html_entity_decode($htmlEncoded);
 	}

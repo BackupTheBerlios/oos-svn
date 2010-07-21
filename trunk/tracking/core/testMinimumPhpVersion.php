@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: testMinimumPhpVersion.php 2147 2010-05-06 18:50:38Z vipsoft $
+ * @version $Id: testMinimumPhpVersion.php 2557 2010-07-19 00:31:43Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -66,9 +66,18 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	exit;
 }
 
-// added in PHP 4.3.0
 if (!function_exists('file_get_contents'))
 {
+	/**
+	 * Reads entire file into a string.
+	 * This function is not 100% compatible with the native function.
+	 *
+	 * @see http://php.net/file_get_contents
+	 * @since PHP 4.3.0
+	 *
+	 * @param string $filename Name of the file to read.
+	 * @return string The read data or false on failure.
+	 */
 	function file_get_contents($filename)
 	{
 		$fhandle = fopen($filename, "r");

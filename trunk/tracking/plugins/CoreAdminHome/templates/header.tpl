@@ -7,52 +7,43 @@
 <meta name="generator" content="Piwik {$piwik_version}" />
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 
+{loadJavascriptTranslations plugins='CoreAdminHome'}
+
 {include file="CoreHome/templates/js_global_variables.tpl"}
 
-<link rel="stylesheet" type="text/css" href="themes/default/common.css" />
-<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" class="ui-theme" />
-<link rel="stylesheet" type="text/css" href="plugins/CoreAdminHome/templates/styles.css" />
-{postEvent name="template_css_import"}
-
-<script type="text/javascript" src="libs/jquery/jquery.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery.bgiframe.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery.blockUI.js"></script>
-<script type="text/javascript" src="libs/jquery/fdd2div-modified.js"></script>
-<script type="text/javascript" src="libs/javascript/sprintf.js"></script>
-<script type="text/javascript" src="themes/default/common.js"></script>
-
-<script type="text/javascript" src="libs/jquery/jquery.history.js"></script>
-<script type="text/javascript" src="plugins/CoreHome/templates/broadcast.js"></script>
-{postEvent name="template_js_import"}
+{includeAssets type="css"}
+{includeAssets type="js"}
 
 </head>
 <body>
+<div id="root">
+{if !isset($showTopMenu) || $showTopMenu}
 {include file="CoreHome/templates/top_bar.tpl"}
+{/if}
 
 <div id="header">
-{include file="CoreHome/templates/header_message.tpl"}
 {include file="CoreHome/templates/logo.tpl"}
 {if $showPeriodSelection}{include file="CoreHome/templates/period_select.tpl"}{/if}
 {include file="CoreHome/templates/js_disabled_notice.tpl"}
 </div>
-
-<br class="clearAll" />
-
-<div id="content">
 
 {ajaxRequestErrorDiv}
 {if !isset($showMenu) || $showMenu}
 	{include file="CoreAdminHome/templates/menu.tpl"}
 {/if}
 
+
+<div id="content" class="admin">
+
+{include file="CoreHome/templates/header_message.tpl"}
+
 {if !empty($configFileNotWritable)}
 <div class="ajaxSuccess" style="display:normal">
-	<p>{'General_ConfigFileIsNotWritable'|translate:"(config/config.ini.php)":"<br/>"}</p>
+	{'General_ConfigFileIsNotWritable'|translate:"(config/config.ini.php)":"<br/>"}
 </div>
 {elseif strpos($url, 'updated=1')}	
 <div class="ajaxSuccess" style="display:normal">
-	<p>{'General_YourChangesHaveBeenSaved'|translate}</p>
+	{'General_YourChangesHaveBeenSaved'|translate}
 </div>
 {/if}
 

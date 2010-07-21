@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Common.php 2329 2010-06-22 01:37:10Z vipsoft $
+ * @version $Id: Common.php 2429 2010-07-06 00:04:35Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -308,11 +308,7 @@ class Piwik_Common
 	{
 		if(!is_dir($path))
 		{
-			$directoryParent = self::realpath(dirname($path));
-			if( is_writable($directoryParent) )
-			{
-				mkdir($path, $mode, true);
-			}
+			@mkdir($path, $mode, $recursive = true);
 		}
 
 		if($denyAccess)
@@ -628,17 +624,20 @@ class Piwik_Common
 	 *
 	 * @return string ip
 	 */
-	static public function getIp()
+	static public function getIp( $ipStringFrom = false )
 	{
-		$ip = self::getIpString();
-
-		// accept ipv4-mapped addresses
-		if(strpos($ip, '::ffff:') === 0)
+		if($ipStringFrom === false) 
 		{
-			$ip = substr($ip, 7);
+			$ipStringFrom = self::getIpString();
 		}
 
-		return sprintf("%u", ip2long($ip));
+		// accept ipv4-mapped addresses
+		if(strpos($ipStringFrom, '::ffff:') === 0)
+		{
+			$ipStringFrom = substr($ipStringFrom, 7);
+		}
+
+		return sprintf("%u", ip2long($ipStringFrom));
 	}
 
 	/**

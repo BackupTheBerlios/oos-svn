@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Action.php 2189 2010-05-17 03:59:03Z vipsoft $
+ * @version $Id: Action.php 2530 2010-07-17 13:11:39Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -263,10 +263,16 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 public function record( $idVisit, $idRefererAction, $timeSpentRefererAction)
 	 {
 		$this->loadIdActionNameAndUrl();
-
-		Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */ INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
-						." (idvisit, idaction_url, idaction_name, idaction_url_ref, time_spent_ref_action) VALUES (?,?,?,?,?)",
-					array($idVisit, $this->getIdActionUrl(), $this->getIdActionName(), $idRefererAction, $timeSpentRefererAction)
+		$idActionName = $this->getIdActionName();
+		if(is_null($idActionName))
+		{
+			$idActionName = 0;
+		}
+		Piwik_Tracker::getDatabase()->query("/* SHARDING_ID_SITE = ".$this->idSite." */ 
+						INSERT INTO ".Piwik_Common::prefixTable('log_link_visit_action')
+						." (idvisit, idaction_url, idaction_name, idaction_url_ref, time_spent_ref_action) 
+							VALUES (?,?,?,?,?)",
+					array($idVisit, $this->getIdActionUrl(), $idActionName , $idRefererAction, $timeSpentRefererAction)
 					);
 		
 		$this->idLinkVisitAction = Piwik_Tracker::getDatabase()->lastInsertId(); 

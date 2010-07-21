@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Json.php 2301 2010-06-14 08:08:16Z matt $
+ * @version $Id: Json.php 2495 2010-07-13 16:43:28Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -42,12 +42,18 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 		$renderer->setTable($table);
 		$renderer->setRenderSubTables($this->isRenderSubtables());
 		$renderer->setSerialize(false);
+		$renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
 		$array = $renderer->flatRender();
 		
 		if(!is_array($array))
 		{
 			$array = array('value' => $array);
 		}
+
+		// decode all entities
+		$callback = create_function('&$value,$key', 'if(is_string($value)){$value = html_entity_decode($value, ENT_QUOTES, "UTF-8");}');
+		array_walk_recursive($array, $callback);
+		
 		$str = json_encode($array);
 		
 		return $this->jsonpWrap($str);

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ViewDataTable.php 2338 2010-06-22 07:33:35Z mauser $
+ * @version $Id: ViewDataTable.php 2561 2010-07-19 09:06:22Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -275,6 +275,12 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
 		$this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
+		
+		$standardColumnNameToTranslation = array_merge(
+			Piwik_API_API::getInstance()->getDefaultMetrics(),
+			Piwik_API_API::getInstance()->getDefaultProcessedMetrics()
+		);
+		$this->setColumnsTranslations($standardColumnNameToTranslation);
 	}
 
 	/**
@@ -780,6 +786,16 @@ abstract class Piwik_ViewDataTable
 		{
 			$this->variablesDefault['filter_limit'] = $limit;
 		}
+	}
+	
+	/**
+	 * Will display a message in the DataTable footer. 
+	 * 
+	 * @param $message String
+	 */
+	public function setFooterMessage( $message )
+	{
+		$this->viewProperties['show_footer_message'] = $message;
 	}
 	
 	/**

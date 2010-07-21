@@ -1,5 +1,3 @@
-<script type="text/javascript" src="plugins/CoreHome/templates/sparkline.js"></script>
-
 <a name="evolutionGraph" graphId="{$nameGraphEvolution}"></a>
 
 {if $displayFullReport}
@@ -20,3 +18,7 @@
 	<div class="sparkline">{sparkline src=$urlSparklineConversionRate}
 	{'Goals_OverallConversionRate'|translate:"<strong>$conversion_rate%</strong>"}</div>
 </div>
+
+
+{include file=CoreHome/templates/sparkline_footer.tpl}
+

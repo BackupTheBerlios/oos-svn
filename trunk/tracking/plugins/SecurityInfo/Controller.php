@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1708 2009-12-15 06:52:26Z vipsoft $
+ * @version $Id: Controller.php 2604 2010-07-21 08:00:17Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_SecurityInfo
@@ -36,7 +36,7 @@ class Piwik_SecurityInfo_Controller extends Piwik_Controller
 		unset($results['test_results']['Core']['upload_max_filesize']);
 
 		$view = Piwik_View::factory('index');
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		$view->results = $results;
 		echo $view->render();

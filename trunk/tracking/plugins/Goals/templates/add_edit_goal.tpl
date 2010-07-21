@@ -1,9 +1,10 @@
 {if isset($onlyShowAddNewGoal)}
     <h2>{'Goals_AddNewGoal'|translate}</h2>
-    <p>{'Goals_DescriptionGoalsManagement'|translate} </p>
     <p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='misc/redirectToUrl.php?url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
     </p>
 {else}
+	
+    <div class="clear"></div>
 	<h2>{'Goals_GoalsManagement'|translate}</h2>
 	<ul class='listCircle'>
 		<li><a onclick='' name='linkAddNewGoal'><u>{'Goals_CreateNewGOal'|translate}</u></a></li>
@@ -28,7 +29,6 @@
 </div>
 
 {loadJavascriptTranslations plugins='Goals'}
-<script type="text/javascript" src="plugins/Goals/templates/GoalForm.js"></script>
 <script type="text/javascript">
 
 var mappingMatchTypeName = {ldelim} 

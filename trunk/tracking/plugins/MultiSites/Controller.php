@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2069 2010-04-09 13:10:37Z matt $
+ * @version $Id: Controller.php 2521 2010-07-16 21:49:51Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
@@ -189,6 +189,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 		}
+		$columns = !is_array($columns) ? array($columns) : $columns;
 		$view->setColumnsToDisplay($columns);
 		return $this->renderView($view, $fetch);
 	}

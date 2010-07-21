@@ -4,20 +4,24 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: PluginsManager.php 2309 2010-06-16 15:00:54Z matt $
+ * @version $Id: PluginsManager.php 2604 2010-07-21 08:00:17Z matt $
  * 
  * @category Piwik
  * @package Piwik
  */
 
 /**
- * @see core/PluginsFunctions/Menu.php
- * @see core/PluginsFunctions/AdminMenu.php
+ * @see core/Menu/Abstract.php
+ * @see core/Menu/Main.php
+ * @see core/Menu/Admin.php
+ * @see core/Menu/Top.php
  * @see core/PluginsFunctions/WidgetsList.php
  * @see core/PluginsFunctions/Sql.php
  */
-require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Menu.php';
-require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/AdminMenu.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Menu/Abstract.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Menu/Main.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Menu/Admin.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Menu/Top.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/WidgetsList.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Sql.php';
 
@@ -45,7 +49,9 @@ class Piwik_PluginsManager
 												'CorePluginsAdmin', 
 												'Installation', 
 												'SitesManager', 
-												'UsersManager' );
+												'UsersManager',
+												'API',
+	);
 
 	static private $instance = null;
 	
@@ -118,6 +124,10 @@ class Piwik_PluginsManager
 				Zend_Registry::get('config')->Plugins_Tracker = array('Plugins_Tracker' => $pluginsTracker);
 			}
 		}
+		
+		// Delete merged js/css files to force regenerations to exclude the deactivated plugin
+		Piwik_AssetManager::removeMergedAssets();
+		Piwik_View::clearCompiledTemplates();
 	}
 	
 	public function installLoadedPlugins()
@@ -155,6 +165,10 @@ class Piwik_PluginsManager
 		
 		// the config file will automatically be saved with the new plugin
 		Zend_Registry::get('config')->Plugins = $plugins;
+		
+		// Delete merged js/css files to force regenerations to include the activated plugin
+		Piwik_AssetManager::removeMergedAssets();
+		Piwik_View::clearCompiledTemplates();		
 	}
 	
 	public function loadPlugins( array $pluginsToLoad )

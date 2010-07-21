@@ -52,6 +52,11 @@ dataTable.prototype =
 		self.reloadAjaxDataTable();
 	},
 	
+	setGraphedColumn: function( columnName )
+	{
+		this.param.columns = columnName;
+	},
+	
 	//Reset DataTable filters (used before a reload or view change)
 	resetAllFilters: function()
 	{
@@ -122,7 +127,7 @@ dataTable.prototype =
 		//Extract the configuration from the datatable and pass it to the API
 		for(var key in self.param)
 		{
-			if(typeof self.param[key] != "undefined") 
+			if(typeof self.param[key] != "undefined")
 				ajaxRequest.data[key] = self.param[key];
 		}
 		
@@ -283,50 +288,7 @@ dataTable.prototype =
 				.addClass('columnSorted')
 				.prepend('<div id="sortIconContainer"><img id="sortIcon" width="'+imageSortWidth+'" height="'+imageSortHeight+'" src="themes/default/images/sort'+prefixSortIcon+ self.param.filter_sort_order+'.png" /></div>');
 			
-
-			$("th.sortable", domElem)
-					.hover( function() { $(this).css({ cursor: "pointer"}); }, 
-							function() { $(this).css({ cursor: "auto"});
-					});
 	}
-	},
-	
-	// Add behaviour to the low population link
-	handleLowPopulationLink: function(domElem, callbackSuccess)
-	{
-		var self = this;
-		
-		// Set the string for the DIV, either "Exclude low pop" or "Include all"
-		$('.dataTableExcludeLowPopulation', domElem)
-			.each(
-				function()
-				{
-					if(typeof self.param.enable_filter_excludelowpop == 'undefined')
-					{
-						self.param.enable_filter_excludelowpop = 0;
-					}
-					if(Number(self.param.enable_filter_excludelowpop) != 0)
-					{
-						string = _pk_translate('CoreHome_IncludeAllPopulation_js');
-						self.param.enable_filter_excludelowpop = 1;
-					}
-					else
-					{
-						string = _pk_translate('CoreHome_ExcludeLowPopulation_js');
-						self.param.enable_filter_excludelowpop = 0;
-					}
-					$(this).html(string);
-				} 
-			)
-			// Bind a click event to the DIV that triggers the ajax request
-			.click(
-				function()
-				{
-					self.param.enable_filter_excludelowpop = 1 - self.param.enable_filter_excludelowpop;
-					self.param.filter_offset = 0;
-					self.reloadAjaxDataTable(true, callbackSuccess);
-				}
-			);
 	},
 	
 	//behaviour for the DataTable 'search box'
@@ -355,10 +317,10 @@ dataTable.prototype =
 			.each(function(){
 				// when enter is pressed in the input field we submit the form
 				$('#keyword', this)
-					.keypress( 
+					.bind("keyup", 
 						function(e)
-						{ 
-							if(submitOnEnter(e))
+						{
+							if(isEnterKey(e))
 							{ 
 								$(this).siblings(':submit').submit(); 
 							} 
@@ -473,8 +435,9 @@ dataTable.prototype =
 				}
 			);
 	},
+
 	
-	// DataTable view box (data, table, cloud, graph, ...)
+	// DataTable view box (simple table, all columns table, Goals table, pie graph, tag cloud, graph, ...)
 	handleExportBox: function(domElem)
 	{
 		var self = this;
@@ -493,78 +456,116 @@ dataTable.prototype =
 				}, function(){}
 		);
 		
-		//timeout object used to hide the datatable export buttons
-		var timeout = null;
+		//footer arrow position element name
+		self.jsViewDataTable=$('.dataTableFooterWrap', domElem).attr('var');
 		
-		$('.dataTableFooterIcons', domElem)
-			.hover( function() {
-					//display 'hand' cursor
-					$(this).css({ cursor: "pointer"});
+		$('.tableAllColumnsSwitch a', domElem)
+			.show()
+			.click(
+				function(){
+					// we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
+					// this value is stored in config file General->datatable_default_limit but this is more an edge case so ok to set it to 10
 					
-					//cancel timeout if necessary
-					if(timeout != null)
-					{
-						clearTimeout(timeout);
-						timeout = null;
-					}
-				},
-				function() {
-					//display standard cursor
-					$(this).css({ cursor: "auto"});
+					self.setActiveIcon(this, domElem);
 					
-					//set a timeout that will hide export buttons after a few moments
-					var dom = this;
-					timeout = setTimeout(function(){
-						$('.exportToFormatIcons', dom).fadeOut('fast', function(){	//queue the two actions
-						$('.dataTableFooterIconsShow', dom).show('fast');});
-					}, 1000);
-				}
-		);
-		
-		$('.viewDataTable', domElem).click(
-			function(){
 					var viewDataTable = $(this).attr('format');
-					self.resetAllFilters();
 					self.param.viewDataTable = viewDataTable;
-					self.reloadAjaxDataTable();
-				}
-		);
-		
-		$('.tableGoals', domElem)
-			.show()
-			.click(
-				function(){
-					// we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
-					// this value is stored in config file General->datatable_default_limit but this is more an edge case so ok to set it to 10
-					delete self.param.filter_limit;
-					delete self.param.enable_filter_excludelowpop;
-					self.param.viewDataTable = 'tableGoals';
-					self.reloadAjaxDataTable();
-				}
-		);
-		
-		$('.tableAllColumnsSwitch', domElem)
-			.show()
-			.click(
-				function(){
-					// we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
-					// this value is stored in config file General->datatable_default_limit but this is more an edge case so ok to set it to 10
-					delete self.param.filter_limit;
-					self.param.viewDataTable = self.param.viewDataTable == 'table' ? 'tableAllColumns' : 'table';
+					
+					//self.resetAllFilters();
+					
+					
 					// when switching to display simple table, do not exclude low pop by default
-					if(self.param.viewDataTable == 'table')
-					{
-						self.param.enable_filter_excludelowpop = 0; 
-					}
+					delete self.param.enable_filter_excludelowpop; 
+					delete self.param.filter_limit;
 					self.reloadAjaxDataTable();
+					self.notifyDashboardViewDataTableChange($(this), self.param.viewDataTable);
 				}
+			)
+		
+		//handle Graph View icons
+		$('.tableGraphViews a', domElem)
+			.click(function(){
+				var viewDataTable = $(this).attr('format');
+				self.setActiveIcon(this, domElem);
+				self.resetAllFilters();
+				self.param.viewDataTable = viewDataTable;
+				self.reloadAjaxDataTable();
+				self.notifyDashboardViewDataTableChange($(this), self.param.viewDataTable);
+			});
+		
+		//Graph icon Collapsed functionality
+		self.currentGraphViewIcon=0;
+		self.graphViewEnabled=0;
+		self.graphViewStartingThreads=0;
+		self.graphViewStartingKeep=false; //show keep flag
+		
+		//define collapsed icons
+		$('.tableGraphCollapsed a', domElem)
+			.each(function(i){
+				if(self.jsViewDataTable==$(this).attr('var')){
+					self.currentGraphViewIcon=i;
+					self.graphViewEnabled=true;
+				}
+			})
+			.each(function(i){
+				if(self.currentGraphViewIcon!=i) $(this).hide();
+			});
+		
+		$('.tableGraphCollapsed', domElem).hover(
+			function(){
+				//Graph icon onmouseover
+				if(self.graphViewStartingThreads>0) return self.graphViewStartingKeep=true; //exit if animation is not finished
+				$(this).addClass('tableIconsGroupActive');
+				$('a', this).each(function(i){
+					if(self.currentGraphViewIcon!=i || self.graphViewEnabled){
+						self.graphViewStartingThreads++;
+					}
+					if(self.currentGraphViewIcon!=i){
+						//show other icons
+						$(this).show('fast', function(){self.graphViewStartingThreads--});
+					}
+					else if (self.graphViewEnabled){
+						//set footer arrow position
+						$('.dataTableFooterActiveItem', domElem).animate({left:$(this).parent().position().left+i*(this.offsetWidth+1)}, "fast", function(){self.graphViewStartingThreads--});
+					}
+				});
+				self.exportToFormatHide(domElem);
+			},
+			function(){
+				//Graph icon onmouseout
+				if(self.graphViewStartingKeep) return self.graphViewStartingKeep=false; //exit while icons animate
+				$('a', this).each(function(i){
+					if(self.currentGraphViewIcon!=i){
+						//hide other icons
+						$(this).hide('fast');
+					}
+					else if (self.graphViewEnabled){
+						//set footer arrow position
+						$('.dataTableFooterActiveItem', domElem).animate({left:$(this).parent().position().left}, "fast");
+					}
+				});
+				$(this).removeClass('tableIconsGroupActive');
+			}
 		);
 		
-		$('.exportToFormatIcons img', domElem).click(function(){
-			$(this).siblings('.linksExportToFormat').toggle();
+		//handle exportToFormat icons
+		self.exportToFormat=null;
+		$('.exportToFormatIcons a', domElem).click(function(){
+			self.exportToFormat={};
+			self.exportToFormat.lastActiveIcon=self.setActiveIcon(this, domElem);
+			self.exportToFormat.target=$(this).parent().siblings('.exportToFormatItems').show('fast');
+			self.exportToFormat.obj=$(this).hide();
 		});
 		
-		$('.exportToFormat', domElem).attr( 'href', function(){
+		//close exportToFormat onClickOutside
+		$('body').bind('mouseup',function(e){
+				if(self.exportToFormat){
+					self.exportToFormatHide(domElem);
+				}
+		});
+		
+		
+		$('.exportToFormatItems a', domElem).attr( 'href', function(){
 				var format = $(this).attr('format');
 				var method = $(this).attr('methodToCall');
 				var filter_limit = $(this).attr('filter_limit');
@@ -588,8 +589,106 @@ dataTable.prototype =
 				return str;
 			}
 		);
+		
+		
+		$('.dataTableFooterWrap a.tableIcon', domElem).each(function(){
+			if(self.jsViewDataTable==$(this).attr('var')) self.setActiveIcon(this, domElem); 
+		});
+		
+	},	
+	
+	exportToFormatHide: function(domElem)
+	{
+		var self=this;
+		if(self.exportToFormat){
+			self.setActiveIcon(self.exportToFormat.lastActiveIcon, domElem);
+			self.exportToFormat.target.hide('fast');
+			self.exportToFormat.obj.show('fast');
+			self.exportToFormat=null;
+		}
 	},
-
+	
+	
+	// Add behaviour to the low population link
+	handleLowPopulationLink: function(domElem, callbackSuccess)
+	{
+		var self = this;
+		
+		// Set the string for the DIV, either "Exclude low pop" or "Include all"
+		$('.dataTableExcludeLowPopulation', domElem)
+			.each(
+				function()
+				{
+					if(typeof self.param.enable_filter_excludelowpop == 'undefined')
+					{
+						self.param.enable_filter_excludelowpop = 0;
+					}
+					if(Number(self.param.enable_filter_excludelowpop) != 0)
+					{
+						string = _pk_translate('CoreHome_IncludeAllPopulation_js');
+						self.param.enable_filter_excludelowpop = 1;
+					}
+					else
+					{
+						string = _pk_translate('CoreHome_ExcludeLowPopulation_js');
+						self.param.enable_filter_excludelowpop = 0;
+					}
+					$(this).html(string);
+				} 
+			)
+			// Bind a click event to the DIV that triggers the ajax request
+			.click(
+				function()
+				{
+					self.param.enable_filter_excludelowpop = 1 - self.param.enable_filter_excludelowpop;
+					self.param.filter_offset = 0;
+					self.reloadAjaxDataTable(true, callbackSuccess);
+				}
+			);
+	},
+	
+	//footer arrow position handler
+	setActiveIcon: function(obj, domElem)
+	{	
+		if(!obj) return false;
+		
+		var lastActiveIcon=this.lastActiveIcon;
+		
+		if(lastActiveIcon){
+			$(lastActiveIcon).removeClass("activeIcon");
+		}
+		
+		$(obj).addClass("activeIcon");
+		this.lastActiveIcon=obj;
+		
+		var target=$('.dataTableFooterActiveItem', domElem);
+		
+		if(obj.offsetWidth){
+			//set arrow position
+			target.css({left:$(obj).position().left});
+		}
+		else{
+			//set arrow position with delay (for ajax widget loading)
+			setTimeout(function(){
+				target.css({left:$(obj).position().left});
+			},100);
+		}
+		
+		return lastActiveIcon;
+		
+	},
+	
+	// Tell dashboard that the ViewDataTable of this table was updated,
+	// Dashboard will records the new View type in the layout and restore it next reload
+	notifyDashboardViewDataTableChange: function(domWidget, newViewDataTable)
+	{
+		if(piwik.dashboardObject)
+		{
+			widgetUniqueId = $(domWidget).parents('.widget').attr('id');
+			piwik.dashboardObject.setDataTableViewChanged(widgetUniqueId, newViewDataTable);
+		}
+	},
+	
 	truncate: function(domElemToTruncate, truncationOffset)
 	{
 		var self = this;
@@ -661,7 +760,7 @@ dataTable.prototype =
 					'<tr>'+
 						'<td colspan="'+numberOfColumns+'" class="cellSubDataTable">'+
 							'<div id="'+divIdToReplaceWithSubTable+'">'+
-								'<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('CoreHome_Loading_js') +'</span>'+
+								'<span class="pk-loadingDataTable" style="display:inline"><img src="themes/default/images/loading-blue.gif" />'+ _pk_translate('General_Loading_js') +'</span>'+
 							'</div>'+
 						'</td>'+
 					'</tr>'
@@ -692,16 +791,6 @@ dataTable.prototype =
 };
 
 
-// Helper function :
-// returns true if the event keypress passed in parameter is the ENTER key
-function submitOnEnter(e)
-{
-	var key=e.keyCode || e.which;
-	if (key==13)
-	{
-		return true;
-	}
-}
 
 
 
@@ -714,14 +803,6 @@ function submitOnEnter(e)
 //actionDataTable is a child of dataTable
 actionDataTable.prototype = new dataTable;
 actionDataTable.prototype.constructor = actionDataTable;
-
-
-//A list of all our actionDataTables
-//Test if the object have already been initialized (multiple includes)
-if(typeof actionDataTables == "undefined")
-{
-	var actionDataTables = {};
-}
 
 //actionDataTable constructor
 function actionDataTable()
@@ -747,6 +828,7 @@ actionDataTable.prototype =
 	handleLinkedRows: dataTable.prototype.handleLinkedRows,
 	truncate: dataTable.prototype.truncate,
 	handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
+	setActiveIcon: dataTable.prototype.setActiveIcon,
 	
 	//initialisation of the actionDataTable
 	init: function(workingDivId, domElem)
@@ -776,10 +858,7 @@ actionDataTable.prototype =
 				.click( function()
 				{
 					self.onClickActionSubDataTable(this)
-				})
-				.hover(	function() { $(this).css({ cursor: "pointer"});	},
-						function() { $(this).css({ cursor: "auto"}); }
-		 		);
+				});
 		}
 		
 		self.applyCosmetics(domElem);

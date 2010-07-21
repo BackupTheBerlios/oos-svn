@@ -1,18 +1,22 @@
 h1 {
-	font-size: 2em;
-	color: #0F1B2E;
-	padding-bottom: 1em;
+	font-size: 18px;	
+	font-weight:bold; 	
+	color: #7e7363;	
+	padding:3px 0  7px 0;	
+	clear:both;
 }
 
 h2 {
-	font-size: 1.3em;
-	color: #1D3256;
-	padding-bottom: 0.5em;
+	font-size: 18px;
+	font-weight:normal;
+ 	color: #7e7363;
+	padding:12px 0  7px 0;
 	clear:both;
 }
 
 h2 a {
 	text-decoration:none;
+ 	color: #7e7363;
 }
 
 h3 {
@@ -21,15 +25,42 @@ h3 {
 	color: #1D3256;
 }
 
-p {
+.home p {
 	padding-bottom: 1em;
 	margin-right: 1em;
 	margin-left:1em;
 }
 
+.page{
+	background: url(../../../themes/default/images/page_border_grad.png) no-repeat 0 20px;
+	min-height:10px;
+	
+}
+
+.pageWrap{
+	padding:15px 15px 0 15px;
+	min-height:10px;
+	position:relative;
+	background: url(../../../themes/default/images/page_border_grad.png) no-repeat right  20px;
+	
+}
+
+
+
+.nav_sep{  
+	height:39px;
+	margin:-15px -15px 18px -15px;
+	border-radius: 0 4px 0 0;
+	-moz-border-radius:  0 4px 0 0;
+	-webkit-border-radius:  0 4px 0 0;
+	border:1px solid #dddddd;
+}
+
+
 /* Content */
-#content {
-	margin-left: 10px;
+#content.home {
+	padding-top:5px;
+	font-size:14px;
 }
 
 
@@ -37,7 +68,6 @@ p {
 #leftcolumn {
 	float: left;
 	width: 50%;
-	padding-left: 10px;
 }
 #rightcolumn {
 	float: right;
@@ -46,8 +76,7 @@ p {
 /* not in widget */
 .widget #leftcolumn, .widget #rightcolumn {
 	float:left;
-	width:100%;
-	padding-left:10px;
+	padding: 0 10px;
 }
 
 /* Calendar*/

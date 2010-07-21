@@ -87,6 +87,19 @@ widgetMenu.prototype =
 		var self = this;
 		self.menuElement = $('#widgetChooser');		
 		self.buildMenu();
+		
+		//close widget onClickOutside
+		if($('#addWidget')[0]){
+			$('#addWidget').hover(
+					function(){self.isHover=1}, 
+					function(){self.isHover=0}
+			);
+			$('body').bind('mouseup',function(e){ 
+				if(self.widgetIsOpen && !self.isHover){
+					self.hide();
+				}
+			});
+		}
 	},
 	
 	registerCallbackOnWidgetLoad: function( callbackOnWidgetLoad )
@@ -146,6 +159,7 @@ widgetMenu.prototype =
 		$('.menuSelected', self.menuElement).removeClass('menuSelected');
 		$('#sub2 .subMenuItem', self.menuElement).hide();
 		$('#sub3').empty().html('<div class="widget"></div>');
+		$('#sub3').width(0);
 	},
 	
 	bindEvents: function()
@@ -198,7 +212,9 @@ widgetMenu.prototype =
 				);
 				$('#sub3').html(emptyWidgetHtml);
 				
-				$('#sub3 .widgetTop').click(function() {
+				//Widget width auto detection
+				var defaultWidgetWidth=600;
+				var currentWidgetWidth=self.dashboard?$(".col:first", self.dashboard.dashboardElement).width():defaultWidgetWidth;								$('#sub3').width(currentWidgetWidth);								$('#sub3 .widgetTop').click(function() {
 					self.movePreviewToDashboard();
 				});
 				
@@ -226,16 +242,25 @@ widgetMenu.prototype =
 		if(typeof self.dashboard != 'undefined') {
 			self.initWidgetMenuForDashboard();
 			self.filterOutAlreadyLoadedWidget();
-			$.blockUI({
-					message: self.menuElement, 
-					centerY: 0,
-					css: {width:'', top: '5%',left:'10%', right:'10%', margin:"0px", textAlign:'', cursor:'', border:'0px'}
-			});
+			self.menuElement.show();
 		}
 		self.resetMenuState();
 		self.bindEvents();
+		self.widgetIsOpen=1;
 	},
-
+	
+	hide: function()
+	{
+		if(!$(this.menuElement).parents('#addWidget')[0]) return false; //don't close if not in #addWidget block
+ 		this.menuElement.hide();
+		this.widgetIsOpen=0;
+	},
+	
+	toggle:function(e){
+		if(!this.widgetIsOpen) this.show();
+		else this.hide();
+	},
+	
 	hideMenu: function()
 	{
 		$.unblockUI();
@@ -244,7 +269,6 @@ widgetMenu.prototype =
 	filterOutAlreadyLoadedWidget: function()
 	{
 		var self = this;
-
 		function contains(array, searchElem) {
 			for(var i=0; i<array.length; i++) {
 				if (array[i] == searchElem) {
@@ -274,6 +298,10 @@ widgetMenu.prototype =
 	movePreviewToDashboard: function()
 	{
 		var self = this;
+		if($('#sub3 .widget .widgetLoading', self.menuElement)[0]) return false; //don't move widget while it in loading
+		
+		self.hide();
+		
 		if(typeof self.dashboard == 'undefined') {
 			return;
 		}
@@ -284,7 +312,6 @@ widgetMenu.prototype =
 			widgetContentLoadedInPreview = $('.widgetContent', this).clone(true);
 			widgetContentToReplace.replaceWith( widgetContentLoadedInPreview );
 		});
-		self.hideMenu();
 		self.dashboard.makeSortable();
 		self.dashboard.saveLayout();
 	},
@@ -299,20 +326,13 @@ widgetMenu.prototype =
 							self.movePreviewToDashboard(); 
 						}
 			});
-			$('.button#hideMenu', self.menuElement)
-				.click(function() { self.hideMenu(); }
-			);
-			$('#closeMenuIcon', self.menuElement)
-				.click(function() { self.hideMenu(); }
-			);
-			$.extend($.blockUI.defaults.overlayCSS, { backgroundColor: '#000000', opacity: '0.4'});
-			$.extend($.blockUI.defaults,{ fadeIn: 0, fadeOut: 0 });
 			$(document).keydown( function(e) {
 				var key = e.keyCode || e.which;
 				if(key == 27) {
-					self.hideMenu();
+					self.hide();
 				}
 			});
+			
 		}
 	}
 };

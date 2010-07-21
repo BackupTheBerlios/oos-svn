@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: SitesManager.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: SitesManager.php 2392 2010-06-29 06:45:34Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
@@ -30,7 +30,8 @@ class Piwik_SitesManager extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-			'template_css_import' => 'css',
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AdminMenu.add' => 'addMenu',
 			'Common.fetchWebsiteAttributes' => 'recordWebsiteDataInCache',
 		);
@@ -44,9 +45,18 @@ class Piwik_SitesManager extends Piwik_Plugin
 							$order = 5);		
 	}
 	
-	function css()
+	function getCssFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "themes/default/styles.css";
+	}	
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/SitesManager/templates/SitesManager.js";
 	}
 	
 	/**

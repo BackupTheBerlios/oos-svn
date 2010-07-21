@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2245 2010-05-31 10:30:02Z matt $
+ * @version $Id: Controller.php 2604 2010-07-21 08:00:17Z matt $
  *
  * @category Piwik_Plugin
  * @package Piwik_VisitorGenerator
@@ -22,7 +22,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		$sitesList = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 
 		$view = Piwik_View::factory('index');
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->assign('sitesList', $sitesList);
 
 		$view->menu = Piwik_GetAdminMenu();
@@ -108,7 +108,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller {
 		// Init view
 		$view = Piwik_View::factory('generate');
 		$view->menu = Piwik_GetAdminMenu();
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->assign('dates', $dates);
 		$view->assign('timer', $timer);
 		$view->assign('nbActionsTotal', $nbActionsTotal);

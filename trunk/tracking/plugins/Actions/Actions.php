@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Actions.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: Actions.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -47,9 +47,107 @@ class Piwik_Actions extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
 	}
+
+	public function getReportMetadata($notification)
+	{
+		$reports = &$notification->getNotificationObject();
+
+		$limitedMetrics = array(
+			
+		);
+		$metrics = 
+		
+		// Page views URLs, Downloads and Outlinks have the full set of metrics
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_SubmenuPages'),
+			'module' => 'Actions',
+			'action' => 'getPageUrls',
+    		'dimension' => Piwik_Translate('Actions_ColumnPageURL'),
+			'metrics' => array(
+                    'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
+                    'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
+                    'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances'), 
+                    'avg_time_on_page' => Piwik_Translate('General_ColumnAverageTimeOnPage'),
+                    'bounce_rate' => Piwik_Translate('General_ColumnBounceRate'),
+                    'exit_nb_visits' => Piwik_Translate('General_ColumnExits'), 
+                    'exit_rate' => Piwik_Translate('General_ColumnExitRate'), 
+        			// 'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'), 
+    		),
+			'processedMetrics' => false,
+		);
+
+		// Page titles, downloads and outlinks only report basic metrics
+		$metrics = array(	'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
+            				'nb_visits',
+            				'nb_uniq_visitors',
+		);
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_SubmenuOutlinks'),
+			'module' => 'Actions',
+			'action' => 'getOutlinks',
+			'dimension' => Piwik_Translate('Actions_ColumnClickedURL'),
+			'metrics' => $metrics,
+			'processedMetrics' => false,
+		);
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_SubmenuDownloads'),
+			'module' => 'Actions',
+			'action' => 'getDownloads',
+			'dimension' => Piwik_Translate('Actions_ColumnDownloadURL'),
+			'metrics' => $metrics,
+			'processedMetrics' => false,
+		);
+		
+		$reports[] = array(
+			'category' => Piwik_Translate('Actions_Actions'),
+			'name' => Piwik_Translate('Actions_SubmenuPageTitles'),
+			'module' => 'Actions',
+			'action' => 'getPageTitles',
+			'dimension' => Piwik_Translate('Actions_ColumnPageName'),
+			'metrics' => $metrics,
+			'processedMetrics' => false,
+		);
+	}
+	
+	function addWidgets()
+	{
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesEntry', 'Actions', 'getEntryPageUrls');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesExit', 'Actions', 'getExitPageUrls');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPageTitles', 'Actions', 'getPageTitles');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
+		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
+	}
+	
+	function addMenus()
+	{
+		Piwik_AddMenu('Actions_Actions', '', array('module' => 'Actions', 'action' => 'getPageUrls'), true, 15);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'getPageUrls'), true, 1);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'getEntryPageUrls'), true, 2);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'getExitPageUrls'), true, 3);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'getPageTitles'), true, 4);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'getOutlinks'), true, 5);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'getDownloads'), true, 6);
+	}
+	
+	static protected $invalidSummedColumnNameToRenamedNameForPeriodArchive = array(
+		'nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors', 
+		'entry_nb_uniq_visitors' => 'sum_daily_entry_nb_uniq_visitors', 
+		'exit_nb_uniq_visitors' => 'sum_daily_exit_nb_uniq_visitors',
+	);
+	
+	protected static $invalidSummedColumnNameToDeleteFromDayArchive = array(
+		'nb_uniq_visitors',
+		'entry_nb_uniq_visitors', 
+		'exit_nb_uniq_visitors',
+	);
 	
 	public function __construct()
 	{
@@ -72,38 +170,6 @@ class Piwik_Actions extends Piwik_Plugin
 		$this->maximumRowsInDataTableLevelZero = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_actions;
 		$this->maximumRowsInSubDataTable = Zend_Registry::get('config')->General->datatable_archiving_maximum_rows_subtable_actions;
 	}
-	
-	function addWidgets()
-	{
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesEntry', 'Actions', 'getEntryPageUrls');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPagesExit', 'Actions', 'getExitPageUrls');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuPageTitles', 'Actions', 'getPageTitles');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
-		Piwik_AddWidget( 'Actions_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
-	}
-	
-	function addMenus()
-	{
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'getPageUrls'));
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'getEntryPageUrls'));
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'getExitPageUrls'));
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'getPageTitles'));
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'getOutlinks'));
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'getDownloads'));
-	}
-	
-	static protected $invalidSummedColumnNameToRenamedNameForPeriodArchive = array(
-		'nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors', 
-		'entry_nb_uniq_visitors' => 'sum_daily_entry_nb_uniq_visitors', 
-		'exit_nb_uniq_visitors' => 'sum_daily_exit_nb_uniq_visitors',
-	);
-	
-	protected static $invalidSummedColumnNameToDeleteFromDayArchive = array(
-		'nb_uniq_visitors',
-		'entry_nb_uniq_visitors', 
-		'exit_nb_uniq_visitors',
-	);
 	
 	function archivePeriod( $notification )
 	{
@@ -482,5 +548,6 @@ class Piwik_Actions extends Piwik_Plugin
 		$currentTable =& $this->actionsTablesByType;
 		return $rowsProcessed;
 	}
+
 }
 

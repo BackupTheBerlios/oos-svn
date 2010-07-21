@@ -4,9 +4,9 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: AcceptLanguage.php 2334 2010-06-22 05:24:07Z vipsoft $
+ * @version $Id: AcceptLanguage.php 2559 2010-07-19 04:29:54Z vipsoft $
  *
- * @category Piwik_Plugin
+ * @category Piwik_Plugins
  * @package Piwik_VisitorGenerator
  */
 

@@ -2,16 +2,18 @@
 	{'Goals_GoalConversionsBySegment'|translate:$goalName}
 	{else}{'Goals_ConversionsOverviewBySegment'|translate}{/if}</h2> 
 
-<div class='segmentSelector' style='float: left;width: 220px;padding-left: 10px;height:450px'>
+<div class='segmentSelector'>
 	{foreach from=$goalSegments key=segmentFamilyName item=segments}
-		{'Goals_ViewGoalsBySegment'|translate:$segmentFamilyName}
-		<ul class='listCircle'>
-		{foreach from=$segments item=segment}
-			<li title='{'Goals_ViewGoalsBySegment'|translate:$segment.name}' class='goalSegment' module='{$segment.module}' action='{$segment.action}'>
-				<span class='segment'>{$segment.name}</span>
-			</li>
-		{/foreach}
-		</ul>
+		<div class='segmentCategory'>
+			{'Goals_ViewGoalsBySegment'|translate:$segmentFamilyName}
+			<ul class='listCircle'>
+			{foreach from=$segments item=segment}
+				<li title='{'Goals_ViewGoalsBySegment'|translate:$segment.name}' class='goalSegment' module='{$segment.module}' action='{$segment.action}'>
+					<span class='segment'>{$segment.name}</span>
+				</li>
+			{/foreach}
+			</ul>
+		</div>
 	{/foreach}
 </div>
 
@@ -20,7 +22,7 @@
 	
 	<div id='tableGoalsBySegment'></div>
 </div>
-<div style='clear:both'></div>
+<div class="clear"></div>
 {literal}
 <script type="text/javascript">
 $(document).ready( function() {
@@ -43,7 +45,7 @@ $(document).ready( function() {
 			'module': module,
 			'action': action,
 			'viewDataTable': 'tableGoals',
-			'filter_only_display_idgoal': idGoal.length ? idGoal : 0 // 0 is Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_FULL_TABLE
+			'filter_only_display_idgoal': idGoal.length ? idGoal : 0 // 0 is Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
 		};
 		var onWidgetLoadedCallback = function (response) {
 			if(widgetUniqueId != self.expectedWidgetUniqueId) {

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FormFirstWebsiteSetup.php 2071 2010-04-09 13:41:27Z matt $
+ * @version $Id: FormFirstWebsiteSetup.php 2559 2010-07-19 04:29:54Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -14,55 +14,63 @@
  * 
  * @package Piwik_Installation
  */
-class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_Form
+class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 {
-	function validate()
+	function __construct( $id = 'websitesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
+	{
+		parent::__construct($id,  $method, $attributes, $trackSubmit);
+	}
+
+	function init()
+	{
+		HTML_QuickForm2_Factory::registerRule('checkTimezone', 'Piwik_Installation_FormFirstWebsiteSetup_Rule_isValidTimezone');
+
+		$urlExample = 'http://example.org';
+		$javascriptOnClickUrlExample = "javascript:if(this.value=='$urlExample'){this.value='http://';} this.style.color='black';";
+
+		$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
+		$timezones = array_merge(array('No timezone' => Piwik_Translate('SitesManager_SelectACity')), $timezones);
+
+		$this->addElement('text', 'siteName')
+		     ->setLabel(Piwik_Translate('Installation_SetupWebSiteName'))
+		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_SetupWebSiteName')));
+
+		$url = $this->addElement('text', 'url')
+		            ->setLabel(Piwik_Translate('Installation_SetupWebSiteURL'));
+		$url->setAttribute('style', 'color:rgb(153, 153, 153);');
+		$url->setValue($urlExample);
+		$url->setAttribute('onfocus', $javascriptOnClickUrlExample);
+		$url->setAttribute('onclick', $javascriptOnClickUrlExample);
+		$url->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_SetupWebSiteURL')));
+
+		$tz = $this->addElement('select', 'timezone')
+		           ->setLabel(Piwik_Translate('Installation_Timezone'))
+		           ->loadOptions($timezones);
+		$tz->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_Timezone')));
+		$tz->addRule('checkTimezone', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone')));
+
+		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo')));
+	}	
+}
+
+/**
+ * Timezone validation rule
+ *
+ * @package Piwik_Installation
+ */
+class Piwik_Installation_FormFirstWebsiteSetup_Rule_isValidTimezone extends HTML_QuickForm2_Rule
+{
+	function validateOwner()
 	{
 		try {
-    		$timezone = $this->getSubmitValue('timezone');
+    		$timezone = $this->owner->getValue();
     		if(!empty($timezone))
     		{
     			Piwik_SitesManager_API::getInstance()->setDefaultTimezone($timezone);
     		}
 		} catch(Exception $e) {
-			$this->_errors['timezone'] = Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone'));
+			return false;
 		}
-		return parent::validate();
+		return true;
 	}
-	
-	function init()
-	{
-		$urlToGoAfter = 'index.php' . Piwik_Url::getCurrentQueryString();
-
-		$urlExample = 'http://example.org';
-		$javascriptOnClickUrlExample = "\"javascript:if(this.value=='$urlExample'){this.value='http://';} this.style.color='black';\"";
-		
-		$timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
-		$timezones = array_merge(array('No timezone' => Piwik_Translate('SitesManager_SelectACity')), $timezones);
-		
-		$formElements = array(
-			array('text', 'siteName', Piwik_Translate('Installation_SetupWebSiteName')),
-			array('text', 'url', Piwik_Translate('Installation_SetupWebSiteURL'), "style='color:rgb(153, 153, 153);' value=$urlExample onfocus=".$javascriptOnClickUrlExample." onclick=".$javascriptOnClickUrlExample),
-			array('select', 'timezone', Piwik_Translate('Installation_Timezone'), $timezones),
-			
-		);
-		$this->addElements( $formElements );
-		
-		$formRules = array();
-		foreach($formElements as $row)
-		{
-			$formRules[] = array($row[1], Piwik_Translate('General_Required', $row[2]), 'required');
-		}
-		
-	
-		$submitTimezone = $this->getSubmitValue('timezone');
-		if(!$this->isSubmitted()
-			|| !empty($submitTimezone))
-		{
-			$this->setSelected('timezone', $submitTimezone);
-		}
-		$this->addRules( $formRules );	
-		
-		$this->addElement('submit', 'submit', Piwik_Translate('Installation_SubmitGo'));
-	}	
 }

@@ -1,5 +1,3 @@
-<script type="text/javascript" src="plugins/CoreHome/templates/sparkline.js"></script>
-
 <a name="evolutionGraph" graphId="{$nameGraphEvolutionReferers}"></a>
 <h2>{'Referers_Evolution'|translate}</h2>
 {$graphEvolutionReferers}
@@ -49,3 +47,6 @@
 	<strong>{$numberDistinctCampaigns}</strong> {'Referers_DistinctCampaigns'|translate}</div>
 </td></tr>
 </table>
+
+{include file=CoreHome/templates/sparkline_footer.tpl}
+

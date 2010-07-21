@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GoalManager.php 2246 2010-05-31 11:57:21Z matt $
+ * @version $Id: GoalManager.php 2395 2010-06-29 10:06:57Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -52,7 +52,7 @@ class Piwik_Tracker_GoalManager
 				return $goal;
 			}
 		}
-		throw new Exception(Piwik_TranslateException('General_ExceptionGoalNotFound', array($idGoal)));
+		throw new Exception('Goal not found');
 	}
 
 	static public function getGoalIds( $idSite )

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleUI.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: ExampleUI.php 2409 2010-07-01 11:02:03Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
@@ -62,9 +62,12 @@ class Piwik_ExampleUI extends Piwik_Plugin
 			'Sparklines' => 'sparklines',
 			'Misc' => 'misc',
 		);
+
+		Piwik_AddMenu('UI Framework', '', array('module' => 'ExampleUI', 'action' => 'dataTables'), true, 30);
+		$order = 1;
 		foreach($menus as $subMenu => $action) 
 		{
-			Piwik_AddMenu('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action));
+			Piwik_AddMenu('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action), true, $order++);
 		}
 	}	
 }

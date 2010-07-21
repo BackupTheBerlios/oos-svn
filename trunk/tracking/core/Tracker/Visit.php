@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Visit.php 2246 2010-05-31 11:57:21Z matt $
+ * @version $Id: Visit.php 2429 2010-07-06 00:04:35Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -53,7 +53,27 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $refererUrl;
 	protected $refererUrlParse;
 	protected $currentUrlParse;
+	
+	// can be overwritten in constructor
+	protected $timestamp;
+	protected $ipString;
 
+	public function __construct($forcedIpString = null, $forcedDateTime = null)
+	{
+		$this->timestamp = time();
+		if(!empty($forcedDateTime))
+		{
+			$this->timestamp = strtotime($forcedDateTime);
+		}
+		$ipString = $forcedIpString;
+		if(empty($ipString))
+		{
+			$ipString = Piwik_Common::getIpString();
+		}
+		
+		$this->ipString = Piwik_Common::getIp($ipString);
+	}
+	
 	function setRequest($requestArray)
 	{
 		$this->request = $requestArray;
@@ -62,7 +82,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		Piwik_PostEvent('Tracker.setRequest.idSite', $idsite);
 		if($idsite <= 0)
 		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidIdsite'));
+			throw new Exception('Invalid idSite');
 		}
 		$this->idsite = $idsite;
 	}
@@ -90,7 +110,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	public function handle()
 	{
 		// the IP is needed by isExcluded() and GoalManager->recordGoals()
-		$this->visitorInfo['location_ip'] = Piwik_Common::getIp();
+		$this->visitorInfo['location_ip'] = $this->ipString;
 		
 		if($this->isExcluded())
 		{
@@ -216,46 +236,78 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * In the case of a known visit, we have to do the following actions:
 	 *
 	 * 1) Insert the new action
-	 *
 	 * 2) Update the visit information
+	 *
+	 * This method triggers two events:
+	 *
+	 * Tracker.knownVisitorUpdate is triggered before the visit information is updated
+	 * Event data is an array with the values to be updated (could be changed by plugins)
+	 *
+	 * Tracker.knownVisitorInformation is triggered after saving the new visit data
+	 * Even data is an array with updated information about the visit
 	 */
 	protected function handleKnownVisit($actionUrlId, $someGoalsConverted)
 	{
-		$serverTime 	= $this->getCurrentTimestamp();
-		$datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($serverTime);
-		printDebug("Visit known. Current date is ".$datetimeServer);
 
-		$sqlUpdateGoalConverted = '';
+		// gather information that needs to be updated
+		$valuesToUpdate = array();
 		if($someGoalsConverted)
 		{
-			$sqlUpdateGoalConverted = " visit_goal_converted = 1,";
+			$valuesToUpdate['visit_goal_converted'] = 1;
 		}
 
-		$sqlActionIdUpdate = '';
+		$sqlActionUpdate = '';
 		if(!empty($actionUrlId))
 		{
-			$sqlActionIdUpdate = "visit_exit_idaction_url = ". $actionUrlId .",
-									visit_total_actions = visit_total_actions + 1, ";
-			$this->visitorInfo['visit_exit_idaction_url'] = $actionUrlId;
+			$valuesToUpdate['visit_exit_idaction_url'] = $actionUrlId;
+			$sqlActionUpdate = "visit_total_actions = visit_total_actions + 1, ";
 		}
-		$sqlQuery = "/* SHARDING_ID_SITE = ". $this->idsite ." */
-							UPDATE ". Piwik_Common::prefixTable('log_visit')."
-							SET $sqlActionIdUpdate
-								$sqlUpdateGoalConverted
-								visit_last_action_time = ?,
-								visit_total_time = ?
-							WHERE idsite = ? 
-								AND idvisit = ?
-								AND visitor_idcookie = ?
-							LIMIT 1";
-		$sqlBind = array( 	$datetimeServer,
-							$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'],
-							$this->idsite,
-							$this->visitorInfo['idvisit'],
-							$this->visitorInfo['visitor_idcookie'] );
-							
-		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
+
+		$serverTimestamp 	= $this->getCurrentTimestamp();
+		$datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($serverTimestamp);
+		printDebug("Visit known. Current date is ".$datetimeServer);
+
+		$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
+		$valuesToUpdate['visit_last_action_time'] = $datetimeServer;
+		$valuesToUpdate['visit_total_time'] = $visitTotalTime;
+
+		// trigger event before update
+		Piwik_PostEvent('Tracker.knownVisitorUpdate', $valuesToUpdate);
 		
+		// Will be updated in cookie
+		$timeSpentRefererAction = $serverTimestamp - $this->visitorInfo['visit_last_action_time'];
+		if($timeSpentRefererAction > Piwik_Tracker_Config::getInstance()->Tracker['visit_standard_length'])
+		{
+			$timeSpentRefererAction = 0;
+		}
+		$this->visitorInfo['time_spent_ref_action'] = $timeSpentRefererAction;
+		
+		// update visitorInfo
+		foreach($valuesToUpdate AS $name => $value)
+		{
+			$this->visitorInfo[$name] = $value;
+		}
+		
+		// build sql query
+		$updateParts = $sqlBind = array();
+
+		foreach($valuesToUpdate AS $name => $value)
+		{
+			$updateParts[] = $name." = ?";
+			$sqlBind[] = $value;
+		}
+
+		$sqlQuery = "/* SHARDING_ID_SITE = ". $this->idsite ." */
+						UPDATE ". Piwik_Common::prefixTable('log_visit')."
+						SET $sqlActionUpdate ".implode($updateParts, ', ')."
+						WHERE idsite = ?
+							AND idvisit = ?
+							AND visitor_idcookie = ?
+						LIMIT 1";
+		array_push($sqlBind, $this->idsite, $this->visitorInfo['idvisit'], $this->visitorInfo['visitor_idcookie'] );
+
+		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
+
 		printDebug('Updating visitor with idvisit='.$this->visitorInfo['idvisit'].', setting visit_last_action_time='.$datetimeServer.' and visit_total_time='.$visitTotalTime);
 		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
 		{
@@ -263,10 +315,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 
 		$this->visitorInfo['idsite'] = $this->idsite;
-
-		// will be updated in cookie
-		$this->visitorInfo['time_spent_ref_action'] = $serverTime - $this->visitorInfo['visit_last_action_time'];
-		$this->visitorInfo['visit_last_action_time'] = $serverTime;
+		$this->visitorInfo['visit_last_action_time'] = $serverTimestamp;
 
 		Piwik_PostEvent('Tracker.knownVisitorInformation', $this->visitorInfo);
 	}
@@ -282,10 +331,21 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		printDebug("New Visit.");
 
-		$localTime				= Piwik_Common::getRequestVar( 'h', $this->getCurrentDate("H"), 'int', $this->request)
-							.':'. Piwik_Common::getRequestVar( 'm', $this->getCurrentDate("i"), 'int', $this->request)
-							.':'. Piwik_Common::getRequestVar( 's', $this->getCurrentDate("s"), 'int', $this->request);
-		$serverTime 	= $this->getCurrentTimestamp();
+		$localTimes = array(
+			'h' => (string) Piwik_Common::getRequestVar( 'h', $this->getCurrentDate("H"), 'int', $this->request),
+			'i' => (string) Piwik_Common::getRequestVar( 'm', $this->getCurrentDate("i"), 'int', $this->request),
+			's' => (string) Piwik_Common::getRequestVar( 's', $this->getCurrentDate("s"), 'int', $this->request)
+		);
+		foreach($localTimes as $k => $time) 
+		{
+			if(strlen($time) == 1) 
+			{
+				$localTimes[$k] = '0' . $time;
+			}
+		}
+		$localTime = $localTimes['h'] .':'. $localTimes['i'] .':'. $localTimes['s'];
+		
+		$serverTimestamp 	= $this->getCurrentTimestamp();
 
 		$idcookie = $this->getVisitorIdcookie();
 		$returningVisitor = $this->isVisitorKnown() ? 1 : 0;
@@ -307,8 +367,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'visitor_idcookie' 			=> $idcookie,
 			'visitor_returning' 		=> $returningVisitor,
 			'visit_server_date'     	=> $this->getCurrentDate(),
-			'visit_first_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTime),
-			'visit_last_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTime),
+			'visit_first_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTimestamp),
+			'visit_last_action_time' 	=> Piwik_Tracker::getDatetimeFromTimestamp($serverTimestamp),
 			'visit_entry_idaction_url' 	=> $actionUrlId,
 			'visit_exit_idaction_url' 	=> $actionUrlId,
 			'visit_total_actions' 		=> 1,
@@ -351,7 +411,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		Piwik_PostEvent('Tracker.saveVisitorInformation', $this->visitorInfo);
 
-		$serverTime 	= $this->getCurrentTimestamp();
 
 		$this->visitorInfo['location_continent'] = Piwik_Common::getContinent( $this->visitorInfo['location_country'] );
 		$this->visitorInfo['location_browser_lang'] = substr($this->visitorInfo['location_browser_lang'], 0, 20);
@@ -367,10 +426,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 						" ($fields) VALUES ($values)", array_values($this->visitorInfo));
 
 		$idVisit = Piwik_Tracker::getDatabase()->lastInsertId();
-
 		$this->visitorInfo['idvisit'] = $idVisit;
-		$this->visitorInfo['visit_first_action_time'] = $serverTime;
-		$this->visitorInfo['visit_last_action_time'] = $serverTime;
+
+		$serverTimestamp 	= $this->getCurrentTimestamp();
+		$this->visitorInfo['visit_first_action_time'] = $serverTimestamp;
+		$this->visitorInfo['visit_last_action_time'] = $serverTimestamp;
 
 		Piwik_PostEvent('Tracker.saveVisitorInformation.end', $this->visitorInfo);
 	}
@@ -432,7 +492,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getCurrentTimestamp()
 	{
-		return time();
+		return $this->timestamp;
 	}
 
 	/**
@@ -778,7 +838,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		return isset($this->visitorInfo['visit_last_action_time'])
 					&& ($this->visitorInfo['visit_last_action_time']
-						>= ($this->getCurrentTimestamp() - Piwik_Tracker_Config::getInstance()->Tracker['visit_standard_length']));
+						> ($this->getCurrentTimestamp() - Piwik_Tracker_Config::getInstance()->Tracker['visit_standard_length']));
 	}
 
 	/**

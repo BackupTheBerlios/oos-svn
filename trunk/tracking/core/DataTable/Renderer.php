@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Renderer.php 2294 2010-06-11 15:14:04Z matt $
+ * @version $Id: Renderer.php 2495 2010-07-13 16:43:28Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -26,6 +26,7 @@ abstract class Piwik_DataTable_Renderer
 	protected $table;
 	protected $exception;
 	protected $renderSubTables = false;
+	protected $hideIdSubDatatable = false;
 	
 	public function __construct()
 	{
@@ -34,6 +35,11 @@ abstract class Piwik_DataTable_Renderer
 	public function setRenderSubTables($enableRenderSubTable)
 	{
 		$this->renderSubTables = (bool)$enableRenderSubTable;
+	}
+
+	public function setHideIdSubDatableFromResponse($bool)
+	{
+		$this->hideIdSubDatatable = (bool)$bool;
 	}
 	
 	protected function isRenderSubtables()
@@ -91,6 +97,20 @@ abstract class Piwik_DataTable_Renderer
 		$this->exception = $exception;
 	}
 	
+
+	static protected $availableRenderers = array(   'xml', 
+        											'json', 
+        											'csv', 
+        											'tsv', 
+        											'html', 
+        											'php' 
+	);
+	
+	static public function getRenderers()
+	{
+		return self::$availableRenderers;
+	}
+	
 	/**
 	 * Returns the DataTable associated to the output format $name
 	 * 
@@ -103,10 +123,10 @@ abstract class Piwik_DataTable_Renderer
 		$className = 'Piwik_DataTable_Renderer_' . $name;
 		
 		try {
-			Piwik_Loader::autoload($className);
+			Piwik_Loader::loadClass($className);
 			return new $className;			
 		} catch(Exception $e) {
-			$availableRenderers = 'xml, json, csv, tsv, html, php, original';
+			$availableRenderers = implode(', ', self::getRenderers());
 			throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($name, $availableRenderers)));
 		}		
 	}

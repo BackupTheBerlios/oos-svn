@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleRssWidget.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: ExampleRssWidget.php 2392 2010-06-29 06:45:34Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleRssWidget
@@ -35,13 +35,15 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 	
 	public function getListHooksRegistered()
 	{
-		return array( 'template_css_import' => 'css');
+		return array( 'AssetManager.getCssFiles' => 'getCssFiles');
 	}
 
-	function css()
+	function getCssFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/ExampleRssWidget/templates/styles.css\" />\n";
-	}
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/ExampleRssWidget/templates/styles.css";
+	}	
 }
 
 Piwik_AddWidget('Example Widgets', 'Piwik.org Blog', 'ExampleRssWidget', 'rssPiwik');
@@ -112,7 +114,7 @@ class Piwik_ExampleRssWidget_Rss
 			$date = @strftime("%B %e, %Y", strtotime($post->pubDate()));
 			$link = $post->link();
 			
-			$output .= '<li><a class="rss-title" title="" href="'.$link.'">'.$title.'</a>'.
+			$output .= '<li><a class="rss-title" title="" target="_blank" href="misc/redirectToUrl.php?url='.$link.'">'.$title.'</a>'.
 						'<span class="rss-date">'.$date.'</span>';
 			if($this->showDescription) 
 			{

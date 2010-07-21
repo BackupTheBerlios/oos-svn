@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UsersManager.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: UsersManager.php 2392 2010-06-29 06:45:34Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
@@ -30,7 +30,18 @@ class Piwik_UsersManager extends Piwik_Plugin
 	
 	function getListHooksRegistered()
 	{
-		return array('AdminMenu.add' => 'addMenu');
+		return array(
+				'AdminMenu.add' => 'addMenu',
+				'AssetManager.getJsFiles' => 'getJsFiles'
+		);
+	}
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/UsersManager/templates/UsersManager.js";	
+		$jsFiles[] = "plugins/UsersManager/templates/userSettings.js";
 	}
 	
 	function addMenu()

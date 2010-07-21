@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitTime.php 2321 2010-06-18 10:46:38Z matt $
+ * @version $Id: VisitTime.php 2549 2010-07-18 20:47:45Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
@@ -34,15 +34,36 @@ class Piwik_VisitTime extends Piwik_Plugin
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
-			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
+			'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
+	}
+
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('VisitsSummary_VisitsSummary'),
+			'name' => Piwik_Translate('VisitTime_WidgetLocalTime'),
+			'module' => 'VisitTime',
+			'action' => 'getVisitInformationPerLocalTime',
+			'dimension' => Piwik_Translate('VisitTime_ColumnLocalTime'),
+		);
+		
+		$reports[] = array(
+			'category' => Piwik_Translate('VisitsSummary_VisitsSummary'),
+			'name' => Piwik_Translate('VisitTime_WidgetServerTime'),
+			'module' => 'VisitTime',
+			'action' => 'getVisitInformationPerServerTime',
+			'dimension' => Piwik_Translate('VisitTime_ColumnServerTime'),
+		);
 	}
 	
 	function addWidgets()
 	{
-		Piwik_AddWidget( 'VisitTime_SubmenuTimes', 'VisitTime_WidgetLocalTime', 'VisitTime', 'getVisitInformationPerLocalTime');
-		Piwik_AddWidget( 'VisitTime_SubmenuTimes', 'VisitTime_WidgetServerTime', 'VisitTime', 'getVisitInformationPerServerTime');
+		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitTime_WidgetLocalTime', 'VisitTime', 'getVisitInformationPerLocalTime');
+		Piwik_AddWidget( 'VisitsSummary_VisitsSummary', 'VisitTime_WidgetServerTime', 'VisitTime', 'getVisitInformationPerServerTime');
 	}
 	
 	function addMenu()
@@ -50,14 +71,13 @@ class Piwik_VisitTime extends Piwik_Plugin
 		Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
 	}
 
-	function addGoalSegments( $notification )
+	function getReportsWithGoalMetrics( $notification )
 	{
 		$segments =& $notification->getNotificationObject();
-		$segments[] = array(
-					'group'  => Piwik_Translate('VisitTime_ColumnServerTime'),
-        			'name'   => Piwik_Translate('VisitTime_ColumnServerTime'),
-        			'module' => 'VisitTime',
-        			'action' => 'getVisitInformationPerServerTime',
+		$segments[] = array('category'  => Piwik_Translate('VisitTime_ColumnServerTime'),
+                			'name'   => Piwik_Translate('VisitTime_ColumnServerTime'),
+                			'module' => 'VisitTime',
+                			'action' => 'getVisitInformationPerServerTime',
     	);
 	}
 	

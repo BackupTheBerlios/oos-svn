@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Live.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: Live.php 2392 2010-06-29 06:45:34Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -29,15 +29,25 @@ class Piwik_Live extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-			'template_css_import' => 'css',
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'WidgetsList.add' => 'addWidget',
 			'Menu.add' => 'addMenu',
 		);
 	}
-
-	function css()
+	
+	function getCssFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "themes/default/styles.css";
+	}	
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/Live/templates/scripts/spy.js";
 	}
 
 	function addMenu()

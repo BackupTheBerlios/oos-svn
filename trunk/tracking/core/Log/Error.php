@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Error.php 1968 2010-03-21 17:42:23Z vipsoft $
+ * @version $Id: Error.php 2420 2010-07-03 15:01:00Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -102,7 +102,8 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
 	        case E_USER_NOTICE:         $strReturned .=  "User Notice";            break;
 	        case E_STRICT:              $strReturned .=  "Strict Notice";          break;
 	        case E_RECOVERABLE_ERROR:   $strReturned .=  "Recoverable Error";      break;
-	        case E_EXCEPTION:   		$strReturned .=  "Exception";				break;
+	        case E_DEPRECATED:          $strReturned .=  "Deprecated";             break;
+	        case E_USER_DEPRECATED:     $strReturned .=  "User Deprecated";        break;
 	        default:                    $strReturned .=  "Unknown error ($errno)"; break;
 	    }
 	    $strReturned .= ":</b> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";

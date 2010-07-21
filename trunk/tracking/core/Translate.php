@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Translate.php 2327 2010-06-21 22:27:18Z vipsoft $
+ * @version $Id: Translate.php 2383 2010-06-25 12:59:08Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -37,6 +37,12 @@ class Piwik_Translate
 		$this->mergeTranslationArray($translations);
 		$this->setLocale();
 		$this->englishLanguageLoaded = true;
+	}
+	
+	public function unloadEnglishTranslation()
+	{
+		$GLOBALS['Piwik_translations'] = array();
+		$this->englishLanguageLoaded = false;
 	}
 
 	public function loadUserTranslation()

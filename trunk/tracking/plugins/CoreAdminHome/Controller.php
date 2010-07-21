@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2036 2010-04-01 21:08:24Z matt $
+ * @version $Id: Controller.php 2604 2010-07-21 08:00:17Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
@@ -27,7 +27,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller
 		$view->enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
 		$view->todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
 		
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
+		$view->topMenu = Piwik_GetTopMenu();
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}

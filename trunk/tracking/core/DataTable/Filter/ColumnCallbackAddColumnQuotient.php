@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ColumnCallbackAddColumnQuotient.php 2202 2010-05-20 08:49:42Z matt $
+ * @version $Id: ColumnCallbackAddColumnQuotient.php 2494 2010-07-13 15:44:42Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -47,6 +47,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
 		{
 			$this->columnNameUsedAsDivisor = $divisorValueOrDivisorColumnName;
 		}
+		$this->quotientPrecision = $quotientPrecision;
 		$this->filter();
 	}
 	

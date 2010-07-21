@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2275 2010-06-04 23:59:08Z vipsoft $
+ * @version $Id: Controller.php 2612 2010-07-21 09:57:20Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
@@ -17,8 +17,7 @@
 class Piwik_CoreUpdater_Controller extends Piwik_Controller
 {
 	const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
-	const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest';
-	const LATEST_PIWIK_URL = 'http://piwik.org/latest.zip';
+	const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest/';
 
 	private $coreError = false;
 	private $warningMessages = array();
@@ -33,6 +32,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('update_new_version_available');
 		$view->piwik_version = Piwik_Version::VERSION;
 		$view->piwik_new_version = $newVersion;
+		$view->can_auto_update = Piwik::canAutoUpdate();
 		echo $view->render();
 	}
 
@@ -43,8 +43,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
 		Piwik::setMaxExecutionTime(0);
 
+		$url = Zend_Registry::get('config')->General->latest_version_url;
 		$steps = array(
-			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', self::LATEST_PIWIK_URL)),
+			array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', $url)),
 			array('oneClick_Unpack', Piwik_Translate('CoreUpdater_UnpackingTheUpdate')),
 			array('oneClick_Verify', Piwik_Translate('CoreUpdater_VerifyingUnpackedFiles')),
 			array('oneClick_CreateConfigFileBackup', Piwik_Translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP)),
@@ -88,7 +89,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		Piwik::checkDirectoriesWritableOrDie( array(self::PATH_TO_EXTRACT_LATEST_VERSION) );
 
 		// we catch exceptions in the caller (i.e., oneClickUpdate)
-		$fetched = Piwik_Http::fetchRemoteFile(self::LATEST_PIWIK_URL, $this->pathPiwikZip);
+		$url = Zend_Registry::get('config')->General->latest_version_url;
+		$fetched = Piwik_Http::fetchRemoteFile($url, $this->pathPiwikZip);
 	}
 	
 	private function oneClick_Unpack()
@@ -138,11 +140,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	
 	private function oneClick_Copy()
 	{
-		/*
-		 * Overwrite the downloaded robots.txt with our local copy
-		 */
-		Piwik::copy(PIWIK_DOCUMENT_ROOT . '/robots.txt', $this->pathRootExtractedPiwik . '/robots.txt');
-
 		/*
 		 * Copy all files to PIWIK_INCLUDE_PATH.
 		 * These files are accessed through the dispatcher.

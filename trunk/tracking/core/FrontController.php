@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FrontController.php 2283 2010-06-08 00:44:43Z vipsoft $
+ * @version $Id: FrontController.php 2392 2010-06-29 06:45:34Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -184,9 +184,10 @@ class Piwik_FrontController
 			Zend_Registry::set('timer', new Piwik_Timer);
 			
 			$directoriesToCheck = array(
-					'/tmp', 
-					'/tmp/templates_c',
-					'/tmp/cache',
+					'/tmp/',
+					'/tmp/templates_c/',
+					'/tmp/cache/',
+					'/tmp/assets/'
 			);
 			
 			Piwik::checkDirectoriesWritableOrDie($directoriesToCheck);

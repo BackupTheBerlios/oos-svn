@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: SafeDecodeLabel.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: SafeDecodeLabel.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -17,10 +17,12 @@
 class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 {
 	private $columnToDecode;
-	public function __construct( $table )
+	private $outputHtml;
+	public function __construct( $table, $outputHTML = true )
 	{
 		parent::__construct($table);
 		$this->columnToDecode = 'label';
+		$this->outputHtml = (bool)$outputHTML;
 		$this->filter();
 	}
 	
@@ -31,14 +33,14 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 			$value = $row->getColumn($this->columnToDecode);
 			if($value !== false)
 			{
-				$row->setColumn( 
-								$this->columnToDecode, 
-								htmlspecialchars(
-									htmlspecialchars_decode(
+				$value = htmlspecialchars_decode(
 										urldecode($value),
-										ENT_QUOTES), 
-									ENT_QUOTES)
-					);
+										ENT_QUOTES);
+				if($this->outputHtml)
+				{
+					$value = htmlspecialchars($value, ENT_QUOTES);
+				}
+				$row->setColumn($this->columnToDecode,$value);
 			}
 		}
 	}

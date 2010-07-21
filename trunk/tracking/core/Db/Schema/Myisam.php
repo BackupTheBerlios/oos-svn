@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Myisam.php 2335 2010-06-22 05:31:16Z vipsoft $
+ * @version $Id: Myisam.php 2512 2010-07-16 02:41:02Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -348,7 +348,10 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 			$config = Zend_Registry::get('config');
 			$prefixTables = $config->database->tables_prefix;
 
-			$allTables = $db->fetchCol("SHOW TABLES");
+			// '_' matches any character; force it to be literal
+			$prefixTables = str_replace('_', '\_', $prefixTables);
+
+			$allTables = $db->fetchCol("SHOW TABLES LIKE '".$prefixTables."%'");
 
 			// all the tables to be installed
 			$allMyTables = $this->getTablesNames();

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2265 2010-06-03 17:46:05Z vipsoft $
+ * @version $Id: API.php 2595 2010-07-20 18:56:27Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -17,6 +17,9 @@
 class Piwik_Goals_API 
 {
 	static private $instance = null;
+	/**
+	 * @return Piwik_Goals_API
+	 */
 	static public function getInstance()
 	{
 		if (self::$instance == null)
@@ -27,6 +30,12 @@ class Piwik_Goals_API
 		return self::$instance;
 	}
 	
+	/**
+	 * Returns all Goals for a given website
+	 * 
+	 * @param $idSite
+	 * @return Array of Goal attributes
+	 */
 	public function getGoals( $idSite )
 	{
 		$goals = Piwik_FetchAll("SELECT * 
@@ -47,9 +56,25 @@ class Piwik_Goals_API
 		return $cleanedGoals;
 	}
 
-	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
+	/**
+	 * Creates a Goal for a given website.
+	 * 
+	 * @param $idSite
+	 * @param $name
+	 * @param $matchAttribute 'url', 'file', 'external_website' or 'manually'
+	 * @param $pattern eg. purchase-confirmation.htm
+	 * @param $patternType 'regex', 'contains', 'exact' 
+	 * @param $caseSensitive bool
+	 * @param $revenue If set, default revenue to assign to conversions
+	 * @return int ID of the new goal
+	 */
+	public function addGoal( $idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
+		$this->checkPatternIsValid($patternType, $pattern);
+		$name = $this->checkName($name);
+		$pattern = $this->checkPattern($pattern);
+
 		// save in db
 		$db = Zend_Registry::get('db');
 		$idGoal = $db->fetchOne("SELECT max(idgoal) + 1 
@@ -59,9 +84,6 @@ class Piwik_Goals_API
 		{
 			$idGoal = 1;
 		}
-		$this->checkPatternIsValid($patternType, $pattern);
-		$name = $this->checkName($name);
-		$pattern = $this->checkPattern($pattern);
 		$db->insert(Piwik_Common::prefixTable('goal'),
 					array( 
 						'idsite' => $idSite,
@@ -70,15 +92,21 @@ class Piwik_Goals_API
 						'match_attribute' => $matchAttribute,
 						'pattern' => $pattern,
 						'pattern_type' => $patternType,
-						'case_sensitive' => $caseSensitive,
-						'revenue' => $revenue,
+						'case_sensitive' => (int)$caseSensitive,
+						'revenue' => (float)$revenue,
 						'deleted' => 0,
 					));
 		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
 		return $idGoal;
 	}
 	
-	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive, $revenue )
+	/**
+	 * Updates a Goal
+	 * 
+	 * @see addGoal() for parameters description
+	 * @return void
+	 */
+	public function updateGoal( $idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 		$name = $this->checkName($name);
@@ -117,6 +145,14 @@ class Piwik_Goals_API
 		return urldecode($pattern);
 	}
 	
+	/**
+	 * Soft deletes a given Goal.
+	 * Stats data in the archives will still be recorded, but not displayed.
+	 * 
+	 * @param $idSite
+	 * @param $idGoal
+	 * @return void
+	 */
 	public function deleteGoal( $idSite, $idGoal )
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
@@ -186,27 +222,47 @@ class Piwik_Goals_API
 		return Piwik::getPercentageSafe($convertedNewVisits, $newVisits, Piwik_Goals::ROUNDING_PRECISION);
 	}
 	
+	/**
+	 * Returns Goals data
+	 * 
+	 * @param $idSite
+	 * @param $period
+	 * @param $date
+	 * @param $idGoal
+	 * @param $columns Comma separated list of metrics to fetch: nb_conversions, conversion_rate, revenue
+	 * @return Piwik_DataTable
+	 */
 	public function get( $idSite, $period, $date, $idGoal = false, $columns = array() )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		if(!empty($columns))
+		
+		// array values are comma separated
+		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
+		
+		if(empty($columns))
 		{
-			$toFetch = $columns;
-		}
-		else
-		{
-			$toFetch = array(
+			$columns = array(
 						'nb_conversions',
 						'conversion_rate', 
 						'revenue',
-					);
-			foreach($toFetch as &$columnName)
-			{
-				$columnName = Piwik_Goals::getRecordName($columnName, $idGoal);
-			}
+			);
 		}
-		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+		$columnsToSelect = array();
+		foreach($columns as &$columnName)
+		{
+			$columnsToSelect[] = Piwik_Goals::getRecordName($columnName, $idGoal);
+		}
+		$dataTable = $archive->getDataTableFromNumeric($columnsToSelect);
+		
+		// Rewrite column names as we expect them
+		foreach($columnsToSelect as $id => $oldName)
+		{
+			$dataTable->renameColumn($oldName, $columns[$id]);
+		}
+		// conversion_rate has an appended % for consistency with other API outputs
+		// This filter will work both on DataTable and DataTable_Array
+		$dataTable->filter('ColumnCallbackReplace', array('conversion_rate', create_function('$label', 'return $label . "%";')));
 		return $dataTable;
 	}
 	

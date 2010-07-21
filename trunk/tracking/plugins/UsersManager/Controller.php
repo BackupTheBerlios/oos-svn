@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2227 2010-05-28 04:24:46Z vipsoft $
+ * @version $Id: Controller.php 2604 2010-07-21 08:00:17Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
@@ -69,7 +69,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view->usersAccessByWebsite = $usersAccessByWebsite;
 		$view->formUrl = Piwik_Url::getCurrentUrl();
 		$view->websites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}
@@ -124,7 +124,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 		$view->ignoreCookieSet = $this->isIgnoreCookieFound();
 		$this->initViewAnonymousUserSettings($view);
 		$view->piwikHost = Piwik_Url::getCurrentHost();
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}

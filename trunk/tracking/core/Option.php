@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Option.php 2266 2010-06-03 17:47:32Z vipsoft $
+ * @version $Id: Option.php 2549 2010-07-18 20:47:45Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -40,12 +40,6 @@ class Piwik_Option
 	
 	private function __construct() {}
 
-	/**
-	 * Returns the option value for the requested option $name
-	 *
-	 * @param string $name 
-	 * @return string|false if not found
-	 */
 	public function get($name)
 	{
 		$this->autoload();
@@ -53,9 +47,9 @@ class Piwik_Option
 		{
 			return $this->all[$name];
 		}
-		$value = Piwik_FetchOne( 'SELECT option_value 
-							FROM `' . Piwik_Common::prefixTable('option') . '`
-							WHERE option_name = ?', $name);
+		$value = Piwik_FetchOne( 'SELECT option_value '. 
+							'FROM `' . Piwik_Common::prefixTable('option') . '`'.
+							'WHERE option_name = ?', $name);
 		if($value === false)
 		{
 			return false;
@@ -64,13 +58,6 @@ class Piwik_Option
 		return $value;
 	}
 	
-	/**
-	 * Sets the option value in the database
-	 *
-	 * @param string $name
-	 * @param string $value
-	 * @param int $autoload if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
-	 */
 	public function set($name, $value, $autoload = 0)
 	{
 		$autoload = (int)$autoload;
@@ -110,11 +97,24 @@ class Piwik_Option
 	}
 }
 
+/**
+ * Returns the option value for the requested option $name
+ *
+ * @param string $name 
+ * @return string|false if not found
+ */
 function Piwik_GetOption($name)
 {
 	return Piwik_Option::getInstance()->get($name);
 }
 
+/**
+ * Sets the option value in the database
+ *
+ * @param string $name
+ * @param string $value
+ * @param int $autoload if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+ */
 function Piwik_SetOption($name, $value, $autoload = 0)
 {
 	Piwik_Option::getInstance()->set($name, $value, $autoload);

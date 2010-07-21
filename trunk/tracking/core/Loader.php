@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Loader.php 1572 2009-11-06 06:35:10Z vipsoft $
+ * @version $Id: Loader.php 2476 2010-07-12 16:25:35Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -25,9 +25,15 @@ class Piwik_Loader
 	 *
 	 * @param string $class Class name
 	 * @return string Class file name
+	 * @throws Exception if class name is invalid
 	 */
 	protected static function getClassFileName($class)
 	{
+		if(strspn($class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_') !== strlen($class))
+		{
+			throw new Exception("Invalid class name \"$class\".");
+		}
+
 		$class = str_replace('_', '/', $class);
 
 		if($class == 'Piwik')
@@ -47,9 +53,9 @@ class Piwik_Loader
 	 * Load class by name
 	 *
 	 * @param string $class Class name
-	 * @throws exception if class cannot be loaded
+	 * @throws Exception if class not found
 	 */
-	public static function autoload($class)
+	public static function loadClass($class)
 	{
 		$classPath = self::getClassFileName($class);
 		while(!empty($classPath))
@@ -72,7 +78,20 @@ class Piwik_Loader
 			$lastSlash = strrpos($classPath, '/');
 			$classPath = ($lastSlash === false) ? '' : substr($classPath, 0, $lastSlash);
 		}
-		throw new Exception("$class could not be autoloaded.");
+		throw new Exception("Class \"$class\" not found.");
+	}
+
+	/**
+	 * Autoloader
+	 *
+	 * @param string $class Class name
+	 */
+	public static function autoload($class)
+	{
+		try {
+			@self::loadClass($class);
+		} catch (Exception $e) {
+		}
 	}
 }
 

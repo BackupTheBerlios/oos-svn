@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: LanguagesManager.php 2265 2010-06-03 17:46:05Z vipsoft $
+ * @version $Id: LanguagesManager.php 2409 2010-07-01 11:02:03Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_LanguagesManager
@@ -30,17 +30,19 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	public function getListHooksRegistered()
 	{
 		return array( 
-			'template_css_import' => 'css',
-			'template_topBar' => 'showLanguagesSelector',
+			'AssetManager.getCssFiles' => 'getCssFiles',
+			'TopMenu.add' => 'showLanguagesSelector',
 			'Translate.getLanguageToLoad' => 'getLanguageToLoad',
 			'UsersManager.deleteUser' => 'deleteUserLanguage',
 		);
 	}
-
-	function css()
+	
+	function getCssFiles( $notification )
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"themes/default/styles.css\" />\n";
-	}
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "themes/default/styles.css";
+	}	
 
 	/**
 	 * Show styled language selection drop-down list
@@ -54,7 +56,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$view->languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
 		$view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
 		$view->currentLanguageName = self::getLanguageNameForCurrentUser();
-		echo $view->render();
+		Piwik_AddTopMenu('LanguageSelector', $view->render(), true, 20, true);
 	}
 	
 	function getLanguageToLoad($notification)
@@ -139,7 +141,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	 */
 	static protected function getLanguageFromPreferences()
 	{
-		if ($language = Piwik_LanguagesManager_API::getInstance()->getLanguageForSession())
+		if(($language = Piwik_LanguagesManager_API::getInstance()->getLanguageForSession()) != null)
 		{
 			return $language;
 		}

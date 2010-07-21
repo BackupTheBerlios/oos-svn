@@ -4,11 +4,12 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: View.php 2333 2010-06-22 04:58:13Z vipsoft $
+ * @version $Id: View.php 2559 2010-07-19 04:29:54Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
  */
+
 /*
  * Transition for pre-Piwik 0.4.4
  * @todo Remove this post-1.0
@@ -105,7 +106,9 @@ class Piwik_View implements Piwik_iView
 	}
 
 	/**
-	 * Render view
+	 * Renders the current view.
+	 * 
+	 * @return string Generated template
 	 */
 	public function render()
 	{
@@ -162,19 +165,25 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * Add form to view
 	 *
-	 * @param Piwik_Form $form
+	 * @param Piwik_QuickForm2 $form
 	 */
 	public function addForm( $form )
 	{
-		// Create the renderer object	
-		$renderer = new HTML_QuickForm_Renderer_ArraySmarty($this->smarty, false, false);
-		
-		// build the HTML for the form
-		$form->accept($renderer);
-		
-		// assign array with form data
-		$this->smarty->assign('form_data', $renderer->toArray());
-		$this->smarty->assign('element_list', $form->getElementList());
+		if($form instanceof Piwik_QuickForm2)
+		{
+			HTML_QuickForm2_Renderer::register('smarty', 'HTML_QuickForm2_Renderer_Smarty');
+
+			// Create the renderer object	
+			$renderer = HTML_QuickForm2_Renderer::factory('smarty');
+			$renderer->setOption('group_errors', true);
+
+			// build the HTML for the form
+			$form->render($renderer);
+
+			// assign array with form data
+			$this->smarty->assign('form_data', $renderer->toArray());
+			$this->smarty->assign('element_list', $form->getElementList());
+		}
 	}
 
 	/**
@@ -201,9 +210,10 @@ class Piwik_View implements Piwik_iView
 	/**
 	 * Clear compiled Smarty templates 
 	 */
-	public function clearCompiledTemplates()
+	static public function clearCompiledTemplates()
 	{
-		$this->smarty->clear_compiled_tpl();
+		$view = Piwik_View::factory();
+		$view->smarty->clear_compiled_tpl();
 	}
 
 /*
@@ -215,8 +225,6 @@ class Piwik_View implements Piwik_iView
 		}
 		return false;
 	}
-
-
 	public function setCaching($caching)
 	{
 		$this->smarty->caching = $caching;
@@ -271,7 +279,7 @@ class Piwik_View implements Piwik_iView
 	 * @param $templateName Template name (e.g., 'index')
 	 * @param $viewType     View type (e.g., Piwik_View::CLI)
 	 */
-	static public function factory( $templateName, $viewType = null)
+	static public function factory( $templateName = null, $viewType = null)
 	{
 		Piwik_PostEvent('View.getViewType', $viewType);
 
@@ -320,12 +328,15 @@ class Piwik_View implements Piwik_iView
 		if($viewType != self::MOBILE)
 		{
 			$templateFile = $path.'/templates/'.$templateName.'.tpl';
-			if(!file_exists($templateFile))
-			{
-				throw new Exception('Template not found: '.$templateFile);
-			}
 		}
-
+		
+		// Specified template not found
+		// We allow for no specified template 
+		if(!empty($templateName)
+			&& !file_exists($templateFile))
+		{
+			throw new Exception('Template not found: '.$templateFile);
+		}
 		return new Piwik_View($templateFile);
 	}
 }

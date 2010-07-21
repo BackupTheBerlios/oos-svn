@@ -2,6 +2,7 @@ function dashboard()
 {
 	this.dashboardElement = {};
 	this.dashboardColumnsElement = {};
+	this.viewDataTableToSave = {};
 	this.layout = '';
 }
 
@@ -62,11 +63,13 @@ dashboard.prototype =
 			self.layout = layout;
 		}
 		layout = self.layout;
+		widgetViewDataTableToRestore = {};
 		for(var columnNumber in layout) {
 			var widgetsInColumn = layout[columnNumber];
 			for(var widgetId in widgetsInColumn) {
 				widgetParameters = widgetsInColumn[widgetId]["parameters"];
 				uniqueId = widgetsInColumn[widgetId]["uniqueId"];
+				widgetViewDataTableToRestore[uniqueId] = widgetParameters['viewDataTable'];
 				if(uniqueId.length>0) {
 					self.addEmptyWidget(columnNumber, uniqueId, false);
 				}
@@ -79,7 +82,7 @@ dashboard.prototype =
 		// load all widgets
 		$('.widget', self.dashboardElement).each( function() {
 			var uniqueId = $(this).attr('id');
-			self.reloadWidget(uniqueId);
+			self.reloadWidget(uniqueId, widgetViewDataTableToRestore[uniqueId]);
 		});
 	},
 
@@ -89,7 +92,7 @@ dashboard.prototype =
 		this.reloadWidget(uniqueId);
 	},
 	
-	reloadWidget: function(uniqueId) 
+	reloadWidget: function(uniqueId, viewDataTableToRestore) 
 	{
 		function onWidgetLoadedReplaceElementWithContent(loadedContent)
 		{
@@ -101,6 +104,10 @@ dashboard.prototype =
 			return;
 		}
 		widgetParameters = widget["parameters"];
+		if(viewDataTableToRestore)
+		{
+			widgetParameters['viewDataTable'] = viewDataTableToRestore;
+		}
 		$.ajax(widgetsHelper.getLoadWidgetAjaxRequest(uniqueId, widgetParameters, onWidgetLoadedReplaceElementWithContent));
 	},
 	
@@ -132,7 +139,7 @@ dashboard.prototype =
 			columnElement.append(emptyWidgetContent);
 		}
 		
-		widgetElement = $('#'+ uniqueId);
+		widgetElement = $('#'+ uniqueId, self.dashboardElement);
 		widgetElement
 			.hover( function() {
 					$(this).addClass('widgetHover');
@@ -206,8 +213,16 @@ dashboard.prototype =
 		});
 		$.blockUI({
 			message: question, 
-			css: { width: '300px', border:'1px solid black' }
+			css: { width: 650, border:0, background:"none", top:90 }
 		});
+	},
+	
+	// Called by DataTables when the View type changes.
+    // We want to restore the Dashboard with the same view types as the user selected
+	setDataTableViewChanged: function(uniqueId, newViewDataTable)
+	{
+		this.viewDataTableToSave[uniqueId] = newViewDataTable;
+		this.saveLayout();
 	},
 	
 	saveLayout: function()
@@ -225,6 +240,10 @@ dashboard.prototype =
 				uniqueId = $(widgetElement).attr('id');
 				widget = widgetsHelper.getWidgetObjectFromUniqueId(uniqueId);
 				widgetParameters = widget["parameters"];
+				if(self.viewDataTableToSave[uniqueId])
+				{
+					widgetParameters['viewDataTable'] = self.viewDataTableToSave[uniqueId];
+				}
 				layout[columnNumber][j] = 
 				{
 					"uniqueId": uniqueId,

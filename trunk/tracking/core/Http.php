@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Http.php 2244 2010-05-30 18:02:04Z vipsoft $
+ * @version $Id: Http.php 2429 2010-07-06 00:04:35Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -61,6 +61,8 @@ class Piwik_Http
 		$file = null;
 		if($destinationPath)
 		{
+			// Ensure destination directory exists 
+			Piwik_Common::mkdir(dirname($destinationPath));
 			if (($file = @fopen($destinationPath, 'wb')) === false || !is_resource($file))
 			{
 				throw new Exception('Error while creating the file: ' . $destinationPath);
@@ -376,7 +378,7 @@ class Piwik_Http
 	 * @param int $tries
 	 * @return true on success, throws Exception on failure
 	 */
-	static public function fetchRemoteFile($url, $pathDestination, $tries = 0)
+	static public function fetchRemoteFile($url, $pathDestination = null, $tries = 0)
 	{
 		@ignore_user_abort(true);
 		Piwik::setMaxExecutionTime(0);

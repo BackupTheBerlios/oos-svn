@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: piwik.php 2118 2010-04-24 06:02:35Z vipsoft $
+ * @version $Id: piwik.php 2516 2010-07-16 12:45:13Z matt $
  * 
  * @package Piwik
  */
@@ -27,11 +27,11 @@ if(!defined('PIWIK_USER_PATH'))
 if(!defined('PIWIK_INCLUDE_PATH'))
 {
 	define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
-}
+} 
 
 @ignore_user_abort(true);
 
-require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/common.php';
+require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Event/Dispatcher.php';
 require_once PIWIK_INCLUDE_PATH .'/libs/Event/Notification.php';
 require_once PIWIK_INCLUDE_PATH .'/core/PluginsManager.php';
@@ -58,7 +58,12 @@ if($GLOBALS['PIWIK_TRACKER_DEBUG'] === true)
 	set_exception_handler('Piwik_ExceptionHandler');
 	printDebug($_GET);
 	Piwik_Tracker_Db::enableProfiling();
-	Piwik::createConfigObject();
+	// Config might have been created by proxy-piwik.php
+	try {
+		$config = Zend_Registry::get('config');
+	} catch (Exception $e) {
+		Piwik::createConfigObject();
+	}
 	Piwik::createLogObject();
 }
 

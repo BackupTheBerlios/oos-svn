@@ -3,27 +3,21 @@
 {include file="CoreHome/templates/header.tpl"}
 {loadJavascriptTranslations plugins='Dashboard'}
 
-<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/styles.css" />
-<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/datatable.css" />
-<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/cloud.css" />
-<link rel="stylesheet" type="text/css" href="plugins/Dashboard/templates/dashboard.css" />
-
-<script type="text/javascript" src="libs/swfobject/swfobject.js"></script>
-<script type="text/javascript" src="libs/jquery/tooltip/jquery.tooltip.js"></script>
-<script type="text/javascript" src="libs/jquery/truncate/jquery.truncate.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery.scrollTo.js"></script>
-<script type="text/javascript" src="themes/default/common.js"></script>
-<script type="text/javascript" src="plugins/CoreHome/templates/datatable.js"></script>
-<script type="text/javascript" src="plugins/Dashboard/templates/widgetMenu.js"></script>
-
-<script type="text/javascript" src="plugins/Widgetize/templates/widgetize.js"></script>
 
 {literal}
 <style>
+.widgetize{ 
+	width:980px; 
+	padding:15px 15px 0 15px; 
+	font-size:13px; 
+}
+.widgetize p{ 
+	padding: 0 0 20px 0; 
+}
 .menu {
 	display: inline;
 }
-.formEmbedCode{
+.widgetize .formEmbedCode{
 	font-size: 11px;
 	text-decoration: none;
 	background-color: #FBFDFF;
@@ -32,10 +26,10 @@
 }
 
 #periodString {
-	margin-left:500px;
+	margin-left:15px;
 }
 
-label {
+.widgetize label {
 	color:#666666;
 	line-height:18px;
 	margin-right:5px;
@@ -74,10 +68,14 @@ $(document).ready( function() {
 {/literal}
 </script>
 
-<div style="max-width:980px;">
+<div class="top_controls_inner">
+    {include file="CoreHome/templates/period_select.tpl"}
+</div>
+
+<div class="widgetize">
 	<p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click. 
 	<p><b>&rsaquo; Widget authentication:</b> If you want your widgets to be viewable by everybody, you first have to set the 'view' permissions 
-	to the anonymous user in the <a href='index.php?module=UsersManager'>Users Management section</a>. 
+	to the anonymous user in the <a href='index.php?module=UsersManager' target='_blank'>Users Management section</a>. 
 	<br />Alternatively, if you are publishing widgets on a password protected or private page, 
 	you don't necessarily have to allow 'anonymous' to view your reports. In this case, you can add the secret token_auth parameter (found in the <a href='{url module=API action=listAllAPI}' target='_blank'>API page</a>) in the widget URL. 
 	</p>

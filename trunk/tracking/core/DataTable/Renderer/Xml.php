@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Xml.php 2294 2010-06-11 15:14:04Z matt $
+ * @version $Id: Xml.php 2549 2010-07-18 20:47:45Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -47,6 +47,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		$renderer->setRenderSubTables($this->isRenderSubtables());
 		$renderer->setSerialize(false);
 		$renderer->setTable($table);
+		$renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
 		return $renderer->flatRender();
 	}
 	
@@ -255,6 +256,8 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 				$out .= $prefixLine."\t\t<$rowId>".$value."</$rowId>\n";
 				continue;
 			}
+
+			// Handing case idgoal=7, creating a new array for that one
 			$rowAttribute = '';
 			if(($equalFound = strstr($rowId, '=')) !== false)
 			{

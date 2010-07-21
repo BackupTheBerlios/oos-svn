@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Controller.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
@@ -39,6 +39,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 		}
+		$columns = !is_array($columns) ? array($columns) : $columns;
 		$view->setColumnsToDisplay($columns);
 		return $this->renderView($view, $fetch);
 	}
@@ -67,23 +68,22 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 	{
 		$view->urlSparklineNbVisits 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_visits')));
 		$view->urlSparklineNbActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions')));
-		$view->urlSparklineSumVisitLength 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('sum_visit_length')));
+		$view->urlSparklineAvgVisitDuration = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('avg_time_on_site')));
 		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('max_actions')));
+		$view->urlSparklineActionsPerVisit 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions_per_visit')));
 		$view->urlSparklineBounceRate 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('bounce_rate')));
 		
 		$dataTableVisit = self::getVisitsSummary();
 		$dataRow = $dataTableVisit->getFirstRow();
-		if($view->period != 'year')
-		{
-			$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_uniq_visitors')));
-			$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');
-		}
+		$view->urlSparklineNbUniqVisitors 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_uniq_visitors')));
+		$view->nbUniqVisitors = $dataRow->getColumn('nb_uniq_visitors');
 		$nbVisits = $dataRow->getColumn('nb_visits');
 		$view->nbVisits = $nbVisits;
 		$view->nbActions = $dataRow->getColumn('nb_actions');
-		$view->sumVisitLength = $dataRow->getColumn('sum_visit_length');
+		$view->averageVisitDuration = $dataRow->getColumn('avg_time_on_site');
 		$nbBouncedVisits = $dataRow->getColumn('bounce_count');
 		$view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
 		$view->maxActions = $dataRow->getColumn('max_actions');
+		$view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
 	}
 }

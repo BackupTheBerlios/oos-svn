@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Provider.php 2305 2010-06-15 10:04:53Z matt $
+ * @version $Id: Provider.php 2549 2010-07-18 20:47:45Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Provider
@@ -29,7 +29,7 @@ class Piwik_Provider extends Piwik_Plugin
 		return $info;
 	}
 	
-	function getListHooksRegistered()
+	public function getListHooksRegistered()
 	{
 		$hooks = array(
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
@@ -37,8 +37,21 @@ class Piwik_Provider extends Piwik_Plugin
 			'Tracker.newVisitorInformation' => 'logProviderInfo',
 			'WidgetsList.add' => 'addWidget',
 			'Menu.add' => 'addMenu',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
+	}
+
+	public function getReportMetadata($notification)
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('Provider_WidgetProviders'),
+			'name' => Piwik_Translate('Provider_ColumnProvider'),
+			'module' => 'Provider',
+			'action' => 'getProvider',
+			'dimension' => Piwik_Translate('Provider_ColumnProvider'),
+		);
 	}
 	
 	function install()
@@ -92,7 +105,7 @@ class Piwik_Provider extends Piwik_Plugin
 	}
 
 	/**
-	 * Archive the provider count
+	 * Daily archive: processes the report Visits by Provider
 	 */
 	function archiveDay($notification)
 	{
@@ -203,4 +216,5 @@ class Piwik_Provider extends Piwik_Plugin
 		$out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider','getProvider');
 		$out .= '</div>';
 	}
+
 }

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Controller.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
@@ -38,14 +38,16 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 		}
+		$columns = !is_array($columns) ? array($columns) : $columns;
 		$view->setColumnsToDisplay($columns);
 		$view->setColumnsTranslations(array(	
 			'nb_visits_returning' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
 			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'), 
-			'max_actions_returning' => Piwik_Translate('VisitFrequency_ColumnMaximumActionsByAReturningVisit'),
-			'sum_visit_length_returning' => Piwik_Translate('VisitFrequency_ColumnTotalTimeSpentByReturningVisits'),
+			'avg_time_on_site_returning' => Piwik_Translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
 			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
+			'nb_actions_per_visit_returning' => Piwik_Translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
 		));
+	
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -53,8 +55,8 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 	{
 		$view->urlSparklineNbVisitsReturning 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
 		$view->urlSparklineNbActionsReturning 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions_returning')));
-		$view->urlSparklineMaxActionsReturning 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('max_actions_returning')));
-		$view->urlSparklineSumVisitLengthReturning 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('sum_visit_length_returning')));
+		$view->urlSparklineActionsPerVisitReturning 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions_per_visit_returning')));
+		$view->urlSparklineAvgVisitDurationReturning = $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('avg_time_on_site_returning')));
 		$view->urlSparklineBounceRateReturning 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('bounce_rate_returning')));
 		
 		$dataTableFrequency = $this->getSummary();
@@ -62,8 +64,8 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		$nbVisitsReturning = $dataRow->getColumn('nb_visits_returning');
 		$view->nbVisitsReturning = $nbVisitsReturning;
 		$view->nbActionsReturning = $dataRow->getColumn('nb_actions_returning');
-		$view->maxActionsReturning = $dataRow->getColumn('max_actions_returning');
-		$view->sumVisitLengthReturning = $dataRow->getColumn('sum_visit_length_returning');
+		$view->nbActionsPerVisitReturning = $dataRow->getColumn('nb_actions_per_visit_returning');
+		$view->avgVisitDurationReturning = $dataRow->getColumn('avg_time_on_site_returning');
 		$nbBouncedReturningVisits = $dataRow->getColumn('bounce_count_returning');
 		$view->bounceRateReturning = Piwik::getPercentageSafe($nbBouncedReturningVisits, $nbVisitsReturning);
 		

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 1681 2009-12-13 19:19:07Z vipsoft $
+ * @version $Id: Controller.php 2493 2010-07-13 12:56:56Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
@@ -98,18 +98,18 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 	
 	function getPlugin( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory( 'graphVerticalBar');
-		$view->init( $this->pluginName,  __FUNCTION__, 'UserSettings.getPlugin' );
-		$view->disableSearchBox();
-		$view->disableExcludeLowPopulation();
-		$view->disableSort();
-		$view->disableOffsetInformation();
+		$view =  $this->getStandardDataTableUserSettings(
+										__FUNCTION__, 
+										'UserSettings.getPlugin'
+									);
+		$view->disableShowAllViewsIcons();
 		$view->disableShowAllColumns();
-		$view->disallowPercentageInGraphTooltip();
-		$view->setColumnsToDisplay( array('label','nb_visits') );
+		$view->setColumnsToDisplay( array('label','nb_visits_percentage','nb_visits') );
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnPlugin'));
-		$view->setGraphLimit( 10 );
+		$view->setColumnTranslation('nb_visits_percentage', str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits')));
+		$view->setSortedColumn('nb_visits_percentage');
 		$view->setLimit( 10 );
+		$view->setFooterMessage( Piwik_Translate('UserSettings_PluginDetectionDoesNotWorkInIE'));
 		return $this->renderView($view, $fetch);
 	}
 	

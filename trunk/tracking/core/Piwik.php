@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Piwik.php 2308 2010-06-16 13:47:41Z matt $
+ * @version $Id: Piwik.php 2594 2010-07-20 18:21:39Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -14,12 +14,6 @@
  * @see core/Translate.php
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
-
-/**
- * @see mysqli_set_charset
- * @see parse_ini_file
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/common.php';
 
 /**
  * Main piwik helper class.
@@ -278,18 +272,19 @@ class Piwik
 	 * Checks if directories are writable and create them if they do not exist.
 	 *
 	 * @param array $directoriesToCheck array of directories to check - if not given default Piwik directories that needs write permission are checked
-	 * @return array direcory name => true|false (is writable)
+	 * @return array directory name => true|false (is writable)
 	 */
 	static public function checkDirectoriesWritable($directoriesToCheck = null)
 	{
 		if( $directoriesToCheck == null )
 		{
 			$directoriesToCheck = array(
-				'/config',
-				'/tmp',
-				'/tmp/templates_c',
-				'/tmp/cache',
-				'/tmp/latest',
+				'/config/',
+				'/tmp/',
+				'/tmp/templates_c/',
+				'/tmp/cache/',
+				'/tmp/latest/',
+				'/tmp/assets/',
 			);
 		}
 
@@ -318,7 +313,43 @@ class Piwik
 	}
 
 	/**
-	 * Generate .htaccess files at runtime to avoid permission problems.
+	 * Check if this installation can be auto-updated.
+	 *
+	 * For performance, we look for clues rather than an exhaustive test.
+	 */
+	static public function canAutoUpdate()
+	{
+		if(!is_writable(PIWIK_INCLUDE_PATH . '/') ||
+			!is_writable(PIWIK_DOCUMENT_ROOT . '/index.php') ||
+			!is_writable(PIWIK_INCLUDE_PATH . '/core') ||
+			!is_writable(PIWIK_USER_PATH . '/config/global.ini.php'))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Generate default robots.txt, favicon.ico, etc to suppress
+	 * 404 (Not Found) errors in the web server logs, if Piwik
+	 * is installed in the web root (or top level of subdomain).
+	 *
+	 * @see misc/crossdomain.xml
+	 */
+	static public function createWebRootFiles()
+	{
+		$filesToCreate = array(
+			'/robots.txt',
+			'/favicon.ico',
+		);
+		foreach($filesToCreate as $file)
+		{
+			@file_put_contents(PIWIK_DOCUMENT_ROOT . $file, '');
+		}
+	}
+
+	/**
+	 * Generate Apache .htaccess files to restrict access
 	 */
 	static public function createHtAccessFiles()
 	{
@@ -350,7 +381,7 @@ class Piwik
 	}
 
 	/**
-	 * Generate web.config files at runtime
+	 * Generate IIS web.config files to restrict access
 	 *
 	 * Note: for IIS 7 and above
 	 */
@@ -412,9 +443,6 @@ class Piwik
 	 */
 	static public function getFileIntegrityInformation()
 	{
-		$exclude = array(
-			'robots.txt',
-		);
 		$messages = array();
 		$messages[] = true;
 
@@ -437,13 +465,9 @@ class Piwik
 		$files = Manifest::$files;
 
 		$hasMd5file = function_exists('md5_file');
+		$hasMd5 = function_exists('md5');
 		foreach($files as $path => $props)
 		{
-			if(in_array($path, $exclude))
-			{
-				continue;
-			}
-
 			$file = PIWIK_INCLUDE_PATH . '/' . $path;
 
 			if(!file_exists($file))
@@ -452,7 +476,21 @@ class Piwik
 			}
 			else if(filesize($file) != $props[0])
 			{
-				$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+				if(!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf')))
+				{
+					// files that contain binary data (e.g., images) must match the file size
+					$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+				}
+				else
+				{
+					// convert end-of-line characters and re-test text files
+					$content = @file_get_contents($file);
+					$content = str_replace("\r\n", "\n", $content);
+					if(@md5($content) !== $props[1])
+					{
+						$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+					}
+				}
 			}
 			else if($hasMd5file && (@md5_file($file) !== $props[1]))
 			{
@@ -566,7 +604,6 @@ class Piwik
 	static public function log($message = '')
 	{
 		Zend_Registry::get('logger_message')->logEvent($message);
-		Zend_Registry::get('logger_message')->logEvent( "<br />" . PHP_EOL);
 	}
 
 	static public function error($message = '')
@@ -855,6 +892,20 @@ class Piwik
 		return $symbols[$site->getCurrency()];
 	}
 
+	static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed, $timeAsSentence)
+	{
+		// Display time in human readable
+		if(strpos($columnName, 'time') !== false)
+		{
+			return Piwik::getPrettyTimeFromSeconds($value, $timeAsSentence);
+		}
+		// Add revenue symbol to revenues
+		if(strpos($columnName, 'revenue') !== false)
+		{
+			return Piwik::getPrettyMoney($value, $idSite, $htmlAllowed);
+		}
+		return $value;
+	}
 	/**
 	 * Pretty format monetary value for a site
 	 *
@@ -862,19 +913,30 @@ class Piwik
 	 * @param int $idSite
 	 * @return string
 	 */
-	static public function getPrettyMoney($value, $idSite)
+	static public function getPrettyMoney($value, $idSite, $htmlAllowed = true)
 	{
 		$currencyBefore = self::getCurrency($idSite);
-		$currencyAfter = '';
 
+		$space = ' ';
+		if($htmlAllowed)
+		{
+			$space = '&nbsp;';
+		}
+		
+		$currencyAfter = '';
 		// manually put the currency symbol after the amount for euro
 		// (maybe more currencies prefer this notation?)
 		if(in_array($currencyBefore,array('€')))
 		{
-			$currencyAfter = '&nbsp;'.$currencyBefore;
+			$currencyAfter = $space.$currencyBefore;
 			$currencyBefore = '';
 		}
-		return sprintf("$currencyBefore&nbsp;%s$currencyAfter", $value);
+		$amount = (int)$value;
+		if($value != round($value))
+		{
+			$amount = sprintf( "%01.2f", $value);
+		}
+		return $currencyBefore . $space . $amount . $currencyAfter;
 	}
 
 	/**
@@ -904,12 +966,25 @@ class Piwik
 	 * Pretty format a time
 	 *
 	 * @param numeric $numberOfSeconds
+	 * @param bool If set to true, will output "5min 17s", if false "00:05:17"
 	 * @return string
 	 */
-	static public function getPrettyTimeFromSeconds($numberOfSeconds)
+	static public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true)
 	{
-		$numberOfSeconds = (double)$numberOfSeconds;
-		$days = floor($numberOfSeconds / 86400);
+		$numberOfSeconds = (int)$numberOfSeconds;
+		
+		// Display 01:45:17 time format
+		if($displayTimeAsSentence === false)
+		{
+			$hours = floor( $numberOfSeconds / 3600);
+			$minutes = floor( ($reminder = ($numberOfSeconds - $hours * 3600)) / 60 );
+			$seconds = $reminder - $minutes * 60;
+			return sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) .':'. sprintf("%02s", $seconds);
+		}
+		$secondsInYear = 86400 * 365.25;
+		$years = floor($numberOfSeconds / $secondsInYear);
+		$minusYears = $numberOfSeconds - $years * $secondsInYear;
+		$days = floor($minusYears / 86400);
 
 		$minusDays = $numberOfSeconds - $days * 86400;
 		$hours = floor($minusDays / 3600);
@@ -919,7 +994,11 @@ class Piwik
 
 		$seconds = $minusDaysAndHours - $minutes * 60;
 
-		if($days > 0)
+		if($years > 0)
+		{
+			$return = sprintf(Piwik_Translate('General_YearsDays'), $years, $days);
+		}
+		elseif($days > 0)
 		{
 			$return = sprintf(Piwik_Translate('General_DaysHours'), $days, $hours);
 		}
@@ -943,16 +1022,14 @@ class Piwik
 	 *
 	 * @param int $idSite
 	 * @param string $piwikUrl http://path/to/piwik/directory/
-	 * @param string $actionName
 	 * @return string
 	 */
-	static public function getJavascriptCode($idSite, $piwikUrl, $actionName = "''")
+	static public function getJavascriptCode($idSite, $piwikUrl)
 	{
 		$jsTag = file_get_contents( PIWIK_INCLUDE_PATH . "/core/Tracker/javascriptTag.tpl");
 		$jsTag = nl2br(htmlentities($jsTag));
 		$piwikUrl = preg_match('~^(http|https)://(.*)$~', $piwikUrl, $matches);
 		$piwikUrl = $matches[2];
-		$jsTag = str_replace('{$actionName}', $actionName, $jsTag);
 		$jsTag = str_replace('{$idSite}', $idSite, $jsTag);
 		$jsTag = str_replace('{$piwikUrl}', $piwikUrl, $jsTag);
 		$jsTag = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsTag);
@@ -1555,4 +1632,5 @@ class Piwik
 	{
 		return Piwik_Db_Schema::getInstance()->getTablesInstalled($forceReload, $idSite);
 	}
+		
 }

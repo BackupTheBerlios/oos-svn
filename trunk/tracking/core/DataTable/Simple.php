@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Simple.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Simple.php 2597 2010-07-20 19:07:08Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -37,5 +37,10 @@ class Piwik_DataTable_Simple extends Piwik_DataTable
 	function addRowsFromArray($array)
 	{
 		$this->addRowsFromSimpleArray(array($array));
+	}
+	
+	function setColumn($columnName, $value)
+	{
+		$this->getLastRow()->setColumn($columnName, $value);
 	}
 }

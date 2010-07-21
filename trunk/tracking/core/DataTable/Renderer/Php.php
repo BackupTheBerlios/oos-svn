@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Php.php 2294 2010-06-11 15:14:04Z matt $
+ * @version $Id: Php.php 2495 2010-07-13 16:43:28Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -30,6 +30,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	{
 		$this->serialize = (bool)$bool;
 	}
+	
 	public function setPrettyDisplay($bool)
 	{
 		$this->prettyDisplay = (bool)$bool;
@@ -145,13 +146,14 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		foreach($array as $row)
 		{
 			$newRow = $row['columns'] + $row['metadata'];
-			if(isset($row['idsubdatatable']))
+			if(isset($row['idsubdatatable'])
+				&& $this->hideIdSubDatatable === false)
 			{
 				$newRow += array('idsubdatatable' => $row['idsubdatatable']);
-				if(isset($row['subtable']))
-				{
-					$newRow += array('subtable' => $this->flattenArray($row['subtable']) );
-				}
+			}
+			if(isset($row['subtable']))
+			{
+				$newRow += array('subtable' => $this->flattenArray($row['subtable']) );
 			}
 			$flatArray[] = $newRow;
 		}		
@@ -192,18 +194,23 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				&& $row->getIdSubDataTable() !== null)
 			{
 				try{
-					$subTable =  $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
+					$subTable = $this->renderTable( Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
 					$newRow['subtable'] = $subTable;
-					if(isset($newRow['metadata']['idsubdatatable_in_db']))
+					if($this->hideIdSubDatatable === false
+						&& isset($newRow['metadata']['idsubdatatable_in_db']))
 					{
 						$newRow['columns']['idsubdatatable'] = $newRow['metadata']['idsubdatatable_in_db'];
-						unset($newRow['metadata']['idsubdatatable_in_db']);
 					}
+					unset($newRow['metadata']['idsubdatatable_in_db']);
 				} catch (Exception $e) {
 					// the subtables are not loaded we dont do anything 
 				}
 			}
-			
+			if($this->hideIdSubDatatable !== false)
+			{
+				unset($newRow['idsubdatatable']);
+			}
+					
 			$array[] = $newRow;
 		}
 		return $array;

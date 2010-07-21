@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Date.php 2246 2010-05-31 11:57:21Z matt $
+ * @version $Id: Date.php 2541 2010-07-17 22:50:44Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -494,18 +494,19 @@ class Piwik_Date
      */
 	public function addHour( $n )
 	{
+		$isNegative = ($n < 0);
 		$minutes = 0;
 		if($n != round($n))
 		{
-			$minutes = abs($n - floor($n)) * 60;
-			$n = floor($n);
+			$minutes = (abs($n) - floor(abs($n))) * 60;
+			$n = floor(abs($n));
+			if($isNegative) {
+				$minutes *= -1;
+    			$n *= -1;
+			}
 		}
-		if($n > 0 ) 
-		{
-			$n = '+'.$n;
-		}
-		$ts = strtotime("$n hour $minutes minutes", $this->timestamp);
-		return new Piwik_Date( $ts, $this->timezone );
+		$ts = $this->timestamp + $minutes * 60 + $n * 3600;
+		return new Piwik_Date( (int)$ts, $this->timezone );
 	}
 
 	/**
@@ -519,5 +520,19 @@ class Piwik_Date
 	public function subHour( $n )
 	{
 		return $this->addHour(-$n);
+	}
+	
+	/**
+     * Adds period to the existing date object.
+     * Returned is the new date object
+     * Doesn't modify $this
+     * 
+     * @param int Number of period to add
+     * @return  Piwik_Date new date
+     */
+	public function addPeriod( $n, $period )
+	{
+		$ts = strtotime("+$n $period", $this->timestamp);
+		return new Piwik_Date( $ts, $this->timezone );
 	}
 }

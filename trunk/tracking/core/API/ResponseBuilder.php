@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ResponseBuilder.php 2294 2010-06-11 15:14:04Z matt $
+ * @version $Id: ResponseBuilder.php 2549 2010-07-18 20:47:45Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -182,6 +182,7 @@ class Piwik_API_ResponseBuilder
 		$renderer = Piwik_DataTable_Renderer::factory($format);
 		$renderer->setTable($dataTable);
 		$renderer->setRenderSubTables(Piwik_Common::getRequestVar('expanded', false, 'int', $this->request));
+		$renderer->setHideIdSubDatableFromResponse(Piwik_Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request));
 		if($format == 'php')
 		{
 			$renderer->setSerialize( $this->caseRendererPHPSerialize());
@@ -231,8 +232,8 @@ class Piwik_API_ResponseBuilder
 			break;
 			
 			case 'csv':
-				header("Content-Type: application/vnd.ms-excel");
-				header("Content-Disposition: attachment; filename=piwik-report-export.csv");	
+				@header("Content-Type: application/vnd.ms-excel");
+				@header("Content-Disposition: attachment; filename=piwik-report-export.csv");	
 				$return = "message\n".$message;
 			break;
 			
@@ -282,12 +283,102 @@ class Piwik_API_ResponseBuilder
 			{
 				return serialize($array);
 			}
+			return $array;
 		}
-		else
+		$multiDimensional = $this->handleMultiDimensionalArray($array);
+		if($multiDimensional !== false)
 		{
-			$dataTable = new Piwik_DataTable();
-			$dataTable->addRowsFromSimpleArray($array);
-			return $this->getRenderedDataTable($dataTable);
+			return $multiDimensional;
 		}
+		
+		$dataTable = new Piwik_DataTable();
+		$dataTable->addRowsFromSimpleArray($array);
+		return $this->getRenderedDataTable($dataTable);
 	}
+	
+    /**
+     * Is this a multi dimensional array? 
+	 * Multi dim arrays are not supported by the Datatable renderer.
+     * We manually render these.
+     * 
+     * array(
+     * 		array(
+     * 			1,
+     * 			2 => array( 1,
+     * 						2
+     * 			)
+     *		), 
+     *		array( 2,
+     *			   3
+     *		)
+     *	);
+     * 
+     * @return String or false if it isn't a multidim array
+     */ 
+	protected function handleMultiDimensionalArray($array)
+	{
+		$first = reset($array);
+		foreach($array as $first)
+		{
+			if(is_array($first))
+			{
+    			foreach($first as $key => $value)
+    			{
+    				// Yes, this is a multi dim array
+    				if(is_array($value))
+    				{
+    					switch($this->outputFormat)
+    					{
+    						case 'json':
+    							@header( "Content-Type: application/json" );
+    							return json_encode($array);
+    						break;
+    						
+    						case 'php':
+            					if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
+                    			{
+                    				return serialize($array);
+                    			}
+                    			return $array;
+                    			
+    						case 'xml':
+    							@header("Content-Type: text/xml;charset=utf-8");
+                				$xml = 
+                					"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
+                					"<result>\n".
+    										$this->convertMultiDimensionalArrayToXml($array).
+									"\n</result>";
+                				return $xml;
+    						default:
+    						break;
+    					}
+    				}
+    			}
+			}
+		}
+		return false;
+	}
+	
+    protected function convertMultiDimensionalArrayToXml($array, $level = 0) 
+    { 
+        $xml=""; 
+        foreach ($array as $key=>$value) { 
+        	if(is_numeric($key)){
+        		$key = 'row';
+        	}
+        	$key = str_replace(' ', '_', $key);
+        	$marginLeft = str_repeat("\t", $level + 1);
+            if (is_array($value)) { 
+                $xml.=	$marginLeft .
+                		"<$key>\n". 
+                    		$this->convertMultiDimensionalArrayToXml($value, $level + 1).
+                			"\n". $marginLeft .
+                		"</$key>\n"; 
+            } else { 
+                $xml.= $marginLeft . 
+                		"<$key>".$value."</$key>\n"; 
+            } 
+        } 
+        return $xml; 
+    } 
 }

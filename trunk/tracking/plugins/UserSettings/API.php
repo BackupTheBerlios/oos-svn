@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2305 2010-06-15 10:04:53Z matt $
+ * @version $Id: API.php 2519 2010-07-16 19:51:11Z SteveG $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
@@ -92,9 +92,71 @@ class Piwik_UserSettings_API
 	
 	public function getPlugin( $idSite, $period, $date )
 	{
+		// fetch all archive data required
 		$dataTable = $this->getDataTable('UserSettings_plugin', $idSite, $period, $date);
+		$browserTypes	= $this->getDataTable('UserSettings_browserType', $idSite, $period, $date);
+		$archive		= Piwik_Archive::build($idSite, $period, $date);
+		$visitsSums		= $archive->getNumeric('nb_visits');
+
+		// check wether given tables are arrays
+		if($dataTable instanceof Piwik_DataTable_Array) {
+			$tableArray			= $dataTable->getArray();
+			$browserTypesArray	= $browserTypes->getArray();
+			$visitSumsArray		= $visitsSums->getArray();
+		} else {
+			$tableArray 		= Array($dataTable);
+			$browserTypesArray 	= Array($browserTypes);
+			$visitSumsArray 	= Array($visitsSums);
+		}
+		
+		// walk through the results and calculate the percentage
+		foreach($tableArray as $key => $table) {
+			
+			// get according browserType table
+			foreach($browserTypesArray AS $k => $browsers) {
+				if($k == $key) {
+					$browserType = $browsers;
+				}
+			}
+			
+			// get according visitsSum
+			foreach($visitSumsArray AS $k => $visits) {
+				if($k == $key) {
+					if(is_object($visits)) {
+						$visitsSumTotal = (float)$visits->getFirstRow()->getColumn(0);
+					} else {
+						$visitsSumTotal = (float)$visits;
+					}
+				}
+			}
+			
+			$ieStats		= $browserType->getRowFromLabel('ie');
+
+			$ieVisits 	= 0;
+			if($ieStats !== false)
+			{
+				$ieVisits = $ieStats->getColumn(Piwik_Archive::INDEX_NB_VISITS);
+			}
+			$visitsSum		= $visitsSumTotal - $ieVisits;
+		
+			// Calculate percentage, but ignore IE users cause plugin detection doesn't work on IE
+			// The filter must be applied now so that the new column can 
+			// be sorted by the generic filters (applied right after this function exits)
+			$table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Piwik_Archive::INDEX_NB_VISITS, $visitsSum, 1));
+		
+			// correct the cookie value (as detection works in IE, too)
+			$row = $table->getRowFromLabel('cookie');
+			if($row) {
+				$percentage = Piwik::getPercentageSafe($row->getColumn(Piwik_Archive::INDEX_NB_VISITS), $visitsSumTotal, 1) . '%';
+				$row->setColumn('nb_visits_percentage', $percentage);
+			}
+			
+		}
+		
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getPluginsLogo'));
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
+		
 		return $dataTable;
-	}	
+	}
+	
 }

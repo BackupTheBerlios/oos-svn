@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2202 2010-05-20 08:49:42Z matt $
+ * @version $Id: API.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
@@ -27,22 +27,34 @@ class Piwik_VisitFrequency_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $columns = array() )
+	public function get( $idSite, $period, $date, $columns = false )
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
-		$bounceRateReturningRequested = false;
+		
+		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
+		$countColumnsRequested = is_array($columns) ? count($columns) : 0;
+		
+		$bounceRateReturningRequested = $averageVisitDurationReturningRequested = $actionsPerVisitReturningRequested = false;
 		if(!empty($columns))
 		{
-			$toFetch = $columns;
-			if(($bounceRateReturningRequested = array_search('bounce_rate_returning', $toFetch)) !== false)
+			if(($bounceRateReturningRequested = array_search('bounce_rate_returning', $columns)) !== false)
 			{
-				$toFetch = array('nb_visits_returning', 'bounce_count_returning');
+				$columns = array('nb_visits_returning', 'bounce_count_returning');
+			}
+			elseif(($actionsPerVisitReturningRequested = array_search('nb_actions_per_visit_returning', $columns)) !== false)
+			{
+				$columns = array('nb_actions_returning', 'nb_visits_returning');
+			}
+			elseif(($averageVisitDurationReturningRequested = array_search('avg_time_on_site_returning', $columns)) !== false)
+			{
+				$columns = array('sum_visit_length_returning', 'nb_visits_returning');
 			}
 		}
 		else
 		{ 
-			$toFetch = array( 	'nb_uniq_visitors_returning',
+			$bounceRateReturningRequested = $averageVisitDurationReturningRequested = $actionsPerVisitReturningRequested = true;
+			$columns = array( 	'nb_uniq_visitors_returning',
 								'nb_visits_returning',
 								'nb_actions_returning',
 								'max_actions_returning',
@@ -51,11 +63,29 @@ class Piwik_VisitFrequency_API
 								'nb_visits_converted_returning',
 					);
 		}
-		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+		$dataTable = $archive->getDataTableFromNumeric($columns);
+		
+		// Process ratio metrics
 		if($bounceRateReturningRequested !== false)
 		{
 			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate_returning', 'bounce_count_returning', 'nb_visits_returning', 0));
-			$dataTable->deleteColumns($toFetch);
+		}
+		if($actionsPerVisitReturningRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_actions_per_visit_returning', 'nb_actions_returning', 'nb_visits_returning', 1));
+		}
+		if($averageVisitDurationReturningRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site_returning', 'sum_visit_length_returning', 'nb_visits_returning', 0));
+		}
+	
+		// If only a computed metrics was requested, we delete other metrics 
+		// that we selected only to process this one metric 
+		if($countColumnsRequested == 1
+			&& ($bounceRateReturningRequested || $averageVisitDurationReturningRequested || $actionsPerVisitReturningRequested)
+			) 
+		{
+			$dataTable->deleteColumns($columns);
 		}
 		return $dataTable;
 	}
@@ -76,11 +106,6 @@ class Piwik_VisitFrequency_API
 	public function getActionsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_actions_returning');
-	}
-	
-	public function getMaxActionsReturning( $idSite, $period, $date )
-	{
-		return $this->getNumeric( $idSite, $period, $date, 'max_actions_returning');
 	}
 	
 	public function getSumVisitsLengthReturning( $idSite, $period, $date )

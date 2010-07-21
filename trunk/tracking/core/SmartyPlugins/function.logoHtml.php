@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: function.logoHtml.php 1431 2009-08-23 14:27:44Z vipsoft $
+ * @version $Id: function.logoHtml.php 2493 2010-07-13 12:56:56Z matt $
  * 
  * @category Piwik
  * @package SmartyPlugins
@@ -41,5 +41,5 @@ function smarty_function_logoHtml($params, &$smarty)
 	{
 		$alt = "title='".$params['alt']."' alt='".$params['alt']."'";
 	}
-	return " <img $alt $width $height src=".$params['metadata']['logo']." />";
+	return " <img $alt $width $height src='".$params['metadata']['logo']."' />";
 }

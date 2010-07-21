@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Row.php 1968 2010-03-21 17:42:23Z vipsoft $
+ * @version $Id: Row.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -315,6 +315,18 @@ class Piwik_DataTable_Row
 		$this->c[self::COLUMNS][$name] = $value;
 	}
 	
+	/**
+	 * Add columns to the row
+	 * @param $columns array( name => value , ...)
+	 * @return void
+	 */
+	public function addColumns($columns)
+	{
+		foreach($columns as $name => $value)
+		{
+			$this->addColumn($name, $value);
+		}
+	}
 	
 	/**
 	 * Add a new metadata to the row. If the column already exists, throws an exception.
@@ -348,7 +360,16 @@ class Piwik_DataTable_Row
 			if($columnToSumName != 'label')
 			{
 				$thisColumnValue = $this->getColumn($columnToSumName);
-				$newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
+				
+				// Max operation
+				if($columnToSumName == Piwik_Archive::INDEX_MAX_ACTIONS )
+				{
+					$newValue = max($thisColumnValue, $columnToSumValue);
+				}
+				else
+				{
+					$newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
+				}
 				$this->setColumn( $columnToSumName, $newValue);
 			}
 		}

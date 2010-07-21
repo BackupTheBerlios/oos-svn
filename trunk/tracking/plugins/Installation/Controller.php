@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2315 2010-06-18 04:18:07Z vipsoft $
+ * @version $Id: Controller.php 2593 2010-07-20 14:35:50Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -72,6 +72,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 	 */
 	function welcome($message)
 	{
+		// Delete merged js/css files to force regenerations based on updated activated plugin list
+		Piwik_AssetManager::removeMergedAssets();
+		Piwik_View::clearCompiledTemplates();
+		
 		$view = new Piwik_Installation_View(
 						$this->pathView . 'welcome.tpl',
 						$this->getInstallationSteps(),
@@ -184,7 +188,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 					Piwik::createDatabaseObject($dbInfos);
 					$this->session->databaseCreated = true;
 				} catch (Zend_Db_Adapter_Exception $e) {
-					$db = Piwik_Db_Adapter::factory($adapter, $dbInfos);
+					$db = Piwik_Db_Adapter::factory($adapter, $dbInfos, $connect = false);
 
 					// database not found, we try to create  it
 					if($db->isErrNo($e, '1049'))
@@ -377,8 +381,8 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 			$this->session->superuser_infos = $superUserInfos;
 
-			$host = 'http://api.piwik.org/1.0/';
-			$host .= 'subscribeNewsletter/';
+			$url = Zend_Registry::get('config')->General->api_service_url;
+			$url .= '/1.0/subscribeNewsletter/';
 			$params = array(
 				'email' => $form->getSubmitValue('email'),
 				'security' => $form->getSubmitValue('subscribe_newsletter_security'),
@@ -390,7 +394,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			{
 				if( !isset($params['security']))  { $params['security'] = '0'; }
 				if( !isset($params['community'])) { $params['community'] = '0'; }
-				$url = $host . '?' . http_build_query($params, '', '&');
+				$url .= '?' . http_build_query($params, '', '&');
 				try {
 					Piwik_Http::sendHttpRequest($url, $timeout = 2);
 				} catch(Exception $e) {
@@ -474,12 +478,20 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$view->displayfirstWebsiteSetupSuccess = true;
 			$this->session->firstWebsiteSetupSuccessMessage = true;
 		}
+		$siteName = $this->session->site_name;
+		$idSite = $this->session->site_idSite;
 
-		$view->websiteName = urldecode($this->session->site_name);
+		// Load the Tracking code and help text from the SitesManager 
+		$viewTrackingHelp = new Piwik_View('SitesManager/templates/DisplayJavascriptCode.tpl');
+		$viewTrackingHelp->displaySiteName = $siteName;
+		$viewTrackingHelp->jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
+		$viewTrackingHelp->idSite = $idSite;
+		$viewTrackingHelp->currentUrlWithoutFilename = Piwik_Url::getCurrentUrlWithoutFileName();
 
-		$jsTag = Piwik::getJavascriptCode($this->session->site_idSite, Piwik_Url::getCurrentUrlWithoutFileName());
-
-		$view->javascriptTag = $jsTag;
+		// Assign the html output to a smarty variable
+		$view->trackingHelp = $viewTrackingHelp->render();
+		$view->displaySiteName = urldecode($siteName);
+		
 		$view->showNextStep = true;
 
 		$this->session->currentStepDone = __FUNCTION__;
@@ -657,6 +669,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos = array();
 
 		$infos['directories'] = Piwik::checkDirectoriesWritable();
+		$infos['can_auto_update'] = Piwik::canAutoUpdate();
 
 		$serverSoftware = $_SERVER['SERVER_SOFTWARE'];
 		if(preg_match('/^Microsoft-IIS\/(.+)/', $serverSoftware, $matches) && version_compare($matches[1], '7') >= 0)
@@ -667,6 +680,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			Piwik::createHtAccessFiles();
 		}
+		Piwik::createWebRootFiles();
 
 		$infos['phpVersion_minimum'] = $minimumPhpVersion;
 		$infos['phpVersion'] = phpversion();

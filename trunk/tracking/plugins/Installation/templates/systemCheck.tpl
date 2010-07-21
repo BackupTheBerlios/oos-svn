@@ -3,7 +3,7 @@
 {assign var=warning value="<img src='themes/default/images/warning.png' />"}
 {assign var=link value="<img src='themes/default/images/link.gif' />"}
 
-<h1>{'Installation_SystemCheck'|translate}</h1>
+<h2>{'Installation_SystemCheck'|translate}</h2>
 
 <table class="infosServer">
 	<tr>
@@ -66,12 +66,12 @@
 	<tr>
 		<td class="label">{'Installation_SystemCheckExtensions'|translate}</td>
 		<td>{foreach from=$infos.needed_extensions item=needed_extension}
-				{$needed_extension}
 				{if in_array($needed_extension, $infos.missing_extensions)}
 					{$error}
 				{else}
 					{$ok}
 				{/if}
+				{$needed_extension}
 				<br />
 			{/foreach}
 		</td>
@@ -92,14 +92,13 @@
 	<tr>
 		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
 		<td>{foreach from=$infos.needed_functions item=needed_function}
-				{$needed_function}
 				{if in_array($needed_function, $infos.missing_functions)}
-					{$error}
+					{$error} {$needed_function}
 					<p>
 					<i>{$helpMessages[$needed_function]|translate}</i>
 					</p>
 				{else}
-					{$ok}<br />
+					{$ok} {$needed_function}<br />
 				{/if}
 			{/foreach}
 		</td>
@@ -133,7 +132,7 @@
 	</div>
 	<br />
 {/if}
-<h1>{'Optional'|translate}</h1>
+<h2>{'Optional'|translate}</h2>
 <table class="infos">
 	<tr>
 		<td class="label">{'Installation_SystemCheckFileIntegrity'|translate}</td>
@@ -155,9 +154,12 @@
 	<tr>
 		<td class="label">{'Installation_SystemCheckMemoryLimit'|translate}</td>
 		<td>
-			{$infos.memoryCurrent}
-			{if $infos.memory_ok}{$ok}{else}{$warning} 
-				<br /><i>{'Installation_SystemCheckMemoryLimitHelp'|translate}</i>{/if}	
+			{if $infos.memory_ok}
+				{$ok} {$infos.memoryCurrent}
+			{else}
+				{$warning} {$infos.memoryCurrent}
+				<br /><i>{'Installation_SystemCheckMemoryLimitHelp'|translate}</i>
+			{/if}	
 		</td>
 	</tr>
 	<tr>
@@ -170,7 +172,9 @@
 	<tr>
 		<td class="label">{'Installation_SystemCheckOpenURL'|translate}</td>
 		<td>
-			{if $infos.openurl}{$infos.openurl} {$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckOpenURLHelp'|translate}</i>{/if}
+			{if $infos.openurl}{$ok} {$infos.openurl}{else}{$warning} <i>{'Installation_SystemCheckOpenURLHelp'|translate}</i>{/if}
+			{if !$infos.can_auto_update}
+				<br />{$warning} <i>{'Installation_SystemCheckAutoUpdateHelp'|translate}</i>{/if}	
 		</td>
 	</tr>
 	{if $infos.json}
@@ -187,25 +191,26 @@
 			{if $infos.gd_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckGDHelp'|translate}</i>{/if}
 		</td>
 	</tr>
-	{if $infos.hasMbstring}
 	<tr>
 		<td class="label">{'Installation_SystemCheckMbstring'|translate}</td>
 		<td>
-			{if $infos.multibyte_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckMbstringHelp'|translate}</i>{/if}
+			{if $infos.hasMbstring}
+				{if $infos.multibyte_ok}{$ok}{else}{$warning} <br /><i>{'Installation_SystemCheckMbstringFuncOverloadHelp'|translate}</i>{/if}
+			{else}
+				{$warning} <br /><i>{'Installation_SystemCheckMbstringExtensionHelp'|translate}</i>
+			{/if}
 		</td>
 	</tr>
-	{/if}
 	<tr>
 		<td class="label">{'Installation_SystemCheckFunctions'|translate}</td>
 		<td>{foreach from=$infos.desired_functions item=desired_function}
-				{$desired_function}
 				{if in_array($desired_function, $infos.missing_desired_functions)}
-					{$warning}
+					{$warning} {$desired_function}
 					<p>
 					<i>{$helpMessages[$desired_function]|translate}</i>
 					</p>
 				{else}
-					{$ok}<br />
+					{$ok} {$desired_function}<br />
 				{/if}
 			{/foreach}
 		</td>

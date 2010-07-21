@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Array.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Array.php 2549 2010-07-18 20:47:45Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -157,6 +157,14 @@ class Piwik_DataTable_Array
 		foreach($this->array as $table)
 		{
 			$table->enableRecursiveSort();
+		}
+	}
+	
+	public function renameColumn($oldName, $newName)
+	{
+		foreach($this->array as $table)
+		{
+			$table->renameColumn($oldName, $newName);
 		}
 	}
 	

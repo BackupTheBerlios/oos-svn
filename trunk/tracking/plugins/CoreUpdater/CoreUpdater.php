@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: CoreUpdater.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: CoreUpdater.php 2612 2010-07-21 09:57:20Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
@@ -38,7 +38,6 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 	public static function getComponentUpdates($updater)
 	{
 		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
-
 		$plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
 		foreach($plugins as $pluginName => $plugin)
 		{
@@ -58,6 +57,13 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 	{
 		$module = Piwik_Common::getRequestVar('module', '', 'string');
 		$updater = new Piwik_Updater();
+		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
+		$updates = $updater->getComponentsWithNewVersion();
+		if(!empty($updates))
+		{
+			Piwik_AssetManager::removeMergedAssets();
+			Piwik_View::clearCompiledTemplates();
+		}
 		if(self::getComponentUpdates($updater) !== null && $module != 'CoreUpdater')
 		{
 			Piwik::redirectToModule('CoreUpdater');

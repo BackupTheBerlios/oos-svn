@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Feedback.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: Feedback.php 2409 2010-07-01 11:02:03Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Feedback
@@ -29,18 +29,29 @@ class Piwik_Feedback extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-			'template_css_import' => 'css',
-			'template_js_import' => 'js',
+			'AssetManager.getCssFiles' => 'getCssFiles',
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'TopMenu.add' => 'addTopMenu',
 		);
 	}
 
-	function css()
+	public function addTopMenu()
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/Feedback/templates/styles.css\" />\n";
+		Piwik_AddTopMenu('General_GiveUsYourFeedback', array('module' => 'Feedback', 'action' => 'index'), true, 11);
 	}
 
-	function js()
+	function getCssFiles( $notification )
 	{
-		echo "<script type=\"text/javascript\" src=\"plugins/Feedback/templates/feedback.js\"></script>\n";
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/Feedback/templates/styles.css";
 	}
+
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/Feedback/templates/feedback.js";
+	}	
+	
 }

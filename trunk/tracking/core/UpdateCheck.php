@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UpdateCheck.php 2058 2010-04-07 10:26:32Z matt $
+ * @version $Id: UpdateCheck.php 2526 2010-07-17 05:13:41Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -20,7 +20,6 @@ class Piwik_UpdateCheck
 	const CHECK_INTERVAL = 28800; // every 8 hours
 	const LAST_TIME_CHECKED = 'UpdateCheck_LastTimeChecked';
 	const LATEST_VERSION = 'UpdateCheck_LatestVersion';
-	const PIWIK_HOST = 'http://api.piwik.org/1.0/getLatestVersion/';
 	const SOCKET_TIMEOUT = 2;
 
 	/**
@@ -44,7 +43,9 @@ class Piwik_UpdateCheck
 				'timezone' => Piwik_SitesManager_API::getInstance()->getDefaultTimezone(),
 			);
 
-			$url = self::PIWIK_HOST . "?" . http_build_query($parameters, '', '&');
+			$url = Zend_Registry::get('config')->General->api_service_url;
+			$url .= '/1.0/getLatestVersion/';
+			$url .= '?' . http_build_query($parameters, '', '&');
 			$timeout = self::SOCKET_TIMEOUT;
 			try {
 				$latestVersion = Piwik_Http::sendHttpRequest($url, $timeout);

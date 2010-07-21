@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Config.php 2336 2010-06-22 05:32:04Z vipsoft $
+ * @version $Id: Config.php 2429 2010-07-06 00:04:35Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -188,6 +188,11 @@ class Piwik_Config
 		// for unit tests, we set that no plugin is installed. This will force
 		// the test initialization to create the plugins tables, execute ALTER queries, etc.
 		$this->PluginsInstalled = array();
+		
+		foreach(Piwik_Tracker_Config::$toRestoreFromGlobalConfig as $section)
+		{
+			$this->$section = $this->defaultConfig->$section->toArray();
+		}
 		$this->disableSavingConfigurationFileUpdates();
 	}
 
@@ -265,7 +270,7 @@ class Piwik_Config
 		{
 			if($this->doWriteFileWhenUpdated)
 			{
-				Piwik::checkDirectoriesWritableOrDie( array('/config') );
+				Piwik::checkDirectoriesWritableOrDie( array('/config/') );
 			}
 			$enoughPermission = true;
 		}

@@ -8,6 +8,7 @@
 
 	<link rel="stylesheet" type="text/css" href="themes/default/simple_structure.css" />
 	<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" class="ui-theme" />
+	<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />
 {literal}
 <style>
 * {
@@ -21,7 +22,6 @@
 }
 </style>
 {/literal}
-	{postEvent name="template_css_import"}
 
 	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
 	<script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>

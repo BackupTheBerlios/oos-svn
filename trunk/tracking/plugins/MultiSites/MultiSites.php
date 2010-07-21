@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: MultiSites.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: MultiSites.php 2409 2010-07-01 11:02:03Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
@@ -29,18 +29,28 @@ class Piwik_MultiSites extends Piwik_Plugin
 	public function getListHooksRegistered()
 	{
 		return array(
-			'template_css_import' => 'css',
-			'template_js_import' => 'js',
+			'AssetManager.getCssFiles' => 'getCssFiles',
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'TopMenu.add' => 'addTopMenu',
 		);
 	}
 
-	public function css()
+	public function addTopMenu()
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/MultiSites/templates/styles.css\" />\n";
+		Piwik_AddTopMenu('General_MultiSitesSummary', array('module' => 'MultiSites', 'action' => 'index'), true, 3);
 	}
 
-	public function js()
+	function getJsFiles( $notification )
 	{
-		echo "<script type=\"text/javascript\" src=\"plugins/MultiSites/templates/common.js\"></script>\n";
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/MultiSites/templates/common.js";
+	}
+	
+	function getCssFiles( $notification )
+	{
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/MultiSites/templates/styles.css";
 	}
 }

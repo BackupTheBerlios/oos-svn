@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GenerateGraphHTML.php 2151 2010-05-07 08:57:27Z matt $
+ * @version $Id: GenerateGraphHTML.php 2521 2010-07-16 21:49:51Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -136,12 +136,9 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 			}
 			if (is_array($val)) 
 			{
-				$_GET[$key] = unserialize(serialize($val));
+				$val = implode(',', $val);
 			} 
-			else 
-			{
-				$_GET[$key] = $val;
-			}
+			$_GET[$key] = $val;
 		}
 		$content = Piwik_FrontController::getInstance()->fetchDispatch( $this->currentControllerName, $this->currentControllerAction, array());
 

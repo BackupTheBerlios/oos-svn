@@ -4,15 +4,10 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Goals.php 2303 2010-06-14 17:31:41Z matt $
+ * @version $Id: Goals.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
- */
-
-/**
- * TODO Goals plugin
- * - clean API especially int methods
  */
 
 /**
@@ -32,22 +27,130 @@ class Piwik_Goals extends Piwik_Plugin
 			'version' => Piwik_Version::VERSION,
 			'TrackerPlugin' => true, // this plugin must be loaded during the stats logging
 		);
-		
 		return $info;
 	}
 	
 	function getListHooksRegistered()
 	{
 		$hooks = array(
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'Common.fetchWebsiteAttributes' => 'fetchGoalsFromDb',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
+			'API.getReportMetadata.end' => 'getReportMetadata',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
 		);
 		return $hooks;
 	}
 
+	/**
+	 * Returns the Metadata for the Goals plugin API.
+	 * The API returns general Goal metrics: conv, conv rate and revenue globally 
+	 * and for each goal.
+	 * 
+	 * Also, this will update metadata of all other reports that have Goal segmentatation.
+	 */
+	public function getReportMetadata($notification) 
+	{
+		$idSites = $notification->getNotificationInfo();
+		$reports = &$notification->getNotificationObject();
+	
+		// Processed in AddColumnsProcessedMetricsGoal
+		// These metrics will also be available for some reports, for each goal
+		// Example: Conversion rate for Goal 2 for the keyword 'piwik' 
+		$goalProcessedMetrics = array(
+    		'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
+    	);
+		
+		$goalMetrics = array(
+			'nb_conversions' => Piwik_Translate('Goals_ColumnConversions'), 
+			'conversion_rate' => Piwik_Translate('General_ColumnConversionRate'), 
+			'revenue' => Piwik_Translate('Goals_ColumnRevenue')
+		);
+
+		// General Goal metrics: conversions, conv rate, revenue
+		$reports[] = array(
+			'category' => Piwik_Translate('Goals_Goals'),
+			'name' => Piwik_Translate('Goals_Goals'),
+			'module' => 'Goals',
+			'action' => 'get',
+			'metrics' => $goalMetrics,
+			'processedMetrics' => array(),
+		);
+		
+		/* 
+		 * Add the metricsGoal and processedMetricsGoal entry
+		 * to all reports that have Goal segmentation
+		 */
+		$reportsWithGoals = array();
+		Piwik_PostEvent('Goals.getReportsWithGoalMetrics', $reportsWithGoals);
+		foreach($reportsWithGoals as $reportWithGoals)
+		{
+			// Select this report from the API metadata array
+			// and add the Goal metrics to it
+			foreach($reports as &$apiReportToUpdate)
+			{
+				if($apiReportToUpdate['module'] == $reportWithGoals['module']
+					&& $apiReportToUpdate['action'] == $reportWithGoals['action'])
+				{
+					$apiReportToUpdate['metricsGoal'] = $goalMetrics;
+					$apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
+					break;
+				}
+			}
+		}
+		
+		// If only one website is selected, we add the Goal metrics
+		if(count($idSites) == 1)
+		{
+			$goals = Piwik_Goals_API::getInstance()->getGoals(reset($idSites));
+			foreach($goals as $goal) 
+			{
+				// Add the general Goal metrics: ie. total Goal conversions, 
+				// Goal conv rate or Goal total revenue.
+				// This API call requires a custom parameter
+				$reports[] = array(
+					'category' => Piwik_Translate('Goals_Goals'),
+					'name' => Piwik_Translate('Goals_GoalX', $goal['name']),
+					'module' => 'Goals',
+					'action' => 'get',
+					'parameters' => array('idGoal' => $goal['idgoal']),
+					'metrics' => $goalMetrics,
+					'processedMetrics' => false,
+				);
+			}
+		}
+	}
+	
+	static public function getReportsWithGoalMetrics()
+	{
+		$segments = array();
+		Piwik_PostEvent('Goals.getReportsWithGoalMetrics', $segments);
+		$segmentsByGroup = array();
+		foreach($segments as $segment)
+		{
+			$group = $segment['category'];
+			unset($segment['category']);
+			$segmentsByGroup[$group][] = $segment;
+		}
+		return $segmentsByGroup;
+	}
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		$jsFiles[] = "plugins/Goals/templates/GoalForm.js";
+		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
+	}
+
+	function getCssFiles( $notification )
+	{
+		$cssFiles = &$notification->getNotificationObject();
+		$cssFiles[] = "plugins/Goals/templates/goals.css";
+	}	
+	
 	function fetchGoalsFromDb($notification)
 	{
 		$idsite = $notification->getNotificationInfo();
@@ -75,11 +178,13 @@ class Piwik_Goals extends Piwik_Plugin
 		$goals = Piwik_Tracker_GoalManager::getGoalDefinitions(Piwik_Common::getRequestVar('idSite'));
 		if(count($goals)==0)
 		{
+			Piwik_AddMenu('Goals_Goals', '', array('module' => 'Goals', 'action' => 'addNewGoal'), true, 25);
 			Piwik_AddMenu('Goals_Goals', 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
 		}
 		else
 		{
-			Piwik_AddMenu('Goals_Goals', 'Goals_Overview', array('module' => 'Goals', 'action' => 'index'));
+			Piwik_AddMenu('Goals_Goals', '', array('module' => 'Goals', 'action' => 'index'), true, 25);
+			Piwik_AddMenu('Goals_Goals', 'Goals_Overview', array('module' => 'Goals', 'action' => 'index'), true, 1);
 			foreach($goals as $goal) 
 			{
 				Piwik_AddMenu('Goals_Goals', str_replace('%', '%%', $goal['name']), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
@@ -107,6 +212,13 @@ class Piwik_Goals extends Piwik_Plugin
 		return 'Goal_' . $returningStr . $idGoalStr . $recordName;
 	}
 	
+	/**
+	 * Hooks on Period archiving. 
+	 * Sums up Goal conversions stats, and processes overall conversion rate
+	 * 
+	 * @param $notification
+	 * @return void
+	 */
 	function archivePeriod($notification )
 	{
 		$archiveProcessing = $notification->getNotificationObject();
@@ -141,6 +253,13 @@ class Piwik_Goals extends Piwik_Plugin
 		$archiveProcessing->insertNumericRecord(self::getRecordName('conversion_rate'), $conversion_rate);
 	}
 	
+	/**
+	 * Hooks on the Daily archiving.
+	 * Will process Goal stats overall and for each Goal. 
+	 * Also processes the New VS Returning visitors conversion stats.
+	 * @param $notification
+	 * @return void
+	 */
 	function archiveDay( $notification )
 	{
 		/**
@@ -209,4 +328,5 @@ class Piwik_Goals extends Piwik_Plugin
 	{
 		return round(100 * $count / $archiveProcessing->getNumberOfVisits(), self::ROUNDING_PRECISION);
 	}
+
 }

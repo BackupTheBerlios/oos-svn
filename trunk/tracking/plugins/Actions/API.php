@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2202 2010-05-20 08:49:42Z matt $
+ * @version $Id: API.php 2490 2010-07-13 10:19:49Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -71,7 +71,7 @@ class Piwik_Actions_API
 		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'entry_bounce_count', 'entry_nb_visits', 0));
 		
 		// % Exit = Number of visits that finished on this page / visits on this page
-		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_visits', 0));
+		$dataTable->filter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_hits', 0));
 		
 		return $dataTable;
 	}

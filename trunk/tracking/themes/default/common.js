@@ -3,7 +3,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: common.js 2307 2010-06-15 17:55:16Z matt $
+ * @version $Id: common.js 2562 2010-07-19 09:17:14Z matt $
  */
 
 function piwikHelper()
@@ -174,4 +174,11 @@ function save_image(chartId) {
 
 String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g,"");
+}
+
+//Helper function :
+//returns true if the event keypress passed in parameter is the ENTER key
+function isEnterKey(e)
+{
+	return (window.event?window.event.keyCode:e.which)==13; 
 }

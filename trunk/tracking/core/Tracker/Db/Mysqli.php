@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Mysqli.php 1551 2009-10-30 00:07:55Z vipsoft $
+ * @version $Id: Mysqli.php 2511 2010-07-16 00:47:17Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -120,7 +120,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			$rows = array();
 			$query = $this->prepare( $query, $parameters );
 			$rs = mysqli_query($this->connection, $query);
-			while($row = mysqli_fetch_array($rs, MYSQL_ASSOC)) 
+			while($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) 
 			{
 				$rows[] = $row;
 			}
@@ -159,7 +159,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			{
 				return false;
 			}
-			$row = mysqli_fetch_array($rs, MYSQL_ASSOC);
+			$row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
 			mysqli_free_result($rs);
 
 			if(self::$profiling)
@@ -194,10 +194,6 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 				$timer = $this->initProfiler();
 			}
 			
-			if(!is_array($parameters))
-			{
-				$parameters = array( $parameters );
-			}
 			$query = $this->prepare( $query, $parameters );
 			$result = mysqli_query($this->connection, $query);
 			if(!is_bool($result))
@@ -236,6 +232,15 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 	 * @return string
 	 */
 	private function prepare($query, $parameters) {
+		if(!$parameters)
+		{
+			$parameters = array();
+		}
+		else if(!is_array($parameters))
+		{
+			$parameters = array( $parameters );
+		}
+
 		foreach($parameters as $i=>$p) 
 		{
 			$parameters[$i] = addslashes($p);

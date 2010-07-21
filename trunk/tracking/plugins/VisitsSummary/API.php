@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2202 2010-05-20 08:49:42Z matt $
+ * @version $Id: API.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
@@ -27,23 +27,35 @@ class Piwik_VisitsSummary_API
 		return self::$instance;
 	}
 	
-	public function get( $idSite, $period, $date, $columns = array() )
+	public function get( $idSite, $period, $date, $columns = false)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 	
-		$bounceRateRequested = false;
+		// array values are comma separated
+		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
+		$countColumnsRequested = is_array($columns) ? count($columns) : 0;
+		
+		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = false;
 		if(!empty($columns))
 		{
-			$toFetch = $columns;
-			if(($bounceRateRequested = array_search('bounce_rate', $toFetch)) !== false)
+			if(($bounceRateRequested = array_search('bounce_rate', $columns)) !== false)
 			{
-				$toFetch = array('nb_visits', 'bounce_count');
+				$columns = array('nb_visits', 'bounce_count');
+			}
+			elseif(($actionsPerVisitRequested = array_search('nb_actions_per_visit', $columns)) !== false)
+			{
+				$columns = array('nb_actions', 'nb_visits');
+			}
+			elseif(($averageVisitDurationRequested = array_search('avg_time_on_site', $columns)) !== false)
+			{
+				$columns = array('sum_visit_length', 'nb_visits');
 			}
 		}
 		else
 		{
-			$toFetch = array(	'max_actions',
+    		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
+			$columns = array(	'max_actions',
 								'nb_uniq_visitors', 
 								'nb_visits',
 								'nb_actions', 
@@ -52,11 +64,30 @@ class Piwik_VisitsSummary_API
 								'nb_visits_converted',
 							);
 		}
-		$dataTable = $archive->getDataTableFromNumeric($toFetch);
+
+		$dataTable = $archive->getDataTableFromNumeric($columns);
+		
+		// Process ratio metrics from base metrics, when requested
 		if($bounceRateRequested !== false)
 		{
 			$dataTable->filter('ColumnCallbackAddColumnPercentage', array('bounce_rate', 'bounce_count', 'nb_visits', 0));
-			$dataTable->deleteColumns($toFetch);
+		}
+		if($actionsPerVisitRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_actions_per_visit', 'nb_actions', 'nb_visits', 1));
+		}
+		if($averageVisitDurationRequested !== false)
+		{
+			$dataTable->filter('ColumnCallbackAddColumnQuotient', array('avg_time_on_site', 'sum_visit_length', 'nb_visits', 0));
+		}
+		
+		// If only a computed metrics was requested, we delete other metrics 
+		// that we selected only to process this one metric 
+		if($countColumnsRequested == 1
+			&& ($bounceRateRequested || $actionsPerVisitRequested || $averageVisitDurationRequested)
+			) 
+		{
+			$dataTable->deleteColumns($columns);
 		}
 		return $dataTable;
 	}

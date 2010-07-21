@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Session.php 2280 2010-06-06 19:27:36Z vipsoft $
+ * @version $Id: Session.php 2434 2010-07-06 13:37:59Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -67,6 +67,11 @@ class Piwik_Session extends Zend_Session
 			}
 		}
 
-		Zend_Session::start();
+		try {
+			Zend_Session::start();
+		} catch(Exception $e) {
+			// This message is not translateable because translations haven't been loaded yet.
+			Piwik_ExitWithMessage('Unable to start session.  Check that session.save_path or tmp/sessions is writeable.');
+		}
 	}
 }

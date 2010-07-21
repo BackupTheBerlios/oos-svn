@@ -4,27 +4,11 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ErrorHandler.php 1432 2009-08-23 15:13:40Z vipsoft $
+ * @version $Id: ErrorHandler.php 2420 2010-07-03 15:01:00Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
  */
-
-/**
- * @since PHP 5
- */
-if(!defined('E_STRICT')) {            define('E_STRICT', 2048); }
-
-/**
- * @since PHP 5.2.0
- */
-if(!defined('E_RECOVERABLE_ERROR')) { define('E_RECOVERABLE_ERROR', 4096); }
-
-/**
- * @since PHP 5.3.0
- */
-if(!defined('E_DEPRECATED')) {        define('E_DEPRECATED', 8192); }
-if(!defined('E_USER_DEPRECATED')) {   define('E_USER_DEPRECATED', 16384); }
 
 /**
  * Error handler used to display nicely errors in Piwik

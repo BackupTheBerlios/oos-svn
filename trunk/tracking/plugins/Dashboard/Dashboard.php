@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Dashboard.php 2333 2010-06-22 04:58:13Z vipsoft $
+ * @version $Id: Dashboard.php 2605 2010-07-21 09:03:05Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Dashboard
@@ -28,24 +28,40 @@ class Piwik_Dashboard extends Piwik_Plugin
 	public function getListHooksRegistered()
 	{
 		return array( 
-			'template_js_import' => 'js',
-			'template_css_import' => 'css',
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'UsersManager.deleteUser' => 'deleteDashboardLayout',
+			'Menu.add' => 'addMenus',
+			'TopMenu.add' => 'addTopMenu',
 		);
 	}
 
-	function js()
+	public function addMenus()
 	{
-		echo '
-<script type="text/javascript" src="plugins/Dashboard/templates/widgetMenu.js"></script>
-<script type="text/javascript" src="libs/javascript/json2.js"></script>
-<script type="text/javascript" src="plugins/Dashboard/templates/Dashboard.js"></script>
-		';
+		Piwik_AddMenu('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex'), true, 5);
 	}
 
-	function css()
+	public function addTopMenu()
 	{
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/Dashboard/templates/dashboard.css\" />\n";
+		Piwik_AddTopMenu('General_Dashboard', array('module' => 'CoreHome', 'action' => false), true, 1);
+	}
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
+		$jsFiles[] = "libs/javascript/json2.js";
+		$jsFiles[] = "plugins/Dashboard/templates/Dashboard.js";
+	}	
+	
+	function getCssFiles( $notification )
+	{
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
+		$cssFiles[] = "plugins/CoreHome/templates/datatable.css";
+		$cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
 	}
 
 	function deleteDashboardLayout($notification)
@@ -82,5 +98,3 @@ class Piwik_Dashboard extends Piwik_Plugin
 	}
 	
 }
-
-Piwik_AddMenu('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex'));

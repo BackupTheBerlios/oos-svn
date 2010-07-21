@@ -7,6 +7,10 @@
 ; [General]
 ; action_title_category_delimiter = "-"
 
+;--------
+; WARNING - YOU SHOULD NOT EDIT THIS FILE DIRECTLY - Edit config.ini.php instead.
+;--------
+
 [superuser]
 login			= root
 password		= 
@@ -46,6 +50,10 @@ enable_sql_profiler = 0
 ; if set to 1, a Piwik tag will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1
 ; this is useful for Piwik developers as an easy way to create data in their local Piwik
 track_visits_inside_piwik_ui = 0
+
+; if set to 1, javascript and css files will be included individually
+; this option must be set to 1 when adding, removing or modifying javascript and css files
+disable_merged_assets = 0
 
 [General]
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
@@ -157,6 +165,16 @@ serve_widget_and_data = 1
 ; If set to 1, Piwik adds a response header to workaround the IE+Flash+HTTPS bug.
 reverse_proxy = 0
 
+; The release server is an essential part of the Piwik infrastructure/ecosystem
+; to provide the latest software version.
+latest_version_url = http://piwik.org/latest.zip
+
+; The API server is an essential part of the Piwik infrastructure/ecosystem to
+; provide services to Piwik installations, e.g., getLatestVersion and
+; subscribeNewsletter.
+api_service_url = http://api.piwik.org
+
+
 [Tracker]
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics			= 1
@@ -254,7 +272,8 @@ Plugins[] 		= Dashboard
 Plugins[] 		= MultiSites
 Plugins[] 		= Referers
 Plugins[] 		= UserSettings
-Plugins[]       = Goals
+Plugins[]		= Goals
+Plugins[]		= SEO
 
 Plugins[] 		= UserCountry
 Plugins[] 		= VisitsSummary
@@ -265,7 +284,6 @@ Plugins[] 		= ExampleAPI
 Plugins[] 		= ExamplePlugin
 Plugins[]		= ExampleRssWidget
 Plugins[] 		= ExampleFeedburner
-Plugins[] 		= ExampleRssWidget
 Plugins[] 		= Provider
 Plugins[]		= Feedback
 
@@ -273,6 +291,7 @@ Plugins[] 		= Login
 Plugins[] 		= UsersManager
 Plugins[] 		= SitesManager
 Plugins[] 		= Installation
+Plugins[] 		= CoreUpdater
 
 [PluginsInstalled]
 PluginsInstalled[] = Login

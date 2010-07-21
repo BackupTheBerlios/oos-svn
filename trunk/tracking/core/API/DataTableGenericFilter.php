@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: DataTableGenericFilter.php 2322 2010-06-18 17:11:14Z matt $
+ * @version $Id: DataTableGenericFilter.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -54,20 +54,23 @@ class Piwik_API_DataTableGenericFilter
 								'filter_excludelowpop' 		=> array('string'), 
 								'filter_excludelowpop_value'=> array('float', '0'),
 						),
-			'AddColumnsWhenShowAllColumns'	=> array(
+			'AddColumnsProcessedMetrics'	=> array(
 								'filter_add_columns_when_show_all_columns'	=> array('integer')
 						),
-			'UpdateColumnsWhenShowAllGoals'	=> array(
+			'AddColumnsProcessedMetricsGoal'	=> array(
 								'filter_update_columns_when_show_all_goals'	=> array('integer'),
-								'filter_only_display_idgoal' => array('integer', Piwik_DataTable_Filter_UpdateColumnsWhenShowAllGoals::GOALS_OVERVIEW),
+								'filter_only_display_idgoal' => array('integer', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
 						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string'),
-								'filter_sort_order' 		=> array('string'),
+								'filter_sort_order' 		=> array('string', 'desc'),
 						),
 			'Limit' => array(
 								'filter_offset' 			=> array('integer', '0'),
 								'filter_limit' 				=> array('integer'),
+						),
+			'Truncate' => array(
+								'filter_truncate'			=> array('integer'),
 						),
 		);
 		

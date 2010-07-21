@@ -1,15 +1,8 @@
-<img src="plugins/MultiSites/images/arrow_desc.gif" style="display: none" />
-<img src="plugins/MultiSites/images/arrow_asc.gif" style="display: none" />
 {assign var=showSitesSelection value=false}
 {assign var=showPeriodSelection value=true}
 {include file="CoreHome/templates/header.tpl"}
 
-<script type="text/javascript" src="plugins/MultiSites/templates/common.js"></script>
-<style>
-{fetch file="plugins/MultiSites/templates/styles.css"}
-</style>
-
-<div id="multisites" style="margin: auto">
+<div id="multisites">
 <div id="main">
 {include file="MultiSites/templates/row.tpl" assign="row"}
 <script type="text/javascript">
@@ -33,26 +26,35 @@
 </script>
 
 {postEvent name="template_headerMultiSites"}
-<div align="center">
-<table id="mt" class="dataTable" cellspacing="0" style="width:850px;">
+
+<div class="top_controls_inner">
+    {include file="CoreHome/templates/period_select.tpl"}
+    {include file="CoreHome/templates/header_message.tpl"}
+</div>
+
+<div class="multiSitesCont">
+
+<h1>{'General_AllWebsitesDashboard'|translate}</h1>
+
+<table id="mt" class="dataTable" cellspacing="0">
 	<thead>
-		<th id="names" class="label" style="text-align:center">
-			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'names');">{'General_Website'|translate}</span>
+		<th id="names" class="label" onClick="params = setOrderBy(this,allSites, params, 'names');">
+			<span>{'General_Website'|translate}</span>
 			<span class="arrow multisites_desc"></span>
 		</th>
-		<th id="visits" class="multisites-column" style="width: 100px">
-			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'visits');">{'General_ColumnNbVisits'|translate}</span>
+		<th id="visits" class="multisites-column" style="width: 100px" onClick="params = setOrderBy(this,allSites, params, 'visits');">
+			<span>{'General_ColumnNbVisits'|translate}</span>
 			<span class="arrow"></span>
 		</th>
-		<th id="actions" class="multisites-column" style="width: 110px">
-			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'actions');">{'General_ColumnPageviews'|translate}</span>
+		<th id="actions" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'actions');">
+			<span>{'General_ColumnPageviews'|translate}</span>
 			<span class="arrow"></span>
 		</th>
-		<th id="unique" class="multisites-column" style="width: 120px">
-			<span style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, 'unique');">{'General_ColumnNbUniqVisitors'|translate}</span>
+		<th id="unique" class="multisites-column" style="width: 120px" onClick="params = setOrderBy(this,allSites, params, 'unique');">
+			<span>{'General_ColumnNbUniqVisitors'|translate}</span>
 			<span class="arrow"></span>
 		</th>
-		<th id="evolution" style="text-align:center; width:350px" colspan="2">
+		<th id="evolution" style=" width:350px" colspan="2">
 		<span class="arrow "></span>
 			<span class="evolution" style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {'MultiSites_Evolution'|translate}</span>
 			<select class="selector" id="evolution_selector" onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
@@ -70,7 +72,7 @@
 	<tr row_id="last" >
 		<td colspan="8" class="clean" style="padding: 20px">
 		<span id="prev" class="pager"  style="padding-right: 20px;"></span>
-		<span id="dataTablePages">
+		<span class="dataTablePages">
 			<span id="counter">
 		</span>
 		</span>
@@ -95,5 +97,6 @@ refreshAfter(5*60*1000);
 </div>
 </div>
 
+</div>
 </body>
 </html>

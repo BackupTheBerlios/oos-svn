@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleFeedburner.php 2265 2010-06-03 17:46:05Z vipsoft $
+ * @version $Id: ExampleFeedburner.php 2585 2010-07-19 21:59:34Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleFeedburner
@@ -104,11 +104,11 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 			$data = Piwik_Http::sendHttpRequest($url, 5);
 			$xml = new SimpleXMLElement($data);
 		} catch(Exception $e) {
-			return "Error parsing the data for feed $uri. Fetched data was: \n'". $data."'";
+			return "Error parsing the data for feed <a href='http://feeds.feedburner.com/$uri' target='_blank'>$uri</a>. Fetched data was: \n'". $data."'";
 		}
 		
 		if(count($xml->feed->entry) != 2) {
-			return "Error fetching the Feedburner stats. Expected XML, Got: \n" . strip_tags($data);
+			return "Feedburner stats didn't return as expected. \n" . strip_tags($data);
 		}
 		$data = array();
 		$i = 0;

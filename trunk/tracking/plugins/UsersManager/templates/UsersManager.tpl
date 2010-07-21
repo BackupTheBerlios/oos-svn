@@ -38,7 +38,6 @@
 }
 </style>
 {/literal}
-<script type="text/javascript" src="plugins/UsersManager/templates/UsersManager.js"></script>
 
 <h2>{'UsersManager_ManageAccess'|translate}</h2>
 <p>{'UsersManager_MainDescription'|translate}</p>
@@ -62,7 +61,7 @@
 
 {ajaxErrorDiv}
 {ajaxLoadingDiv}
-<div id="accessUpdated" class="ajaxSuccess"><p>{'General_Done'|translate}!</p></div>
+<div id="accessUpdated" class="ajaxSuccess">{'General_Done'|translate}!</div>
 
 <table class="admin" id="access">
 <thead>

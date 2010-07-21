@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ChartEvolution.php 2341 2010-06-22 19:50:47Z matt $
+ * @version $Id: ChartEvolution.php 2521 2010-07-16 21:49:51Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -49,6 +49,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 		$this->setParametersToModify(array('date' => Piwik_Common::getRequestVar('date', 'last30', 'string')));
 		$this->disableShowAllViewsIcons();
 		$this->disableShowTable();
+		$this->disableShowAllColumns();
 	}
 	
 	
@@ -76,7 +77,15 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	{
 		if(!is_array($columnsNames)) 
 		{
-			$columnsNames = array($columnsNames);
+			if(strpos($columnsNames, ',') !== false)
+			{
+        		// array values are comma separated
+        		$columnsNames = explode(',', $columnsNames);
+			}
+			else
+			{
+				$columnsNames = array($columnsNames);
+			}
 		}
 		$this->setParametersToModify( array('columns' => $columnsNames) );
 	}

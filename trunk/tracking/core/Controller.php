@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2266 2010-06-03 17:47:32Z vipsoft $
+ * @version $Id: Controller.php 2604 2010-07-21 08:00:17Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -112,21 +112,6 @@ abstract class Piwik_Controller
 		return 'index';
 	}
 
-	protected $standardColumnNameToTranslation = array(
-		'label' => 'General_ColumnLabel',
-		'nb_visits' => 'General_ColumnNbVisits',
-		'nb_actions' => 'General_ColumnNbActions',
-		'max_actions' => 'General_ColumnMaxActions',
-		'sum_visit_length' => 'General_ColumnSumVisitLength',
-		'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
-		'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
-		'avg_time_on_site' => 'General_ColumnAvgTimeOnSite',
-		'bounce_rate' => 'General_ColumnBounceRate',
-	
-		'revenue_per_visit' => 'General_ColumnValuePerVisit',
-		'goals_conversion_rate' => 'General_ColumnVisitsWithConversions',
-	);
-
 	/**
 	 * Given an Object implementing Piwik_iView interface, we either:
 	 * - echo the output of the rendering if fetch = false
@@ -148,8 +133,6 @@ abstract class Piwik_Controller
 							)
 				);
 
-		$standardColumnNameToTranslation = array_map('Piwik_Translate', $this->standardColumnNameToTranslation);
-		$view->setColumnsTranslations($standardColumnNameToTranslation);
 		$view->main();
 		$rendered = $view->getView()->render();
 		if($fetch)
@@ -268,6 +251,14 @@ abstract class Piwik_Controller
 							'module' => $this->pluginName)
 					+ $customParameters
 				);
+		// convert array values to comma separated
+		foreach($params as &$value)
+		{
+			if(is_array($value))
+			{
+				$value = implode(',', $value);
+			}
+		}
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
 		return $url;
 	}
@@ -299,7 +290,8 @@ abstract class Piwik_Controller
 	}
 	
 	/**
-	 * Sets general variables to the view that are used by various templates and Javascript
+	 * Sets general variables to the view that are used by various templates and Javascript.
+	 * If any error happens, displays the login screen
 	 * @param $view
 	 * @return void
 	 */
@@ -309,7 +301,9 @@ abstract class Piwik_Controller
 		
 		try {
 			$this->setPeriodVariablesView($view);
-			$period = Piwik_Period::factory(Piwik_Common::getRequestVar('period'), Piwik_Date::factory($this->strDate));
+			$periodString = Piwik_Common::getRequestVar('period');
+			$date = Piwik_Date::factory($this->strDate);
+			$period = Piwik_Period::factory($periodString, $date);
 			$view->prettyDate = $period->getLocalizedLongString();
 			$view->idSite = $this->idSite;
 			if(is_null($this->site))
@@ -325,14 +319,25 @@ abstract class Piwik_Controller
 
 			$maxDate = Piwik_Date::factory('now', $this->site->getTimezone());
 			$this->setMaxDateView($maxDate, $view);
-
-			$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
-			$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
-
-			$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
+			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
-			self::redirectToIndex(Piwik::getModule(), Piwik::getAction());
+			self::redirectToIndex( Piwik::getLoginPluginName(), $action = 'index' );
 		}
+	}
+	
+	/**
+	 * Will only set the minimal variables in the view object
+	 * Used by Admin screens
+	 * 
+	 * @param $view
+	 */
+	public function setBasicVariablesView($view)
+	{
+		$view->topMenu = Piwik_GetTopMenu();
+		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
+		$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
+
+		$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 	}
 	
 	/**

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitFrequency.php 2264 2010-06-03 16:53:43Z vipsoft $
+ * @version $Id: VisitFrequency.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
@@ -30,19 +30,52 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
+			'AssetManager.getJsFiles' => 'getJsFiles',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
 	}
-	
+
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('General_Visitors'),
+			'module' => 'VisitFrequency',
+			'action' => 'get',
+			'metrics' => array(
+    			'nb_visits_returning' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
+    			'nb_actions_returning' => Piwik_Translate('VisitFrequency_ColumnActionsByReturningVisits'), 
+    			'avg_time_on_site_returning' => Piwik_Translate('VisitFrequency_ColumnAverageVisitDurationForReturningVisitors'),
+    			'bounce_rate_returning' => Piwik_Translate('VisitFrequency_ColumnBounceRateForReturningVisits'),
+    			'nb_actions_per_visit_returning' => Piwik_Translate('VisitFrequency_ColumnAvgActionsPerReturningVisit'),
+// Not displayed
+//    			'nb_uniq_visitors_returning',
+//    			'nb_visits_converted_returning',
+//    			'sum_visit_length_returning',
+//    			'max_actions_returning',
+//    			'bounce_count_returning',
+			),
+			'processedMetrics' => false,
+		);
+	}
+
 	function addWidgets()
 	{
 		Piwik_AddWidget( 'General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
 		Piwik_AddWidget( 'General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
 	}
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
+	}	
 	
 	function addMenu()
 	{

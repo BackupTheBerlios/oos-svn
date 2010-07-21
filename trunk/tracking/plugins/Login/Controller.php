@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2258 2010-06-02 14:50:18Z vipsoft $
+ * @version $Id: Controller.php 2473 2010-07-12 09:05:27Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -69,7 +69,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	{
 		$urlToRedirect = self::getRefererToRedirect();
 
-		$form = new Piwik_Login_Form();
+		$form = new Piwik_Login_FormLogin();
 		if($form->validate())
 		{
 			$nonce = $form->getSubmitValue('form_nonce');
@@ -95,7 +95,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
-		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
 
@@ -154,7 +153,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$messageNoAccess = null;
 		$urlToRedirect = self::getRefererToRedirect();
 
-		$form = new Piwik_Login_PasswordForm();
+		$form = new Piwik_Login_FormPassword();
 		if($form->validate())
 		{
 			$loginMail = $form->getSubmitValue('form_login');
@@ -165,7 +164,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->AccessErrorString = $messageNoAccess;
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
-		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
 
@@ -201,13 +199,12 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$mail = new Piwik_Mail();
 			$mail->addTo($email, $login);
 			$mail->setSubject(Piwik_Translate('Login_MailTopicPasswordRecovery'));
-			$mail->setBodyText(
-				str_replace(
+			$bodyText = str_replace(
 					'\n',
 					"\n",
 					sprintf(Piwik_Translate('Login_MailPasswordRecoveryBody'), $login, $ip, $url, $resetToken)
-				) . "\n"
-			);
+				) . "\n";
+			$mail->setBodyText($bodyText);
 
 			$piwikHost = $_SERVER['HTTP_HOST'];
 			if(strlen($piwikHost) == 0)
@@ -243,7 +240,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$messageNoAccess = null;
 		$urlToRedirect = self::getRefererToRedirect();
 
-		$form = new Piwik_Login_ResetPasswordForm();
+		$form = new Piwik_Login_FormResetPassword();
 		if($form->validate())
 		{
 			$loginMail = $form->getSubmitValue('form_login');
@@ -256,7 +253,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->AccessErrorString = $messageNoAccess;
 		$view->linkTitle = Piwik::getRandomTitle();
 		$view->addForm( $form );
-		$view->subTemplate = 'genericForm.tpl';
 		echo $view->render();
 	}
 
@@ -282,10 +278,15 @@ class Piwik_Login_Controller extends Piwik_Controller
 			return Piwik_Translate('Login_InvalidOrExpiredToken');
 		}
 
+		$view = Piwik_View::factory('passwordchanged');
 		try
 		{
 			if( $user['email'] == Zend_Registry::get('config')->superuser->email )
 			{
+    			if(!Zend_Registry::get('config')->isFileWritable())
+    			{
+    				throw new Exception(Piwik_Translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)","<br/>")));
+    			}
 				$user['password'] = md5($password);
 				Zend_Registry::get('config')->superuser = $user;
 			}
@@ -299,7 +300,6 @@ class Piwik_Login_Controller extends Piwik_Controller
 			$view->ErrorString = $e->getMessage();
 		}
 
-		$view = Piwik_View::factory('passwordchanged');
 		$view->linkTitle = Piwik::getRandomTitle();
 		echo $view->render();
 

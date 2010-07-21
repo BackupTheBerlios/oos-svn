@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2151 2010-05-07 08:57:27Z matt $
+ * @version $Id: Controller.php 2392 2010-06-29 06:45:34Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Widgetize
@@ -63,6 +63,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 		$parameters = array ( $fetch = true );
 		$outputDataTable = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName, $parameters);
 		$view = Piwik_View::factory('iframe');
+		$this->setGeneralVariablesView($view);
 		$view->content = $outputDataTable;
 		echo $view->render();
 	}

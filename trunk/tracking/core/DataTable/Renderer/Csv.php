@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Csv.php 2294 2010-06-11 15:14:04Z matt $
+ * @version $Id: Csv.php 2495 2010-07-13 16:43:28Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -185,7 +185,8 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
 			if($this->exportIdSubtable)
 			{
 				$idsubdatatable = $row->getIdSubDataTable();
-				if($idsubdatatable !== false)
+				if($idsubdatatable !== false
+					&& $this->hideIdSubDatatable === false)
 				{
 					$csvRow['idsubdatatable'] = $idsubdatatable;
 				}

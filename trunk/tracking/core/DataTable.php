@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: DataTable.php 1613 2009-11-27 20:57:13Z vipsoft $
+ * @version $Id: DataTable.php 2594 2010-07-20 18:21:39Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -552,7 +552,7 @@ class Piwik_DataTable
 	/**
 	 * Returns the array of Piwik_DataTable_Row
 	 * 
-	 * @return array of Piwik_DataTable_Row
+	 * @return Piwik_DataTable_Row
 	 */
 	public function getRows()
 	{

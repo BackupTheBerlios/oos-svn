@@ -2,16 +2,28 @@
 <script type="text/javascript">
 	var idSite = {$idSite};
 {literal}
-	$(document).ready(function(){ 
+
+function initFeedburner()
+{
+
 	function getName()
 	{
 		return $("#feedburnerName").val();
 	}
+	$("#feedburnerName").bind("keyup", function(e) {
+		if(isEnterKey(e)) { 
+			$("#feedburnerSubmit").click(); 
+		} 
+	}); 
 	$("#feedburnerSubmit").click( function(){
 		var feedburnerName = getName();
 		$.get('?module=ExampleFeedburner&action=saveFeedburnerName&idSite='+idSite+'&name='+feedburnerName);
 		piwik.dashboardObject.reloadEnclosingWidget($(this));
+		initFeedburner();
 	});
+}
+$(document).ready(function(){
+	initFeedburner();
 });
 </script>
 <style>
@@ -21,13 +33,13 @@
 {/literal}
 
 {if !is_array($fbStats)}
-	{$fbStats}
+	<p style='margin-top:20px'>{$fbStats}</p>
 {else}
 <table class='feedburner' align="center" cellpadding="2" style='text-align:center'>
 	<tr>
 		<td></td>
-		<td style="text-decoration:underline;">Previous</td>
-		<td style="text-decoration:underline;">Yesterday</td>
+		<td style="text-decoration:underline;">{'General_Previous'|translate}</td>
+		<td style="text-decoration:underline;">{'General_Yesterday'|translate}</td>
 		<td></td>
 	</tr>
 	<tr>
@@ -52,6 +64,6 @@
 {/if}
 
 <center>
-<input id="feedburnerName" type="text" value="{$feedburnerFeedName}" />
-<input id="feedburnerSubmit" type="submit" value="ok" />
+	<input id="feedburnerName" type="text" value="{$feedburnerFeedName}" />
+	<input id="feedburnerSubmit" type="submit" value="{'General_Ok'|translate}" />
 </center>

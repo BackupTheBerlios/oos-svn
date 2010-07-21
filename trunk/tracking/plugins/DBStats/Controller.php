@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2036 2010-04-01 21:08:24Z matt $
+ * @version $Id: Controller.php 2604 2010-07-21 08:00:17Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_DBStats
@@ -21,7 +21,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller
 		Piwik::checkUserIsSuperUser();
 		$view = Piwik_View::factory('DBStats');
 		$view->tablesStatus = Piwik_DBStats_API::getInstance()->getAllTablesStatus();
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();		
 	}

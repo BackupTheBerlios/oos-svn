@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UserCountry.php 2321 2010-06-18 10:46:38Z matt $
+ * @version $Id: UserCountry.php 2565 2010-07-19 09:52:45Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
@@ -30,14 +30,42 @@ class Piwik_UserCountry extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		$hooks = array(
+			'AssetManager.getJsFiles' => 'getJsFiles',
 			'ArchiveProcessing_Day.compute' => 'archiveDay',
 			'ArchiveProcessing_Period.compute' => 'archivePeriod',
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenu',
-			'Goals.getAvailableGoalSegments' => 'addGoalSegments',
+			'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
+			'API.getReportMetadata' => 'getReportMetadata',
 		);
 		return $hooks;
 	}	
+
+	public function getReportMetadata($notification) 
+	{
+		$reports = &$notification->getNotificationObject();
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('UserCountry_Country'),
+			'module' => 'UserCountry',
+			'action' => 'getCountry',
+			'dimension' => Piwik_Translate('UserCountry_Country'),
+		);
+		
+		$reports[] = array(
+			'category' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('UserCountry_Continent'),
+			'module' => 'UserCountry',
+			'action' => 'getContinent',
+        	'dimension' => Piwik_Translate('UserCountry_Continent'),
+		);
+	}
+	
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
+	}
 	
 	function addWidgets()
 	{
@@ -50,23 +78,21 @@ class Piwik_UserCountry extends Piwik_Plugin
 		Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
 	}
 	
-	function addGoalSegments( $notification )
+	function getReportsWithGoalMetrics( $notification )
 	{
 		$segments =& $notification->getNotificationObject();
 		$segments = array_merge($segments, array(
-        		array(
-        			'group'  => Piwik_Translate('UserCountry_Location'),
-        			'name'   => Piwik_Translate('UserCountry_Country'),
-        			'module' => 'UserCountry',
-        			'action' => 'getCountry',
+        		array(	'category'  => Piwik_Translate('UserCountry_Location'),
+            			'name'   => Piwik_Translate('UserCountry_Country'),
+            			'module' => 'UserCountry',
+            			'action' => 'getCountry',
         		),
-        		array(
-        			'group'  => Piwik_Translate('UserCountry_Location'),
-        			'name'   => Piwik_Translate('UserCountry_Continent'),
-        			'module' => 'UserCountry',
-        			'action' => 'getContinent',
+        		array(	'category'  => Piwik_Translate('UserCountry_Location'),
+            			'name'   => Piwik_Translate('UserCountry_Continent'),
+            			'module' => 'UserCountry',
+            			'action' => 'getContinent',
         		),
-        	));
+    	));
 	}
 	
 	function archivePeriod( $notification )
@@ -125,4 +151,5 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$archiveProcessing->insertBlobRecord('UserCountry_continent', $tableContinent->getSerialized());
 		destroy($tableContinent);
 	}
+
 }

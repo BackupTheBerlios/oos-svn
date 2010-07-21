@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2183 2010-05-14 08:04:11Z matt $
+ * @version $Id: Controller.php 2605 2010-07-21 09:03:05Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CorePluginsAdmin
@@ -43,31 +43,30 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller
 
 		$view = Piwik_View::factory('manage');
 		$view->pluginsName = $plugins;
-		$this->setGeneralVariablesView($view);
+		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		if(!Zend_Registry::get('config')->isFileWritable())
 		{
 			$view->configFileNotWritable = true;
 		}
-		
 		echo $view->render();
 	}
 
-	function deactivate()
+	public function deactivate()
 	{
 		Piwik::checkUserIsSuperUser();
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
-		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin&action=index');
+		Piwik_Url::redirectToReferer();
 	}
-
-	function activate()
+	
+	public function activate()
 	{
 		Piwik::checkUserIsSuperUser();
 		$this->checkTokenInUrl();
 		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
 		Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
-		Piwik_Url::redirectToUrl('index.php?module=CorePluginsAdmin&action=index');
+		Piwik_Url::redirectToReferer();
 	}
 }

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Config.php 2116 2010-04-23 13:57:23Z vipsoft $
+ * @version $Id: Config.php 2436 2010-07-06 17:49:07Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -26,6 +26,13 @@
 class Piwik_Tracker_Config
 {
 	static private $instance = null;
+	
+	/*
+	 * For Unit tests, the locally overwritten config/config.ini.php should not interfere with Integration tests.
+	 * We therefore overwrite the config files with the default values from global.ini.php when running these tests
+	 * @see setTestEnvironment()
+	 */
+	static public $toRestoreFromGlobalConfig = array('Debug', 'General', 'Tracker');
 	
 	/**
 	 * Returns singleton
@@ -49,6 +56,8 @@ class Piwik_Tracker_Config
 	 */
 	public $config = array();
 	protected $initialized = false;
+	protected $configGlobal = false;
+	protected $configUser = false;
 	
 	public function init($pathIniFileUser = null, $pathIniFileGlobal = null)
 	{
@@ -113,14 +122,25 @@ class Piwik_Tracker_Config
 		}
 		return count($section) ? $section : null;
 	}
-
+	
 	/**
 	 * If called, we use the database_tests credentials
 	 * and test configuration overrides
 	 */
-	public function setTestEnvironment($configTest = array())
+	public function setTestEnvironment()
 	{
+		if(!$this->initialized)
+		{
+			$this->init();
+		}
+		foreach(self::$toRestoreFromGlobalConfig as $section) 
+		{
+			if(isset($this->configGlobal[$section]))
+			{
+				$this->configUser[$section] = $this->configGlobal[$section];
+			}
+		}
 		$this->database = $this->database_tests;
-		$this->config = $configTest;
+		$this->PluginsInstalled = array();	
 	}
 }

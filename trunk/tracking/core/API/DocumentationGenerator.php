@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: DocumentationGenerator.php 1968 2010-03-21 17:42:23Z vipsoft $
+ * @version $Id: DocumentationGenerator.php 2514 2010-07-16 12:07:54Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -59,7 +59,7 @@ class Piwik_API_DocumentationGenerator
 			
 			foreach($info as $methodName => $infoMethod)
 			{
-				$params = $this->getStrListParameters($class, $methodName);
+				$params = $this->getParametersString($class, $methodName);
 				$str .= "\n" . "- <b>$moduleName.$methodName " . $params . "</b>";
 				$str .= '<small>';
 				
@@ -85,6 +85,7 @@ class Piwik_API_DocumentationGenerator
 									<a target=_blank href='$exampleUrl&format=PHP&prettyDisplay=true$token_auth'>PHP</a>, 
 									<a target=_blank href='$exampleUrl&format=JSON$token_auth'>Json</a>, 
 									<a target=_blank href='$exampleUrl&format=Csv$token_auth'>Csv</a>, 
+									<a target=_blank href='$exampleUrl&format=Tsv$token_auth'>Tsv (Excel)</a>, 
 									<a target=_blank href='$exampleUrl&format=Html$token_auth'>Basic html</a> 
 									$lastNUrls
 									]";
@@ -111,7 +112,7 @@ class Piwik_API_DocumentationGenerator
 	 * @param methodName the method
 	 * @return string|false when not possible
 	 */
-	protected function getExampleUrl($class, $methodName, $parametersToSet = array())
+	public function getExampleUrl($class, $methodName, $parametersToSet = array())
 	{
 		$knowExampleDefaultParametersValues = array(
 			'access' => 'view',
@@ -120,6 +121,7 @@ class Piwik_API_DocumentationGenerator
 			'email' => 'test@example.org',
 		
 			'languageCode' => 'fr',
+			'url' => 'http://forum.piwik.org/',
 		);
 		
 		foreach($parametersToSet as $name => $value)
@@ -152,23 +154,28 @@ class Piwik_API_DocumentationGenerator
 		
 		// we try to give an URL example to call the API
 		$aParameters = Piwik_API_Proxy::getInstance()->getParametersList($class, $methodName);
+		// Kindly force some known generic parameters to appear in the final list
+		// the parameter 'format' can be set to all API methods (used in tests)
+		// the parameter 'hideIdSubDatable' is used for integration tests only
+		// the parameter 'serialize' sets php outputs human readable, used in integration tests and debug
+		$aParameters['format'] = false;
+		$aParameters['hideIdSubDatable'] = false;
+		$aParameters['serialize'] = false;
+		
 		$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
 		$urlExample = '?module=API&method='.$moduleName.'.'.$methodName.'&';
 		foreach($aParameters as $nameVariable=> $defaultValue)
 		{
+			if(isset($knowExampleDefaultParametersValues[$nameVariable]))
+			{
+				$exampleValue = $knowExampleDefaultParametersValues[$nameVariable];
+				$urlExample .= $nameVariable . '=' . $exampleValue . '&';
+			}
 			// if there isn't a default value for a given parameter, 
 			// we need a 'know default value' or we can't generate the link
-			if($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue)
+			elseif($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue)
 			{
-				if(isset($knowExampleDefaultParametersValues[$nameVariable]))
-				{
-					$exampleValue = $knowExampleDefaultParametersValues[$nameVariable];
-					$urlExample .= $nameVariable . '=' . $exampleValue . '&';
-				}
-				else
-				{
-					return false;
-				}
+				return false;
 			}
 		}
 		
@@ -183,7 +190,7 @@ class Piwik_API_DocumentationGenerator
 	 * @param string The method name
 	 * @return string For example "(idSite, period, date = 'today')"
 	 */
-	protected function getStrListParameters($class, $name)
+	public function getParametersString($class, $name)
 	{
 		$aParameters = Piwik_API_Proxy::getInstance()->getParametersList($class, $name);
 		$asParameters = array();
