@@ -1,3 +1,220 @@
+5.5.015 (2010-07-29)
+	- Automatic fix for unclosed self-closing tag.
+	- Support for deprecated 's' and 'strike' tags was added.
+	- Empty list items problem was fixed.
+
+5.5.014 (2010-07-15)
+	- Support for external images was improved.
+
+5.5.013 (2010-07-14)
+	- Bug #3029338 "FI and FO output destination filename bug" was fixed (previous fix was wrong).
+
+5.5.012 (2010-07-14)
+	- Bug #3029310 "Font baseline inconsistencies with line-height and font-size" was fixed.
+	- Bug #3029338 "FI and FO output destination filename bug" was fixed.
+
+5.5.011 (2010-07-09)
+	- Support for multiple CSS classes was added.
+	- The method getColumn() was added to return the current column number.
+	- Some regular Expressions were fixed to be more compatible with UTF-8.
+
+5.5.010 (2010-07-06)
+	- Bug item #3025772 "Borders in all image functions are still flawed" was fixed.
+
+5.5.009 (2010-07-05)
+	- A problem related to last page footer was fixed.
+	- Image alignments and fit-on-page features were improved.
+
+5.5.008 (2010-07-02)
+	- A problem on table header alignment in booklet mode was fixed.
+	- Default graphic vars are now applied for setHeader();
+
+5.5.007 (2010-07-02)
+	- Attribute "readonly" was added to input and textarea form fields.
+	- Vertical alignment feature was added on MultiCell() method only for simple text mode (see example n. 5).
+	- Text-Fit feature was added on MultiCell() method only for simple text mode (see example n. 5).
+
+5.5.006 (2010-06-29)
+	- getStringHeight() and getNumLines() methods were fixed.
+
+5.5.005 (2010-06-28)
+	- Bug #3022170 "getFontDescent() does not return correct descent value" was fixed.
+	- Some problems with multicolumn mode were fixed.
+
+5.5.004 (2010-06-27)
+	- Bug #3021803 "SVG Border" was fixed.
+
+5.5.003 (2010-06-26)
+	- On Write() method, blank lines at the beginning of a page or column are now automatically removed.
+
+5.5.002 (2010-06-24)
+	- ToUnicode Identity-H name was replaced with a full CMap (to avoid preflight syntax error).
+	- Bug #3020638 "str_split() not available in php4" was fixed.
+	- Bug #3020665 "file_get_contents() too many parameters for php4" was fixed.
+
+5.5.001 (2010-06-23)
+	- A problem on image streams was fixed.
+
+5.5.000 (2010-06-22)
+	- Several PDF syntax errors (and related bugs) were fixed.
+	- Bug #3019090 "/Length values are wrong if AES encryption is used" was fixed.
+
+------------------------------------------------------------
+
+5.4.003 (2010-06-19)
+	- A problem related to page boxes was fixed.
+	- Bug #3016920 "Font subsetting issues when editing pdf" was partially fixed (Note that flattening transparency layers is currently incompatible with TrueTypeUnicode fonts).
+
+5.4.002 (2010-06-18)
+	- A problem related with setProtection() method was fixed.
+
+5.4.001 (2010-06-18)
+	- A problem related with setProtection() method was fixed.
+
+5.4.000 (2010-06-18)
+	- The method setSignatureAppearance() was added, check the example n. 52.
+	- Several problems related to font subsetting were fixed.
+
+------------------------------------------------------------
+
+5.3.010 (2010-06-15)
+	- Previous release was corrupted.
+
+5.3.009 (2010-06-15)
+	- Bug #3015934 "Bullets don't display correctly" was fixed.
+
+5.3.008 (2010-06-13)
+	- This version fixes some problems of SVG rasterization.
+
+5.3.007 (2010-06-13)
+	- This version improves SVG support.
+
+5.3.006 (2010-06-10)
+	- This version includes a change in uniqid calls for backward compatibility with PHP4.
+
+5.3.005 (2010-06-09)
+	- The method getPageSizeFromFormat() was changed to include all standard page formats (includes 281 page formats + variation).
+
+5.3.004 (2010-06-08)
+	- Bug #3013291 "HTML table cell width" was fixed.
+	- Bug #3013294 "HTML table cell alignment" was fixed.
+	- The columns widths of HTML tables are now inherited from the first row.
+
+5.3.003 (2010-06-08)
+	- Bug #3013102 "HTML table header misaligned after page break" was fixed.
+
+5.3.002 (2010-06-07)
+	- The methods setFontSubsetting() and setFontSubsetting() were added to control the default font subsetting mode (see example n. 1).
+	- Bug #3012596 "Whitespace should not appeared after use Thai top characters" was fixed.
+	- Examples n. 1, 14, and 54 were updated.
+
+5.3.001 (2010-06-06)
+	- Barcode PDF417 was improved to support Macro Code Blocks (see example n. 50).
+
+5.3.000 (2010-06-05)
+	- License was changed to GNU-LGPLv3 (see the updated LICENSE.TXT file).
+	- PDF417 barcode support was added (check the example n. 50).
+	- The method write2DBarcode() was improved (some parameters were added and other changed - check example n. 50).
+
+------------------------------------------------------------
+
+5.2.000 (2010-06-02)
+	- IMPORTANT: Support for font subsetting was added by default to reduce the size of documents using large unicode font files.
+		If you embed the whole font in the PDF, the person on the other end can make changes to it even if he didn't have your font.
+		If you subset the font, file size of the PDF will be smaller but the person who receives your PDF would need to have your same font in order to make changes to your PDF.
+	- The signature of the SetFont() and AddFont() methods were changed to include the font subsetting option (subsetting is applied by default).
+	- Examples 14 and 54 were updated.
+
+------------------------------------------------------------
+
+5.1.002 (2010-05-27)
+	- Bug #3007818 "SetAutoPageBreak fails with MultiCell" was fixed.
+	- A bug related to MultiCell() minimun height was fixed.
+
+5.1.001 (2010-05-26)
+	- The problem of blank page after table was fixed.
+
+5.1.000 (2010-05-25)
+	- This version includes support for CSS (Cascading Style Sheets) (see example n. 61).
+	- The convertHTMLColorToDec() method was improved.
+
+------------------------------------------------------------
+
+5.0.014 (2010-05-21)
+	- A problem on color and style of HTML links was fixed.
+	- A bug relative to gradients was fixed.
+	- The getStringHeight() method was added and getNumLines() method was improved.
+	- All examples were updated.
+
+5.0.013 (2010-05-19)
+	- A bug related to page-breaks and table cells was fixed.
+
+5.0.012 (2010-05-19)
+	- Page orientation bug was fixed.
+	- The access to method setPageFormat() was changed to 'protected' because it is not intended to be directly called.
+
+5.0.011 (2010-05-19)
+	- Page orientation bug was fixed.
+	- Bug #3003966 "Multiple columns and nested lists" was fixed.
+
+5.0.010 (2010-05-17)
+	- The methods setPageFormat(), setPageOrientation() and related methods were extended to include page boxes, page rotations and page transitions.
+	- The method setPageBoxes() was added to set page boundaries (MediaBox, CropBox, BleedBox, TrimBox, ArtBox);
+	- A bug relative to underline, overline and linethrough was fixed.
+
+5.0.009 (2010-05-16)
+	- Bug #3002381 "Multiple columns and nested lists" was fixed.
+
+5.0.008 (2010-05-15)
+	- Bug "Columns WriteHTML and Justification" was fixed.
+
+5.0.007 (2010-05-14)
+	- Bug #3001347 "Bug when using  WriteHTML with setEqualColumns()" was fixed.
+	- Bug #3001505 "problem with sup and sub tags at the beginning of a line" was fixed.
+
+5.0.006 (2010-05-13)
+	- Length of hr tag was fixed.
+	- An error on 2d barcode method was fixed.
+
+5.0.005 (2010-05-12)
+	- WARNING: The logic of permissions on the SetProtection() method has been inverted and extended (see example 16). Now you have to specify the features you want to block.
+	- SetProtection() method was extended to support RSA and AES 128 encryption and public-keys (see example 16).
+	- Bug #2999489 "setEqualColumns() and TOC uses wrong columns" was fixed (see the example 10).
+
+5.0.004 (2010-05-10)
+	- HTML line alignment when using sub and sup tags was fixed.
+
+5.0.003 (2010-05-07)
+	- Horizontal alignment was fixed for images and barcodes. Now the X coordinate is always relative to the left margin. Use GetAbsX() instead of GetX() to get the X relative to left margin.
+	- Header() method was changed to account for new image alignment rules.
+
+5.0.002 (2010-05-06)
+	- Bookmark() and related methods were fixed to accept HTML code.
+	- A problem on HTML links was fixed.
+
+5.0.001 (2010-05-06)
+	- Protected method _putstream was re-added for backward compatibility.
+	- The following method were added to display HTML Table Of Content (see example n. 59):
+		addTOCPage(), endTOCPage(), addHTMLTOC().
+
+5.0.000 (2010-05-05)
+	- Method ImageSVG() was added to embedd SVG images (see example n. 58). Note that not all SVG images are supported.
+	- Method setRasterizeVectorImages() was added to enable/disable rasterization for vector images via ImageMagick library.
+	- Method RoundedRectXY() was added.
+	- Method PieSectorXY() was added.
+	- Gradient() method is now public and support new features.
+	- Shading to transparency is now supported.
+	- Image alignments were fixed.
+	- Support for dynamic images were improved.
+	- PDF_IMAGE_SCALE_RATIO has been changed to 1.25 for better compatibility with SVG.
+	- RAW and RAW2 modes were added to 2D Barcodes (see example n. 50).
+	- Automatic padding feature was added on barcodes (see examples n. 27 and 50).
+	- Bug #2995003 "Reproduced thead bug" was fixed.
+	- The Output() method now accepts FI and FD destinations to save the document on server before sending it to the client.
+	- Ellipse() method was improved and fixed (see page 2 of example n. 12).
+
+------------------------------------------------------------
+
 4.9.018 (2010-04-21)
 	- Bug item #2990356 "Current font size not respected with more than two HTML <p>" was fixed.
 
@@ -90,7 +307,7 @@
 	- Bug item #2974929 "Duplicate case values" was fixed.
 	- Bug item #2976729 "File attachment not working with security" was fixed.
 
---------------------------------------------------------------------------------
+------------------------------------------------------------
 
 4.8.039 (2010-03-20)
 	- Problems related to custom locale settings were fixed.
@@ -261,7 +478,7 @@
 	- Signature of Image() method was changed.
 	- htmlcolors.php file was updated.
 
---------------------------------------------------------------------------------
+------------------------------------------------------------
 
 4.7.003 (2009-09-03)
 	- Support for TCPDF methods on HTML was improved (see example n. 49).
@@ -1354,4 +1571,4 @@
 	- Bitstream Vera Fonts were added (http://www.bitstream.com/font_rendering/products/dev_fonts/vera.html).
 	- Now the AddFont and SetFont functions returns the basic font if the styled version do not exist.
 
-EOF ----------------------------------------------------------------------------
+EOF --------------------------------------------------------
