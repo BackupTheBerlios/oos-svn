@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ArchiveProcessing.php 2323 2010-06-21 10:44:45Z matt $
+ * @version $Id: ArchiveProcessing.php 2767 2010-07-28 22:56:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -266,7 +266,7 @@ abstract class Piwik_ArchiveProcessing
 			throw new Exception('Browser trigger archiving must be set to true or false.');
 		}
 		Piwik_SetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING, (int)$enabled, $autoload = true);
-		
+		Piwik_Common::clearCacheGeneral();
 	}
 	static public function isBrowserTriggerArchivingEnabled()
 	{
@@ -305,7 +305,6 @@ abstract class Piwik_ArchiveProcessing
 		$dateEndUTC = $dateEndLocalTimezone->setTimezone($this->site->getTimezone());
 		$this->startDatetimeUTC = $dateStartUTC->getDateStartUTC();
 		$this->endDatetimeUTC = $dateEndUTC->getDateEndUTC();
-
 		$this->startTimestampUTC = $dateStartUTC->getTimestamp();
 		$this->endTimestampUTC = strtotime($this->endDatetimeUTC);
 		
@@ -340,7 +339,8 @@ abstract class Piwik_ArchiveProcessing
 		// if the current archive is a DAY and if it's today,
 		// we set this minDatetimeArchiveProcessedUTC that defines the lifetime value of today's archive
 		if( $this->period->getNumberOfSubperiods() == 0
-			&& $this->startTimestampUTC <= time() && $this->endTimestampUTC > time()
+			&& ($this->startTimestampUTC > time() ||
+				($this->startTimestampUTC <= time() && $this->endTimestampUTC > time()))
 			)
 		{
 			$this->temporaryArchive = true;
@@ -436,9 +436,9 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$temporary = 'temporary archive';
 		}
-		Piwik::log("Processing archive '" . $this->period->getLabel() . "', 
-								idsite = ". $this->idsite." ($temporary) - 
-								UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
+		Piwik::log("Processing archive '" . $this->period->getLabel() . "', " 
+								."idsite = ". $this->idsite." ($temporary) - " 
+								."UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
 	}
 	
 	/**

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: CoreAdminHome.php 2392 2010-06-29 06:45:34Z matt $
+ * @version $Id: CoreAdminHome.php 2767 2010-07-28 22:56:04Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
@@ -31,8 +31,18 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		return array( 
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AssetManager.getJsFiles' => 'getJsFiles',
-			'AdminMenu.add' => 'addMenu'
+			'AdminMenu.add' => 'addMenu',
+			'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
 		);
+	}
+	
+	function getScheduledTasks ( $notification )
+	{
+		$tasks = &$notification->getNotificationObject();
+		$optimizeArchiveTableTask = new Piwik_ScheduledTask ( $this, 
+															'optimizeArchiveTable',
+															new Piwik_ScheduledTime_Monthly() );
+		$tasks[] = $optimizeArchiveTableTask;
 	}
 	
 	function getCssFiles( $notification )
@@ -67,5 +77,22 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 							array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
 							Piwik::isUserIsSuperUser(),
 							$order = 6);
+	}
+	
+	function optimizeArchiveTable()
+	{
+		$tablesPiwik = Piwik::getTablesInstalled();
+		$archiveTables = array_filter ($tablesPiwik, array("Piwik_CoreAdminHome", "isArchiveTable"));
+		if(empty($archiveTables))
+		{
+			return;
+		}
+		$query = "OPTIMIZE TABLE " . implode(",", $archiveTables);
+		Piwik_Query( $query );
+	}
+	
+	private function isArchiveTable ( $tableName )
+	{
+		return preg_match ( '/'.Piwik_Common::prefixTable('archive_').'/', $tableName ) > 0;
 	}
 }

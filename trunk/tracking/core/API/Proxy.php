@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Proxy.php 2333 2010-06-22 04:58:13Z vipsoft $
+ * @version $Id: Proxy.php 2649 2010-07-23 22:55:52Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -68,6 +68,7 @@ class Piwik_API_Proxy
 	 */
 	public function getMetadata()
 	{
+		ksort($this->metadataArray);
 		return $this->metadataArray;
 	}
 	

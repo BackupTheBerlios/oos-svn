@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: 0.2.24.php 2266 2010-06-03 17:47:32Z vipsoft $
+ * @version $Id: 0.2.24.php 2739 2010-07-28 02:39:50Z vipsoft $
  *
  * @category Piwik
  * @package Updates
@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_2_24 extends Piwik_Updates
 {
-	static function getSql($adapter = 'PDO_MYSQL')
+	static function getSql($schema = 'Myisam')
 	{
 		return array(
 			'CREATE INDEX index_type_name

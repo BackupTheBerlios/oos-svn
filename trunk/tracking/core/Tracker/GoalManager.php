@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GoalManager.php 2395 2010-06-29 10:06:57Z matt $
+ * @version $Id: GoalManager.php 2767 2010-07-28 22:56:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -25,7 +25,6 @@ class Piwik_Tracker_GoalManager
 	 */
 	protected $action = null;
 	protected $convertedGoals = array();
-	protected $idsite = null;
 
 	function setCookie($cookie)
 	{
@@ -162,7 +161,7 @@ class Piwik_Tracker_GoalManager
 		return true;
 	}
 
-	function recordGoals($visitorInformation, $action)
+	function recordGoals($idSite, $visitorInformation, $action)
 	{
 		$location_country = isset($visitorInformation['location_country']) 
 							? $visitorInformation['location_country'] 
@@ -177,7 +176,7 @@ class Piwik_Tracker_GoalManager
 
 		$goal = array(
 			'idvisit' 			=> $visitorInformation['idvisit'],
-			'idsite' 			=> $visitorInformation['idsite'],
+			'idsite' 			=> $idSite,
 			'visitor_idcookie' 	=> $visitorInformation['visitor_idcookie'],
 			'server_time' 		=> Piwik_Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
 			'location_country'  => $location_country,

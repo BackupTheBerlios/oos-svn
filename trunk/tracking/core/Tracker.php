@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Tracker.php 2429 2010-07-06 00:04:35Z matt $
+ * @version $Id: Tracker.php 2767 2010-07-28 22:56:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -64,7 +64,14 @@ class Piwik_Tracker
 	{
 		self::$forcedDateTime = $dateTime;
 	}
-	
+	protected function getCurrentTimestamp()
+	{
+		if(!is_null(self::$forcedDateTime))
+		{
+    		return strtotime(self::$forcedDateTime);
+		}
+		return time();
+	}
 	public function main()
 	{
 		$this->init();
@@ -83,10 +90,12 @@ class Piwik_Tracker
 			} catch(Piwik_Tracker_Visit_Excluded $e) {
 			}
 		}
+		
+		Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
 
 		$this->end();
-	}	
-	
+	}
+
 	/**
 	 * Returns the date in the "Y-m-d H:i:s" PHP format
 	 * @return string

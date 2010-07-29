@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: LanguagesManager.php 2409 2010-07-01 11:02:03Z matt $
+ * @version $Id: LanguagesManager.php 2699 2010-07-26 23:36:30Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_LanguagesManager
@@ -56,7 +56,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$view->languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
 		$view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
 		$view->currentLanguageName = self::getLanguageNameForCurrentUser();
-		Piwik_AddTopMenu('LanguageSelector', $view->render(), true, 20, true);
+		Piwik_AddTopMenu('LanguageSelector', $view->render(), true, $order = 30, true);
 	}
 	
 	function getLanguageToLoad($notification)

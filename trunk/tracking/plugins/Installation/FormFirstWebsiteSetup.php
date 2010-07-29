@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FormFirstWebsiteSetup.php 2559 2010-07-19 04:29:54Z vipsoft $
+ * @version $Id: FormFirstWebsiteSetup.php 2636 2010-07-23 12:15:09Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -38,7 +38,6 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 		$url = $this->addElement('text', 'url')
 		            ->setLabel(Piwik_Translate('Installation_SetupWebSiteURL'));
 		$url->setAttribute('style', 'color:rgb(153, 153, 153);');
-		$url->setValue($urlExample);
 		$url->setAttribute('onfocus', $javascriptOnClickUrlExample);
 		$url->setAttribute('onclick', $javascriptOnClickUrlExample);
 		$url->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_SetupWebSiteURL')));
@@ -50,6 +49,11 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 		$tz->addRule('checkTimezone', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone')));
 
 		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo')));
+
+		// default values
+		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
+			'url' => $urlExample,
+		)));
 	}	
 }
 

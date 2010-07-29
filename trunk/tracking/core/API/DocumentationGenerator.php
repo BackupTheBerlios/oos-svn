@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: DocumentationGenerator.php 2514 2010-07-16 12:07:54Z matt $
+ * @version $Id: DocumentationGenerator.php 2663 2010-07-24 17:10:40Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -16,6 +16,7 @@
  */
 class Piwik_API_DocumentationGenerator
 {
+	protected $modulesToHide = array('CoreAdminHome');
 	protected $countPluginsLoaded = 0;
 
 	/**
@@ -55,6 +56,10 @@ class Piwik_API_DocumentationGenerator
 		foreach(Piwik_API_Proxy::getInstance()->getMetadata() as $class => $info)
 		{
 			$moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
+			if(in_array($moduleName, $this->modulesToHide))
+			{
+				continue;
+			}
 			$str .= "\n<h2 id='$moduleName'>Module ".$moduleName."</h2>";
 			
 			foreach($info as $methodName => $infoMethod)
@@ -122,6 +127,8 @@ class Piwik_API_DocumentationGenerator
 		
 			'languageCode' => 'fr',
 			'url' => 'http://forum.piwik.org/',
+			'apiModule' => 'UserCountry',
+			'apiAction' => 'getCountry'
 		);
 		
 		foreach($parametersToSet as $name => $value)

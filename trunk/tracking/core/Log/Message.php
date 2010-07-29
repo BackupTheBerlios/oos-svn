@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Message.php 1817 2010-01-30 01:51:09Z vipsoft $
+ * @version $Id: Message.php 2767 2010-07-28 22:56:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -67,6 +67,7 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     	{
     		$message = $event['message'];
     	}
+    	$message .= "<br/>\n";
     	
     	return parent::format($message);
     }

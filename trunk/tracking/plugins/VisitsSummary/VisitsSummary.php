@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitsSummary.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: VisitsSummary.php 2750 2010-07-28 11:31:02Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
@@ -80,7 +80,7 @@ class Piwik_VisitsSummary extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', '', array('module' => 'VisitsSummary', 'action' => 'index'), 10);
+		Piwik_AddMenu('General_Visitors', '', array('module' => 'VisitsSummary', 'action' => 'index'), true, 10);
 		Piwik_AddMenu('General_Visitors', 'VisitsSummary_SubmenuOverview', array('module' => 'VisitsSummary', 'action' => 'index'), true, 1);
 	}
 }

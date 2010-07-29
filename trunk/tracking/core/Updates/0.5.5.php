@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: 0.5.5.php 2266 2010-06-03 17:47:32Z vipsoft $
+ * @version $Id: 0.5.5.php 2739 2010-07-28 02:39:50Z vipsoft $
  *
  * @category Piwik
  * @package Updates
@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_5_5 extends Piwik_Updates
 {
-	static function getSql($adapter = 'PDO_MYSQL')
+	static function getSql($schema = 'Myisam')
 	{
 		$sqlarray = array(
 			'DROP INDEX index_idsite_date ON ' . Piwik_Common::prefixTable('log_visit') => '1091',

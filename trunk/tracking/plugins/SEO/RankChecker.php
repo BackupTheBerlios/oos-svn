@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: RankChecker.php 2559 2010-07-19 04:29:54Z vipsoft $
+ * @version $Id: RankChecker.php 2625 2010-07-22 03:03:41Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_SEO
@@ -53,7 +53,7 @@ class Piwik_SEO_RankChecker
 	public function getAlexaRank()
 	{
 		$url = $this->url;
-		$xml = simplexml_load_file('http://data.alexa.com/data?cli=10&url=' . $url);
+		$xml = simplexml_load_string($this->getPage('http://data.alexa.com/data?cli=10&url=' . $url));
 		return $xml->SD->POPULARITY['TEXT'];
 	}
 

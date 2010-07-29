@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2519 2010-07-16 19:51:11Z SteveG $
+ * @version $Id: API.php 2631 2010-07-22 20:56:34Z SteveG $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
@@ -144,8 +144,13 @@ class Piwik_UserSettings_API
 			// be sorted by the generic filters (applied right after this function exits)
 			$table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Piwik_Archive::INDEX_NB_VISITS, $visitsSum, 1));
 		
-			// correct the cookie value (as detection works in IE, too)
+			// correct the cookie and java value (as detection works in IE, too)
 			$row = $table->getRowFromLabel('cookie');
+			if($row) {
+				$percentage = Piwik::getPercentageSafe($row->getColumn(Piwik_Archive::INDEX_NB_VISITS), $visitsSumTotal, 1) . '%';
+				$row->setColumn('nb_visits_percentage', $percentage);
+			}
+			$row = $table->getRowFromLabel('java');
 			if($row) {
 				$percentage = Piwik::getPercentageSafe($row->getColumn(Piwik_Archive::INDEX_NB_VISITS), $visitsSumTotal, 1) . '%';
 				$row->setColumn('nb_visits_percentage', $percentage);

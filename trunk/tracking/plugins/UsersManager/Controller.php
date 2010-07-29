@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2604 2010-07-21 08:00:17Z matt $
+ * @version $Id: Controller.php 2757 2010-07-28 15:05:32Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
@@ -132,6 +132,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller
 	public function setIgnoreCookie()
 	{
 		Piwik::checkUserHasSomeViewAccess();
+		Piwik::checkUserIsNotAnonymous();
 		$this->checkTokenInUrl();
 		$cookie = $this->getIgnoreCookie();
 		if($cookie->isCookieFound())

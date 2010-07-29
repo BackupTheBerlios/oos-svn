@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VisitFrequency.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: VisitFrequency.php 2750 2010-07-28 11:31:02Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
@@ -45,7 +45,7 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 		$reports = &$notification->getNotificationObject();
 		$reports[] = array(
 			'category' => Piwik_Translate('General_Visitors'),
-			'name' => Piwik_Translate('General_Visitors'),
+			'name' => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
 			'module' => 'VisitFrequency',
 			'action' => 'get',
 			'metrics' => array(

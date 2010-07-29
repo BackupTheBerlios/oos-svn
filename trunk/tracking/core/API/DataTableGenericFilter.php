@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: DataTableGenericFilter.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: DataTableGenericFilter.php 2709 2010-07-27 13:43:05Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -65,12 +65,12 @@ class Piwik_API_DataTableGenericFilter
 								'filter_sort_column' 		=> array('string'),
 								'filter_sort_order' 		=> array('string', 'desc'),
 						),
+			'Truncate' => array(
+								'filter_truncate'			=> array('integer'),
+						),
 			'Limit' => array(
 								'filter_offset' 			=> array('integer', '0'),
 								'filter_limit' 				=> array('integer'),
-						),
-			'Truncate' => array(
-								'filter_truncate'			=> array('integer'),
 						),
 		);
 		

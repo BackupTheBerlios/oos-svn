@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Visit.php 2429 2010-07-06 00:04:35Z matt $
+ * @version $Id: Visit.php 2767 2010-07-28 22:56:04Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -198,7 +198,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if($someGoalsConverted)
 		{
 			$goalManager->setCookie($this->cookie);
-			$goalManager->recordGoals($this->visitorInfo, $action);
+			$goalManager->recordGoals( $this->idsite, $this->visitorInfo, $action);
 		}
 		unset($goalManager);
 		unset($action);
@@ -305,16 +305,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							AND visitor_idcookie = ?
 						LIMIT 1";
 		array_push($sqlBind, $this->idsite, $this->visitorInfo['idvisit'], $this->visitorInfo['visitor_idcookie'] );
-
 		$result = Piwik_Tracker::getDatabase()->query($sqlQuery, $sqlBind);
 
 		printDebug('Updating visitor with idvisit='.$this->visitorInfo['idvisit'].', setting visit_last_action_time='.$datetimeServer.' and visit_total_time='.$visitTotalTime);
 		if(Piwik_Tracker::getDatabase()->rowCount($result) == 0)
 		{
-			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase("The visitor with visitor_idcookie=".$this->visitorInfo['visitor_idcookie']." and idvisit=".$this->visitorInfo['idvisit']." wasn't found in the DB, we fallback to a new visitor");
+			throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase(
+						"The visitor with visitor_idcookie=".$this->visitorInfo['visitor_idcookie']." and idvisit=".$this->visitorInfo['idvisit']
+						." wasn't found in the DB, we fallback to a new visitor");
 		}
 
-		$this->visitorInfo['idsite'] = $this->idsite;
 		$this->visitorInfo['visit_last_action_time'] = $serverTimestamp;
 
 		Piwik_PostEvent('Tracker.knownVisitorInformation', $this->visitorInfo);

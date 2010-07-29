@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Referers.php 2549 2010-07-18 20:47:45Z matt $
+ * @version $Id: Referers.php 2750 2010-07-28 11:31:02Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -51,18 +51,18 @@ class Piwik_Referers extends Piwik_Plugin
 		$reports = &$notification->getNotificationObject();
 		$reports = array_merge($reports, array(
         		array(
+        			'category'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_Type'),
+        			'module' => 'Referers',
+        			'action' => 'getRefererType',
+        			'dimension' => Piwik_Translate('Referers_ColumnRefererType')
+        		),
+        		array(
         			'category' => Piwik_Translate('Referers_Referers'),
         			'name'   => Piwik_Translate('Referers_Keywords'),
         			'module' => 'Referers',
         			'action' => 'getKeywords',
         			'dimension' => Piwik_Translate('Referers_ColumnKeyword'),
-        		),
-        		array(
-        			'category'  => Piwik_Translate('Referers_Referers'),
-        			'name'   => Piwik_Translate('Referers_SearchEngines'),
-        			'module' => 'Referers',
-        			'action' => 'getSearchEngines',
-        			'dimension' => Piwik_Translate('Referers_ColumnSearchEngine'),
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
@@ -73,17 +73,17 @@ class Piwik_Referers extends Piwik_Plugin
         		),
         		array(
         			'category'  => Piwik_Translate('Referers_Referers'),
+        			'name'   => Piwik_Translate('Referers_SearchEngines'),
+        			'module' => 'Referers',
+        			'action' => 'getSearchEngines',
+        			'dimension' => Piwik_Translate('Referers_ColumnSearchEngine'),
+        		),
+        		array(
+        			'category'  => Piwik_Translate('Referers_Referers'),
         			'name'   => Piwik_Translate('Referers_Campaigns'),
         			'module' => 'Referers',
         			'action' => 'getCampaigns',
         			'dimension' => Piwik_Translate('Referers_ColumnCampaign'),
-        		),
-        		array(
-        			'category'  => Piwik_Translate('Referers_Referers'),
-        			'name'   => Piwik_Translate('Referers_Type'),
-        			'module' => 'Referers',
-        			'action' => 'getRefererType',
-        			'dimension' => Piwik_Translate('Referers_ColumnRefererType')
         		),
     	));
 	}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UserSettings.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: UserSettings.php 2751 2010-07-28 11:34:27Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
@@ -74,6 +74,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	public function getReportMetadata($notification) 
 	{
 		$reports = &$notification->getNotificationObject();
+		
 		foreach($this->reportMetadata as $report)
 		{
 			list( $category, $name, $apiModule, $apiAction, $columnName ) = $report;

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: AddColumnsProcessedMetricsGoal.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: AddColumnsProcessedMetricsGoal.php 2671 2010-07-25 14:27:07Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -109,9 +109,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 					}
 					else
 					{
-						$value = round(100 * $conversions / $nbVisits, $roundingPrecision) . "%";
+						$value = round(100 * $conversions / $nbVisits, $roundingPrecision);
 					}
-					$newColumns[$name] = $value;
+        			$newColumns[$name] = $value. "%";
 					$expectedColumns[$name] = true;
 					
 					// When the table is displayed by clicking on the flag icon, we only display the columns
@@ -130,7 +130,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 					$name = 'goal_' . $goalId . '_revenue_per_visit';
 					if($nbVisits == 0)
 					{
-						$value = $this->invalidDivision;
+						$revenuePerVisit = $this->invalidDivision;
 					}
 					else
 					{
@@ -157,7 +157,12 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 			{
 				if(false === $row->getColumn($name))
 				{
-					$row->addColumn($name, 0);
+					$value = 0;
+					if(strpos($name, 'conversion_rate') !== false)
+					{
+						$value = '0%';
+					}
+					$row->addColumn($name, $value);
 				}
 			}
 		}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: CoreHome.php 2605 2010-07-21 09:03:05Z matt $
+ * @version $Id: CoreHome.php 2720 2010-07-27 21:13:58Z mauser $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
@@ -44,6 +44,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$cssFiles[] = "plugins/CoreHome/templates/menu.css";
 		$cssFiles[] = "plugins/CoreHome/templates/datatable.css";
 		$cssFiles[] = "plugins/CoreHome/templates/cloud.css";
+                $cssFiles[] = "plugins/CoreHome/templates/jquery.ui.autocomplete.css";
 	}
 
 	function getJsFiles( $notification )
@@ -68,6 +69,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$jsFiles[] = "plugins/CoreHome/templates/menu.js";	
 		$jsFiles[] = "plugins/CoreHome/templates/calendar.js";
 		$jsFiles[] = "plugins/CoreHome/templates/date.js";
+		$jsFiles[] = "plugins/CoreHome/templates/autocomplete.js";
 	}
 	
 }

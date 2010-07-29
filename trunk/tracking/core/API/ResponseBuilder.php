@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ResponseBuilder.php 2549 2010-07-18 20:47:45Z matt $
+ * @version $Id: ResponseBuilder.php 2663 2010-07-24 17:10:40Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -369,11 +369,18 @@ class Piwik_API_ResponseBuilder
         	$key = str_replace(' ', '_', $key);
         	$marginLeft = str_repeat("\t", $level + 1);
             if (is_array($value)) { 
-                $xml.=	$marginLeft .
+            	if(empty($value))
+            	{
+            		$xml .= $marginLeft . "<$key/>\n";
+            	}
+            	else
+            	{
+                    $xml.=	$marginLeft .
                 		"<$key>\n". 
                     		$this->convertMultiDimensionalArrayToXml($value, $level + 1).
                 			"\n". $marginLeft .
-                		"</$key>\n"; 
+                		"</$key>\n";
+            	} 
             } else { 
                 $xml.= $marginLeft . 
                 		"<$key>".$value."</$key>\n"; 

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Request.php 2151 2010-05-07 08:57:27Z matt $
+ * @version $Id: Request.php 2702 2010-07-27 00:23:00Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -55,6 +55,16 @@ class Piwik_API_Request
 		
 		if(!is_null($request))
 		{
+            if(is_array($request)) 
+            {
+                $url = array();
+                foreach ($request as $key => $value) 
+                {
+                    $url[] = $key . "=" . $value;
+                }
+                $request = implode("&", $url);
+            }
+
 			$request = trim($request);
 			$request = str_replace(array("\n","\t"),'', $request);
 			parse_str($request, $requestArray);

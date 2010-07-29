@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: index.php 2121 2010-04-25 14:00:36Z vipsoft $
+ * @version $Id: index.php 2763 2010-07-28 20:15:31Z vipsoft $
  * 
  * @package Piwik
  */
@@ -19,6 +19,7 @@ if(!defined('PIWIK_DISPLAY_ERRORS') || PIWIK_DISPLAY_ERRORS)
 {
 	@ini_set('display_errors', 1);
 }
+@ini_set('xdebug.show_exception_trace', 0);
 @ini_set('magic_quotes_runtime', 0);
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));

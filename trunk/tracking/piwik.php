@@ -4,19 +4,18 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: piwik.php 2516 2010-07-16 12:45:13Z matt $
+ * @version $Id: piwik.php 2767 2010-07-28 22:56:04Z matt $
  * 
  * @package Piwik
  */
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
+define('PIWIK_ENABLE_TRACKING', true);
 
 if(file_exists('bootstrap.php'))
 {
 	require_once 'bootstrap.php';
 }
-
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_MODE'] = true;
-define('PIWIK_ENABLE_TRACKING', true);
 error_reporting(E_ALL|E_NOTICE);
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__)=='/'?'':dirname(__FILE__));

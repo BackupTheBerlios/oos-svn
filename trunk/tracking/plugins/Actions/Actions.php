@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Actions.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: Actions.php 2750 2010-07-28 11:31:02Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Actions
@@ -84,8 +84,7 @@ class Piwik_Actions extends Piwik_Plugin
 		// Page titles, downloads and outlinks only report basic metrics
 		$metrics = array(	'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
             				'nb_visits',
-            				'nb_uniq_visitors',
-		);
+    	);
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
 			'name' => Piwik_Translate('Actions_SubmenuOutlinks'),
@@ -104,7 +103,10 @@ class Piwik_Actions extends Piwik_Plugin
 			'metrics' => $metrics,
 			'processedMetrics' => false,
 		);
-		
+		// Downloads and outlinks don't have nb_uniq_visitors metrics
+		// But Page title report does
+		$metrics[] = 'nb_uniq_visitors';
+	
 		$reports[] = array(
 			'category' => Piwik_Translate('Actions_Actions'),
 			'name' => Piwik_Translate('Actions_SubmenuPageTitles'),
@@ -114,6 +116,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'metrics' => $metrics,
 			'processedMetrics' => false,
 		);
+		
 	}
 	
 	function addWidgets()
@@ -376,7 +379,7 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		$matches = array();
 		$isUrl = false;
-		
+		$name = str_replace("\n", "", $name);
 		preg_match('@^http[s]?://([^/]+)[/]?([^#]*)[#]?(.*)$@i', $name, $matches);
 
 		if( count($matches) )
@@ -392,7 +395,7 @@ class Piwik_Actions extends Piwik_Plugin
 		{
 			if( $isUrl )
 			{
-				return array($urlHost, '/' . $urlPath);
+				return array(trim($urlHost), '/' . trim($urlPath));
 			}
 		}
 
@@ -433,7 +436,7 @@ class Piwik_Actions extends Piwik_Plugin
 		    } else {
 		        $defaultName = self::$defaultActionUrlWhenNotDefined;
 		    }
-			return array( $defaultName );
+			return array( trim($defaultName) );
 		}
 
 		return array_values( $split );
@@ -540,7 +543,6 @@ class Piwik_Actions extends Piwik_Plugin
 					$currentTable->addColumn($name, $value);
 				}
 			}
-			// simple count 
 			$rowsProcessed++;
 		}
 

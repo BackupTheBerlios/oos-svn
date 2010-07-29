@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Site.php 2429 2010-07-06 00:04:35Z matt $
+ * @version $Id: Site.php 2680 2010-07-25 18:32:06Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -95,6 +95,10 @@ class Piwik_Site
 	 */
 	static public function getIdSitesFromIdSitesString( $string )
 	{
+		if(is_array($string))
+		{
+			return $string;
+		}
 		$ids = explode(',', $string);
 		$validIds = array();
 		foreach($ids as $id)

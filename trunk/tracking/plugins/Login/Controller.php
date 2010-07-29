@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2473 2010-07-12 09:05:27Z matt $
+ * @version $Id: Controller.php 2697 2010-07-26 23:13:02Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -206,15 +206,9 @@ class Piwik_Login_Controller extends Piwik_Controller
 				) . "\n";
 			$mail->setBodyText($bodyText);
 
-			$piwikHost = $_SERVER['HTTP_HOST'];
-			if(strlen($piwikHost) == 0)
-			{
-				$piwikHost = 'piwik.org';
-			}
 
 			$fromEmailName = Zend_Registry::get('config')->General->login_password_recovery_email_name;
 			$fromEmailAddress = Zend_Registry::get('config')->General->login_password_recovery_email_address;
-			$fromEmailAddress = str_replace('{DOMAIN}', $piwikHost, $fromEmailAddress);
 			$mail->setFrom($fromEmailAddress, $fromEmailName);
 			@$mail->send();
 		}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: testMinimumPhpVersion.php 2557 2010-07-19 00:31:43Z vipsoft $
+ * @version $Id: testMinimumPhpVersion.php 2667 2010-07-25 13:16:53Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -18,7 +18,7 @@
 
 $piwik_minimumPHPVersion = '5.1.3';
 $piwik_currentPHPVersion = phpversion();
-if( version_compare($piwik_minimumPHPVersion , $piwik_currentPHPVersion ) >= 0 )
+if( version_compare($piwik_minimumPHPVersion , $piwik_currentPHPVersion ) > 0 )
 {
 	$piwik_errorMessage = "<p><b>To run Piwik you need at least PHP version $piwik_minimumPHPVersion </b></p> 
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
@@ -54,7 +54,7 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
 						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/docs/">Piwik Documentation</a></li>
 						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://forum.piwik.org/">Piwik Forums</a></li>
-						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://piwik.org/demo">Piwik Online Demo</a></li>
+						<li><a target="_blank" href="misc/redirectToUrl.php?url=http://demo.piwik.org">Piwik Online Demo</a></li>
 						</ul>';
 	}
 	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');

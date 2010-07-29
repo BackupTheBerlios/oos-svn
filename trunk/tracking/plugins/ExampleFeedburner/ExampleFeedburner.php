@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleFeedburner.php 2585 2010-07-19 21:59:34Z matt $
+ * @version $Id: ExampleFeedburner.php 2764 2010-07-28 20:19:41Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleFeedburner
@@ -102,6 +102,13 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 		$data = '';
 		try {
 			$data = Piwik_Http::sendHttpRequest($url, 5);
+
+			// Feedburner errors are malformed
+			if(strpos($data, 'The server encountered a temporary error') !== false)
+			{
+				$data = 'The server encountered a temporary error';
+				throw new Exception('Feedburner stats temporarily unavailable');
+			}
 			$xml = new SimpleXMLElement($data);
 		} catch(Exception $e) {
 			return "Error parsing the data for feed <a href='http://feeds.feedburner.com/$uri' target='_blank'>$uri</a>. Fetched data was: \n'". $data."'";

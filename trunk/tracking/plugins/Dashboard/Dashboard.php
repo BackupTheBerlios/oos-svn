@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Dashboard.php 2605 2010-07-21 09:03:05Z matt $
+ * @version $Id: Dashboard.php 2639 2010-07-23 18:29:37Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Dashboard
@@ -43,7 +43,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 
 	public function addTopMenu()
 	{
-		Piwik_AddTopMenu('General_Dashboard', array('module' => 'CoreHome', 'action' => false), true, 1);
+		Piwik_AddTopMenu('General_Dashboard', array('module' => 'CoreHome', 'action' => 'index'), true, 1);
 	}
 	
 	function getJsFiles( $notification )

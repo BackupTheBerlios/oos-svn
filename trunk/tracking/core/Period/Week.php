@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Week.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Week.php 2697 2010-07-26 23:13:02Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -31,8 +31,11 @@ class Piwik_Period_Week extends Piwik_Period
 
 	public function getLocalizedLongString()
 	{
-		return Piwik_Translate('CoreHome_PeriodWeek') . " ". $this->getLocalizedShortString();
+		$shortDateStart = $this->getDateStart()->getLocalized("%day% %longMonth%");
+		$shortDateEnd =  $this->getDateEnd()->getLocalized("%day% %longMonth% %longYear%");
+		return Piwik_Translate('CoreHome_PeriodWeek') . " $shortDateStart - $shortDateEnd";
 	}
+	
 	public function getPrettyString()
 	{
 		$out = $this->getDateStart()->toString() . " to " . $this->getDateEnd()->toString();

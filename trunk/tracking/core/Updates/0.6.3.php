@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: 0.6.3.php 2281 2010-06-06 19:42:20Z vipsoft $
+ * @version $Id: 0.6.3.php 2739 2010-07-28 02:39:50Z vipsoft $
  *
  * @category Piwik
  * @package Updates
@@ -15,7 +15,7 @@
  */
 class Piwik_Updates_0_6_3 extends Piwik_Updates
 {
-	static function getSql($adapter = 'PDO_MYSQL')
+	static function getSql($schema = 'Myisam')
 	{
 		return array(
 			'ALTER TABLE `'. Piwik_Common::prefixTable('log_visit') .'`

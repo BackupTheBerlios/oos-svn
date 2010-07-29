@@ -64,6 +64,12 @@ action_url_category_delimiter = /
 ; similar to above, but this delimiter is only used for page titles in the Actions > Page titles report
 action_title_category_delimiter = /
 
+; minimum number of websites to run autocompleter
+autocomplete_min_sites = 5
+
+; maximum number of websites showed in search results in autocompleter
+site_selector_max_sites = 10
+
 ; this action name is used when the URL ends with a slash / 
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
@@ -125,12 +131,15 @@ login_cookie_expire = 2592000
 ; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
 login_cookie_path = 
 
+
 ; email address that appears as a Sender in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Piwik domain
 login_password_recovery_email_address = "password-recovery@{DOMAIN}"
-
 ; name that appears as a Sender in the password recovery email
 login_password_recovery_email_name = Piwik
+
+; standard email address displayed when sending emails
+noreply_email_address = "noreply@{DOMAIN}"
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
@@ -200,6 +209,13 @@ enable_detect_unique_visitor_using_settings = 1
 ; The mapping is defined in core/DataFiles/LanguageToCountry.php,
 enable_language_to_country_guess = 1
 
+; When the misc/cron/archive.sh cron hasn't been setup, we still need to regularly run some maintenance tasks.
+; Visits to the Tracker will try to trigger Scheduled Tasks (eg. scheduled PDF reports by email).
+; Scheduled tasks will only run if 'Enable Piwik Archiving from Browser' is enabled in the General Settings.
+; Tasks run once every hour maximum, they might not run every hour if traffic is low.
+; Set to 0 to disable Scheduled tasks completely.
+scheduled_tasks_min_interval = 3600
+
 ; name of the cookie used to store the visitor information
 cookie_name	= piwik_visitor
 
@@ -229,6 +245,13 @@ page_maximum_length = 1024;
 ; for IPv4 addresses, valid values are 0..4
 ip_address_mask_length = 1
 
+[mail]
+transport = 	 					; smtp or empty 
+port = 25
+host = 								; SMTP server address 
+type =  							; SMTP Auth type. By default: NONE. For example: LOGIN 
+username =  						; SMTP username
+password =  						; SMTP password 
 
 [log]
 ;possible values for log: screen, database, file
@@ -292,6 +315,9 @@ Plugins[] 		= UsersManager
 Plugins[] 		= SitesManager
 Plugins[] 		= Installation
 Plugins[] 		= CoreUpdater
+; disabled in 0.7-rc1
+Plugins[]       = PDFReports
+Plugins[] 		= UserCountryMap
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
@@ -302,3 +328,5 @@ PluginsInstalled[] = Installation
 
 [Plugins_Tracker]
 Plugins_Tracker[] = Provider
+Plugins_Tracker[] = Goals
+

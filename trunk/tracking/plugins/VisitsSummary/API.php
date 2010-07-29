@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: API.php 2722 2010-07-27 21:26:24Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
@@ -33,8 +33,8 @@ class Piwik_VisitsSummary_API
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 	
 		// array values are comma separated
-		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
-		$countColumnsRequested = is_array($columns) ? count($columns) : 0;
+		$columns = Piwik::getArrayFromApiParameter($columns);
+		$countColumnsRequested = count($columns);
 		
 		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = false;
 		if(!empty($columns))
@@ -55,13 +55,14 @@ class Piwik_VisitsSummary_API
 		else
 		{
     		$bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
-			$columns = array(	'max_actions',
-								'nb_uniq_visitors', 
+			$columns = array(	
 								'nb_visits',
+								'nb_uniq_visitors', 
 								'nb_actions', 
-								'sum_visit_length',
-								'bounce_count',
 								'nb_visits_converted',
+								'bounce_count',
+								'sum_visit_length',
+								'max_actions',
 							);
 		}
 

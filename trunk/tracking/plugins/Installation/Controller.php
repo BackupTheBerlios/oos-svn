@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2593 2010-07-20 14:35:50Z vipsoft $
+ * @version $Id: Controller.php 2634 2010-07-22 22:44:26Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -806,7 +806,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			$infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
 		}
 
-		$infos['isWindows'] = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN';
+		$infos['isWindows'] = Piwik_Common::isWindows();
 
 		$infos['protocol_ok'] = true;
 		$infos['protocol'] = self::getProtocolInformation();

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: API.php 2641 2010-07-23 19:05:31Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
@@ -32,8 +32,8 @@ class Piwik_VisitFrequency_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date );
 		
-		$columns = is_array($columns) ? implode(',', $columns) : ($columns !== false ? array($columns) : false);
-		$countColumnsRequested = is_array($columns) ? count($columns) : 0;
+		$columns = Piwik::getArrayFromApiParameter($columns);
+		$countColumnsRequested = count($columns);
 		
 		$bounceRateReturningRequested = $averageVisitDurationReturningRequested = $actionsPerVisitReturningRequested = false;
 		if(!empty($columns))

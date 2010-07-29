@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Myisam.php 2512 2010-07-16 02:41:02Z vipsoft $
+ * @version $Id: Myisam.php 2738 2010-07-28 02:01:30Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -254,7 +254,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 			",
 
 			'option' => "CREATE TABLE `{$prefixTables}option` (
-								option_name VARCHAR( 64 ) NOT NULL,
+								option_name VARCHAR( 255 ) NOT NULL,
 								option_value LONGTEXT NOT NULL,
 								autoload TINYINT NOT NULL DEFAULT '1',
 								PRIMARY KEY ( option_name )

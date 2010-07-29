@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: PatternRecursive.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: PatternRecursive.php 2703 2010-07-27 00:36:19Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -68,7 +68,7 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 			}
 
 			if( $patternNotFoundInChildren
-				&& !Piwik_DataTable_Filter_Pattern::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter))	
+				&& !Piwik_DataTable_Filter_Pattern::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $invertedMatch = false)	
 			)
 			{
 				$table->deleteRow($key);

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FrontController.php 2392 2010-06-29 06:45:34Z matt $
+ * @version $Id: FrontController.php 2767 2010-07-28 22:56:04Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -287,12 +287,3 @@ class Piwik_FrontController_PluginDeactivatedException extends Exception
 	}
 }
 
-/**
- * For more information: @link http://dev.piwik.org/trac/ticket/374
- */
-function destroy(&$var) 
-{
-	if (is_object($var)) $var->__destruct();
-	unset($var);
-	$var = null;
-}

@@ -1,5 +1,4 @@
 {assign var=showSitesSelection value=false}
-{assign var=showPeriodSelection value=true}
 {include file="CoreHome/templates/header.tpl"}
 
 <div id="multisites">
@@ -32,9 +31,9 @@
     {include file="CoreHome/templates/header_message.tpl"}
 </div>
 
-<div class="multiSitesCont">
+<div class="centerLargeDiv">
 
-<h1>{'General_AllWebsitesDashboard'|translate}</h1>
+<h2>{'General_AllWebsitesDashboard'|translate}</h2>
 
 <table id="mt" class="dataTable" cellspacing="0">
 	<thead>
@@ -96,6 +95,8 @@ refreshAfter(5*60*1000);
 </script>
 </div>
 </div>
+
+{include file="CoreHome/templates/piwik_tag.tpl"}
 
 </div>
 </body>

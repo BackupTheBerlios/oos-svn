@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: AllColumns.php 2549 2010-07-18 20:47:45Z matt $
+ * @version $Id: AllColumns.php 2671 2010-07-25 14:27:07Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -47,7 +47,8 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 										$columnUniqueVisitors, 
 										'nb_actions_per_visit', 
 										'avg_time_on_site', 
-										'bounce_rate'));
+										'bounce_rate',
+										'conversion_rate'));
 		$this->dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', create_function('$averageTimeOnSite', 'return Piwik::getPrettyTimeFromSeconds($averageTimeOnSite);')));
 	}
 }

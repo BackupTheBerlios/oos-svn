@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Piwik.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: Piwik.php 2752 2010-07-28 12:01:58Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -166,13 +166,21 @@ class Piwik
 			@chmod($dest, 0755);
 	   		if(!@copy( $source, $dest ))
 	   		{
-				throw new Exception("
-				Error while copying file to <code>$dest</code>. <br />
-				Please check that the web server has enough permission to overwrite this file. <br />
-				For example, on a linux server, if your apache user is www-data you can try to execute:<br />
-				<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br />
-				<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br />
-					");
+				$message = "Error while copying file to <code>$dest</code>. <br />"
+				         . "Please check that the web server has enough permission to overwrite this file. <br />";
+
+				if(Piwik_Common::isWindows())
+				{
+					$message .= "On Windows, you can try to execute:<br />"
+					          . "<code>cacls ".Piwik_Common::getPathToPiwikRoot()." /t /g ".get_current_user().":f</code><br />";
+				}
+				else
+				{
+					$message = "For example, on a linux server, if your apache user is www-data you can try to execute:<br />"
+					         . "<code>chown -R www-data:www-data ".Piwik_Common::getPathToPiwikRoot()."</code><br />"
+					         . "<code>chmod -R 0755 ".Piwik_Common::getPathToPiwikRoot()."</code><br />";
+				}
+				throw new Exception($message);
 	   		}
 		}
 		return true;
@@ -255,15 +263,21 @@ class Piwik
 			$realpath = Piwik_Common::realpath($dir);
 			if(!empty($realpath) && $bool === false)
 			{
-				$directoryList .= "<code>chmod 777 $realpath</code><br />";
+				if(Piwik_Common::isWindows())
+				{
+					$directoryList .= "<code>cacls $realpath /t /g ".get_current_user().":f</code><br />";
+				}
+				else
+				{
+					$directoryList .= "<code>chmod 0777 $realpath</code><br />";
+				}
 			}
 		}
-		$directoryList .= '';
-		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</P>";
-		$directoryMessage .= $directoryList;
-		$directoryMessage .= "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 777 (with your FTP software, right click on the directories, permissions).";
-		$directoryMessage .= "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.";
-		$directoryMessage .= "<p>If you need more help, try <a href='misc/redirectToUrl.php?url=http://piwik.org'>Piwik.org</a>.";
+		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> <p>Try to Execute the following commands on your Linux server:</p>"
+		                  . "<blockquote>$directoryList</blockquote>"
+		                  . "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 0777 (with your FTP software, right click on the directories, permissions).</p>"
+		                  . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
+		                  . "<p>If you need more help, try <a href='misc/redirectToUrl.php?url=http://piwik.org'>Piwik.org</a>.</p>";
 
 		Piwik_ExitWithMessage($directoryMessage, false, true);
 	}
@@ -276,6 +290,10 @@ class Piwik
 	 */
 	static public function checkDirectoriesWritable($directoriesToCheck = null)
 	{
+		static $publicFolders = array(
+			'/tmp/assets/',
+		);
+
 		if( $directoriesToCheck == null )
 		{
 			$directoriesToCheck = array(
@@ -291,6 +309,7 @@ class Piwik
 		$resultCheck = array();
 		foreach($directoriesToCheck as $directoryToCheck)
 		{
+			$overrideUmask = in_array($directoryToCheck, $publicFolders);
 			if( !preg_match('/^'.preg_quote(PIWIK_USER_PATH, '/').'/', $directoryToCheck) )
 			{
 				$directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
@@ -298,7 +317,14 @@ class Piwik
 
 			if(!file_exists($directoryToCheck))
 			{
+				// the mode in mkdir is modified by the current umask
 				Piwik_Common::mkdir($directoryToCheck, 0755, false);
+
+				// override an overly restrictive umask for public folders only
+				if($overrideUmask)
+				{
+					@chmod($directoryToCheck, 0755);
+				}
 			}
 
 			$directory = Piwik_Common::realpath($directoryToCheck);
@@ -486,7 +512,8 @@ class Piwik
 					// convert end-of-line characters and re-test text files
 					$content = @file_get_contents($file);
 					$content = str_replace("\r\n", "\n", $content);
-					if(@md5($content) !== $props[1])
+					if((strlen($content) != $props[0])
+						|| (@md5($content) !== $props[1]))
 					{
 						$messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
 					}
@@ -892,6 +919,15 @@ class Piwik
 		return $symbols[$site->getCurrency()];
 	}
 
+	/**
+	 * For the given value, based on the column name, will apply: pretty time, pretty money
+	 * @param $idSite
+	 * @param $columnName
+	 * @param $value
+	 * @param $htmlAllowed
+	 * @param $timeAsSentence
+	 * @return string
+	 */
 	static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed, $timeAsSentence)
 	{
 		// Display time in human readable
@@ -906,10 +942,11 @@ class Piwik
 		}
 		return $value;
 	}
+	
 	/**
 	 * Pretty format monetary value for a site
 	 *
-	 * @param numeric $value
+	 * @param numeric|string $value
 	 * @param int $idSite
 	 * @return string
 	 */
@@ -931,12 +968,24 @@ class Piwik
 			$currencyAfter = $space.$currencyBefore;
 			$currencyBefore = '';
 		}
-		$amount = (int)$value;
-		if($value != round($value))
+
+		// if the input is a number (it could be a string or INPUT form), 
+		// and if this number is not an int, we round to precision 2
+		if(is_numeric($value))
 		{
-			$amount = sprintf( "%01.2f", $value);
+			if($value == round($value))
+			{
+				// 0.0 => 0
+				$value = round($value);
+			}
+			else
+			{
+				$precision = 2;
+				$value = sprintf( "%01.".$precision."f", $value);
+			}
 		}
-		return $currencyBefore . $space . $amount . $currencyAfter;
+		$prettyMoney = $currencyBefore . $space . $value . $currencyAfter;
+		return $prettyMoney;
 	}
 
 	/**
@@ -1018,6 +1067,16 @@ class Piwik
 	}
 
 	/**
+	 * Returns relative path to the App logo
+	 * 
+	 * @return string
+	 */
+	public function getLogoPath()
+	{
+		return PIWIK_INCLUDE_PATH . '/themes/default/images/logo.png';
+	}
+	
+	/**
 	 * Returns the Javascript code to be inserted on every page to track
 	 *
 	 * @param int $idSite
@@ -1066,6 +1125,16 @@ class Piwik
  * Access
  */
 
+	static public function getCurrentUserEmail()
+	{
+		if(!Piwik::isUserIsSuperUser())
+		{
+			$user = Piwik_UsersManager_API::getInstance()->getUser(Piwik::getCurrentUserLogin());
+			return $user['email']; 
+		}
+		$superuser = Zend_Registry::get('config')->superuser;
+		return $superuser->email;
+	}
 	/**
 	 * Get current user login
 	 *
@@ -1137,6 +1206,14 @@ class Piwik
 		}
 	}
 
+	static public function checkUserIsNotAnonymous()
+	{
+		if(Piwik::getCurrentUserLogin() == 'anonymous')
+		{
+			throw new Exception(Piwik_Translate('General_YouMustBeLoggedIn'));
+		}
+	}
+	
 	/**
 	 * Helper method user to set the current as Super User.
 	 * This should be used with great care as this gives the user all permissions.
@@ -1305,7 +1382,26 @@ class Piwik
 	{
 		return Piwik_Common::getRequestVar('action', '', 'string');
 	}
-
+	
+	/**
+	 * Helper method used in API function to introduce array elements in API parameters.
+	 * Array elements can be passed by comma separated values, or using the notation
+	 * array[]=value1&array[]=value2 in the URL. 
+	 * This function will handle both cases and return the array.
+	 * 
+	 * @param $columns String or array
+	 * @return array 
+	 */
+	static public function getArrayFromApiParameter($columns)
+	{
+		return $columns === false
+				? array()
+				: (is_array($columns) 
+					? $columns 
+					: explode(',', $columns)
+					);
+	}
+	
 	/**
 	 * Redirect to module (and action)
 	 *

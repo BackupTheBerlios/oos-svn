@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Pattern.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Pattern.php 2703 2010-07-27 00:36:19Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -23,13 +23,15 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	private $columnToFilter;
 	private $patternToSearch;
 	private $patternToSearchQuoted;
+        private $invertedMatch;
 	
-	public function __construct( $table, $columnToFilter, $patternToSearch )
+	public function __construct( $table, $columnToFilter, $patternToSearch, $invertedMatch = false )
 	{
 		parent::__construct($table);
 		$this->patternToSearch = $patternToSearch;
 		$this->patternToSearchQuoted = self::getPatternQuoted($patternToSearch);
 		$this->columnToFilter = $columnToFilter;
+        $this->invertedMatch = $invertedMatch;
 		$this->filter();
 	}
 	
@@ -41,9 +43,9 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 	/*
 	 * Performs case insensitive match
 	 */
-	static public function match($pattern, $patternQuoted, $string)
+	static public function match($pattern, $patternQuoted, $string, $invertedMatch)
 	{
-		return @preg_match($patternQuoted . "i",  $string) == 1;
+		return @preg_match($patternQuoted . "i",  $string) == 1 ^ $invertedMatch;
 	}
 	
 	protected function filter()
@@ -54,7 +56,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 			// - negative search with -piwik
 			// - exact match with ""
 			// see (?!pattern) 	A subexpression that performs a negative lookahead search, which matches the search string at any point where a string not matching pattern begins. 
-			if( !self::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter)))
+			if( !self::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $this->invertedMatch))
 			{
 				$this->table->deleteRow($key);
 			}

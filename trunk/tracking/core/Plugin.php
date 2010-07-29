@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Plugin.php 2272 2010-06-04 21:56:12Z vipsoft $
+ * @version $Id: Plugin.php 2693 2010-07-26 15:14:27Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -20,14 +20,13 @@ abstract class Piwik_Plugin
 {
 	/**
 	 * Returns the plugin details
-	 * 	'description' => string        // 1-2 sentence description of the plugin
-	 * 	'author' => string             // plugin author 
-	 * 	'author_homepage' => string    // author homepage URL (or email "mailto:youremail@example.org")
-	 * 	'homepage' => string           // plugin homepage URL
-	 * 	'version' => string            // plugin version number; examples and 3rd party plugins must not use Piwik_Version::VERSION;
-	 *                                 // 3rd party plugins must increment the version number with each plugin release
-	 *  'translationAvailable' => bool // is there a translation file in plugins/your-plugin/lang/* ?
-	 * 	'TrackerPlugin' => bool        // should we load this plugin during the stats logging process?
+	 * - 'description' => string        // 1-2 sentence description of the plugin
+	 * - 'author' => string             // plugin author 
+	 * - 'author_homepage' => string    // author homepage URL (or email "mailto:youremail@example.org")
+	 * - 'homepage' => string           // plugin homepage URL
+	 * - 'version' => string            // plugin version number; examples and 3rd party plugins must not use Piwik_Version::VERSION; 3rd party plugins must increment the version number with each plugin release
+	 * - 'translationAvailable' => bool // is there a translation file in plugins/your-plugin/lang/* ?
+	 * - 'TrackerPlugin' => bool        // should we load this plugin during the stats logging process?
 	 */
 	abstract function getInformation();
 

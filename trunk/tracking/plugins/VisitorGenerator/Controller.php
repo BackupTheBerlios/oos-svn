@@ -4,9 +4,9 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2604 2010-07-21 08:00:17Z matt $
+ * @version $Id: Controller.php 2657 2010-07-24 04:08:23Z vipsoft $
  *
- * @category Piwik_Plugin
+ * @category Piwik_Plugins
  * @package Piwik_VisitorGenerator
  */
 

@@ -3,11 +3,36 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: common.js 2562 2010-07-19 09:17:14Z matt $
+ * @version $Id: common.js 2697 2010-07-26 23:13:02Z matt $
  */
 
 function piwikHelper()
 {
+}
+
+/*
+ * Displays a Modal window popover. Text will be taken from the DOM node domSelector.
+ * When user clicks Yes in Modal,onValidate() will be executed.
+ * 
+ * On clicking No, or esc key, the modal will fade out.
+ */
+piwikHelper.windowModal = function( domSelector, onValidate )
+{
+	var question = $(domSelector);
+	$(document).keydown( function( e ) { 
+		if( e.which == 27)  $.unblockUI(); }
+	);
+	$('#no', question).unbind('click').click($.unblockUI);
+	$('#yes', question).unbind('click').click(function() {
+		onValidate();
+		$.unblockUI();
+	});
+	$.blockUI({
+		message: question, 
+		css: { width: 650, border:0, background:"none", top:90 }
+	});
+	
+	$.unblockUI
 }
 
 /*
@@ -135,6 +160,11 @@ piwikHelper.lazyScrollTo = function(elem, time)
 		// scroll the page smoothly to the graph
 		$.scrollTo(elem, time);
 	}
+}
+
+piwikHelper.getApiFormatTextarea = function (textareaContent)
+{
+	return textareaContent.trim().split("\n").join(',');
 }
 
 piwikHelper.OFC = (function () {

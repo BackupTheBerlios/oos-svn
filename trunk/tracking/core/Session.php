@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Session.php 2434 2010-07-06 13:37:59Z vipsoft $
+ * @version $Id: Session.php 2681 2010-07-25 18:54:38Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -19,12 +19,22 @@ class Piwik_Session extends Zend_Session
 {
     public static function start($options = false)
 	{
+		// use cookies to store session id on the client side
+		@ini_set('session.use_cookies', '1');
+
+		// prevent attacks involving session ids passed in URLs
+		@ini_set('session.use_only_cookies', '1');
+
 		// don't use the default: PHPSESSID
 		$sessionName = defined('PIWIK_SESSION_NAME') ? PIWIK_SESSION_NAME : 'PIWIK_SESSID';
 		@ini_set('session.name', $sessionName);
 
-		// we consider this a misconfiguration (i.e., Piwik doesn't implement user-defined session handler functions)
-		if(ini_get('session.save_handler') == 'user')
+		// we consider these to be misconfigurations, in that
+		//  - user - Piwik doesn't implement user-defined session handler functions
+		// -  mm - is not recommended, not supported, not available for Windows, and has a potential concurrency issue
+		$currentSaveHandler = ini_get('session.save_handler');
+		if($currentSaveHandler == 'user'
+			|| $currentSaveHandler == 'mm')
 		{
 			@ini_set('session.save_handler', 'files');
 			@ini_set('session.save_path', '');

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Date.php 2541 2010-07-17 22:50:44Z matt $
+ * @version $Id: Date.php 2702 2010-07-27 00:23:00Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -498,14 +498,28 @@ class Piwik_Date
 		$minutes = 0;
 		if($n != round($n))
 		{
-			$minutes = (abs($n) - floor(abs($n))) * 60;
+			if($n >= 1 || $n <= -1)
+			{
+    			$extraMinutes = floor(abs($n));
+    			if($isNegative)
+    			{
+    				$extraMinutes = -$extraMinutes;
+    			}
+    			$minutes = abs($n - $extraMinutes) * 60;
+    			if($isNegative) {
+    				$minutes *= -1;
+    			}
+			}
+			else
+			{
+				$minutes = $n * 60;
+			}
 			$n = floor(abs($n));
 			if($isNegative) {
-				$minutes *= -1;
     			$n *= -1;
 			}
 		}
-		$ts = $this->timestamp + $minutes * 60 + $n * 3600;
+		$ts = $this->timestamp + round($minutes * 60) + $n * 3600;
 		return new Piwik_Date( (int)$ts, $this->timezone );
 	}
 
@@ -532,7 +546,27 @@ class Piwik_Date
      */
 	public function addPeriod( $n, $period )
 	{
-		$ts = strtotime("+$n $period", $this->timestamp);
+		if($n < 0) 
+		{
+			$ts = strtotime("$n $period", $this->timestamp);
+		}
+		else 
+		{
+			$ts = strtotime("+$n $period", $this->timestamp);
+		}
 		return new Piwik_Date( $ts, $this->timezone );
+	}
+
+	/**
+     * Subtracts period from the existing date object.
+     * Returned is the new date object
+     * Doesn't modify $this
+     *
+     * @param int Number of period to sub
+     * @return  Piwik_Date new date
+     */
+	public function subPeriod( $n, $period )
+	{
+		return $this->addPeriod(-$n, $period );
 	}
 }

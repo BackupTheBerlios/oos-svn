@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Url.php 2510 2010-07-16 00:36:09Z vipsoft $
+ * @version $Id: Url.php 2634 2010-07-22 22:44:26Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -304,7 +304,7 @@ class Piwik_Url
 	static public function isLocalUrl($url)
 	{
 		// handle case-sensitivity differences
-		$pathContains = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'stripos' : 'strpos';
+		$pathContains = Piwik_Common::isWindows() ? 'stripos' : 'strpos';
 
 		// test the scheme/protocol portion of the reconstructed "current" URL
 		if(stripos($url, 'http://') === 0 || stripos($url, 'https://') === 0)

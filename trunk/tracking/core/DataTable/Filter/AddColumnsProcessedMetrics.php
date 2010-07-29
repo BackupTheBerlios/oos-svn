@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: AddColumnsProcessedMetrics.php 2594 2010-07-20 18:21:39Z matt $
+ * @version $Id: AddColumnsProcessedMetrics.php 2671 2010-07-25 14:27:07Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -16,8 +16,8 @@
  */
 class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_Filter
 {
-	protected $invalidDivision = '0';
-	protected $roundPrecision = 1;
+	protected $invalidDivision = 0;
+	protected $roundPrecision = 2;
 	
 	/**
 	 * @param $table
@@ -52,9 +52,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 			}
 			else
 			{
-				$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision) . "%";
+				$conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision);
 			}
-			$row->addColumn('conversion_rate', $conversionRate);
+			$row->addColumn('conversion_rate', $conversionRate."%");
 		
 			// nb_actions / nb_visits => Actions/visit
 			// sum_visit_length / nb_visits => Avg. Time on Site 
