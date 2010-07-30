@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2308 2010-06-16 13:47:41Z matt $
+ * @version $Id: Controller.php 2779 2010-07-29 07:57:30Z peterb $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
@@ -36,7 +36,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view->setGraphLimit( 24 );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		$view->enableShowGoals();
 		
 		return $this->renderView($view, $fetch);
@@ -53,7 +53,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 		$view->setGraphLimit( 24 );
 		$view->disableSearchBox();
 		$view->disableExcludeLowPopulation();
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		
 		return $this->renderView($view, $fetch);
 	}

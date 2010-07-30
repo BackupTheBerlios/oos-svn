@@ -36,6 +36,8 @@
 
 .widgetContent h2 {
 	font-size:1.2em;
+	margin-left:10px;
+	font-weight:bold;
 }
 .widgetTop {
 	background:#b5b0a7 url(../../../themes/default/images/dashboard_h_bg.png) repeat-x 0 0;
@@ -225,14 +227,6 @@ ol#menuList li, ul#widgetList li .button{
 	cursor: pointer;
 }
 #addWidget .widget_button .arr{ vertical-align:top; }
-
-.widget input {
-	background: #F7F7FF none repeat scroll 0% 50%;
-	border: 1px solid #B3B3B3;
-	color: #0C183A;
-	font-size: 0.7em;
-	padding: 2px;
-}
 
 #widgetChooser {
 	padding-top:10px;

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Visit.php 2767 2010-07-28 22:56:04Z matt $
+ * @version $Id: Visit.php 2791 2010-07-29 13:52:10Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -85,6 +85,15 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			throw new Exception('Invalid idSite');
 		}
 		$this->idsite = $idsite;
+		
+		// When the 'url' and referer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
+		// The URL can default to the Referer, which will be in this case 
+		// the URL of the page containing the Simple Image beacon
+		if(empty($this->request['urlref'])
+			&& empty($this->request['url']))
+		{
+    		$this->request['url'] = @$_SERVER['HTTP_REFERER'];
+		}
 	}
 
 	/**
@@ -202,6 +211,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 		unset($goalManager);
 		unset($action);
+		
+		printDebug("<pre>");
+		printDebug($this->cookie);
+		printDebug("</pre>");
 	}
 
 	protected function handleAction($action)
@@ -617,7 +630,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function getCookieName()
 	{
-		return Piwik_Tracker_Config::getInstance()->Tracker['cookie_name'] . $this->idsite;
+		return Piwik_Tracker_Config::getInstance()->Tracker['cookie_name'];
 	}
 
 	/**
@@ -682,7 +695,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected function recognizeTheVisitor()
 	{
 		$this->visitorKnown = false;
-		$this->setCookie( new Piwik_Cookie( $this->getCookieName(), $this->getCookieExpire(), $this->getCookiePath() ) );
+		$this->setCookie( new Piwik_Cookie( 
+								$this->getCookieName(), 
+								$this->getCookieExpire(), 
+								$this->getCookiePath(),
+								$key = $this->idsite ) );
 
 		/*
 		 * Case the visitor has the piwik cookie.
@@ -857,6 +874,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		printDebug("We manage the cookie...");
 
+		
 		if( isset($this->visitorInfo['referer_type'])
 			&& $this->visitorInfo['referer_type'] != Piwik_Common::REFERER_TYPE_DIRECT_ENTRY)
 		{

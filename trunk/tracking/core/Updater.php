@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Updater.php 2612 2010-07-21 09:57:20Z matt $
+ * @version $Id: Updater.php 2817 2010-07-30 07:00:24Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -194,8 +194,8 @@ class Piwik_Updater
 				$pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
 			}
 			
-			$files = glob( $pathToUpdates );
-			if($files === false)
+			$files = _glob( $pathToUpdates );
+			if($files == false)
 			{
 				$files = array();
 			}

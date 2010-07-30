@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2493 2010-07-13 12:56:56Z matt $
+ * @version $Id: Controller.php 2779 2010-07-29 07:57:30Z peterb $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
@@ -81,7 +81,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										'graphPie'
 									);
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnBrowserFamily'));
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -92,7 +92,7 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
 										'UserSettings.getWideScreen'
 									);
 		$view->setColumnTranslation('label', Piwik_Translate('UserSettings_ColumnTypeOfScreen'));
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		return $this->renderView($view, $fetch);
 	}
 	

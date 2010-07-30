@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: PDFRenderer.php 2737 2010-07-28 01:34:56Z matt $
+ * @version $Id: PDFRenderer.php 2783 2010-07-29 10:38:11Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_PDFReports
@@ -202,7 +202,7 @@ class Piwik_PDFReports_PDFRenderer extends TCPDF
 						{
 							$topMargin = 2;
 						}
-						$this->Image(PIWIK_INCLUDE_PATH."/".$this->reportRowsMetadata[$rowId]['logo'], $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth/4);
+						$this->Image(Piwik_Common::getPathToPiwikRoot()."/".$this->reportRowsMetadata[$rowId]['logo'], $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth/4);
 						$this->SetXY($restoreX, $restoreY);
 					}
 				}

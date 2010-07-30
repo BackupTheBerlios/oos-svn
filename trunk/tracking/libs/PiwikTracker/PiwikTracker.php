@@ -8,7 +8,7 @@
  * Note: Piwik Cookies are not forwarded in the request and from the response
  *
  * @license released under BSD License http://www.opensource.org/licenses/bsd-license.php
- * @version $Id: PiwikTracker.php 2759 2010-07-28 17:44:17Z vipsoft $
+ * @version $Id: PiwikTracker.php 2785 2010-07-29 10:41:55Z matt $
  * @link http://piwik.org/docs/tracking-api/
  *
  * @category Piwik
@@ -271,6 +271,9 @@ class PiwikTracker
     	$this->ip = $ip;
     }
     
+    /**
+     * @ignore
+     */
     protected function sendRequest($url)
     {
 		if(function_exists('stream_context_create')) {
@@ -289,6 +292,9 @@ class PiwikTracker
 		return $response;
     }
     
+    /**
+     * @ignore
+     */
     protected function getRequest( $idSite )
     {
     	if(empty(self::$URL))
@@ -330,6 +336,7 @@ class PiwikTracker
 	 * will return "/dir1/dir2/index.php"
 	 *
 	 * @return string
+     * @ignore
 	 */
 	static protected function getCurrentScriptName()
 	{
@@ -360,6 +367,7 @@ class PiwikTracker
 	 * will return 'http'
 	 *
 	 * @return string 'https' or 'http'
+     * @ignore
 	 */
 	static protected function getCurrentScheme()
 	{
@@ -376,6 +384,7 @@ class PiwikTracker
 	 * will return "http://example.org"
 	 *
 	 * @return string
+     * @ignore
 	 */
 	static protected function getCurrentHost()
 	{
@@ -390,6 +399,7 @@ class PiwikTracker
 	 * will return "?param1=value1&param2=value2"
 	 *
 	 * @return string
+     * @ignore
 	 */
 	static protected function getCurrentQueryString()
 	{
@@ -406,6 +416,7 @@ class PiwikTracker
 	 * Returns the current full URL (scheme, host, path and query string.
 	 *  
 	 * @return string
+     * @ignore
 	 */
     static protected function getCurrentUrl()
     {

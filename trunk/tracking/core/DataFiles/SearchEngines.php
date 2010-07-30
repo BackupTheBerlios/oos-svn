@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: SearchEngines.php 2373 2010-06-24 13:28:43Z SteveG $
+ * @version $Id: SearchEngines.php 2806 2010-07-29 21:11:41Z SteveG $
  *
  * @category Piwik
  * @package DataFiles
@@ -52,22 +52,18 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'portal.1und1.de'			=> array('1und1', 'search'),
 		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?mc=suche%40web%40home.suche%40web&allparams=&smode=&su={k}&search=Suche&webRb='),
 
-		// A9
-		'www.a9.com'				=> array('A9', ''),
-		'a9.com'					=> array('A9', ''),
-
 		// Abacho
-		'search.abacho.com'			=> array('Abacho', 'q'),
+		'search.abacho.com'			=> array('Abacho', 'q', 'suche?q={k}'),
 
 		// ABCsøk
-		'abcsok.no'					=> array('ABCsøk', 'q'),
+		'abcsok.no'					=> array('ABCsøk', 'q', '?q={k}'),
 		'www.abcsok.no'				=> array('ABCsøk', 'q'),
 
 		// about
-		'search.about.com'			=> array('About', 'terms'),
+		'search.about.com'			=> array('About', 'terms', '?terms={k}'),
 
 		// Acoon
-		'www.acoon.de'				=> array('Acoon', 'begriff'),
+		'www.acoon.de'				=> array('Acoon', 'begriff', 'cgi-bin/search.exe?begriff={k}'),
 
 		// Alexa
 		'www.alexa.com'				=> array('Alexa', 'q', 'search?q={k}'),
@@ -79,16 +75,16 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'ricerca.alice.it'			=> array('Alice (powered by Virgilio)', 'qs'),
 
 		// Allesklar
-		'www.allesklar.de'			=> array('Allesklar', 'words'),
+		'www.allesklar.de'			=> array('Allesklar', 'words', '?words={k}'),
 
 		// AllTheWeb
-		'www.alltheweb.com'			=> array('AllTheWeb', 'q'),
+		'www.alltheweb.com'			=> array('AllTheWeb', 'q', 'search?q={k}'),
 
 		// all.by
-		'all.by'					=> array('All.by', 'query'),
+		'all.by'					=> array('All.by', 'query', 'cgi-bin/search.cgi?mode=by&query={k}'),
 
 		// Altavista
-		'www.altavista.com'			=> array('AltaVista', 'q'),
+		'www.altavista.com'			=> array('AltaVista', 'q', 'web/results?q={k}'),
 		'listings.altavista.com'	=> array('AltaVista', 'q'),
 		'www.altavista.de'			=> array('AltaVista', 'q'),
 		'altavista.fr'				=> array('AltaVista', 'q'),
@@ -635,6 +631,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.google.com.uy'			=> array('Google', 'q'),
 		'www.google.com.vc'			=> array('Google', 'q'),
 		'www.google.com.vn'			=> array('Google', 'q'),
+
+		// Google SSL 
+		'encrypted.google.com'		=> array('Google SSL', 'q', 'search?q={k}'), 
 
 		// Powered by Google
 		'www.charter.net'			=> array('Google', 'q'),

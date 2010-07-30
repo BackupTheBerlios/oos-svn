@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExamplePlugin.php 2265 2010-06-03 17:46:05Z vipsoft $
+ * @version $Id: ExamplePlugin.php 2807 2010-07-29 23:53:10Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExamplePlugin
@@ -74,8 +74,8 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	 */
 	function helloWorld()
 	{
-		echo "Hello world! <br />";
-		echo "Happy coding with Piwik :)";
+		echo "<p>Hello world! <br />";
+		echo "Happy coding with Piwik :)</p>";
 	}
 	
 	/**
@@ -85,11 +85,12 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 	 */
 	function exampleWidget()
 	{
-		echo "Hello world! <br /> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
+		echo "<p>Hello world! <br /> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
 		<br />Widgets can include graphs, tables, flash, text, images, etc.
 		<br />It's very easy to create a new plugin and widgets in Piwik. Have a look at this example file (/plugins/ExamplePlugin/ExamplePlugin.php).
 		<div id='happycoding'><i>Happy coding!</i></div>
 		<div id='jsenabled'>You can easily use Jquery in widgets</div>
+		<p>
 		<script type=\"text/javascript\">$('#happycoding').hide().fadeIn(5000);$('#jsenabled').hide().css({'color':'red'}).fadeIn(10000);</script>";
 	}
 

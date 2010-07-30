@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: AddColumnsProcessedMetricsGoal.php 2671 2010-07-25 14:27:07Z matt $
+ * @version $Id: AddColumnsProcessedMetricsGoal.php 2801 2010-07-29 20:47:00Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -58,6 +58,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 	
 	protected function filter()
 	{
+		// Add standard processed metrics
+		parent::filter();
+		
 		$roundingPrecision = 2;
 		$expectedColumns = array();
 		foreach($this->table->getRows() as $key => $row)
@@ -145,7 +148,6 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
 			$row->addColumns($newColumns);
 		}
 		$expectedColumns['revenue_per_visit'] = true;
-		$expectedColumns['conversion_rate'] = true;
 		
 		// make sure all goals values are set, 0 by default
 		// if no value then sorting would put at the end

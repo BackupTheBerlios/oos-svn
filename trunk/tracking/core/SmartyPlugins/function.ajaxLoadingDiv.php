@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: function.ajaxLoadingDiv.php 1970 2010-03-22 11:26:54Z matt $
+ * @version $Id: function.ajaxLoadingDiv.php 2800 2010-07-29 18:50:36Z matt $
  * 
  * @category Piwik
  * @package SmartyPlugins
@@ -27,7 +27,7 @@ function smarty_function_ajaxLoadingDiv($params, &$smarty)
 		$id = $params['id'];
 	}
 	return '<div id="'.$id.'" style="display:none">'.
-				'<div id="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> '. 
+				'<div class="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> '. 
 					Piwik_Translate('General_LoadingData') .
 				' </div>'.
 			'</div>';

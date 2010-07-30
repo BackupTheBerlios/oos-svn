@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2265 2010-06-03 17:46:05Z vipsoft $
+ * @version $Id: API.php 2790 2010-07-29 13:48:50Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
@@ -75,7 +75,9 @@ class Piwik_UsersManager_API
 		Piwik::checkUserIsSuperUser();
 		
 		$db = Zend_Registry::get('db');
-		$users = $db->fetchAll("SELECT * FROM ".Piwik_Common::prefixTable("user")." ORDER BY login ASC");
+		$users = $db->fetchAll("SELECT * 
+								FROM ".Piwik_Common::prefixTable("user")." 
+								ORDER BY login ASC");
 		return $users;
 	}
 	
@@ -89,7 +91,9 @@ class Piwik_UsersManager_API
 		Piwik::checkUserHasSomeAdminAccess();
 		
 		$db = Zend_Registry::get('db');
-		$users = $db->fetchAll("SELECT login FROM ".Piwik_Common::prefixTable("user")." ORDER BY login ASC");
+		$users = $db->fetchAll("SELECT login 
+								FROM ".Piwik_Common::prefixTable("user")." 
+								ORDER BY login ASC");
 		$return = array();
 		foreach($users as $login)
 		{

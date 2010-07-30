@@ -5,7 +5,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2750 2010-07-28 11:31:02Z matt $
+ * @version $Id: API.php 2811 2010-07-30 00:47:57Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_API
@@ -295,7 +295,7 @@ class Piwik_API_API
     	);
     }
     
-    private function handleTableReport($idSite, $period, $dataTable, $reportMetadata)
+    private function handleTableReport($idSite, $period, $dataTable, &$reportMetadata)
     {
     	// displayed columns
     	$columns = array_merge(
@@ -306,12 +306,11 @@ class Piwik_API_API
     	if($period != 'day')
     	{
     		unset($columns['nb_uniq_visitors']);
+    		unset($reportMetadata['metrics']['nb_uniq_visitors']);
     	}
     
         if(isset($reportMetadata['processedMetrics']))
         {
-        	// Add processed metrics
-        	$dataTable->filter('AddColumnsProcessedMetrics');
         	$processedMetricsAdded = Piwik_API_API::getInstance()->getDefaultProcessedMetrics();
         	foreach($processedMetricsAdded as $processedMetricId => $processedMetricTranslation)
         	{
@@ -327,10 +326,6 @@ class Piwik_API_API
         {
         	$metricsGoalDisplay = array('conversion_rate', 'revenue');
         	
-        	// to have conversion_rate, we need to apply the Goal processed filter
-        	// only requesting to process the basic metrics
-        	$dataTable->filter('AddColumnsProcessedMetricsGoal', array($enable=true, Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_MINIMAL_REPORT));
-
     		// Add processed metrics to be displayed for this report
         	foreach($metricsGoalDisplay as $goalMetricId)
         	{
@@ -340,6 +335,19 @@ class Piwik_API_API
         		}
         	}
         }
+        if(isset($reportMetadata['metricsGoal']))
+        {
+        	// To process conversion_rate, we need to apply the Goal processed filter
+        	// only requesting to process the basic metrics
+        	// This adds goal metrics as well as standard metrics
+        	$dataTable->filter('AddColumnsProcessedMetricsGoal', array($enable=true, Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_MINIMAL_REPORT));
+        }
+        elseif(isset($reportMetadata['processedMetrics']))
+        {
+        	// Add processed metrics
+        	$dataTable->filter('AddColumnsProcessedMetrics');
+        }
+        
         $dataTable->filter('SafeDecodeLabel', array($outputHTML = false));
         $renderer = new Piwik_DataTable_Renderer_Php();
         $renderer->setTable($dataTable);

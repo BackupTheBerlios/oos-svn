@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Generator.php 2656 2010-07-24 04:07:53Z vipsoft $
+ * @version $Id: Generator.php 2800 2010-07-29 18:50:36Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitorGenerator
@@ -453,7 +453,7 @@ class Piwik_VisitorGenerator_Generator
 		$this->setCurrentRequest( 'url' ,$url);
 		
 		// setup the title of the page
-		$this->setCurrentRequest( 'action_name',$this->getRandomString(15,5));
+		$this->setCurrentRequest( 'action_name',$this->getRandomString(100,5));
 	}
 	
 	/**

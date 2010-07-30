@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2736 2010-07-28 00:31:14Z vipsoft $
+ * @version $Id: Controller.php 2807 2010-07-29 23:53:10Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
@@ -129,7 +129,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 		$pattern = str_replace('%', '', $pattern);
 		if(!count($sites))
 		{
-			$results[] = array('label' => Piwik_Translate('SitesManager_NotFound')."&nbsp;<span style='color: black'>$pattern</span>.", 'id' => '#');
+			$results[] = array('label' => Piwik_Translate('SitesManager_NotFound')."&nbsp;<font class='autocompleteMatched'>$pattern</font>.", 'id' => '#');
 		}
 		else
 		{
@@ -143,7 +143,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller
 					{
 						foreach ($matches[0] as $match)
 						{
-							$hl_name = str_replace($match, '<span style="color: black">'.$match.'</span>', $s['name']);
+							$hl_name = str_replace($match, '<font class="autocompleteMatched">'.$match.'</font>', $s['name']);
 						}
 					}
 				}

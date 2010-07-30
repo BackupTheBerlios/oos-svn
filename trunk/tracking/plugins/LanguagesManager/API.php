@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2265 2010-06-03 17:46:05Z vipsoft $
+ * @version $Id: API.php 2817 2010-07-30 07:00:24Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_LanguagesManager
@@ -55,12 +55,15 @@ class Piwik_LanguagesManager_API
 			return $this->languageNames;
 		}
 		$path = PIWIK_INCLUDE_PATH . "/lang/";
-		$languages = glob($path . "*.php");
+		$languages = _glob($path . "*.php");
 		$pathLength = strlen($path);
 		$languageNames = array();
-		foreach($languages as $language) 
+		if($languages)
 		{
-			$languageNames[] = substr($language, $pathLength, -strlen('.php'));
+			foreach($languages as $language) 
+			{
+				$languageNames[] = substr($language, $pathLength, -strlen('.php'));
+			}
 		}
 		$this->languageNames = $languageNames;
 		return $languageNames;

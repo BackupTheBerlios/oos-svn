@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: View.php 2720 2010-07-27 21:13:58Z mauser $
+ * @version $Id: View.php 2807 2010-07-29 23:53:10Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -114,17 +114,11 @@ class Piwik_View implements Piwik_iView
 	{
 		try {
 			$this->currentModule = Piwik::getModule();
-			$this->currentPluginName = Piwik::getCurrentPlugin()->getClassName();
 			$this->userLogin = Piwik::getCurrentUserLogin();
 			
-			$showWebsiteSelectorInUserInterface = Zend_Registry::get('config')->General->show_website_selector_in_user_interface;
-			if($showWebsiteSelectorInUserInterface)
-			{
-				$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess(Zend_Registry::get('config')->General->site_selector_max_sites);
-				usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
-				$this->sites = $sites;
-			}
-			$this->showWebsiteSelectorInUserInterface = $showWebsiteSelectorInUserInterface;
+			$sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess(Zend_Registry::get('config')->General->site_selector_max_sites);
+			usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
+			$this->sites = $sites;
 			$this->url = Piwik_Url::getCurrentUrl();
 			$this->token_auth = Piwik::getCurrentUserTokenAuth();
 			$this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();

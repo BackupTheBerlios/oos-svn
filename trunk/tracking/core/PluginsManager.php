@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: PluginsManager.php 2604 2010-07-21 08:00:17Z matt $
+ * @version $Id: PluginsManager.php 2817 2010-07-30 07:00:24Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -98,8 +98,8 @@ class Piwik_PluginsManager
 	 */
 	public function readPluginsDirectory()
 	{
-		$pluginsName = glob( PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
-		$pluginsName = $pluginsName === false ? array() : array_map('basename', $pluginsName);
+		$pluginsName = _glob( PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
+		$pluginsName = $pluginsName == false ? array() : array_map('basename', $pluginsName);
 		return $pluginsName;
 	}
 

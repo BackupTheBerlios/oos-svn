@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2549 2010-07-18 20:47:45Z matt $
+ * @version $Id: Controller.php 2779 2010-07-29 07:57:30Z peterb $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -68,7 +68,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 									'Referers.getRefererType'
 								);
 		$view->disableSearchBox();
-		$view->disableOffsetInformation();
+		$view->disableOffsetInformationAndPaginationControls();
 		$view->disableExcludeLowPopulation();
 		$view->enableShowGoals();
 		$view->setColumnsToDisplay( array('label', 'nb_visits') );

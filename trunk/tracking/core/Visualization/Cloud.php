@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Cloud.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: Cloud.php 2796 2010-07-29 18:06:30Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -22,7 +22,7 @@
 class Piwik_Visualization_Cloud
 {
 	protected $wordsArray = array();
-	public $truncatingLimit = 30;
+	public $truncatingLimit = 50;
 	
 	/*
 	 * Assign word to array

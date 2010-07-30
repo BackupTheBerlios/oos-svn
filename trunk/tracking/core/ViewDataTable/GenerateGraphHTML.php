@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GenerateGraphHTML.php 2521 2010-07-16 21:49:51Z matt $
+ * @version $Id: GenerateGraphHTML.php 2779 2010-07-29 07:57:30Z peterb $
  * 
  * @category Piwik
  * @package Piwik
@@ -37,7 +37,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 						$controllerActionCalledWhenRequestSubTable);
 		$this->dataTableTemplate = 'CoreHome/templates/graph.tpl';
 		
-		$this->disableOffsetInformation();
+		$this->disableOffsetInformationAndPaginationControls();
 		$this->disableExcludeLowPopulation();
 		$this->disableSearchBox();
 		$this->enableShowExportAsImageIcon();

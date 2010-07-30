@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2634 2010-07-22 22:44:26Z vipsoft $
+ * @version $Id: Controller.php 2817 2010-07-30 07:00:24Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -112,6 +112,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'set_time_limit'  => 'Installation_SystemCheckTimeLimitHelp',
 			'mail'            => 'Installation_SystemCheckMailHelp',
 			'parse_ini_file'  => 'Installation_SystemCheckParseIniFileHelp',
+			'glob'            => 'Installation_SystemCheckGlobHelp',
 			'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
 			'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
 			'eval'            => 'Installation_SystemCheckEvalHelp',
@@ -744,6 +745,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 			'set_time_limit',
 			'mail',
 			'parse_ini_file',
+			'glob',
 		);
 		$infos['desired_functions'] = $desired_functions;
 		$infos['missing_desired_functions'] = array();

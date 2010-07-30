@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Live.php 2392 2010-06-29 06:45:34Z matt $
+ * @version $Id: Live.php 2808 2010-07-29 23:55:30Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -40,7 +40,7 @@ class Piwik_Live extends Piwik_Plugin
 	{
 		$cssFiles = &$notification->getNotificationObject();
 		
-		$cssFiles[] = "themes/default/styles.css";
+		$cssFiles[] = "plugins/Live/templates/live.css";
 	}	
 	
 	function getJsFiles( $notification )
@@ -48,6 +48,7 @@ class Piwik_Live extends Piwik_Plugin
 		$jsFiles = &$notification->getNotificationObject();
 		
 		$jsFiles[] = "plugins/Live/templates/scripts/spy.js";
+		$jsFiles[] = "plugins/Live/templates/scripts/live.js";
 	}
 
 	function addMenu()

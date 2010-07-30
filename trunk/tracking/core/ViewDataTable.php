@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ViewDataTable.php 2561 2010-07-19 09:06:22Z matt $
+ * @version $Id: ViewDataTable.php 2779 2010-07-29 07:57:30Z peterb $
  * 
  * @category Piwik
  * @package Piwik
@@ -271,6 +271,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_export_as_image_icon'] = Piwik_Common::getRequestVar('show_export_as_image_icon', false);
 		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
 		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);
+		$this->viewProperties['show_pagination_control'] = Piwik_Common::getRequestVar('show_pagination_control', true);
 		$this->viewProperties['show_footer'] = Piwik_Common::getRequestVar('show_footer', true);
 		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
 		$this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
@@ -670,6 +671,23 @@ abstract class Piwik_ViewDataTable
 	public function disableQueuedFilters()
 	{
 		$this->variablesDefault['disable_queued_filters'] = true;
+	}
+	
+	/**
+	 * The "X-Y of Z" and the "< Previous / Next >"-Buttons won't be displayed under this table
+	 */
+	public function disableOffsetInformationAndPaginationControls() 
+	{
+		$this->viewProperties['show_offset_information'] = false;
+		$this->viewProperties['show_pagination_control'] = false;
+	}
+	
+	/**
+	 * The "< Previous / Next >"-Buttons won't be displayed under this table
+	 */
+	public function disableShowPaginationControl()
+	{
+		$this->viewProperties['show_pagination_control'] = false;
 	}
 	
 	/**

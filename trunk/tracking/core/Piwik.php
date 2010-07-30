@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Piwik.php 2752 2010-07-28 12:01:58Z matt $
+ * @version $Id: Piwik.php 2817 2010-07-30 07:00:24Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -229,11 +229,11 @@ class Piwik
 	 */
 	public static function globr($sDir, $sPattern, $nFlags = NULL)
 	{
-		if(($aFiles = glob("$sDir/$sPattern", $nFlags)) == false)
+		if(($aFiles = _glob("$sDir/$sPattern", $nFlags)) == false)
 		{
 			$aFiles = array();
 		}
-		if(($aDirs = glob("$sDir/*", GLOB_ONLYDIR)) != false)
+		if(($aDirs = _glob("$sDir/*", GLOB_ONLYDIR)) != false)
 		{
 			foreach ($aDirs as $sSubDir)
 			{
@@ -1073,7 +1073,7 @@ class Piwik
 	 */
 	public function getLogoPath()
 	{
-		return PIWIK_INCLUDE_PATH . '/themes/default/images/logo.png';
+		return Piwik_Common::getPathToPiwikRoot() . '/themes/default/images/logo.png';
 	}
 	
 	/**

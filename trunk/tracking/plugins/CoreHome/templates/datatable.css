@@ -12,6 +12,9 @@
 	z-index:1;
 }
 
+.widget p {
+	margin-left:10px;
+}
 /* container of each table */
 .dataTableWrapper {
 	width: 450px;
@@ -316,11 +319,13 @@ table thead div {
 	text-align: right;
 }
 
-.dataTableNext,.dataTablePrevious,.dataTableSearchPattern,.pk-loadingDataTable
+.dataTableNext,.dataTablePrevious,.dataTableSearchPattern 
 {
 	display: none;
 }
-
+.dataTableFeatures .loadingPiwik {
+	font-size:0.9em;
+}
 .subDataTable .dataTableFooterIcons {
 	height: 0px;
 }
@@ -409,12 +414,6 @@ table thead div {
 
 .dataTableSpacer {
 	clear: both;
-}
-
-.pk-loadingDataTable {
-	float: left;
-	color: #193B6C;
-	padding: 0 0.5em;
 }
 
 /* Actions table */

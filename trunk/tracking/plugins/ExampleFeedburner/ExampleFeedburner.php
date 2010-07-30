@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ExampleFeedburner.php 2764 2010-07-28 20:19:41Z vipsoft $
+ * @version $Id: ExampleFeedburner.php 2790 2010-07-29 13:48:50Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_ExampleFeedburner
@@ -70,8 +70,9 @@ class Piwik_ExampleFeedburner_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('feedburner');
 		$idSite = Piwik_Common::getRequestVar('idSite',1,'int');
-		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName FROM '.Piwik_Common::prefixTable('site').
-								' WHERE idsite = ?', $idSite );
+		$feedburnerFeedName = Piwik_FetchOne('SELECT feedburnerName 
+											  FROM '.Piwik_Common::prefixTable('site').
+											' WHERE idsite = ?', $idSite );
 		if(empty($feedburnerFeedName))
 		{
 			$feedburnerFeedName = 'Piwik';

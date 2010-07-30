@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2643 2010-07-23 19:23:51Z matt $
+ * @version $Id: API.php 2790 2010-07-29 13:48:50Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -39,9 +39,9 @@ class Piwik_Goals_API
 	public function getGoals( $idSite )
 	{
 		$goals = Piwik_FetchAll("SELECT * 
-											FROM ".Piwik_Common::prefixTable('goal')." 
-											WHERE idsite = ?
-												AND deleted = 0", $idSite);
+								FROM ".Piwik_Common::prefixTable('goal')." 
+								WHERE idsite = ?
+									AND deleted = 0", $idSite);
 		$cleanedGoals = array();
 		foreach($goals as &$goal)
 		{
