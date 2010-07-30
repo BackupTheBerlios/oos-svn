@@ -2,58 +2,80 @@
 # This file is distributed under the same license as the Du - Multisite-Texte package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2010-06-17 19:20+0100\n"
+"PO-Revision-Date: 2010-07-30 12:30+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/0.1\n"
-"Project-Id-Version: WordPress 3.0 Blog-Netzwerktexte\n"
+"Project-Id-Version: WordPress 3.0 - Multisite-Texte - Du\n"
 "POT-Creation-Date: \n"
-"Last-Translator: Olaf Baumann <jottlieb@wordpress-deutschland.org>\n"
-"Language-Team: Olaf A. Schmitz, Olaf Baumann\n"
+"Last-Translator: Inpsyde GmbH <info@inpsyde.com>\n"
+"Language-Team: Olaf Baumann <info@inpsyde.com>\n"
 
-#: wp-admin/ms-edit.php:540
+#: wp-includes/ms-load.php:213
+msgid "Read the <a target=\"_blank\" href=\"http://codex.wordpress.org/Debugging_a_WordPress_Network\">bug report</a> page. Some of the guidelines there may help you figure out what went wrong."
+msgstr ""
+"Lese die <a target=\"_blank\" href=\"http://codex.wordpress.org/Debugging_a_WordPress_Network\">Fehler-Report</a> Seite. \n"
+"Einige der Richtlinien können dir helfen um herauszufinden, was falsch gelaufen ist."
+
+#: wp-includes/ms-load.php:188
+msgid "No site defined on this host. If you are the owner of this site, please check <a href=\"http://codex.wordpress.org/Debugging_a_WordPress_Network\">Debugging a WordPress Network</a> for help."
+msgstr "Auf diesem Host sind keine Sites definiert. Wenn du der Besitzer dieser Site bist, findest du Hilfe auf der Seite <a href=\"http://codex.wordpress.org/Debugging_a_WordPress_Network\">Debugging a WordPress Network (engl.)</a>."
+
+#: wp-includes/ms-functions.php:659
+msgid "[%1$s] Activate %2$s"
+msgstr "[%1$s] Aktivieren %2$s"
+
+#: wp-activate.php:68
+msgid "Your account has been activated. You may now <a href=\"%1$s\">log in</a> to the site using your chosen username of &#8220;%2$s&#8221;.  Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href=\"%4$s\">reset your password</a>."
+msgstr ""
+"Dein Benutzerkonto wurde aktiviert. Du kannst dich nun mit deinem Benutzernamen &#8220;%2$s&#8221; <a href=\"%1$s\">einloggen</a>.\n"
+"Bitte überprüfe dein E-Mail-Postfach mit der Adresse %3$s, um dein Passwort zu erhalten. \n"
+"Solltest du keine E-Mail bekommen haben, so überprüfe deinen Junk-/SPAM-Ordner, da die Mail fälschlicherweise als SPAM identifiziert worden sein könnte. \n"
+"Falls du in einer Stunde immer noch keine Mail bekommen hast, so kannst du auch dein <a href=\"%4$s\">Passwort zurücksetzen</a>. "
+
+#: wp-admin/ms-edit.php:541
 msgid "Warning! User cannot be modified. The user %s is a network administrator."
 msgstr "Warnung! Der Benutzer kann nicht verändert werden. Der Benutzer %s ist ein Netzwerk-Admnistrator."
 
-#: wp-admin/includes/ms.php:670
+#: wp-admin/includes/ms.php:669
 msgid "English"
 msgstr "Englisch"
 
-#: wp-admin/includes/ms.php:690
+#: wp-admin/includes/ms.php:689
 msgid "Warning! WordPress encrypts user cookies, but you must add the following lines to <strong>wp-config.php</strong> for it to be more secure."
 msgstr "Achtung! WordPress kann Cookies verschlüsseln, aber du musst folgende Zeilen zur Datei <strong>wp-config.php</strong> hinzufügen, damit dies der Fall ist und dein WordPress sicherer wird."
 
-#: wp-admin/includes/ms.php:691
+#: wp-admin/includes/ms.php:690
 msgid "Before the line <code>/* That's all, stop editing! Happy blogging. */</code> please add this code:"
 msgstr "Füge vor der Zeile <code>/* That's all, stop editing! Happy blogging. */</code> bitte folgenden Code ein:"
 
-#: wp-admin/includes/ms.php:722
+#: wp-admin/includes/ms.php:721
 msgid "Read More"
 msgstr "Weiterlesen"
 
-#: wp-admin/includes/ms.php:725
+#: wp-admin/includes/ms.php:724
 msgid "Your feed at %s is empty."
 msgstr "Der angegebene Feed %s enthält keine Inhalte."
 
-#: wp-admin/includes/ms.php:735
+#: wp-admin/includes/ms.php:734
 msgid "Thank you for Updating! Please visit the <a href=\"%s\">Update Network</a> page to update all your sites."
 msgstr "Danke, dass du WordPress aktualisiert hast. Bitte <a href=\"%s\">aktualisiere jetzt alle Blogs im Netzwerk</a>."
 
-#: wp-admin/includes/ms.php:768
+#: wp-admin/includes/ms.php:766
 msgid "Primary Site"
 msgstr "Primärer Blog"
 
-#: wp-admin/includes/ms.php:815
+#: wp-admin/includes/ms.php:813
 msgid "Warning! The current theme supports Featured Images. You must enable image uploads on <a href='%s'>the options page</a> for it to work."
 msgstr "Hinweis: Das aktuell verwendete Theme unterstützt Artikelbilder. Damit andere Blogs diese Funktion nutzen können, musst du das <a href='%s'>Hochladen von Bildern aktivieren</a>."
 
-#: wp-admin/includes/ms.php:825
+#: wp-admin/includes/ms.php:823
 msgid "The <code>%1$s</code> file is deprecated. Please remove it and update your server rewrite rules to use <code>%2$s</code> instead."
 msgstr "Die Datei <code>%1$s</code> ist veraltet. Bitte lösche sie und aktualisiere die Rewrite Regeln des Servers, damit stattdessen <code>%2$s</code> genutzt werden kann."
 
-#: wp-admin/includes/ms.php:836
+#: wp-admin/includes/ms.php:834
 msgid "The plugins page is not visible to normal users. It must be activated first. %s"
 msgstr "Die Pluginseite ist für normale Benutzer nicht sichtbar. Sie muss zuerst aktiviert werden. %s"
 
@@ -125,15 +147,15 @@ msgstr ""
 msgid "[%s] New Admin Email Address"
 msgstr "[%s] Neue Administrator E-Mail-Adresse"
 
-#: wp-admin/includes/ms.php:323
+#: wp-admin/includes/ms.php:324
 msgid "<strong>ERROR</strong>: The e-mail address isn't correct."
 msgstr "<strong>FEHLER:</strong> Diese E-Mail-Addresse ist nicht korrekt."
 
-#: wp-admin/includes/ms.php:328
+#: wp-admin/includes/ms.php:329
 msgid "<strong>ERROR</strong>: The e-mail address is already used."
 msgstr "<strong>FEHLER:</strong> Diese E-Mail-Adresse wird schon benutzt."
 
-#: wp-admin/includes/ms.php:340
+#: wp-admin/includes/ms.php:341
 msgid ""
 "Dear user,\n"
 "\n"
@@ -164,7 +186,7 @@ msgstr ""
 "###SITENAME###\n"
 "###SITEURL###"
 
-#: wp-admin/includes/ms.php:360
+#: wp-admin/includes/ms.php:361
 msgid "[%s] New Email Address"
 msgstr "[%s] neue E-Mail-Addresse"
 
@@ -212,15 +234,15 @@ msgstr "Maximaler Speicherplatz für Uploads"
 msgid "MB (Leave blank for network default)"
 msgstr "MB (trage nichts ein um den Netzwerk-Standard zu verwenden)"
 
-#: wp-admin/includes/ms.php:607
+#: wp-admin/includes/ms.php:606
 msgid "You don&#8217;t have permission to view this site. Please contact the system administrator."
 msgstr "Du hast nicht die nötigen Rechte, um diesen Blog zu sehen. Kontaktiere bitte den Administrator."
 
-#: wp-admin/includes/ms.php:656
+#: wp-admin/includes/ms.php:655
 msgid "American English"
 msgstr "Amerikanisches Englisch"
 
-#: wp-admin/includes/ms.php:660
+#: wp-admin/includes/ms.php:659
 msgid "British English"
 msgstr "Britisches Englisch"
 
@@ -281,8 +303,7 @@ msgstr "<a href=\"http://codex.wordpress.org/Super_Admin_Options_SubPanel\" targ
 #: wp-admin/ms-options.php:30
 msgid "Super admins can no longer be added on the Options screen. You must now go to the list of existing users on Super Admin > Users and click on Username or the Edit action link below that name. This goes to an Edit User page where you can check a box to grant super admin privileges."
 msgstr ""
-"Willst du weitere Blogübergreifende Administratoren festlegen, so musst du das über die Option \"Blog-Netzwerk\" &gt; \"Benutzer\" &gt; (Benutzer) \"Bearbeiten\" tun. Der Link \"Bearbeiten\" erscheint beim Überfahren eines Benutzernamens. Du kannst auch direkt auf einen Benutzernamen klicken.\\n"
-"\n"
+"Willst du weitere Blogübergreifende Administratoren festlegen, so musst du das über die Option \"Blog-Netzwerk\" &gt; \"Benutzer\" &gt; (Benutzer) \"Bearbeiten\" tun. Der Link \"Bearbeiten\" erscheint beim Überfahren eines Benutzernamens. Du kannst auch direkt auf einen Benutzernamen klicken.\n"
 "Im Profil des angewählten Benutzers kannst du dann die Option \"Mache diesen Nutzer zum Blogübergreifenden Administrator für das gesamte Blog-Netzwerk.\" aktivieren."
 
 #: wp-admin/ms-options.php:23
@@ -317,7 +338,7 @@ msgstr "Die Blog-ID wird nur intern genutzt und wird nicht öffentlich angezeigt
 
 #: wp-admin/ms-sites.php:41
 msgid "Clicking on Add Site, after filling out the address, title, and admin's email address, adds the site instantly to the network and this table. You may want to then click on the action link to edit options for that site."
-msgstr "Mit \"Blog erstellen\" kannst du sofort einen weiteren Blog anlegen, nachdem du die Blog-Adresse und den Blogtitel festgelegt hast. Anschließend kannst du dir über den Link \\\"Bearbeiten\\\" die weiteren Einstellungen des neu angelegten Blogs ansehen."
+msgstr "Mit \"Blog erstellen\" kannst du sofort einen weiteren Blog anlegen, nachdem du die Blog-Adresse und den Blogtitel festgelegt hast. Anschließend kannst du dir über den Link \"Bearbeiten\" die weiteren Einstellungen des neu angelegten Blogs ansehen."
 
 #: wp-admin/ms-admin.php:27
 msgid "<a href=\"http://codex.wordpress.org/Super_Admin_Super_Admin_Menu\" target=\"_blank\">Documentation on Super Admin Menu</a>"
@@ -326,7 +347,7 @@ msgstr "<a href=\"http://codex.wordpress.org/Super_Admin_Super_Admin_Menu\" targ
 #: wp-admin/ms-options.php:27
 msgid "Upload settings control the size of the uploaded files and the amount of available upload space for each site. You can change the default value for specific sites when you edit a particular site. Allowed file types are also listed (space separated only)."
 msgstr ""
-"In den \\\"Dateiupload-Einstellungen\\\" kannst du festlegen, welche Dateitypen hochgeladen werden dürfen (Dateiendungen jeweils durch Leerzeichen getrennt) und wie groß einzelne Dateien sein dürfen, sowie wieviel Speicherplatz insgesamt pro Blog zur Verfügung steht. Du kannst diese Werte auch für später für jeden Blog dezidiert einstellen.<br />\n"
+"In den \"Dateiupload-Einstellungen\" kannst du festlegen, welche Dateitypen hochgeladen werden dürfen (Dateiendungen jeweils durch Leerzeichen getrennt) und wie groß einzelne Dateien sein dürfen, sowie wieviel Speicherplatz insgesamt pro Blog zur Verfügung steht. Du kannst diese Werte auch für später für jeden Blog einzeln einstellen.<br />\n"
 "Standardmäßig sind übrigens folgende Dateitypen erlaubt:\n"
 "<code>jpg jpeg png gif mp3 mov avi wmv midi mid pdf</code>"
 
@@ -340,7 +361,7 @@ msgstr "Du kannst auch einen Benutzer beziehungsweise sein Profil ändern, indem
 
 #: wp-admin/my-sites.php:43
 msgid "Up until WordPress version 3.0, what is now called a Multi-site Network had to be installed separately as WordPress MU (multi-user)."
-msgstr "Die Funktion eines Blog-Netzwerks gibt es erst seit WordPress 3.0. Früher musste dafür das spezielle WordPressMU (Multi User) installiert werden, welches aber nun nicht mehr gibt."
+msgstr "Die Funktion eines Blog-Netzwerks gibt es erst seit WordPress 3.0. Früher musste dafür das spezielle WordPressMU (Multi User) installiert werden, welches es aber nun nicht mehr gibt."
 
 #: wp-admin/ms-themes.php:49
 msgid "Theme"
@@ -371,37 +392,37 @@ msgstr "Freigeben"
 msgid "Network Themes"
 msgstr "Netzwerk-Themes"
 
-#: wp-admin/ms-sites.php:639
+#: wp-admin/ms-sites.php:642
 msgid "More"
 msgstr "Mehr"
 
-#: wp-admin/ms-sites.php:418
+#: wp-admin/ms-sites.php:421
 msgctxt "sites"
 msgid "Add New"
 msgstr "Neuen Blog erstellen"
 
-#: wp-admin/ms-sites.php:429
+#: wp-admin/ms-sites.php:432
 msgid "Search Site by"
 msgstr "Suche Blog nach"
 
-#: wp-admin/ms-sites.php:331
+#: wp-admin/ms-sites.php:334
 msgid "Misc Site Actions"
 msgstr "Verschiedene Blog-Optionen"
 
-#: wp-admin/ms-sites.php:708
-#: wp-admin/ms-sites.php:737
+#: wp-admin/ms-sites.php:711
+#: wp-admin/ms-sites.php:740
 msgid "Add Site"
 msgstr "Blog erstellen"
 
-#: wp-admin/ms-sites.php:713
+#: wp-admin/ms-sites.php:716
 msgid "Site Address"
 msgstr "Blog-Adresse"
 
-#: wp-admin/ms-sites.php:307
+#: wp-admin/ms-sites.php:310
 msgid "User&nbsp;Login:"
 msgstr "Benutzername:"
 
-#: wp-admin/ms-sites.php:595
+#: wp-admin/ms-sites.php:598
 msgid "You are about to delete the site %s."
 msgstr "Du bist dabei den folgenden Blog zu löschen %s."
 
@@ -418,150 +439,150 @@ msgstr "Theme-Einstellungen gespeichert."
 msgid "Themes must be enabled for your network before they will be available to individual sites."
 msgstr "Themes müssen erst für die Verwendung im Blog-Netzwerk freigegeben werden, damit einzelne Blogs sie auch verwenden können."
 
-#: wp-admin/ms-sites.php:158
-#: wp-admin/ms-sites.php:520
+#: wp-admin/ms-sites.php:161
+#: wp-admin/ms-sites.php:523
 msgid "Mature"
 msgstr "Erwachseneninhalt"
 
-#: wp-admin/ms-sites.php:172
-#: wp-admin/ms-sites.php:218
-#: wp-admin/ms-sites.php:254
-#: wp-admin/ms-sites.php:296
-#: wp-admin/ms-sites.php:326
-#: wp-admin/ms-sites.php:336
+#: wp-admin/ms-sites.php:175
+#: wp-admin/ms-sites.php:221
+#: wp-admin/ms-sites.php:257
+#: wp-admin/ms-sites.php:299
+#: wp-admin/ms-sites.php:329
+#: wp-admin/ms-sites.php:339
 msgid "Update Options"
 msgstr "Einstellungen speichern"
 
-#: wp-admin/ms-sites.php:177
+#: wp-admin/ms-sites.php:180
 msgid "Site options (%soptions)"
 msgstr "Blog-Optionen (%soptions)"
 
-#: wp-admin/ms-sites.php:240
+#: wp-admin/ms-sites.php:243
 msgid "Active"
 msgstr "Freigeben"
 
-#: wp-admin/ms-sites.php:248
+#: wp-admin/ms-sites.php:251
 msgid "Site Themes"
 msgstr "Blog-Themes"
 
-#: wp-admin/ms-sites.php:250
+#: wp-admin/ms-sites.php:253
 msgid "Activate the themename of an existing theme and hit \"Update Options\" to allow the theme for this site."
 msgstr "Gebe ein Theme frei und klicke auf \"Einstellungen speichern\", damit das gewählte Theme von diesem Blog genutzt werden."
 
-#: wp-admin/ms-sites.php:261
+#: wp-admin/ms-sites.php:264
 msgid "Site Users"
 msgstr "Blogbenutzer"
 
-#: wp-admin/ms-sites.php:263
+#: wp-admin/ms-sites.php:266
 msgid "User"
 msgstr "Benutzer"
 
-#: wp-admin/ms-sites.php:289
+#: wp-admin/ms-sites.php:292
 msgid "Click to remove user"
 msgstr "Klicke um den Benutzer zu entfernen"
 
-#: wp-admin/ms-sites.php:291
+#: wp-admin/ms-sites.php:294
 msgid "N/A"
 msgstr "Nicht verfügbar"
 
-#: wp-admin/ms-sites.php:302
+#: wp-admin/ms-sites.php:305
 msgid "Add a new user"
 msgstr "Neuen Benutzer hinzufügen"
 
-#: wp-admin/ms-sites.php:304
+#: wp-admin/ms-sites.php:307
 msgid "Enter the username of an existing user and hit &#8220;Update Options&#8221; to add the user."
 msgstr "Gib den Benutzernamen eines bereits im Netzwerk registrierten Benutzers ein und klicke auf &#8220;Einstellungen speichern&#8221; um ihn zum Blog hinzuzufügen."
 
-#: wp-admin/ms-sites.php:432
-#: wp-admin/ms-sites.php:476
+#: wp-admin/ms-sites.php:435
+#: wp-admin/ms-sites.php:479
 #: wp-admin/ms-users.php:175
 msgid "ID"
 msgstr "ID"
 
-#: wp-admin/ms-sites.php:433
+#: wp-admin/ms-sites.php:436
 msgid "IP address"
 msgstr "IP-Adresse"
 
-#: wp-admin/ms-sites.php:445
-#: wp-admin/ms-sites.php:696
+#: wp-admin/ms-sites.php:448
+#: wp-admin/ms-sites.php:699
 msgctxt "site"
 msgid "Mark as Spam"
 msgstr "Als Spam markieren"
 
-#: wp-admin/ms-sites.php:446
-#: wp-admin/ms-sites.php:591
-#: wp-admin/ms-sites.php:697
+#: wp-admin/ms-sites.php:449
+#: wp-admin/ms-sites.php:594
+#: wp-admin/ms-sites.php:700
 msgctxt "site"
 msgid "Not Spam"
 msgstr "Kein Spam"
 
-#: wp-admin/ms-sites.php:565
+#: wp-admin/ms-sites.php:568
 msgctxt "%1$s: site name. %2$s: site tagline."
 msgid "%1$s &#8211; <em>%2$s</em>"
 msgstr "%1$s &#8211; <em>%2$s</em>"
 
-#: wp-admin/ms-sites.php:578
+#: wp-admin/ms-sites.php:581
 msgid "Backend"
 msgstr "Administrationsbereich"
 
-#: wp-admin/ms-sites.php:581
+#: wp-admin/ms-sites.php:584
 msgid "You are about to activate the site %s"
 msgstr "Du bist dabei den folgenden Blog zu aktivieren %s"
 
-#: wp-admin/ms-sites.php:583
+#: wp-admin/ms-sites.php:586
 msgid "You are about to deactivate the site %s"
 msgstr "Du bist dabei den folgenden Blog zu deaktivieren %s"
 
-#: wp-admin/ms-sites.php:586
+#: wp-admin/ms-sites.php:589
 msgid "You are about to unarchive the site %s."
 msgstr "Du bist dabei, den Blog %s wieder zu aktivieren."
 
-#: wp-admin/ms-sites.php:586
+#: wp-admin/ms-sites.php:589
 msgid "Unarchive"
 msgstr "Wiederherstellen"
 
-#: wp-admin/ms-sites.php:588
+#: wp-admin/ms-sites.php:591
 msgid "You are about to archive the site %s."
 msgstr "Du bist gerade dabei den Blog %s zu archivieren."
 
-#: wp-admin/ms-sites.php:588
+#: wp-admin/ms-sites.php:591
 msgctxt "verb; site"
 msgid "Archive"
 msgstr "Archivieren"
 
-#: wp-admin/ms-sites.php:591
+#: wp-admin/ms-sites.php:594
 msgid "You are about to unspam the site %s."
 msgstr "Du bist dabei den SPAM-Status des Blogs %s zu entfernen."
 
-#: wp-admin/ms-sites.php:593
+#: wp-admin/ms-sites.php:596
 msgid "You are about to mark the site %s as spam."
 msgstr "Du bist dabei diesen Blog %s als SPAM zu markieren."
 
-#: wp-admin/ms-sites.php:733
+#: wp-admin/ms-sites.php:736
 msgid "The username and password will be mailed to this email address."
 msgstr "Der Benutzername und das Passwort werden an die angegebene E-Mail-Adresse gesendet."
 
-#: wp-admin/ms-sites.php:733
+#: wp-admin/ms-sites.php:736
 msgid "A new user will be created if the above email address is not in the database."
 msgstr "Es wird ein neuer Benutzer angelegt, sofern nicht schon ein Benutzer mit dieser E-Mail-Adresse vorhanden ist."
 
-#: wp-admin/ms-sites.php:720
+#: wp-admin/ms-sites.php:723
 msgid "Only the characters a-z and 0-9 recommended."
 msgstr "Es sind nur Kleinbuchstaben ohne Umlaute (a bis z) und Zahlen (0 bis 9) empfohlen."
 
-#: wp-admin/ms-sites.php:678
+#: wp-admin/ms-sites.php:681
 msgid "No sites found."
 msgstr "Keine Blogs gefunden."
 
-#: wp-admin/ms-sites.php:639
+#: wp-admin/ms-sites.php:642
 msgid "Only showing first 5 users."
 msgstr "Es werden nur die ersten fünf Benutzer angezeigt."
 
-#: wp-admin/ms-sites.php:616
+#: wp-admin/ms-sites.php:619
 msgid "Never"
 msgstr "Noch nie"
 
-#: wp-admin/ms-sites.php:598
+#: wp-admin/ms-sites.php:601
 #: wp-admin/my-sites.php:95
 msgid "Visit"
 msgstr "Blog anzeigen"
@@ -570,7 +591,7 @@ msgstr "Blog anzeigen"
 msgid "If the network admin disables a theme that is in use, it can still remain selected on that site. If another theme is chosen, the disabled theme will not appear in the site&#8217;s Appearance > Themes screen."
 msgstr "Wenn du ein Theme deaktivierst, obwohl es in Benutzung ist, kann es sein, dass es weiterhin in jenem Blog aktiv bleibt. Wird dann ein anderes Theme vom Benutzer aktiviert, so verschwindet erst dann das Theme aus der Liste der verfügbaren Themes im jeweiligen Blog."
 
-#: wp-admin/ms-sites.php:729
+#: wp-admin/ms-sites.php:732
 msgid "Admin Email"
 msgstr "Administrator E-Mail-Adresse"
 
@@ -997,118 +1018,119 @@ msgid "<strong>Conflicting values for the constants VHOST and SUBDOMAIN_INSTALL.
 msgstr "<strong>Widersprüchliche Angaben für die Konstanten VHOST und SUBDOMAIN_INSTALL.</strong> Es wird der Wert von SUBDOMAIN_INSTALL für die Konfigurationseinstellungen von Subdomains übernommen."
 
 #: wp-includes/ms-functions.php:213
+#: wp-includes/ms-functions.php:257
 msgid "That user does not exist."
 msgstr "Dieser Benutzer existiert nicht."
 
-#: wp-includes/ms-functions.php:282
+#: wp-includes/ms-functions.php:285
 msgid "Error: Site URL already taken."
 msgstr "Fehler: Diese Blog-URL wurde bereits vergeben."
 
-#: wp-includes/ms-functions.php:289
+#: wp-includes/ms-functions.php:292
 msgid "Error: problem creating site entry."
 msgstr "Fehler: Es ist ein Datenbankproblem beim Erzeugen des Blogs aufgetreten."
 
-#: wp-includes/ms-functions.php:422
+#: wp-includes/ms-functions.php:426
 msgid "Only the lowercase letters a-z and numbers allowed"
 msgstr "Ausschliesslich Kleinbuchstaben von a-z und Zahlen sind erlaubt."
 
-#: wp-includes/ms-functions.php:429
+#: wp-includes/ms-functions.php:433
 msgid "Please enter a username"
 msgstr "Bitte gib einen Benutzernamen an"
 
-#: wp-includes/ms-functions.php:437
+#: wp-includes/ms-functions.php:441
 msgid "That username is not allowed"
 msgstr "Dieser Benutzername darf nicht verwendet werden"
 
-#: wp-includes/ms-functions.php:440
+#: wp-includes/ms-functions.php:444
 msgid "You cannot use that email address to signup. We are having problems with them blocking some of our email. Please use another email provider."
 msgstr "Du kannst dich leider nicht mit dieser E-Mail-Adresse registrieren, da dein E-Mail-Anbieter einen Teil unserer E-Mails blockiert. Nutze bitte eine E-Mailadresse eines anderen E-Mail-Anbieters."
 
-#: wp-includes/ms-functions.php:443
+#: wp-includes/ms-functions.php:447
 msgid "Username must be at least 4 characters"
 msgstr "Ein Benutzername muss mindestens vier Zeichen haben"
 
-#: wp-includes/ms-functions.php:446
+#: wp-includes/ms-functions.php:450
 msgid "Sorry, usernames may not contain the character &#8220;_&#8221;!"
 msgstr "Benutzernamen dürfen keinen Unterstrich enthalten."
 
-#: wp-includes/ms-functions.php:452
+#: wp-includes/ms-functions.php:456
 msgid "Sorry, usernames must have letters too!"
 msgstr "Entschuldige, aber Benutzernamen müssen auch Buchstaben enthalten!"
 
-#: wp-includes/ms-functions.php:455
+#: wp-includes/ms-functions.php:459
 msgid "Please enter a correct email address"
 msgstr "Bitte gib eine korrekte E-Mail-Adresse  ein."
 
-#: wp-includes/ms-functions.php:461
+#: wp-includes/ms-functions.php:465
 msgid "Sorry, that email address is not allowed!"
 msgstr "Diese E-Mail-Adresse ist nicht erlaubt!"
 
-#: wp-includes/ms-functions.php:466
+#: wp-includes/ms-functions.php:470
 msgid "Sorry, that username already exists!"
 msgstr "Entschuldige, aber der Benutzername existiert bereits!"
 
-#: wp-includes/ms-functions.php:470
+#: wp-includes/ms-functions.php:474
 msgid "Sorry, that email address is already used!"
 msgstr "Entschuldige, aber diese Email-Adresse wird bereits verwendet!"
 
-#: wp-includes/ms-functions.php:482
+#: wp-includes/ms-functions.php:486
 msgid "That username is currently reserved but may be available in a couple of days."
 msgstr "Dieser Benutzername ist derzeit reserviert, ist aber möglicherweise in den nächsten Tagen verfügbar."
 
-#: wp-includes/ms-functions.php:485
+#: wp-includes/ms-functions.php:489
 msgid "username and email used"
 msgstr "Benutzername und E-Mail-Adresse wurden schon verwendet"
 
-#: wp-includes/ms-functions.php:495
+#: wp-includes/ms-functions.php:499
 msgid "That email address has already been used. Please check your inbox for an activation email. It will become available in a couple of days if you do nothing."
 msgstr "Diese E-Mail-Adresse wurde bereits verwendet. Bitte schau in deinem Postfach nach der Aktivierungsmail. Falls du keine bekommen oder die Mail bereits gelöscht hast, kannst du dich in ein paar Tagen erneut mit dieser E-Mai-Adresse registrieren."
 
-#: wp-includes/ms-functions.php:522
+#: wp-includes/ms-functions.php:526
 msgid "Please enter a site name"
 msgstr "Bitte gib einen Namen für den Blog an"
 
-#: wp-includes/ms-functions.php:527
+#: wp-includes/ms-functions.php:531
 msgid "Only lowercase letters and numbers allowed"
 msgstr "Es sind nur Zahlen und kleingeschriebene Buchstaben erlaubt"
 
-#: wp-includes/ms-functions.php:530
+#: wp-includes/ms-functions.php:534
 msgid "That name is not allowed"
 msgstr "Dieser Name ist nicht erlaubt"
 
-#: wp-includes/ms-functions.php:533
+#: wp-includes/ms-functions.php:537
 msgid "Site name must be at least 4 characters"
 msgstr "Der Name des Blogs muss mindestens vier Zeichen lang sein"
 
-#: wp-includes/ms-functions.php:536
+#: wp-includes/ms-functions.php:540
 msgid "Sorry, site names may not contain the character &#8220;_&#8221;!"
 msgstr "Entschuldigung, Blogadressen dürfen keinen Unterstrich im Namen haben."
 
-#: wp-includes/ms-functions.php:540
+#: wp-includes/ms-functions.php:544
 msgid "Sorry, you may not use that site name."
 msgstr "Dieser Blogname darf leider nicht verwendet werden."
 
-#: wp-includes/ms-functions.php:546
+#: wp-includes/ms-functions.php:550
 msgid "Sorry, site names must have letters too!"
 msgstr "Entschuldige, Sitenamen müssen auch Buchstaben enthalten!"
 
-#: wp-includes/ms-functions.php:553
+#: wp-includes/ms-functions.php:557
 msgid "Please enter a site title"
 msgstr "Bitte gib einen Site-Titel an"
 
-#: wp-includes/ms-functions.php:564
+#: wp-includes/ms-functions.php:568
 msgid "Sorry, that site already exists!"
 msgstr "Dieser Blog existiert bereits."
 
-#: wp-includes/ms-functions.php:568
+#: wp-includes/ms-functions.php:572
 msgid "Sorry, that site is reserved!"
 msgstr "Entschuldige, aber dieser Blog wurde bereits reserviert!"
 
-#: wp-includes/ms-functions.php:579
+#: wp-includes/ms-functions.php:583
 msgid "That site is currently reserved but may be available in a couple days."
 msgstr "Dieser Blog wurde bereits reserviert, ist aber eventuell in ein paar Tagen wieder verfügbar."
 
-#: wp-includes/ms-functions.php:653
+#: wp-includes/ms-functions.php:657
 msgid ""
 "To activate your blog, please click the following link:\n"
 "\n"
@@ -1129,11 +1151,7 @@ msgstr ""
 "Nach der Aktivierung kannst du deinen Blog unter der folgenden URL aufrufen:\n"
 "%s"
 
-#: wp-includes/ms-functions.php:655
-msgid "[%1s] Activate %2s"
-msgstr "[%1s] Aktivieren %2s"
-
-#: wp-includes/ms-functions.php:670
+#: wp-includes/ms-functions.php:674
 msgid ""
 "To activate your user, please click the following link:\n"
 "\n"
@@ -1148,31 +1166,31 @@ msgstr ""
 "\n"
 "Nach der erfolgreichen Aktivierung erhälst du eine weitere E-Mail mit deinen Zugangsdaten.\n"
 
-#: wp-includes/ms-functions.php:683
+#: wp-includes/ms-functions.php:687
 msgid "Invalid activation key."
 msgstr "Ungültiger Aktivierungsschlüssel."
 
-#: wp-includes/ms-functions.php:686
+#: wp-includes/ms-functions.php:690
 msgid "The site is already active."
 msgstr "Dieser Blog ist bereits aktiv."
 
-#: wp-includes/ms-functions.php:701
+#: wp-includes/ms-functions.php:705
 msgid "Could not create user"
 msgstr "Der Benutzer konnte nicht erstellt werden"
 
-#: wp-includes/ms-functions.php:709
+#: wp-includes/ms-functions.php:713
 msgid "That username is already activated."
 msgstr "Dieser Benutzername wurde bereits aktiviert."
 
-#: wp-includes/ms-functions.php:774
+#: wp-includes/ms-functions.php:778
 msgid "Site already exists."
 msgstr "Dieser Blog existiert bereits."
 
-#: wp-includes/ms-functions.php:780
+#: wp-includes/ms-functions.php:784
 msgid "Could not create site."
 msgstr "Blog konnte nicht angelegt werden."
 
-#: wp-includes/ms-functions.php:822
+#: wp-includes/ms-functions.php:826
 msgid ""
 "New Site: %1s\n"
 "URL: %2s\n"
@@ -1186,11 +1204,11 @@ msgstr ""
 "\n"
 "Diese Benachrichtigungen deaktivieren: %4s"
 
-#: wp-includes/ms-functions.php:829
+#: wp-includes/ms-functions.php:833
 msgid "New Site Registration: %s"
 msgstr "Neue Registrierung eines Blogs: %s"
 
-#: wp-includes/ms-functions.php:845
+#: wp-includes/ms-functions.php:849
 msgid ""
 "New User: %1s\n"
 "Remote IP: %2s\n"
@@ -1202,47 +1220,47 @@ msgstr ""
 "\n"
 "Deaktiviere diese Benachrichtigungen: %3s"
 
-#: wp-includes/ms-functions.php:851
+#: wp-includes/ms-functions.php:855
 msgid "New User Registration: %s"
 msgstr "Neue Benutzerregistrierung: %s"
 
-#: wp-includes/ms-functions.php:885
+#: wp-includes/ms-functions.php:889
 msgid "<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>"
 msgstr "<h1>Bereits installiert</h1><p>Du scheinst WordPress bereits installiert zu haben. Falls du es erneut installieren willst, lösche bitte vorher die Tabellen in der Datenbank.</p>"
 
-#: wp-includes/ms-functions.php:972
+#: wp-includes/ms-functions.php:976
 msgid "New %1$s Site: %2$s"
 msgstr "Neuer %1$s Blog: %2$s"
 
-#: wp-includes/ms-functions.php:1005
+#: wp-includes/ms-functions.php:1009
 msgid "New %1$s User: %2$s"
 msgstr "Neuer %1$s Benutzer: %2$s"
 
-#: wp-includes/ms-functions.php:1119
+#: wp-includes/ms-functions.php:1123
 msgid "Sorry, you have used your space allocation. Please delete some files to upload more files."
 msgstr "Dein Speicherplatzlimit wurde erreicht. Du musst ein paar Dateien löschen, um wieder neue hochladen zu können."
 
-#: wp-includes/ms-functions.php:1239
+#: wp-includes/ms-functions.php:1243
 msgid "This file is too big. Files must be less than %d KB in size."
 msgstr "Die Datei ist zu groß. Dateien dürfen nicht größer als %d KB sein."
 
-#: wp-includes/ms-functions.php:1261
+#: wp-includes/ms-functions.php:1265
 msgid "Please try again!"
 msgstr "Bitte versuche es erneut!"
 
-#: wp-includes/ms-functions.php:1291
+#: wp-includes/ms-functions.php:1295
 msgid "An error occurred adding you to this site. Back to the <a href=\"%s\">homepage</a>."
 msgstr "Es trat ein Fehler beim Versuch auf, dich zu diesem Blog hinzufügen. Hier geht's <a href=\"%s\">zurück</a>."
 
-#: wp-includes/ms-functions.php:1293
+#: wp-includes/ms-functions.php:1297
 msgid "You have been added to this site. Please visit the <a href=\"%s\">homepage</a> or <a href=\"%s\">login</a> using your username and password."
 msgstr "Du wurdest dem <a href=\"%s\">Blog</a> als Benutzer hinzugefügt. Du kannst dich nun mit deinem Benutzernamen und Passwort <a href=\"%s\">einloggen</a>."
 
-#: wp-includes/ms-functions.php:1293
+#: wp-includes/ms-functions.php:1297
 msgid "Success"
 msgstr "Erfolgreich"
 
-#: wp-includes/ms-functions.php:1389
+#: wp-includes/ms-functions.php:1390
 msgid ""
 "Dear User,\n"
 "\n"
@@ -1318,163 +1336,163 @@ msgstr "E-Mail-Addresse:"
 msgid "We send your registration email to this address. (Double-check your email address before continuing.)"
 msgstr "Wir verschicken deine Registrierungs-E-Mail an diese Adresse. (Überprüfe also nochmal deine E-Mail-Adresse bevor du fortfährst.)"
 
-#: wp-signup.php:168
+#: wp-signup.php:169
 msgid "Get <em>another</em> %s site in seconds"
 msgstr "Erstelle einen <em>weiteren</em> %s Blog in Sekunden"
 
-#: wp-signup.php:171
+#: wp-signup.php:172
 msgid "There was a problem, please correct the form below and try again."
 msgstr "Es trat ein Fehler auf. Bitte korrigiere die Eingaben und versuche es noch einmal."
 
-#: wp-signup.php:174
+#: wp-signup.php:175
 msgid "Welcome back, %s. By filling out the form below, you can <strong>add another site to your account</strong>. There is no limit to the number of sites you can have, so create to your heart&#8217;s content, but write responsibly!"
 msgstr "Willkommen zurück, %s. In dem du dieses Formular ausfüllst, kannst du einen <strong>weiteren Blog</strong> für dein Benutzerkonto anlegen. Es gibt hierfür keine Begrenzung, also zögere nicht."
 
-#: wp-signup.php:180
+#: wp-signup.php:181
 msgid "Sites you are already a member of:"
 msgstr "Du bist bereits Mitglied der folgenden Blogs:"
 
-#: wp-signup.php:189
+#: wp-signup.php:190
 msgid "If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!"
 msgstr "Suche dir nun einen weiteren Blog-Namen und Blog-Titel aus."
 
-#: wp-signup.php:194
+#: wp-signup.php:195
 msgid "Create Site"
 msgstr "Blog erstellen"
 
-#: wp-signup.php:224
+#: wp-signup.php:225
 msgid "The site %s is yours."
 msgstr "Der Blog %s ist deiner."
 
-#: wp-signup.php:226
+#: wp-signup.php:227
 msgid "<a href=\"http://%1$s\">http://%2$s</a> is your new site.  <a href=\"%3$s\">Log in</a> as &#8220;%4$s&#8221; using your existing password."
 msgstr "<a href=\"http://%1$s\">http://%2$s</a> ist dein neues Blog. <a href=\"%3$s\">Melde dich an</a> als &#8220;%4$s&#8221; und verwende dein angegebenes Passwort."
 
-#: wp-signup.php:253
+#: wp-signup.php:254
 msgid "Get your own %s account in seconds"
 msgstr "Registriere dich in nur wenigen Sekunden bei %s."
 
-#: wp-signup.php:266
+#: wp-signup.php:267
 msgid "Gimme a site!"
 msgstr "Gib mir einen Blog!"
 
-#: wp-signup.php:269
+#: wp-signup.php:270
 msgid "Just a username, please."
 msgstr "Ich möche nur einen Benutzernamen, keinen Blog."
 
-#: wp-signup.php:273
+#: wp-signup.php:274
 msgid "Next"
 msgstr "Nächster Schritt"
 
-#: wp-signup.php:300
+#: wp-signup.php:301
 msgid "%s is your new username"
 msgstr "%s ist dein neuer Benutzername"
 
-#: wp-signup.php:301
+#: wp-signup.php:302
 msgid "But, before you can start using your new username, <strong>you must activate it</strong>."
 msgstr "Bevor du jedoch loslegen und ihn nutzen kannst, musst du ihn erst <strong>aktivieren</strong>."
 
-#: wp-signup.php:302
+#: wp-signup.php:303
 msgid "Check your inbox at <strong>%1$s</strong> and click the link given."
 msgstr "Prüfe deine E-Mails der Adresse <strong>%1$s</strong> und klicke in der Registrierungsmail auf den aufgeführten Link."
 
-#: wp-signup.php:303
+#: wp-signup.php:304
 msgid "If you do not activate your username within two days, you will have to sign up again."
 msgstr "Wenn du deinen Benutzernamen nicht innerhalb von zwei Tagen aktivierst, musst du dich erneut registrieren."
 
-#: wp-signup.php:329
+#: wp-signup.php:330
 msgid "Signup"
 msgstr "Registrieren"
 
-#: wp-signup.php:363
+#: wp-signup.php:364
 msgid "Congratulations! Your new site, %s, is almost ready."
 msgstr "Herzlichen Glückwunsch! Deine neuer Blog - %s - ist beinahe fertig."
 
-#: wp-signup.php:365
+#: wp-signup.php:366
 msgid "But, before you can start using your site, <strong>you must activate it</strong>."
 msgstr "Doch bevor du deinen Blog nutzen kannst, musst du ihn erst <strong>aktivieren</strong>."
 
-#: wp-signup.php:366
+#: wp-signup.php:367
 msgid "Check your inbox at <strong>%s</strong> and click the link given."
 msgstr "Prüfe deine E-Mails der Adresse <strong>%s</strong> und klicke in der E-Mail auf den enthaltenen Link."
 
-#: wp-signup.php:367
+#: wp-signup.php:368
 msgid "If you do not activate your site within two days, you will have to sign up again."
 msgstr "Falls du deinen Blog nicht innerhalb von zwei Tagen aktivierst, musst du ihn von neuem Registrieren."
 
-#: wp-signup.php:368
+#: wp-signup.php:369
 msgid "Still waiting for your email?"
 msgstr "Wartest du noch auf deine Email?"
 
-#: wp-signup.php:370
+#: wp-signup.php:371
 msgid "If you haven&#8217;t received your email yet, there are a number of things you can do:"
 msgstr "Falls du deine E-Mail noch nicht erhalten hast, kannst du folgende Dinge tun:"
 
-#: wp-signup.php:372
+#: wp-signup.php:373
 msgid "Wait a little longer. Sometimes delivery of email can be delayed by processes outside of our control."
 msgstr "Bitte warte noch ein bisschen. Manchmal verzögert sich die Zustellung von E-Mails, ohne dass wir etwas dagegen tun können."
 
-#: wp-signup.php:373
+#: wp-signup.php:374
 msgid "Check the junk or spam folder of your email client. Sometime emails wind up there by mistake."
 msgstr "Überprüfe deinen Junk/SPAM-Ordner deines E-Mail-Postfachs, da E-Mails manchmal fälschlicherweise als SPAM erkannt werden."
 
-#: wp-signup.php:374
+#: wp-signup.php:375
 msgid "Have you entered your email correctly?  You have entered %s, if it&#8217;s incorrect, you will not receive your email."
 msgstr "Hast du deine E-Mail-Adresse korrekt eingegeben? Falls die angegebene Adresse %s falsch ist, so wirst du keine E-Mail erhalten."
 
-#: wp-signup.php:389
+#: wp-signup.php:390
 msgctxt "Multisite active signup type"
 msgid "all"
 msgstr "Benutzern und Blogs"
 
-#: wp-signup.php:390
+#: wp-signup.php:391
 msgctxt "Multisite active signup type"
 msgid "none"
 msgstr "keinen neuen Blogs oder Benutzern"
 
-#: wp-signup.php:391
+#: wp-signup.php:392
 msgctxt "Multisite active signup type"
 msgid "blog"
 msgstr "Blogs"
 
-#: wp-signup.php:392
+#: wp-signup.php:393
 msgctxt "Multisite active signup type"
 msgid "user"
 msgstr "Benutzern"
 
-#: wp-signup.php:395
+#: wp-signup.php:396
 msgid "Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; registrations. To change or disable registration go to your <a href=\"%s\">Options page</a>."
 msgstr "Hallo Administrator! Du hast zurzeit das Registrieren von %s erlaubt. Um diese Einstellungen zu ändern, öffne die <a href=\"%s\">Blog-Netzwerk Einstellungen</a>."
 
-#: wp-signup.php:401
+#: wp-signup.php:402
 msgid "Registration has been disabled."
 msgstr "Die Registrierung wurde deaktiviert."
 
-#: wp-signup.php:408
+#: wp-signup.php:409
 msgid "You must first <a href=\"%s\">log in</a>, and then you can create a new site."
 msgstr "Du musst dich zuerst <a href=\"%s\">einloggen</a>, um einen Blog anlegen zu können."
 
-#: wp-signup.php:416
+#: wp-signup.php:417
 msgid "User registration has been disabled."
 msgstr "Die Benutzerregistrierung wurde deaktiviert."
 
-#: wp-signup.php:422
+#: wp-signup.php:423
 msgid "Site registration has been disabled."
 msgstr "Das Registrieren von Blogs ist deaktiviert."
 
-#: wp-signup.php:436
+#: wp-signup.php:437
 msgid "Sorry, new registrations are not allowed at this time."
 msgstr "Entschuldigung, aber Registrierungen sind zurzeit nicht möglich."
 
-#: wp-signup.php:438
+#: wp-signup.php:439
 msgid "You are logged in already. No need to register again!"
 msgstr "Du bist bereits angemeldet und brauchst dich nicht erneut zu registrieren!"
 
-#: wp-signup.php:444
+#: wp-signup.php:445
 msgid "<p><em>The site you were looking for, <strong>%s</strong> does not exist, but you can create it now!</em></p>"
 msgstr "<p><em>Der von dir gesuchte Blog <strong>%s</strong> existiert nicht, aber du kannst ihn selber anlegen.</em></p>"
 
-#: wp-signup.php:446
+#: wp-signup.php:447
 msgid "<p><em>The site you were looking for, <strong>%s</strong>, does not exist.</em></p>"
 msgstr "<p><em>Der Blog nach dem du gesucht hast <strong>%s</strong>, existiert nicht.</em></p>"
 
@@ -1506,41 +1524,31 @@ msgstr "Diese Site wurde noch nicht aktiviert. Wenn du Probleme mit der Aktivier
 msgid "This site has been archived or suspended."
 msgstr "Dieser Blog wurde deaktiviert oder archiviert."
 
-#: wp-includes/ms-load.php:187
+#: wp-includes/ms-load.php:186
 msgid "That site does not exist. Please try <a href=\"%s\">%s</a>."
 msgstr "Dieser Blog existiert nicht. Bitte versuche <a href=\"%s\">%s</a>."
 
-#: wp-includes/ms-load.php:189
-msgid "No site defined on this host. If you are the owner of this site, please check <a href=\"http://codex.wordpress.org/Debugging_WPMU\">Debugging WPMU</a> for help."
-msgstr "Auf diesem Host sind keine Sites definiert. Wenn du der Besitzer dieser Site bist, findest du Hilfe auf der Seite <a href=\"http://codex.wordpress.org/Debugging_WPMU\">Debugging WPMU</a>."
-
-#: wp-includes/ms-load.php:205
+#: wp-includes/ms-load.php:202
 msgid "Error establishing database connection"
 msgstr "Fehler bei der Datenbankverbindung"
 
-#: wp-includes/ms-load.php:209
+#: wp-includes/ms-load.php:206
 msgid "If your site does not display, please contact the owner of this network."
 msgstr "Wenn dein Blog nicht angezeigt wird, nehme bitte Kontakt zum Betreiber des Blog-Netzwerks auf."
 
-#: wp-includes/ms-load.php:210
+#: wp-includes/ms-load.php:207
 msgid "If you are the owner of this network please check that MySQL is running properly and all tables are error free."
 msgstr "Wenn du der Besitzer dieses Netzwerks bist, überprüfe bitte, dass MySQL störungsfrei läuft und alle Tabellen fehlerfrei sind."
 
-#: wp-includes/ms-load.php:212
+#: wp-includes/ms-load.php:209
 msgid "<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted <code>%s</code>. You really should look at your database now."
 msgstr "<strong>Es fehlen Datenbanktabellen.</strong> Das bedeutet, dass MySQL nicht läuft. WordPress wurde nicht richtig installiert, oder <code>%s</code> wurde gelöscht. Du solltest dir jetzt deine Datenbank anschauen."
 
-#: wp-includes/ms-load.php:214
+#: wp-includes/ms-load.php:211
 msgid "<strong>Could not find site <code>%1$s</code>.</strong> Searched for table <code>%2$s</code> in database <code>%3$s</code>. Is that right?"
 msgstr "<strong>Konnte Blog nicht finden. <code>%1$s</code>.</strong> Suche nach Tabelle <code>%2$s</code> in der Datenbank <code>%3$s</code>. Ist das richtig?"
 
-#: wp-includes/ms-load.php:216
-msgid "Read the <a target=\"_blank\" href=\"http://codex.wordpress.org/Debugging_WPMU\">bug report</a> page. Some of the guidelines there may help you figure out what went wrong."
-msgstr ""
-"Lese die <a target=\"_blank\" href=\"http://codex.wordpress.org/Debugging_WPMU\">Fehler-Report</a> Seite. \n"
-"Einige der Richtlinien können dir helfen um herauszufinden, was falsch gelaufen ist."
-
-#: wp-includes/ms-load.php:217
+#: wp-includes/ms-load.php:214
 msgid "If you&#8217;re still stuck with this message, then check that your database contains the following tables:"
 msgstr "Wenn du noch immer in der Nachricht festhängst, dann prüfe ob die Datenbank die folgenden Tabellen enthält:"
 
@@ -1552,7 +1560,7 @@ msgstr "Geblockte E-Mail-Domains"
 msgid "The welcome email sent to new users."
 msgstr "Diese E-Mail wird an jeden neu registrierten Benutzer versandt."
 
-#: wp-admin/includes/ms.php:802
+#: wp-admin/includes/ms.php:800
 #: wp-admin/ms-admin.php:47
 msgid "Create a New Site"
 msgstr "Erstelle einen neuen Blog"
@@ -1569,11 +1577,11 @@ msgstr "Willkommens-E-Mail"
 msgid "[%s] New Site Created"
 msgstr "[%s] Neuer Blog wurde erstellt"
 
-#: wp-admin/ms-edit.php:484
+#: wp-admin/ms-edit.php:485
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: wp-admin/ms-edit.php:468
+#: wp-admin/ms-edit.php:469
 msgid "WordPress &rsaquo; Confirm your action"
 msgstr "WordPress &rsaquo; Bestätige die Aktion"
 
@@ -1820,23 +1828,23 @@ msgstr "Registrierung für E-Mail-Domains limitieren"
 msgid "If you want to limit site registrations to certain domains. One domain per line."
 msgstr "Falls du die Registrierung für bestimmte E-Mail-Domains (z.B. <em>example.com</em>) limitieren willst. Nutze pro Domain eine Zeile."
 
-#: wp-admin/ms-edit.php:606
+#: wp-admin/ms-edit.php:607
 msgid "Cannot create an empty user."
 msgstr "Es kann kein leerer Benutzer angelegt werden."
 
-#: wp-admin/ms-edit.php:609
+#: wp-admin/ms-edit.php:610
 msgid "Missing username and email."
 msgstr "Benutzername und Emailadresse fehlen."
 
-#: wp-admin/ms-edit.php:611
+#: wp-admin/ms-edit.php:612
 msgid "Missing username."
 msgstr "Fehlender Benutzername."
 
-#: wp-admin/ms-edit.php:613
+#: wp-admin/ms-edit.php:614
 msgid "Missing email."
 msgstr "Bitte E-Mail-Adresse angeben."
 
-#: wp-admin/ms-edit.php:619
+#: wp-admin/ms-edit.php:620
 msgid "Duplicated username or email address."
 msgstr "Schon vorhandener Benutzername oder E-Mail-Adresse."
 
@@ -1862,7 +1870,7 @@ msgstr "Die Werte bei \"Einstellungen für neue Blogs\" werden immer dann angewa
 #: wp-admin/ms-options.php:28
 msgid "Checkboxes for media upload buttons set which are shown in the visual editor. If unchecked, a generic upload button is still visible; other media types can still be uploaded if on the allowed file types list."
 msgstr ""
-"Du kannst auch einstellen, ob verschiedene Buttons für das Hochladen bestimmter Dateitypen angezeigt werden sollen, oder ob ein nur eine generische Schaltfläche angezeigt werden soll.\n"
+"Du kannst auch einstellen, ob verschiedene Schaltflächen für das Hochladen bestimmter Dateitypen angezeigt werden sollen, oder ob ein nur eine allgemeine Schaltfläche angezeigt werden soll.\n"
 "Beachte aber, dass letztendlich relevant ist, welche Dateitypen du für das Hochladen erlaubt hast."
 
 #: wp-admin/ms-options.php:29
@@ -1881,14 +1889,6 @@ msgstr "Aktivierungsschlüssel"
 #: wp-activate.php:84
 msgid "Your account is now active!"
 msgstr "Dein Benutzerkonto ist nun aktiviert!"
-
-#: wp-activate.php:68
-msgid "Your account has been activated. You may now <a href=\"%1$s\">login</a> to the site using your chosen username of &#8220;%2$s&#8221;.  Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href=\"%4$s\">reset your password</a>."
-msgstr ""
-"Dein Benutzerkonto wurde aktiviert. Du kannst dich nun mit deinem Benutzernamen &#8220;%2$s&#8221; <a href=\"%1$s\">einloggen</a>.\n"
-"Bitte überprüfe dein E-Mail-Postfach mit der Adresse %3$s, um dein Passwort zu erhalten. \n"
-"Solltest du keine E-Mail bekommen haben, so überprüfe deinen Junk/SPAM-Ordner, da die Mail fälschlicherweise als SPAM identifiziert worden sein könnte. \n"
-"Falls du in einer Stunde immer noch keine Mail bekommen hast, so kannst du auch dein <a href=\"%4$s\">Passwort zurücksetzen</a>. "
 
 #: wp-activate.php:70
 msgid "Your site at <a href=\"%1$s\">%2$s</a> is active. You may now log in to your site using your chosen username of &#8220;%3$s&#8221;.  Please check your email inbox at %4$s for your password and login instructions.  If you do not receive an email, please check your junk or spam folder.  If you still do not receive an email within an hour, you can <a href=\"%5$s\">reset your password</a>."
@@ -1932,21 +1932,22 @@ msgstr "Die Multblog-Unterstüzung ist nicht aktiviert."
 #: wp-admin/ms-edit.php:29
 #: wp-admin/ms-edit.php:143
 #: wp-admin/ms-edit.php:208
-#: wp-admin/ms-edit.php:321
-#: wp-admin/ms-edit.php:335
-#: wp-admin/ms-edit.php:376
-#: wp-admin/ms-edit.php:387
-#: wp-admin/ms-edit.php:398
-#: wp-admin/ms-edit.php:409
-#: wp-admin/ms-edit.php:420
-#: wp-admin/ms-edit.php:430
-#: wp-admin/ms-edit.php:440
-#: wp-admin/ms-edit.php:494
-#: wp-admin/ms-edit.php:515
-#: wp-admin/ms-edit.php:573
-#: wp-admin/ms-edit.php:603
+#: wp-admin/ms-edit.php:322
+#: wp-admin/ms-edit.php:336
+#: wp-admin/ms-edit.php:377
+#: wp-admin/ms-edit.php:388
+#: wp-admin/ms-edit.php:399
+#: wp-admin/ms-edit.php:410
+#: wp-admin/ms-edit.php:421
+#: wp-admin/ms-edit.php:431
+#: wp-admin/ms-edit.php:441
+#: wp-admin/ms-edit.php:495
+#: wp-admin/ms-edit.php:516
+#: wp-admin/ms-edit.php:574
+#: wp-admin/ms-edit.php:604
 #: wp-admin/ms-options.php:16
 #: wp-admin/ms-sites.php:16
+#: wp-admin/ms-sites.php:111
 #: wp-admin/ms-themes.php:13
 #: wp-admin/ms-upgrade-network.php:32
 #: wp-admin/ms-users.php:16
@@ -2136,55 +2137,55 @@ msgstr "Blog wird nicht mehr als SPAM eingestuft."
 msgid "Site marked as spam."
 msgstr "Dieser Blog wurde als SPAM eingestuft."
 
-#: wp-admin/ms-sites.php:115
+#: wp-admin/ms-sites.php:118
 msgid "Edit Site"
 msgstr "Blog bearbeiten"
 
-#: wp-admin/ms-sites.php:121
+#: wp-admin/ms-sites.php:124
 msgid "Site info (wp_blogs)"
 msgstr "Blogeinstellungen (wp_blogs)"
 
-#: wp-admin/ms-sites.php:125
-#: wp-admin/ms-sites.php:474
-#: wp-admin/ms-sites.php:716
-#: wp-admin/ms-sites.php:718
+#: wp-admin/ms-sites.php:128
+#: wp-admin/ms-sites.php:477
+#: wp-admin/ms-sites.php:719
+#: wp-admin/ms-sites.php:721
 msgid "Domain"
 msgstr "Domain"
 
-#: wp-admin/ms-sites.php:140
+#: wp-admin/ms-sites.php:143
 msgid "Update <code>siteurl</code> and <code>home</code> as well."
 msgstr "Du solltest <code>siteurl</code> und <code>home</code> ebenfalls anpassen."
 
-#: wp-admin/ms-sites.php:144
-#: wp-admin/ms-sites.php:479
+#: wp-admin/ms-sites.php:147
+#: wp-admin/ms-sites.php:482
 msgctxt "site"
 msgid "Registered"
 msgstr "Registriert"
 
-#: wp-admin/ms-sites.php:148
-#: wp-admin/ms-sites.php:478
+#: wp-admin/ms-sites.php:151
+#: wp-admin/ms-sites.php:481
 msgid "Last Updated"
 msgstr "Zuletzt aktualisiert"
 
-#: wp-admin/ms-sites.php:154
-#: wp-admin/ms-sites.php:520
+#: wp-admin/ms-sites.php:157
+#: wp-admin/ms-sites.php:523
 msgid "Archived"
 msgstr "Archiviert"
 
-#: wp-admin/ms-sites.php:155
-#: wp-admin/ms-sites.php:520
-#: wp-admin/ms-sites.php:593
+#: wp-admin/ms-sites.php:158
+#: wp-admin/ms-sites.php:523
+#: wp-admin/ms-sites.php:596
 msgctxt "site"
 msgid "Spam"
 msgstr "Spam"
 
-#: wp-admin/ms-sites.php:156
-#: wp-admin/ms-sites.php:520
+#: wp-admin/ms-sites.php:159
+#: wp-admin/ms-sites.php:523
 msgid "Deleted"
 msgstr "Gelöscht"
 
-#: wp-admin/ms-edit.php:362
-#: wp-admin/ms-edit.php:463
+#: wp-admin/ms-edit.php:363
+#: wp-admin/ms-edit.php:464
 msgid "You are not allowed to change the current site."
 msgstr "Du hast nicht das Recht, Änderungen an diesem Blog vorzunehmen."
 

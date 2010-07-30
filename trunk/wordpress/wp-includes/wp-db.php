@@ -520,17 +520,14 @@ class wpdb {
 		$this->dbh = @mysql_connect( $dbhost, $dbuser, $dbpassword, true );
 		if ( !$this->dbh ) {
 			$this->bail( sprintf( /*WP_I18N_DB_CONN_ERROR*/"
-<h1>Die Datenbank kann nicht gew&auml;hlt werden</h1>
-<p>Das bedeutet entweder, dass dein Benutzername oder Passwort in der Datei <code>wp-config.php</code> falsch sind oder der Datenbankserver <code>%s</code> ist nicht erreichbar.</p>
+<h1>Error establishing a database connection</h1>
+<p>This either means that the username and password information in your <code>wp-config.php</code> file is incorrect or we can't contact the database server at <code>%s</code>. This could mean your host's database server is down.</p>
 <ul>
-    <li>Bist du sicher, dass du den korrekten Benutzernamen bzw. Passwort angegeben hast??</li>
-	<li>Bist du sicher, dass du den korrekten Host angegeben hast?</li>
-	<li>Bist du sicher, dass der Datenbankserver l&auml;uft?</li>
+	<li>Are you sure you have the correct username and password?</li>
+	<li>Are you sure that you have typed the correct hostname?</li>
+	<li>Are you sure that the database server is running?</li>
 </ul>
-<p>Wenn du nicht wei&szlig;t, wie du die Datenbank einrichtest, <strong>kontaktiere deinen Provider</strong>. Wenn du gar nicht weiterkommst, findest Du im <a href='http://wordpress.org/support/'>englischsprachigen-</a> und <a href='http://forum.wordpress-deutschland.org/'>deutschsprachigen-Supportforum</a> Hilfe.</p>
-
-
-
+<p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>
 "/*/WP_I18N_DB_CONN_ERROR*/, $dbhost ), 'db_connect_fail' );
 			return;
 		}
@@ -754,7 +751,7 @@ class wpdb {
 <li>Bei einigen Systemen ist der Benutzername das Präfix der Datenbank, so dass es so oder ähnlich aussieht <code>username_%1$s</code>. Könnte das das Problem sein?</li>
 </ul>
 <p>Wenn du nicht weißt, wie du die Datenbank einrichtest, <strong>kontaktiere deinen Provider</strong>. Wenn du gar nicht weiterkommst, findest Du im <a href=\"http://wordpress.org/support/\">englischsprachigen-</a> und <a href=\"http://forum.wordpress-deutschland.org/\">deutschsprachigen-Supportforum</a> Hilfe.</p>'/*/WP_I18N_DB_SELECT_DB*/, $db, $this->dbuser ), 'db_select_fail' );
-			return;
+	return;
 		}
 	}
 
@@ -1405,7 +1402,7 @@ class wpdb {
 			// Return an array of row objects with keys from column 1
 			// (Duplicates are discarded)
 			foreach ( $this->last_result as $row ) {
-				$key = array_shift( get_object_vars( $row ) );
+				$key = array_shift( $var_by_ref = get_object_vars( $row ) );
 				if ( ! isset( $new_array[ $key ] ) )
 					$new_array[ $key ] = $row;
 			}
