@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2392 2010-06-29 06:45:34Z matt $
+ * @version $Id: Controller.php 2874 2010-08-06 19:48:47Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Widgetize
@@ -58,6 +58,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 	function iframe()
 	{		
 		Piwik_API_Request::reloadAuthUsingTokenAuth();
+		$this->init();
 		$controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
 		$actionName = Piwik_Common::getRequestVar('actionToWidgetize');
 		$parameters = array ( $fetch = true );

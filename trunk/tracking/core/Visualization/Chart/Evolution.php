@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Evolution.php 1978 2010-03-22 17:27:56Z vipsoft $
+ * @version $Id: Evolution.php 2858 2010-08-03 19:31:51Z greg $
  * 
  * @category Piwik
  * @package Piwik
@@ -65,7 +65,7 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 				$lineValue = new hollow_dot($value);
 				
 				$unit = $this->yUnit;
-				$lineValue->tooltip("$label<br>$value$unit $labelName");
+				$lineValue->tooltip("$label<br><b>$value$unit</b> $labelName");
 				if(!empty($this->xOnClick))
 				{
 					$lineValue->on_click("piwikHelper.redirectToUrl('".$this->xOnClick[$j]."')");

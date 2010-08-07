@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: VerticalBar.php 1978 2010-03-22 17:27:56Z vipsoft $
+ * @version $Id: VerticalBar.php 2858 2010-08-03 19:31:51Z greg $
  * 
  * @category Piwik
  * @package Piwik
@@ -66,7 +66,7 @@ class Piwik_Visualization_Chart_VerticalBar extends Piwik_Visualization_Chart
 				$displayPercentage = "($percentage%)";
 			}
 			$barValue = new bar_value($value);
-			$barValue->set_tooltip("$label<br>$value$unit $labelName $displayPercentage");
+			$barValue->set_tooltip("$label<br><b>$value$unit</b> $labelName $displayPercentage");
 			$barValues[] = $barValue;
 			$i++;
 		}

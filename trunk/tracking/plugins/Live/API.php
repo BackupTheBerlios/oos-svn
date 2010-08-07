@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: API.php 2787 2010-07-29 11:31:55Z peterb $
+ * @version $Id: API.php 2879 2010-08-06 20:21:21Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -21,7 +21,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 class Piwik_Live_API
 {
 	static private $instance = null;
-	/*
+	/**
 	 * @return Piwik_Live_API
 	 */
 	static public function getInstance()
@@ -134,15 +134,24 @@ class Piwik_Live_API
 
 			$site = new Piwik_Site($idSite);
 			$timezone = $site->getTimezone();
+			
+			$visitorDetailsArray['siteCurrency'] = $site->getCurrency();
+
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth%');
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
 
-			// get Detail - 100 single SQL Statements - Performance Issue
+			if(!empty($visitorDetailsArray['goalTimePretty'])) {
+				$dateTimeConversion = Piwik_Date::factory($visitorDetailsArray['goalTimePretty'], $timezone);
+				$visitorDetailsArray['goalTimePretty'] = $dateTimeConversion->getLocalized('%shortDay% %day% %shortMonth% %time%');
+			}
+			
 			$idvisit = $visitorDetailsArray['idVisit'];
 
 			$sql = "
-				SELECT DISTINCT " .Piwik_Common::prefixTable('log_action').".name AS pageUrl
+				SELECT
+				" .Piwik_Common::prefixTable('log_action').".name AS pageUrl,
+				" .Piwik_Common::prefixTable('log_action').".idaction AS pageIdAction
 				FROM " .Piwik_Common::prefixTable('log_link_visit_action')."
 					INNER JOIN " .Piwik_Common::prefixTable('log_action')."
 					ON  " .Piwik_Common::prefixTable('log_link_visit_action').".idaction_url = " .Piwik_Common::prefixTable('log_action').".idaction
@@ -152,7 +161,9 @@ class Piwik_Live_API
 			$visitorDetailsArray['actionDetails'] = Piwik_FetchAll($sql);
 
 			$sql = "
-				SELECT DISTINCT " .Piwik_Common::prefixTable('log_action').".name AS pageUrl
+				SELECT
+				" .Piwik_Common::prefixTable('log_action').".name AS pageTitle,
+				" .Piwik_Common::prefixTable('log_action').".idaction AS pageIdAction
 				FROM " .Piwik_Common::prefixTable('log_link_visit_action')."
 					INNER JOIN " .Piwik_Common::prefixTable('log_action')."
 					ON  " .Piwik_Common::prefixTable('log_link_visit_action').".idaction_name = " .Piwik_Common::prefixTable('log_action').".idaction
@@ -160,6 +171,7 @@ class Piwik_Live_API
 				 ";
 
 			$visitorDetailsArray['actionDetailsTitle'] = Piwik_FetchAll($sql);
+			
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
 
@@ -214,7 +226,11 @@ class Piwik_Live_API
 		}
 
 		$sql = "SELECT 	" . Piwik_Common::prefixTable('log_visit') . ".* ,
-						" . Piwik_Common::prefixTable ( 'goal' ) . ".match_attribute
+						" . Piwik_Common::prefixTable ( 'goal' ) . ".match_attribute as goal_match_attribute,
+						" . Piwik_Common::prefixTable ( 'goal' ) . ".name as goal_name,
+						" . Piwik_Common::prefixTable ( 'goal' ) . ".revenue as goal_revenue,
+						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".idaction_url as goal_idaction_url,
+						" . Piwik_Common::prefixTable ( 'log_conversion' ) . ".server_time as goal_server_time
 				FROM " . Piwik_Common::prefixTable('log_visit') . "
 					LEFT JOIN ".Piwik_Common::prefixTable('log_conversion')."
 					ON " . Piwik_Common::prefixTable('log_visit') . ".idvisit = " . Piwik_Common::prefixTable('log_conversion') . ".idvisit
@@ -225,7 +241,6 @@ class Piwik_Live_API
 					$sqlWhere
 				ORDER BY idvisit DESC
 				LIMIT ".(int)$limit;
-
 		return Piwik_FetchAll($sql, $whereBind);
 	}
 

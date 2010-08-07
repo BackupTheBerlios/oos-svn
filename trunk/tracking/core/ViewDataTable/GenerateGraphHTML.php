@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: GenerateGraphHTML.php 2779 2010-07-29 07:57:30Z peterb $
+ * @version $Id: GenerateGraphHTML.php 2875 2010-08-06 20:12:21Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -104,6 +104,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
 		$this->includeData = Zend_Registry::get('config')->General->serve_widget_and_data;
 		$idSite = Piwik_Common::getRequestVar('idSite', 1);
+		
+		Piwik_API_Request::reloadAuthUsingTokenAuth();
 		if(Piwik::isUserHasViewAccess($idSite) && $this->includeData)
 		{
 			$this->chartData = $this->getFlashData();

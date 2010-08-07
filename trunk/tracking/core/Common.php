@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Common.php 2767 2010-07-28 22:56:04Z matt $
+ * @version $Id: Common.php 2870 2010-08-06 15:56:25Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -666,7 +666,7 @@ class Piwik_Common
 	{
 		// we set the unserialized version only for arrays as you can have set a serialized string on purpose
 		if (preg_match('/^a:[0-9]+:{/', $str)
-			&& !preg_match('/(^|;|{|})O:[0-9]+:"/', $str)
+			&& !preg_match('/(^|;|{|})O:\+?[0-9]+:"/', $str)
 			&& strpos($str, "\0") === false)
 		{
 			if( ($arrayValue = @unserialize($str)) !== false
@@ -702,14 +702,14 @@ class Piwik_Common
 		{
 			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
 			{
-				$salt = Piwik_Tracker_Config::getInstance()->superuser['salt'];
+				$salt = @Piwik_Tracker_Config::getInstance()->superuser['salt'];
 			}
 			else
 			{
 				$config = Zend_Registry::get('config');
 				if($config !== false)
 				{
-					$salt = $config->superuser->salt;
+					$salt = @$config->superuser->salt;
 				}
 			}
 		}

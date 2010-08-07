@@ -1,7 +1,7 @@
 <div class="home" id="content" style="display: block;">
 <a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
 <h2>{'Live_VisitorLog'|translate}</h2>
-<div id="{$properties.uniqueId}">
+<div id="{$properties.uniqueId}" class="visitorLog">
 
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message}
@@ -33,8 +33,8 @@
 	<td style="display:none;"></td>
 	<td class="label" style="width:12%" width="12%">
 
-				{$visitor.columns.serverDatePretty} - {$visitor.columns.serverTimePretty}
-				{if isset($visitor.columns.ip)} <br/>IP: {$visitor.columns.ip}{/if}
+				<strong>{$visitor.columns.serverDatePretty} - {$visitor.columns.serverTimePretty}</strong>
+				{if !empty($visitor.columns.ip)} <br/>IP: {$visitor.columns.ip}{/if}
 				{if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')} 
 					<br />
 					{'Provider_ColumnProvider'|translate}: 
@@ -93,7 +93,7 @@
 			{if $visitor.columns.refererType == 'directEntry'}{'Referers_DirectEntry'|translate}{/if}
 		</div>
 	</td>
-	<td class="column" style="width:55%" width="55%">
+	<td class="column {if $visitor.columns.isVisitorGoalConverted}highlightField{/if}" style="width:55%" width="55%">
 			<strong>
 				{$visitor.columns.actionDetails|@count}
 				{if $visitor.columns.actionDetails|@count <= 1}
@@ -108,6 +108,15 @@
 			{foreach from=$visitor.columns.actionDetails item=action}
 				<li>
 					<a href="{$action.pageUrl}" target="_blank" style="text-decoration:underline;" title="{$action.pageUrl}">{$action.pageUrl|truncate:80:"...":true}</a>
+					{if $visitor.columns.goalUrl eq $action.pageIdAction}
+						<ul class="actionGoalDetails">
+							<li>
+								<img src="{$visitor.columns.goalIcon}" title="{$visitor.columns.goalType}" /> 
+								<strong>{$visitor.columns.goalName}</strong>, 
+								{if $visitor.columns.goalRevenue > 0}{'Live_GoalRevenue'|translate}: <strong>{$visitor.columns.goalRevenue} {$visitor.columns.siteCurrency}</strong>{/if}
+							</li>
+						</ul>
+					{/if}
 				</li>
 			{/foreach}
 			</ol>

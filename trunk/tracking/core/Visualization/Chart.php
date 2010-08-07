@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Chart.php 2147 2010-05-06 18:50:38Z vipsoft $
+ * @version $Id: Chart.php 2858 2010-08-03 19:31:51Z greg $
  * 
  * @category Piwik
  * @package Piwik
@@ -190,6 +190,10 @@ abstract class Piwik_Visualization_Chart implements Piwik_iView
 		$this->tooltip = new tooltip();
 		$this->tooltip->set_shadow( true );
 		$this->tooltip->set_stroke( 1 );
+		$this->tooltip->set_colour( "#B4B09C" );
+		$this->tooltip->set_background_colour( "#F9FAFA" );
+		$this->tooltip->set_title_style( "{font-size: 14px; font-family:Arial; font-weight:bold; color: #7E735A;}" );
+		$this->tooltip->set_body_style( "{font-size: 14px; font-family:Arial; color: #000000;} " );
 				
 		// Attach elements to the graph
 		$this->chart->set_x_axis($this->x);

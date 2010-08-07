@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Visitor.php 2784 2010-07-29 10:40:04Z peterb $
+ * @version $Id: Visitor.php 2865 2010-08-05 10:26:34Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -78,6 +78,10 @@ class Piwik_Live_Visitor
 			'isVisitorGoalConverted' => $this->isVisitorGoalConverted(),
 			'goalIcon' => $this->getGoalIcon(),
    			'goalType' => $this->getGoalType(),
+			'goalName' => $this->getGoalName(),
+   			'goalRevenue' => $this->getGoalRevenue(),
+			'goalUrl' => $this->getGoalUrl(),
+   			'goalTimePretty' => $this->getGoalTimePretty()
 		);
 	}
 
@@ -104,7 +108,7 @@ class Piwik_Live_Visitor
 	{
 		return $this->details['idsite'];
 	}
-
+	
 	function getNumberOfActions()
 	{
 		return $this->details['visit_total_actions'];
@@ -318,19 +322,19 @@ class Piwik_Live_Visitor
 
 	function getGoalType()
 	{
-		if(isset($this->details['match_attribute'])){
-			return $this->details['match_attribute'];
+		if(isset($this->details['goal_match_attribute'])){
+			return ucfirst($this->details['goal_match_attribute']);
 		}
 		return false;
 	}
 
 	function getGoalIcon()
 	{
-		if(isset($this->details['match_attribute'])){
+		if(isset($this->details['goal_match_attribute'])){
 			$goalicon = "";
-			switch ($this->details['match_attribute']) {
+			switch ($this->details['goal_match_attribute']) {
 				case "url":
-					$goalicon = "plugins/Live/templates/images/goal.png";
+					$goalicon = "themes/default/images/goal.png";
 					break;
 				case "file":
 					$goalicon = "plugins/Live/templates/images/download.png";
@@ -340,6 +344,38 @@ class Piwik_Live_Visitor
 					break;
 			}
 			return $goalicon;
+		}
+		return false;
+	}
+	
+	function getGoalName()
+	{
+		if(isset($this->details['goal_name'])){
+			return $this->details['goal_name'];
+		}
+		return false;
+	}
+	
+	function getGoalRevenue()
+	{
+		if(isset($this->details['goal_revenue'])){
+			return $this->details['goal_revenue'];
+		}
+		return false;
+	}
+
+	function getGoalUrl()
+	{
+		if(isset($this->details['goal_idaction_url'])){
+			return $this->details['goal_idaction_url'];
+		}
+		return false;
+	}
+
+	function getGoalTimePretty()
+	{
+		if(isset($this->details['goal_server_time'])){
+			return $this->details['goal_server_time'];
 		}
 		return false;
 	}

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Cookie.php 2777 2010-07-29 02:13:37Z matt $
+ * @version $Id: Cookie.php 2856 2010-08-03 19:13:48Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -160,7 +160,25 @@ class Piwik_Cookie
 		$this->setP3PHeader();
 		$this->setCookie( $this->name, $cookieString, $this->expire, $this->path);
 	}
-	
+
+	/**
+	 * Extract signed content from string: content VALUE_SEPARATOR '_=' signature
+	 *
+	 * @param string $content
+	 * @return string|false Content or false if unsigned
+	 */
+	private function extractSignedContent($content)
+	{
+		$signature = substr($content, -40);
+		if(substr($content, -43, 3) == self::VALUE_SEPARATOR . '_=' &&
+				$signature == sha1(substr($content, 0, -40) . Piwik_Common::getSalt()))
+		{
+			// strip trailing: VALUE_SEPARATOR '_=' signature"
+			return substr($content, 0, -43);
+		}
+		return false;
+	}
+
 	/**
 	 * Load the cookie content into a php array.
 	 * Parses the cookie string to extract the different variables.
@@ -169,7 +187,12 @@ class Piwik_Cookie
 	 */
 	protected function loadContentFromCookie()
 	{
-		$cookieStr = $_COOKIE[$this->name];
+		$cookieStr = $this->extractSignedContent($_COOKIE[$this->name]);
+		if($cookieStr === false)
+		{
+			return;
+		}
+
 		$values = explode( self::VALUE_SEPARATOR, $cookieStr);
 		foreach($values as $nameValue)
 		{
@@ -201,16 +224,28 @@ class Piwik_Cookie
 		$cookieStr = '';
 		foreach($this->value as $name=>$value)
 		{
-			if(is_array($value))
+			if(!is_numeric($value))
 			{
-				$value = serialize($value);
+				if(is_array($value))
+				{
+					$value = serialize($value);
+				}
+				$value = base64_encode($value);
 			}
-			$value = base64_encode($value);
-			
+		
 			$cookieStr .= "$name=$value" . self::VALUE_SEPARATOR;
 		}
-		$cookieStr = substr($cookieStr, 0, strlen($cookieStr)-1);
-		return $cookieStr;
+
+		if(!empty($cookieStr))
+		{
+			$cookieStr .= '_=';
+
+			// sign cookie
+			$signature = sha1($cookieStr . Piwik_Common::getSalt());
+			return $cookieStr . $signature;
+		}
+
+		return '';
 	}
 	
 	/**

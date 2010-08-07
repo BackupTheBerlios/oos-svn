@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: ChartPie.php 1420 2009-08-22 13:23:16Z vipsoft $
+ * @version $Id: ChartPie.php 2846 2010-08-03 07:05:52Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -18,7 +18,7 @@
  */
 class Piwik_ViewDataTable_GenerateGraphData_ChartPie extends Piwik_ViewDataTable_GenerateGraphData
 {
-	protected $graphLimit = 4;
+	protected $graphLimit = 6;
 	
 	protected function getViewDataTableId()
 	{

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: index.php 2328 2010-06-21 22:36:37Z vipsoft $
+ * @version $Id: index.php 2876 2010-08-06 20:12:47Z matt $
  */
 
 if(!empty($_SERVER['QUERY_STRING'])) {
@@ -30,10 +30,10 @@ if (file_exists($file) && function_exists('readfile')) {
 		if (extension_loaded('zlib') && function_exists('file_get_contents') && function_exists('file_put_contents')) {
 			if (preg_match('/(?:^|, ?)(deflate)(?:,|$)/', $acceptEncoding, $matches)) {
 				$encoding = 'deflate';
-				$filegz = '../piwik.js.deflate';
+				$filegz = '../tmp/piwik.js.deflate';
 			} else if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches)) {
 				$encoding = $matches[1];
-				$filegz = '../piwik.js.gz';
+				$filegz = '../tmp/piwik.js.gz';
 			}
 
 			if (!empty($encoding)) {
@@ -56,7 +56,7 @@ if (file_exists($file) && function_exists('readfile')) {
 			}
 		} else {
 			// manually compressed
-			$filegz = '../piwik.js.gz';
+			$filegz = '../tmp/piwik.js.gz';
 			if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches) && file_exists($filegz) && (filemtime($file) < filemtime($filegz))) {
 				$encoding = $matches[1];
 				$compressed = true;

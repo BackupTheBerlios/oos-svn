@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Pie.php 1978 2010-03-22 17:27:56Z vipsoft $
+ * @version $Id: Pie.php 2872 2010-08-06 19:17:41Z greg $
  * 
  * @category Piwik
  * @package Piwik
@@ -45,7 +45,7 @@ class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 		$pie->set_start_angle( 35 );
 		$pie->add_animation( new pie_fade() );
 		$pie->set_label_colour('#142448');
-		$pie->set_colours( array('#3C5A69','#679BB5','#695A3C','#B58E67','#969696') );
+		$pie->set_colours( array('#3C5A69','#679BB5','#695A3C','#B58E67','#8AA68A','#A4D2A6','#A68A98','#D2A4BB','#969696') );
 
 		// create the Pie values
 		$yValues = $this->yValues[$dataSetToDisplay];
@@ -63,7 +63,7 @@ class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 			}
 			$pieValue = new pie_value($value, $label);
 			$percentage = round(100 * $value / $sum);
-			$pieValue->set_tooltip("$label<br>$percentage% ($value$unit $labelName)");
+			$pieValue->set_tooltip("$label<br><b>$percentage%</b> ($value$unit $labelName)");
 			$pieValues[] = $pieValue;
 		}
 		$pie->set_values($pieValues);
