@@ -1,3 +1,10 @@
+/**
+ * Piwik - Web Analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: pdf.js 2990 2010-08-26 20:06:22Z matt $
+ */
 
 function formSetEditReport(idReport)
 {
@@ -67,6 +74,16 @@ function initManagePdf()
 		ajaxRequest.data = parameters;
 		$.ajax( ajaxRequest );
 		return false;
+	});
+	
+	// Email now
+	$('a[name=linkEmailNow]').click(function(){
+		var idReport = $(this).attr('idreport');
+		var ajaxRequest = piwikHelper.getStandardAjaxConf();
+		parameters = getPDFAjaxRequest(idReport, 'PDFReports.sendEmailReport');
+		parameters.idReport = idReport;
+		ajaxRequest.data = parameters;
+		$.ajax( ajaxRequest );
 	});
 	
 	// Delete PDF

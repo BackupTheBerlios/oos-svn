@@ -2,8 +2,8 @@
  * Piwik - Web Analytics
  *
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: piwik.js 1931 2010-03-18 06:51:50Z matt $
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: piwik.js 2967 2010-08-20 15:12:43Z vipsoft $
  */
 
 /*jslint browser:true, forin:true, plusplus:false, onevar:false, eqeqeq:false, strict:false */

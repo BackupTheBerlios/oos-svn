@@ -3,8 +3,8 @@
  * Piwik - Open source web analytics
  *
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Version.php 2886 2010-08-06 21:31:05Z matt $
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: Version.php 2993 2010-08-26 20:35:59Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -17,5 +17,5 @@
  */
 final class Piwik_Version
 {
-	const VERSION = '0.9';
+	const VERSION = '0.9.9';
 }

@@ -8,7 +8,7 @@
  * Note: Piwik Cookies are not forwarded in the request and from the response
  *
  * @license released under BSD License http://www.opensource.org/licenses/bsd-license.php
- * @version $Id: PiwikTracker.php 2785 2010-07-29 10:41:55Z matt $
+ * @version $Id: PiwikTracker.php 2911 2010-08-11 16:48:47Z vipsoft $
  * @link http://piwik.org/docs/tracking-api/
  *
  * @category Piwik
@@ -276,19 +276,40 @@ class PiwikTracker
      */
     protected function sendRequest($url)
     {
-		if(function_exists('stream_context_create')) {
-			$timeout = 600; // Allow debug while blocking the request
+		$timeout = 600; // Allow debug while blocking the request
+		$response = '';
+
+		if(function_exists('curl_init'))
+		{
+			$ch = curl_init();
+			curl_setopt_array($ch, array(
+				CURLOPT_URL => $url,
+				CURLOPT_USERAGENT => $this->userAgent,
+				CURLOPT_HEADER => false,
+				CURLOPT_TIMEOUT => $timeout,
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_HTTPHEADER => array(
+					'Accept-Language: ' . $this->acceptLanguage,
+					'Cookie: ',
+				),
+			));
+			ob_start();
+			$response = @curl_exec($ch);
+			ob_end_clean();
+		}
+		else if(function_exists('stream_context_create'))
+		{
 			$stream_options = array(
 				'http' => array(
-                  'user_agent' => $this->userAgent,
-                  'header' => "Accept-Language: " . $this->acceptLanguage . "\r\n" .
-							  "Cookie: \r\n",
-				  'timeout' => $timeout, // PHP 5.2.1
+					'user_agent' => $this->userAgent,
+					'header' => "Accept-Language: " . $this->acceptLanguage . "\r\n" .
+					            "Cookie: \r\n",
+					'timeout' => $timeout, // PHP 5.2.1
 				)
 			);
 			$ctx = stream_context_create($stream_options);
+			$response = file_get_contents($url, 0, $ctx);
 		}
-		$response = file_get_contents($url, 0, $ctx);
 		return $response;
     }
     

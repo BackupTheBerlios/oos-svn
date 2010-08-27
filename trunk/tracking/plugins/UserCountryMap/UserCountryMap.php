@@ -3,8 +3,8 @@
  * Piwik - Open source web analytics
  *
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: UserCountryMap.php 2834 2010-07-31 05:50:41Z greg $
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: UserCountryMap.php 2979 2010-08-24 17:49:15Z greg $
  *
  * @category Piwik_Plugins
  * @package Piwik_UserCountryMap
@@ -55,10 +55,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		// definition of the color scale
 		$view->hueMin = 218; 	
 		$view->hueMax = 216; 	
-		$view->satMin = "0.22"; 	
+		$view->satMin = "0.285"; 	
 		$view->satMax = "0.9";
 		$view->lgtMin = ".97";
-		$view->lgtMax = ".4";
+		$view->lgtMax = ".44";
 		
 		$request = new Piwik_API_Request(
 			'method=API.getMetadata&format=PHP'
@@ -74,7 +74,9 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		$metrics = array();
 		foreach ($metaData[0]['metrics'] as $id => $val)
 		{
-			$metrics[] = array($id, $val);
+			if (Piwik_Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
+				$metrics[] = array($id, $val);
+			}
 		} 
 		foreach ($metaData[0]['processedMetrics'] as $id => $val) 
 		{
@@ -83,6 +85,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		
 		$view->metrics = $metrics;
 		$view->defaultMetric = 'nb_visits';
+		$view->version = Piwik_Version::VERSION;
 		echo $view->render();
 	}
 	
@@ -114,7 +117,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 	 * debug mode for worldmap
 	 * helps to find JS bugs in IE8
 	 */
-	//*
+	/*
 	function debug()
 	{
 		echo '<html><head><title>DEBUG: world map</title>';

@@ -18,8 +18,8 @@ $(document).ready(function() {
 {/literal}
 
 	{* this hacks helps jquery to distingish between safari and chrome. *}
-	$.browser.chrome = /chrome/.test(navigator.userAgent.toLowerCase());
-	if ($.browser.chrome) $.browser.safari = false;
+	var isSafari = (navigator.userAgent.toLowerCase().indexOf("safari") != -1 && 
+		navigator.userAgent.toLowerCase().indexOf("chrome") == -1 ? true : false); 
 	
 	fv.dataUrl = encodeURIComponent("{$dataUrl}");
 	fv.hueMin = {$hueMin};
@@ -29,7 +29,7 @@ $(document).ready(function() {
 	fv.lgtMin = {$lgtMin};
 	fv.lgtMax = {$lgtMax};
 	{* we need to add 22 pixel for safari due to wrong width calculation for the select *}
-	fv.iconOffset = $('#userCountryMapSelectMetrics').width() + 22 + ($.browser.safari ? 22 : 0);
+	fv.iconOffset = $('#userCountryMapSelectMetrics').width() + 22 + (isSafari ? 22 : 0);
 	fv.defaultMetric = "{$defaultMetric}";
 	
 	fv.txtLoading = encodeURIComponent("{'General_Loading_js'|translate}");
@@ -40,11 +40,13 @@ $(document).ready(function() {
 {literal}	
 	
 	var attr = { id:"UserCountryMap" };
+{/literal}	
+	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf?piwik={$version}", "UserCountryMap_map", 
+		"100%", Math.round($('#UserCountryMap_content').width() *.55), "9.0.0", 
+		"libs/swfobject/expressInstall.swf", fv, params, attr
+	);
+{literal}	
 	
-	swfobject.embedSWF("plugins/UserCountryMap/PiwikMap.swf", "UserCountryMap_map", "100%", "300", 
-	"9.0.0", "libs/swfobject/expressInstall.swf", fv, params, attr, function (e) {
-		//e.ref.height = Math.round($('#widgetUserCountryMapworldMap').width() *.55);
-	});
 	
 	$("#userCountryMapSelectMetrics").change(function(el) {
 		$("#UserCountryMap")[0].changeMode(el.currentTarget.value);
@@ -66,7 +68,6 @@ $(document).ready(function() {
 	
 	$(window).resize(function() {
 		$("#UserCountryMap")[0].height = Math.round($('#UserCountryMap').width() *.55);
-		$("#UserCountryMap")[0].setIconOffset($('#userCountryMapSelectMetrics').width()+22+($.browser.safari ? 22 : 0));
 	});
 	
 });

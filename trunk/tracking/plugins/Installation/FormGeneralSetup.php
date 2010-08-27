@@ -3,8 +3,8 @@
  * Piwik - Open source web analytics
  * 
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FormGeneralSetup.php 2559 2010-07-19 04:29:54Z vipsoft $
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: FormGeneralSetup.php 2967 2010-08-20 15:12:43Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -53,7 +53,7 @@ class Piwik_Installation_FormGeneralSetup extends Piwik_QuickForm2
 			'content' => '&nbsp;&nbsp;' . Piwik_Translate('Installation_CommunityNewsletter'),
 		));
 
-		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo')));
+		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo'), 'class' => 'submit'));
 
 		// default values
 		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(

@@ -3,8 +3,8 @@
  * Piwik - Open source web analytics
  *
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Common.php 2870 2010-08-06 15:56:25Z matt $
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: Common.php 2967 2010-08-20 15:12:43Z vipsoft $
  *
  * @category Piwik
  * @package Piwik

@@ -3,8 +3,8 @@
  * Piwik - Open source web analytics
  * 
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2874 2010-08-06 19:48:47Z matt $
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: Controller.php 2983 2010-08-26 13:19:58Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -212,6 +212,10 @@ abstract class Piwik_Controller
 		else
 		{
 			$period = $paramsToSet['period'];
+		}
+		if(is_null($this->site))
+		{
+			throw new Piwik_Access_NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
 		}
 		$last30Relative = new Piwik_Period_Range($period, $range, $this->site->getTimezone() );
 		

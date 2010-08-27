@@ -3,8 +3,8 @@
  * Piwik - Open source web analytics
  * 
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: Controller.php 2737 2010-07-28 01:34:56Z matt $
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: Controller.php 2990 2010-08-26 20:06:22Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_PDFReports
@@ -39,7 +39,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		$view->newColumnAfter = round(count($availableReports) / $columnsCount);
 		$view->reportsByCategory = $reportsByCategory;
 		$view->reportsJSON = json_encode($reportsById);
-		$view->periods = Piwik_PDFReports::getPeriodToFrequency();
+		$view->periods = Piwik_PDFReports_API::getPeriodToFrequency();
 		$view->reports = $reports;
 		echo $view->render();
 	}

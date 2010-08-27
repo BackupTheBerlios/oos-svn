@@ -3,8 +3,8 @@
  * Piwik - Open source web analytics
  * 
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: TablePartitioning.php 1613 2009-11-27 20:57:13Z vipsoft $
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: TablePartitioning.php 2967 2010-08-20 15:12:43Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik

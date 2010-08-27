@@ -3,8 +3,8 @@
  * Piwik - Open source web analytics
  * 
  * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html Gpl v3 or later
- * @version $Id: FormFirstWebsiteSetup.php 2636 2010-07-23 12:15:09Z vipsoft $
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @version $Id: FormFirstWebsiteSetup.php 2967 2010-08-20 15:12:43Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -48,7 +48,7 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 		$tz->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_Timezone')));
 		$tz->addRule('checkTimezone', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone')));
 
-		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo')));
+		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('Installation_SubmitGo'), 'class' => 'submit'));
 
 		// default values
 		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
