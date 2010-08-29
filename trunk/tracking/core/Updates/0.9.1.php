@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: 0.9.1.php 3000 2010-08-27 06:41:20Z matt $
+ * @version $Id: 0.9.1.php 3015 2010-08-28 23:51:23Z matt $
  *
  * @category Piwik
  * @package Updates
@@ -17,6 +17,10 @@ class Piwik_Updates_0_9_1 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
+		if(!Piwik::isTimezoneSupportEnabled())
+		{
+			return array();
+		}
 		// @see http://bugs.php.net/46111
 		$timezones = timezone_identifiers_list();
 		$brokenTZ = array();
