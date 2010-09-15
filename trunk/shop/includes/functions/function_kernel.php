@@ -674,6 +674,9 @@ function oos_get_tax_rate($class_id, $country_id = -1, $zone_id = -1)
         return 0;
     }
 
+    if (isset($_SESSION['tax_excl']) && ($_SESSION['tax_excl'] == 1)) {
+        return 0;
+    }
 
     if ( ($country_id == -1) && ($zone_id == -1) ) {
         if (!isset($_SESSION['customer_id'])) {
@@ -708,7 +711,10 @@ function oos_get_tax_rate($class_id, $country_id = -1, $zone_id = -1)
     } else {
         $tax_result = $dbconn->Execute($query);
     }
-    if (!$tax_result) {return 0;}
+    if (!$tax_result) {
+      $_SESSION['tax_excl'] = 1;
+      return 0;
+    }
 
     if ($tax_result->RecordCount() > 0) {
         $tax_multiplier = 0;
@@ -723,6 +729,7 @@ function oos_get_tax_rate($class_id, $country_id = -1, $zone_id = -1)
 
         return $tax_multiplier;
     } else {
+        $_SESSION['tax_excl'] = 1;
         return 0;
     }
 }

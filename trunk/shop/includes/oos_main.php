@@ -198,6 +198,11 @@ if ($_SESSION['member']->group['show_price'] == 1) {
         $sPAngV = $aLang['tax_info_excl'];
     }
 
+    if (isset($_SESSION['tax_excl']) && ($_SESSION['tax_excl'] == 1)) {
+        $sPAngV = $aLang['tax_info_excl'];
+    }
+
+
     $sPAngV .= (defined('OOS_XHTML') && (OOS_XHTML == '1') ? ', <br />' : ', <br>');
     $sPAngV .= sprintf($aLang['text_shipping'], oos_href_link($aPages['information'], 'information_id=1'));
 }
