@@ -26,8 +26,8 @@ document.write('<a href="javascript:void window.open(\'{html_href_link page=$pag
     </td>
     <td align="right" valign="top" class="smallText">
 {if $product_info.products_image != ''}
-    <a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} ><img src="{$smarty.const.OOS_IMAGES}{$product_info.products_image}" alt="{$product_info.products_name|escape:"quotes"}" border="0"></a><br>
-    <br><br><a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title= {$product_info.products_name} >{html_js_icon image="zoom.gif" alt=$lang.icon_button_zoom}{$lang.text_click_to_enlarge}</a>
+    <a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title="{$product_info.products_name}"><img src="{$smarty.const.OOS_IMAGES}{$product_info.products_image}" alt="{$product_info.products_name|escape:"quotes"}" border="0"></a><br>
+    <br><br><a href="{$smarty.const.OOS_IMAGES}{$smarty.const.OOS_POPUP_IMAGES}{$product_info.products_image}" rel="lightbox" title="{$product_info.products_name}">{html_js_icon image="zoom.gif" alt=$lang.icon_button_zoom}{$lang.text_click_to_enlarge}</a>
 {/if}
 
 {if $product_info.products_zoomify != ''}
