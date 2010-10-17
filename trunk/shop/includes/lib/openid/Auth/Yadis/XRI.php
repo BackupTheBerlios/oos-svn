@@ -160,7 +160,7 @@ function Auth_Yadis_rootAuthority($xri)
         //   does that before we have a real xriparse function.
         //   Hopefully nobody does that *ever*.
         $root = substr($authority, 0, strpos($authority, ')') + 1);
-    } elseif (in_array($authority[0], Auth_Yadis_getXRIAuthorities())) {
+    } else if (in_array($authority[0], Auth_Yadis_getXRIAuthorities())) {
         // Other XRI reference.
         $root = $authority[0];
     } else {
@@ -190,7 +190,7 @@ function Auth_Yadis_getCanonicalID($iname, $xrds)
 
     // Now nodes are in reverse order.
     $xrd_list = array_reverse($xrds->allXrdNodes);
-    $parser =& $xrds->parser;
+    $parser = $xrds->parser;
     $node = $xrd_list[0];
 
     $canonicalID_nodes = $parser->evalXPath('xrd:CanonicalID', $node);
@@ -231,4 +231,4 @@ function Auth_Yadis_getCanonicalID($iname, $xrds)
     return $canonicalID;
 }
 
-?>
+

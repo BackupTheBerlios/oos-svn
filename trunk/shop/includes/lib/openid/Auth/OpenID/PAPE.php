@@ -21,7 +21,7 @@ define('PAPE_AUTH_PHISHING_RESISTANT',
        'http://schemas.openid.net/pape/policies/2007/06/phishing-resistant');
 
 define('PAPE_TIME_VALIDATOR',
-       '^[0-9]{4,4}-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z$');
+      '/^[0-9]{4,4}-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z$/');
 /**
  * A Provider Authentication Policy request, sent from a relying party
  * to a provider
@@ -82,7 +82,7 @@ class Auth_OpenID_PAPE_Request extends Auth_OpenID_Extension {
      * Instantiate a Request object from the arguments in a checkid_*
      * OpenID message
      */
-    function fromOpenIDRequest($request)
+    static function fromOpenIDRequest($request)
     {
         $obj = new Auth_OpenID_PAPE_Request();
         $args = $request->message->getArgs(Auth_OpenID_PAPE_NS_URI);
@@ -201,7 +201,7 @@ class Auth_OpenID_PAPE_Response extends Auth_OpenID_Extension {
      * @returns: A provider authentication policy response from the
      * data that was supplied with the id_res response.
      */
-    function fromSuccessResponse($success_response)
+    static function fromSuccessResponse($success_response)
     {
         $obj = new Auth_OpenID_PAPE_Response();
 
@@ -255,7 +255,7 @@ class Auth_OpenID_PAPE_Response extends Auth_OpenID_Extension {
 
             if (0 <= $nist_level && $nist_level < 5) {
                 $this->nist_auth_level = $nist_level;
-            } elseif ($strict) {
+            } else if ($strict) {
                 return false;
             }
         }
@@ -264,7 +264,7 @@ class Auth_OpenID_PAPE_Response extends Auth_OpenID_Extension {
         if ($auth_time !== null) {
             if (preg_match(PAPE_TIME_VALIDATOR, $auth_time)) {
                 $this->auth_time = $auth_time;
-            } elseif ($strict) {
+            } else if ($strict) {
                 return false;
             }
         }
@@ -298,4 +298,3 @@ class Auth_OpenID_PAPE_Response extends Auth_OpenID_Extension {
     }
 }
 
-?>
