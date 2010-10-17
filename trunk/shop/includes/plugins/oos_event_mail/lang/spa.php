@@ -28,9 +28,6 @@ define('EMAIL_LINEFEED_DESC', 'Defines the character sequence used to separate m
 define('EMAIL_USE_HTML_TITLE', 'Use MIME HTML When Sending Emails');
 define('EMAIL_USE_HTML_DESC', 'Send e-mails in HTML format');
 
-define('ENTRY_EMAIL_ADDRESS_CHECK_TITLE', 'Verify E-Mail Addresses Through DNS');
-define('ENTRY_EMAIL_ADDRESS_CHECK_DESC', 'Verify e-mail address through a DNS server');
-
 define('OOS_SMTPAUTH_TITLE', 'Sets SMTP authentication.');
 define('OOS_SMTPAUTH_DESC', ' Utilizes the Username and Password variables.');
 

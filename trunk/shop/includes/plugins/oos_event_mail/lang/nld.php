@@ -28,9 +28,6 @@ define('EMAIL_LINEFEED_DESC', 'Defini&euml;erd het karakterpatroon dat gebruikt 
 define('EMAIL_USE_HTML_TITLE', 'Gebruik MIME HTML bij versturen emails');
 define('EMAIL_USE_HTML_DESC', 'Verstuur emails in HTML formaat');
 
-define('ENTRY_EMAIL_ADDRESS_CHECK_TITLE', 'Verifi&euml;r email adres via DNS');
-define('ENTRY_EMAIL_ADDRESS_CHECK_DESC', 'Verifi&euml;r eailadres via een DNS server');
-
 define('OOS_SMTPAUTH_TITLE', 'Sets SMTP authentication.');
 define('OOS_SMTPAUTH_DESC', ' Utilizes the Username and Password variables.');
 

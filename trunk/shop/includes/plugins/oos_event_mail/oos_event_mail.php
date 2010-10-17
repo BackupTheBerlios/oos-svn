@@ -69,7 +69,6 @@
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('EMAIL_TRANSPORT', 'mail', 6, 3, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, 'oos_cfg_select_option(array(\'mail\', \'sendmail\', \'smtp\'),')");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('EMAIL_LINEFEED', 'LF', 6, 4, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, 'oos_cfg_select_option(array(\'LF\', \'CRLF\'),')");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('EMAIL_USE_HTML', '0', 6, 5, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, 'oos_cfg_select_option(array(\'1\', \'0\'),')");
-      $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('ENTRY_EMAIL_ADDRESS_CHECK', '0', 6, 6, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, 'oos_cfg_select_option(array(\'1\', \'0\'),')");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('OOS_SMTPAUTH', '1', 6, 7, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, 'oos_cfg_select_option(array(\'1\', \'0\'),')");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('OOS_SMTPUSER', '', 6, 8, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
       $dbconn->Execute("INSERT INTO $configurationtable (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('OOS_SMTPPASS', '', 6, 9, NULL, '" . date("Y-m-d H:i:s", time()) . "', NULL, NULL)");
@@ -92,7 +91,7 @@
     }
 
     function config_item() {
-      return array('SEND_EXTRA_ORDER_EMAILS_TO', 'SEND_BANKINFO_TO_ADMIN', 'EMAIL_TRANSPORT', 'EMAIL_LINEFEED', 'EMAIL_USE_HTML', 'ENTRY_EMAIL_ADDRESS_CHECK', 'OOS_SMTPAUTH', 'OOS_SMTPUSER', 'OOS_SMTPPASS', 'OOS_SMTPHOST', 'OOS_SENDMAIL');
+      return array('SEND_EXTRA_ORDER_EMAILS_TO', 'SEND_BANKINFO_TO_ADMIN', 'EMAIL_TRANSPORT', 'EMAIL_LINEFEED', 'EMAIL_USE_HTML', 'OOS_SMTPAUTH', 'OOS_SMTPUSER', 'OOS_SMTPPASS', 'OOS_SMTPHOST', 'OOS_SENDMAIL');
     }
   }
 
