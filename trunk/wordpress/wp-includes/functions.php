@@ -2125,7 +2125,7 @@ function wp_upload_dir( $time = null ) {
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = get_option( 'upload_path' );
 	$upload_path = trim($upload_path);
-	$main_override = defined( 'MULTISITE' ) && is_main_site();
+	$main_override = is_multisite() && defined( 'MULTISITE' ) && is_main_site();
 	if ( empty($upload_path) ) {
 		$dir = WP_CONTENT_DIR . '/uploads';
 	} else {
@@ -3128,11 +3128,11 @@ function dead_db() {
 <html xmlns="http://www.w3.org/1999/xhtml" <?php if ( function_exists( 'language_attributes' ) ) language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Datenbank-Fehler</title>
+	<title>Database Error</title>
 
 </head>
 <body>
-	<h1>Bei der Verbindung zur Datenbank ist ein Fehler aufgetreten.</h1>
+	<h1>Error establishing a database connection</h1>
 </body>
 </html>
 <?php
