@@ -1,8 +1,8 @@
-# Translation of Du - Multisite-Texte in German
-# This file is distributed under the same license as the Du - Multisite-Texte package.
+# Translation of Multisite-Texte in German
+# This file is distributed under the same license as the Multisite-Texte package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2010-07-30 12:30+0100\n"
+"PO-Revision-Date: 2010-12-02 15:21+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -338,7 +338,7 @@ msgstr "Die Blog-ID wird nur intern genutzt und wird nicht öffentlich angezeigt
 
 #: wp-admin/ms-sites.php:41
 msgid "Clicking on Add Site, after filling out the address, title, and admin's email address, adds the site instantly to the network and this table. You may want to then click on the action link to edit options for that site."
-msgstr "Mit \"Blog erstellen\" kannst du sofort einen weiteren Blog anlegen, nachdem du die Blog-Adresse und den Blogtitel festgelegt hast. Anschließend kannst du dir über den Link \"Bearbeiten\" die weiteren Einstellungen des neu angelegten Blogs ansehen."
+msgstr "Mit \"Blog erstellen\" kannst du sofort einen weiteren Blog anlegen, nachdem du die Blog-Adresse und den Blogtitel festgelegt hast. Anschließend kannst du dir über den Link \\\"Bearbeiten\\\" die weiteren Einstellungen des neu angelegten Blogs ansehen."
 
 #: wp-admin/ms-admin.php:27
 msgid "<a href=\"http://codex.wordpress.org/Super_Admin_Super_Admin_Menu\" target=\"_blank\">Documentation on Super Admin Menu</a>"
