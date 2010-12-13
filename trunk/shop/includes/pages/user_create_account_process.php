@@ -395,10 +395,10 @@ if ($bError == true) {
     if (ACCOUNT_VAT_ID == '1') {
         $sql_data_array['customers_vat_id'] = $vat_id;
         if ((ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && ($vatid_check_error === false) && ($country != STORE_COUNTRY)) {
-            $sql_data_array['customers_vat_id_status'] = 1;
+            $sql_data_array['customers_vat_id_status'] = 1; 
         } else {
             $sql_data_array['customers_vat_id_status'] = 0;
-        }
+        }  
     }
     oos_db_perform($oostable['customers'], $sql_data_array);
 
@@ -460,7 +460,7 @@ if ($bError == true) {
         $_SESSION['customer_max_order'] = $customer_max_order;
 
         if (ACCOUNT_VAT_ID == '1') {
-            if ((ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && ($vatid_check_error === false)) {
+            if ((ACCOUNT_COMPANY_VAT_ID_CHECK == '1') && ($vatid_check_error === false) && ($country != STORE_COUNTRY)) {
                 $_SESSION['customers_vat_id_status'] = 1;
             } else {
                 $_SESSION['customers_vat_id_status'] = 0;
