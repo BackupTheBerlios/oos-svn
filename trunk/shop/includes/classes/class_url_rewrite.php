@@ -63,9 +63,8 @@ class url_rewrite{
                       if(preg_match('/[_0-9]/', $url_array[$i])){
                           if($category_array = explode('_', $url_array[$i])){
                               foreach($category_array as $value){
-                                  $categoriestable = $oostable['categories'];
                                   $categories_descriptiontable = $oostable['categories_description'];
-                                  $category_result = $dbconn->Execute("SELECT c.categories_id, cd.categories_name FROM  $categoriestable c, $categories_descriptiontable cd WHERE c.categories_id = '" . intval($value) . "' AND c.categories_id = cd.categories_id AND cd.categories_languages_id = '" . intval($nLanguageID) . "'");
+                                  $category_result = $dbconn->Execute("SELECT categories_name FROM  $categories_descriptiontable WHERE categories_id = '" . intval($value) . "' AND categories_languages_id = '" . intval($nLanguageID) . "'");
                                   $category .= oos_make_filename($category_result->fields['categories_name']) . '/';
                               }
                               $category = substr($category, 0, -1);

@@ -52,12 +52,7 @@
    ---------------------------------------------------------------------- */
 
 // DO NOT RUN THIS SCRIPT STANDALONE
-if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); 
-    header("Location: /");
-    header("Connection: close");
-    exit;
-}
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 require 'includes/languages/' . $sLanguage . '.php';

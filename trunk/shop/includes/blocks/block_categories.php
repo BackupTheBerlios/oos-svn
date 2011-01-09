@@ -20,9 +20,8 @@
    ---------------------------------------------------------------------- */
 
 // DO NOT RUN THIS SCRIPT STANDALONE
-if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
-}
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 
 
 /**
@@ -196,7 +195,8 @@ while ($aCategories = $categories_result->fields)
 
 if (!empty($categories)) {
     $new_path = '';
-    $id = explode('_', $categories);
+    
+    $id = preg_split("/_/", $categories);
 
     foreach ($id as $key => $value) {
         unset($prev_id);

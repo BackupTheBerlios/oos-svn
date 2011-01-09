@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 // DO NOT RUN THIS SCRIPT STANDALONE
-if (count(get_included_files()) < 2) {
+  defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
     header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
 
 class NewspaperPDF extends TCPDF

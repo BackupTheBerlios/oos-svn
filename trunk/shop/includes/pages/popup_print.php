@@ -11,12 +11,7 @@
    ---------------------------------------------------------------------- */
 
 // DO NOT RUN THIS SCRIPT STANDALONE
-if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); 
-    header("Location: /");
-    header("Connection: close");
-    exit;
-}
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 if (!defined('OOS_BASE_PRICE')) {
     define('OOS_BASE_PRICE', '0');

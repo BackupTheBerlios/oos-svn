@@ -195,7 +195,8 @@ class GoogleSitemap
                     ? "{sitemap*.xml.gz}"
                       : "{sitemap*.xml}"
                       : "{sitemap*.xml}";
-         foreach ( glob($this->savepath . $pattern, GLOB_BRACE) as $filename ) {
+                      
+        foreach (glob($this->savepath . $pattern, GLOB_BRACE) as $filename ) {             
              if ( preg_match('/index/i', $filename) ) continue;
              $content .= "\t" . '<sitemap>' . "\n";
              $content .= "\t\t" . '<loc>'.$this->base_url . basename($filename).'</loc>' . "\n";

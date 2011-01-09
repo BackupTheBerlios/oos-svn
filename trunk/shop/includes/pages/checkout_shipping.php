@@ -21,12 +21,7 @@
    ---------------------------------------------------------------------- */
 
 // DO NOT RUN THIS SCRIPT STANDALONE
-if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); 
-    header("Location: /");
-    header("Connection: close");
-    exit;
-}
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
 
 $sLanguage = oos_var_prep_for_os($_SESSION['language']);
 require 'includes/languages/' . $sLanguage . '.php';
@@ -138,7 +133,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
         if ( (isset($_POST['shipping'])) && (strpos($_POST['shipping'], '_')) ) {
             $_SESSION['shipping'] = oos_prepare_input($_POST['shipping']);
 
-            list($module, $method) = explode('_', $_SESSION['shipping']);
+            list($module, $method) = preg_split("/_/", $_SESSION['shipping']);
             if ( is_object($$module) || ($_SESSION['shipping'] == 'free_free') ) {
                 if ($_SESSION['shipping'] == 'free_free') {
                     $quote[0]['methods'][0]['title'] = $aLang['free_shipping_title'];
@@ -177,7 +172,7 @@ if ( (isset($_POST['action']) && ($_POST['action'] == 'process')) && (isset($_SE
 // a javascript force-selection method, also automatically select the cheapest shipping
 // method if more than one module is now enabled
 if ( !isset($_SESSION['shipping']) || ( isset($_SESSION['shipping']) && ($_SESSION['shipping'] == false) && (oos_count_shipping_modules() > 1) ) ) $_SESSION['shipping'] = $oShippingModules->cheapest();
-list ($sess_class, $sess_method) = explode ('_', $_SESSION['shipping']['id']);
+list ($sess_class, $sess_method) = preg_split('_', $_SESSION['shipping']['id']);
 
 // links breadcrumb
 $oBreadcrumb->add($aLang['navbar_title_1'], oos_href_link($aPages['checkout_shipping'], '', 'SSL'));

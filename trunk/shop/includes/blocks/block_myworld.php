@@ -11,9 +11,8 @@
    ---------------------------------------------------------------------- */
 
 // DO NOT RUN THIS SCRIPT STANDALONE
-if (count(get_included_files()) < 2) {
-    header("HTTP/1.1 301 Moved Permanently"); header("Location: /"); exit;
-}
+defined( 'OOS_VALID_MOD' ) or die( 'Direct Access to this location is not allowed.' );
+
 
 if ($oEvent->installed_plugin('down_for_maintenance')) return false;
 if ($sPage == $aPages['customers_image']) return false;
