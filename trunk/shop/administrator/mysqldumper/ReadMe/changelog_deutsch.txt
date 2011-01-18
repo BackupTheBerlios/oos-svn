@@ -1,3 +1,27 @@
+Version 1.24.3
+
+Folgende Dinge wurden gelöst:
+
+- Manuelles Hinzufügen von Datenbanken: Das interne Handling wurde überarbeitet. Die Datei dbs_manual.php ist nicht mehr notwendig; manuell hinzugefügte Datenbanken werden nun im jeweiligen Konfigurationsprofil gespeichert.
+- Home / Verzeichnisschutz: Beim Anlegen war die Ausgabe über Erfolg / Misserfolg vertauscht.
+- Home / Verzeichnisschutz: Schlägt das Erstellen des Schutzes fehl, so enthielt die folgende Anzeige der Inhalte der Dateien unschöne <br>'s, die nicht in die Dateien gehören.
+- Home / Verzeichnisschutz: Der erstellten htaccess-Datei wurde "RewriteEngine off" hinzugefügt. Das vermindert Probleme, wenn MySQLDumper in einen Unterordner bestehender Systeme installiert wird, die selbst mod_rewrite nutzen.
+- Home / Verzeichnisschutz: Funktion zum Editieren eines bestehenden Schutzes wurde überarbeitet.
+- Home / Datenbanken: Der Key Status wurde unvollständig ermittelt. Es wurde für jede Tabelle nur der erste Index betrachtet.
+- SQLBrowser / Tabellenstruktur: Bei der Anzeige der Felder und Indizes ist die Spalte "Kommentar" hinzugekommen.
+- SQLBrowser / Tabellenstruktur: Die Verwaltung für Indizes wurde überarbeitet. Es können nun beliebige Indizes festgelegt werden, was bisher auf Primärschlüssel beschränkt war.
+- SQLBrowser: Die Systemtabelle "information_schema" wird nun angezeigt und kann betrachtet werden.
+- SQLBrowser: Ein Fehler, welcher die korrekte Funktion der Suche verhindern konnte, wurde korrigiert.
+- SQLBrowser: Bei bestimmten Anfragen wurde die Anzahl der Datensätze nicht korrekt ermittelt.
+- SQLBrowser: Datensätze, welche in einem Feld das Zeichen "|" enthalten, konnten unter Umständen nicht editiert werden.
+- SQLBrowser: Die Fehlerbehandlung wurde verbessert.
+- Wiederherstellung: Bei der Wiederherstellung von Backups anderer Skripte wurden "CREATE DATABASE"-Anweisungen nicht korrekt erkannt.
+- Verwaltung / Backup-Konverter: Im Backup-Konverter befand sich ein fehlerhafter Funktionsaufruf, der eine Fehlermeldung verursachte.
+- Perl: in der Perl-Datei crondump.pl wurden Warnungen ausgegeben, wenn die Option "Autodelete" aktiviert ist und sich Backups anderer Programme im work/backup-Ordner befinden.
+- Perl: Anzeige der Perl-Version, Kleinigkeiten bei der Fehlerbehandlung, Schriftart in der HTML-Ausgabe
+- Perl: Unterstützung von FTP via SSL (NET::FTPSSL-Perl-Modul notwendig)
+- Perl: Die optionalen SQL-Befehle (Command Before/After) können nun mit mehreren, aufeinanderfolgenden Querys konfiguriert werden
+
 Version 1.24.2
 
 Folgende Dinge wurden gelöst:

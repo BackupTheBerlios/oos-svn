@@ -39,7 +39,6 @@ $tablename=isset($_GET['tablename']) ? urldecode($_GET['tablename']) : '';
 if (isset($_GET['mode'])&&$_GET['mode']=="kill"&&$rk>'')
 {
 	//echo "<br> RK ist: ".$rk."<br><br>";
-	if (strpos($rk,"|")!=false) $rk=str_replace('|',' AND ',$rk);
 	$sqlk="DELETE FROM `$tablename` WHERE ".$rk." LIMIT 1";
 	//echo $sqlk;
 	$res=MSD_query($sqlk);
@@ -351,9 +350,9 @@ if (is_array($treffer)&&isset($treffer[0]))
 				// remove hit marker from value
 				$x=str_replace('<span class="treffer">','',$treffer[$a][$k]);
 				$x=str_replace('</span>','',$x);
-				$keystring.='`'.$k.'`="'.addslashes($x).'"|';
+				$keystring.='`'.$k.'`="'.addslashes($x).'" AND ';
 			}
-			$keystring=substr($keystring,0,-1);
+			$keystring=substr($keystring,0,-5);
 			$rk=build_recordkey($keystring);
 		}
 		else

@@ -19,6 +19,7 @@ $config['language']=$language;
 include ( './language/lang_list.php' );
 include ( 'language/' . $language . '/lang_install.php' );
 include ( 'language/' . $language . '/lang_main.php' );
+include ( 'language/' . $language . '/lang_config_overview.php' );
 
 //Übergabe der Parameter über FORM
 if (isset($_POST['dbhost']))
@@ -35,7 +36,7 @@ else
 	// Wenn Connection-String existiert -> Verbindungsdaten aus connstr auslesen
 	if (isset($connstr) && !empty($connstr))
 	{
-		$p=explode("|",$connstr);
+		$p=explode("|", $connstr);
 		$dbhost=$config['dbhost']=$p[0];
 		$dbuser=$config['dbuser']=$p[1];
 		$dbpass=$config['dbpass']=$p[2];
@@ -50,7 +51,7 @@ else
 //Variabeln
 $phase=( isset($phase) ) ? $phase : 0;
 if (isset($_POST['manual_db'])) $manual_db=trim($_POST['manual_db']);
-$connstr="$dbhost|$dbuser|$dbpass|$dbport|$dbsocket|$manual_db";
+$connstr = "$dbhost|$dbuser|$dbpass|$dbport|$dbsocket|$manual_db";
 $connection='';
 $delfiles=Array();
 
@@ -135,25 +136,25 @@ echo '<div id="content" align="center"><p class="small"><strong>Version ' . MSD_
 
 switch ($phase)
 {
-	
+
 	case 0: // Anfang - Sprachauswahl
 		// da viele ja nicht in die Anleitung schauen -> versuchen die Perldateien automatisch richtig zu chmodden
 		@chmod('./msd_cron/crondump.pl',0755);
 		@chmod('./msd_cron/perltest.pl',0755);
 		@chmod('./msd_cron/simpletest.pl',0755);
-		
+
 		echo '<form action="install.php" method="get"><input type="hidden" name="phase" value="1">';
 		echo '<table class="bdr"><tr class="thead"><th>Language</th><th>Tools</th></tr>';
 		echo '<tr><td valign="top" width="300"><table>';
 		echo GetLanguageCombo("radio","radio","language","<tr><td>","</td></tr>");
 		echo '</table></td><td valign="top">';
-		
+
 		foreach ($lang['languages'] as $key)
 		{
 			echo ( "\n<div id=\"" . $key . '"><a href="install.php?language=' . $key . '&phase=100">' . $lang['L_TOOLS1'][$key] . '</a><br><br>' );
 			echo ( "</div>" );
 		}
-		
+
 		echo ( "\n</td></tr><tr><td colspan=\"2\" style=\"padding: 4px\"><input type=\"submit\" name=\"submit\" value=\"Installation\" class=\"Formbutton\"></td></tr></table></form>" );
 		echo '<script language="JavaScript" type="text/javascript">show_tooldivs("' . $language . '");</script>';
 		break;
@@ -170,7 +171,7 @@ switch ($phase)
 		{
 			$tmp=file("config.php");
 			$stored=0;
-			
+
 			if (!isset($_POST['dbconnect']))
 			{
 				// Erstaufruf - Daten aus config.php auslesen
@@ -214,10 +215,10 @@ switch ($phase)
 					if ($stored == 6) break;
 				}
 			}
-			
+
 			if (!isset($config['dbport'])) $config['dbport']="";
 			if (!isset($config['dbsocket'])) $config['dbsocket']="";
-			
+
 			echo '<form action="install.php?language=' . $language . '&phase=' . $phase . '" method="post">';
 			echo '<table class="bdr" style="width:700px;">';
 			echo '<tr><td>' . $lang['L_DB_HOST'] . ':</td><td><input type="text" name="dbhost" value="' . $dbhost . '" size="60" maxlength="100"></td></tr>';
@@ -227,35 +228,41 @@ switch ($phase)
 			echo '<tr><td>';
 			echo $lang['L_PORT'] . ':</td><td><input type="text" name="dbport" value="' . $dbport . '" size="5" maxlength="5">&nbsp;&nbsp;' . $lang['L_INSTALL_HELP_PORT'] . '</td></tr>';
 			echo '<tr><td>' . $lang['L_SOCKET'] . ':</td><td><input type="text" name="dbsocket" value="' . $dbsocket . '" size="30" maxlength="255">&nbsp;&nbsp;' . $lang['L_INSTALL_HELP_SOCKET'] . '</td></tr>';
-			
+
 			echo '<tr><td>' . $lang['L_TESTCONNECTION'] . ':</td><td><input type="submit" name="dbconnect" value="' . $lang['L_CONNECTTOMYSQL'] . '" class="Formbutton"></td></tr>';
 			if (isset($_POST['dbconnect']))
 			{
 				echo '<tr class="thead"><th colspan="2">' . $lang['L_DBCONNECTION'] . '</th></tr>';
 				echo '<tr><td colspan="2">';
 				$connection=MSD_mysql_connect();
-				
+
 				if ($connection === false)
 				{
 					echo '<p class="error">' . $lang['L_CONNECTIONERROR'] . '</p><span>&nbsp;';
 				}
 				else
 				{
+				    $databases = array();
 					echo '<p class="success">' . $lang['L_CONNECTION_OK'] . '</p><span class="ssmall">';
 					$connection="ok";
 					$connstr="$dbhost|$dbuser|$dbpass|$dbport|$dbsocket|$manual_db";
 					echo '<input type="hidden" name="connstr" value="' . $connstr . '">';
 					if ($manual_db > '') SearchDatabases(1,$manual_db);
 					else SearchDatabases(1);
+					if (!isset($databases['Name']) || !in_array($manual_db, $databases['Name'])) {
+                        // conect to manual db was not successful
+					    $connstr = substr($connstr,0, strlen($connstr)-strlen($manual_db));
+					    $manual_db = '';
+					}
 				}
 				echo '</span></td></tr>';
 			}
 			echo '</table></form><br>';
-			
+
 			if ($connection == "ok")
 			{
 				if (!isset($databases['Name'][0])) echo '<br>' . $lang['L_NO_DB_FOUND_INFO'];
-				
+
 				echo '<form action="install.php?language=' . $language . '&phase=' . ( $phase + 1 ) . '" method="post">';
 				echo '<input type="hidden" name="dbhost" value="' . $config['dbhost'] . '">
 			<input type="hidden" name="dbuser" value="' . $config['dbuser'] . '">
@@ -268,14 +275,13 @@ switch ($phase)
 			}
 		}
 		break;
-	
+
 	case 2: //
 		echo '<h6>MySQLDumper - ' . $lang['L_CONFBASIC'] . '</h6>';
 		$tmp=@file("config.php");
 		$stored=0;
 		for ($i=0; $i < count($tmp); $i++)
 		{
-			
 			if (substr($tmp[$i],0,17) == '$config[\'dbhost\']')
 			{
 				$tmp[$i]='$config[\'dbhost\'] = \'' . $dbhost . '\';' . "\n";
@@ -301,7 +307,7 @@ switch ($phase)
 				$tmp[$i]='$config[\'dbpass\'] = \'' . $dbpass . '\';' . "\n";
 				$stored++;
 			}
-			
+
 			if ($stored == 6) break;
 		}
 		$ret=true;
@@ -330,30 +336,10 @@ switch ($phase)
 			echo 'document.forms["continue"].submit();';
 			echo '</script>';
 		}
-		
-		break;
-	
-	case 3: //
-		if (ini_get('safe_mode') == 1) $nextphase=10;
-		else $nextphase=$phase + 1;
-		echo '<h6>' . $lang['L_EDITCONF'] . '</h6>';
-		echo '<form action="install.php?language=' . $language . '&phase=' . $nextphase . '" method="post">
-		<textarea name="configfile" rows="20" cols="10" style="width:80%;height:300px;">';
-		$f=file("config.php");
-		for ($i=0; $i < count($f); $i++)
-		{
-			echo stripslashes($f[$i]);
-		}
-		echo '</textarea><br><input class="Formbutton" type="reset" name="reset" value="' . $lang['L_RESET'] . '">&nbsp;&nbsp;
-		<input class="Formbutton" type="submit" name="submit" value="' . $lang['L_SAVE'] . '">&nbsp;&nbsp;
-		<input class="Formbutton" type="submit" name="nosave" value="' . $lang['L_OSWEITER'] . '">';
-		echo '<input type="hidden" name="connstr" value="' . $connstr . '">';
-		echo '</form>';
-		
-		break;
-	case 4: //Verzeichnisse
-		
 
+		break;
+
+	case 4: //Verzeichnisse
 		if (isset($_POST['submit']))
 		{
 			$ret=true;
@@ -364,21 +350,20 @@ switch ($phase)
 			}
 			else
 				$ret=false;
-			
+
 			if ($ret == false)
 			{
 				echo '<br><strong>' . $lang['L_ERRORMAN'] . ' config.php ' . $lang['L_MANUELL'] . '.';
 				die();
 			}
 		}
-		
+
 		echo '<h6>' . $lang['L_CREATEDIRS'] . '</h6>';
-		
 		$check_dirs=ARRAY(
-							
-							"work/", 
-							"work/config/", 
-							"work/log/", 
+
+							"work/",
+							"work/config/",
+							"work/log/",
 							"work/backup/"
 		);
 		$msg='';
@@ -387,14 +372,14 @@ switch ($phase)
 			$success=SetFileRechte($d,1,0777);
 			if ($success != 1) $msg.=$success . '<br>';
 		}
-		
+
 		if ($msg > '') echo '<b>' . $msg . '</b>';
-		
+
 		$iw[0]=IsWritable("work");
 		$iw[1]=IsWritable("work/config");
 		$iw[2]=IsWritable("work/log");
 		$iw[3]=IsWritable("work/backup");
-		
+/*
 		// save manual_db
 		if ($manual_db > '')
 		{
@@ -407,14 +392,14 @@ switch ($phase)
 				@chmod('./' . $config['files']['dbs_manual'],0777);
 			}
 		}
-		
+*/
 		if ($iw[0] && $iw[1] && $iw[2] && $iw[3])
 		{
 			echo '<script language="javascript">';
 			echo 'self.location.href=\'install.php?language=' . $language . '&phase=5&connstr=' . $connstr . '\'';
 			echo '</script>';
 		}
-		
+
 		echo '<form action="install.php?language=' . $language . '&phase=4" method="post"><table class="bdr"><tr class="thead">';
 		echo '<th>' . $lang['L_DIR'] . '</th><th>' . $lang['L_RECHTE'] . '</th><th>' . $lang['L_STATUS'] . '</th></tr>';
 		echo '<tr><td><strong>work</strong></td><td>' . Rechte("work") . '</td><td>' . ( ( $iw[0] ) ? $img_ok : $img_failed ) . '</td></tr>';
@@ -427,16 +412,16 @@ switch ($phase)
 		break;
 	case 5:
 		echo '<h6>' . $lang['L_LASTSTEP'] . '</h6>';
-		
+
 		echo '<br><h4>' . $lang['L_INSTALLFINISHED'] . '</h4>';
 		SetDefault(1);
 		include ( "language/" . $language . "/lang_install.php" );
-		
+
 		// direkt zum Start des Dumeprs
 		echo '<script language="javascript">self.location.href=\'index.php\';</script>';
 		break;
 	case 9:
-		
+
 		clearstatcache();
 		$iw[0]=IsWritable("work");
 		$iw[1]=IsWritable("work/config");
@@ -444,7 +429,7 @@ switch ($phase)
 		$iw[3]=IsWritable("work/backup");
 		echo '<h6>' . $lang['L_FTPMODE'] . '</h6>';
 		echo '<p align="left" style="padding-left:100px; padding-right:100px;">' . $lang['L_SAFEMODEDESC'] . '</p>';
-		
+
 		echo '<form action="install.php?language=' . $language . '&phase=9" method="post"><input type="hidden" name="connstr" value="' . $connstr . '"><table>';
 		echo '<tr><td class="hd2" colspan="2">' . $lang['L_IDOMANUAL'] . '</td></tr>';
 		echo '<tr><td colspan="2">' . $lang['L_DOFROM'] . '<br><div class="small">' . Realpfad('./') . '</div></td></tr>';
@@ -453,7 +438,7 @@ switch ($phase)
 		echo '<tr><td><strong>work/log</strong></td><td>' . ( ( $iw[2] ) ? $img_ok : $img_failed ) . '</td></tr>';
 		echo '<tr><td><strong>work/backup</strong></td><td>' . ( ( $iw[3] ) ? $img_ok : $img_failed ) . '</td></tr>';
 		echo '<tr><td colspan="3" align="right"><input type="submit" class="Formbutton" name="dir_check" value=" ' . $lang['L_CHECK_DIRS'] . ' "></td></tr>';
-		
+
 		// Wenn Verzeichnisse erstellt wurden - direkt weitermachen
 		if ($iw[0] && $iw[1] && $iw[2] && $iw[3])
 		{
@@ -462,7 +447,7 @@ switch ($phase)
 			echo '</script>';
 		}
 		echo '</table>';
-		
+
 		break;
 	case 10: //safe_mode FTP
 		$config['ftp_useSSL']=0;
@@ -474,7 +459,7 @@ switch ($phase)
 		if (!isset($install_ftp_port) || $install_ftp_port < 1) $install_ftp_port=21;
 		echo '<h6>' . $lang['L_FTPMODE'] . '</h6>';
 		echo '<p align="left" style="padding-left:100px; padding-right:100px;">' . $lang['L_SAFEMODEDESC'] . '</p>';
-		
+
 		echo '<form action="install.php?language=' . $language . '&phase=10" method="post"><input type="hidden" name="connstr" value="' . $connstr . '">
 		<table width="80%"><tr><td width="50%" valign="top"><table>';
 		echo '<tr><td class="hd2" colspan="2">' . $lang['L_IDOMANUAL'] . '</td></tr>';
@@ -514,13 +499,13 @@ switch ($phase)
 			echo '</td></tr></table>';
 		}
 		//echo '</td></tr>';
-		
+
 
 		//echo '</table>';
-		
+
 
 		break;
-	
+
 	case 11: //FTP-Create Dirs
 		echo '<h6>' . $lang['L_FTPMODE'] . '</h6>';
 		if (CreateDirsFTP() == 1)
@@ -549,12 +534,12 @@ switch ($phase)
 			echo '<p>' . $lang['L_UI6'] . '</p>';
 			echo $lang['L_UI7'] . "<br>\"" . Realpfad("./") . "\"<br> " . $lang['L_MANUELL'] . ".<br><br>";
 			echo '<a href="../">' . $lang['L_UI8'] . '</a>';
-		
+
 		}
 		else
 		{
 			echo '<p class="Warnung">' . $lang['L_UI9'] . '"' . $paths[count($paths) - 1] . '"';
-		
+
 		}
 		break;
 }
@@ -592,7 +577,7 @@ function rec_rmdir($path)
 	{
 		return -2;
 	}
-	
+
 	// gehe durch das Verzeichnis
 	while ($entry=@readdir($dir))
 	{
@@ -644,19 +629,19 @@ function rec_rmdir($path)
 			return -3; // tut mir schrecklich leid...
 		}
 	}
-	
+
 	// schliesse nun das Verzeichnis
 	@closedir($dir);
-	
+
 	// versuche nun, das Verzeichnis zu loeschen
 	$res=@rmdir($path);
-	
+
 	// gab's einen Fehler?
 	if (!$res)
 	{
 		return -2; // melde ihn
 	}
-	
+
 	// alles ok
 	return 0;
 }

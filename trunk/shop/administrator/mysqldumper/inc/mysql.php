@@ -3,7 +3,6 @@ if (!defined('MSD_VERSION')) die('No direct access.');
 
 //Feldspezifikationen
 $feldtypen=Array(
-
 				"VARCHAR",
 				"TINYINT",
 				"TEXT",
@@ -31,24 +30,20 @@ $feldtypen=Array(
 				"SET"
 );
 $feldattribute=ARRAY(
-
 					"",
 					"BINARY",
 					"UNSIGNED",
 					"UNSIGNED ZEROFILL"
 );
 $feldnulls=Array(
-
 				"NOT NULL",
 				"NULL"
 );
 $feldextras=Array(
-
 				"",
 				"AUTO_INCREMENT"
 );
 $feldkeys=Array(
-
 				"",
 				"PRIMARY KEY",
 				"UNIQUE KEY",
@@ -63,7 +58,6 @@ $feldrowformat=Array(
 );
 
 $rechte_daten=Array(
-
 					"SELECT",
 					"INSERT",
 					"UPDATE",
@@ -71,7 +65,6 @@ $rechte_daten=Array(
 					"FILE"
 );
 $rechte_struktur=Array(
-
 					"CREATE",
 					"ALTER",
 					"INDEX",
@@ -79,7 +72,6 @@ $rechte_struktur=Array(
 					"CREATE TEMPORARY TABLES"
 );
 $rechte_admin=Array(
-
 					"GRANT",
 					"SUPER",
 					"PROCESS",
@@ -93,14 +85,12 @@ $rechte_admin=Array(
 					"REPLICATION SLAVE"
 );
 $rechte_resourcen=Array(
-
 						"MAX QUERIES PER HOUR",
 						"MAX UPDATES PER HOUR",
 						"MAX CONNECTIONS PER HOUR"
 );
 
 $sql_keywords=array(
-
 					'ALTER',
 					'AND',
 					'ADD',
@@ -229,10 +219,24 @@ $sql_keywords=array(
 					'IF'
 );
 $mysql_doc=Array(
-
 				"Feldtypen" => "http://dev.mysql.com/doc/mysql/de/Column_types.html"
 );
-
+$mysql_string_types = array(
+    'char',
+    'varchar',
+    'tinytext',
+    'text',
+    'mediumtext',
+    'longtext',
+    'binary',
+    'varbinary',
+    'tinyblob',
+    'mediumblob',
+    'blob',
+    'longblob',
+    'enum',
+    'set'
+);
 $mysql_SQLhasRecords=array(
 
 						'SELECT',
@@ -245,10 +249,12 @@ $mysql_SQLhasRecords=array(
 function MSD_mysql_connect($encoding='utf8', $keycheck_off=false, $actual_table='')
 {
 	global $config,$databases;
-
+    if (isset($config['dbconnection']) && is_resource($config['dbconnection'])) {
+        return $config['dbconnection'];
+    }
 	$port=( isset($config['dbport']) && !empty($config['dbport']) ) ? ':' . $config['dbport'] : '';
 	$socket=( isset($config['dbsocket']) && !empty($config['dbsocket']) ) ? ':' . $config['dbsocket'] : '';
-	$config['dbconnection']=mysql_connect($config['dbhost'] . $port . $socket,$config['dbuser'],$config['dbpass']) or die(SQLError("Database connection error: ",mysql_error()));
+	$config['dbconnection']=@mysql_connect($config['dbhost'] . $port . $socket,$config['dbuser'],$config['dbpass']) or die(SQLError("Error establishing a database connection!", mysql_error()));
 	if (!defined('MSD_MYSQL_VERSION')) GetMySQLVersion();
 
 	if (!isset($config['mysql_standard_character_set']) || $config['mysql_standard_character_set'] == '') get_sql_encodings();
@@ -295,14 +301,13 @@ function MSD_query($query, $error_output=true)
 
 function SQLError($sql, $error, $return_output=false)
 {
-	//	v(debug_backtrace());
 	global $lang;
 
 	$ret='<div align="center"><table style="border:1px solid #ff0000" cellspacing="0">
 <tr bgcolor="#ff0000"><td style="color:white;font-size:16px;"><strong>MySQL-ERROR</strong></td></tr>
 <tr><td style="width:80%;overflow: auto;">' . $lang['L_SQL_ERROR2'] . '<br><span style="color:red;">' . $error . '</span></td></tr>
 <tr><td width="600"><br>' . $lang['L_SQL_ERROR1'] . '<br>' . Highlight_SQL($sql) . '</td></tr>
-</table></div>';
+</table></div><br />';
 	if ($return_output) return $ret;
 	else echo $ret;
 }
@@ -313,7 +318,7 @@ function Highlight_SQL($sql)
 
 	$end='';
 	$tickstart=false;
-	if (function_exists("token_get_all")) $a=@token_get_all("<?$sql?>");
+	if (function_exists("token_get_all")) $a=@token_get_all("<?php $sql?>");
 	else return $sql;
 	foreach ($a as $token)
 	{
@@ -396,7 +401,8 @@ function getDBInfos()
 				{
 					$dump['skip_data'][]=$databases['Name'][$dump['dbindex']] . '|' . $row['Name'];
 				}
-                    if ($config['optimize_tables_beforedump'] == 1 && $dump['table_offset'] == -1) {
+                    if ($config['optimize_tables_beforedump'] == 1 && $dump['table_offset'] == -1
+                        && $databases['Name'][$dump['dbindex']]!='information_schema') {
                         mysql_select_db($databases['Name'][$dump['dbindex']]);
                         $opt = 'OPTIMIZE TABLE `' . $row['Name'] . '`';
                         $res = mysql_query('OPTIMIZE TABLE `' . $row['Name'] . '`');

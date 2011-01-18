@@ -66,17 +66,14 @@ $lang['L_CONVERT_FILEREAD']="Đọc file '%s'";
 $lang['L_CONVERT_FINISHED']="Kết thúc chuyển đổi, '%s' vừa tạo thành công.";
 $lang['L_NO_MSD_BACKUPFILE']="Sao lưu script khác";
 $lang['L_MAX_UPLOAD_SIZE']="Dung lượng tối đa cho file";
-$lang['L_MAX_UPLOAD_SIZE_INFO']="Nếu file sao lưu của các bạn lớn hơn giới hạn được quy định ở trên, bạn phải nạp dữ liệu nó qua FTP vào trong thư mục \"work/backup\". 
+$lang['L_MAX_UPLOAD_SIZE_INFO']="Nếu file sao lưu của các bạn lớn hơn giới hạn được quy định ở trên, bạn phải nạp dữ liệu nó qua FTP vào trong thư mục \"work/backup\".
 Sau đó bạn có thể chọn nó để bắt đầu phục hồi. ";
 $lang['L_ENCODING']="mã hóa";
 $lang['L_FM_CHOOSE_ENCODING']="Chọn chế độ mã hóa của file sao lưu";
 $lang['L_CHOOSE_CHARSET']="MySQLDumper đã không thể phát hiện ra sự mã hóa của File sao lưu một cách tự động.
 <br>Bạn phải chọn charset đúng với định dạng đã được sao lưu.
 <br>Nếu bạn thấy bất kỳ vấn đề nào sau khi khôi phục, bạn có thể lặp lại quá trình sao lưu và sau đó chọn charset khác.
-<br>Chúc may mắn. ;)
-
-";
+<br>Chúc may mắn. ;)";
 $lang['L_DOWNLOAD_FILE']="Download file";
-
-
+$lang['L_BACKUP_NOT_POSSIBLE'] = "A backup of the system database `%s` is not possible!";
 ?>

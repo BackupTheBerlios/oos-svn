@@ -4,14 +4,14 @@ if (!defined('MSD_VERSION')) die('No direct access.');
 function get_sqlbefehl()
 {
 	global $restore,$config,$databases,$lang;
-	
+
 	//Init
 	$restore['fileEOF']=false;
 	$restore['EOB']=false;
 	$complete_sql='';
 	$sqlparser_status=0;
 	if (!isset($restore['eintraege_ready'])) $restore['eintraege_ready']=0;
-	
+
 	//Parsen
 	WHILE ($sqlparser_status!=100&&!$restore['fileEOF']&&!$restore['EOB'])
 	{
@@ -22,7 +22,7 @@ function get_sqlbefehl()
 		// herausfinden um was für einen Befehl es sich handelt
 		if ($sqlparser_status==0)
 		{
-			
+
 			//Vergleichszeile, um nicht bei jedem Vergleich strtoupper ausführen zu müssen
 			$zeile2=strtoupper(trim($zeile));
 			// pre-built compare strings - so we need the CPU power only once :)
@@ -33,13 +33,13 @@ function get_sqlbefehl()
 			$sub3=substr($sub4,0,3);
 			$sub2=substr($sub3,0,2);
 			$sub1=substr($sub2,0,1);
-			
+
 			if ($sub7=='INSERT ')
 			{
 				$sqlparser_status=3; //Datensatzaktion
 				$restore['actual_table']=get_tablename($zeile);
 			}
-			
+
 			//Einfache Anweisung finden die mit Semikolon beendet werden
 			elseif ($sub7=='LOCK TA') $sqlparser_status=4;
 			elseif ($sub6=='COMMIT') $sqlparser_status=7;
@@ -52,20 +52,20 @@ function get_sqlbefehl()
 			elseif ($sub9=='CREATE TA') $sqlparser_status=2; //Create Table
 			elseif ($sub9=='CREATE AL') $sqlparser_status=2; //Create View
 			elseif ($sub9=='CREATE IN') $sqlparser_status=4; //Indexaktion
-			
+
 
 			//Condition?
 			elseif (($sqlparser_status!=5)&&(substr($zeile2,0,2)=='/*')) $sqlparser_status=6;
-			
+
 			// Delete actions
 			elseif ($sub9=='DROP TABL') $sqlparser_status=1;
 			elseif ($sub9=='DROP VIEW') $sqlparser_status=1;
-			
+
 			// Befehle, die nicht ausgeführt werden sollen
-			elseif ($sub9=='CREATE DA ') $sqlparser_status=7;
+			elseif ($sub9=='CREATE DA') $sqlparser_status=7;
 			elseif ($sub9=='DROP DATA ') $sqlparser_status=7;
 			elseif ($sub3=='USE') $sqlparser_status=7;
-			
+
 			// Am Ende eines MySQLDumper-Backups angelangt?
 			elseif ($sub6=='-- EOB'||$sub4=='# EO')
 			{
@@ -75,7 +75,7 @@ function get_sqlbefehl()
 				$zeile2='';
 				$sqlparser_status=100;
 			}
-			
+
 			// Kommentar?
 			elseif ($sub2=='--'|| $sub1=='#')
 			{
@@ -83,10 +83,10 @@ function get_sqlbefehl()
 				$zeile2='';
 				$sqlparser_status=0;
 			}
-			
+
 			// Fortsetzung von erweiterten Inserts
 			if ($restore['flag']==1) $sqlparser_status=3;
-			
+
 			if (($sqlparser_status==0)&&(trim($complete_sql)>'')&&($restore['flag']==-1))
 			{
 				// Unbekannten Befehl entdeckt
@@ -97,12 +97,12 @@ function get_sqlbefehl()
 			}
 		/******************* Ende von Setzen des Parserstatus *******************/
 		}
-		
+
 		$last_char=substr(rtrim($zeile),-1);
 		// Zeilenumbrüche erhalten - sonst werden Schlüsselwörter zusammengefügt
 		// z.B. 'null' und in der nächsten Zeile 'check' wird zu 'nullcheck'
 		$complete_sql.=$zeile."\n";
-		
+
 		if ($sqlparser_status==3)
 		{
 			//INSERT
@@ -110,19 +110,19 @@ function get_sqlbefehl()
 			{
 				$sqlparser_status=100;
 				$complete_sql=trim($complete_sql);
-				if (substr($complete_sql,-2)=='*/') 
+				if (substr($complete_sql,-2)=='*/')
 				{
 					$complete_sql=remove_comment_at_eol($complete_sql);
 				}
-				
+
 				// letzter Ausdruck des erweiterten Inserts erreicht?
 				if (substr($complete_sql,-2)==');')
 				{
 					$restore['flag']=-1;
 				}
-				
+
 				// Wenn am Ende der Zeile ein Klammer Komma -> erweiterter Insert-Modus -> Steuerflag setzen
-				else 
+				else
 					if (substr($complete_sql,-2)=='),')
 					{
 						// letztes Komme gegen Semikolon tauschen
@@ -130,7 +130,7 @@ function get_sqlbefehl()
 						$restore['erweiterte_inserts']=1;
 						$restore['flag']=1;
 					}
-				
+
 				if (substr(strtoupper($complete_sql),0,7)!='INSERT ')
 				{
 					// wenn der Syntax aufgrund eines Reloads verloren ging - neu ermitteln
@@ -147,16 +147,16 @@ function get_sqlbefehl()
 				}
 			}
 		}
-		
-		else 
+
+		else
 			if ($sqlparser_status==1)
 			{
 				//Löschaktion
 				if ($last_char==';') $sqlparser_status=100; //Befehl komplett
 				$restore['actual_table']=get_tablename($complete_sql);
 			}
-			
-			else 
+
+			else
 				if ($sqlparser_status==2)
 				{
 					// Createanweisung ist beim Finden eines ; beendet
@@ -184,9 +184,9 @@ function get_sqlbefehl()
 						$sqlparser_status=0;
 					}
 				}
-				
+
 				// Index
-				else 
+				else
 					if ($sqlparser_status==4)
 					{ //Createindex
 						if ($last_char==';')
@@ -199,9 +199,9 @@ function get_sqlbefehl()
 							$sqlparser_status=100;
 						}
 					}
-					
+
 					// Kommentar oder Condition
-					else 
+					else
 						if ($sqlparser_status==5)
 						{ //Anweisung
 							$t=strrpos($zeile,'*/;');
@@ -209,7 +209,7 @@ function get_sqlbefehl()
 							{
 								$restore['anzahl_zeilen']=$config['minspeed'];
 								$sqlparser_status=100;
-								if ($config['ignore_enable_keys'] && 
+								if ($config['ignore_enable_keys'] &&
 								    strrpos($zeile, 'ENABLE KEYS ') !== false)
 								{
                                     $sqlparser_status=100;
@@ -217,9 +217,9 @@ function get_sqlbefehl()
 								}
 							}
 						}
-						
+
 						// Mehrzeiliger oder Inline-Kommentar
-						else 
+						else
 							if ($sqlparser_status==6)
 							{
 								$t=strrpos($zeile,'*/');
@@ -229,9 +229,9 @@ function get_sqlbefehl()
 									$sqlparser_status=0;
 								}
 							}
-							
+
 							// Befehle, die verworfen werden sollen
-							else 
+							else
 								if ($sqlparser_status==7)
 								{ //Anweisung
 									if ($last_char==';')
@@ -244,7 +244,7 @@ function get_sqlbefehl()
 										$sqlparser_status=0;
 									}
 								}
-		
+
 		if (($restore['compressed'])&&(gzeof($restore['filehandle']))) $restore['fileEOF']=true;
 		if ((!$restore['compressed'])&&(feof($restore['filehandle']))) $restore['fileEOF']=true;
 	}
@@ -275,7 +275,7 @@ function submit_create_action($sql)
 			}
 		}
 	}
-	
+
 	$res=@mysql_query($sql);
 	if ($res===false)
 	{
@@ -284,7 +284,7 @@ function submit_create_action($sql)
 		$res=@mysql_query(downgrade($sql));
 		if ($res===false)
 		{
-			// wieder nichts. Ok, haben wir hier einen alten MySQL-Server 3.x oder 4.0.x?			
+			// wieder nichts. Ok, haben wir hier einen alten MySQL-Server 3.x oder 4.0.x?
 			// versuchen wir es mal mit der alten Syntax
 			$res=@mysql_query(downgrade($sql));
 		}
@@ -356,7 +356,7 @@ function get_tablename($t)
 	}
 	$t=str_ireplace(';',' ;',$t); // tricky -> insert space as delimiter
 	$t=trim($t);
-	
+
 	// jetzt einfach nach dem ersten Leerzeichen suchen
 	$delimiter=substr($t,0,1);
 	if ($delimiter!='`') $delimiter=' ';

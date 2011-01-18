@@ -68,6 +68,7 @@ $lang['L_PHP_VERSION']="PHP-version";
 $lang['L_MAX_EXECUTION_TIME']="Maximal exekveringstid";
 $lang['L_PHP_EXTENSIONS']="PHP-extensioner";
 $lang['L_MEMORY']="Minne";
+$lang['L_FILE_MISSING']="kunde ej hitta filen";
 
 
 ?>

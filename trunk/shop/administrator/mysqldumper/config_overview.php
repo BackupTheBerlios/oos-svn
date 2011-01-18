@@ -322,7 +322,6 @@ if (isset($_POST['save']))
 		if (MSD_mysql_connect())
 		{
 			// neue Verbindungsdaten wurden akzeptiert -> manuelle DB-Liste von anderem User löschen
-			if (file_exists('./' . $config['files']['dbs_manual'])) @unlink('./' . $config['files']['dbs_manual']);
 			SetDefault();
 			$msg.='<script type="text/javascript">parent.MySQL_Dumper_menu.location.href="menu.php";</script>';
 		}
@@ -356,26 +355,12 @@ if (isset($_POST['save']))
 		{
 			if (MSD_mysql_connect())
 			{
-				$res=mysql_selectdb($to_add,$config['dbconnection']);
+				$res=@mysql_selectdb($to_add,$config['dbconnection']);
 				if (!$res === false)
 				{
-					$dbs_manual=array();
-					if (file_exists('./' . $config['files']['dbs_manual'])) $dbs_manual=file('./' . $config['files']['dbs_manual']);
-					if (!in_array($to_add,$dbs_manual)) $dbs_manual[]=$to_add;
-					$file_handle=fopen('./' . $config['files']['dbs_manual'],'a');
-					if ($file_handle)
-					{
-						foreach ($dbs_manual as $f)
-						{
-							fwrite($file_handle,$f);
-						}
-						fclose($file_handle);
-						@chmod('./' . $config['files']['dbs_manual'],0777);
-						//Menü aktualisieren, damit die DB in der Selectliste erscheint
-						echo '<script type="text/javascript">parent.MySQL_Dumper_menu.location.href="menu.php";</script>';
-					}
-					else
-						$add_db_message=sprintf($lang['L_DB_MANUAL_FILE_ERROR'],$to_add);
+					$databases['Name'][] = $to_add;
+					//Menü aktualisieren, damit die DB in der Selectliste erscheint
+					echo '<script type="text/javascript">parent.MySQL_Dumper_menu.location.href="menu.php";</script>';
 				}
 				else
 					$add_db_message=sprintf($lang['L_DB_MANUAL_ERROR'],$to_add);
@@ -734,6 +719,9 @@ if (isset($databases['Name'][0]) && $databases['Name'][0] > '')
 	}
 	else
 	{
+        $disabled = '';
+        if (in_array($databases['db_actual'], $dontBackupDatabases)) $disabled = ' disabled="disabled"';
+
 		$aus['db'].='<tr><td>' . Help($lang['L_HELP_DB'],"conf1") . $lang['L_LIST_DB'] . '</td><td><input type="checkbox" class="checkbox" name="MultiDBDump" value="1" ' . ( ( $config['multi_dump'] == 1 ) ? "CHECKED" : "" ) . '>&nbsp;' . $lang['L_ACTIVATE_MULTIDUMP'] . '</td>';
 		$aus['db'].='<tr><td colspan="2"><table class="bdr">';
 		$aus['db'].='<tr class="thead"><th>' . $lang['L_DB'] . '</th><th>Multidump<br><span class="ssmall">(<a href="javascript:SelectMD(true,' . count($databases['Name']) . ')" class="small">' . $lang['L_ALL'] . '</a>&nbsp;<a href="javascript:SelectMD(false,' . count($databases['Name']) . ')" class="small">' . $lang['L_NONE'] . '</a>)</span></th>';
@@ -741,9 +729,12 @@ if (isset($databases['Name'][0]) && $databases['Name'][0] > '')
 
 		//erst die aktuelle DB
 		$aus['db'].='<tr class="dbrowsel"><td><strong>' . $databases['db_actual'] . '</strong></td>';
-		$aus['db'].='<td align="center"><input type="checkbox" class="checkbox" name="db_multidump_' . $databases['db_selected_index'] . '" value="db_multidump_' . $databases['db_selected_index'] . '" ' . ( ( in_array($databases['db_actual'],$databases['multi']) ) ? "CHECKED" : "" ) . '></td>';
-		$aus['db'].='<td><img src="' . $icon['blank'] . '" width="40" height="1" alt=""><input type="text" class="text" name="dbpraefix_' . $databases['db_selected_index'] . '" size="10" value="' . $databases['praefix'][$databases['db_selected_index']] . '"></td>';
-		$aus['db'].='<td>' . ComboCommandDump(0,$databases['db_selected_index']) . '</td><td>' . ComboCommandDump(1,$databases['db_selected_index']) . '</td>';
+		$aus['db'].='<td align="center"><input type="checkbox" class="checkbox" name="db_multidump_' . $databases['db_selected_index'] . '" value="db_multidump_' . $databases['db_selected_index'] . '" ' . ( ( in_array($databases['db_actual'],$databases['multi']) ) ? "CHECKED" : "" );
+		$aus['db'].= $disabled . '></td>';
+		$aus['db'].='<td><img src="' . $icon['blank'] . '" width="40" height="1" alt=""><input type="text" class="text" name="dbpraefix_' . $databases['db_selected_index'] . '" size="10" value="'
+		  . $databases['praefix'][$databases['db_selected_index']] . '"' . $disabled . '></td>';
+		$aus['db'].='<td>' . ComboCommandDump(0,$databases['db_selected_index'], $disabled)
+		  . '</td><td>' . ComboCommandDump(1,$databases['db_selected_index'], $disabled) . '</td>';
 		$aus['db'].='<td><a href="sql.php?context=1">' . $lang['L_SQL_BEFEHLE'] . '</a></td>';
 		$aus['db'].='</tr>';
 
@@ -754,9 +745,17 @@ if (isset($databases['Name'][0]) && $databases['Name'][0] > '')
 			if ($i != $databases['db_selected_index'])
 			{
 				$j++;
+				$disabled = '';
+                if (in_array($databases['Name'][$i], $dontBackupDatabases)) $disabled = ' disabled="disabled"';
+				if (!isset($databases['praefix'][$i])) $databases['praefix'][$i] = '';
 				$aus['db'].='<tr class="' . ( ( $i % 2 ) ? 'dbrow' : 'dbrow1' ) . '"><td>' . $databases['Name'][$i] . '</td>';
-				$aus['db'].='<td align="center"><input type="checkbox" class="checkbox" name="db_multidump_' . $i . '" value="db_multidump_' . $i . '" ' . ( ( in_array($databases['Name'][$i],$databases['multi']) ) ? "CHECKED" : "" ) . '></td>';
-				$aus['db'].='<td><img src="' . $icon['blank'] . '" width="40" height="1" alt=""><input type="text" class="text" name="dbpraefix_' . $i . '" size="10" value="' . $databases['praefix'][$i] . '"></td><td>' . ComboCommandDump(0,$i) . '</td><td>' . ComboCommandDump(1,$i) . '</td>';
+				$aus['db'].='<td align="center"><input type="checkbox" class="checkbox" name="db_multidump_' . $i . '" value="db_multidump_' . $i . '" ' . ( ( in_array($databases['Name'][$i],$databases['multi']) ) ? "CHECKED" : "" );
+				$aus['db'] .= $disabled.'></td>';
+				$aus['db'].='<td><img src="' . $icon['blank'] . '" width="40" height="1" alt=""><input type="text" class="text" name="dbpraefix_' . $i . '" size="10" value="'
+				    . $databases['praefix'][$i] . '"';
+
+				$aus['db'] .= $disabled . '></td><td>' . ComboCommandDump(0,$i, $disabled) . '</td><td>'
+				    . ComboCommandDump(1,$i, $disabled) . '</td>';
 				$aus['db'].='<td><a href="sql.php?context=1">' . $lang['L_SQL_BEFEHLE'] . '</a></td>';
 				$aus['db'].='</tr>';
 			}
@@ -805,7 +804,7 @@ $aus['global1'].='<select id="multipartgroesse2" name="multipartgroesse2"';
 if ($config['multi_part'] == 0) $aus['global1'].=' disabled';
 $aus['global1'].='><option value="1" ' . ( ( $config['multipartgroesse2'] == 1 ) ? 'SELECTED' : '' ) . '>Kilobytes</option><option value="2" ' . ( ( $config['multipartgroesse2'] == 2 ) ? 'SELECTED' : '' ) . '>Megabytes</option></select></td></tr>';
 
-$aus['global1'].='<tr><td>' . Help($lang['L_HELP_OPTIMIZE'],"") . $lang['L_OPTIMIZE'] . '</td>';
+$aus['global1'].='<tr><td>' . Help($lang['L_HELP_OPTIMIZE'],"") . $lang['L_OPTIMIZE'] . ':</td>';
 $aus['global1'].='<td><input type="radio" class="radio" value="1" name="optimize_tables" ' . ( ( $config['optimize_tables_beforedump'] == 1 ) ? " checked" : "" ) . '>&nbsp;' . $lang['L_ACTIVATED'];
 $aus['global1'].='&nbsp;&nbsp;&nbsp;<input type="radio" class="radio" value="0" name="optimize_tables" ' . ( ( $config['optimize_tables_beforedump'] == 0 ) ? " checked" : "" ) . '>&nbsp;' . $lang['L_NOT_ACTIVATED'] . '</td></tr>';
 
@@ -836,13 +835,13 @@ $aus['global1'].='</div>';
 $aus['global3']='<div id="global3"><fieldset><legend>' . $lang['L_CONFIG_INTERFACE'] . '</legend><table>';
 $aus['global3'].='<tr><td>' . Help($lang['L_HELP_LANG'],"conf11") . $lang['L_LANGUAGE'] . ':&nbsp;</td>';
 $aus['global3'].='<td><select name="language">' . GetLanguageCombo("op");
-$aus['global3'].='</select>&nbsp;&nbsp;<a href="' . $languagepacks_ref . '" target="_blank">' . $lang['L_DOWNLOAD_LANGUAGES'] . '</a><input type="hidden" name="lang_old" value="' . $config['language'] . '"><input type="hidden" name="scaption_old" value="' . $config['interface_server_caption'] . '"></td></tr>';
+$aus['global3'].='</select><input type="hidden" name="lang_old" value="' . $config['language'] . '"><input type="hidden" name="scaption_old" value="' . $config['interface_server_caption'] . '"></td></tr>';
 
 $aus['global3'].='<tr><td>' . Help($lang['L_HELP_SERVERCAPTION'],"") . $lang['L_SERVERCAPTION'] . ':</td>';
 $aus['global3'].='<td><input type="checkbox" class="checkbox" value="1" name="server_caption" ' . ( ( $config['interface_server_caption'] == 1 ) ? " checked" : "" ) . '>&nbsp;' . $lang['L_ACTIVATED'] . '&nbsp;&nbsp;&nbsp;';
 $aus['global3'].='<input type="radio" class="radio" name="server_caption_position" value="1" ' . ( ( $config['interface_server_caption_position'] == 1 ) ? "checked" : "" ) . '>&nbsp;' . $lang['L_IN_MAINFRAME'] . '&nbsp;&nbsp;<input type="radio" class="radio" name="server_caption_position" value="0" ' . ( ( $config['interface_server_caption_position'] == 0 ) ? "checked" : "" ) . '>&nbsp;' . $lang['L_IN_LEFTFRAME'] . '';
 $aus['global3'].='</td></tr>';
-$aus['global3'].='<tr><td>' . Help("","") . 'Theme</td><td><select name="theme">' . GetThemes() . '</select>&nbsp;&nbsp;<a href="' . $stylepacks_ref . '" target="_blank">' . $lang['L_DOWNLOAD_STYLES'] . '</a></td></tr>';
+$aus['global3'].='<tr><td>' . Help("","") . 'Theme:</td><td><select name="theme">' . GetThemes() . '</select></td></tr>';
 
 $aus['global3'].='</table></fieldset><fieldset><legend>' . $lang['L_SQL_BROWSER'] . '</legend><table>';
 $aus['global3'].='<tr><td>' . Help("","") . $lang['L_SQLBOXHEIGHT'] . ':&nbsp;</td>';

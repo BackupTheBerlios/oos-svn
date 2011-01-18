@@ -52,7 +52,7 @@ $lang['L_MAX_BACKUP_FILES_EACH2']="für jede Datenbank";
 $lang['L_SAVING_DB_FORM']="Datenbank";
 $lang['L_TESTCONNECTION']="Verbindung testen";
 $lang['L_BACK_TO_MINISQL']="Datenbank bearbeiten";
-$lang['L_CREATE']="anlegen";
+$lang['L_CREATE']="Anlegen";
 $lang['L_VARIABELN']="Variablen";
 $lang['L_STATUSINFORMATIONEN']="Statusinformationen";
 $lang['L_VERSIONSINFORMATIONEN']="Versionsinformationen";
@@ -61,7 +61,7 @@ $lang['L_BACKUPFILESANZAHL']="Im Backup-Verzeichnis befinden sich";
 $lang['L_LASTBACKUP']="Letztes Backup";
 $lang['L_NOTAVAIL']="<em>nicht verfügbar</em>";
 $lang['L_VOM']="vom";
-$lang['L_MYSQLVARS']="MySQL-Variabeln";
+$lang['L_MYSQLVARS']="MySQL-Variablen";
 $lang['L_MYSQLSYS']="MySQL-Befehle";
 $lang['L_STATUS']="Status";
 $lang['L_PROZESSE']="Prozesse";
@@ -105,6 +105,8 @@ $lang['L_BACKUPS']="Sicherungsdateien";
 $lang['L_MINUTES']="Minuten";
 $lang['L_PAGE_REFRESHS']="Seitenaufrufe";
 $lang['L_MINUTE']="Minute";
+$lang['L_SETKEYSFOR']="Setzen neuer Indizes für die Tabelle";
+$lang['L_KEY_CONFIRMDELETE']="Index wirklich löschen?";
 
 
 ?>

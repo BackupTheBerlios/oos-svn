@@ -1,3 +1,26 @@
+Version 1.24.3
+
+We addressed the following issues:
+- Configuration / Databases / Connection Parameter: manual adding of databases: The internal handling was completely modified. The file dbs_manual.php is no longer needed. Manually added databases are now stored in the selected configuration profile. 
+- Home / directory protection: Fixed a bug that inverted the resulting message of success / failure. 
+- Home / directory protection: If the automatic creation of the directory protection failed, the displayed content of the .htaccess file to be created manually contained some messy <br> html code.
+- Home / directory protection: The created .htaccess file was extended with "RewriteEngine off". That fixes some problems if MySQLDumper was installed in a sub-folder of an existing website that also used .htaccess files with "mod_rewrite". 
+- Home / directory protection: The functionality for editing an existing protection was revised.
+- Home / Databases: The key status was determined incompletely so that only the first index of each table was considered. 
+- SQL-Browser / table structure: Added the row "comment" in the display of fields and indexes. 
+- SQL-Browser / table structure: The functionality for managing keys was revised. It is now possible to define any kind of keys which was limited to primary keys.
+- SQL-Browser: The system table "information_schema" is now displayed and can be browsed. 
+- SQL-Browser: A bug was fixed that could prevent the search from working correctly.
+- SQL-Browser: For some queries the number of records was not determined correctly.
+- SQL-Browser: Records containing the character "|" could not be edited in some cases.
+- SQL-Browser: Error handling was improved.
+- Restore: When restoring backups that were not created with MySQLDumper, CREATE DATABASE statements were not recognized correctly. 
+- File-Administration / Backup Converter: Inside the backup converter there was a buggy routine that caused an error message.
+- Backup / Perl: When the configuration option "autodelete" was activated and the folder work/backup contained files not created by MySQLDumper, the perl script crondump.pl issued warning messages.
+- Perl: Show perl version, better error handling, nicer font with html
+- Perl: Support for FTP over SSL added (NET::FTPSSL perl modul necessary).
+- Perl: The optional SQL-Commands (Command Before/After) can now handle multiple Queries.
+
 Version 1.24.2
 
 We addressed the following issues:

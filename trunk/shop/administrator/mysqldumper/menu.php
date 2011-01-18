@@ -8,13 +8,13 @@ $config_refresh='';
 // define template
 $tpl=new MSDTemplate();
 $tpl->set_filenames(array(
-	'header' => 'tpl/menu/header.tpl', 
-	'footer' => 'tpl/menu/footer.tpl', 
+	'header' => 'tpl/menu/header.tpl',
+	'footer' => 'tpl/menu/footer.tpl',
 	'content' => 'tpl/menu/content.tpl'));
 
 $tpl->assign_vars(array(
-	'MSD_VERSION' => MSD_VERSION, 
-	'CONFIG_HOMEPAGE' => $config['homepage'], 
+	'MSD_VERSION' => MSD_VERSION,
+	'CONFIG_HOMEPAGE' => $config['homepage'],
 	'CONFIG_THEME' => $config['theme']));
 
 if (isset($_POST['selected_config'])||isset($_GET['config']))
@@ -54,7 +54,7 @@ if ($config_refresh>'')
 	$tpl->assign_var('CONFIG_REFRESH',$config_refresh);
 }
 
-// changed language 
+// changed language
 if ($config['language']!=$lang_old)
 {
 	$tpl->assign_block_vars('CHANGED_LANGUAGE',array());
@@ -67,11 +67,8 @@ if (isset($_GET['action']))
 		// remember the name of the selected database
 		$old_dbname=isset($databases['Name'][$databases['db_selected_index']]) ? $databases['Name'][$databases['db_selected_index']] : '';
 		SetDefault();
-		// lets lookup if the old database is still there
-		$old_dbs=array_flip($databases['Name']);
-		if (isset($old_dbs[$old_dbname])) SelectDB($old_dbs[$old_dbname]);
-		else
-			SelectDB(0);
+		// select old database if it still is there
+		SelectDB($old_dbname);
 		$tpl->assign_block_vars('DB_REFRESH',array());
 	}
 }
@@ -81,7 +78,7 @@ if (isset($_POST['dbindex']))
 	$dbindex=intval($_POST['dbindex']);
 	$databases['db_selected_index']=$dbindex;
 	$databases['db_actual']=$databases['Name'][$dbindex];
-	
+
 	SelectDB($dbindex);
 	WriteParams(0);
 	$tpl->assign_block_vars('DB_REFRESH',array());
@@ -102,7 +99,7 @@ if (isset($databases['Name'])&&count($databases['Name'])>0)
 {
 	$tpl->assign_block_vars('MAINTENANCE',array());
 	$tpl->assign_vars(array(
-		'DB_ACTUAL' => $databases['db_actual'], 
+		'DB_ACTUAL' => $databases['db_actual'],
 		'DB_SELECTED_INDEX' => $databases['db_selected_index']));
 }
 $tpl->assign_var('GET_FILELIST',get_config_filelist());
@@ -115,8 +112,8 @@ if (isset($databases['Name'])&&count($databases['Name'])>0)
 	{
 		$selected=($i==$databases['db_selected_index']) ? ' selected' : '';
 		$tpl->assign_block_vars('DB_LIST.DB_ROW',array(
-			'ID' => $i, 
-			'NAME' => $databases['Name'][$i], 
+			'ID' => $i,
+			'NAME' => $databases['Name'][$i],
 			'SELECTED' => $selected));
 	}
 }

@@ -27,7 +27,7 @@ $tpl=new MSDTemplate();
 $tpl->set_filenames(array(
 	'show' => './tpl/home/protection_create.tpl'));
 $tpl->assign_vars(array(
-	'THEME' => $config['theme'], 
+	'THEME' => $config['theme'],
 	'HEADLINE' => headline($lang['L_HTACC_CREATE'])));
 
 if (isset($_POST['username']))
@@ -35,11 +35,13 @@ if (isset($_POST['username']))
 	// Form submitted
 	if ($username=='') $error[]=$lang['L_HTACC_NO_USERNAME'];
 	if (($userpass1!=$userpass2)||($userpass1=='')) $error[]=$lang['L_PASSWORDS_UNEQUAL'];
-	
+
 	if (sizeof($error)==0)
 	{
+		$htaccess = "<IfModule mod_rewrite.c>\nRewriteEngine off\n</IfModule>\n";
 		$realm='MySQLDumper';
-		$htaccess="AuthName \"".$realm."\"\nAuthType Basic\nAuthUserFile \"".$config['paths']['root'].".htpasswd\"\nrequire valid-user\n";
+		$htaccess.="AuthName \"".$realm."\"\nAuthType Basic\nAuthUserFile \""
+		  .$config['paths']['root'].".htpasswd\"\nrequire valid-user";
 		switch ($type)
 		{
 			// Crypt
@@ -61,15 +63,16 @@ if (isset($_POST['username']))
 		}
 		$htpasswd=$username.':'.$userpass;
 		@chmod($config['paths']['root'],0777);
-		
-		$saved=true;
+
 		// save .htpasswd
 		if ($file_htpasswd=@fopen('.htpasswd','w'))
 		{
 			$saved=fputs($file_htpasswd,$htpasswd);
 			fclose($file_htpasswd);
 		}
-		
+		else
+			$saved=false;
+			
 		// save .htaccess
 		if (false!==$saved)
 		{
@@ -85,17 +88,17 @@ if (isset($_POST['username']))
 		
 		if (false!==$saved)
 		{
-			$msg=$lang['L_HTACC_CREATED'];
+			$msg='<span class="success">'.$lang['L_HTACC_CREATED'].'</span>';
 			$tpl->assign_block_vars('CREATE_SUCCESS',array(
-				'HTACCESS' => nl2br(my_quotes($htaccess)), 
-				'HTPASSWD' => nl2br(my_quotes($htpasswd))));
+				'HTACCESS' => nl2br(htmlspecialchars($htaccess), false),
+				'HTPASSWD' => nl2br(htmlspecialchars($htpasswd), false)));
 			@chmod($config['paths']['root'],0755);
 		}
 		else
 		{
 			$tpl->assign_block_vars('CREATE_ERROR',array(
-				'HTACCESS' => nl2br(my_quotes($htaccess)), 
-				'HTPASSWD' => nl2br(my_quotes($htpasswd))));
+				'HTACCESS' => htmlspecialchars($htaccess),
+				'HTPASSWD' => htmlspecialchars($htpasswd)));
 		}
 	}
 }
@@ -103,16 +106,16 @@ if (isset($_POST['username']))
 if (sizeof($error)>0||!isset($_POST['username']))
 {
 	$tpl->assign_vars(array(
-		'PASSWORDS_UNEQUAL' => my_addslashes($lang['L_PASSWORDS_UNEQUAL']), 
+		'PASSWORDS_UNEQUAL' => my_addslashes($lang['L_PASSWORDS_UNEQUAL']),
 		'HTACC_CONFIRM_DELETE' => my_addslashes($lang['L_HTACC_CONFIRM_DELETE'])));
-	
+
 	$tpl->assign_block_vars('INPUT',array(
-		'USERNAME' => my_quotes($username), 
-		'USERPASS1' => my_quotes($userpass1), 
-		'USERPASS2' => my_quotes($userpass2), 
-		'TYPE0_CHECKED' => $type==0 ? ' checked="checked"' : '', 
-		'TYPE1_CHECKED' => $type==1 ? ' checked="checked"' : '', 
-		'TYPE2_CHECKED' => $type==2 ? ' checked="checked"' : '', 
+		'USERNAME' => htmlspecialchars($username),
+		'USERPASS1' => htmlspecialchars($userpass1),
+		'USERPASS2' => htmlspecialchars($userpass2),
+		'TYPE0_CHECKED' => $type==0 ? ' checked="checked"' : '',
+		'TYPE1_CHECKED' => $type==1 ? ' checked="checked"' : '',
+		'TYPE2_CHECKED' => $type==2 ? ' checked="checked"' : '',
 		'TYPE3_CHECKED' => $type==3 ? ' checked="checked"' : ''));
 }
 

@@ -105,10 +105,7 @@ $lang['L_CREATE_CONFIGFILE']="Tạo file cấu hình mới";
 $lang['L_ERROR_LOADING_CONFIGFILE']="Không thể tải file cấu hình \"%s\".";
 $lang['L_BACKUP_DBS_PHP']="CSDL để sao lưu (PHP)";
 $lang['L_BACKUP_DBS_PERL']="CSDL để sao lưu (PERL)";
-$lang['L_CRON_COMMENT']="Nhập ghi chú
-
-
-";
+$lang['L_CRON_COMMENT']="Nhập ghi chú";
 $lang['L_AUTODETECT']="auto detect";
 
 

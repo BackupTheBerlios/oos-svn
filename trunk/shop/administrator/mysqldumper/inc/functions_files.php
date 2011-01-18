@@ -4,7 +4,7 @@ function FilelisteCombo($fpath,$selected)
 {
 	$r='<select name="selectfile">';
 	$r.='<option value="" '.(($selected=="") ? "SELECTED":"").'></option>';
-	
+
 	$dh=opendir($fpath);
 	while (false!==($filename=readdir($dh)))
 	{
@@ -33,7 +33,7 @@ function sortierdatum($datum)
 function FileList($multi=0)
 {
 	global $config,$fpath,$lang,$databases,$href,$dbactiv,$action,$expand;
-	
+
 	$files=Array();
 	//Backup-Dateien
 	$Theader=$lang['L_FM_FILES1'].' '.$lang['L_OF'].' "'.$dbactiv.'"';
@@ -51,13 +51,13 @@ function FileList($multi=0)
 			$i++;
 		}
 	}
-	
+
 	$fl.='<div>'.$lang['L_FM_CHOOSE_FILE'].' ';
 	$fl.='<span id="gd">&nbsp;</span><br><br>';
-	
+
 	$fl.='<table class="bdr">';
 	$fl.='<tr><td colspan="8" align="left"><strong>'.$Theader.'</strong></td><td colspan="3" align="right"></td></tr>';
-	
+
 	//Tableheader
 	$fl.='<tr class="thead"><th colspan="3">'.$lang['L_DB'].'</th>
 	<th>gz</th>
@@ -68,7 +68,7 @@ function FileList($multi=0)
 	<th>'.$lang['L_FM_TABLES'].' / '.$lang['L_FM_RECORDS'].'</th>
 	<th>'.$lang['L_FM_FILESIZE'].'</th>
 	<th>'.$lang['L_ENCODING'].'</th></tr>';
-	
+
 	$checkindex=$arrayindex=$gesamt=0;
 	$db_summary_anzahl=Array();
 	if (count($files)>0)
@@ -78,10 +78,10 @@ function FileList($multi=0)
 			// Dateigr&ouml;&szlig;e
 			$size=filesize($fpath.$files[$i]['name']);
 			$file_datum=date("d\.m\.Y H:i",filemtime($fpath.$files[$i]['name']));
-			
+
 			//statuszeile auslesen
 			$sline='';
-			
+
 			if (substr($files[$i]['name'],-3)=='.gz')
 			{
 				if ($config['zlib'])
@@ -98,7 +98,7 @@ function FileList($multi=0)
 				fclose($fp);
 			}
 			$statusline=ReadStatusline($sline);
-			
+
 			$but=ExtractBUT($files[$i]['name']);
 			if ($but=='') $but=$file_datum;
 			$dbn=$statusline['dbname'];
@@ -117,7 +117,7 @@ function FileList($multi=0)
 				$db_backups[$arrayindex]['kommentar']=$statusline['comment'];
 				$db_backups[$arrayindex]['script']=($statusline['script']!='') ? $statusline['script'].'('.$statusline['scriptversion'].')':'';
 				$db_backups[$arrayindex]['charset']=$statusline['charset'];
-				
+
 				if (!isset($db_summary_last[$dbn])) $db_summary_last[$dbn]=$but;
 				$db_summary_anzahl[$dbn]=(isset($db_summary_anzahl[$dbn])) ? $db_summary_anzahl[$dbn]+1:1;
 				$db_summary_size[$dbn]=(isset($db_summary_size[$dbn])) ? $db_summary_size[$dbn]+$size:$size;
@@ -143,7 +143,7 @@ function FileList($multi=0)
 					}
 				}
 				if ($done==1) $arrayindex--;
-				
+
 				if ($done==0)
 				{
 					//Eintrag war noch nicht vorhanden
@@ -158,12 +158,12 @@ function FileList($multi=0)
 					$db_backups[$arrayindex]['kommentar']=$statusline['comment'];
 					$db_backups[$arrayindex]['script']=($statusline['script']!="") ? $statusline['script']."(".$statusline['scriptversion'].")":"";
 					$db_backups[$arrayindex]['charset']=$statusline['charset'];
-					
+
 					if (!isset($db_summary_last[$dbn])) $db_summary_last[$dbn]=$but;
 					$db_summary_anzahl[$dbn]=(isset($db_summary_anzahl[$dbn])) ? $db_summary_anzahl[$dbn]+1:1;
 					$db_summary_size[$dbn]=(isset($db_summary_size[$dbn])) ? $db_summary_size[$dbn]+$size:$size;
 					if (sortierdatum($but)>sortierdatum($db_summary_last[$dbn])) $db_summary_last[$dbn]=$but;
-				
+
 				}
 			}
 			// Gesamtgroesse aller Backupfiles
@@ -173,7 +173,7 @@ function FileList($multi=0)
 	}
 	//Schleife fertig - jetzt Ausgabe
 	if ((isset($db_backups))&&(is_array($db_backups))) $db_backups=mu_sort($db_backups,'sort,name');
-	
+
 	// Hier werden die Dateinamen ausgegeben
 	$rowclass=0;
 	if ($arrayindex>0)
@@ -184,7 +184,7 @@ function FileList($multi=0)
 			{
 				$cl=($rowclass%2) ? 'dbrow':'dbrow1';
 				$multi=($db_summary_anzahl[$dbactiv]>1&&$action=='files') ? 1:0;
-				
+
 				if ($db_backups[$i]['multipart']>0)
 				{
 					$dbn=NextPart($db_backups[$i]['name'],1);
@@ -198,7 +198,7 @@ function FileList($multi=0)
 				$fl.='>';
 				$fl.='<td align="left" colspan="2" nowrap="nowrap">';
 				$fl.='<input type="hidden" name="multi" value="'.$multi.'">';
-				
+
 				if ($multi==0)
 				{
 					$fl.='<input type="hidden" name="multipart[]" value="'.$db_backups[$i]['multipart'].'"><input name="file[]" type="radio" class="radio" value="'.$dbn.'" onClick="Check('.$checkindex++.',0);">';
@@ -216,12 +216,12 @@ function FileList($multi=0)
 				}
 				else
 					$fl.='&nbsp;<span style="font-size:8pt;">'.$db_backups[$i]['db'].'</span><td>&nbsp;</td></td>';
-				
+
 				$fl.='<td class="sm" nowrap="nowrap" align="center">'.((substr($dbn,-3)==".gz") ? '<img src="'.$config['files']['iconpath'].'gz.gif" alt="'.$lang['L_COMPRESSED'].'" width="16" height="16" border="0">':"&nbsp;").'</td>';
 				$fl.='<td class="sm" nowrap="nowrap" align="center">'.$db_backups[$i]['script'].'</td>';
 				$fl.='<td class="sm" nowrap="nowrap" align="right">'.(($db_backups[$i]['kommentar']!="") ? '<img src="'.$config['files']['iconpath'].'rename.gif" alt="'.$db_backups[$i]['kommentar'].'" title="'.$db_backups[$i]['kommentar'].'" width="16" height="16" border="0">':"&nbsp;").'</td>';
 				$fl.='<td class="sm" nowrap="nowrap" align="left">'.(($db_backups[$i]['kommentar']!="") ? nl2br(wordwrap($db_backups[$i]['kommentar'],50)):"&nbsp;").'</td>';
-				
+
 				$fl.='<td class="sm" nowrap="nowrap">'.$db_backups[$i]['date'].'</td>';
 				$fl.='<td style="text-align:center">';
 				$fl.=($db_backups[$i]['multipart']==0) ? $lang['L_NO']:'<a style="font-size:11px;" href="filemanagement.php?action=files&amp;kind=0&amp;dbactiv='.$dbactiv.'&amp;expand='.$i.'">'.$db_backups[$i]['multipart'].' Files</a>'; //
@@ -231,7 +231,7 @@ function FileList($multi=0)
 				$fl.='<td style="font-size:8pt;text-align:right">'.byte_output($db_backups[$i]['size']).'</td>';
 				$fl.='<td style="font-size:8pt;text-align:right">'.$db_backups[$i]['charset'].'</td>';
 				$fl.='</tr>';
-				
+
 				if ($expand==$i)
 				{
 					$fl.='<tr '.(($dbactiv==$databases['db_actual']) ? 'class="dbrowsel"':'class="'.$cl.'"').'>';
@@ -254,7 +254,7 @@ function FileList($multi=0)
 		ksort($db_summary_last);
 		ksort($db_summary_anzahl);
 		ksort($db_summary_size);
-		
+
 		$i=0;
 		while (list ($key,$val)=each($db_summary_anzahl))
 		{
@@ -268,7 +268,7 @@ function FileList($multi=0)
 		}
 	}
 	if (!is_array($files)) $fl.='<tr><td colspan="11">'.$lang['L_FM_NOFILESFOUND'].'</td></tr>';
-	
+
 	//--------------------------------------------------------
 	//*** Ausgabe der Gesamtgr&ouml;&szlig;e aller Backupfiles ***
 	//--------------------------------------------------------
@@ -277,7 +277,7 @@ function FileList($multi=0)
 	$fl.='<td align="left" colspan="8"><b>'.$lang['L_FM_TOTALSIZE'].' ('.$Sum_Files.' files): </b> </td>';
 	$fl.='<td style="text-align:right" colspan="4"><b>'.byte_output($gesamt).'</b></td>';
 	$fl.='</tr>';
-	
+
 	//--------------------------------------------------------
 	//*** Ausgabe des freien Speicher auf dem Rechner ***
 	//--------------------------------------------------------
@@ -286,7 +286,7 @@ function FileList($multi=0)
 	$fl.='<td colspan="4"  style="text-align:right"><b>'.$space.'</b></td>';
 	$fl.='</tr>';
 	$fl.='</table></div>';
-	
+
 	return $fl;
 }
 
@@ -322,7 +322,7 @@ function PartListe($f,$nr)
 		if ($i>1) $s.="<br>";
 		$s.='<a href="'.$fpath.urlencode($dateistamm.$i.$dateiendung).'">'.$dateistamm.$i.$dateiendung.'</a>&nbsp;&nbsp;&nbsp;'.byte_output(@filesize($config['paths']['backup'].$dateistamm.$i.$dateiendung));
 		$s.='&nbsp;<a href="filemanagement.php?action=dl&amp;f='.urlencode($dateistamm.$i.$dateiendung).'" title="'.$lang['L_DOWNLOAD_FILE'].'" alt="'.$lang['L_DOWNLOAD_FILE'].'"><img src="'.$config['files']['iconpath'].'/openfile.gif"></a>';
-		
+
 	}
 	return $s;
 }
@@ -330,7 +330,7 @@ function PartListe($f,$nr)
 function Converter($filesource,$filedestination,$cp)
 {
 	global $config,$lang;
-	
+
 	$filesize=0;
 	$max_filesize=1024*1024*10; //10 MB splitsize
 	$part=1;
@@ -340,11 +340,11 @@ function Converter($filesource,$filedestination,$cp)
 	if (file_exists($config['paths']['backup'].$filedestination)) unlink($config['paths']['backup'].$filedestination);
 	$f=($cps==1) ? gzopen($config['paths']['backup'].$filesource,"r"):fopen($config['paths']['backup'].$filesource,"r");
 	$z=($cp==1) ? gzopen($config['paths']['backup'].$filedestination.'_part_1.sql.gz',"w"):fopen($config['paths']['backup'].$filedestination.'_part_1.sql',"w");
-	
+
 	$zeile=get_pseudo_statusline($part,$filedestination)."\r\n";
 	($cp==1) ? gzwrite($z,$zeile):fwrite($z,$zeile);
 	$zeile='';
-	
+
 	$insert=$mode="";
 	$n=0;
 	$eof=($cps==1) ? gzeof($f):feof($f);
@@ -353,7 +353,7 @@ function Converter($filesource,$filedestination,$cp)
 	{
 		$eof=($cps==1) ? gzeof($f):feof($f);
 		$zeile=($cps==1) ? gzgets($f,5144000):fgets($f,5144000);
-		
+
 		$t=strtolower(substr($zeile,0,10));
 		if ($t>'')
 		{
@@ -362,14 +362,14 @@ function Converter($filesource,$filedestination,$cp)
 				case 'insert int':
 					{
 						// eine neue Insert Anweisung beginnt
-						if (strpos($zeile,0,'(')===false)
+						if (strpos($zeile,'(')===false)
 						{
 							//Feldnamen stehen in der naechsten Zeile - holen
 							$zeile.="\n\r";
 							$zeile.=($cps==1) ? trim(gzgets($f,8192)):trim(fgets($f,8192));
 							$zeile.=' ';
 						}
-						
+
 						// get INSERT-Satement
 						$insert=substr($zeile,0,strpos($zeile,'('));
 						if (substr(strtoupper($insert),-7)!='VALUES ') $insert.=' VALUES ';
@@ -378,7 +378,7 @@ function Converter($filesource,$filedestination,$cp)
 						$splitable=false;
 						break;
 					}
-				
+
 				case 'create tab':
 					{
 						$mode='create';
@@ -392,15 +392,15 @@ function Converter($filesource,$filedestination,$cp)
 					}
 			}
 		}
-		
+
 		if ($mode=='insert')
 		{
 			if (substr(rtrim($zeile),strlen($zeile)-3,2)==');') $splitable=true;
-			
+
 			// Komma loeschen
 			$zeile=str_replace('),(',");\n\r".$insert.' (',$zeile);
 		}
-		
+
 		if ($splitable==true&&$filesize>$max_filesize) // start new file?
 		{
 			$part++;
@@ -474,7 +474,7 @@ function Converter($filesource,$filedestination,$cp)
 		fwrite($z,$zeile);
 		fclose($z);
 	}
-	
+
 	if ($cps==1) gzclose($f);
 	else
 		fclose($f);

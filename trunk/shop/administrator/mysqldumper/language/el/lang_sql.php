@@ -183,6 +183,12 @@ $lang['L_ENGINE']="Μηχανή";
 $lang['L_USERNAME']="Ονομα χρήστη";
 $lang['L_PASSWORD']="Κωδικός";
 $lang['L_PASSWORD_REPEAT']="Κωδικός (Επανάληψη)";
+$lang['L_INFO_SIZE']="Μέγεθος";
+$lang['L_TABLE_TYPE']="Τύπος";
+$lang['L_KEY_DELETED']="Index deleted";
+$lang['L_KEY_DELETEERROR']="Error deleting index";
+$lang['L_KEY_ADDED']="Index added";
+$lang['L_KEY_ADDERROR']="Error adding index";
 
 
 ?>

@@ -61,14 +61,14 @@ for ($i=0; $i<count($databases['Name']); $i++)
 {
 	$rowclass=($i%2) ? 'dbrow' : 'dbrow1';
 	if ($i==$databases['db_selected_index']) $rowclass="dbrowsel";
-	
+
 	//gibts die Datenbank überhaupt?
 	if (!mysql_select_db($databases['Name'][$i],$config['dbconnection']))
 	{
 		$tpl->assign_block_vars('DB_NOT_FOUND',array(
-			'ROWCLASS' => $rowclass, 
-			'NR' => ($i+1), 
-			'DB_NAME' => $databases['Name'][$i], 
+			'ROWCLASS' => $rowclass,
+			'NR' => ($i+1),
+			'DB_NAME' => $databases['Name'][$i],
 			'DB_ID' => $i));
 	}
 	else
@@ -77,10 +77,10 @@ for ($i=0; $i<count($databases['Name']); $i++)
 		$tabellen=mysql_query('SHOW TABLES FROM `'.$databases['Name'][$i].'`',$config['dbconnection']);
 		$num_tables=mysql_num_rows($tabellen);
 		$tpl->assign_block_vars('ROW',array(
-			'ROWCLASS' => $rowclass, 
-			'NR' => ($i+1), 
-			'DB_NAME' => $databases['Name'][$i], 
-			'DB_ID' => $i, 
+			'ROWCLASS' => $rowclass,
+			'NR' => ($i+1),
+			'DB_NAME' => $databases['Name'][$i],
+			'DB_ID' => $i,
 			'TABLE_COUNT' => $num_tables));
 		if ($num_tables==1) $tpl->assign_block_vars('ROW.TABLE',array());
 		else
@@ -99,16 +99,16 @@ if (isset($_GET['dbid']))
 	$tpl->set_filenames(array(
 		'show' => 'tpl/home/databases_list_tables.tpl'));
 	$dbid=$_GET['dbid'];
-	
+
 	$numrows=0;
 	$res=@mysql_query("SHOW TABLE STATUS FROM `".$databases['Name'][$dbid]."`");
 	mysql_select_db($databases['Name'][$dbid]);
 	if ($res) $numrows=mysql_num_rows($res);
 	$tpl->assign_vars(array(
-		'DB_NAME' => $databases['Name'][$dbid], 
-		'DB_NAME_URLENCODED' => urlencode($databases['Name'][$dbid]), 
-		'DB_ID' => $dbid, 
-		'TABLE_COUNT' => $numrows, 
+		'DB_NAME' => $databases['Name'][$dbid],
+		'DB_NAME_URLENCODED' => urlencode($databases['Name'][$dbid]),
+		'DB_ID' => $dbid,
+		'TABLE_COUNT' => $numrows,
 		'ICONPATH' => $config['files']['iconpath']));
 	$numrows=intval($numrows);
 	if ($numrows>1) $tpl->assign_block_vars('MORE_TABLES',array());
@@ -135,37 +135,37 @@ if (isset($_GET['dbid']))
 				$row['Rows']=$row2['count_records'];
 				$rowclass=($i%2) ? 'dbrow' : 'dbrow1';
 			}
-			
+
 			if (isset($row['Update_time'])&&strtotime($row['Update_time'])>strtotime($last_update)) $last_update=$row['Update_time'];
 			$sum_records+=$row['Rows'];
 			$sum_data_length+=$row['Data_length']+$row['Index_length'];
-			
+
 			$keys_disabled = false;
 			if ($row['Engine'] == "MyIsam") {
 			}
             $tpl->assign_block_vars('ROW',array(
-				'ROWCLASS' => $rowclass, 
-				'NR' => ($i+1), 
-				'TABLE_NAME' => $row['Name'], 
-				'TABLE_NAME_URLENCODED' => urlencode($row['Name']), 
-				'RECORDS' => $row['Rows'], 
-				'SIZE' => byte_output($row['Data_length']+$row['Index_length']), 
-				'LAST_UPDATE' => $row['Update_time'], 
+				'ROWCLASS' => $rowclass,
+				'NR' => ($i+1),
+				'TABLE_NAME' => $row['Name'],
+				'TABLE_NAME_URLENCODED' => urlencode($row['Name']),
+				'RECORDS' => $row['Rows'],
+				'SIZE' => byte_output($row['Data_length']+$row['Index_length']),
+				'LAST_UPDATE' => $row['Update_time'],
 				'ENGINE' => $row['Engine'],
 			));
-			
+
 			// Otimize & Repair - only for MyISAM-Tables
 			if ($row['Engine']=='MyISAM')
 			{
 				if ($row['Data_free']==0) $tpl->assign_block_vars('ROW.OPTIMIZED',array());
 				else
 					$tpl->assign_block_vars('ROW.NOT_OPTIMIZED',array());
-				
+
 				if ($checkit==$row['Name']||$repair==1)
 				{
 					$tmp_res=mysql_query("REPAIR TABLE `".$row['Name']."`");
 				}
-				
+
 				if (($checkit==$row['Name']||$checkit=='ALL'))
 				{
 					// table needs to be checked
@@ -188,25 +188,26 @@ if (isset($_GET['dbid']))
                     $sSql= "ALTER TABLE `".$databases['Name'][$dbid]."`.`".$row['Name']."` ENABLE KEYS";
                     $tmp_res=mysql_query($sSql);
                 }
-				
                 $res3=mysql_query('SHOW INDEX FROM `'.$databases['Name'][$dbid]."`.`".$row['Name']."`");
-                $row3 = mysql_fetch_array($res3, MYSQL_ASSOC);
-                if ($row3['Comment']=="disabled") {
-                    $keys_disabled = true;
-                    $disabled_keys_found = true;
+                WHILE ($row3 = mysql_fetch_array($res3, MYSQL_ASSOC))
+                {
+                    if ($row3['Comment']=="disabled") {
+                        $keys_disabled = true;
+                        $disabled_keys_found = true;
+                    }
                 }
                 if ($keys_disabled) $tpl->assign_block_vars('ROW.KEYS_DISABLED', array());
                 else $tpl->assign_block_vars('ROW.KEYS_ENABLED', array());
 			}
-		
+
 		}
 		// Output sum-row
 		$tpl->assign_block_vars('SUM',array(
-			'RECORDS' => number_format($sum_records,0,",","."), 
-			'SIZE' => byte_output($sum_data_length), 
+			'RECORDS' => number_format($sum_records,0,",","."),
+			'SIZE' => byte_output($sum_data_length),
 			'LAST_UPDATE' => $last_update));
 		if ($disabled_keys_found) $tpl->assign_block_vars('DISABLED_KEYS_FOUND', array());
-		
+
 	}
 	$tpl->pparse('show');
 }

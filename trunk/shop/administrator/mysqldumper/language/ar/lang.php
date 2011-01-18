@@ -92,10 +92,7 @@ $lang['L_CREATE_DATABASE']="انشاء قاعدة بيانات جديده";
 $lang['L_EXPORTFINISHED']="الصيغة النهائية.";
 $lang['L_SQL_BROWSER']="SQL-استعرض";
 $lang['L_SERVER']="الخادم";
-$lang['L_MYSQL_CONNECTION_ENCODING']="معيار الترميز القياسي في MySQL-Server
-
-
-";
+$lang['L_MYSQL_CONNECTION_ENCODING']="معيار الترميز القياسي في MySQL-Server";
 $lang['L_TITLE_SHOW_DATA']="Show data";
 $lang['L_PRIMARYKEY_CONFIRMDELETE']="Really delete primary key?";
 $lang['L_SETPRIMARYKEYSFOR']="Set new primary keys for table";
@@ -108,6 +105,8 @@ $lang['L_BACKUPS']="النسخ الاحتياطي";
 $lang['L_MINUTES']="Minutes";
 $lang['L_PAGE_REFRESHS']="Page refreshs";
 $lang['L_MINUTE']="Minute";
+$lang['L_SETKEYSFOR']="Set new indexes for table";
+$lang['L_KEY_CONFIRMDELETE']="Really delete index?";
 
 
 ?>

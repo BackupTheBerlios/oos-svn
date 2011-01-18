@@ -66,7 +66,7 @@ $lang['L_CONVERT_FILEREAD']="Leyendo el archivo '%s'";
 $lang['L_CONVERT_FINISHED']="Conversión finalizada: '%s' se ha guardado correctamente.";
 $lang['L_NO_MSD_BACKUPFILE']="Copias de seguridad de otros programas";
 $lang['L_MAX_UPLOAD_SIZE']="Tamaño máximo del fichero";
-$lang['L_MAX_UPLOAD_SIZE_INFO']="Si el archivo de copia de seguridad es mayor que el límite fijado, entonces debe cargarlo a través de FTP en la carpeta \"work/backup\". 
+$lang['L_MAX_UPLOAD_SIZE_INFO']="Si el archivo de copia de seguridad es mayor que el límite fijado, entonces debe cargarlo a través de FTP en la carpeta \"work/backup\".
 Después ese archivo se mostrará aquí, y podrá ser elegido para restaurar.";
 $lang['L_ENCODING']="Codificación";
 $lang['L_FM_CHOOSE_ENCODING']="Seleccione la codificación de la copia de seguridad";
@@ -75,6 +75,5 @@ Usted debe elegir el conjunto de caracteres con el que se guardó la copia de se
 Si usted descubre algún problema con algunos caracteres después de la restauración, puede repetir la restauración de la copia de seguridad con otro conjunto de caracteres. <br>
 Buena suerte. ;)";
 $lang['L_DOWNLOAD_FILE']="Descargos ficheros";
-
-
+$lang['L_BACKUP_NOT_POSSIBLE'] = "A backup of the system database `%s` is not possible!";
 ?>

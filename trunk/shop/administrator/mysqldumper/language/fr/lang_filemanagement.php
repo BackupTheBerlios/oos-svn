@@ -28,8 +28,7 @@ $lang['L_FM_RESTORE']="Restauration";
 $lang['L_FM_ALERTRESTORE1']="Voulez-vous que la base de données ";
 $lang['L_FM_ALERTRESTORE2']="avec le contenu des fichiers";
 $lang['L_FM_ALERTRESTORE3']="soit restaurée?";
-$lang['L_FM_DELETE']="Supprimer les 
-fichiers sélectionnés";
+$lang['L_FM_DELETE']="Supprimer les fichiers sélectionnés";
 $lang['L_FM_ASKDELETE1']="Voulez-vous vraiment supprimer le fichier ";
 $lang['L_FM_ASKDELETE2']="really be deleted?";
 $lang['L_FM_ASKDELETE3']="Voulez-vous exécuter la suppression automatique d'après les règles sauvegardées?";
@@ -38,7 +37,7 @@ $lang['L_FM_ASKDELETE5']="Voulez-vous supprimer toutes les copies de sauvegarde 
 $lang['L_FM_ASKDELETE5_2']="_* ?";
 $lang['L_FM_DELETEAUTO']="Exécuter manuellement\nsuppression automatique";
 $lang['L_FM_DELETEALL']="Supprimer toutes les\ncopies de sauvegarde";
-$lang['L_FM_DELETEALLFILTER']="Supprimer tout avec";
+$lang['L_FM_DELETEALLFILTER']="Supprimer tout avec ";
 $lang['L_FM_DELETEALLFILTER2']="_*";
 $lang['L_FM_STARTDUMP']="Exécuter une nouvelle\ncopie de sauvegarde";
 $lang['L_FM_FILEUPLOAD']="Télécharger un fichier vers le serveur";
@@ -72,6 +71,5 @@ $lang['L_ENCODING']="encodage";
 $lang['L_FM_CHOOSE_ENCODING']="Choisissez le type d'encodage de la sauvegarde";
 $lang['L_CHOOSE_CHARSET']="MySQLDumper n'a pas pu détecter automatiquement le type d'encodage de la sauvegarde <br>Vous devez choisir le jeux de caractères qui a été utilisé pour la sauvegarde<br> Si vous découvrez des problèmes avec quelques caractères suite à la restauration, vous pouvez répéter l'opération en choisissant un autre jeux de caractères.<br>Bonne chance ;-)";
 $lang['L_DOWNLOAD_FILE']="Download file";
-
-
+$lang['L_BACKUP_NOT_POSSIBLE'] = "A backup of the system database `%s` is not possible!";
 ?>

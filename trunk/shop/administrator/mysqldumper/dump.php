@@ -54,7 +54,7 @@ else
 	$dump['kommentar']=(isset($_GET['comment'])) ? urldecode($_GET['comment']):'';
 	if (isset($_POST['kommentar'])) $dump['kommentar']=urldecode($_POST['kommentar']);
 	if (get_magic_quotes_gpc()) $dump['kommentar']=stripslashes($dump['kommentar']);
-	
+
 	$dump['backupdatei']=(isset($_POST['backupdatei'])) ? $_POST['backupdatei']:'';
 	$dump['part']=(isset($_POST['part'])) ? $_POST['part']:1;
 	$dump['part_offset']=(isset($_POST['part_offset'])) ? $_POST['part_offset']:0;
@@ -65,7 +65,7 @@ else
 	$dump['filename_stamp']=(isset($_POST['filename_stamp'])) ? $_POST['filename_stamp']:'';
 	$dump['anzahl_zeilen']=(isset($_POST['anzahl_zeilen'])) ? $_POST['anzahl_zeilen']:(($config['minspeed']>0) ? $config['minspeed']:50);
 	$dump['dump_encoding']=(isset($_POST['dump_encoding'])) ? urldecode($_POST['dump_encoding']):'';
-	
+
 	if (isset($_GET['sel_dump_encoding']))
 	{
 		// Erstaufruf -> encoding auswerten
@@ -132,7 +132,7 @@ if ($num_tables==0)
 {
 	//keine Tabellen gefunden
 	$aus[]='<br><br><p class="error">'.$lang['L_ERROR'].': '.sprintf($lang['L_DUMP_NOTABLES'],$databases['Name'][$dump['dbindex']]).'</p>';
-	if (!$config['multi_dump']==1)
+    if (!$config['multi_dump']==1)
 	{
 		echo $pageheader;
 		echo get_page_parameter($dump);
@@ -185,7 +185,7 @@ else
 					$out.=$lang['L_FINISHED'].'<br><div class="backupmsg"><a href="'.$config['paths']['backup'].$dump['backupdatei'].'" class="smallblack">'.$dump['backupdatei'].' ('.byte_output(filesize($config['paths']['backup'].$dump['backupdatei'])).')</a><br>';
 				}
 				if ($config['send_mail']==1) DoEmail();
-				
+
 				for($i=0;$i<3;$i++)
 				{
 					if ($config['ftp_transfer'][$i]==1) DoFTP($i);
@@ -196,7 +196,7 @@ else
 				ExecuteCommand('b');
 				new_file();
 			}
-			
+
 			$aktuelle_tabelle=$dump['table_offset'];
 			if ($dump['zeilen_offset']==0)
 			{
@@ -205,10 +205,10 @@ else
 					$dump['anzahl_zeilen']=$config['minspeed'];
 					$dump['restzeilen']=$config['minspeed'];
 				}
-				
+
 				$create_statement='';
 				$create_statement=get_def($adbname,$table);
-				
+
 				if (!($create_statement===false))
 				{
 					$dump['data'].=$create_statement;
@@ -243,7 +243,7 @@ else
 			if ($config['memory_limit']>0&&strlen($dump['data'])>$config['memory_limit']) WriteToDumpFile();
 		}
 	}
-	
+
 	/////////////////////////////////
 	// Anzeige - Fortschritt
 	/////////////////////////////////
@@ -253,21 +253,20 @@ else
 		$count_dbs=count($databases['multi']);
 		for($i=0;$i<$count_dbs;$i++)
 		{
-			//$a.=$databases['multi'][$i];
 			if ($databases['Name'][$dump['dbindex']]==$databases['multi'][$i]) $mudbs.='<span class="active_db">'.$databases['multi'][$i].'&nbsp;&nbsp;</span> ';
 			else
 				$mudbs.='<span class="success">'.$databases['multi'][$i].'&nbsp;&nbsp;</span> ';
 		}
 	}
 	if ($config['multi_part']==1) $aus[]='<h5>Multipart-Backup: '.$config['multipartgroesse1'].' '.$mp2[$config['multipartgroesse2']].'</h5>';
-	
+
 	$aus[]='<h4>'.$lang['L_DUMP_HEADLINE'].'</h4>';
-	
+
 	if ($dump['kommentar']>'') $aus[]=$lang['L_COMMENT'].': <span><em>'.$dump['kommentar'].'</em></span><br>';
 	$aus[]=($config['multi_dump']==1) ? $lang['L_DB'].': '.$mudbs:$lang['L_DB'].': <strong>'.$databases['Name'][$dump['dbindex']].'</strong>';
 	$aus[]=(($databases['praefix'][$dump['dbindex']]!='') ? ' ('.$lang['L_WITHPRAEFIX'].' <span>'.$databases['praefix'][$dump['dbindex']].'</span>)':'').'<br>';
 	if (isset($tbl_sel)) $aus[]=$msgTbl.'<br><br>';
-	
+
 	if ($config['multi_part']==1)
 	{
 		$aus[]='<span>Multipart-Backup File <strong>'.($dump['part']-$dump['part_offset']-1).'</strong></span><br>';
@@ -279,25 +278,25 @@ else
 	$aus[]=($config['compression']==1) ? $lang['L_ACTIVATED']:$lang['L_NOT_ACTIVATED'];
 	$aus[]='</b>.<br>';
 	if ($out>'') $aus[]='<br><span class="smallgrey">'.$out.'</span>';
-	
+
 	if (isset($dump['tables'][$dump['table_offset']]))
 	{
 		$table=substr($dump['tables'][$dump['table_offset']],strpos($dump['tables'][$dump['table_offset']],'|')+1);
 		$adbname=substr($dump['tables'][$dump['table_offset']],0,strpos($dump['tables'][$dump['table_offset']],'|'));
-		
+
 		// get nr of recorsd from dump-array
 		$record_string=$dump['records'][$dump['table_offset']];
 		$record_string=explode('|',$record_string);
 		$dump['zeilen_total']=$record_string[1];
-		
+
 		if ($dump['zeilen_total']>0) $fortschritt=intval((100*$dump['zeilen_offset'])/$dump['zeilen_total']);
 		else
 			$fortschritt=100;
-		
+
 		$aus[]=$lang['L_SAVING_TABLE'].'<b>'.($dump['table_offset']+1).'</b> '.$lang['L_OF'].'<b> '.sizeof($dump['tables']).'</b><br>'.$lang['L_ACTUAL_TABLE'].': <b>'.$table.'</b><br><br>'.$lang['L_PROGRESS_TABLE'].':<br>';
-		
+
 		$aus[]='<table border="0" width="380"><tr>'.'<td width="'.($fortschritt*3).'"><img src="'.$config['files']['iconpath'].'progressbar_dump.gif" alt="" width="'.($fortschritt*3).'" height="16" border="0"></td>'.'<td width="'.((100-$fortschritt)*3).'">&nbsp;</td>'.'<td width="80" align="right">'.($fortschritt).'%</td>';
-		
+
 		if ($dump['anzahl_zeilen']+$dump['zeilen_offset']>=$dump['zeilen_total'])
 		{
 			$eintrag=$dump['zeilen_offset']+1;
@@ -309,17 +308,17 @@ else
 			$zeilen_gesamt=$dump['zeilen_offset']+$dump['anzahl_zeilen'];
 			$eintrag=$dump['zeilen_offset']+1;
 		}
-		
+
 		$aus[]='</tr><tr>'.'<td colspan="3">'.$lang['L_ENTRY'].' <b>'.number_format($eintrag,0,',','.').'</b> '.$lang['L_UPTO'].' <b>'.number_format(($zeilen_gesamt),0,',','.').'</b> '.$lang['L_OF'].' <b>'.number_format($dump['zeilen_total'],0,',','.').'</b></td></tr></table>';
-		
+
 		$dump['tabellen_gesamt']=(isset($dump['tables'])) ? count($dump['tables']):0;
-		
+
 		$noch_zu_speichern=$dump['totalrecords']-$dump['countdata'];
 		$prozent=($dump['totalrecords']>0) ? round(((100*$noch_zu_speichern)/$dump['totalrecords']),0):100;
 		if ($noch_zu_speichern==0||$prozent>100) $prozent=100;
-		
+
 		$aus[]="\n".'<br>'.$lang['L_PROGRESS_OVER_ALL'].':'."\n".'<table border="0" width="550" cellpadding="0" cellspacing="0"><tr>'.'<td width="'.(5*(100-$prozent)).'"><img src="'.$config['files']['iconpath'].'progressbar_dump.gif" alt="" width="'.(5*(100-$prozent)).'" height="16" border="0"></td>'.'<td width="'.($prozent*5).'" align="center"></td>'.'<td width="50">'.(100-$prozent).'%</td></tr></table>';
-		
+
 		//Speed-Anzeige
 		$fw=($config['maxspeed']==$config['minspeed']) ? 300:round(($dump['anzahl_zeilen']-$config['minspeed'])/($config['maxspeed']-$config['minspeed'])*300,0);
 		if ($fw>300) $fw=300;
@@ -335,13 +334,13 @@ else
 		// Ende Anzeige
 	WriteToDumpFile();
 	if (!isset($summe_eintraege)) $summe_eintraege=0;
-	
+
 	if ($dump['table_offset']<=$dump['tabellen_gesamt'])
 	{
 		$dauer=time()-($xtime+$dump['verbraucht']);
 		$dump['verbraucht']+=$dauer;
 		$summe_eintraege+=$dump['anzahl_zeilen'];
-		
+
 		//Zeitanpassung
 		if ($dauer<$dump['max_zeit'])
 		{
@@ -377,11 +376,11 @@ else
 				$sz=byte_output(@filesize($config['paths']['backup'].$mpdatei));
 				$out.="\n".$lang['L_FILE'].' <a href="'.$config['paths']['backup'].$mpdatei.'" class="smallblack">'.$mpdatei.' ('.$sz.')</a> '.$lang['L_DUMP_SUCCESSFUL'].'<br>';
 			}
-		
+
 		}
 		else
 			$out.="\n".'<div class="backupmsg">'.$lang['L_FILE'].' <a href="'.$config['paths']['backup'].$dump['backupdatei'].'" class="smallblack">'.$dump['backupdatei'].' ('.byte_output(filesize($config['paths']['backup'].$dump['backupdatei'])).')'.'</a>'.$lang['L_DUMP_SUCCESSFUL'].'<br>';
-		
+
 		$xtime=time()-$xtime;
 		$aus=Array();
 		$aus[]='<br>'."\n";
@@ -392,15 +391,15 @@ else
 		}
 		else
 			WriteLog('Dump \''.$dump['backupdatei'].'\' finished in '.zeit_format($xtime).'.');
-		
+
 		if ($config['send_mail']==1) DoEmail();
 		for($i=0;$i<3;$i++)
 		{
 			if ($config['ftp_transfer'][$i]==1) DoFTP($i);
 		}
-		
+
 		$aus[]='<strong>'.$lang['L_DONE'].'</strong><br>';
-		
+
 		if ($config['multi_dump']==1)
 		{
 			$aus[]=sprintf($lang['L_MULTIDUMP'],count($databases['multi'])).': ';
@@ -413,13 +412,13 @@ else
 			$aus[]='<br>'.sprintf($lang['L_DUMP_ENDERGEBNIS'],$num_tables,number_format($dump['countdata'],0,',','.'));
 		}
 		if ($dump['errors']>0) $aus[]=sprintf($lang['L_DUMP_ERRORS'],$dump['errors']);
-		
+
 		$aus[]='<form action="dump.php?MySQLDumper='.session_id().'" method="POST">'.$out.'<br>'.'<p class="small">'.zeit_format($xtime).', '.$dump['aufruf'].' '.$lang['L_PAGE_REFRESHS'].$aus2.'</p>'."\n";
 		$aus[]="\n".'<br><input class="Formbutton" type="button" value="'.$lang['L_BACK_TO_CONTROL'].'" onclick="self.location.href=\''.$relativ_path.'filemanagement.php\'">';
 		$aus[]='&nbsp;&nbsp;&nbsp;<input class="Formbutton" type="button" value="'.$lang['L_BACK_TO_MINISQL'].'" onclick="self.location.href=\''.$relativ_path.'sql.php\'">';
 		$aus[]='&nbsp;&nbsp;&nbsp;<input class="Formbutton" type="button" value="'.$lang['L_BACK_TO_OVERVIEW'].'" onclick="self.location.href=\''.$relativ_path.'main.php?action=db&amp;dbid='.$dump['dbindex'].'#dbid\'"><br><br>';
 		$aus[]='</div></form>';
-		
+
 		$DumpFertig=1;
 	}
 }

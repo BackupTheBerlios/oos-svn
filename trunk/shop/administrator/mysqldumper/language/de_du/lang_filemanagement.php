@@ -28,8 +28,7 @@ $lang['L_FM_RESTORE']="Wiederherstellen";
 $lang['L_FM_ALERTRESTORE1']="Soll die Datenbank ";
 $lang['L_FM_ALERTRESTORE2']="mit den Inhalten der Datei";
 $lang['L_FM_ALERTRESTORE3']="wiederhergestellt werden?";
-$lang['L_FM_DELETE']="Ausgewählte Dateien
-löschen";
+$lang['L_FM_DELETE']="Ausgewählte Dateien löschen";
 $lang['L_FM_ASKDELETE1']="Möchtest du die Datei(en)";
 $lang['L_FM_ASKDELETE2']="wirklich löschen?";
 $lang['L_FM_ASKDELETE3']="Möchtest du Autodelete nach den eingestellten Regeln jetzt ausführen?";
@@ -38,7 +37,7 @@ $lang['L_FM_ASKDELETE5']="Möchtest du alle Backup-Dateien mit ";
 $lang['L_FM_ASKDELETE5_2']="_* jetzt löschen?";
 $lang['L_FM_DELETEAUTO']="Autodelete manuell ausführen";
 $lang['L_FM_DELETEALL']="Alle Backup-Dateien löschen";
-$lang['L_FM_DELETEALLFILTER']="Alle löschen mit";
+$lang['L_FM_DELETEALLFILTER']="Alle löschen mit ";
 $lang['L_FM_DELETEALLFILTER2']="_*";
 $lang['L_FM_STARTDUMP']="Neues Backup starten";
 $lang['L_FM_FILEUPLOAD']="Datei hochladen";
@@ -67,7 +66,7 @@ $lang['L_CONVERT_FILEREAD']="Datei '%s' wird eingelesen";
 $lang['L_CONVERT_FINISHED']="Konvertierung abgeschlossen, '%s' wurde erzeugt.";
 $lang['L_NO_MSD_BACKUPFILE']="Dateien anderer Programme";
 $lang['L_MAX_UPLOAD_SIZE']="Maximale Dateigröße";
-$lang['L_MAX_UPLOAD_SIZE_INFO']="Wenn Deine Backup-Datei größer als das angegebene Limit ist, dann musst Du diese per FTP in den \"work/backup\"-Ordner hochladen. 
+$lang['L_MAX_UPLOAD_SIZE_INFO']="Wenn Deine Backup-Datei größer als das angegebene Limit ist, dann musst Du diese per FTP in den \"work/backup\"-Ordner hochladen.
 Danach wird diese Datei hier in der Verwaltung angezeigt und lässt sich für eine Wiederherstellung auswählen.";
 $lang['L_ENCODING']="Kodierung";
 $lang['L_FM_CHOOSE_ENCODING']="Kodierung der Backupdatei wählen";
@@ -77,6 +76,5 @@ $lang['L_CHOOSE_CHARSET']="Leider konnte nicht automatisch ermittelt werden mit 
 <br>Solltest Du nach der Wiederherstellung Probleme mit Sonderzeichen entdecken, so kannst Du versuchen, das Backup mit einer anderen Zeichensatzauswahl wiederherzustellen.
 <br>Viel Glück. ;)";
 $lang['L_DOWNLOAD_FILE']="Datei herunterladen";
-
-
+$lang['L_BACKUP_NOT_POSSIBLE'] = "Eine Sicherung der Systemdatenbank `%s` ist nicht möglich!";
 ?>

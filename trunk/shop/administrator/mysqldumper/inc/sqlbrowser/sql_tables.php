@@ -3,17 +3,19 @@ if (!defined('MSD_VERSION')) die('No direct access.');
 //Tabellen
 echo $aus.'<h6>'.$lang['L_SQL_TABLESOFDB'].' `'.$databases['Name'][$dbid].'` '.$lang['L_SQL_EDIT'].'</h6>';
 
-//////////////////////// DH
 //Primaerschluessel loeschen
 if (isset($_GET['killPrimaryKey']))
 {
 	$keys=getPrimaryKeys($databases['Name'][$dbid],$_GET['tablename']);
 	//Zu loeschenden Schluessel aus dem Array entfernen
-	$keyPos=array_search($_GET['killPrimaryKey'],$keys);
+	$keyPos=array_search($_GET['killPrimaryKey'],$keys['name']);
 	if (!(false===$keyPos))
 	{
-		unset($keys[$keyPos]);
-		$res=setNewPrimaryKeys($databases['Name'][$dbid],$_GET['tablename'],$keys);
+		unset($keys['name'][$keyPos]);
+		unset($keys['size'][$keyPos]);
+		$keys['name']=array_values($keys['name']);
+		$keys['size']=array_values($keys['size']);
+		$res=setNewPrimaryKeys($databases['Name'][$dbid], $_GET['tablename'], $keys['name'], $keys['size']);
 		if ($res)
 		{
 			echo '<script language="JavaScript">
@@ -23,7 +25,7 @@ if (isset($_GET['killPrimaryKey']))
 		else
 		{
 			echo '<script language="JavaScript">
-						alert("'.$lang['L_PRIMARYKEY_NOTFOUND'].': '.$_GET['killPrimaryKey'].'");
+						alert("'.$lang['L_PRIMARYKEYS_CHANGINGERROR'].': '.$_GET['killPrimaryKey'].'");
 					</script>';
 		}
 	}
@@ -37,37 +39,88 @@ if (isset($_GET['killPrimaryKey']))
 //Primärschlüssel löschen ende
 
 
-//Neue Primärschlüssel setzen
-if (isset($_POST['setNewPrimaryKeys']))
+//Neue Schlüssel setzen
+if (isset($_POST['setNewKeys']))
 {
 	$fields=getAllFields($databases['Name'][$dbid],$_GET['tablename']);
 	$newKeysArray=Array();
+	$newKeySizesArray=Array();
 	foreach ($fields as $index=>$field)
 	{
-		if ((isset($_POST["setNewPrimKey".$index]))&&($_POST["setNewPrimKey".$index]!=""))
+		if ((isset($_POST["setNewKey".$index]))&&($_POST["setNewKey".$index]!=""))
 		{
-			$newKeysArray[]=$_POST["setNewPrimKey".$index];
+			$newKeysArray[]=$_POST["setNewKey".$index];
+			$newKeySizesArray[]=isset($_POST["indexSize".$index]) ? (int) $_POST["indexSize".$index]:'';
 		}
 	}
 	//doppelte Elemente entfernen
 	$newKeysArray=array_unique($newKeysArray);
-	
-	$res=setNewPrimaryKeys($databases['Name'][$dbid],$_GET['tablename'],$newKeysArray);
+	$newKeySizesArray=array_intersect_key($newKeySizesArray, $newKeysArray);
+
+	if ($_POST["indexType"]=="primary")
+	{
+		$res=setNewPrimaryKeys($databases['Name'][$dbid], $_GET['tablename'], $newKeysArray, $newKeySizesArray);
+		if ($res)
+		{
+			echo '<script language="JavaScript">
+						alert("'.$lang['L_PRIMARYKEYS_CHANGED'].'");
+					</script>';
+		}
+		else
+		{
+			echo '<script language="JavaScript">
+						alert("'.$lang['L_PRIMARYKEYS_CHANGINGERROR'].'");
+					</script>';
+		}
+	}
+	else
+	{
+		if ($_POST["indexType"]=="unique")
+		{
+			$newIndexType="UNIQUE";
+		}
+		elseif ($_POST["indexType"]=="fulltext")
+		{
+			$newIndexType="FULLTEXT";
+		}
+		else
+		{
+			$newIndexType="INDEX";
+		}
+
+		$res=setNewKeys($databases['Name'][$dbid], $_GET['tablename'], $newKeysArray, $newIndexType, $_POST['indexName'], $newKeySizesArray);
+		if ($res)
+		{
+			echo '<script language="JavaScript">
+						alert("'.$lang['L_KEY_ADDED'].'");
+					</script>';
+		}
+		else
+		{
+			echo '<script language="JavaScript">
+						alert("'.$lang['L_KEY_ADDERROR'].'");
+					</script>';
+		}
+	}
+}
+
+//Andere Indizes löschen
+if (isset($_GET['killIndex']))
+{
+	$res = killKey($databases['Name'][$dbid], $_GET['tablename'], $_GET['killIndex']);
 	if ($res)
 	{
 		echo '<script language="JavaScript">
-					alert("'.$lang['L_PRIMARYKEYS_CHANGED'].'");
+					alert("'.$lang['L_KEY_DELETED'].': '.$_GET['killIndex'].'");
 				</script>';
 	}
 	else
 	{
 		echo '<script language="JavaScript">
-					alert("'.$lang['L_PRIMARYKEYS_CHANGINGERROR'].'");
+					alert("'.$lang['L_KEY_DELETEERROR'].': '.$_GET['killIndex'].'");
 				</script>';
 	}
 }
-//Neue Primärschlüssel setzen ende
-//////////////////////// DH ende
 
 if (isset($_GET['kill']))
 {
@@ -75,9 +128,12 @@ if (isset($_GET['kill']))
 	else
 	{
 		$sql_alter="ALTER TABLE `".$databases['Name'][$dbid]."`.`".$_GET['tablename']."` DROP COLUMN `".$_GET['kill']."`";
-		MSD_DoSQL($sql_alter);
-		echo '<div align="left" id="sqleditbox" style="font-size: 11px;width:90%;padding=6px;">';
-		echo '<p class="success">'.$lang['L_SQL_FIELDDELETE1'].' `'.$_GET['kill'].'` '.$lang['L_SQL_DELETED'].'.</p>'.highlight_sql($out).'</div>';
+		$res = MSD_DoSQL($sql_alter);
+		if ($res)
+		{
+			echo '<div align="left" id="sqleditbox" style="font-size: 11px;width:90%;padding=6px;">';
+			echo '<p class="success">'.$lang['L_SQL_FIELDDELETE1'].' `'.$_GET['kill'].'` '.$lang['L_SQL_DELETED'].'.</p>'.highlight_sql($out).'</div>';
+		}
 	}
 }
 if (isset($_POST['tablecopysubmit']))
@@ -95,8 +151,7 @@ if (isset($_POST['tablecopysubmit']))
 	{
 		Table_Copy("`".$databases['Name'][$dbid]."`.`".$table_edit_name."`",$_POST['tablecopyname'],$_POST['copyatt']);
 		echo '<div align="left" id="sqleditbox">';
-		echo ($_POST['copyatt']==0) ? '<p class="success">'.sprintf($lang['L_SQL_SCOPY'],$table_edit_name,$_POST['tablecopyname']).'.</p>' : sprintf($lang['L_SQL_TCOPY'],$table_edit_name,$_POST['tablecopyname']).'</p>';
-		echo highlight_sql($out).'</div>';
+        echo ($_POST['copyatt']==0) ? '<p class="success">'.sprintf($lang['L_SQL_SCOPY'],$table_edit_name,$_POST['tablecopyname']).'</p>' : sprintf($lang['L_SQL_TCOPY'],$table_edit_name,$_POST['tablecopyname']).'</p>';		echo highlight_sql($out).'</div>';
 		$tablename=$_POST['tablecopyname'];
 	}
 }
@@ -109,8 +164,11 @@ if (isset($_POST['newtablesubmit']))
 	else
 	{
 		$sql_alter="CREATE TABLE `".$databases['Name'][$dbid]."`.`".$_POST['newtablename']."` (`id` int(11) unsigned not null AUTO_INCREMENT PRIMARY KEY ) ".((MSD_NEW_VERSION) ? "ENGINE" : "TYPE")."=MyISAM;";
-		MSD_DoSQL($sql_alter);
-		echo SQLOutput($out,$lang['L_TABLE'].' `'.$_POST['newtablename'].'` '.$lang['L_SQL_CREATED']);
+		$res = MSD_DoSQL($sql_alter);
+		if ($res)
+		{
+			echo SQLOutput($out,$lang['L_TABLE'].' `'.$_POST['newtablename'].'` '.$lang['L_SQL_CREATED']);
+		}
 	}
 }
 if (isset($_POST['t_edit_submit']))
@@ -132,9 +190,12 @@ if (isset($_POST['t_edit_submit']))
 		if (MSD_NEW_VERSION&&$_POST['t_edit_charset']!="") $sql_alter.="DEFAULT CHARSET=".$_POST['t_edit_charset'].", ";
 		if (MSD_NEW_VERSION&&$_POST['t_edit_collate']!="") $sql_alter.="COLLATE ".$_POST['t_edit_collate'].", ";
 		$sql_alter.="COMMENT='".$_POST['t_edit_comment']."' ";
-		
-		MSD_DoSQL($sql_alter);
-		echo SQLOutput($out,$lang['L_TABLE'].' `'.$_POST['table_edit_name'].'` '.$lang['L_SQL_CHANGED']);
+
+		$res = MSD_DoSQL($sql_alter);
+		if ($res)
+		{
+			echo SQLOutput($out,$lang['L_TABLE'].' `'.$_POST['table_edit_name'].'` '.$lang['L_SQL_CHANGED']);
+		}
 	}
 }
 else
@@ -166,9 +227,9 @@ if (isset($_POST['newfield_posted']))
 		$newkeys[1]=($_POST['f_index_new']=="unique") ? 1 : 0;
 		$newkeys[2]=($_POST['f_index_new']=="index") ? 1 : 0;
 		$newkeys[3]=(isset($_POST['f_indexfull'])) ? 1 : 0;
-		
+
 		$add_sql.=ChangeKeys($oldkeys,$newkeys,$_POST['f_name'],$_POST['f_size'],"drop_only");
-		
+
 		$sql_stamm="ALTER TABLE `".$databases['Name'][$dbid]."`.`$table_edit_name` ";
 		$sql_alter=$sql_stamm.((isset($_POST['editfield'])) ? "CHANGE COLUMN `".$_POST['fieldname']."` `".$_POST['f_name']."` " : "ADD COLUMN `".$_POST['f_name']."` ");
 		$sql_alter.=$_POST['f_type'];
@@ -186,30 +247,34 @@ if (isset($_POST['newfield_posted']))
 		$sql_alter.=$_POST['f_attribut']." ";
 		$sql_alter.=$_POST['f_null']." ";
 		$sql_alter.=($_POST['f_default']!="") ? "DEFAULT '".addslashes($_POST['f_default'])."' " : "";
-		
+
 		if (MSD_NEW_VERSION&&$_POST['f_collate']!="") $sql_alter.="COLLATE ".$_POST['f_collate']." ";
-		
+
 		if ($_POST['f_extra']=="AUTO_INCREMENT")
 		{
 			$sql_alter.=" AUTO_INCREMENT ";
 		}
-		if ($newkeys[0]==1) $sql_alter.=" PRIMARY KEY ";
-		if ($newkeys[1]==1) $sql_alter.=" UNIQUE INDEX ";
-		if ($newkeys[2]==1) $sql_alter.=" INDEX ";
-		if ($newkeys[3]==1) $sql_alter.=" FULLTEXT INDEX ";
-		
-		$sql_alter.=$_POST['f_position']." ;";
-		
+		$sql_alter.=$_POST['f_position'];
+
+		if ($newkeys[0]==1) $sql_alter.=", ADD PRIMARY KEY (`".$_POST['f_name']."`)";
+		if ($newkeys[1]==1) $sql_alter.=", ADD UNIQUE (`".$_POST['f_name']."`)";
+		if ($newkeys[2]==1) $sql_alter.=", ADD INDEX (`".$_POST['f_name']."`)";
+		if ($newkeys[3]==1) $sql_alter.=", ADD FULLTEXT INDEX (`".$_POST['f_name']."`)";
+
+		$sql_alter.=";";
+
 		if ($add_sql!="")
 		{
 			$add_sql=$sql_stamm.$add_sql;
-			$sql_alter="$sql_alter;\n$add_sql;\n";
+			$sql_alter="$sql_alter\n$add_sql;";
 		}
-		MSD_DoSQL($sql_alter);
-		
-		echo '<div align="left" id="sqleditbox" style="font-size: 11px;width:90%;padding=6px;">';
-		echo '<p class="success"> `'.$_POST['f_name'].'` '.((isset($_POST['editfield'])) ? $lang['L_SQL_CHANGED'] : $lang['L_SQL_CREATED']).'.</p>';
-		echo highlight_sql($out).'</div>';
+		$res = MSD_DoSQL($sql_alter);
+		if ($res)
+		{
+			echo '<div align="left" id="sqleditbox" style="font-size: 11px;width:90%;padding=6px;">';
+			echo '<p class="success"> `'.$_POST['f_name'].'` '.((isset($_POST['editfield'])) ? $lang['L_SQL_CHANGED'] : $lang['L_SQL_CREATED']).'</p>';
+			echo highlight_sql($out).'</div>';
+		}
 		$fields_infos=getFieldinfos($databases['Name'][$dbid],$table_edit_name);
 	}
 }
@@ -229,7 +294,7 @@ if ($anz_tabellen==0)
 }
 else
 {
-	
+
 	echo '<tr><td>'.$lang['L_SQL_SELECTTABLE'].':&nbsp;&nbsp;&nbsp;</td>';
 	echo '<td colspan="2"><select name="tableselect" onchange="this.form.submit()"><option value="1" SELECTED></option>';
 	for ($i=0; $i<$anz_tabellen; $i++)
@@ -247,18 +312,18 @@ if ($table_edit_name!="")
 	$res=MSD_query($sqlf);
 	$anz_fields=mysql_num_rows($res);
 	$fields_infos=getFieldinfos($databases['Name'][$dbid],$table_edit_name);
-	
+
 	if (MSD_NEW_VERSION) $t_engine=(isset($fields_infos['_tableinfo_']['ENGINE'])) ? $fields_infos['_tableinfo_']['ENGINE'] : "MyISAM";
 	else
 		$t_engine=(isset($fields_infos['_tableinfo_']['TYPE'])) ? $fields_infos['_tableinfo_']['TYPE'] : "MyISAM";
-	
+
 	$t_charset=(isset($fields_infos['_tableinfo_']['DEFAULT CHARSET'])) ? $fields_infos['_tableinfo_']['DEFAULT CHARSET'] : "";
 	$t_collation=isset($row['Collation']) ? $row['Collation'] : ""; //(isset($fields_infos['_tableinfo_']['COLLATE'])) ? $fields_infos['_tableinfo_']['COLLATE'] : "";
 	$t_comment=(isset($fields_infos['_tableinfo_']['COMMENT'])) ? substr($fields_infos['_tableinfo_']['COMMENT'],1,strlen($fields_infos['_tableinfo_']['COMMENT'])-2) : "";
 	$t_rowformat=(isset($fields_infos['_tableinfo_']['ROW_FORMAT'])) ? $fields_infos['_tableinfo_']['ROW_FORMAT'] : "";
 	echo "<h6>".$lang['L_TABLE']." `$table_edit_name`</h6>";
 	$td='<td valign="top" nowrap="nowrap" class="small">';
-	
+
 	//Tabelleneigenschaften
 	echo '<form action="'.$p.'" method="post"><input type="hidden" name="table_edit_name" value="'.$table_edit_name.'"><table class="bdr">';
 	echo '<tr class="sqlNew"><td colspan="4" style="font-size:10pt;font-weight:bold;">'.$lang['L_SQL_TBLPROPSOF'].' `'.$table_edit_name.'` ('.$anz_fields.' '.$lang['L_FIELDS'].')</td>';
@@ -271,13 +336,13 @@ if ($table_edit_name!="")
 	echo '<td class="small" align="center">'.$lang['L_COMMENT'].'<br><input type="text" class="text" name="t_edit_comment" value="'.$t_comment.'" size="30" maxlength="100" style="font-size:11px;"></td>';
 	echo '<td class="small" align="center">&nbsp;<br><input type="submit" name="t_edit_submit" value="'.$lang['L_CHANGE'].'" class="Formbutton"></td></tr>';
 	echo '</table></form><p>&nbsp;</p>';
-	
+
 	$field_fehler=0;
 	echo '<h6>'.$lang['L_FIELDS_OF_TABLE'].' `'.$table_edit_name.'`</h6>';
-	
+
 	$d_collate='';
 	$d_comment='';
-	
+
 	if (isset($_GET['newfield'])||isset($_GET['editfield'])||$field_fehler>0||isset($_POST['newfield_posted']))
 	{
 		if (isset($_GET['editfield'])) $id=$_GET['editfield'];
@@ -286,7 +351,7 @@ if ($table_edit_name!="")
 		$d_size=(isset($_GET['editfield'])) ? $fields_infos[$id]['size'] : "";
 		$d_null=(isset($_GET['editfield'])) ? $fields_infos[$id]['null'] : "";
 		$d_attribute=(isset($_GET['editfield'])) ? $fields_infos[$id]['attributes'] : "";
-		
+
 		$d_default='';
 		if (isset($id)&&isset($fields_infos[$id])&&isset($fields_infos[$id]['default']))
 		{
@@ -295,7 +360,7 @@ if ($table_edit_name!="")
 				$d_default=substr($fields_infos[$id]['default'],1,strlen($fields_infos[$id]['default'])-2);
 		}
 		$d_extra=(isset($_GET['editfield'])) ? $fields_infos[$id]['extra'] : "";
-		
+
 		$d_primary=$d_unique=$d_index=$d_fulltext=0;
 		if (isset($id))
 		{
@@ -306,39 +371,9 @@ if ($table_edit_name!="")
 		if (isset($_GET['editfield']))
 		{
 			$d_primary=(in_array($fields_infos[$id]['name'],$fields_infos['_primarykeys_'])) ? 1 : 0;
-			if (isset($fields_infos['_key_']))
-			{
-				for ($i=0; $i<count($fields_infos['_key_']); $i++)
-				{
-					if ($fields_infos['_key_'][$i]['name']==$fields_infos[$id]['name'])
-					{
-						$d_index=1;
-						break;
-					}
-				}
-			}
-			if (isset($fields_infos['_fulltextkey_']))
-			{
-				for ($i=0; $i<count($fields_infos['_fulltextkey_']); $i++)
-				{
-					if ($fields_infos['_fulltextkey_'][$i]['name']==$fields_infos[$id]['name'])
-					{
-						$d_fulltext=1;
-						break;
-					}
-				}
-			}
-			if (isset($fields_infos['_uniquekey_']))
-			{
-				for ($i=0; $i<count($fields_infos['_uniquekey_']); $i++)
-				{
-					if ($fields_infos['_uniquekey_'][$i]['name']==$fields_infos[$id]['name'])
-					{
-						$d_unique=1;
-						break;
-					}
-				}
-			}
+			$d_index=(in_array($fields_infos[$id]['name'],$fields_infos['_key_'])) ? 1 : 0;
+			$d_fulltext=(in_array($fields_infos[$id]['name'],$fields_infos['_fulltextkey_'])) ? 1 : 0;
+			$d_unique=(in_array($fields_infos[$id]['name'],$fields_infos['_uniquekey_'])) ? 1 : 0;
 		}
 		echo '<form action="'.$p.'" method="post" id="smallform"><input type="hidden" name="newfield_posted" value="1">';
 		if (isset($_GET['editfield'])) echo '<input type="hidden" name="editfield" value="'.$id.'"><input type="hidden" name="fieldname" value="'.$d_name.'">';
@@ -352,23 +387,23 @@ if ($table_edit_name!="")
 		echo '<td>NULL<br><select name="f_null">'.GetOptionsCombo($feldnulls,$d_null).'</select></td>';
 		echo '<td align="center">Default<br><input type="text" class="text" name="f_default" value="'.$d_default.'" size="10"></td>';
 		echo '<td align="center">Extra<br><select name="f_extra">'.GetOptionsCombo($feldextras,$d_extra).'</select></td>';
-		
+
 		echo '</tr><tr><td align="center">'.$lang['L_SQL_INDEXES'].'<br>';
 		echo '<input type="radio" class="radio" name="f_index_new" id="k_no_index" value="no" '.(($d_primary+$d_unique+$d_index+$d_fulltext==0) ? 'checked="checked"' : '').'>';
 		echo '<label for="k_no_index">'.$icon['key_nokey'].'</label>&nbsp;&nbsp;';
-		
+
 		echo '<input type="radio" class="radio" name="f_index_new" id="k_primary" value="primary" '.(($d_primary==1) ? "checked" : "").'>';
 		echo '<label for="k_primary">'.$icon['key_primary'].'</label>&nbsp;&nbsp;';
-		
+
 		echo '<input type="radio" class="radio" name="f_index_new" id="k_unique" value="unique" '.(($d_unique==1) ? "checked" : "").'>';
 		echo '<label for="k_unique">'.$icon['key_unique'].'</label>&nbsp;&nbsp;';
-		
+
 		echo '<input type="radio" class="radio" name="f_index_new" id="k_index" value="index" '.(($d_index==1) ? "checked" : "").'>&nbsp;';
 		echo '<label for="k_index">'.$icon['index'].'</label>&nbsp;&nbsp;';
-		
+
 		echo '<input type="checkbox" class="checkbox" name="f_indexfull" id="k_fulltext" value="1" '.(($d_fulltext==1) ? "checked" : "").'>';
 		echo '<label for="k_fulltext">'.$icon['key_fulltext'].'</label>&nbsp;&nbsp;</td>';
-		
+
 		echo '<td align="center" colspan="2" >'.$lang['L_COLLATION'].'<br><select name="f_collate">'.CollationCombo($d_collate).'</select></td>';
 		echo '<td align="center">'.$lang['L_SQL_ATTRIBUTES'].'<br><select name="f_attribut">'.AttributeCombo($d_attribute).'</select></td>';
 		echo '<td align="center">'.$lang['L_SQL_ATPOSITION'].':<br><select name="f_position"><option value=""></option><option value="FIRST">'.$lang['L_SQL_FIRST'].'</option>';
@@ -379,7 +414,7 @@ if ($table_edit_name!="")
 				echo '<option value="AFTER `'.$fields_infos[$i]['name'].'`">'.$lang['L_SQL_AFTER'].' `'.$fields_infos[$i]['name'].'`</option>';
 			}
 		}
-		echo '</select></td><td align="center"><input type="submit" name="newfieldsubmit" value="'.((isset($_GET['editfield'])) ? $lang['L_SQL_CHANGEFIELD'] : $lang['L_SQL_INSERTFIELD']).'" class="Formbutton"></td></tr></table></form><p>&nbsp;</p>';
+		echo '</select></td><td align="center"><br><input type="submit" name="newfieldsubmit" value="'.((isset($_GET['editfield'])) ? $lang['L_SQL_CHANGEFIELD'] : $lang['L_SQL_INSERTFIELD']).'" class="Formbutton"></td></tr></table></form><p>&nbsp;</p>';
 	}
 	else
 		echo '<a style="font-size:8pt;padding-bottom:8px;" href="'.$p.'&amp;newfield=1">'.$lang['L_SQL_INSERTNEWFIELD'].'</a><br><br>';
@@ -388,64 +423,43 @@ if ($table_edit_name!="")
 	for ($i=0; $i<$anz_fields; $i++)
 	{
 		$cl=($i%2) ? "dbrow" : "dbrow1";
-		if ($i==0) echo '<tr class="thead"><th colspan="2">&nbsp;</th><th>Field</th><th>Type</th><th>Size</th><th>NULL</th><th>Key</th><th>Attribute</th><th>Default</th><th>Extra</th><th>Sortierung</th></tr>';
+		if ($i==0) echo '<tr class="thead"><th colspan="2">&nbsp;</th><th>Field</th><th>Type</th><th>Size</th><th>NULL</th><th>Key</th><th>Attribute</th><th>Default</th><th>Extra</th><th>'.
+		$lang['L_COLLATION'].'</th><th>'.$lang['L_COMMENT'].'</th></tr>';
 		echo '<tr class="'.$cl.'">';
 		echo '<td nowrap="nowrap">';
 		echo '<a href="'.$p.'&amp;editfield='.$i.'"><img src="'.$config['files']['iconpath'].'edit.gif" title="edit field" alt="edit field" border="0"></a>&nbsp;&nbsp;';
 		echo '<a href="'.$p.'&amp;kill='.$fields_infos[$i]['name'].'&amp;anz='.$anz_fields.'" onclick="if(!confirm(\''.$lang['L_ASKDELETEFIELD'].'\')) return false;"><img src="'.$config['files']['iconpath'].'delete.gif" alt="delete field" border="0"></a>&nbsp;&nbsp;';
-		
+
 		echo '</td>';
 		echo '<td style="text-align:right">'.($i+1).'.</td>';
-		
+
 		echo '<td><strong>'.$fields_infos[$i]['name'].'</strong></td><td>'.$fields_infos[$i]['type'].'</td><td>'.$fields_infos[$i]['size'].'</td>';
 		echo '<td>'.get_output_attribut_null($fields_infos[$i]['null']).'</td><td>';
 		//key
 		if (in_array($fields_infos[$i]['name'],$fields_infos['_primarykeys_'])) echo $icon['key_primary'];
-		if (isset($fields_infos['_fulltextkey_']))
-		{
-			for ($ii=0; $ii<count($fields_infos['_fulltextkey_']); $ii++)
-			{
-				if ($fields_infos['_fulltextkey_'][$ii]['name']==$fields_infos[$i]['name'])
-				{
-					echo $icon['key_fulltext'];
-					break;
-				}
-			}
-		}
-		else 
-			if (isset($fields_infos['_uniquekey_']))
-			{
-				for ($ii=0; $ii<count($fields_infos['_uniquekey_']); $ii++)
-				{
-					if ($fields_infos['_uniquekey_'][$ii]['name']==$fields_infos[$i]['name'])
-					{
-						echo $icon['key_unique'];
-						break;
-					}
-				}
-			}
-			
-			else 
-				if (isset($fields_infos['_key_']))
-				{
-					for ($ii=0; $ii<count($fields_infos['_key_']); $ii++)
-					{
-						//echo "<h5>".$fields_infos['_key_'][$ii]['columns']."</h5>";
-						if ($fields_infos['_key_'][$ii]['name']==$fields_infos[$i]['name'])
-						{
-							echo $icon['index'];
-							break;
-						}
-					}
-				}
+		if (in_array($fields_infos[$i]['name'],$fields_infos['_fulltextkey_'])) echo $icon['key_fulltext'];
+		if (in_array($fields_infos[$i]['name'],$fields_infos['_uniquekey_'])) echo $icon['key_unique'];
+		if (in_array($fields_infos[$i]['name'],$fields_infos['_key_'])) echo $icon['index'];
 		echo '</td><td>'.$fields_infos[$i]['attributes'].'</td>';
 		echo '<td>'.$fields_infos[$i]['default'].'</td>'.$td.$fields_infos[$i]['extra'].'</td>';
-		echo '<td>'.((MSD_NEW_VERSION) ? $fields_infos[$i]['collate'] : "&nbsp;").'</td></tr>';
+		echo '<td>'.((MSD_NEW_VERSION) ? $fields_infos[$i]['collate'] : "&nbsp;").'</td>';
+        echo '<td>'.((isset($fields_infos[$i]['comment'])) ? $fields_infos[$i]['comment'] : "&nbsp;").'</td>';
+        echo "</tr>";
 	}
 	echo '</table><br>';
-	
+
 	echo '<h6>'.$lang['L_SQL_TABLEINDEXES'].' `'.$table_edit_name.'`</h6>';
-	echo '<table class="bdr"><tr class="thead"><th colspan="2">&nbsp;</th><th>Index-Name</th>'.((MSD_NEW_VERSION) ? '<th>Typ</th>' : '').'<th>'.$lang['L_SQL_ALLOWDUPS'].'</th><th>'.$lang['L_SQL_CARDINALITY'].'</th><th>Spalten</th></tr>';
+	echo '<table class="bdr">
+	   <tr class="thead">
+	       <th colspan="2">&nbsp;</th>
+	       <th>'.$lang['L_NAME'].'</th>
+	       <th>'.$lang['L_SQL_COLUMNS'].'</th>
+	       <th>'.$lang['L_INFO_SIZE'].'</th>
+	       '.((MSD_NEW_VERSION) ? '<th>'.$lang['L_TABLE_TYPE'].'</th>' : '').'
+	       <th>'.$lang['L_SQL_ALLOWDUPS'].'</th>
+	       <th>'.$lang['L_SQL_CARDINALITY'].'</th>
+	       <th>'.$lang['L_COMMENT'].'</th>
+	   </tr>';
 	$sqlk="SHOW KEYS FROM `".$databases['Name'][$dbid]."`.`$table_edit_name`;";
 	$res=MSD_query($sqlk);
 	$num=mysql_numrows($res);
@@ -458,40 +472,66 @@ if ($table_edit_name!="")
 		for ($i=0; $i<$num; $i++)
 		{
 			$row=mysql_fetch_array($res,MYSQL_ASSOC);
-			//v($row);
+			if (!isset($row['Comment'])) {
+			    $row['Comment'] = '';
+			}
 			$cl=($i%2) ? "dbrow" : "dbrow1";
 			//Images
 			echo '<tr class="'.$cl.'">';
 			echo '<td>';
-			//echo '<img src="' . $config['files']['iconpath'] . 'edit.gif" alt="" border="0">&nbsp;&nbsp;';
-			///// DH
-			//erstmal nur fuer Primaerschluessel
 			if ($row['Key_name']=="PRIMARY")
 			{
 				echo '<a href="'.$p.'&amp;killPrimaryKey='.$row['Column_name'].'" onclick="if(!confirm(\''.$lang['L_PRIMARYKEY_CONFIRMDELETE'].'\')) return false;">';
 				echo '<img src="'.$config['files']['iconpath'].'delete.gif" alt="" border="0">';
 				echo '</a>';
 			}
-			///// DH ende
+			else
+			{
+				echo '<a href="'.$p.'&amp;killIndex='.$row['Key_name'].'" onclick="if(!confirm(\''.$lang['L_KEY_CONFIRMDELETE'].'\')) return false;">';
+				echo '<img src="'.$config['files']['iconpath'].'delete.gif" alt="" border="0">';
+				echo '</a>';
+			}
 			echo '</td>';
 			echo '<td style="text-align:right">'.($i+1).'.</td>';
 			echo '<td>'.$row['Key_name'].'</td>';
+			echo '<td>'.$row['Column_name'].'</td>';
+            echo '<td class="right">';
+            if (isset($row['Sub_part']) && $row['Sub_part']>0) echo $row['Sub_part'];
+            echo '</td>';
 			if (MSD_NEW_VERSION) echo '<td>'.$row['Index_type'].'</td>';
 			echo '<td align="center">'.(($row['Non_unique']==1) ? $lang['L_YES'] : $lang['L_NO']).'</td>';
 			echo '<td>'.(($row['Cardinality']>=0) ? $row['Cardinality'] : $lang['L_NO']).'</td>';
-			echo '<td>'.$row['Column_name'].'</td>';
+            echo '<td>'.$row['Comment'].'</td>';
 			echo '</tr>';
 		}
 	}
-	echo '</table><br><input type="Button" value="'.$lang['L_SQL_CREATEINDEX'].'" onclick="location.href=\''.$p.'&amp;sql_createindex=1\'" class="Formbutton">';
-	
-	///// DH
+	echo '</table><br><input type="Button" value="'.$lang['L_SQL_CREATEINDEX'].'" onclick="location.href=\''.$p.'&amp;sql_createindex=1#setnewkeys\'" class="Formbutton">';
+
 	if ((isset($_GET['sql_createindex']))&&($_GET['sql_createindex']=="1"))
+	{ ?>
+<script type="text/javascript">
+	function toggleIndexLength(id)
 	{
+		var mysqlStrings = ['<?php echo implode("','", $mysql_string_types);?>'];
+		var field = 'setNewKey'+id;
+		var sel = document.getElementById(field).selectedIndex;
+		var val = document.getElementById(field).options[sel].innerHTML;
+		document.getElementById('indexSize'+id).disabled = true;
+		for (i=0;i<mysqlStrings.length;i++)
+		{
+			if (val.indexOf("["+mysqlStrings[i]) != -1)
+			{
+				document.getElementById('indexSize'+id).disabled = false;
+			}
+		}
+	}
+</script>
+    <?php
+		echo '<br><a name="setnewkeys"></a>';
 		echo '<form action="'.$p.'" method="POST">';
-		echo '<h6>'.$lang['L_SETPRIMARYKEYSFOR'].' `'.$table_edit_name.'`</h6>';
+		echo '<h6>'.$lang['L_SETKEYSFOR'].' `'.$table_edit_name.'`</h6>';
 		//kopf
-		echo '<table class="bdr"><tr class="thead"><th>'.$lang['L_PRIMARYKEY_FIELD'].'</th></tr>';
+		echo '<table class="bdr">';
 		//body
 		$sqlFelder="DESCRIBE `".$databases['Name'][$dbid]."`.`".$_GET['tablename']."`;";
 		$res=MSD_query($sqlFelder);
@@ -502,38 +542,54 @@ if ($table_edit_name!="")
 		}
 		else
 		{
-			//alle Felder holen
+	       	echo '<tr class="thead"><th>'.$lang['L_NAME'].'</th><th>'.$lang['L_TABLE_TYPE'].'</th></tr>';
+            echo '<tr>';
+			echo '<td><input type="text" name="indexName" value="" class="text">';
+			echo '<td><select name="indexType"><option value="primary">'.$lang['L_TITLE_KEY_PRIMARY'].'</option><option value="unique">'.$lang['L_TITLE_KEY_UNIQUE'].'</option><option value="index" selected="selected">'.$lang['L_TITLE_INDEX'].'</option><option value="fulltext">'.$lang['L_TITLE_KEY_FULLTEXT'].'</option></select></td>';
+			echo '</tr>';
+    		echo '</table><br>';
+
+    		//alle Felder holen
 			$feldArray=Array();
-			while ($row=mysql_fetch_array($res))
+            echo '<table class="bdr">';
+    		echo '<tr class="thead"><th>#</th><th>'.$lang['L_PRIMARYKEY_FIELD'].'</th><th>'.$lang['L_INFO_SIZE'].'</th>';
+
+			while ($row=mysql_fetch_array($res, MYSQL_ASSOC))
 			{
 				$feldArray[$row['Field']]=$row['Type'];
 			}
 			//Primaerschluessel holen, um automatisch vorzuselektieren
 			$primaryKeys=getPrimaryKeys($databases['Name'][$dbid],$_GET['tablename']);
-			//eine Select-Box pro Feld anzeigen
+			//eine Select-Box pro Feld anzeigen, Felder für Name und Typ nur in der ersten Zeile
 			for ($i=0; $i<$num; $i++)
 			{
-				$cl=($i%2) ? "dbrow" : "dbrow1";
-				echo '<tr class="'.$cl.'">';
-				echo '<td>';
-				echo '<select name="setNewPrimKey'.$i.'">';
-				echo '<option value="">---</option>';
+				echo '<tr><td class="right">'.($i+1).'.</td><td>';
+				$options ="\n\n".'<option value="">---</option>';
+				$selectedFeldTyp = false;
 				foreach ($feldArray as $feldName=>$feldTyp)
 				{
-					echo '<option value="'.$feldName.'"';
+					$options.="\n".'<option value="'.$feldName.'"';
 					//alle Primaerschluessel vorselektieren
-					if ((isset($primaryKeys[$i]))&&($primaryKeys[$i]==$feldName)) echo ' selected="selected"';
-					echo '>'.$feldName.' ['.$feldTyp.']</option>';
+					if (isset($primaryKeys['name'][$i]) && $primaryKeys['name'][$i]==$feldName) {
+					    $options.=' selected="selected"';
+					    $selectedFeldTyp = $feldTyp;
+					}
+					$options.='>'.$feldName.' ['.$feldTyp.']</option>';
 				}
-				echo '</select>';
-				echo '</td>';
+				echo '<select id="setNewKey'.$i.'" name="setNewKey'.$i.'" onchange="toggleIndexLength('.$i.');">';
+				echo $options."\n".'</select></td>';
+				echo '<td>';
+                $type =explode('(', $selectedFeldTyp);
+				echo '<input type="text" id="indexSize'.$i.'" name="indexSize'.$i.'" value="" size="10" class="text"';
+				if (!isset($type[0]) || !in_array($type[0], $mysql_string_types)) echo ' disabled="disabled"';
+				echo '></td>';
 				echo '</tr>';
 			}
+			$i ++;
 		}
 		echo '</table>';
 		//Speichern Knopf
-		echo '<br /><input name="setNewPrimaryKeys" type="submit" value="'.$lang['L_PRIMARYKEYS_SAVE'].'" class="Formbutton">';
+		echo '<br><input name="setNewKeys" type="submit" value="'.$lang['L_SAVE'].'" class="Formbutton">';
 		echo '</form>';
 	}
-	///// DH ende
 }

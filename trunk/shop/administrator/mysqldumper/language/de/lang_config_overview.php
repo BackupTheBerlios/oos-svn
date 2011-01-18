@@ -104,10 +104,7 @@ $lang['L_CREATE_CONFIGFILE']="Eine neue Konfigurationsdatei anlegen";
 $lang['L_ERROR_LOADING_CONFIGFILE']="Die Konfigurationsdatei \"%s\" konnte nicht geladen werden.";
 $lang['L_BACKUP_DBS_PHP']="zu sichernde DBs (PHP)";
 $lang['L_BACKUP_DBS_PERL']="zu sichernde DBs (PERL)";
-$lang['L_CRON_COMMENT']="Kommentar eingeben
-
-
-";
+$lang['L_CRON_COMMENT']="Kommentar eingeben";
 $lang['L_AUTODETECT']="automatisch ermitteln";
 
 

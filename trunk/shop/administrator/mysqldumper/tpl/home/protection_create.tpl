@@ -58,7 +58,7 @@
 					alert('{PASSWORDS_UNEQUAL}');
 					return false;
 				}
-				else return confirm('{HTACC_CONFIRM_DELETE}?');
+				else return confirm('{HTACC_CONFIRM_DELETE}');
 			}	
 		</script>
 		<style type="text/css">
@@ -171,7 +171,7 @@
 	<strong>{L_HTACC_CONTENT} .htaccess:</strong><br><br>
 	{CREATE_SUCCESS.HTACCESS}
 
-	<br><strong>{L_HTACC_CONTENT} .htpasswd:</strong><br><br>
+	<br><br><strong>{L_HTACC_CONTENT} .htpasswd:</strong><br><br>
 	{CREATE_SUCCESS.HTPASSWD}
 	<br><br>
 	<a href="main.php" class="Formbutton">{L_HOME}</a>

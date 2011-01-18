@@ -1,11 +1,17 @@
 #!/usr/bin/perl -w
+# This file is part of MySQLDumper released under the GNU/GPL 2 license
+# http://www.mysqldumper.net 
+# @package 			MySQLDumper
+# @version 			$Rev: 1351 $
+# @author 			$Author: jtietz $
+# @lastmodified 	$Date: 2011-01-16 20:55:42 +0100 (So, 16. Jan 2011) $
+# @filesource 		$URL: https://mysqldumper.svn.sourceforge.net/svnroot/mysqldumper/branches/msd1.24.3/msd_cron/perltest.pl $
+
 use strict;
 use Socket;
 use Config;
 use CGI::Carp qw(warningsToBrowser fatalsToBrowser);  
 use CGI;
-my $cgi = CGI->new();
-print $cgi->header();
 warningsToBrowser(1); # dies ist ganz wichtig!
 
 my $eval_in_died;
@@ -15,6 +21,7 @@ my $mod_fb=0;
 my $mod_gz=0;
 my $mod_ftp=0;
 my $mod_mime=0;
+my $mod_ftpssl=0;
 my $dbi_driver;
 my $dbi_mysql_exists=0;
 my $get_options=0;
@@ -22,8 +29,11 @@ my $ok='<font color="green">';
 my $err='<font color="red">';
 my $zlib_version='unknown';
 
-print "<html><head><title>MySQLDumper Perltest</title>\n";
-print '<style type="text/css">body { padding-left:18px; }</style></head>';
+my $cgi = CGI->new();
+print $cgi->header(-type => 'text/html; charset=utf-8', -cache_control => 'no-cache, no-store, must-revalidate');
+print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
+print "<html><head><title>MySQLDumper Perl modul test</title>\n";
+print '<style type="text/css">body { padding-left:18px; font-family:Verdana,Helvetica,Sans-Serif;}</style></head>';
 print "<body><h2>Testing needed Perl-Moduls in order to run the Perl script crondump.pl</h2>\n";
 print "<h4 style=\"background-color:#ccffcc;\">Necessary Modules for crondump.pl</h4>";
 print "<strong>testing DBI ...</strong>\n";
@@ -33,7 +43,7 @@ eval { $eval_in_died = 1; require DBI; };
             import DBI;
             }
 if($mod_dbi!=1){
-    print $err."Couldn't findDBI!<br>crondump.pl can't establih a connection to the MySQL database!</font>\n";
+    print $err."<br>Couldn't find DBI!<br>crondump.pl can't establish a connection to the MySQL database!</font>\n";
 } else {
     print $ok."Found modul DBI. OK.</font>\n";
 	my @available_drivers = DBI->available_drivers('quiet');
@@ -42,7 +52,7 @@ if($mod_dbi!=1){
 		print "<br>Found modul DBI::$dbi_driver\n";
 		if ( $dbi_driver eq 'mysql' ) { $dbi_mysql_exists=1; } ;
 	}
-	if ($dbi_mysql_exists !=1 ) { print $err."Critical error: modul DBI::mysql not found! crondump.pl can't establish a connection to the MySQL-Databse if this modul isn't installed! Please install DBI::mysql!</font>"; }
+	if ($dbi_mysql_exists !=1 ) { print $err."<br>Critical error: modul DBI::mysql not found! crondump.pl can't establish a connection to the MySQL-Database if this modul isn't installed! Please install DBI::mysql!</font>"; }
 	else { print "<br>".$ok."Found modul DBI::mysql. OK. crondump.pl can connect to MySQL-Database.</font>"; }
 }
 
@@ -57,7 +67,6 @@ if($mod_ff!=1){
 } else {
     print $ok."Found modul File::Find. OK.</font><br>\n";
 }
-
 
 print "<strong>testing File::Basename ...</strong>\n";
 eval { $eval_in_died = 1; require File::Basename; };
@@ -109,6 +118,19 @@ if($mod_ftp!=1){
 } else {
     print $ok."Found modul Net::FTP. OK - crondump.pl can send backups via FTP.</font><br>\n";
 }
+
+print "<br><strong>testing Net::FTPSSL (needed if you want to transfer backups to another server with ssl encryption)...</strong><br>\n";
+eval { $eval_in_died = 1; require Net::FTPSSL; };
+       if(!$@){
+            $mod_ftpssl = 1;
+            import Net::FTPSSL;
+            }
+if($mod_ftpssl !=1){
+print $err."Error: modul Net::FTPSSL not found! crondump.pl can't transfer data via FTP with ssl encryption.</font><br>\n";
+} else {
+    print $ok."Found modul Net::FTPSSL. OK - crondump.pl can send backups via FTP with ssl encryption.</font><br>\n";
+}
+
 
 print "<br><strong>testing MIME::Lite (needed if you want to send backups via email)...</strong><br>\n";
 eval { $eval_in_died = 1; require MIME::Lite; };

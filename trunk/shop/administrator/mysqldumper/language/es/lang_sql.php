@@ -182,6 +182,12 @@ $lang['L_ENGINE']="Máquina";
 $lang['L_USERNAME']="Nombre de usuario";
 $lang['L_PASSWORD']="Contraseña";
 $lang['L_PASSWORD_REPEAT']="Contraseña (repetición)";
+$lang['L_INFO_SIZE']="Tamaño";
+$lang['L_TABLE_TYPE']="Tipo";
+$lang['L_KEY_DELETED']="Index deleted";
+$lang['L_KEY_DELETEERROR']="Error deleting index";
+$lang['L_KEY_ADDED']="Index added";
+$lang['L_KEY_ADDERROR']="Error adding index";
 
 
 ?>

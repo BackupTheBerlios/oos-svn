@@ -22,7 +22,7 @@ function Check(i,k)
 {s=ids[j].value;smp=(mp[j].value==0)?"":" (Multipart: "+mp[j].value+" files)";anz++;if(k==0)break;}}
 if(anz==0){WP("","gd");}else if(anz==1){WP(s+smp,"gd");}else{WP("> 1","gd");}}
 function SelectMD(v,anz)
-{for(i=0;i<anz;i++){n="db_multidump_"+i;obj=document.getElementsByName(n)[0];if(obj){obj.checked=v;}}}
+{for(i=0;i<anz;i++){n="db_multidump_"+i;obj=document.getElementsByName(n)[0];if(obj&&!obj.disabled){obj.checked=v;}}}
 function Sel(v)
 {var a=document.frm_tbl;if(!a.chk_tbl.length)
 {a.chk_tbl.checked=v;}else{for(i=0;i<a.chk_tbl.length;i++){a.chk_tbl[i].checked=v;}}}

@@ -72,6 +72,7 @@ $lang['L_PHP_VERSION']="PHP-Versión";
 $lang['L_MAX_EXECUTION_TIME']="El máximo de ejecución";
 $lang['L_PHP_EXTENSIONS']="Extensiones de PHP";
 $lang['L_MEMORY']="Memoria";
+$lang['L_FILE_MISSING']="no se encuentra el fichero";
 
 
 ?>

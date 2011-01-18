@@ -10,48 +10,55 @@ if (isset($_POST['dbdosubmit']))
 {
 	$newname=$_POST['newname'];
 	$db_index=$_POST['db_index'];
-	echo "<br>Db-Index:" . $_GET['db_index'];
 	$db_action=$_POST['db_action'];
 	$changed=false;
 	$ausgabe=$out="";
 	switch ($db_action)
 	{
 		case "drop":
-			MSD_DoSQL("DROP DATABASE `" . $databases['Name'][$db_index] . "`");
-			echo SQLOutput($out,'<p class="success">' . $lang['L_DB'] . ' `' . $databases['Name'][$db_index] . '` wurde gelÃ¶scht.</p>');
-			$changed=true;
-			break;
+            if (MSD_DoSQL("DROP DATABASE `" . $databases['Name'][$db_index] . "`"))
+            {
+                echo SQLOutput($out,'<p class="success">' . $lang['L_DB'] . ' `' . $databases['Name'][$db_index] . '` ' . $lang['L_SQL_DELETED'] . '</p>');
+                $changed=true;
+            }
+		    break;
 		case "empty":
 			EmptyDB($databases['Name'][$db_index]);
 			echo SQLOutput($out,'<p class="success">' . $lang['L_DB'] . ' `' . $databases['Name'][$db_index] . '` ' . $lang['L_SQL_WASEMPTIED'] . '.</p>');
 			break;
 		case "rename":
 			$dbold=$databases['Name'][$db_index];
-			DB_Copy($dbold,$newname,1);
-			echo SQLOutput($out,'<p class="success">' . $lang['L_DB'] . ' `' . $dbold . '` ' . $lang['L_SQL_RENAMEDTO'] . ' `' . $newname . '`.</p>');
-			$changed=true;
+            if (DB_Copy($dbold,$newname,1))
+            {
+                echo SQLOutput($out,'<p class="success">' . $lang['L_DB'] . ' `' . $dbold . '` ' . $lang['L_SQL_RENAMEDTO'] . ' `' . $newname . '`.</p>');
+                $changed=true;
+            }
 			break;
 		case "copy":
 			$dbold=$databases['Name'][$db_index];
-			DB_Copy($dbold,$newname);
-			$changed=true;
-			echo SQLOutput($out,'<p class="success">' . sprintf($lang['L_SQL_DBCOPY'],$dbold,$newname) . '</p>');
-			break;
+            if (DB_Copy($dbold,$newname))
+            {
+                $changed=true;
+                echo SQLOutput($out,'<p class="success">' . sprintf($lang['L_SQL_DBCOPY'],$dbold,$newname) . '</p>');
+            }
+            break;
 		case "structure":
-			DB_Copy($databases['Name'][$db_index],$newname,0,0);
-			$changed=true;
-			echo SQLOutput($out,'<p class="success">' . sprintf($lang['L_SQL_DBSCOPY'],$databases['Name'][$db_index],$newname) . '</p>');
-			break;
+            if (DB_Copy($databases['Name'][$db_index],$newname,0,0))
+            {
+                $changed=true;
+                echo SQLOutput($out,'<p class="success">' . sprintf($lang['L_SQL_DBSCOPY'],$databases['Name'][$db_index],$newname) . '</p>');
+            }
+            break;
 		case "rights":
 			break;
 	}
-	
-	if ($changed=true)
+
+	if ($changed==true)
 	{
 		SetDefault();
 		include ( $config['files']['parameter'] );
 		echo '<script language="JavaScript" type="text/javascript">parent.MySQL_Dumper_menu.location.href="menu.php?action=dbrefresh";</script>';
-	
+
 	}
 }
 if (isset($_POST['dbwantaction']))
@@ -71,13 +78,14 @@ if (isset($_POST['dbwantaction']))
 			}
 			$db_default_collation=@explode('|',$col);
 			if (isset($db_default_collation[1])) $sqlc.=' COLLATE `' . $db_default_collation[1] . '`';
-			
-			MSD_query($sqlc);
-			echo $lang['L_DB'] . " `$newname` " . $lang['L_SQL_WASCREATED'] . ".<br>";
-			SetDefault();
-			include ( $config['files']['parameter'] );
-			echo '<script language="JavaScript" type="text/javascript">parent.MySQL_Dumper_menu.location.href="menu.php?action=dbrefresh";</script>';
-		
+
+            if (MSD_query($sqlc))
+            {
+                echo $lang['L_DB'] . " `$newname` " . $lang['L_SQL_WASCREATED'] . ".<br>";
+                SetDefault();
+                include ( $config['files']['parameter'] );
+                echo '<script language="JavaScript" type="text/javascript">parent.MySQL_Dumper_menu.location.href="menu.php?action=dbrefresh";</script>';
+            }
 		}
 	}
 	$db_action=$newname="";
@@ -111,7 +119,11 @@ if (isset($_POST['dbwantaction']))
 				break;
 			case "rename":
 				echo '<strong>' . $lang['L_SQL_RENAMEDB'] . ' `' . $databases['Name'][$db_index] . '` ' . $lang['L_IN'] . ' `' . $newname . '`</strong><br><br>';
-				echo '<input type="submit" name="dbdosubmit" value="' . $lang['L_DO_NOW'] . '" class="Formbutton">';
+                if ($newname == "") echo '<p class="error">' . $lang['L_SQL_NAMEDEST_MISSING'] . '</p>';
+                else
+                {
+                    echo '<input type="submit" name="dbdosubmit" value="' . $lang['L_DO_NOW'] . '" class="Formbutton">';
+                }
 				break;
 			case "copy":
 				echo '<strong>' . sprintf($lang['L_ASKDBCOPY'],$databases['Name'][$db_index],$newname) . '</strong><br><br>';
@@ -164,13 +176,12 @@ for ($i=0; $i < count($databases['Name']); $i++)
 	if (MSD_NEW_VERSION) echo '<option value="rename">' . $lang['L_SQL_RENAMEDB'] . '</option>';
 	if (MSD_NEW_VERSION) echo '<option value="copy">' . $lang['L_SQL_COPYDATADB'] . '</option>';
 	echo '<option value="structure">' . $lang['L_SQL_COPYSDB'] . '</option>';
-	
+
 	echo '</select>';
 	echo "\n\n" . '&nbsp;&nbsp;<input type="submit" name="db_do_' . $i . '" value="' . $lang['L_DO'] . '" disabled="disabled" class="Formbutton">';
-	
+
 	echo '&nbsp;&nbsp;<input type="Button" value="' . $lang['L_SQL_IMEXPORT'] . '" onclick="location.href=\'sql.php?db=' . $databases['Name'][$i] . '&amp;dbid=' . $i . '&amp;context=4\'" class="Formbutton"></td></tr>';
 }
 
 echo '</table></div></form>';
-	
-		
+

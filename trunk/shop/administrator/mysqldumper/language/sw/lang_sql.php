@@ -180,6 +180,12 @@ $lang['L_ENGINE']="Engine";
 $lang['L_USERNAME']="Användarnamn";
 $lang['L_PASSWORD']="Lösenord";
 $lang['L_PASSWORD_REPEAT']="Upprepa lösenord";
+$lang['L_INFO_SIZE']="Storlek";
+$lang['L_TABLE_TYPE']="Typ";
+$lang['L_KEY_DELETED']="Index deleted";
+$lang['L_KEY_DELETEERROR']="Error deleting index";
+$lang['L_KEY_ADDED']="Index added";
+$lang['L_KEY_ADDERROR']="Error adding index";
 
 
 ?>

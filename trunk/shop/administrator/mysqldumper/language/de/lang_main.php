@@ -38,7 +38,7 @@ $lang['L_HTACC_CREATE_ERROR']="Es ist ein Fehler bei der Erstellung des Verzeich
 $lang['L_HTACC_PROPOSED']="Dringend empfohlen";
 $lang['L_HTACC_EDIT']=".htaccess editieren";
 $lang['L_HTACCESS18']=".htaccess erstellen in ";
-$lang['L_HTACCESS19']="neu laden ";
+$lang['L_HTACCESS19']="Neu laden ";
 $lang['L_HTACCESS20']="Skript ausführen";
 $lang['L_HTACCESS21']="Handler zufügen";
 $lang['L_HTACCESS22']="Ausführbar machen";
@@ -75,6 +75,7 @@ $lang['L_PHP_VERSION']="PHP-Version";
 $lang['L_MAX_EXECUTION_TIME']="Maximale Ausführungszeit";
 $lang['L_PHP_EXTENSIONS']="PHP-Erweiterungen";
 $lang['L_MEMORY']="Speicher";
+$lang['L_FILE_MISSING']="konnte Datei nicht finden";
 
 
 ?>

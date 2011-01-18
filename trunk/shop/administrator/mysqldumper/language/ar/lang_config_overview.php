@@ -104,10 +104,7 @@ $lang['L_CREATE_CONFIGFILE']="انشاء تهيئة جديده للملف";
 $lang['L_ERROR_LOADING_CONFIGFILE']="لا يستطيع تحميل ملف التهيئة \"%s\".";
 $lang['L_BACKUP_DBS_PHP']="قواعدة البيانات الى النسخ الاحتياطي (PHP)";
 $lang['L_BACKUP_DBS_PERL']="قواعد البيانات الى النسخ الاحتياطي (PERL)";
-$lang['L_CRON_COMMENT']="ادخل تعليقا
-
-
-";
+$lang['L_CRON_COMMENT']="ادخل تعليقا";
 $lang['L_AUTODETECT']="auto detect";
 
 

@@ -208,10 +208,6 @@ if ($search==0&&!$download)
 		{
 			if ($showtables==0)
 			{
-				if (strpos($rk,"|")!=false)
-				{
-					$rk=str_replace('|',' AND ',$rk);
-				}
 				$sqlk="DELETE FROM `$tablename` WHERE ".$rk." LIMIT 1";
 				$res=MSD_query($sqlk);
 				//echo "<br>".$sqlk;

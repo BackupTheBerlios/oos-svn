@@ -1,36 +1,35 @@
 <?php
 if (!defined('MSD_VERSION')) die('No direct access.');
-
 // fuegt eine Sortierungsnummer hinzu, um die Ausgabereihenfolge der Daten steuern zu koennen
 // (das Feld ENGINE interessiert mich nicht so sehr und muss nicht vorne stehen)
 $keysort=array(
-			
-			'Name' => 0, 
-			'Rows' => 1, 
-			'Data_length' => 2, 
-			'Auto_increment' => 3, 
-			'Avg_row_length' => 4, 
-			'Max_data_length' => 5, 
-			'Comment' => 6, 
-			'Row_format' => 7, 
-			'Index_length' => 8, 
-			'Data_free' => 9, 
-			'Collation' => 10, 
-			'Create_time' => 11, 
-			'Update_time' => 12, 
-			'Check_time' => 13, 
-			'Create_options' => 14, 
-			'Version' => 15, 
-			'Engine' => 16, 
+
+			'Name' => 0,
+			'Rows' => 1,
+			'Data_length' => 2,
+			'Auto_increment' => 3,
+			'Avg_row_length' => 4,
+			'Max_data_length' => 5,
+			'Comment' => 6,
+			'Row_format' => 7,
+			'Index_length' => 8,
+			'Data_free' => 9,
+			'Collation' => 10,
+			'Create_time' => 11,
+			'Update_time' => 12,
+			'Check_time' => 13,
+			'Create_options' => 14,
+			'Version' => 15,
+			'Engine' => 16,
 			'Checksum' => 17
 );
 
 $byte_output=array(
-				
-				'Data_length', 
-				'Avg_row_length', 
-				'Max_data_length', 
-				'Index_length', 
+
+				'Data_length',
+				'Avg_row_length',
+				'Max_data_length',
+				'Index_length',
 				'Data_free'
 );
 
@@ -67,16 +66,15 @@ if ($databases['Name'][$dbid]!=$databases['db_actual'])
 	// refresh menu to switch to actual database
 	echo '<script type="text/javascript" language="javascript">'
 		.'parent.MySQL_Dumper_menu.location.href=\'menu.php?dbindex='.$dbid.'\';</script>';
-	
+
 }
 echo '</p><p class="tablename">' . ( $tn != '' ? $lang['L_TABLE'] . ' <strong>`' . $databases['db_actual'] . '`.`' . $tn . '`</strong><br>' : '' );
 if (isset($msg)) echo $msg;
 
 $numrowsabs=-1;
 $numrows=0;
-// vorgehensweise - zwischen SELECT und FROM alles rausschneiden und durch count(*) ersetzen
-// es soll die Summe der Datensaetze ermittelt werden, wenn es kein LIMIT geben wuerde, um die
-// Blaettern-Links korrekt anzuzeigen
+// Vorgehensweise - es soll die Summe der Datensaetze ermittelt werden, wenn es kein LIMIT gibt, 
+// um die Blaettern-Links korrekt anzuzeigen
 $skip_mysql_execution=false;
 if ($sql_to_display_data == 0)
 {
@@ -98,8 +96,7 @@ else
 		}
 		else
 		{
-			$pos=strpos($sql_temp,'from ');
-			$sql_temp='SELECT count(*) as anzahl ' . substr($sql['sql_statement'],$pos,strlen($sql['sql_statement']) - $pos);
+			$sql_temp="SELECT count(*) as anzahl FROM (".$sql_temp.") as query;";
 			$res=@MSD_query($sql_temp,false);
 			if ($res)
 			{
@@ -144,7 +141,7 @@ if ($numrowsabs > 0 && $Anzahl_SQLs <= 1)
 	echo '</p>';
 	//Datentabelle
 	echo '<table class="bdr" id="dataTable">';
-	
+
 	$t=$d="";
 	$fdesc=Array();
 	$key=-1;
@@ -153,24 +150,21 @@ if ($numrowsabs > 0 && $Anzahl_SQLs <= 1)
 		//Infos und Header holen
 		//1.Datensatz fuer Feldinfos
 		$row=mysql_fetch_row($res);
-		
 		//Kompaktmodus-Switcher
 		$t='<td colspan="' . ( count($row) + 1 ) . '" align="left"><a href="sql.php?db=' . $db . '&amp;tablename=' . $tablename . '&amp;dbid=' . $dbid . '&amp;order=' . urlencode($order) . '&amp;orderdir=' . $orderdir . '&amp;limitstart=' . $limitstart . '&amp;sql_statement=' . urlencode($sql['sql_statement']) . '&amp;tdc=' . ( ( $tdcompact == 0 ) ? '1' : '0' ) . '">' . ( ( $tdcompact == 1 ) ? $lang['L_SQL_VIEW_STANDARD'] : $lang['L_SQL_VIEW_COMPACT'] ) . '</a>';
 		$t.='&nbsp;&nbsp;&nbsp;' . $lang['L_SQL_QUERYENTRY'] . ' ' . count($row) . ' ' . $lang['L_SQL_COLUMNS'];
 		$t.='</td></tr><tr class="thead">';
 		$t.='<th>&nbsp;</th><th>#</th>';
 		$temp=array();
-		
+
 		for ($x=0; $x < count($row); $x++)
 		{
 			$temp[$x]['data']=mysql_fetch_field($res,$x);
 			$temp[$x]['sort']=add_sortkey($temp[$x]['data']->name);
 		}
-		//v($temp);
-		
 
 		if ($showtables == 1) $temp=mu_sort($temp,'sort');
-		
+
 		for ($x=0; $x < count($temp); $x++)
 		{
 			$str=$temp[$x]['data'];
@@ -193,23 +187,23 @@ if ($numrowsabs > 0 && $Anzahl_SQLs <= 1)
 			$fdesc[$temp[$x]['data']->name]['Engine']=isset($str->Engine) ? $str->Engine : '';
 			if (isset($str->Comment) && substr($str->Comment,0,4) == 'VIEW') $fdesc[$temp[$x]['data']->name]['Engine']='View';
 			$fdesc[$temp[$x]['data']->name]['Version']=isset($str->Version) ? $str->Version : '';
-			
+
 			$tt=$lang['L_NAME'] . ': ' . $fdesc[$temp[$x]['data']->name]['name'] . ' Type: ' . $fdesc[$temp[$x]['data']->name]['type'] . " Max Length: " . $fdesc[$temp[$x]['data']->name]['max_length'] . " Unsigned: " . $fdesc[$temp[$x]['data']->name]['unsigned'] . " zerofill: " . $fdesc[$temp[$x]['data']->name]['zerofill'];
-			
+
 			$pic='<img src="' . $icon['blank'] . '" alt="" width="1" height="1" border="0">';
 			if ($str->primary_key == 1 || $str->unique_key == 1)
 			{
 				if ($key == -1) $key=$temp[$x]['data']->name;
 				else $key.='|' . $temp[$x]['data']->name;
-				
+
 				if ($str->primary_key == 1) $pic=$icon['key_primary'];
 				elseif ($str->unique_key == 1) $pic=$icon['index'];
 			}
-			
+
 			// show sorting icon
 			$arname=( $orderdir == "ASC" ) ? $icon['arrow_down'] : $icon['arrow_up'];
 			if ($str->name == $order) $t.=$arname;
-			
+
 			if ($bb == -1) $bb_link=( $str->type == "blob" ) ? '&nbsp;&nbsp;&nbsp;<a style="font-size:10px;color:blue;" title="use BB-Code for this field" href="sql.php?db=' . $db . '&amp;bb=' . $x . '&amp;tablename=' . $tablename . '&amp;dbid=' . $dbid . '&amp;order=' . $order . '&amp;orderdir=' . $orderdir . '&amp;limitstart=' . $limitstart . '&amp;sql_statement=' . urlencode($sql['sql_statement']) . '&amp;tdc=' . $tdcompact . '">[BB]</a>' : '';
 			else $bb_link=( $str->type == "blob" ) ? '&nbsp;&nbsp;&nbsp;<a title="use BB-Code for this field" href="sql.php?db=' . $db . '&amp;bb=-1&amp;tablename=' . $tablename . '&amp;dbid=' . $dbid . '&amp;order=' . urlencode($order) . '&amp;orderdir=' . $orderdir . '&amp;limitstart=' . $limitstart . '&amp;sql_statement=' . urlencode($sql['sql_statement']) . '&amp;tdc=' . $tdcompact . '">[no BB]</a>' : '';
 			if ($no_order == false && $showtables == 0) $t.=$pic . '&nbsp;<a title="' . $tt . '" href="sql.php?db=' . $db . '&amp;tablename=' . $tablename . '&amp;dbid=' . $dbid . '&amp;order=' . urlencode($str->name) . '&amp;orderdir=' . $norder . '&amp;sql_statement=' . urlencode($sql['sql_statement']) . '&amp;tdc=' . $tdcompact . '">' . $str->name . '</a>' . $bb_link;
@@ -217,11 +211,11 @@ if ($numrowsabs > 0 && $Anzahl_SQLs <= 1)
 			$t.='</th>';
 		}
 		unset($temp);
-		
+
 		$temp=array();
 		//und jetzt Daten holen
 		mysql_data_seek($res,0);
-		
+
 		$s=$keysort;
 		$s=array_flip($keysort);
 		ksort($s);
@@ -237,19 +231,19 @@ if ($numrowsabs > 0 && $Anzahl_SQLs <= 1)
 			else
 				$temp[$i]=$data[0];
 		}
-		
+
 		$rownr=$limitstart + 1;
 		for ($i=0; $i < $numrows; $i++)
 		{
 			$row=$temp[$i]; // mysql_fetch_row($res);
 			$cl=( $i % 2 ) ? 'dbrow' : 'dbrow1';
 			$erste_spalte=1;
-			
+
 			// bei Tabellenuebersicht soll nach vorgefertigter Reihenfolge sortiert werden, ansonsten einfach Daten anzeigen
 			if ($showtables == 1) $sortkey=$keysort;
 			else $sortkey=$row;
 			$spalte=0;
-			
+
 			// get primary key link for editing
 			if ($key > -1)
 			{
@@ -259,17 +253,17 @@ if ($numrowsabs > 0 && $Anzahl_SQLs <= 1)
 				{
 					if (in_array($rowkey,$keys))
 					{
-						if (strlen($primary_key) > 0) $primary_key.='|';
+						if (strlen($primary_key) > 0) $primary_key.=' AND ';
 						$primary_key.='`' . urlencode($rowkey) . '`=\'' . urlencode($rowval) . '\'';
 					}
 				}
 				//echo "<br><br>Primaerschluessel erkannt: ".$primary_key;
 			}
-			
+
 			foreach ($sortkey as $rowkey=>$rowval)
 			{
 				if (( $rowkey == 'Name' ) && $tabellenansicht == 1 && isset($row['Name'])) $tablename=$row['Name'];
-				
+
 				if ($erste_spalte == 1)
 				{
 					//edit-pics
@@ -293,7 +287,7 @@ if ($numrowsabs > 0 && $Anzahl_SQLs <= 1)
 							$d.='<a href="' . $p . '&amp;mode=edit">' . $icon['edit'] . '</a>&nbsp;';
 						}
 					}
-					
+
 					if ($showtables == 0 && $tabellenansicht == 0)
 					{
 						$d.='<a href="' . $p . '&amp;mode=kill" onclick="if(!confirm(\'' . $lang['L_ASKDELETERECORD'] . '\')) return false;">' . $icon['delete'] . '</a>';
@@ -337,14 +331,14 @@ if ($numrowsabs > 0 && $Anzahl_SQLs <= 1)
 						if (isset($temp[$i][$rowkey])) $data=( $fdesc[$rowkey]['type'] == 'string' || $fdesc[$rowkey]['type'] == 'blob' ) ? convert_to_utf8($temp[$i][$rowkey]) : $temp[$i][$rowkey];
 						else $data='';
 						if (in_array($rowkey,$byte_output)) $data=byte_output($data);
-					
+
 					}
 				}
 				//v($fdesc[$rowkey]);
-				if ($showtables==0) 
+				if ($showtables==0)
 				{
 					if (is_null($rowval)) $data='<i>NULL</i>';
-					
+
 					else $data=htmlspecialchars($data,ENT_COMPAT,'UTF-8');
 				}
 				$spalte++;
@@ -360,7 +354,7 @@ if ($numrowsabs > 0 && $Anzahl_SQLs <= 1)
 		}
 	}
 	echo '</table>';
-	
+
 	if ($showtables == 0) echo '<br>' . $command_line;
 }
 else

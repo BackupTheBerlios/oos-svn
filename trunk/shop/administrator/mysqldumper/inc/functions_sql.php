@@ -33,7 +33,7 @@ function WriteSQL()
 	{
 		$str.=$SQL_ARRAY[$i];
 		if (substr($str,-1) != "\n" && $i != ( count($SQL_ARRAY) - 1 )) $str.="\n";
-	
+
 	}
 	if ($config['magic_quotes_gpc']) $str=stripslashes($str);
 	$fp=fopen($sf,"wb");
@@ -80,7 +80,10 @@ function Table_ComboBox()
 {
 	global $db,$config,$lang,$nl;
 	$tabellen=mysql_query('SHOW TABLES FROM `' . $db . '`',$config['dbconnection']);
-	$num_tables=mysql_num_rows($tabellen);
+	$num_tables = 0;
+	if (is_resource($tabellen)) {
+    	$num_tables=mysql_num_rows($tabellen);
+	}
 	$s=$nl . $nl . '<select class="SQLCombo" name="tablecombo" onchange="this.form.sqltextarea.value=this.options[this.selectedIndex].value;this.form.execsql.click();">' . $nl . '<option value="" selected> ---  </option>' . $nl;
 	for ($i=0; $i < $num_tables; $i++)
 	{
@@ -143,7 +146,7 @@ function Table_Exists($db, $table)
 function DB_Empty($dbn)
 {
 	$r="DROP DATABASE `$dbn`;\nCREATE DATABASE `$dbn`;";
-	MSD_DoSQL($r);
+	return MSD_DoSQL($r);
 
 }
 
@@ -195,7 +198,14 @@ function DB_Copy($source, $destination, $drop_source=0, $insert_data=1)
 	global $config;
 	if (!isset($config['dbconnection'])) MSD_mysql_connect();
 	$SQL_Array=$t="";
-	if (!DB_Exists($destination)) $SQL_Array.="CREATE DATABASE `$destination` ;\n";
+    if (!DB_Exists($destination))
+    {
+        $res = MSD_DoSQL("CREATE DATABASE `$destination`;");
+        if (!$res)
+        {
+            return false;
+        }
+    }
 	$SQL_Array.="USE `$destination` ;\n";
 	$tabellen=mysql_list_tables($source,$config['dbconnection']);
 	$num_tables=mysql_num_rows($tabellen);
@@ -204,16 +214,22 @@ function DB_Copy($source, $destination, $drop_source=0, $insert_data=1)
 		$table=mysql_tablename($tabellen,$i);
 		$sqlt="SHOW CREATE TABLE `$source`.`$table`";
 		$res=MSD_query($sqlt);
-		$row=mysql_fetch_row($res);
-		$c=$row[1];
-		if (substr($c,-1) == ";") $c=substr($c,0,strlen($c) - 1);
-		$SQL_Array.=( $insert_data == 1 ) ? "$c SELECT * FROM `$source`.`$table` ;\n" : "$c ;\n";
+		if ($res)
+        {
+            $row=mysql_fetch_row($res);
+            $c=$row[1];
+            if (substr($c,-1) == ";") $c=substr($c,0,strlen($c) - 1);
+            $SQL_Array.=( $insert_data == 1 ) ? "$c SELECT * FROM `$source`.`$table` ;\n" : "$c ;\n";
+        }
+        else
+        {
+            return false;
+        }
 	}
-	if ($drop_source == 1) $SQL_Array.="DROP DATABASE `$source` ;";
-	
-	mysql_select_db($destination);
-	MSD_DoSQL($SQL_Array);
-
+    mysql_select_db($destination);
+    $res=MSD_DoSQL($SQL_Array);
+    if ($drop_source == 1 && $res) MSD_query("DROP DATABASE `$source`;");
+    return $res;
 }
 
 function Table_Copy($source, $destination, $insert_data, $destinationdb="")
@@ -238,16 +254,16 @@ function Table_Copy($source, $destination, $insert_data, $destinationdb="")
 function MSD_DoSQL($sqlcommands, $limit="")
 {
 	global $config,$out,$numrowsabs,$numrows,$num_befehle,$time_used,$sql;
-	
+
 	if (!isset($sql['parser']['sql_commands'])) $sql['parser']['sql_commands']=0;
 	if (!isset($sql['parser']['sql_errors'])) $sql['parser']['sql_errors']=0;
-	
+
 	$sql['parser']['time_used']=getmicrotime();
 	if (!isset($config['dbconnection'])) MSD_mysql_connect();
 	$out=$sqlcommand='';
 	$allSQL=splitSQLStatements2Array($sqlcommands); #explode(';',preg_replace('/\r\n|\n/', '', $sqlcommands));
 	$sql_queries=count($allSQL);
-	
+
 	if (!isset($allSQL[$sql_queries - 1])) $sql_queries--;
 	if ($sql_queries == 1)
 	{
@@ -258,10 +274,11 @@ function MSD_DoSQL($sqlcommands, $limit="")
 	}
 	else
 	{
+	    $result = true;
 		for ($i=0; $i < $sql_queries; $i++)
 		{
 			$allSQL[$i]=trim(rtrim($allSQL[$i]));
-			
+
 			if ($allSQL[$i] != "")
 			{
 				$sqlcommand.=$allSQL[$i];
@@ -271,13 +288,14 @@ function MSD_DoSQL($sqlcommands, $limit="")
 					//sql complete
 					$sql['parser']['sql_commands']++;
 					$out.=Stringformat(( $sql['parser']['sql_commands'] ),4) . ': ' . $sqlcommand . "\n";
-					$result=MSD_query($sqlcommand);
+					$result=$result && MSD_query($sqlcommand);
 					$sqlcommand="";
 				}
 			}
 		}
 	}
 	$sql['parser']['time_used']=getmicrotime() - $sql['parser']['time_used'];
+	return $result;
 }
 
 function SQLParser($command, $debug=0)
@@ -292,7 +310,7 @@ function SQLParser($command, $debug=0)
 	if (!isset($sql['parser']['comment'])) $sql['parser']['comment']=0;
 	$Backslash=chr(92);
 	$s=rtrim(trim(( $command )));
-	
+
 	//Was ist das für eine Anfrage ?
 	if (substr($s,0,1) == "#" || substr($s,0,2) == "--")
 	{
@@ -317,7 +335,7 @@ function SQLParser($command, $debug=0)
 	}
 	elseif (strtoupper(substr($s,0,7)) == "INSERT " || strtoupper(substr($s,0,7)) == "UPDATE ")
 	{
-		
+
 		if (strtoupper(substr($s,0,7)) == "INSERT ") $sql['parser']['insert']++;
 		else $sql['parser']['update']++;
 		$i=strpos(strtoupper($s)," VALUES") + 7;
@@ -325,7 +343,7 @@ function SQLParser($command, $debug=0)
 		$i=strpos($st,"(") + 1;
 		$st=substr($st,$i);
 		$st=substr($st,0,strlen($st) - 2);
-		
+
 		$tb=explode(",",$st);
 		for ($i=0; $i < count($tb); $i++)
 		{
@@ -354,7 +372,7 @@ function SQLParser($command, $debug=0)
 					break;
 				}
 			}
-			
+
 			//Backslashes zählen
 			for ($cpos=2 + $B_Ticks; $cpos <= strlen($v); $cpos++)
 			{
@@ -367,7 +385,7 @@ function SQLParser($command, $debug=0)
 					break;
 				}
 			}
-			
+
 			if ($v == "NULL" && $sql['parser']['start'] == 0)
 			{
 				$sql['parser']['start']=1;
@@ -388,7 +406,7 @@ function SQLParser($command, $debug=0)
 				$sql['parser']['start']=1;
 				$sql['parser']['end']=1;
 			}
-			
+
 			if (substr($v,0,1) == "'" && $sql['parser']['start'] == 0)
 			{
 				$sql['parser']['start']=1;
@@ -409,7 +427,7 @@ function SQLParser($command, $debug=0)
 					//ist Delimiter maskiert?
 					if (( $B_Esc % 2 ) == 1 && ( $B_Delimiter % 2 ) == 1 && strlen($v) > 2)
 					{
-						
+
 						$sql['parser']['end']=1;
 					}
 					elseif (( $B_Delimiter % 2 ) == 1 && strlen($v) > 2)
@@ -424,7 +442,7 @@ function SQLParser($command, $debug=0)
 					}
 					else
 					{
-						
+
 						$sql['parser']['end']=1;
 					}
 				}
@@ -444,11 +462,11 @@ function SQLOutput($sqlcommand, $meldung='')
 {
 	global $sql,$lang;
 	$s='<h6 align="center">' . $lang['L_SQL_OUTPUT'] . '</h6><div id="sqloutbox"><strong>';
-	if ($meldung != '') $s.=$meldung;
-	
+	if ($meldung != '') $s.=trim($meldung);
+
 	if (isset($sql['parser']['sql_commands']))
 	{
-		$s.='' . $sql['parser']['sql_commands'] . '</strong>' . $lang['L_SQL_COMMANDS_IN'] . round($sql['parser']['time_used'],4) . $lang['L_SQL_COMMANDS_IN2'] . '<br><br>';
+		$s.=' ' . $sql['parser']['sql_commands'] . '</strong>' . $lang['L_SQL_COMMANDS_IN'] . round($sql['parser']['time_used'],4) . $lang['L_SQL_COMMANDS_IN2'] . '<br><br>';
 		$s.=$lang['L_SQL_OUT1'] . '<strong>' . $sql['parser']['drop'] . '</strong> <span style="color:#990099;font-weight:bold;">DROP</span>-, ';
 		$s.='<strong>' . $sql['parser']['create'] . '</strong> <span style="color:#990099;font-weight:bold;">CREATE</span>-, ';
 		$s.='<strong>' . $sql['parser']['insert'] . '</strong> <span style="color:#990099;font-weight:bold;">INSERT</span>-, ';
@@ -505,14 +523,14 @@ function GetPostParams()
 }
 
 // when fieldnames contain spaces or dots they are replaced with underscores
-// we need to built the same index to get the postet values for inserts and updates 
+// we need to built the same index to get the postet values for inserts and updates
 function correct_post_index($index)
 {
 	$index=str_replace(' ','_',$index);
 	$index=str_replace('.','_',$index);
 	return $index;
 }
-function ComboCommandDump($when, $index)
+function ComboCommandDump($when, $index, $disabled = '')
 {
 	global $SQL_ARRAY,$nl,$databases,$lang;
 	if (count($SQL_ARRAY) == 0)
@@ -525,15 +543,17 @@ function ComboCommandDump($when, $index)
 	{
 		if ($when == 0)
 		{
-			$r='<select class="SQLCombo" name="command_before_' . $index . '">';
+			$r='<select class="SQLCombo" name="command_before_' . $index . '"'
+			 . $disabled.'>';
 			$csql=$databases['command_before_dump'][$index];
 		}
 		else
 		{
-			$r='<select class="SQLCombo" name="command_after_' . $index . '">';
+			$r='<select class="SQLCombo" name="command_after_' . $index . '"'
+			          . $disabled.'>';
 			$csql=$databases['command_after_dump'][$index];
 		}
-		
+
 		$r.='<option value="" ' . ( ( $csql == '' ) ? ' selected="selected"' : '' ) . '>&nbsp;</option>' . "\n";
 		if (count($SQL_ARRAY) > 0)
 		{
@@ -552,7 +572,7 @@ function EngineCombo($default="")
 {
 	global $config;
 	if (!$config['dbconnection']) MSD_mysql_connect();
-	
+
 	$r='<option value="" ' . ( ( $default == "" ) ? "selected" : "" ) . '></option>';
 	if (!MSD_NEW_VERSION)
 	{
@@ -596,7 +616,7 @@ function CharsetCombo($default="")
 		{
 			$charsets[]=mysql_fetch_array($res);
 		}
-		
+
 		if (is_array($charsets))
 		{
 			$charsets=mu_sort($charsets,'Charset');
@@ -613,7 +633,7 @@ function GetCollationArray()
 {
 	global $config;
 	if (!isset($config['dbconnection'])) MSD_mysql_connect();
-	
+
 	$res=mysql_query("SHOW Collation");
 	$num=@mysql_num_rows($res);
 	$r=Array();
@@ -675,18 +695,18 @@ function simple_bbcode_conversion($a)
 	global $config;
 	$tag_start='';
 	$tag_end='';
-	
+
 	//replacements
 	$a=nl2br($a);
 	$a=str_replace('<br>',' <br>',$a);
 	$a=str_replace('<br />',' <br>',$a);
-	
+
 	$a=preg_replace("/\[url=(.*?)\](.*?)\[\/url\]/si","<a class=\"small\"  href=\"$1\" target=\"blank\">$2</a>",$a);
 	$a=preg_replace("/\[urltargetself=(.*?)\](.*?)\[\/urltargetself\]/si","<a class=\"small\"  href=\"$1\" target=\"blank\">$2</a>",$a);
 	$a=preg_replace("/\[url\](.*?)\[\/url\]/si","<a class=\"small\"  href=\"$1\" target=\"blank\">$1</a>",$a);
 	$a=preg_replace("/\[ed2k=\+(.*?)\](.*?)\[\/ed2k\]/si","<a class=\"small\"  href=\"$1\" target=\"blank\">$2</a>",$a);
 	$a=preg_replace("/\[ed2k=(.*?)\](.*?)\[\/ed2k\]/si","<a class=\"small\"  href=\"$1\" target=\"blank\">$2</a>",$a);
-	
+
 	$a=preg_replace("/\[center\](.*?)\[\/center\]/si","<div align=\"center\">$1</div>",$a);
 	$a=preg_replace("/\[size=([1-2]?[0-9])\](.*?)\[\/size\]/si","<span style=\"font-size=$1px;\">$2</span>",$a);
 	$a=preg_replace("/\[size=([1-2]?[0-9]):(.*?)\](.*?)\[\/size(.*?)\]/si","<span style=\"font-size=$1px;\">$3</span>",$a);
@@ -711,11 +731,11 @@ function simple_bbcode_conversion($a)
 function ExtractTablenameFromSQL($q)
 {
 	global $databases,$db,$dbid;
-	$tablename=''; 
+	$tablename='';
 	if (strlen($q) > 100) $q=substr($q,0,100);
 	$p=trim($q);
 	// if we get a list of tables - no current table is selected -> return ''
-	if (strtoupper(substr($q,0,17)) == 'SHOW TABLE STATUS') return '';
+	if (strtoupper(substr($p,0,17)) == 'SHOW TABLE STATUS') return '';
 	// check for SELECT-Statement to extract tablename after FROM
 	if (strtoupper(substr($p,0,7)) == 'SELECT ')
 	{
@@ -724,32 +744,35 @@ function ExtractTablenameFromSQL($q)
 		$parts=explode(' ',$p);
 		$p=$parts[0];
 	}
+    // remove keyword DATABASES and the database name after that
+    $p = preg_replace('/DATABASE [`]*\w+[`]*/i', '', $p);
+    // remove other keywords
 	$suchen=array(
-				
-				'SHOW ', 
-				'SELECT', 
-				'DROP', 
-				'INSERT', 
-				'UPDATE', 
-				'DELETE', 
-				'CREATE', 
-				'TABLE', 
-				'STATUS', 
-				'FROM', 
+               'SHOW DATABASES',
+				'SHOW ',
+				'SELECT',
+				'DROP',
+				'INSERT',
+				'UPDATE',
+				'DELETE',
+				'CREATE',
+				'TABLE',
+				'STATUS',
+				'FROM',
 				'*'
 	);
 	$ersetzen=array(
-					
-					'', 
-					'', 
-					'', 
-					'', 
-					'', 
-					'', 
-					'', 
-					'', 
-					'', 
-					'', 
+                    '',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
 					''
 	);
 	$cleaned=trim(str_ireplace($suchen,$ersetzen,$p));
@@ -801,11 +824,11 @@ function make_options($arr, $selected)
 }
 
 /**
- * Reads MySQL field information (depricated: will be substituted by function getExtendedFieldInfos) 
- *  
+ * Reads MySQL field information (depricated: will be substituted by function getExtendedFieldInfos)
+ *
  * Reads field information for each field of a MySQL table
  * and fills an array with the keys detected
- *   
+ *
  * @param $db Database
  * @param $tabelle Table
  * @return array
@@ -818,18 +841,18 @@ function getFieldinfos($db, $tabelle)
 	$sqlf="SHOW FULL FIELDS FROM `$db`.`$tabelle`;";
 	$res=MSD_query($sqlf);
 	$anz_fields=mysql_num_rows($res);
-	
+
 	$fields_infos['_primarykeys_']=array();
 	$fields_infos['_key_']=array();
 	$fields_infos['_uniquekey_']=array();
 	$fields_infos['_fulltextkey_']=array();
-	
+
 	$fields_infos['_tableinfo_']=array(
-										'ENGINE' => 'MyISAM', 
-										'AUTO_INCREMENT' => '', 
+										'ENGINE' => 'MyISAM',
+										'AUTO_INCREMENT' => '',
 										'DEFAULT CHARSET' => ''
 	);
-	
+
 	for ($i=0; $i < $anz_fields; $i++)
 	{
 		// define defaults
@@ -843,7 +866,7 @@ function getFieldinfos($db, $tabelle)
 		$fields_infos[$i]['comment']='';
 		$fields_infos[$i]['type']='';
 		$fields_infos[$i]['privileges']='';
-		
+
 		$row=mysql_fetch_array($res,MYSQL_ASSOC);
 		//v($row);
 		if (isset($row['Collation'])) $fields_infos[$i]['collate']=$row['Collation'];
@@ -871,7 +894,7 @@ function getFieldinfos($db, $tabelle)
 		if (isset($row['Privileges'])) $fields_infos[$i]['privileges']=$row['Privileges'];
 		if (isset($row['privileges'])) $fields_infos[$i]['privileges']=$row['privileges'];
 	}
-	
+
 	// now get key definitions of the table and add info to fields
 	$sql='SHOW KEYS FROM `' . $db . '`.`' . $tabelle . '`';
 	$res=MSD_query($sql);
@@ -881,6 +904,7 @@ function getFieldinfos($db, $tabelle)
 		$key_name=isset($row['Key_name']) ? $row['Key_name'] : '';
 		$index_type=isset($row['Index_type']) ? $row['Index_type'] : '';
 		$column_name=isset($row['Column_name']) ? $row['Column_name'] : '';
+		$non_unique=isset($row['Non_unique']) ? $row['Non_unique'] : '';
 		if ($column_name > '')
 		{
 			// first find indexnr of field
@@ -888,7 +912,14 @@ function getFieldinfos($db, $tabelle)
 			{
 				if ($fields_infos[$index]['name'] == $column_name) break;
 			}
-			if ($key_name == 'PRIMARY') $fields_infos['_primarykeys_'][]=$column_name;
+			if ($key_name == 'PRIMARY')
+				$fields_infos['_primarykeys_'][]=$column_name;
+			elseif ($index_type == 'FULLTEXT')
+				$fields_infos['_fulltextkey_'][]=$column_name;
+			elseif ($non_unique == 0)
+				$fields_infos['_uniquekey_'][]=$column_name;
+			else
+				$fields_infos['_key_'][]=$column_name;
 		}
 	}
 	//v($fields_infos);
@@ -896,15 +927,15 @@ function getFieldinfos($db, $tabelle)
 }
 
 /**
- * Reads extened MySQL field information 
- * 
+ * Reads extened MySQL field information
+ *
  * Reads extened field information for each field of a MySQL table
  * and fills an array like
  * array(
- *  [Fieldname][attribut]=value, 
+ *  [Fieldname][attribut]=value,
  *  ['primary_key']=keys
  * )
- *   
+ *
  * @param $db Database
  * @param $table Table
  * @return array Field infos
@@ -917,8 +948,8 @@ function getExtendedFieldInfo($db, $table)
 	$sqlf="SHOW FULL FIELDS FROM `$db`.`$table`;";
 	$res=MSD_query($sqlf);
 	$num_fields=mysql_num_rows($res);
-	
-	$f=array(); //will hold all info		
+
+	$f=array(); //will hold all info
 	for ($x=0; $x < $num_fields; $x++)
 	{
 		$row=mysql_fetch_array($res,MYSQL_ASSOC);
@@ -936,7 +967,7 @@ function getExtendedFieldInfo($db, $table)
 		$f[$i]['extra']='';
 		$f[$i]['privileges']='';
 		$f[$i]['primary_keys']=array();
-		
+
 		if (isset($row['Collation'])) $f[$i]['collate']=$row['Collation'];
 		if (isset($row['COLLATE'])) $f[$i]['collate']=$row['COLLATE']; // MySQL <4.1
 		if (isset($row['Comment'])) $f[$i]['comment']=$row['Comment'];
@@ -962,7 +993,7 @@ function getExtendedFieldInfo($db, $table)
 		if (isset($row['Privileges'])) $f[$i]['privileges']=$row['Privileges'];
 		if (isset($row['privileges'])) $f[$i]['privileges']=$row['privileges'];
 	}
-	
+
 	// now get key definitions of the table and add info to field-array
 	$sql='SHOW KEYS FROM `' . $db . '`.`' . $table . '`';
 	$res=MSD_query($sql);
@@ -1029,9 +1060,9 @@ function build_where_from_record($data)
 	{
 		$val=str_replace('<span class="treffer">','',$val);
 		$val=str_replace('</span>','',$val);
-		$ret.='`' . $key . '`="' . addslashes($val) . '"|';
+		$ret.='`' . $key . '`="' . addslashes($val) . '" AND ';
 	}
-	$ret=substr($ret,0,-1);
+	$ret=substr($ret,0,-5);
 	return $ret;
 }
 
@@ -1049,8 +1080,17 @@ function getPrimaryKeys($db, $table)
 	while ($row=mysql_fetch_array($res))
 	{
 		//wenn Primaerschluessel
-		if ($row['Key_name'] == "PRIMARY") $keys[]=$row['Column_name'];
+		if ($row['Key_name'] == "PRIMARY") $keys['name'][]=$row['Column_name'];
+		if ($row['Sub_part'] != null) 
+		{
+			$keys['size'][]=$row['Sub_part'];
+		}	
+		else
+		{
+			$keys['size'][]='';
+		}
 	}
+	
 	return $keys;
 }
 
@@ -1078,17 +1118,64 @@ function getAllFields($db, $table)
  * OUTPUT: true/false
  * Author: DH
  */
-function setNewPrimaryKeys($db, $table, $newKeys)
+function setNewPrimaryKeys($db, $table, $newKeys, $indexSizes)
 {
-	$sqlSetNewPrimaryKeys="ALTER TABLE `" . $db . "`.`" . $table . "` DROP PRIMARY KEY";
-	//wenn min. 1 Schluessel im Array, sonst nur loeschen
+    $sqlSetNewPrimaryKeys="ALTER TABLE `" . $db . "`.`" . $table . "`";
+    //wenn es Primaerschluessel gibt, diese loeschen
+    $existingKeys = getPrimaryKeys($db, $table);
+    if (count($existingKeys) > 0)
+    {
+        $sqlSetNewPrimaryKeys.=" DROP PRIMARY KEY";
+    }
+    //wenn min. 1 Schluessel im Array, sonst nur loeschen
 	if (count($newKeys) > 0)
 	{
-		$sqlSetNewPrimaryKeys.=",
-			ADD PRIMARY KEY (`" . implode("`,`",$newKeys) . "`)";
+        if (count($existingKeys) > 0)
+        {
+            $sqlSetNewPrimaryKeys.=", ";
+        }
+        $sqlSetNewPrimaryKeys.=" ADD PRIMARY KEY (";
+		foreach ($newKeys as $id => $name)
+		{
+			if ($id > 0) $sqlSetNewPrimaryKeys.=", ";
+			$sqlSetNewPrimaryKeys.="`" . $name . "`";
+			if ($indexSizes[$id]) {
+				$sqlSetNewPrimaryKeys.=" (" . $indexSizes[$id] . ")";
+			}
+		}
+		$sqlSetNewPrimaryKeys.=")";
 	}
 	$sqlSetNewPrimaryKeys.=";";
 	$res=MSD_query($sqlSetNewPrimaryKeys);
+	return $res;
+}
+
+function setNewKeys($db, $table, $newKeys, $indexType, $indexName, $indexSizes)
+{
+    $sqlSetNewKeys="ALTER TABLE `" . $db . "`.`" . $table . "` ";
+    $sqlSetNewKeys.="ADD ".$indexType." ";
+	if ($indexName)
+	{
+		 $sqlSetNewKeys.="`" . $indexName ."` ";
+	}
+	$sqlSetNewKeys.="(";
+	foreach ($newKeys as $id => $name)
+    {
+		if ($id > 0) $sqlSetNewKeys.=", ";
+		$sqlSetNewKeys.="`" . $name . "`";
+		if ($indexSizes[$id]) {
+			$sqlSetNewKeys.=" (" . $indexSizes[$id] . ")";
+		}
+	}
+	$sqlSetNewKeys.=");";
+	$res=MSD_query($sqlSetNewKeys);
+	return $res;
+}
+
+function killKey($db, $table, $indexName)
+{
+	$sqlKillKey = "ALTER TABLE `".$db."`.`".$table."` DROP INDEX `".$indexName."`";
+	$res=MSD_query($sqlKillKey);
 	return $res;
 }
 
@@ -1097,7 +1184,7 @@ function get_output_attribut_null($null)
 	global $lang;
 	if ($null == '') return $lang['L_YES'];
 	$not_null=array(
-					'NO', 
+					'NO',
 					'NOT NULL'
 	);
 	if (in_array($null,$not_null)) return $lang['L_NO'];

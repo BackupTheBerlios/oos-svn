@@ -1,7 +1,12 @@
 <?php
+error_reporting(E_ALL);
+if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+    error_reporting(E_ALL & ~E_DEPRECATED);
+}
+
 if (function_exists("date_default_timezone_set")) date_default_timezone_set(@date_default_timezone_get());
 //Konstanten
-if (!defined('MSD_VERSION')) define('MSD_VERSION','1.24.2');
+if (!defined('MSD_VERSION')) define('MSD_VERSION','1.24.3');
 if (!defined('MSD_OS')) define('MSD_OS',PHP_OS);
 if (!defined('MSD_OS_EXT')) define('MSD_OS_EXT',@php_uname());
 if (!defined('config') || !is_array($config)) $config=array();
@@ -30,7 +35,6 @@ $config['files']['log']=$config['paths']['log'] . 'mysqldump.log';
 $config['files']['perllog']=$config['paths']['log'] . 'mysqldump_perl.log';
 $config['files']['perllogcomplete']=$config['paths']['log'] . 'mysqldump_perl.complete.log';
 $config['files']['parameter']=$config['paths']['config'] . $config['config_file'] . '.php';
-$config['files']['dbs_manual']=$config['paths']['config'] . 'dbs_manual.php';
 
 // inti MySQL-Setting-Vars
 $config['mysql_standard_character_set']='';
@@ -64,7 +68,7 @@ $config['tuning_add']=1.1;
 $config['tuning_sub']=0.9;
 $config['time_buffer']=0.75; //max_zeit=$config['max_execution_time']*$config['time_buffer']
 $config['perlspeed']=10000; //Anzahl der Datensaetze, die in einem Rutsch gelesen werden
-
+$config['ignore_enable_keys'] = 0;
 
 //Bausteine
 $config['homepage']='http://mysqldumper.net';
@@ -101,8 +105,10 @@ $config_dontsave=Array(
 					'files'
 );
 
+$dontBackupDatabases = array('mysql', 'information_schema');
+
 // Automatisches entfernen von Slashes und Leerzeichen vorn und hinten abschneiden
-if (1==get_magic_quotes_gpc()) 
+if (1==get_magic_quotes_gpc())
 {
 	$_POST=stripslashes_deep($_POST);
 	$_GET=stripslashes_deep($_GET);

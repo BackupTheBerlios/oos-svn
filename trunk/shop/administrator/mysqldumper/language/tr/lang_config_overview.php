@@ -90,8 +90,7 @@ $lang['L_CONFIGFILE']="Ayar dosyası";
 $lang['L_MYSQL_DATA']="MySQL Verileri";
 $lang['L_CONFIGURATIONS']="Ayarlar";
 $lang['L_ACTION']="İşlem";
-$lang['L_FTP_SEND_TO']="adress <strong>%s</strong><br>klasör <strong>%s</strong>
-";
+$lang['L_FTP_SEND_TO']="adress <strong>%s</strong><br>klasör <strong>%s</strong>";
 $lang['L_FTP']="FTP";
 $lang['L_EMAIL_CC']="CC-Alıcı";
 $lang['L_NAME']="İsim";

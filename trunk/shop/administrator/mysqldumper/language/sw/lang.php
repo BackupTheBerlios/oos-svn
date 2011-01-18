@@ -105,6 +105,8 @@ $lang['L_BACKUPS']="backup(er)";
 $lang['L_MINUTES']="minuter";
 $lang['L_PAGE_REFRESHS']="sidvisningar";
 $lang['L_MINUTE']="minut";
+$lang['L_SETKEYSFOR']="Set new indexes for table";
+$lang['L_KEY_CONFIRMDELETE']="Really delete index?";
 
 
 ?>
