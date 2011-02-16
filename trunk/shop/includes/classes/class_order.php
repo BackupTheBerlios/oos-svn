@@ -289,6 +289,9 @@ class order
 
         $class =& $_SESSION['payment'];
 
+        $_SESSION['customer_country_id'] = $shipping_address['entry_country_id'];
+        $_SESSION['customer_zone_id'] = $shipping_address['entry_zone_id'];
+
         $this->info = array('order_status' => DEFAULT_ORDERS_STATUS_ID,
                             'campaigns' => $_SESSION['campaigns_id'],
                             'currency' => $_SESSION['currency'],
