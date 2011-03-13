@@ -59,9 +59,11 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			if ( $current_blog )
 				wp_cache_set( 'current_blog_' . $domain, $current_blog, 'site-options' );
 		}
-		if ( $current_blog && $current_blog->site_id != $current_site->id )
+		if ( $current_blog && $current_blog->site_id != $current_site->id ) {
 			$current_site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE id = %d", $current_blog->site_id ) );
-		else
+			if ( ! isset( $current_site->blog_id ) )
+				$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
+		} else
 			$blogname = substr( $domain, 0, strpos( $domain, '.' ) );
 	} else {
 		$blogname = htmlspecialchars( substr( $_SERVER[ 'REQUEST_URI' ], strlen( $path ) ) );
@@ -78,6 +80,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			if ( $current_blog )
 				wp_cache_set( 'current_blog_' . $domain . $path, $current_blog, 'site-options' );
 		}
+		unset($reserved_blognames);
 	}
 
 	if ( ! defined( 'WP_INSTALLING' ) && is_subdomain_install() && ! is_object( $current_blog ) ) {
@@ -117,8 +120,8 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		if ( defined( 'WP_INSTALLING' ) ) {
 			$current_blog->blog_id = $blog_id = 1;
 		} else {
-			$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? ' ' . /*WP_I18N_TABLES_MISSING*/'Database tables are missing.'/*/WP_I18N_TABLES_MISSING*/ : '';
-			wp_die( /*WP_I18N_NO_BLOG*/'No site by that name on this system.'/*/WP_I18N_NO_BLOG*/ . $msg );
+			$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? ' ' . /*WP_I18N_TABLES_MISSING*/'Es fehlen Tabellen in der Datenbank.'/*/WP_I18N_TABLES_MISSING*/ : '';
+			wp_die( /*WP_I18N_NO_BLOG*/'Es existiert kein Blog mit diesem Namen.'/*/WP_I18N_NO_BLOG*/ . $msg );
 		}
 	}
 }

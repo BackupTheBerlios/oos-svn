@@ -67,7 +67,7 @@ $table_prefix  = 'wp_';
  * Sprachdatei muss im Ordner wp-content/languages vorhanden sein, beispielsweise de_DE.mo
  * Wenn du nichts einträgst, wird Englisch genommen.
  */
-define ('WPLANG', 'de_DE');
+define('WPLANG', 'de_DE');
 
 /**
  * For developers: WordPress debugging mode.

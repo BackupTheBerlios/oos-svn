@@ -26,6 +26,36 @@ function is_subdomain_install() {
 }
 
 /**
+ * Returns array of network plugin files to be included in global scope.
+ *
+ * The default directory is wp-content/plugins. To change the default directory
+ * manually, define <code>WP_PLUGIN_DIR</code> and <code>WP_PLUGIN_URL</code>
+ * in wp-config.php.
+ *
+ * @access private
+ * @since 3.1.0
+ * @return array Files to include
+ */
+function wp_get_active_network_plugins() {
+	$active_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
+	if ( empty( $active_plugins ) )
+		return array();
+
+	$plugins = array();
+	$active_plugins = array_keys( $active_plugins );
+	sort( $active_plugins );
+
+	foreach ( $active_plugins as $plugin ) {
+		if ( ! validate_file( $plugin ) // $plugin must validate as file
+			&& '.php' == substr( $plugin, -4 ) // $plugin must end with '.php'
+			&& file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist
+			)
+		$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
+	}
+	return $plugins;
+}
+
+/**
  * Checks status of current blog.
  *
  * Checks if the blog is deleted, inactive, archived, or spammed.
@@ -51,28 +81,24 @@ function ms_site_check() {
 		return true;
 
 	if ( '1' == $current_blog->deleted ) {
-		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) ) {
+		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) )
 			return WP_CONTENT_DIR . '/blog-deleted.php';
-		} else {
-			header( 'HTTP/1.1 410 Gone' );
-			wp_die( /*WP_I18N_USER_DELETED_BLOG*/'Der Benutzer hat entschieden, sein Benutzerkonto zu löschen, weshalb dieser Inhalt nicht mehr verf&uuml;gbar ist.'/*/WP_I18N_USER_DELETED_BLOG*/ );
-		}
+		else
+			wp_die( __( 'Der Benutzer hat entschieden, sein Benutzerkonto zu l&ouml;schen, weshalb dieser Inhalt nicht mehr verf&uuml;gbar ist.' ), '', array( 'response' => 410 ) );
 	}
 
 	if ( '2' == $current_blog->deleted ) {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) )
 			return WP_CONTENT_DIR . '/blog-inactive.php';
 		else
-			wp_die( sprintf( /*WP_I18N_BLOG_NOT_ACTIVATED*/'Dieser Blog wurde noch nicht aktiviert. Wenn du Probleme beim Aktivieren deines Blogs hast, kontaktiere bitte <a href="mailto:%1$s">%1$s</a>.'/*/WP_I18N_BLOG_NOT_ACTIVATED*/, str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
+			wp_die( sprintf( __( 'Dieser Blog wurde noch nicht aktiviert. Wenn du Probleme beim Aktivieren deines Blogs hast, kontaktiere bitte <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
 	}
 
 	if ( $current_blog->archived == '1' || $current_blog->spam == '1' ) {
-		if ( file_exists( WP_CONTENT_DIR . '/blog-suspended.php' ) ) {
+		if ( file_exists( WP_CONTENT_DIR . '/blog-suspended.php' ) )
 			return WP_CONTENT_DIR . '/blog-suspended.php';
-		} else {
-			header( 'HTTP/1.1 410 Gone' );
-			wp_die( /*WP_I18N_ARCHIVED*/'Dieser Blog wurde deaktiviert oder archiviert.'/*/WP_I18N_ARCHIVED*/ );
-		}
+		else
+			wp_die( __( 'Dieser Blog wurde deaktiviert oder archiviert.' ), '', array( 'response' => 410 ) );
 	}
 
 	return true;
@@ -87,16 +113,15 @@ function ms_site_check() {
  */
 function get_current_site_name( $current_site ) {
 	global $wpdb;
-	$current_site->site_name = wp_cache_get( $current_site->id . ':current_site_name', 'site-options' );
+
+	$current_site->site_name = wp_cache_get( $current_site->id . ':site_name', 'site-options' );
 	if ( ! $current_site->site_name ) {
-		$current_site->site_name = wp_cache_get( $current_site->id . ':site_name', 'site-options' );
-		if ( ! $current_site->site_name ) {
-			$current_site->site_name = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = %d AND meta_key = 'site_name'", $current_site->id ) );
-			if ( ! $current_site->site_name )
-				$current_site->site_name = ucfirst( $current_site->domain );
-		}
-		wp_cache_set( $current_site->id . ':current_site_name', $current_site->site_name, 'site-options' );
+		$current_site->site_name = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = %d AND meta_key = 'site_name'", $current_site->id ) );
+		if ( ! $current_site->site_name )
+			$current_site->site_name = ucfirst( $current_site->domain );
 	}
+	wp_cache_set( $current_site->id . ':site_name', $current_site->site_name, 'site-options' );
+
 	return $current_site;
 }
 
@@ -185,7 +210,7 @@ function wpmu_current_site() {
 	if ( 1 == count( $sites ) )
 		wp_die( sprintf( /*WP_I18N_BLOG_DOESNT_EXIST*/'Dieser Blog existiert nicht. Bitte probiere stattdessen <a href="%s">%s</a>.'/*/WP_I18N_BLOG_DOESNT_EXIST*/, $sites[0]->domain . $sites[0]->path ) );
 	else
-		wp_die( /*WP_I18N_NO_SITE_DEFINED*/'Es wurde kein Blog definiert. Wenn du der Besitzer dieser Website bist, lese bitte  <a href="http://codex.wordpress.org/Debugging_a_WordPress_Network">Debugging a WordPress Network</a> f&uuml;r weitere Informationen'/*/WP_I18N_NO_SITE_DEFINED*/ );
+		wp_die( /*WP_I18N_NO_SITE_DEFINED*/'Es wurde kein Blog definiert. Wenn du der Besitzer dieser Website bist, lese bitte <a href="http://codex.wordpress.org/Debugging_a_WordPress_Network">Debugging a WordPress Network</a> f&uuml;r weitere Informationen.'/*/WP_I18N_NO_SITE_DEFINED*/ );
 }
 
 /**
@@ -199,11 +224,11 @@ function wpmu_current_site() {
 function ms_not_installed() {
 	global $wpdb, $domain, $path;
 
-	$title = /*WP_I18N_FATAL_ERROR*/'Error establishing database connection'/*/WP_I18N_FATAL_ERROR*/;
+	$title = /*WP_I18N_FATAL_ERROR*/'Fehler beim Aufbau der Datenbankverbindung'/*/WP_I18N_FATAL_ERROR*/;
 	$msg  = '<h1>' . $title . '</h1>';
 	if ( ! is_admin() )
 		die( $msg );
-	$msg .= '<p>' . /*WP_I18N_CONTACT_OWNER*/'If your site does not display, please contact the owner of this network.'/*/WP_I18N_CONTACT_OWNER*/ . '';
+	$msg .= '<p>' . /*WP_I18N_CONTACT_OWNER*/'Falls dein Blog nicht angezeigt wird, setze dich mit dem Administrator in Verbindung.'/*/WP_I18N_CONTACT_OWNER*/ . '';
 	$msg .= ' ' . /*WP_I18N_CHECK_MYSQL*/'If you are the owner of this network please check that MySQL is running properly and all tables are error free.'/*/WP_I18N_CHECK_MYSQL*/ . '</p>';
 	if ( false && !$wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
 		$msg .= '<p>' . sprintf( /*WP_I18N_TABLES_MISSING_LONG*/'<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted <code>%s</code>. You really should look at your database now.'/*/WP_I18N_TABLES_MISSING_LONG*/, $wpdb->site ) . '</p>';
