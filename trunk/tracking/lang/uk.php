@@ -1,7 +1,4 @@
 <?php 
-
-setlocale(LC_TIME, 'uk_UA.UTF-8');
-
 $translations = array(
 	'General_Locale' => 'uk_UA.UTF-8',
 	'General_TranslatorName' => '<a href="http://webdevbyjoss.blogspot.com/">Joseph Chereshnovsky</a>, Anton Andriyevskyy',

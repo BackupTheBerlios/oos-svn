@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3877 2011-02-13 00:19:07Z matt $
+ * @version $Id: Controller.php 4053 2011-03-10 04:05:39Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -352,12 +352,15 @@ class Piwik_Referers_Controller extends Piwik_Controller
 // Then it writes the list of best keywords in a HTML list
 function DisplayTopKeywords($url = "")
 {
+	// Do not spend more than 1 second fetching the data
+	@ini_set("default_socket_timeout", $timeout = 1);
 	// Get the Keywords data
 	$url = empty($url) ? "http://". $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
 	$api = "'.$api.'&url=" . urlencode($url);
 	$keywords = @unserialize(file_get_contents($api));
-	if($keywords === false || isset($keywords["result"])) { 
-		echo "Error while fetching the <a href=\'$api\'>Top Keywords from Piwik</a>"; return; 
+	if($keywords === false || isset($keywords["result"])) {
+		// DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth) 
+		// echo "Error while fetching the <a href=\'$api\'>Top Keywords from Piwik</a>"; return; 
 	}
 
 	// Display the list in HTML

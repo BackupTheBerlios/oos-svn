@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Common.php 3986 2011-02-28 06:04:30Z vipsoft $
+ * @version $Id: Common.php 4096 2011-03-16 03:16:47Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -310,7 +310,7 @@ class Piwik_Common
 	 * @param string $urlQuery result of parse_url()['query'] and htmlentitied (& is &amp;) eg. module=test&amp;action=toto or ?page=test
 	 * @param string $param
 	 *
-	 * @return string|bool Parameter value if found (can be the empty string!), false if not found
+	 * @return string|bool Parameter value if found (can be the empty string!), null if not found
 	 */
 	static public function getParameterFromQueryString( $urlQuery, $parameter)
 	{
@@ -319,7 +319,7 @@ class Piwik_Common
 		{
 			return $nameToValue[$parameter];
 		}
-		return false;
+		return null;
 	}
 
 	/**
@@ -360,7 +360,7 @@ class Piwik_Common
 			else
 			{
 				$name = $value;
-				$value = '';
+				$value = false;
 			}
 
 			// if array without indexes
@@ -590,9 +590,25 @@ class Piwik_Common
 	static public function sanitizeInputValue($value)
 	{
 		// $_GET and $_REQUEST already urldecode()'d
-		$value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
-		$value = str_replace(array("\n","\r","\0"), "", $value);
-		return htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
+
+		// decode
+		// note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
+		$value = html_entity_decode($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+
+		// filter
+		$value = str_replace(array("\n", "\r", "\0"), "", $value);
+
+		// escape
+		$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
+
+		// note: php 5.2.5 and above, htmlspecialchars is destructive if input is not UTF-8
+		if($value != '' && $tmp == '' && function_exists('iconv'))
+		{
+			// convert and escape
+			$value = @iconv('ISO-8859-1', 'UTF-8', $value);
+			$tmp = htmlspecialchars( $value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8' );
+		}
+		return $tmp;
 	}
 
 	/**
@@ -663,7 +679,6 @@ class Piwik_Common
 
 		// Normal case, there is a value available in REQUEST for the requested varName
 		$value = self::sanitizeInputValues( $requestArrayToUse[$varName] );
-
 		if( !is_null($varType))
 		{
 			$ok = false;

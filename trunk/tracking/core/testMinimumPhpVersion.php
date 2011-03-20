@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: testMinimumPhpVersion.php 3707 2011-01-11 19:26:18Z vipsoft $
+ * @version $Id: testMinimumPhpVersion.php 4076 2011-03-12 16:00:01Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -37,7 +37,7 @@ if($piwik_zend_compatibility_mode == 1)
 				If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file. You may have to ask your system administrator.</p>";
 }
 
-if(!class_exists('ArrayObject', false))
+if(!class_exists('ArrayObject'))
 {
 	$piwik_errorMessage .= "<p><b>Piwik and Zend Framework require the SPL extension</p> 
 				<p>It appears your PHP was compiled with --disable-spl.

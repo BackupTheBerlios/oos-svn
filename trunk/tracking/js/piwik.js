@@ -30,6 +30,13 @@
  ************************************************************/
 /*jslint evil: true, strict: true, regexp: false */
 /*global JSON2 */
+/*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON2, "\\", apply,
+    call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
+    getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
+    lastIndex, length, parse, prototype, push, replace, slice, stringify,
+    test, toJSON, toString, valueOf,
+    objectToJSON
+*/
 
 // Create a JSON object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
@@ -46,24 +53,31 @@ if (!this.JSON2) {
         return n < 10 ? '0' + n : n;
     }
 
-    if (typeof Date.prototype.toJSON !== 'function') {
+    function objectToJSON(value, key) {
+        var objectType = Object.prototype.toString.apply(value);
 
-        Date.prototype.toJSON = function (key) {
+        if (objectType === '[object Date]') {
+            return isFinite(value.valueOf()) ?
+                value.getUTCFullYear()     + '-' +
+                f(value.getUTCMonth() + 1) + '-' +
+                f(value.getUTCDate())      + 'T' +
+                f(value.getUTCHours())     + ':' +
+                f(value.getUTCMinutes())   + ':' +
+                f(value.getUTCSeconds())   + 'Z' : null;
+        }
 
-            return isFinite(this.valueOf()) ?
-                this.getUTCFullYear()     + '-' +
-                f(this.getUTCMonth() + 1) + '-' +
-                f(this.getUTCDate())      + 'T' +
-                f(this.getUTCHours())     + ':' +
-                f(this.getUTCMinutes())   + ':' +
-                f(this.getUTCSeconds())   + 'Z' : null;
-        };
+        if (objectType === '[object String]' ||
+                objectType === '[object Number]' ||
+                objectType === '[object Boolean]') {
+            return value.valueOf();
+        }
 
-        String.prototype.toJSON      =
-            Number.prototype.toJSON  =
-            Boolean.prototype.toJSON = function (key) {
-                return this.valueOf();
-            };
+        if (objectType !== '[object Array]' &&
+                typeof value.toJSON === 'function') {
+            return value.toJSON(key);
+        }
+
+        return value;
     }
 
     var cx = new RegExp('[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]', 'g'),
@@ -81,7 +95,6 @@ if (!this.JSON2) {
         },
         rep;
 
-
     function quote(string) {
 
 // If the string contains no control characters, no quote characters, and no
@@ -97,7 +110,6 @@ if (!this.JSON2) {
         }) + '"' : '"' + string + '"';
     }
 
-
     function str(key, holder) {
 
 // Produce a string from holder[key].
@@ -112,9 +124,8 @@ if (!this.JSON2) {
 
 // If the value has a toJSON method, call it to obtain a replacement value.
 
-        if (value && typeof value === 'object' &&
-                typeof value.toJSON === 'function') {
-            value = value.toJSON(key);
+        if (value && typeof value === 'object') {
+            value = objectToJSON(value, key);
         }
 
 // If we were called with a replacer function, then call the replacer to
@@ -268,7 +279,6 @@ if (!this.JSON2) {
         };
     }
 
-
 // If the JSON object does not yet have a parse method, give it one.
 
     if (typeof JSON2.parse !== 'function') {
@@ -299,7 +309,6 @@ if (!this.JSON2) {
                 }
                 return reviver.call(holder, key, value);
             }
-
 
 // Parsing happens in four stages. In the first stage, we replace certain
 // Unicode characters with escape sequences. JavaScript handles many characters
@@ -356,8 +365,41 @@ if (!this.JSON2) {
  * end JSON
  ************************************************************/
 
-/*jslint browser:true, forin:true, plusplus:false, onevar:false, strict:true, evil:true */
+/*jslint browser:true, plusplus:false, onevar:false, strict:true, evil:true */
 /*global window unescape ActiveXObject _paq:true */
+/*members encodeURIComponent, decodeURIComponent,
+	shift, unshift,
+	addEventListener, attachEvent, removeEventListener, detachEvent,
+	cookie, domain, readyState, documentElement, doScroll, title,
+	location, top, document, referrer, parent, links, href, protocol, GearsFactory,
+	event, which, button, srcElement, type, target,
+	parentNode, tagName, hostname, className,
+	userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
+	XMLHttpRequest, ActiveXObject, open, setRequestHeader, send,
+	getTime, setTime, toGMTString, getHours, getMinutes, getSeconds,
+	toLowerCase, charAt, indexOf, split,
+	onLoad, src,
+	round, random,
+	exec,
+	res, width, height,
+	pdf, qt, realp, wma, dir, fla, java, gears, ag,
+	hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, setSiteId,
+	setCustomData, getCustomData,
+	setCustomVariable, getCustomVariable, deleteCustomVariable,
+	setDownloadExtensions, addDownloadExtensions,
+	setDomains, setIgnoreClasses, setRequestMethod,
+	setReferrerUrl, setCustomUrl, setDocumentTitle,
+	setDownloadClasses, setLinkClasses,
+	discardHashTag,
+	setCookieNamePrefix, setCookieDomain, setCookiePath,
+	setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout
+	setConversionAttributionFirstReferrer,
+	doNotTrack, setDoNotTrack,
+	addListener, enableLinkTracking, setLinkTrackingTimer,
+	setHeartBeatTimer, killFrame, redirectFile,
+	trackGoal, trackLink, trackPageView,
+	addPlugin, getTracker, getAsyncTracker
+*/
 var
 	// asynchronous tracker (or proxy)
 	_paq = _paq || [],
@@ -472,9 +514,11 @@ var
 				pluginMethod;
 
 			for (i in plugins) {
-				pluginMethod = plugins[i][methodName];
-				if (isFunction(pluginMethod)) {
-					result += pluginMethod(callback);
+				if (Object.prototype.hasOwnProperty.call(plugins, i)) {
+					pluginMethod = plugins[i][methodName];
+					if (isFunction(pluginMethod)) {
+						result += pluginMethod(callback);
+					}
 				}
 			}
 
@@ -526,6 +570,8 @@ var
 		 * Add onload or DOM ready handler
 		 */
 		function addReadyListener() {
+			var _timer;
+
 			if (documentAlias.addEventListener) {
 				addEventListener(documentAlias, 'DOMContentLoaded', function ready() {
 					documentAlias.removeEventListener('DOMContentLoaded', ready, false);
@@ -556,7 +602,7 @@ var
 
 			// sniff for older WebKit versions
 			if ((new RegExp('WebKit')).test(navigatorAlias.userAgent)) {
-				var _timer = setInterval(function () {
+				_timer = setInterval(function () {
 					if (hasLoaded || /loaded|complete/.test(documentAlias.readyState)) {
 						clearInterval(_timer);
 						loadHandler();
@@ -1253,7 +1299,9 @@ var
 
 				// browser features
 				for (i in browserFeatures) {
-					request += '&' + i + '=' + browserFeatures[i];
+					if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
+						request += '&' + i + '=' + browserFeatures[i];
+					}
 				}
 
 				// custom data
@@ -1269,8 +1317,10 @@ var
 
 					// Don't save deleted custom variables in the cookie
 					for (i in customVariablesCopy) {
-						if (customVariables[i][0] === '' || customVariables[i][1] === '') {
-							delete customVariables[i];
+						if (Object.prototype.hasOwnProperty.call(customVariablesCopy, i)) {
+							if (customVariables[i][0] === '' || customVariables[i][1] === '') {
+								delete customVariables[i];
+							}
 						}
 					}
 
@@ -1445,14 +1495,6 @@ var
 						// track outlinks and all downloads
 						linkType = getLinkType(sourceElement.className, sourceHref, isSiteHostName(sourceHostName));
 						if (linkType) {
-							// This block commented out to preserve the user experience.
-/*
-							// WebKit/Chrome/Safari:
-							// - "Failed to load resource" for onclick tracking requests where target opens in current window/tab
-							if ((new RegExp('WebKit')).test(navigatorAlias.userAgent) && (new RegExp('^(_self|_top|_parent|_main|_media|_search|)$')).test(sourceElement.target) && linkType === 'link') {
-								sourceElement.target = '_blank';
-							}
- */
 							logLink(sourceHref, linkType);
 						}
 					}
@@ -1554,8 +1596,10 @@ var
 				// general plugin detection
 				if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
 					for (i in pluginMap) {
-						mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
-						browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
+						if (Object.prototype.hasOwnProperty.call(pluginMap, i)) {
+							mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
+							browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
+						}
 					}
 				}
 
@@ -1639,6 +1683,15 @@ var
 				 */
 				getVisitorId: function () {
 					return (loadVisitorId())[1];
+				},
+
+				/**
+				 * Get the visitor information (from first party cookie)
+				 *
+				 * @return array
+				 */
+				getVisitorInfo: function() {
+					return loadVisitorId();
 				},
 
 				/**
@@ -1935,6 +1988,12 @@ var
 				 *
 				 * To capture more "clicks", the pseudo click-handler uses mousedown + mouseup events.
 				 * This is not industry standard and is vulnerable to false positives (e.g., drag events).
+				 *
+				 * There is a Safari/Chrome/Webkit bug that prevents tracking requests from being sent
+				 * by either click handler.  The workaround is to set a target attribute (which can't
+				 * be "_self", "_top", or "_parent").
+				 *
+				 * @see https://bugs.webkit.org/show_bug.cgi?id=54783
 				 *
 				 * @param bool enable If true, use pseudo click-handler (mousedown+mouseup)
 				 */

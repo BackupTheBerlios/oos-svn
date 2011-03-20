@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3966 2011-02-23 20:50:16Z JulienM $
+ * @version $Id: API.php 4028 2011-03-05 15:05:26Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
@@ -418,8 +418,10 @@ class Piwik_SitesManager_API
 		
 		$db->query("DELETE FROM ".Piwik_Common::prefixTable("access")." 
 					WHERE idsite = ?", $idSite);
-		
+
 		Piwik_Common::deleteCacheWebsiteAttributes($idSite);
+
+		Piwik_PostEvent('SitesManager.deleteSite', $idSite);
 	}
 	
 	

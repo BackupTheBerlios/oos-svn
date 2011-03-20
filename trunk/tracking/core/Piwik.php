@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Piwik.php 3976 2011-02-26 04:57:30Z vipsoft $
+ * @version $Id: Piwik.php 4094 2011-03-16 01:20:42Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -649,7 +649,7 @@ class Piwik
 	 */
 	static public function serveStaticFile($file, $contentType)
 	{
-		if (file_exists($file) && function_exists('readfile'))
+		if (file_exists($file))
 		{
 			// conditional GET
 			$modifiedSince = '';
@@ -719,7 +719,6 @@ class Piwik
 								}
 
 								file_put_contents($filegz, $data);
-								$file = $filegz;
 							}
 
 							$compressed = true;
@@ -756,7 +755,7 @@ class Piwik
 					@header('Content-Encoding: ' . $encoding);
 				}
 
-				if(!@readfile($file))
+				if(!_readfile($file))
 				{
 					self::setHttpStatus('505 Internal server error');
 				}
@@ -1853,7 +1852,7 @@ class Piwik
 		$l = strlen($userLogin);
 		if(!($l >= $loginMinimumLength
 				&& $l <= $loginMaximumLength
-				&& (preg_match('/^[A-Za-z0-9_.@-]*$/', $userLogin) > 0))
+				&& (preg_match('/^[A-Za-z0-9_.@+-]*$/', $userLogin) > 0))
 		)
 		{
 			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));

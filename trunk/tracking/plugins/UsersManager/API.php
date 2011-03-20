@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 3845 2011-02-04 06:29:32Z matt $
+ * @version $Id: API.php 4039 2011-03-06 13:56:25Z JulienM $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
@@ -143,7 +143,8 @@ class Piwik_UsersManager_API
 		$db = Zend_Registry::get('db');
 		$users = $db->fetchAll("SELECT login,idsite 
 								FROM ".Piwik_Common::prefixTable("access")
-								." WHERE access = ?", $access);
+								." WHERE access = ?
+								ORDER BY login, idsite", $access);
 		$return = array();
 		foreach($users as $user)
 		{

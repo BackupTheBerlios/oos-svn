@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Visit.php 3986 2011-02-28 06:04:30Z vipsoft $
+ * @version $Id: Visit.php 4052 2011-03-09 22:01:42Z JulienM $
  *
  * @category Piwik
  * @package Piwik
@@ -434,7 +434,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'idsite' 					=> $this->idsite,
 			'visitor_localtime' 		=> $localTime,
 			'idvisitor' 				=> $idcookie,
-			'visitor_returning' 		=> $visitCount > 1 || $this->isVisitorKnown(),
+			'visitor_returning' 		=> $visitCount > 1 || $this->isVisitorKnown() ? 1 : 0,
 			'visitor_count_visits'		=> $visitCount,
 			'visitor_days_since_last'	=> $daysSinceLastVisit,
 			'visitor_days_since_first' 	=> $daysSinceFirstVisit,

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Action.php 3870 2011-02-12 13:34:53Z matt $
+ * @version $Id: Action.php 4096 2011-03-16 03:16:47Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -159,8 +159,19 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 				{
 					foreach ($value as $param)
 					{
-						$validQuery .= $name.'[]='.$param.$separator;
+						if($param === false)
+						{
+							$validQuery .= $name.'[]'.$separator;
+						}
+						else
+						{
+							$validQuery .= $name.'[]='.$param.$separator;
+						}
 					}
+				}
+				else if($value === false)
+				{
+					$validQuery .= $name.$separator;
 				}
 				else
 				{
@@ -354,6 +365,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			}
 		}
 
+		// handle encoding
 		$actionName = Piwik_Common::getRequestVar( 'action_name', '', 'string', $this->request);
 
 		// defaults to page view 

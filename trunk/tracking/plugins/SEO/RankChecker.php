@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: RankChecker.php 3747 2011-01-15 18:59:42Z vipsoft $
+ * @version $Id: RankChecker.php 4025 2011-03-04 16:28:41Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_SEO
@@ -111,7 +111,7 @@ class Piwik_SEO_RankChecker
 		$url = preg_replace('/^www\./', '', $this->url);
 		$url = 'http://www.who.is/whois/'.urlencode($url);
 		$data = $this->getPage($url);
-		preg_match('#Creation Date:\s+([a-z0-9/-]+)#si', $data, $p);
+		preg_match('#(?:Creation Date|Created On):\s*([a-z0-9/-]+)#si', $data, $p);
 		if(!isset($p[1]))
 		{
 			return null;

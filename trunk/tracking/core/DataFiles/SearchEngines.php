@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: SearchEngines.php 3913 2011-02-15 18:48:08Z vipsoft $
+ * @version $Id: SearchEngines.php 4075 2011-03-12 00:52:21Z vipsoft $
  *
  * @category Piwik
  * @package DataFiles
@@ -84,6 +84,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 	
 		// ABCsøk
 		'abcsok.no'					=> array('ABCsøk', 'q', '?q={k}'),
+		'verden.abcsok.no'			=> array('ABCsøk'),
 
 		// about
 		'search.about.com'			=> array('About', 'terms', '?terms={k}'),
@@ -393,8 +394,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'googel.{}'					=> array('Google'),
 
 		// Powered by Google
-		'verden.abcsok.no'			=> array('Google'),
 		'search.avg.com'			=> array('Google'),
+		'www.cnn.com'				=> array('Google', 'query'),
 		'darkoogle.com'				=> array('Google'),
 		'search.darkoogle.com'		=> array('Google'),
 		'search.hiyo.com'			=> array('Google'),
@@ -821,6 +822,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Witch
 		'www.witch.de'				=> array('Witch', 'search', 'search-result.php?cn=0&search={k}'),
 
+		// Wirtualna Polska
+		'szukaj.wp.pl'				=> array('Wirtualna Polska', 'szukaj', 'http://szukaj.wp.pl/szukaj.html?szukaj={k}'),
+
 		// WWW
 		'search.www.ee'				=> array('www värav', 'query'),
 
@@ -858,7 +862,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'cade.images.yahoo.com'		=> array('Yahoo! Images'),
 		'espanol.images.yahoo.com'	=> array('Yahoo! Images'),
 		'qc.images.yahoo.com'		=> array('Yahoo! Images'),
-	
+
+		// Yam
+		'search.yam.com'			=> array('Yam', 'k', 'Search/Web/?SearchType=web&k={k}'),
+
 		// Yandex
 		'yandex.com'				=> array('Yandex', 'text', 'yandsearch?text={k}'),
 		'yandex.{}'					=> array('Yandex'),
