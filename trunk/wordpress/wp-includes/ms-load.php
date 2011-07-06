@@ -84,21 +84,21 @@ function ms_site_check() {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) )
 			return WP_CONTENT_DIR . '/blog-deleted.php';
 		else
-			wp_die( __( 'Der Benutzer hat entschieden, sein Benutzerkonto zu l&ouml;schen, weshalb dieser Inhalt nicht mehr verf&uuml;gbar ist.' ), '', array( 'response' => 410 ) );
+			wp_die( __( 'This user has elected to delete their account and the content is no longer available.' ), '', array( 'response' => 410 ) );
 	}
 
 	if ( '2' == $current_blog->deleted ) {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) )
 			return WP_CONTENT_DIR . '/blog-inactive.php';
 		else
-			wp_die( sprintf( __( 'Dieser Blog wurde noch nicht aktiviert. Wenn du Probleme beim Aktivieren deines Blogs hast, kontaktiere bitte <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
+			wp_die( sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
 	}
 
 	if ( $current_blog->archived == '1' || $current_blog->spam == '1' ) {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-suspended.php' ) )
 			return WP_CONTENT_DIR . '/blog-suspended.php';
 		else
-			wp_die( __( 'Dieser Blog wurde deaktiviert oder archiviert.' ), '', array( 'response' => 410 ) );
+			wp_die( __( 'This site has been archived or suspended.' ), '', array( 'response' => 410 ) );
 	}
 
 	return true;
@@ -208,9 +208,9 @@ function wpmu_current_site() {
 
 	// Still no dice.
 	if ( 1 == count( $sites ) )
-		wp_die( sprintf( /*WP_I18N_BLOG_DOESNT_EXIST*/'Dieser Blog existiert nicht. Bitte probiere stattdessen <a href="%s">%s</a>.'/*/WP_I18N_BLOG_DOESNT_EXIST*/, $sites[0]->domain . $sites[0]->path ) );
+		wp_die( sprintf( /*WP_I18N_BLOG_DOESNT_EXIST*/'Dieser Blog existiert nicht. Bitte versuche <a href="%s">%s</a>.'/*/WP_I18N_BLOG_DOESNT_EXIST*/, $sites[0]->domain . $sites[0]->path ) );
 	else
-		wp_die( /*WP_I18N_NO_SITE_DEFINED*/'Es wurde kein Blog definiert. Wenn du der Besitzer dieser Website bist, lese bitte <a href="http://codex.wordpress.org/Debugging_a_WordPress_Network">Debugging a WordPress Network</a> f&uuml;r weitere Informationen.'/*/WP_I18N_NO_SITE_DEFINED*/ );
+		wp_die( /*WP_I18N_NO_SITE_DEFINED*/'Auf diesem Host sind keine Sites definiert. Wenn du der Besitzer dieser Site bist, findest du Hilfe auf der Seite <a href="http://codex.wordpress.org/Debugging_a_WordPress_Network">Debugging a WordPress Network (engl.)</a>.'/*/WP_I18N_NO_SITE_DEFINED*/ );
 }
 
 /**
@@ -224,19 +224,20 @@ function wpmu_current_site() {
 function ms_not_installed() {
 	global $wpdb, $domain, $path;
 
-	$title = /*WP_I18N_FATAL_ERROR*/'Fehler beim Aufbau der Datenbankverbindung'/*/WP_I18N_FATAL_ERROR*/;
+	$title = /*WP_I18N_FATAL_ERROR*/'Fehler bei der Datenbankverbindung'/*/WP_I18N_FATAL_ERROR*/;
 	$msg  = '<h1>' . $title . '</h1>';
 	if ( ! is_admin() )
 		die( $msg );
-	$msg .= '<p>' . /*WP_I18N_CONTACT_OWNER*/'Falls dein Blog nicht angezeigt wird, setze dich mit dem Administrator in Verbindung.'/*/WP_I18N_CONTACT_OWNER*/ . '';
-	$msg .= ' ' . /*WP_I18N_CHECK_MYSQL*/'If you are the owner of this network please check that MySQL is running properly and all tables are error free.'/*/WP_I18N_CHECK_MYSQL*/ . '</p>';
+	$msg .= '<p>' . /*WP_I18N_CONTACT_OWNER*/'Wenn dein Blog nicht angezeigt wird, nehme bitte Kontakt zum Betreiber des Blog-Netzwerks auf.'/*/WP_I18N_CONTACT_OWNER*/ . '';
+	$msg .= ' ' . /*WP_I18N_CHECK_MYSQL*/'Wenn du der Besitzer dieses Netzwerks bist, überprüfe bitte, dass MySQL störungsfrei läuft und alle Tabellen fehlerfrei sind.'/*/WP_I18N_CHECK_MYSQL*/ . '</p>';
 	if ( false && !$wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
-		$msg .= '<p>' . sprintf( /*WP_I18N_TABLES_MISSING_LONG*/'<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted <code>%s</code>. You really should look at your database now.'/*/WP_I18N_TABLES_MISSING_LONG*/, $wpdb->site ) . '</p>';
+		$msg .= '<p>' . sprintf( /*WP_I18N_TABLES_MISSING_LONG*/'<strong>Es fehlen Datenbanktabellen.</strong> Das bedeutet, dass MySQL nicht läuft. WordPress wurde nicht richtig installiert, oder <code>%s</code> wurde gelöscht. Du solltest dir jetzt deine Datenbank anschauen.'/*/WP_I18N_TABLES_MISSING_LONG*/, $wpdb->site ) . '</p>';
 	else
-		$msg .= '<p>' . sprintf( /*WP_I18N_NO_SITE_FOUND*/'<strong>Could not find site <code>%1$s</code>.</strong> Searched for table <code>%2$s</code> in database <code>%3$s</code>. Is that right?'/*/WP_I18N_NO_SITE_FOUND*/, rtrim( $domain . $path, '/' ), $wpdb->blogs, DB_NAME ) . '</p>';
+		$msg .= '<p>' . sprintf( /*WP_I18N_NO_SITE_FOUND*/'<strong>Konnte Blog nicht finden. <code>%1$s</code>.</strong> Suche nach Tabelle <code>%2$s</code> in der Datenbank <code>%3$s</code>. Ist das richtig?'/*/WP_I18N_NO_SITE_FOUND*/, rtrim( $domain . $path, '/' ), $wpdb->blogs, DB_NAME ) . '</p>';
 	$msg .= '<p><strong>' . /*WP_I18N_WHAT_DO_I_DO*/'What do I do now?'/*WP_I18N_WHAT_DO_I_DO*/ . '</strong> ';
-	$msg .= /*WP_I18N_RTFM*/'Read the <a target="_blank" href="http://codex.wordpress.org/Debugging_a_WordPress_Network">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.'/*/WP_I18N_RTFM*/;
-	$msg .= ' ' . /*WP_I18N_STUCK*/'If you&#8217;re still stuck with this message, then check that your database contains the following tables:'/*/WP_I18N_STUCK*/ . '</p><ul>';
+	$msg .= /*WP_I18N_RTFM*/'Lese die <a target="_blank" href="http://codex.wordpress.org/Debugging_a_WordPress_Network">Fehler-Report</a> Seite. 
+Einige der Richtlinien können dir helfen um herauszufinden, was falsch gelaufen ist.'/*/WP_I18N_RTFM*/;
+	$msg .= ' ' . /*WP_I18N_STUCK*/'Wenn du noch immer in der Nachricht festhängst, dann prüfe ob die Datenbank die folgenden Tabellen enthält:'/*/WP_I18N_STUCK*/ . '</p><ul>';
 	foreach ( $wpdb->tables('global') as $t => $table ) {
 		if ( 'sitecategories' == $t )
 			continue;

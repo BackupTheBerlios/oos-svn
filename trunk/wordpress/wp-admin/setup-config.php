@@ -5,6 +5,8 @@
  * The permissions for the base directory must allow for writing files in order
  * for the wp-config.php to be created using this page.
  *
+ * @internal This file must be parsable by PHP4.
+ *
  * @package WordPress
  * @subpackage Administration
  */
@@ -40,10 +42,12 @@ define('WP_DEBUG', false);
 /**#@-*/
 
 require_once(ABSPATH . WPINC . '/load.php');
+require_once(ABSPATH . WPINC . '/version.php');
+wp_check_php_mysql_versions();
+
 require_once(ABSPATH . WPINC . '/compat.php');
 require_once(ABSPATH . WPINC . '/functions.php');
-require_once(ABSPATH . WPINC . '/classes.php');
-require_once(ABSPATH . WPINC . '/version.php');
+require_once(ABSPATH . WPINC . '/class-wp-error.php');
 
 if (!file_exists(ABSPATH . 'wp-config-sample.php'))
 	wp_die('Entschuldige, aber die Datei <code>wp-config-sample.php</code> wird f&uuml;r die Installation ben&ouml;tigt. Bitte lade diese Datei hoch.');
@@ -53,16 +57,10 @@ $configFile = file(ABSPATH . 'wp-config-sample.php');
 // Check if wp-config.php has been created
 if (file_exists(ABSPATH . 'wp-config.php'))
 	wp_die("<p>Die Datei <code>wp-config.php</code> existiert bereits. Wenn du die Angaben &auml;ndern m&ouml;chtest, musst du die Datei vorher l&ouml;schen. Du kannst jetzt die <a href='install.php'>Installation versuchen</a>.</p>");
-
+	
 // Check if wp-config.php exists above the root directory but is not part of another install
 if (file_exists(ABSPATH . '../wp-config.php') && ! file_exists(ABSPATH . '../wp-settings.php'))
 	wp_die("<p>Die Datei <code>wp-config.php</code> existiert bereits im Verzeichnis &uuml;ber deinem WordPress-Verzeichnis. Wenn Du die Angaben &auml;ndern m&ouml;chtest, muss Du die Datei vorher l&ouml;schen. Du kannst jetzt die <a href='install.php'>Installation versuchen</a>.</p>");
-
-if ( version_compare( $required_php_version, phpversion(), '>' ) )
-	wp_die( sprintf( /*WP_I18N_OLD_PHP*/'Your server is running PHP version %1$s but WordPress requires at least %2$s.'/*/WP_I18N_OLD_PHP*/, phpversion(), $required_php_version ) );
-
-if ( !extension_loaded('mysql') && !file_exists(ABSPATH . 'wp-content/db.php') )
-	wp_die( /*WP_I18N_OLD_MYSQL*/'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.'/*/WP_I18N_OLD_MYSQL*/ );
 
 if (isset($_GET['step']))
 	$step = $_GET['step'];
@@ -84,7 +82,7 @@ function display_header() {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>WordPress &rsaquo; Einrichtung der Konfigurations-Datei</title>
+<title>WordPress &rsaquo; Setup Configuration File</title>
 <link rel="stylesheet" href="css/install.css" type="text/css" />
 
 </head>
@@ -118,7 +116,7 @@ switch($step) {
 		display_header();
 	?>
 <form method="post" action="setup-config.php?step=2">
-	<p>Nachfolgend musst du die Daten deiner Datenbankverbindung angeben. Wenn du dir bei einer Angabe nicht sicher bist, kontaktiere deinen Provider. </p>
+	<p>Nachfolgend musst du die Daten deiner Datenbankverbindung angeben. Wenn du dir bei einer Angabe nicht sicher bist, kontaktiere deinen Webhoster. </p>
 	<table class="form-table">
 		<tr>
 			<th scope="row"><label for="dbname">Name der Datenbank</label></th>
@@ -163,7 +161,7 @@ switch($step) {
 
 	// Validate $prefix: it can only contain letters, numbers and underscores
 	if ( preg_match( '|[^a-z0-9_]|i', $prefix ) )
-		wp_die( /*WP_I18N_BAD_PREFIX*/'<strong>ERROR</strong>: "Table Prefix" can only contain numbers, letters, and underscores.'/*/WP_I18N_BAD_PREFIX*/ );
+		wp_die( /*WP_I18N_BAD_PREFIX*/'<strong>Fehler:</strong> Der "Tabellen Präfix" darf nur aus Zahlen, Buchstaben und Unterstrichen bestehen.'/*/WP_I18N_BAD_PREFIX*/ );
 
 	// Test the db connection.
 	/**#@+
@@ -177,8 +175,10 @@ switch($step) {
 
 	// We'll fail here if the values are no good.
 	require_wp_db();
-	if ( !empty($wpdb->error) )
-		wp_die($wpdb->error->get_error_message());
+	if ( ! empty( $wpdb->error ) ) {
+		$back = '<p class="step"><a href="setup-config.php?step=1" onclick="javascript:history.go(-1);return false;" class="button">Erneut versuchen</a></p>';
+		wp_die( $wpdb->error->get_error_message() . $back );
+	}
 
 	// Fetch or generate keys and salts.
 	$no_api = isset( $_POST['noapi'] );

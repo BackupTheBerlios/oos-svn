@@ -12,7 +12,7 @@
 
 // $base sanity check.
 if ( 'BASE' == $base )
-	die( /*WP_I18N_BASE_ERROR*/'Konfigurationsfehler in der Datei <code>wp-config.php</code>. <code>$base</code> ist auf <code>BASE</code> gesetzt, was falsch ist. Richtig w&auml;re beispielsweise <code>/</code> oder <code>/blogs/</code>.'/*/WP_I18N_BASE_ERROR*/ );
+	die( /*WP_I18N_BASE_ERROR*/'Es gibt ein Konfigurations-Fehler in der Datei <code>wp-config.php</code>. <code>$base</code> wurde auf <code>BASE</code> gesetzt, es sollte aber auf <code>/</code> or <code>/blogs/</code> gesetzt sein.'/*/WP_I18N_BASE_ERROR*/ );
 
 /** Include Multisite initialization functions */
 require( ABSPATH . WPINC . '/ms-load.php' );
@@ -35,7 +35,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			$domain = substr( $domain, 0, -4 );
 			$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
 		} else {
-			wp_die( /*WP_I18N_NO_PORT_NUMBER*/'Ein Blog-Netzwerk ist nur dann m&ouml;glich, wenn keine Portnummer in der URL verwendet wird.'/*/WP_I18N_NO_PORT_NUMBER*/ );
+			wp_die( /*WP_I18N_NO_PORT_NUMBER*/'Multisite funktioniert nur ohne die Port-Nummer in der URL.'/*/WP_I18N_NO_PORT_NUMBER*/ );
 		}
 	}
 
@@ -120,8 +120,8 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		if ( defined( 'WP_INSTALLING' ) ) {
 			$current_blog->blog_id = $blog_id = 1;
 		} else {
-			$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? ' ' . /*WP_I18N_TABLES_MISSING*/'Es fehlen Tabellen in der Datenbank.'/*/WP_I18N_TABLES_MISSING*/ : '';
-			wp_die( /*WP_I18N_NO_BLOG*/'Es existiert kein Blog mit diesem Namen.'/*/WP_I18N_NO_BLOG*/ . $msg );
+			$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? ' ' . /*WP_I18N_TABLES_MISSING*/'Es werden Datenbank-Tabellen vermisst.'/*/WP_I18N_TABLES_MISSING*/ : '';
+			wp_die( /*WP_I18N_NO_BLOG*/'In diesem System gibt es keinen Blog mit diesem Namen.'/*/WP_I18N_NO_BLOG*/ . $msg );
 		}
 	}
 }

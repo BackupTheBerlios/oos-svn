@@ -13,16 +13,15 @@
  * directory to allow the WordPress directory to remain
  * untouched.
  *
+ * @internal This file must be parsable by PHP4.
+ *
  * @package WordPress
  */
 
 /** Define ABSPATH as this files directory */
 define( 'ABSPATH', dirname(__FILE__) . '/' );
 
-if ( defined('E_RECOVERABLE_ERROR') )
-	error_reporting(E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR);
-else
-	error_reporting(E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING);
+error_reporting( E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR );
 
 if ( file_exists( ABSPATH . 'wp-config.php') ) {
 
@@ -44,12 +43,17 @@ if ( file_exists( ABSPATH . 'wp-config.php') ) {
 	else
 		$path = 'wp-admin/';
 
+	require_once( ABSPATH . '/wp-includes/load.php' );
+	require_once( ABSPATH . '/wp-includes/version.php' );
+	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+	wp_check_php_mysql_versions();
+
 	// Die with an error message
 	require_once( ABSPATH . '/wp-includes/class-wp-error.php' );
 	require_once( ABSPATH . '/wp-includes/functions.php' );
 	require_once( ABSPATH . '/wp-includes/plugin.php' );
-	$text_direction = /*WP_I18N_TEXT_DIRECTION*/"ltr"/*/WP_I18N_TEXT_DIRECTION*/;
-	wp_die(sprintf(/*WP_I18N_NO_CONFIG*/"Die Datei <code>wp-config.php</code> scheint nicht vorhanden zu sein. Wir ben&ouml;tigen sie aber um mit der Installation zu beginnen. Brauchst Du Hilfe? Im <a href='http://forum.wordpress-deutschland.org/'>deutschsprachigen Forum</a> und im <a href='http://codex.wordpress.org/Editing_wp-config.php'>englischsprachigen Codex</a> findest Du Hilfe. Du kannst die Datei <code>wp-config.php</code> auch &uuml;ber das Webinterface erstellen, aber das funktioniert nicht auf jedem Server. Der sicherste Weg ist die manuelle Erstellung.</p><p><a href='%ssetup-config.php' class='button'>Konfigurationsdatei erstellen.</a>"/*/WP_I18N_NO_CONFIG*/, $path), /*WP_I18N_ERROR_TITLE*/"WordPress &rsaquo; Fehler"/*/WP_I18N_ERROR_TITLE*/, array('text_direction' => $text_direction));
+	$text_direction = /*WP_I18N_TEXT_DIRECTION*/'ltr'/*/WP_I18N_TEXT_DIRECTION*/;
+	wp_die(sprintf(/*WP_I18N_NO_CONFIG*/'Es scheint so, als wäre die Datei <code>wp-config.php</code> nicht vorhanden. Diese Datei wird aber benötigt um fortzufahren. Benötigst du weitere Hilfe? <a href=\'http://codex.wordpress.org/Editing_wp-config.php\'>Hier findest du sie</a>. Du kannst die Datei <code>wp-config.php</code> über ein Web-Interface erstellen, das funktioniert allerdings nicht unter allen Systemen. Am sichersten ist es, wenn die Datei manuell erstellt wird.</p><p><a href=\'%ssetup-config.php\' class=\'button\'>Konfigurationsdatei erstellen</a>'/*/WP_I18N_NO_CONFIG*/, $path), /*WP_I18N_ERROR_TITLE*/'WordPress &rsaquo; Fehler'/*/WP_I18N_ERROR_TITLE*/, array('text_direction' => $text_direction));
 
 }
 

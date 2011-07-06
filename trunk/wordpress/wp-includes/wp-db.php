@@ -39,9 +39,8 @@ define( 'ARRAY_N', 'ARRAY_N' );
  *
  * It is possible to replace this class with your own
  * by setting the $wpdb global variable in wp-content/db.php
- * file with your class. You can name it wpdb also, since
- * this file will not be included, if the other file is
- * available.
+ * file to your class. The wpdb class will still be included,
+ * so you can extend it or simply use your own.
  *
  * @link http://codex.wordpress.org/Function_Reference/wpdb_Class
  *
@@ -464,23 +463,6 @@ class wpdb {
 	/**
 	 * Connects to the database server and selects a database
 	 *
-	 * PHP4 compatibility layer for calling the PHP5 constructor.
-	 *
-	 * @uses wpdb::__construct() Passes parameters and returns result
-	 * @since 0.71
-	 *
-	 * @param string $dbuser MySQL database user
-	 * @param string $dbpassword MySQL database password
-	 * @param string $dbname MySQL database name
-	 * @param string $dbhost MySQL database host
-	 */
-	function wpdb( $dbuser, $dbpassword, $dbname, $dbhost ) {
-		return $this->__construct( $dbuser, $dbpassword, $dbname, $dbhost );
-	}
-
-	/**
-	 * Connects to the database server and selects a database
-	 *
 	 * PHP5 style constructor for compatibility with PHP5. Does
 	 * the actual setting up of the class properties and connection
 	 * to the database.
@@ -578,7 +560,7 @@ class wpdb {
 	function set_prefix( $prefix, $set_table_names = true ) {
 
 		if ( preg_match( '|[^a-z0-9_]|i', $prefix ) )
-			return new WP_Error('invalid_db_prefix', /*WP_I18N_DB_BAD_PREFIX*/'Invalid database prefix'/*/WP_I18N_DB_BAD_PREFIX*/);
+			return new WP_Error('invalid_db_prefix', /*WP_I18N_DB_BAD_PREFIX*/'UngÃ¼ltiges DatenbankprÃ¤fix'/*/WP_I18N_DB_BAD_PREFIX*/);
 
 		$old_prefix = is_multisite() ? '' : $prefix;
 
@@ -644,6 +626,7 @@ class wpdb {
 		if ( is_multisite() ) {
 			if ( null === $blog_id )
 				$blog_id = $this->blogid;
+			$blog_id = (int) $blog_id;
 			if ( defined( 'MULTISITE' ) && ( 0 == $blog_id || 1 == $blog_id ) )
 				return $this->base_prefix;
 			else
@@ -749,14 +732,14 @@ class wpdb {
 
 		if ( !@mysql_select_db( $db, $dbh ) ) {
 			$this->ready = false;
-			$this->bail( sprintf( /*WP_I18N_DB_SELECT_DB*/'<h1>Die Datenbank kann nicht gew&auml;hlt werden</h1>
-<p>Es konnte zwar eine Verbindung zum Datenbankserver hergestellt werden (das bedeutet, dass dein Benutzername und das Passwort stimmen), aber die entsprechende Datenbank <code>%1$s</code> kann nicht gew&auml;hlt werden.</p>
-<ul>
-<li>Bist du sicher, dass sie existiert?</li>
-<li>Hat der Benutzer <code>%2$s</code> die entsprechenden Rechte die <code>%1$s</code> Datenbank auch zu nutzen?</li>
-<li>Bei einigen Systemen ist der Benutzername das Präfix der Datenbank, so dass es so oder ähnlich aussieht <code>username_%1$s</code>. Könnte das das Problem sein?</li>
-</ul>
-<p>Wenn du nicht weißt, wie du die Datenbank einrichtest, <strong>kontaktiere deinen Provider</strong>. Wenn du gar nicht weiterkommst, findest Du im <a href=\"http://wordpress.org/support/\">englischsprachigen-</a> und <a href=\"http://forum.wordpress-deutschland.org/\">deutschsprachigen-Supportforum</a> Hilfe.</p>'/*/WP_I18N_DB_SELECT_DB*/, $db, $this->dbuser ), 'db_select_fail' );
+			$this->bail( sprintf( /*WP_I18N_DB_SELECT_DB*/'<h1>Die Datenbank kann nicht gew&auml;hlt werden</h1>\\n
+<p>Es konnte zwar eine Verbindung zum Datenbankserver hergestellt werden (das bedeutet, dass dein Benutzername und das Passwort stimmen), aber die entsprechende Datenbank <code>%1$s</code> kann nicht gew&auml;hlt werden.</p>\\n
+<ul>\\n
+<li>Bist du sicher, dass sie existiert?</li>\\n
+<li>Hat der Benutzer <code>%2$s</code> die entsprechenden Rechte, um die <code>%1$s</code> Datenbank auch zu nutzen?</li>\\n
+<li>Bei einigen Systemen ist der Benutzername das Pr&auml;fix der Datenbank, so dass es so oder &auml;hnlich aussieht <code>username_%1$s</code>. K&ouml;nnte dass das Problem sein?</li>\\n
+</ul>\\n
+ <p>Wenn du nicht wei&szlig;t, wie du die Datenbank einrichtest, <strong>kontaktiere deinen Provider</strong>. Wenn du gar nicht weiterkommst, findest Du im <a href=\\"http://wordpress.org/support/\\">englischsprachigen-</a> und <a href=\\"http://forum.wordpress-deutschland.org/\\">deutschsprachigen-Supportforum</a> Hilfe.</p>'/*/WP_I18N_DB_SELECT_DB*/, $db, $this->dbuser ), 'db_select_fail' );
 			return;
 		}
 	}
@@ -927,9 +910,9 @@ class wpdb {
 			return false;
 
 		if ( $caller = $this->get_caller() )
-			$error_str = sprintf( /*WP_I18N_DB_QUERY_ERROR_FULL*/'WordPress Datenbankfehler %1$s durch Abfrage %2$s gestellt von %3$s'/*/WP_I18N_DB_QUERY_ERROR_FULL*/, $str, $this->last_query, $caller );
+			$error_str = sprintf( /*WP_I18N_DB_QUERY_ERROR_FULL*/'WordPress-Datenbank-Fehler %1$s fÃ¼r Abfrage %2$s von %3$s'/*/WP_I18N_DB_QUERY_ERROR_FULL*/, $str, $this->last_query, $caller );
 		else
-			$error_str = sprintf( /*WP_I18N_DB_QUERY_ERROR*/'WordPress Datenbankfehler %1$s durch Abfrage %2$s'/*/WP_I18N_DB_QUERY_ERROR*/, $str, $this->last_query );
+			$error_str = sprintf( /*WP_I18N_DB_QUERY_ERROR*/'WordPress-Datenbank-Fehler  %1$s fÃ¼r die Abfrage %2$s'/*/WP_I18N_DB_QUERY_ERROR*/, $str, $this->last_query );
 
 		if ( function_exists( 'error_log' )
 			&& ( $log_file = @ini_get( 'error_log' ) )
@@ -943,7 +926,7 @@ class wpdb {
 
 		// If there is an error then take note of it
 		if ( is_multisite() ) {
-			$msg = "WordPress Datenbankfehler: [$str]\n{$this->last_query}\n";
+			$msg = "WordPress database error: [$str]\n{$this->last_query}\n";
 			if ( defined( 'ERRORLOGFILE' ) )
 				error_log( $msg, 3, ERRORLOGFILE );
 			if ( defined( 'DIEONDBERROR' ) )
@@ -953,7 +936,7 @@ class wpdb {
 			$query = htmlspecialchars( $this->last_query, ENT_QUOTES );
 
 			print "<div id='error'>
-			<p class='wpdberror'><strong>WordPress Datenbankfehler:</strong> [$str]<br />
+			<p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
 			<code>$query</code></p>
 			</div>";
 		}
@@ -1030,8 +1013,6 @@ class wpdb {
 	 * @since 3.0.0
 	 */
 	function db_connect() {
-		global $db_list, $global_db_list;
-
 		if ( WP_DEBUG ) {
 			$this->dbh = mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, true );
 		} else {
@@ -1039,23 +1020,18 @@ class wpdb {
 		}
 
 		if ( !$this->dbh ) {
-			$this->bail( sprintf( /*WP_I18N_DB_CONN_ERROR*/"
+			$this->bail( sprintf( /*WP_I18N_DB_CONN_ERROR*/'
 <h1>Fehler beim Aufbau der Datenbank-Verbindung</h1>
 <p>Das bedeutet entweder, dass Benutzername oder Passwort in der Datei <code>wp-config.php</code> falsch sind, oder der Datenbankserver <code>%s</code> nicht erreichbar ist.</p>
 <ul>
-<li>Bist du sicher, dass Benutzername und Passwort stimmen?</li>
-<li>Bist du sicher, dass der Name des Datenbankservers stimmt?</li>
-<li>Bist du sicher, dass der Datenbankserver l&auml;uft?</li>
+	<li>Bist du sicher, dass Benutzername und Passwort stimmen?</li>
+	<li>Bist du sicher, dass der Name des Datenbankservers stimmt?</li>
+	<li>Bist du sicher, dass der Datenbankserver lÃ¤uft?</li>
 </ul>
-<p>Wenn du nicht sicher bist woran es liegt, kontaktiere am besten deinen Hoster. Wenn du weitergehende Hilfe brauchst, kannst du dich jederzeit an das <a href='http://forum.wordpress-deutschland.org/'>Support-Forum</a> (<a href='http://wordpress.org/support/'>en</a>) wenden.</p>
-"/*/WP_I18N_DB_CONN_ERROR*/, $this->dbhost ), 'db_connect_fail' );
+<p>Wenn du nicht sicher bist woran es liegt, kontaktiere am besten deinen Hoster. Wenn du weitergehende Hilfe brauchst, kannst du dich jederzeit an das <a href=\'http://forum.wordpress-deutschland.org/\'>Support-Forum</a> (<a href=\'http://wordpress.org/support/\'>en</a>) wenden.</p>
+'/*/WP_I18N_DB_CONN_ERROR*/, $this->dbhost ), 'db_connect_fail' );
 
-			// If show errors is disabled then we need to die anyway as we don't have a working DB connection
-			// unless we're trying to test the initial connection, in which case setup-config.php will handle.
-			if ( defined( 'WP_SETUP_CONFIG' ) )
-				return;
-
-			die();
+			return;
 		}
 
 		$this->set_charset( $this->dbh );
@@ -1107,10 +1083,12 @@ class wpdb {
 			return false;
 		}
 
-		if ( preg_match( "/^\\s*(insert|delete|update|replace|alter) /i", $query ) ) {
+		if ( preg_match( '/^\s*(create|alter|truncate|drop) /i', $query ) ) {
+			$return_val = $this->result;
+		} elseif ( preg_match( '/^\s*(insert|delete|update|replace) /i', $query ) ) {
 			$this->rows_affected = mysql_affected_rows( $this->dbh );
 			// Take note of the insert_id
-			if ( preg_match( "/^\\s*(insert|replace) /i", $query ) ) {
+			if ( preg_match( '/^\s*(insert|replace) /i', $query ) ) {
 				$this->insert_id = mysql_insert_id($this->dbh);
 			}
 			// Return number of rows affected
@@ -1330,7 +1308,7 @@ class wpdb {
 		} elseif ( $output == ARRAY_N ) {
 			return $this->last_result[$y] ? array_values( get_object_vars( $this->last_result[$y] ) ) : null;
 		} else {
-			$this->print_error(/*WP_I18N_DB_GETROW_ERROR*/" \$db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N"/*/WP_I18N_DB_GETROW_ERROR*/);
+			$this->print_error(/*WP_I18N_DB_GETROW_ERROR*/' $db->get_row(string query, output type, int offset) -- Ausgabe muss eine der folgenden sein: OBJECT, ARRAY_A, ARRAY_N'/*/WP_I18N_DB_GETROW_ERROR*/);
 		}
 	}
 
@@ -1388,7 +1366,7 @@ class wpdb {
 			// Return an array of row objects with keys from column 1
 			// (Duplicates are discarded)
 			foreach ( $this->last_result as $row ) {
-				$key = array_shift( $var_by_ref = get_object_vars( $row ) );
+				$key = array_shift( get_object_vars( $row ) );
 				if ( ! isset( $new_array[ $key ] ) )
 					$new_array[ $key ] = $row;
 			}
@@ -1498,7 +1476,7 @@ class wpdb {
 		global $wp_version, $required_mysql_version;
 		// Make sure the server has the required MySQL version
 		if ( version_compare($this->db_version(), $required_mysql_version, '<') )
-			return new WP_Error('database_version', sprintf( __( '<strong>Fehler</strong>: WordPress %1$s setzt MySQL-Version %2$s oder h&ouml;her vorraus.' ), $wp_version, $required_mysql_version ));
+			return new WP_Error('database_version', sprintf( __( '<strong>ERROR</strong>: WordPress %1$s requires MySQL %2$s or higher' ), $wp_version, $required_mysql_version ));
 	}
 
 	/**
