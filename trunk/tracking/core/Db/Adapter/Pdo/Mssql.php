@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Mssql.php 3984 2011-02-28 05:43:22Z vipsoft $
+ * @version $Id: Mssql.php 4690 2011-05-15 21:02:40Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -193,6 +193,21 @@ class Piwik_Db_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql implements Piwik_Db_A
 	public function hasBlobDataType()
 	{
 		return true;
+	}
+
+	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader()
+	{
+		/**
+		 * BULK INSERT doesn't have a way to escape a terminator that appears in a value
+		 *
+		 * @link http://msdn.microsoft.com/en-us/library/ms188365.aspx
+		 */
+		return false;
 	}
 
 	/**

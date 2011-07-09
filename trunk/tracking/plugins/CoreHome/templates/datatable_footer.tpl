@@ -8,7 +8,7 @@
 
 {if $properties.show_pagination_control}
 <span>
-	<span class="dataTablePrevious">&lsaquo; {'General_Previous'|translate}</span>
+	<span class="dataTablePrevious">&lsaquo; {if isset($javascriptVariablesToSet.dataTablePreviousIsFirst)}{'General_First'|translate}{else}{'General_Previous'|translate}{/if} </span> 
 	<span class="dataTableNext">{'General_Next'|translate} &rsaquo;</span>
 </span>
 {/if}
@@ -21,7 +21,6 @@
 {/if}
 
 <span class="loadingPiwik" style='display:none'><img src="themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
-
 {if $properties.show_footer_icons}
 	<div class="dataTableFooterIcons">
 		<div class="dataTableFooterWrap" var="{$javascriptVariablesToSet.viewDataTable}">
@@ -35,11 +34,14 @@
                     <a class="tableIcon" format="tableAllColumns" var="tableAllColumns"><img title="{'General_DisplayTableWithMoreMetrics'|translate}" src="themes/default/images/table_more.png" /></a>
                     {/if}
                     {if $properties.show_goals}
-					<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="{'General_DisplayTableWithGoalMetrics'|translate}" src="themes/default/images/goal.png" /></a>
+					<a class="tableIcon" format="tableGoals" var="tableGoals"><img title="{'General_DisplayTableWithGoalMetrics'|translate}" src="themes/default/images/{if $javascriptVariablesToSet.filter_only_display_idgoal=='ecommerceOrder'}ecommerceOrder.gif{else}goal.png{/if}" /></a>
+                    {/if}
+                    {if $properties.show_ecommerce}
+                    <a class="tableIcon" format="ecommerceOrder" var="ecommerceOrder"><img title="{'General_EcommerceOrders'|translate}" src="themes/default/images/ecommerceOrder.gif" /> <span>{'General_EcommerceOrders'|translate}</span></a>
+                    <a class="tableIcon" format="ecommerceAbandonedCart" var="ecommerceAbandonedCart"><img title="{'General_AbandonedCarts'|translate}" src="themes/default/images/ecommerceAbandonedCart.gif" /> <span>{'General_AbandonedCarts'|translate}</span></a>
                     {/if}
                 </span>
            </div>
-           
             {if $properties.show_all_views_icons}
 			<div class="tableIconsGroup">
             	<span class="tableGraphViews tableGraphCollapsed">
@@ -72,7 +74,7 @@
 				</span>
 				{if $properties.show_export_as_image_icon}
 					<span id="dataTableFooterExportAsImageIcon">
-						<a class="tableIcon" href="javascript:piwikHelper.OFC.jquery.popup('{$chartDivId}');"><img title="{'General_ExportAsImage_js'|translate}" src="themes/default/images/image.png" /></a>
+						<a class="tableIcon" href="#" onclick="$('#{$chartDivId}').trigger('piwikExportAsImage'); return false;"><img title="{'General_ExportAsImage_js'|translate}" src="themes/default/images/image.png" /></a>
 					</span>
 				{/if}
 			</div>

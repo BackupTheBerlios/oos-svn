@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Piwik.php 4580 2011-04-28 00:15:02Z matt $
+ * @version $Id: Piwik.php 4946 2011-06-25 01:12:05Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -26,6 +26,10 @@ class Piwik
 	const CLASSES_PREFIX = 'Piwik_';
 	const COMPRESSED_FILE_LOCATION = '/tmp/assets/';
 
+/*
+ * Piwik periods
+ */
+
 	public static $idPeriods =  array(
 			'day'	=> 1,
 			'week'	=> 2,
@@ -39,6 +43,7 @@ class Piwik
 	 * -> Always process for day/week/month periods
 	 * For Year and Range, only process if it was enabled in the config file,
 	 *
+	 * @param string $periodLabel Period label (e.g., 'day')
 	 * @return bool
 	 */
 	static public function isUniqueVisitorsEnabled($periodLabel)
@@ -128,20 +133,36 @@ class Piwik
 	/**
 	 * Returns the cached the Piwik URL, eg. http://demo.piwik.org/ or http://example.org/piwik/ 
 	 * If not found, then tries to cache it and returns the value.
+	 *
+	 * If the Piwik URL changes (eg. Piwik moved to new server), the value will automatically be refreshed in the cache.
+         *
 	 * @return string
 	 */
 	static public function getPiwikUrl()
 	{
 		$key = 'piwikUrl';
 		$url = Piwik_GetOption($key);
-		if(empty($url)
-			&& !Piwik_Common::isPhpCliMode())
+		if(Piwik_Common::isPhpCliMode())
 		{
-			$url = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
-			if(strlen($url) >= strlen('http://a/'))
+			return $url;
+		}
+
+		$currentUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+		if(self::isHttps()
+			&& strpos($currentUrl, 'http://') === 0)
+		{
+			$currentUrl = str_replace('http://', 'https://', $currentUrl);
+		}
+		
+		if(empty($url)
+			// if URL changes, always update the cache
+			|| $currentUrl != $url) 
+		{
+			if(strlen($currentUrl) >= strlen('http://a/'))
 			{
-				Piwik_SetOption($key, $url, $autoload = true);
+				Piwik_SetOption($key, $currentUrl, $autoload = true);
 			}
+			$url = $currentUrl;
 		}
 		return $url;
 	}
@@ -695,8 +716,10 @@ class Piwik
 	 *
 	 * @param string $file The location of the static file to serve
 	 * @param string $contentType The content type of the static file.
+	 * @param bool $expireFarFuture If set to true, will set Expires: header in far future. 
+	 * 							Should be set to false for files that don't have a cache buster (eg. piwik.js)
 	 */
-	static public function serveStaticFile($file, $contentType)
+	static public function serveStaticFile($file, $contentType, $expireFarFuture = true)
 	{
 		if (file_exists($file))
 		{
@@ -720,7 +743,13 @@ class Piwik
 			self::overrideCacheControlHeaders('public');
 			@header('Vary: Accept-Encoding');
 			@header('Content-Disposition: inline; filename='.basename($file));
-
+			
+			if($expireFarFuture)
+			{
+				// Required by proxy caches potentially in between the browser and server to cache the request indeed
+				@header("Expires: ".gmdate('D, d M Y H:i:s', time() + 86400 * 100) . ' GMT');
+			}
+			
 			// Returns 304 if not modified since
 			if ($modifiedSince === $lastModified)
 			{
@@ -816,6 +845,58 @@ class Piwik
 		}
 	}
 
+	/**
+	 * Create CSV (or other delimited) files
+	 *
+	 * @param string $filePath
+	 * @param array $fileSpec File specifications (delimeter, line terminator, etc)
+	 * @param array $rows Array of array corresponding to rows of values
+	 * @throw Exception if unable to create or write to file
+	 */
+	static public function createCSVFile($filePath, $fileSpec, $rows)
+	{
+		// Set up CSV delimiters, quotes, etc
+		$delim = $fileSpec['delim'];
+		$quote = $fileSpec['quote'];
+		$eol   = $fileSpec['eol'];
+		$null  = $fileSpec['null'];
+		$escapespecial_cb = $fileSpec['escapespecial_cb'];
+
+		$fp = @fopen($filePath, 'wb');
+		if (!$fp)
+		{
+			throw new Exception('Error creating the tmp file '.$filePath.', please check that the webserver has write permission to write this file.');
+		}
+
+		foreach ($rows as $row)
+		{
+			$output = '';
+			foreach($row as $value)
+			{
+				if(!isset($value) || is_null($value) || $value === false)
+				{
+					$output .= $null.$delim;
+				}
+				else
+				{
+					$output .= $quote.$escapespecial_cb($value).$quote.$delim;
+				}
+			}
+
+			// Replace delim with eol
+			$output = substr_replace($output, $eol, -1);
+
+			$ret = fwrite($fp, $output);
+			if (!$ret) {
+				fclose($fp);
+				throw new Exception('Error writing to the tmp file '.$filePath);
+			}
+		}
+		fclose($fp);
+
+		@chmod($filePath, 0777);
+	}
+
 /*
  * PHP environment settings
  */
@@ -839,11 +920,11 @@ class Piwik
 	 * compile-time default, so ini_get('memory_limit') may return false.
 	 *
 	 * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
-	 * @return int memory limit in megabytes
+	 * @return int|false memory limit in megabytes, or false if there is no limit
 	 */
 	static public function getMemoryLimitValue()
 	{
-		if($memory = ini_get('memory_limit'))
+		if(($memory = ini_get('memory_limit')) > 0)
 		{
 			// handle shorthand byte options (case-insensitive)
 			$shorthandByteOption = substr($memory, -1);
@@ -861,6 +942,8 @@ class Piwik
 			}
 			return $memory / 1048576;
 		}
+
+		// no memory limit
 		return false;
 	}
 
@@ -876,9 +959,8 @@ class Piwik
 	{
 		// in Megabytes
 		$currentValue = self::getMemoryLimitValue();
-		if( ($currentValue === false
-			|| $currentValue < $minimumMemoryLimit )
-			&& @ini_set('memory_limit', $minimumMemoryLimit.'M'))
+		if( $currentValue === false
+			|| ($currentValue < $minimumMemoryLimit	&& @ini_set('memory_limit', $minimumMemoryLimit.'M')))
 		{
 			return true;
 		}
@@ -894,8 +976,8 @@ class Piwik
 	{
 		$minimumMemoryLimit = Zend_Registry::get('config')->General->minimum_memory_limit;
 		$memoryLimit = self::getMemoryLimitValue();
-		if($memoryLimit === false
-			|| $memoryLimit < $minimumMemoryLimit)
+		if($memoryLimit !== false
+			&& $memoryLimit < $minimumMemoryLimit)
 		{
 			return self::setMemoryLimit($minimumMemoryLimit);
 		}
@@ -1260,6 +1342,14 @@ class Piwik
 		{
 			return Piwik::getPrettyMoney($value, $idSite, $htmlAllowed);
 		}
+		// Add % symbol to rates
+		if(strpos($columnName, '_rate') !== false)
+		{
+			if(strpos($value, "%") === false)
+			{
+				return $value . "%";
+			}
+		}
 		return $value;
 	}
 
@@ -1300,7 +1390,7 @@ class Piwik
 			}
 			else
 			{
-				$precision = 2;
+				$precision = Piwik_Tracker_GoalManager::REVENUE_PRECISION;
 				$value = sprintf( "%01.".$precision."f", $value);
 			}
 		}
@@ -1384,16 +1474,6 @@ class Piwik
 			$return = sprintf(Piwik_Translate('General_Seconds'), $seconds);
 		}
 		return str_replace(' ', '&nbsp;', $return);
-	}
-
-	/**
-	 * Returns relative path to the application logo
-	 *
-	 * @return string Absolute path to application logo
-	 */
-	public function getLogoPath()
-	{
-		return Piwik_Common::getPathToPiwikRoot() . '/themes/default/images/logo.png';
 	}
 
 	/**
@@ -2107,15 +2187,89 @@ class Piwik
 	}
 
 	/**
-	 * Escape special characters in string for LOAD DATA INFILE
+	 * Batch insert into table from CSV (or other delimeted) file.
 	 *
-	 * @param string $str
-	 * @return string
+	 * @param string $tableName Name of table
+	 * @param array $fields Field names
+	 * @param string $filePath Path name of a file.
+	 * @param array $fileSpec File specifications (delimeter, line terminator, etc)
+	 * @return bool True if successful; false otherwise
 	 */
-	static private function escapeString($str)
+	static public function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)
 	{
-		$str = str_replace(array('\\', '"'), array('\\\\', '\\"'), $str);
-		return $str;
+		// On Windows, MySQL expects forward slashes as directory separators
+		if (Piwik_Common::isWindows()) {
+			$filePath = str_replace('\\', '/', $filePath);
+		}
+
+		$query = "
+				'$filePath'
+			REPLACE
+			INTO TABLE
+				".$tableName;
+
+		if(isset($fileSpec['charset']))
+		{
+			$query .= ' CHARACTER SET '.$fileSpec['charset'];
+		}
+
+		$fieldList = '('.join(',', $fields).')';
+
+		$query .= "
+			FIELDS TERMINATED BY
+				'".$fileSpec['delim']."'
+			ENCLOSED BY
+				'".$fileSpec['quote']."'
+		";
+		if(isset($fileSpec['escape']))
+		{
+			$query .= " ESCAPED BY '".$fileSpec['escape']."'";
+		}
+		$query .= "
+			LINES TERMINATED BY
+				'".$fileSpec['eol']."'
+			$fieldList
+		";
+
+		/*
+		 * First attempt: assume web server and MySQL server are on the same machine;
+		 * this requires that the db user have the FILE privilege; however, since this is
+		 * a global privilege, it may not be granted due to security concerns
+		 */
+		$keywords = array('');
+
+		/*
+		 * Second attempt: using the LOCAL keyword means the client reads the file and sends it to the server;
+		 * the LOCAL keyword may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
+		 * @see http://bugs.php.net/bug.php?id=54158
+		 */
+		$openBaseDir = ini_get('open_basedir');
+		$safeMode = ini_get('safe_mode');
+		if(empty($openBaseDir) && empty($safeMode))
+		{
+			// php 5.x - LOAD DATA LOCAL INFILE is disabled if open_basedir restrictions or safe_mode enabled
+			$keywords[] = 'LOCAL';
+		}
+
+		foreach($keywords as $keyword)
+		{
+			try {
+				$sql = 'LOAD DATA '.$keyword.' INFILE '.$query;
+				$result = @Piwik_Exec($sql);
+				if(empty($result) || $result < 0)
+				{
+					continue;
+				}
+
+				return true;
+			} catch(Exception $e) {
+				if(!Zend_Registry::get('db')->isErrNo($e, '1148'))
+				{
+					Piwik::log("LOAD DATA INFILE failed... Error was:" . $e->getMessage());
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -2129,126 +2283,47 @@ class Piwik
 	 */
 	static public function tableInsertBatch($tableName, $fields, $values)
 	{
-		$fieldList = '('.join(',', $fields).')';
+		$filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
 
-		try {
-//			throw new Exception('');
-			$filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
-
-			if (Piwik_Common::isWindows()) {
-				// On Windows, MySQL expects forward slashes as directory separators
-				$filePath = str_replace('\\', '/', $filePath);
-			}
-
-			// Set up CSV delimiters, quotes, etc
-			$delim = "\t";
-			$quote = '"';
-			$eol   = "\r\n";
-			$null  = 'NULL';
-			$escape = '\\\\';
-
-			$fp = fopen($filePath, 'wb');
-			if (!$fp)
-			{
-				throw new Exception('Error creating the tmp file '.$filePath.', please check that the webserver has write permission to write this file.');
-			}
-
-			@chmod($filePath, 0777);
-
-			foreach ($values as $row)
-			{
-				$output = '';
-				foreach($row as $value)
-				{
-					if(!isset($value) || is_null($value) || $value === false)
-					{
-						$output .= $null.$delim;
-					}
-					else
-					{
-						$output .= $quote.self::escapeString($value).$quote.$delim;
-					}
-				}
-				// Replace delim with eol
-				unset($row[strlen($output)-strlen($delim)]);
-				$output .= $eol;
-
-				$ret = fwrite($fp, $output);
-				if (!$ret) {
-					fclose($fp);
-					unlink($filePath);
-					throw new Exception('Error writing to the tmp file '.$filePath.' containing the batch INSERTs.');
-				}
-			}
-			fclose($fp);
-
-			$query = "
-					'$filePath'
-				REPLACE
-				INTO TABLE
-					".$tableName;
-
-			// hack for charset mismatch
-			if(!self::isDatabaseConnectionUTF8() && !isset(Zend_Registry::get('config')->database->charset))
-			{
-				$query .= ' CHARACTER SET latin1';
-			}
-
-			$query .= "
-				FIELDS TERMINATED BY
-					'".$delim."'
-				ENCLOSED BY
-					'".$quote."'
-				ESCAPED BY
-					'".$escape."'
-				LINES TERMINATED BY
-					\"".$eol."\"
-				$fieldList
-			";
-
-			// initial attempt with LOCAL keyword
-			// note: may trigger a known PHP PDO_MYSQL bug when MySQL not built with --enable-local-infile
-			// @see http://bugs.php.net/bug.php?id=54158
+		if(Zend_Registry::get('db')->hasBulkLoader())
+		{
 			try {
-				$result = @Piwik_Exec('LOAD DATA LOCAL INFILE'.$query);
-				if(empty($result) || $result < 0) {
-					throw new Exception("LOAD DATA LOCAL INFILE failed!");
+//				throw new Exception('');
+
+				$fileSpec = array(
+					'delim' => "\t",
+					'quote' => '"', // chr(34)
+					'escape' => '\\\\', // chr(92)
+					'escapespecial_cb' => create_function('$str', 'return str_replace(array(chr(92), chr(34)), array(chr(92).chr(92), chr(92).chr(34)), $str);'),
+					'eol' => "\r\n",
+					'null' => 'NULL',
+				);
+
+				// hack for charset mismatch
+				if(!self::isDatabaseConnectionUTF8() && !isset(Zend_Registry::get('config')->database->charset))
+				{
+					$fileSpec['charset'] = 'latin1';
 				}
-				unlink($filePath);
-				return true;
+
+				self::createCSVFile($filePath, $fileSpec, $values);
+
+				$rc = self::createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec);
+				if($rc)
+				{
+					unlink($filePath);
+					return true;
+				}
+
+				throw new Exception('unknown cause');
+
 			} catch(Exception $e) {
+				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
 			}
-
-			// second attempt without LOCAL keyword if MySQL server appears to be on the same box
-			// note: requires that the db user have the FILE privilege; however, since this is
-			// a global privilege, it may not be granted due to security concerns
-			$dbHost = Zend_Registry::get('config')->database->host;
-			$localHosts = array('127.0.0.1', 'localhost', 'localhost.local', 'localhost.localdomain', 'localhost.localhost');
-			$hostName = @php_uname('n');
-			if(!empty($hostName))
-			{
-				$localHosts = array_merge($localHosts, array($hostName, $hostName.'.local', $hostName.'.localdomain', $hostName.'.localhost'));
-			}
-
-			if(!empty($dbHost) && !in_array($dbHost, $localHosts))
-			{
-				throw new Exception("MYSQL appears to be on a remote server");
-			}
-
-			$result = @Piwik_Exec('LOAD DATA INFILE'.$query);
-			if(empty($result) || $result < 0) {
-				throw new Exception("LOAD DATA INFILE failed!");
-			}
-
-			unlink($filePath);
-			return true;
-		} catch(Exception $e) {
-			Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage(), Piwik_Log::WARN);
-
-			// if all else fails, fallback to a series of INSERTs
-			unlink($filePath);
-			self::tableInsertBatchIterate($tableName, $fields, $values);
 		}
+
+		// if all else fails, fallback to a series of INSERTs
+		@unlink($filePath);
+		self::tableInsertBatchIterate($tableName, $fields, $values);
 		return false;
 	}
 
@@ -2271,7 +2346,7 @@ class Piwik
 			$query = "INSERT $ignore
 					INTO ".$tableName."
 					$fieldList
-					VALUES (".Piwik_Archive_Array::getSqlStringFieldsArray($row).")";
+					VALUES (".Piwik_Common::getSqlStringFieldsArray($row).")";
 			Piwik_Query($query, $row);
 		}
 	}

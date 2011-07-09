@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Mail.php 3936 2011-02-17 12:56:14Z matt $
+ * @version $Id: Mail.php 4656 2011-05-07 19:42:20Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -53,15 +53,15 @@ class Piwik_Mail extends Zend_Mail
 		)
 		{
 			$smtpConfig = array(
-    						'auth' => $config->type,
-            				'username' => $config->username,
-            				'password' => $config->password,
-            				'ssl' => $config->encryption,
+				'auth' => strtolower($config->type),
+				'username' => $config->username,
+				'password' => $config->password,
+				'ssl' => $config->encryption,
 			);
 		}
 		
-		$tr = new Zend_Mail_Transport_Smtp($config->host,$smtpConfig);
+		$tr = new Zend_Mail_Transport_Smtp($config->host, $smtpConfig);
 		Piwik_Mail::setDefaultTransport($tr);
-		ini_set("smtp_port",$config->port);
+		ini_set("smtp_port", $config->port);
 	}
 }

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Pgsql.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: Pgsql.php 4698 2011-05-16 04:44:59Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -76,6 +76,21 @@ class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Pi
 		// and then referenced by the object ID (oid);
 		// the alternative, bytea fields, incur a space and time
 		// penalty for encoding/decoding
+		return false;
+	}
+
+	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader()
+	{
+		/**
+		 * COPY ?
+		 *
+		 * @link http://www.postgresql.org/docs/current/interactive/sql-copy.html
+		 */
 		return false;
 	}
 

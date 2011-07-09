@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Html.php 4525 2011-04-20 08:28:42Z matt $
+ * @version $Id: Html.php 4829 2011-05-29 22:08:33Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -80,6 +80,10 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 		 * ROW1 = col1 | col2 | col3 | metadata | idSubTable
 		 * ROW2 = col1 | col2 (no value but appears) | col3 | metadata | idSubTable
 		 */
+		if(!($table instanceof Piwik_DataTable))
+		{
+			throw new Exception("HTML Renderer does not work with this combination of parameters");
+		}
 		foreach($table->getRows() as $row)
 		{
 			if(isset($columnToAdd) && isset($valueToAdd))

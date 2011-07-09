@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Truncate.php 4169 2011-03-23 01:59:57Z matt $
+ * @version $Id: Truncate.php 4651 2011-05-06 08:41:31Z SteveG $
  * 
  * @category Piwik
  * @package Piwik
@@ -25,6 +25,6 @@ class Piwik_DataTable_Filter_Truncate extends Piwik_DataTable_Filter
 	public function filter($table)
 	{
 		$table->filter('AddSummaryRow', array($this->truncateAfter));
-		$table->filter('ReplaceSummaryRowLabel');
+		$table->queuefilter('ReplaceSummaryRowLabel');
 	}
 }

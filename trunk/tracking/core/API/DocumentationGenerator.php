@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: DocumentationGenerator.php 4449 2011-04-14 08:27:17Z matt $
+ * @version $Id: DocumentationGenerator.php 4691 2011-05-15 22:14:48Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -135,7 +135,8 @@ class Piwik_API_DocumentationGenerator
 			'url' => 'http://forum.piwik.org/',
 			'apiModule' => 'UserCountry',
 			'apiAction' => 'getCountry',
-			'lastMinutes' => '30'
+			'lastMinutes' => '30',
+			'abandonedCarts' => '0',
 		);
 		
 		foreach($parametersToSet as $name => $value)

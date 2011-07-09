@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4533 2011-04-22 22:05:46Z vipsoft $
+ * @version $Id: Controller.php 5003 2011-07-07 10:25:09Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Login
@@ -17,6 +17,24 @@
  */
 class Piwik_Login_Controller extends Piwik_Controller
 {
+	/**
+	 * Generate hash on user info and password
+	 *
+	 * @param string $userinfo User name, email, etc
+	 * @param string $password
+	 * @return string
+	 */
+	private function generateHash($userInfo, $password)
+	{
+		// mitigate rainbow table attack
+		$passwordLen = strlen($password) / 2;
+		$hash = Piwik_Common::hash(
+			$userInfo . substr($password, 0, $passwordLen)
+			. Piwik_Common::getSalt() . substr($password, $passwordLen)
+		);
+		return $hash;
+	}
+
 	/**
 	 * Default action
 	 *
@@ -75,6 +93,8 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	private function configureView($view)
 	{
+	    $this->setBasicVariablesView($view);
+	    
 		$view->linkTitle = Piwik::getRandomTitle();
 
 		$view->enableFrames = Zend_Registry::get('config')->General->enable_framed_logins;
@@ -191,6 +211,11 @@ class Piwik_Login_Controller extends Piwik_Controller
 	 */
 	protected function lostPasswordFormValidated($loginMail)
 	{
+		if( $loginMail === 'anonymous' )
+		{
+			return Piwik_Translate('Login_InvalidUsernameEmail');
+		}
+
 		$user = self::getUserInformation($loginMail);
 		if( $user === null )
 		{
@@ -363,7 +388,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	protected function generatePasswordResetToken($user, $timestamp = null)
 	{
 		/*
-		 * Piwik does not stored the generated password reset token.
+		 * Piwik does not store the generated password reset token.
 		 * This avoids a database schema change and SQL queries to store, retrieve, and purge (expired) tokens.
 		 */
 		if(!$timestamp)
@@ -372,7 +397,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 		}
 
 		$expiry = strftime('%Y%m%d%H', $timestamp); 
-		$token = md5($expiry . $user['login'] . $user['email'] . $user['password']);
+		$token = $this->generateHash(
+			$expiry . $user['login'] . $user['email'],
+			$user['password']
+		);
 		return $token;
 	}
 

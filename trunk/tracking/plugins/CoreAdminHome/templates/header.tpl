@@ -55,12 +55,16 @@
 {include file="CoreHome/templates/header_message.tpl"}
 
 {if !empty($configFileNotWritable)}
-<div class="ajaxSuccess" style="display:normal">
+<div class="ajaxSuccess" style="display:inline-block">
 	{'General_ConfigFileIsNotWritable'|translate:"(config/config.ini.php)":"<br/>"}
 </div>
 {elseif strpos($url, 'updated=1')}	
-<div class="ajaxSuccess" style="display:normal">
+<div class="ajaxSuccess" style="display:inline-block">
 	{'General_YourChangesHaveBeenSaved'|translate}
 </div>
 {/if}
 
+<div class="ui-confirm" id="alert">
+    <h2></h2>
+    <input id="yes" type="button" value="{'General_Ok'|translate}" />
+</div>

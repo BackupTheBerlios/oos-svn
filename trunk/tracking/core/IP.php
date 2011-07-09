@@ -4,23 +4,26 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: IP.php 4579 2011-04-27 14:53:24Z vipsoft $
+ * @version $Id: IP.php 4754 2011-05-22 05:07:24Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
  */
 
-if(Piwik_Common::isWindows()) {
+if(Piwik_Common::isWindows() || !function_exists('inet_ntop')) {
 	function _inet_ntop($in_addr) {
 		return php_compat_inet_ntop($in_addr);
-	}
-	function _inet_pton($address) {
-		return php_compat_inet_pton($address);
 	}
 } else {
 	function _inet_ntop($in_addr) {
 		return inet_ntop($in_addr);
 	}
+}
+if(Piwik_Common::isWindows() || !function_exists('inet_pton')) {
+	function _inet_pton($address) {
+		return php_compat_inet_pton($address);
+	}
+} else {
 	function _inet_pton($address) {
 		return inet_pton($address);
 	}
@@ -81,6 +84,10 @@ class Piwik_IP
 					$ipString = substr($ipString, 0, $posColon);
 				}
 				// else: Dotted quad IPv6 address, A:B:C:D:E:F:G.H.I.J
+			}
+			else if(strpos($ipString, ':') === $posColon)
+			{
+				$ipString = substr($ipString, 0, $posColon);
 			}
 			// else: IPv6 address, A:B:C:D:E:F:G:H
 		}
@@ -439,7 +446,7 @@ class Piwik_IP
 	{
 		// PHP's reverse lookup supports ipv4 and ipv6
 		// except on Windows before PHP 5.3
-		return @gethostbyaddr($ipStr);
+		return strtolower(@gethostbyaddr($ipStr));
 	}
 }
 
@@ -453,9 +460,12 @@ class Piwik_IP
  */
 function php_compat_inet_ntop($in_addr)
 {
+	// in case mbstring overloads strlen function
+	$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
+
 	$r = bin2hex($in_addr);
 
-	switch (strlen($in_addr))
+	switch ($strlen($in_addr))
 	{
 		case 4:
 			// IPv4 address

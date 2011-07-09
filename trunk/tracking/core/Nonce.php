@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Nonce.php 4366 2011-04-07 22:07:03Z vipsoft $
+ * @version $Id: Nonce.php 4750 2011-05-21 20:24:46Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -71,7 +71,7 @@ class Piwik_Nonce
 
 		// validate referer
 		$referer = Piwik_Url::getReferer();
-		if(!empty($referer) && (Piwik_Url::getLocalReferer() === false))
+		if(!empty($referer) && !Piwik_Url::isLocalUrl($referer))
 		{
 			return false;
 		}

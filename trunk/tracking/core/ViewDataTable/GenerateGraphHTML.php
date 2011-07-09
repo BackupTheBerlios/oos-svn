@@ -1,40 +1,42 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: GenerateGraphHTML.php 4188 2011-03-26 06:45:47Z matt $
- * 
+ * @version $Id: GenerateGraphHTML.php 4814 2011-05-26 21:21:22Z matt $
+ *
  * @category Piwik
  * @package Piwik
  */
 
 /**
- * This class generates the HTML code to embed to flash graphs in the page.
+ * This class generates the HTML code to embed graphs in the page.
  * It doesn't call the API but simply prints the html snippet.
- * 
+ *
  * @package Piwik
  * @subpackage Piwik_ViewDataTable
  */
 abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
-{	
-	protected $width = '100%'; 
+{
+	
+	protected $width = '100%';
 	protected $height = 250;
-	protected $graphType = 'standard';
+	protected $graphType = 'unknown';
 	
 	/**
 	 * @see Piwik_ViewDataTable::init()
 	 */
 	function init($currentControllerName,
-						$currentControllerAction, 
+						$currentControllerAction,
 						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable = null)
 	{
 		parent::init($currentControllerName,
-						$currentControllerAction, 
+						$currentControllerAction,
 						$apiMethodToRequestDataTable,
 						$controllerActionCalledWhenRequestSubTable);
+		
 		$this->dataTableTemplate = 'CoreHome/templates/graph.tpl';
 		
 		$this->disableOffsetInformationAndPaginationControls();
@@ -42,12 +44,12 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 		$this->disableSearchBox();
 		$this->enableShowExportAsImageIcon();
 		
-		$this->parametersToModify = array( 
+		$this->parametersToModify = array(
 						'viewDataTable' => $this->getViewDataTableIdToLoad(),
 						// in the case this controller is being executed by another controller
 						// eg. when being widgetized in an IFRAME
 						// we need to put in the URL of the graph data the real module and action
-						'module' => $currentControllerName, 
+						'module' => $currentControllerName,
 						'action' => $currentControllerAction,
 		);
 	}
@@ -68,7 +70,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	/**
 	 * We persist the parametersToModify values in the javascript footer.
-	 * This is used by the "export links" that use the "date" attribute 
+	 * This is used by the "export links" that use the "date" attribute
 	 * from the json properties array in the datatable footer.
 	 */
 	protected function getJavascriptVariablesToSet()
@@ -92,82 +94,61 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	
 	protected function buildView()
 	{
-		$view = new Piwik_View($this->dataTableTemplate);
-		$this->uniqueIdViewDataTable = $this->getUniqueIdViewDataTable();
-		$view->graphType = $this->graphType;
-		$this->chartDivId = $this->uniqueIdViewDataTable . "Chart_swf";
-
-		$this->parametersToModify['action'] = $this->currentControllerAction;
-		$this->parametersToModify = array_merge($this->variablesDefault, $this->parametersToModify);
-		
-		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($this->parametersToModify);
-
-		$this->includeData = !Zend_Registry::get('config')->Debug->disable_merged_requests;
+		// access control
 		$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
-		
 		Piwik_API_Request::reloadAuthUsingTokenAuth();
 		if(!Piwik::isUserHasViewAccess($idSite))
 		{
-			throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idSite)));
+			throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite',array("'view'", $idSite)));
 		}
 		
-		if($this->includeData)
-		{
-			$this->chartData = $this->getFlashData();
-		}
-		else
-		{
-			$this->chartData = null;
-		}
-		$view->flashParameters = $this->getFlashParameters();
-		$view->urlGraphData = $url;
-		$view->chartDivId = $this->chartDivId;
-		$view->formEmbedId = "formEmbed".$this->uniqueIdViewDataTable;
+		// collect data
+		$this->parametersToModify['action'] = $this->currentControllerAction;
+		$this->parametersToModify = array_merge($this->variablesDefault, $this->parametersToModify);
+		$this->graphData = $this->getGraphData();
+		
+		// build view
+		$view = new Piwik_View($this->dataTableTemplate);
+		
+		$view->width = $this->width;
+		$view->height = $this->height;
+		$view->chartDivId = $this->getUniqueIdViewDataTable()."Chart";
+		$view->graphType = $this->graphType;
+		
+		$view->data = $this->graphData;
+		$view->isDataAvailable = strpos($this->graphData, '"series":[]') === false;
+		
 		$view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
 		$view->properties = $this->getViewProperties();
+		
+		$view->reportDocumentation = $this->getReportDocumentation();
+		
 		return $view;
 	}
 
-	protected function getFlashData()
+	protected function getGraphData()
 	{
 		$saveGet = $_GET;
 
 		foreach($this->parametersToModify as $key => $val)
 		{
 			// We do not forward filter data to the graph controller.
-			// This would cause the graph to have filter_limit=5 set by default, 
+			// This would cause the graph to have filter_limit=5 set by default,
 			// which would break them (graphs need the full dataset to build the "Others" aggregate value)
 			if(strpos($key, 'filter_') !== false)
 			{
 				continue;
 			}
-			if (is_array($val)) 
+			if (is_array($val))
 			{
 				$val = implode(',', $val);
-			} 
+			}
 			$_GET[$key] = $val;
 		}
-		$content = Piwik_FrontController::getInstance()->fetchDispatch( $this->currentControllerName, $this->currentControllerAction, array());
+		$content = Piwik_FrontController::getInstance()->fetchDispatch($this->currentControllerName, $this->currentControllerAction, array());
 
 		$_GET = $saveGet;
 
 		return str_replace(array("\r", "\n", "'", '\"'), array('', '', "\\'", '\\\"'), $content);
-	}
-
-	protected function getFlashParameters()
-	{
-		// chart title is only set when there's no data in the graph
-		$isDataAvailable = $this->chartData && !preg_match('/],\s+"title": {/', $this->chartData);
-
-		return array(
-			'width'                => $this->width,
-			'height'               => $this->height,
-			'ofcLibraryPath'       => 'libs/open-flash-chart/',
-			'swfLibraryPath'       => 'libs/swfobject/',
-			'requiredFlashVersion' => '10.0.0',
-			'isDataAvailable'      => $isDataAvailable,
-			'includeData'          => $this->includeData,
-			'data'                 => $this->chartData,
-		);
 	}
 }

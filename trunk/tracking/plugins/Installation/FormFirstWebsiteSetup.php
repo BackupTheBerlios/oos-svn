@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: FormFirstWebsiteSetup.php 3678 2011-01-09 04:03:18Z matt $
+ * @version $Id: FormFirstWebsiteSetup.php 4741 2011-05-21 05:41:22Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -47,6 +47,12 @@ class Piwik_Installation_FormFirstWebsiteSetup extends Piwik_QuickForm2
 		           ->loadOptions($timezones);
 		$tz->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_Timezone')));
 		$tz->addRule('checkTimezone', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone')));
+		$tz = $this->addElement('select', 'ecommerce')
+		           ->setLabel(Piwik_Translate('Goals_Ecommerce'))
+		           ->loadOptions(array(
+		           					0 => Piwik_Translate('SitesManager_NotAnEcommerceSite'),
+		           					1 => Piwik_Translate('SitesManager_EnableEcommerce'),
+		           					));
 
 		$this->addElement('submit', 'submit', array('value' => Piwik_Translate('General_Next').' »', 'class' => 'submit'));
 

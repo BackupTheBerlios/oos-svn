@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Myisam.php 4533 2011-04-22 22:05:46Z vipsoft $
+ * @version $Id: Myisam.php 4763 2011-05-22 16:28:36Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -81,6 +81,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 						  name VARCHAR(90) NOT NULL,
 						  main_url VARCHAR(255) NOT NULL,
   						  ts_created TIMESTAMP NULL,
+  						  ecommerce TINYINT DEFAULT 0,
   						  timezone VARCHAR( 50 ) NOT NULL,
   						  currency CHAR( 3 ) NOT NULL,
   						  excluded_ips TEXT NOT NULL,
@@ -176,6 +177,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  visitor_returning TINYINT(1) NOT NULL,
 							  visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
 							  visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
+							  visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL,
 							  visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_first_action_time DATETIME NOT NULL,
 							  visit_last_action_time DATETIME NOT NULL,
@@ -186,6 +188,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  visit_total_actions SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_goal_converted TINYINT(1) NOT NULL,
+							  visit_goal_buyer TINYINT(1) NOT NULL, 
 							  referer_type TINYINT(1) UNSIGNED NULL,
 							  referer_name VARCHAR(70) NULL,
 							  referer_url TEXT NOT NULL,
@@ -209,21 +212,40 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  location_browser_lang VARCHAR(20) NOT NULL,
 							  location_country CHAR(3) NOT NULL,
 							  location_continent CHAR(3) NOT NULL,
-							  custom_var_k1 VARCHAR(50) DEFAULT NULL,
-							  custom_var_v1 VARCHAR(50) DEFAULT NULL,
-							  custom_var_k2 VARCHAR(50) DEFAULT NULL,
-							  custom_var_v2 VARCHAR(50) DEFAULT NULL,
-							  custom_var_k3 VARCHAR(50) DEFAULT NULL,
-							  custom_var_v3 VARCHAR(50) DEFAULT NULL,
-							  custom_var_k4 VARCHAR(50) DEFAULT NULL,
-							  custom_var_v4 VARCHAR(50) DEFAULT NULL,
-							  custom_var_k5 VARCHAR(50) DEFAULT NULL,
-							  custom_var_v5 VARCHAR(50) DEFAULT NULL,
+							  custom_var_k1 VARCHAR(100) DEFAULT NULL,
+							  custom_var_v1 VARCHAR(100) DEFAULT NULL,
+							  custom_var_k2 VARCHAR(100) DEFAULT NULL,
+							  custom_var_v2 VARCHAR(100) DEFAULT NULL,
+							  custom_var_k3 VARCHAR(100) DEFAULT NULL,
+							  custom_var_v3 VARCHAR(100) DEFAULT NULL,
+							  custom_var_k4 VARCHAR(100) DEFAULT NULL,
+							  custom_var_v4 VARCHAR(100) DEFAULT NULL,
+							  custom_var_k5 VARCHAR(100) DEFAULT NULL,
+							  custom_var_v5 VARCHAR(100) DEFAULT NULL,
 							  PRIMARY KEY(idvisit),
 							  INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
 							  INDEX index_idsite_datetime (idsite, visit_last_action_time),
 							  INDEX index_idsite_idvisitor (idsite, idvisitor)
 							)  DEFAULT CHARSET=utf8
+			",
+		
+			'log_conversion_item' => "CREATE TABLE `{$prefixTables}log_conversion_item` (
+												  idsite int(10) UNSIGNED NOT NULL,
+										  		  idvisitor BINARY(8) NOT NULL,
+										          server_time DATETIME NOT NULL,
+												  idvisit INTEGER(10) UNSIGNED NOT NULL,
+												  idorder varchar(100) NOT NULL,
+												  
+												  idaction_sku INTEGER(10) UNSIGNED NOT NULL,
+												  idaction_name INTEGER(10) UNSIGNED NOT NULL,
+												  idaction_category INTEGER(10) UNSIGNED NOT NULL,
+												  price FLOAT NOT NULL,
+												  quantity INTEGER(10) UNSIGNED NOT NULL,
+												  deleted TINYINT(1) UNSIGNED NOT NULL,
+												  
+												  PRIMARY KEY(idvisit, idorder, idaction_sku),
+										          INDEX index_idsite_servertime ( idsite, server_time )
+												)  DEFAULT CHARSET=utf8
 			",
 
 			'log_conversion' => "CREATE TABLE `{$prefixTables}log_conversion` (
@@ -240,23 +262,33 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 									  visitor_returning tinyint(1) NOT NULL,
         							  visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
         							  visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
+							  		  visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL,
 									  location_country char(3) NOT NULL,
 									  location_continent char(3) NOT NULL,
 									  url text NOT NULL,
-									  idgoal int(10) unsigned NOT NULL,
-									  revenue float default NULL,
+									  idgoal int(10) NOT NULL,
 									  buster int unsigned NOT NULL,
-        							  custom_var_k1 VARCHAR(50) DEFAULT NULL,
-        							  custom_var_v1 VARCHAR(50) DEFAULT NULL,
-        							  custom_var_k2 VARCHAR(50) DEFAULT NULL,
-        							  custom_var_v2 VARCHAR(50) DEFAULT NULL,
-        							  custom_var_k3 VARCHAR(50) DEFAULT NULL,
-        							  custom_var_v3 VARCHAR(50) DEFAULT NULL,
-        							  custom_var_k4 VARCHAR(50) DEFAULT NULL,
-        							  custom_var_v4 VARCHAR(50) DEFAULT NULL,
-        							  custom_var_k5 VARCHAR(50) DEFAULT NULL,
-        							  custom_var_v5 VARCHAR(50) DEFAULT NULL,
+									  
+									  idorder varchar(100) default NULL,
+									  items SMALLINT UNSIGNED DEFAULT NULL,
+									  revenue float default NULL,
+									  revenue_subtotal float default NULL,
+									  revenue_tax float default NULL,
+									  revenue_shipping float default NULL,
+									  revenue_discount float default NULL,
+        							  
+									  custom_var_k1 VARCHAR(100) DEFAULT NULL,
+        							  custom_var_v1 VARCHAR(100) DEFAULT NULL,
+        							  custom_var_k2 VARCHAR(100) DEFAULT NULL,
+        							  custom_var_v2 VARCHAR(100) DEFAULT NULL,
+        							  custom_var_k3 VARCHAR(100) DEFAULT NULL,
+        							  custom_var_v3 VARCHAR(100) DEFAULT NULL,
+        							  custom_var_k4 VARCHAR(100) DEFAULT NULL,
+        							  custom_var_v4 VARCHAR(100) DEFAULT NULL,
+        							  custom_var_k5 VARCHAR(100) DEFAULT NULL,
+        							  custom_var_v5 VARCHAR(100) DEFAULT NULL,
 									  PRIMARY KEY (idvisit, idgoal, buster),
+									  UNIQUE KEY unique_idsite_idorder (idsite, idorder),
 									  INDEX index_idsite_datetime ( idsite, server_time )
 									) DEFAULT CHARSET=utf8
 			",
@@ -272,6 +304,16 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 											  idaction_name INTEGER(10) UNSIGNED,
 											  idaction_name_ref INTEGER(10) UNSIGNED NOT NULL,
 											  time_spent_ref_action INTEGER(10) UNSIGNED NOT NULL,
+											  custom_var_k1 VARCHAR(100) DEFAULT NULL,
+											  custom_var_v1 VARCHAR(100) DEFAULT NULL,
+											  custom_var_k2 VARCHAR(100) DEFAULT NULL,
+											  custom_var_v2 VARCHAR(100) DEFAULT NULL,
+											  custom_var_k3 VARCHAR(100) DEFAULT NULL,
+											  custom_var_v3 VARCHAR(100) DEFAULT NULL,
+											  custom_var_k4 VARCHAR(100) DEFAULT NULL,
+											  custom_var_v4 VARCHAR(100) DEFAULT NULL,
+											  custom_var_k5 VARCHAR(100) DEFAULT NULL,
+											  custom_var_v5 VARCHAR(100) DEFAULT NULL,
 											  PRIMARY KEY(idlink_va),
 											  INDEX index_idvisit(idvisit),
 									          INDEX index_idsite_servertime ( idsite, server_time )
@@ -292,6 +334,15 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 								autoload TINYINT NOT NULL DEFAULT '1',
 								PRIMARY KEY ( option_name ),
 								INDEX autoload( autoload )
+								)  DEFAULT CHARSET=utf8
+			",
+
+			'session' => "CREATE TABLE {$prefixTables}session (
+								id CHAR(32) NOT NULL,
+								modified INTEGER,
+								lifetime INTEGER,
+								data TEXT,
+								PRIMARY KEY ( id )
 								)  DEFAULT CHARSET=utf8
 			",
 

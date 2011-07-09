@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 3886 2011-02-13 12:41:18Z matt $
+ * @version $Id: Controller.php 4813 2011-05-26 09:28:38Z EZdesign $
  *
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
@@ -133,5 +133,5 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( 'nb_visits' );
 		$view->setSearchPattern('^(Google|Yahoo!)$', 'label');
 		return $this->renderView($view);
-	}	
+	}
 }

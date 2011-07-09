@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Adapter.php 4600 2011-04-29 23:06:19Z vipsoft $
+ * @version $Id: Adapter.php 4690 2011-05-15 21:02:40Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -156,6 +156,13 @@ interface Piwik_Db_Adapter_Interface
 	 * @return bool
 	 */
 	public function hasBlobDataType();
+
+	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader();
 
 	/**
 	 * Test error number

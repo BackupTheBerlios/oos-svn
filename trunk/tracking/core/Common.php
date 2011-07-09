@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Common.php 4579 2011-04-27 14:53:24Z vipsoft $
+ * @version $Id: Common.php 4992 2011-07-03 18:10:30Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -39,6 +39,17 @@ class Piwik_Common
  * Database
  */
 
+	/**
+	 * Hashes a string into an integer which should be very low collision risks
+	 * @param string $string String to hash
+	 * @return int Resulting int hash
+	 */
+	static public function hashStringToInt($string)
+	{
+		$stringHash = substr(md5($string), 0, 8);
+		return base_convert($stringHash, 16, 10);
+	}
+	
 	/**
 	 * Returns the table name prefixed by the table prefix.
 	 * Works in both Tracker and UI mode.
@@ -105,6 +116,11 @@ class Piwik_Common
 		}
 	}
 
+	static public function isGoalPluginEnabled()
+	{
+		return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
+	}
+	
 /*
  * File-based Cache
  */
@@ -270,6 +286,7 @@ class Piwik_Common
 			$cache['lastTrackerCronRun'] = $now;
 			Piwik_Common::setCacheGeneral( $cache );
 			Piwik_Common::initCorePiwikInTrackerMode();
+			Piwik_SetOption('lastTrackerCronRun', $cache['lastTrackerCronRun']);
 			printDebug('-> Scheduled Tasks: Starting...');
 
 			// save current user privilege and temporarily assume super user privilege
@@ -785,6 +802,42 @@ class Piwik_Common
 	}
 
 	/**
+	 * Configureable hash() algorithm (defaults to md5)
+	 *
+	 * @param string $str String to be hashed
+	 * @param bool $raw_output
+	 * @return string Hash string
+	 */
+	static function hash($str, $raw_output = false)
+	{
+		static $hashAlgorithm = null;
+		if(is_null($hashAlgorithm))
+		{
+			if(!empty($GLOBALS['PIWIK_TRACKER_MODE']))
+			{
+				$hashAlgorithm = @Piwik_Tracker_Config::getInstance()->General['hash_algorithm'];
+			}
+			else
+			{
+				$config = Zend_Registry::get('config');
+				if($config !== false)
+				{
+					$hashAlgorithm = @$config->General->hash_algorithm;
+				}
+			}
+		}
+
+		if($hashAlgorithm)
+		{
+			$hash = @hash($hashAlgorithm, $str, $raw_output);
+			if($hash !== false)
+				return $hash;
+		}
+
+		return md5($str, $raw_output);
+	}
+
+	/**
 	 * Returns the list of Campaign parameter names that will be read to classify 
 	 * a visit as coming from a Campaign
 	 * 
@@ -1212,13 +1265,13 @@ class Piwik_Common
 				'/^(w+[0-9]*|search)\./',
 				'/(^|\.)m\./',
 				'/(\.(com|org|net|co|it|edu))?\.('.$countries.')(\/|$)/',
-				'/^('.$countries.')\./',
+				'/(^|\.)('.$countries.')\./',
 			),
 			array(
 				'',
 				'$1',
 				'.{}$4',
-				'{}.',
+				'$1{}.',
 			),
 			$url);
 	}
@@ -1290,12 +1343,22 @@ class Piwik_Common
 			if(!strncmp($query, 'cx=partner-pub-', 15))
 			{
 				// Google custom search engine
-				$refererHost = 'www.google.com/cse';
+				$refererHost = 'google.com/cse';
 			}
 			elseif(!strncmp($refererPath, '/pemonitorhosted/ws/results/', 28))
 			{
 				// private-label search powered by InfoSpace Metasearch
 				$refererHost = 'infospace.com';
+			}
+			elseif(strpos($refererHost, '.images.search.yahoo.com') != false)
+			{
+				// Yahoo! Images
+				$refererHost = 'images.search.yahoo.com';
+			}
+			elseif(strpos($refererHost, '.search.yahoo.com') != false)
+			{
+				// Yahoo!
+				$refererHost = 'search.yahoo.com';
 			}
 			else
 			{
@@ -1475,6 +1538,27 @@ class Piwik_Common
 			version_compare($matches[1], '7') >= 0;
 
 		return $iis;
+	}
+
+	/**
+	 * Takes a list of fields defining numeric values and returns the corresponding
+	 * unnamed parameters to be bound to the field names in the where clause of a SQL query
+	 *
+	 * @param array|string $fields array( fieldName1, fieldName2, fieldName3)  Names of the mysql table fields to load
+	 * @return string "?, ?, ?"
+	 */
+	public static function getSqlStringFieldsArray( $fields )
+	{
+		if(is_string($fields))
+		{
+			$fields = array($fields);
+		}
+		$count = count($fields);
+		if($count == 0)
+		{
+			return "''";
+		}
+		return '?'.str_repeat(',?', $count-1);
 	}
 }
 

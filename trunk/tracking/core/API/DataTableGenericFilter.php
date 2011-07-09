@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: DataTableGenericFilter.php 3764 2011-01-17 02:19:39Z matt $
+ * @version $Id: DataTableGenericFilter.php 4785 2011-05-23 06:10:53Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -58,7 +58,7 @@ class Piwik_API_DataTableGenericFilter
 						),
 			'AddColumnsProcessedMetricsGoal'	=> array(
 								'filter_update_columns_when_show_all_goals'	=> array('integer'),
-								'filter_only_display_idgoal' => array('integer', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
+								'filter_only_display_idgoal' => array('string', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
 						),
 			'Sort' => array(
 								'filter_sort_column' 		=> array('string'),

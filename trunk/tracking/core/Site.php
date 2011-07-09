@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Site.php 4330 2011-04-05 18:59:56Z vipsoft $
+ * @version $Id: Site.php 4735 2011-05-21 00:41:33Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -89,10 +89,14 @@ class Piwik_Site
 	{
 		return $this->get('excluded_ips');
 	}
-	
+
 	function getExcludedQueryParameters()
 	{
 		return $this->get('excluded_parameters');
+	}
+	function isEcommerceEnabled()
+	{
+		return $this->get('ecommerce') == 1;
 	}
 	
 	/**

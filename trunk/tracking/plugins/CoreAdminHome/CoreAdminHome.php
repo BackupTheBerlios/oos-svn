@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: CoreAdminHome.php 4582 2011-04-28 00:41:46Z matt $
+ * @version $Id: CoreAdminHome.php 4660 2011-05-08 21:32:07Z SteveG $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
@@ -61,9 +61,6 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		
 		$jsFiles[] = "libs/jquery/jquery.js";
 		$jsFiles[] = "libs/jquery/jquery-ui.js";
-		$jsFiles[] = "libs/jquery/jquery.bgiframe.js";
-		$jsFiles[] = "libs/jquery/jquery.blockUI.js";
-		$jsFiles[] = "libs/jquery/fdd2div-modified.js";
 		$jsFiles[] = "libs/javascript/sprintf.js";
 		$jsFiles[] = "themes/default/common.js";
 		$jsFiles[] = "libs/jquery/jquery.history.js";

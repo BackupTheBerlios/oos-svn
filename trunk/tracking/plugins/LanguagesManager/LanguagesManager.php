@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: LanguagesManager.php 3515 2010-12-22 18:40:18Z vipsoft $
+ * @version $Id: LanguagesManager.php 4660 2011-05-08 21:32:07Z SteveG $
  * 
  * @category Piwik_Plugins
  * @package Piwik_LanguagesManager
@@ -31,6 +31,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 	{
 		return array( 
 			'AssetManager.getCssFiles' => 'getCssFiles',
+			'AssetManager.getJsFiles' => 'getJsFiles',
 			'TopMenu.add' => 'showLanguagesSelector',
 			'Translate.getLanguageToLoad' => 'getLanguageToLoad',
 			'UsersManager.deleteUser' => 'deleteUserLanguage',
@@ -42,6 +43,13 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 		$cssFiles = &$notification->getNotificationObject();
 		
 		$cssFiles[] = "themes/default/styles.css";
+	}	
+
+	function getJsFiles( $notification )
+	{
+		$jsFiles = &$notification->getNotificationObject();
+		
+		$jsFiles[] = "plugins/LanguagesManager/templates/languageSelector.js";
 	}	
 
 	/**

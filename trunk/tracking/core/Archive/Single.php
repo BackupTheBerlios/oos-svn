@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Single.php 4272 2011-04-01 00:33:56Z vipsoft $
+ * @version $Id: Single.php 4709 2011-05-16 22:37:02Z matt $
  * 
  * 
  * @category Piwik
@@ -421,7 +421,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	public function getNumeric( $name )
 	{
 		// we cast the result as float because returns false when no visitors
-		return (float)$this->get($name, 'numeric');
+		return round((float)$this->get($name, 'numeric'), 2);
 	}
 
 	

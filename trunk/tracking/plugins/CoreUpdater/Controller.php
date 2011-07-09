@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4361 2011-04-07 19:08:13Z matt $
+ * @version $Id: Controller.php 4755 2011-05-22 05:39:27Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
@@ -226,27 +226,35 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		{
 			$view = Piwik_View::factory('update_welcome');
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
+			echo $view->render();
 
-			if(!$this->coreError)
+			if(!$this->coreError
+				&& Piwik::getModule() == 'CoreUpdater')
 			{
 				$view = Piwik_View::factory('update_database_done');
 				$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
+				echo $view->render();
 			}
 		}
-		else if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1
-			// If there is only one query to run, it is the standard    UPDATE piwik_option SET option_value = "1.x" WHERE option_name = "version_core";
-			// Therefore we don't display the warning "Schema Upgrade" message to users and automatically upgrade  
-			|| count($sqlQueries) == 1)
+		else if(Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1)
 		{
 			$this->warningMessages = array();
 			$view = Piwik_View::factory('update_database_done');
 			$this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
+
+			if(count($sqlQueries)== 1 && !$this->coreError)
+			{
+				Piwik::redirectToModule('CoreHome');
+			}
+
+			echo $view->render();
 		}
 		else
 		{
 			$view = Piwik_View::factory('update_welcome');
-    		$view->queries = $sqlQueries;
+			$view->queries = $sqlQueries;
 			$this->doWelcomeUpdates($view, $componentsWithUpdateFile);
+			echo $view->render();
 		}
 		exit;
 	}
@@ -305,7 +313,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$view->current_piwik_version = $currentVersion;
 		$view->pluginNamesToUpdate = $pluginNamesToUpdate;
 		$view->coreToUpdate = $coreToUpdate; 
-		echo $view->render();
 	}
 
 	private function doExecuteUpdates($view, $updater, $componentsWithUpdateFile)
@@ -318,7 +325,6 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		$view->warningMessages = $this->warningMessages;
 		$view->errorMessages = $this->errorMessages;
 		$view->deactivatedPlugins = $this->deactivatedPlugins;
-		echo $view->render();
 	}
 
 	private function loadAndExecuteUpdateFiles($updater, $componentsWithUpdateFile)

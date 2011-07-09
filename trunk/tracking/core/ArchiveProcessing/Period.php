@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Period.php 4587 2011-04-28 06:24:46Z matt $
+ * @version $Id: Period.php 4717 2011-05-17 23:18:17Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -326,7 +326,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		
 		$query = "
 			SELECT count(distinct idvisitor) as nb_uniq_visitors 
-			FROM ".Piwik_Common::prefixTable('log_visit')."
+			FROM ".Piwik_Common::prefixTable('log_visit')." AS log_visit
 			WHERE visit_last_action_time >= ?
     				AND visit_last_action_time <= ? 
     				AND idsite = ?

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: 0.2.13.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: 0.2.13.php 4771 2011-05-22 21:49:27Z vipsoft $
  *
  * @category Piwik
  * @package Updates
@@ -17,11 +17,15 @@ class Piwik_Updates_0_2_13 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
-		$tables = Piwik::getTablesCreateSql();
-
 		return array(
 			'DROP TABLE IF EXISTS `'. Piwik_Common::prefixTable('option') .'`' => false,
-			$tables['option'] => false,
+
+			'CREATE TABLE `'. Piwik_Common::prefixTable('option') ."` (
+				option_name VARCHAR( 64 ) NOT NULL ,
+				option_value LONGTEXT NOT NULL ,
+				autoload TINYINT NOT NULL DEFAULT '1',
+				PRIMARY KEY ( option_name )
+			)" => false,
 		);
 	}
 

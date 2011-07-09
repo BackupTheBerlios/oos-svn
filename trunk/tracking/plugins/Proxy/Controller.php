@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4232 2011-03-29 18:29:13Z matt $
+ * @version $Id: Controller.php 4987 2011-07-03 16:44:33Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Proxy
@@ -47,24 +47,40 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 	{
 		Piwik::checkUserHasSomeViewAccess();
 
-		header('Content-Type: image/png');
-		$data = base64_decode(Piwik_Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST));
+		$rawData = Piwik_Common::getRequestVar('imageData', '', 'string', $_POST);
 
-		if(function_exists('imagecreatefromstring'))
+		// returns false if any illegal characters in input
+		$data = base64_decode($rawData);
+		if($data !== false)
 		{
-			// validate image data
-			$imgResource = @imagecreatefromstring($data);
-			if($imgResource !== false)
+			$substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
+			// check for PNG header
+			if($substr($data, 0, 8) === "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a")
 			{
-				// output image and clean-up
-				imagepng($imgResource);
-				imagedestroy($imgResource);
+				header('Content-Type: image/png');
+
+				// more robust validation (if available)
+				if(function_exists('imagecreatefromstring'))
+				{
+					// validate image data
+					$imgResource = @imagecreatefromstring($data);
+					if($imgResource !== false)
+					{
+						// output image and clean-up
+						imagepng($imgResource);
+						imagedestroy($imgResource);
+						exit;
+					}
+				}
+				else
+				{
+					echo $data;
+					exit;
+				}
 			}
 		}
-		else
-		{
-			echo $data;
-		}
+
+		Piwik::setHttpStatus('400 Bad Request');
 		exit;
 	}
 
@@ -119,7 +135,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 
 		// validate referrer
 		$referrer = Piwik_Url::getReferer();
-		if(!empty($referrer) && (Piwik_Url::getLocalReferer() === false))
+		if(!empty($referrer) && !Piwik_Url::isLocalUrl($referrer))
 		{
 			die('Invalid Referer detected - check that your browser sends the Referer header. <br/>The link you would have been redirected to is: '.$url);
 			exit;

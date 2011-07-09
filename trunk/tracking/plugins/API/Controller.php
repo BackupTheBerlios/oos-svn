@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4465 2011-04-15 04:17:43Z matt $
+ * @version $Id: Controller.php 4717 2011-05-17 23:18:17Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_API
@@ -89,6 +89,8 @@ class Piwik_API_Controller extends Piwik_Controller
     				$output .= '<tr><td colspan="2"> There are 5 custom variables available, so you can segment across any segment name and value range.
     						<br/>For example, <code>customVariableName1==Type;customVariableValue1==Customer</code>
     						<br/>Returns all visitors that have the Custom Variable "Type" set to "Customer".
+    						<br/>At this stage, Custom Variables of scope "visit" are used as a segment in most API calls. 
+    						<br/>Custom Variables of scope "page" are used as a segment only for the Actions.get* API calls.
     						</td></tr>';
     			}
 			}

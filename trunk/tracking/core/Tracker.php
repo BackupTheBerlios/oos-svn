@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Tracker.php 4487 2011-04-16 23:41:47Z vipsoft $
+ * @version $Id: Tracker.php 4841 2011-05-30 23:51:48Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -39,8 +39,9 @@ class Piwik_Tracker
 	
 	// These are also hardcoded in the Javascript
 	const MAX_CUSTOM_VARIABLES = 5;
-	const MAX_LENGTH_CUSTOM_VARIABLE = 50;
+	const MAX_LENGTH_CUSTOM_VARIABLE = 100;
 	
+	protected $authenticated = false;
 	static protected $forcedDateTime = null;
 	static protected $forcedIpString = null;
 	static protected $forcedVisitorId = null;
@@ -111,7 +112,13 @@ class Piwik_Tracker
 				unset($visit);
 			}
 
-			Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
+			// don't run scheduled tasks in CLI mode from Tracker, this is the case 
+			// where we bulk load logs & don't want to lose time with tasks
+			if(!Piwik_Common::isPhpCliMode()
+				&& !$this->authenticated)
+			{
+				Piwik_Common::runScheduledTasks($now = $this->getCurrentTimestamp());
+			}
 		} catch (Piwik_Tracker_Db_Exception $e) {
 			printDebug("<b>".$e->getMessage()."</b>");
 		} catch(Piwik_Tracker_Visit_Excluded $e) {
@@ -138,10 +145,10 @@ class Piwik_Tracker
 	 */
 	protected function init()
 	{
+		$this->handleTrackingApi();
 		$this->loadTrackerPlugins();
 		$this->handleDisabledTracker();
 		$this->handleEmptyRequest();
-		$this->handleTrackingApi();
 		
 		printDebug("Current datetime: ".date("Y-m-d H:i:s", $this->getCurrentTimestamp()));
 	}
@@ -312,6 +319,11 @@ class Piwik_Tracker
 
 	protected function loadTrackerPlugins()
 	{
+		if(isset($this->request['dp'])
+			&& $this->authenticated) 
+		{
+			Piwik_Tracker::setPluginsNotToLoad(array('Provider'));
+		}
 		try{
 			$pluginsTracker = Piwik_Tracker_Config::getInstance()->Plugins_Tracker;
 			if(is_array($pluginsTracker)
@@ -360,6 +372,7 @@ class Piwik_Tracker
 			$superUserPassword = Piwik_Tracker_Config::getInstance()->superuser['password'];
 			if( md5($superUserLogin . $superUserPassword ) == $tokenAuth )
 			{
+				$this->authenticated = true;
 				return true;
 			}
 			
@@ -372,6 +385,7 @@ class Piwik_Tracker
 				$adminTokenAuth = $website['admin_token_auth'];
 				if(in_array($tokenAuth, $adminTokenAuth))
 				{
+					$this->authenticated = true;
 					return true;
 				}
 			}

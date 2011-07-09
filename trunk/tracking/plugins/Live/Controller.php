@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4489 2011-04-17 00:33:52Z matt $
+ * @version $Id: Controller.php 4935 2011-06-19 04:01:00Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -22,6 +22,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function widget($fetch = false)
 	{
+		Piwik_API_Request::reloadAuthUsingTokenAuth(); 
 		$view = Piwik_View::factory('index');
 		$view->idSite = $this->idSite;
 		$view = $this->setCounters($view);
@@ -33,6 +34,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
 	public function ajaxTotalVisitors($fetch = false)
 	{
+		Piwik_API_Request::reloadAuthUsingTokenAuth(); 
 		$view = Piwik_View::factory('totalVisits');
 		$view = $this->setCounters($view);
 		$view->idSite = $this->idSite;
@@ -50,6 +52,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 	
 	public function getVisitorLog($fetch = false)
 	{
+		Piwik_API_Request::reloadAuthUsingTokenAuth(); 
 		// If previous=1 is set, user clicked previous
 		// we can't deal with previous so we force display of the first page
 		if(Piwik_Common::getRequestVar('previous', 0, 'int') == 1) {
@@ -61,7 +64,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 							__FUNCTION__,
 						'Live.getLastVisitsDetails'
 						);
-
 		$view->disableGenericFilters();
 		$view->disableSort();
 		$view->setTemplate("Live/templates/visitorLog.tpl");
@@ -78,12 +80,16 @@ class Piwik_Live_Controller extends Piwik_Controller
 		// disable the RSS feed
 		$view->disableShowExportAsRssFeed();
 		
-		$view->setCustomParameter('pageUrlNotDefined', Zend_Registry::get('config')->General->action_default_url_when_not_defined);
+		$view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')));
+		$view->setCustomParameter('dataTablePreviousIsFirst', 1);
+		$view->setCustomParameter('filterEcommerce', Piwik_Common::getRequestVar('filterEcommerce', 0, 'int'));
+		$view->setCustomParameter('pageUrlNotDefined', Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL')));
 		return $this->renderView($view, $fetch);
 	}
 
 	public function getLastVisitsStart($fetch = false)
 	{
+		Piwik_API_Request::reloadAuthUsingTokenAuth(); 
 		// hack, ensure we load today's visits by default
 		$_GET['date'] = 'today';
 		$_GET['period'] = 'day';

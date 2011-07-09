@@ -87,6 +87,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	The following components/libraries are redistributed in this package,
 	and subject to their respective licenses.
 
+	Name:  jqPlot
+	Link:  http://www.jqplot.com/
+	License:  Dual-licensed: MIT or GPL v2
+	
 	Name:  CSS3PIE
 	Link:  http://github.com/lojjic/PIE
 	License:  Dual-licensed: Apache v2 or GPL v2
@@ -182,14 +186,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.phcomp.co.uk/tmp/Smarty.phps
 	License:  New BSD
 
-	Name:  Open Flash Chart
-	Link:  http://teethgrinder.co.uk/open-flash-chart-2/
-	License:  LGPL
-	Notes:
-	- includes JSON.php (New BSD)
-	- depends on FlashDevelop (http://www.flashdevelop.org/); MIT
-	- depends on Flex SDK; MPL 1.1 and Adobe Flex SDK license
-
 	Name:  PclZip
 	Link:  http://www.phpconcept.net/pclzip/
 	License:  LGPL
@@ -220,8 +216,22 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.zendframework.com/
 	License:  New BSD
 
+THIRD-PARTY CONTENT
+
+	Name:  FamFamFam icons - Mark James
+	Link:  http://www.famfamfam.com/lab/icons/
+	License:  CC BY 3.0
+
+	Name:  Solar System icons - Dan Wiersema
+       	Link:  http://www.iconspedia.com/icon/neptune-4672.html
+	License:  Free for non-commercial use
+	Notes:
+	- used in Piwik's ExampleUI plugin
 
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.
 - the "MIT" license is also referred to as the "X11" license
+- icons for browsers, operating systems, browser plugins, search engines, and
+  and flags of countries are nominative use of third-party trademarks when
+  referring to the corresponding product or entity

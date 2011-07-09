@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4515 2011-04-19 23:40:14Z matt $
+ * @version $Id: Controller.php 4823 2011-05-29 15:47:01Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
@@ -16,6 +16,9 @@
  */
 class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 {
+    const LOGO_HEIGHT = 300;
+    const LOGO_SMALL_HEIGHT = 100;
+    
 	public function index()
 	{
 		return $this->redirectToIndex('UsersManager', 'userSettings');
@@ -45,6 +48,12 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
     			$view->configFileNotWritable = true;
     		}
     		$view->mail = Zend_Registry::get('config')->mail->toArray();
+
+			$view->branding = Zend_Registry::get('config')->branding->toArray();
+			
+			$directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT.'/themes/');
+			$logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo.png') && is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo-header.png');
+			$view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 		}
 		
     	$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
@@ -77,6 +86,11 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			$mail->encryption = Piwik_Common::getRequestVar('mailEncryption', '');
 			Zend_Registry::get('config')->mail = $mail->toArray();
 			
+			// update branding settings
+			$branding = Zend_Registry::get('config')->branding;
+			$branding->use_custom_logo = Piwik_Common::getRequestVar('useCustomLogo', '0');
+			Zend_Registry::get('config')->branding = $branding->toArray();
+			
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {
 			$toReturn = $response->getResponseException( $e );
@@ -107,5 +121,54 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			? $language
 			: Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 		echo $view->render();
+	}
+	
+	public function uploadCustomLogo()
+	{
+		Piwik::checkUserIsSuperUser();
+		if(empty($_FILES['customLogo']) 
+			|| !empty($_FILES['customLogo']['error'])
+			) 
+		{
+			echo '0';
+			return;
+		}
+		
+		$file = $_FILES['customLogo']['tmp_name'];
+		if(!file_exists($file))
+		{
+			echo '0';
+			return;
+		}
+		$error = false;
+		
+		list($width, $height) = getimagesize($file);
+		switch($_FILES['customLogo']['type']) {
+			case 'image/jpeg':
+				$image = imagecreatefromjpeg($file);
+				break;
+			case 'image/png':
+				$image = imagecreatefrompng($file);
+				break;
+			case 'image/gif':
+				$image = imagecreatefromgif($file);
+				break;
+			default:
+				echo '0';
+				return;
+		}
+
+		$widthExpected = round($width * self::LOGO_HEIGHT / $height);
+		$smallWidthExpected = round($width * self::LOGO_SMALL_HEIGHT / $height); 
+		
+		$logo = imagecreatetruecolor($widthExpected, self::LOGO_HEIGHT);
+		$logoSmall = imagecreatetruecolor($smallWidthExpected, self::LOGO_SMALL_HEIGHT);
+		imagecopyresized($logo, $image, 0, 0, 0, 0, $widthExpected, self::LOGO_HEIGHT, $width, $height);
+		imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, self::LOGO_SMALL_HEIGHT, $width, $height);
+
+		imagepng($logo, PIWIK_DOCUMENT_ROOT.'/themes/logo.png', 3);
+		imagepng($logoSmall, PIWIK_DOCUMENT_ROOT.'/themes/logo-header.png', 3);
+		echo '1';
+		return;
 	}
 }

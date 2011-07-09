@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: 0.2.10.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: 0.2.10.php 4769 2011-05-22 21:10:18Z vipsoft $
  *
  * @category Piwik
  * @package Updates
@@ -17,10 +17,13 @@ class Piwik_Updates_0_2_10 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
-		$tables = Piwik::getTablesCreateSql();
-
 		return array(
-			$tables['option'] => false,
+			'CREATE TABLE `'. Piwik_Common::prefixTable('option') .'` (
+				idoption BIGINT NOT NULL AUTO_INCREMENT ,
+				option_name VARCHAR( 64 ) NOT NULL ,
+				option_value LONGTEXT NOT NULL ,
+				PRIMARY KEY ( idoption , option_name )
+			)' => false,
 
 			// 0.1.7 [463]
 			'ALTER IGNORE TABLE `'. Piwik_Common::prefixTable('log_visit') .'`

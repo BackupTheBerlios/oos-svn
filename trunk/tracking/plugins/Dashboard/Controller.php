@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4364 2011-04-07 20:34:31Z matt $
+ * @version $Id: Controller.php 4765 2011-05-22 18:52:37Z vipsoft $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Dashboard
@@ -96,7 +96,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 		{
 			$session = new Piwik_Session_Namespace("Piwik_Dashboard");
 			$session->dashboardLayout = $layout;
-			$session->setExpirationSeconds(7*86400);
+			$session->setExpirationSeconds(1800);
 		}
 		else
 		{

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: AnonymizeIP.php 4533 2011-04-22 22:05:46Z vipsoft $
+ * @version $Id: AnonymizeIP.php 4630 2011-05-03 15:32:33Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_AnonymizeIP
@@ -50,7 +50,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
 	 */
 	static public function applyIPMask($ip, $maskLength)
 	{
-		// in case mbstring overloads strlen and substr functions
+		// in case mbstring overloads strlen function
 		$strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
 		$i = $strlen($ip);
 		if($maskLength > $i)

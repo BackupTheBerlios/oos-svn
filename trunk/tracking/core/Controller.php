@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4582 2011-04-28 00:41:46Z matt $
+ * @version $Id: Controller.php 4861 2011-06-04 01:27:36Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -321,7 +321,8 @@ abstract class Piwik_Controller
 			$view->idSite = $this->idSite;
 			if(empty($this->site) || empty($this->idSite))
 			{
-				throw new Exception("The requested website idSite is not found in the request, or is invalid");
+				throw new Exception("The requested website idSite is not found in the request, or is invalid.
+				Please check that you are logged in Piwik and have permission to access the specified website.");
 			}
 			$this->setPeriodVariablesView($view);
 			
@@ -373,6 +374,9 @@ abstract class Piwik_Controller
 		$view->topMenu = Piwik_GetTopMenu();
 		$view->debugTrackVisitsInsidePiwikUI = Zend_Registry::get('config')->Debug->track_visits_inside_piwik_ui;
 		$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
+		$view->isCustomLogo = Zend_Registry::get('config')->branding->use_custom_logo;
+		$view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
+		$view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
 	}
 	
 	/**
@@ -423,7 +427,7 @@ abstract class Piwik_Controller
 	 * @param string $defaultPeriod Default period, eg. "day"
 	 * @param string $defaultDate Default date, eg. "today"
 	 */
-	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null)
+	function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null, $parameters = array())
 	{
 		if(is_null($websiteId))
 		{
@@ -437,13 +441,19 @@ abstract class Piwik_Controller
 		{
 			$defaultPeriod = $this->getDefaultPeriod();
 		}
+		$parametersString = '';
+		if(!empty($parameters))
+		{
+			$parametersString = '&' . Piwik_Url::getQueryStringFromParameters($parameters);
+		}
 
 		if($websiteId) {
 			$url = "Location: index.php?module=".$moduleToRedirect
 									."&action=".$actionToRedirect
 									."&idSite=".$websiteId
 									."&period=".$defaultPeriod
-									."&date=".$defaultDate;
+									."&date=".$defaultDate
+									.$parametersString;
 			header($url);
 			exit;
 		}

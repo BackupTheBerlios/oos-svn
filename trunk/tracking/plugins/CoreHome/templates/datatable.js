@@ -163,7 +163,12 @@ dataTable.prototype =
 			$('#'+self.workingDivId+' .loadingPiwik').last().css('display','block');
 		}
 		
-		piwikHelper.queueAjaxRequest($.ajax(self.buildAjaxRequest(callbackSuccess)));
+		var container = $('#'+self.workingDivId+' .piwik-graph');
+		piwikHelper.queueAjaxRequest($.ajax(self.buildAjaxRequest(function(response) {
+			container.trigger('piwikDestroyPlot');
+			container.unbind('piwikDestroyPlot');
+			callbackSuccess(response);
+		})));
 	},
 			
 	
@@ -219,6 +224,8 @@ dataTable.prototype =
 		self.handleExportBox(domElem);
 		self.applyCosmetics(domElem);
 		self.handleSubDataTable(domElem);
+		self.handleColumnDocumentation(domElem);
+		self.handleReportDocumentation(domElem);
 	},
 		
 	// if sorting the columns is enabled, when clicking on a column, 
@@ -276,6 +283,7 @@ dataTable.prototype =
 		{
 			currentPattern = '';
 		}
+		currentPattern = piwikHelper.htmlDecode(currentPattern);
 		
 		$('.dataTableSearchPattern', domElem)
 			.show()
@@ -535,19 +543,34 @@ dataTable.prototype =
 				var format = $(this).attr('format');
 				var method = $(this).attr('methodToCall');
 				var filter_limit = $(this).attr('filter_limit');
-				
+				var segment = self.param.segment;
+				var idGoal = self.param.idGoal;
 				var param_date = self.param.date;
 				var date = $(this).attr('date');
 				if(typeof date != 'undefined') {
 					param_date = date; 
 				}
+				var period = self.param.period;
+				
+				// RSS does not work for period=range
+				if(format == 'RSS'
+						&& self.param.period == 'range') {
+					period = 'day';
+				}
 				var str = 'index.php?module=API'
 						+'&method='+method
 						+'&format='+format
 						+'&idSite='+self.param.idSite
-						+'&period='+self.param.period
+						+'&period='+period
 						+'&date='+param_date
 						+'&token_auth='+piwik.token_auth;
+				if(typeof segment != 'undefined') {
+					str += '&segment='+segment;
+				}
+				// Export Goals specific reports
+				if(typeof idGoal != 'undefined') {
+					str += '&idGoal='+idGoal;
+				}
 				if( filter_limit )
 				{
 					str += '&filter_limit=' + filter_limit;
@@ -556,7 +579,7 @@ dataTable.prototype =
 			}
 		);
 		
-		
+		// Initialize arrow footer to correct icon
 		$('.dataTableFooterWrap a.tableIcon', domElem).each(function(){
 			if(self.jsViewDataTable==$(this).attr('var')) self.setActiveIcon(this, domElem); 
 		});
@@ -749,7 +772,146 @@ dataTable.prototype =
 				$(this).next().toggle();
 			} 
 		);
+	},
+	
+	// tooltip for column documentation
+ 	handleColumnDocumentation: function(domElem)
+	{
+		if ($('#dashboard').size() > 0) {
+			// don't display column documentation in dashboard
+			// it causes trouble in full screen view
+			return;
+		}
+		
+		var self = this;
+		
+		$('th:has(.columnDocumentation)', domElem).each(function()
+		{
+			var th = $(this);
+			var tooltip = th.find('.columnDocumentation');
+			
+			tooltip.next().hover(function()
+			{
+				var left = (-1 * tooltip.outerWidth() / 2) + th.width() / 2;
+				var top = -1 * (tooltip.outerHeight() + 10);
+				
+				if (th.next().size() == 0) 
+				{
+					left = (-1 * tooltip.outerWidth()) + th.width() +
+					parseInt(th.css('padding-right'), 10);
+				}
+				
+				tooltip.css({
+					marginLeft: left,
+					marginTop: top
+				});
+				
+				tooltip.stop(true, true).fadeIn(250);
+			},
+			function()
+			{
+				$(this).prev().stop(true, true).fadeOut(400);
+			});
+		});
+	},
+	
+	// documentation for report
+	handleReportDocumentation: function(domElem)
+	{
+		// don't display report documentation in dashboard
+		if ($('#dashboard').size() > 0
+				// or in Widgetize screen
+				|| $('.widgetContent').size() > 0
+				// or in Widget export
+				|| $('.widget').size() > 0
+				) {
+			return;
+		}
+		domElem = $(domElem);
+		var doc = domElem.find('.reportDocumentation');
+		
+		var h2 = false;
+		if (domElem.prev().is('h2'))
+		{
+			h2 = domElem.prev();
+		}
+		else if (this.param.viewDataTable == 'tableGoals')
+		{
+			h2 = $('#titleGoalsByDimension');
+		}
+		else if( $('h2', domElem))
+		{
+			h2 = $('h2', domElem);
+		}
+		if (doc.size() == 0)
+		{
+			if (h2 && h2.size() > 0)
+			{
+				h2.find('a.reportDocumentationIcon').addClass('hidden');
+			}
+			return;
+		}
+		
+		var icon = $('<a href="#"></a>');
+		var docShown = false;
+		
+		icon.click(function()
+		{
+			if (docShown)
+			{
+				doc.stop(true, true).fadeOut(250);
+			}
+			else
+			{
+				var widthOrientation = domElem.find('table, canvas, object').eq(0);
+				if (widthOrientation.size() > 0)
+				{
+					var width = Math.min(widthOrientation.width(), doc.parent().innerWidth());
+					doc.css('width', (width - 2) + 'px');
+				}
+				doc.stop(true, true).fadeIn(250);
+			}
+			docShown = !docShown;
+			return false;
+		});
+		
+		icon.addClass('reportDocumentationIcon');
+		if (h2 && h2.size() > 0)
+		{
+			// handle previously added icon
+			var existingIcon = h2.find('a.reportDocumentationIcon');
+			if (existingIcon.size() > 0)
+			{
+				existingIcon.replaceWith(icon);
+			}
+			else
+			{
+				// add icon
+				h2.append('&nbsp;&nbsp;&nbsp;');
+				h2.append(icon);
+				
+				h2.hover(function()
+				{
+					$(this).find('a.reportDocumentationIcon').show();
+				},
+				function()
+				{
+					$(this).find('a.reportDocumentationIcon').hide();
+				})
+				.click(
+				function()
+				{
+					$(this).find('a.reportDocumentationIcon').click();
+				})
+				.css('cursor', 'pointer');
+			}
+		}
+		else
+		{
+			//domElem.prepend(icon);
+		}
 	}
+	
 };
 
 
@@ -786,6 +948,8 @@ actionDataTable.prototype =
 	handleSearchBox: dataTable.prototype.handleSearchBox,
 	handleExportBox: dataTable.prototype.handleExportBox,
 	handleSort: dataTable.prototype.handleSort,
+	handleColumnDocumentation: dataTable.prototype.handleColumnDocumentation,
+	handleReportDocumentation: dataTable.prototype.handleReportDocumentation,
 	onClickSort: dataTable.prototype.onClickSort,
 	truncate: dataTable.prototype.truncate,
 	handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
@@ -834,6 +998,9 @@ actionDataTable.prototype =
 			self.handleSearchBox(domElem, self.dataTableLoaded );
 			self.handleLowPopulationLink(domElem, self.dataTableLoaded );
 		}
+		
+		self.handleColumnDocumentation(domElem);
+		self.handleReportDocumentation(domElem);
 	},
 	
 	//see dataTable::applyCosmetics

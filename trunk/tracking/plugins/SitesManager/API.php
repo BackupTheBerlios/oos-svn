@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 4533 2011-04-22 22:05:46Z vipsoft $
+ * @version $Id: API.php 4828 2011-05-29 22:01:18Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
@@ -341,6 +341,7 @@ class Piwik_SitesManager_API
 	 * @param array|string The URLs array must contain at least one URL called the 'main_url' ; 
 	 * 						if several URLs are provided in the array, they will be recorded 
 	 * 						as Alias URLs for this website.
+	 * @param int Is Ecommerce Reporting enabled for this website? 
 	 * @param string Comma separated list of IPs to exclude from the reports (allows wildcards)
 	 * @param string Timezone string, eg. 'Europe/London'
 	 * @param string Currency, eg. 'EUR'
@@ -350,7 +351,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return int the website ID created
 	 */
-	public function addSite( $siteName, $urls, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null )
+	public function addSite( $siteName, $urls, $ecommerce = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -386,6 +387,7 @@ class Piwik_SitesManager_API
 		$bind['excluded_parameters'] = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
 		$bind['timezone'] = $timezone;
 		$bind['currency'] = $currency;
+		$bind['ecommerce'] = (int)$ecommerce;
 		$bind['ts_created'] = !is_null($startDate) 
 									? Piwik_Date::factory($startDate)->getDatetime()
 									: Piwik_Date::now()->getDatetime();
@@ -694,7 +696,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return bool true on success
 	 */
-	public function updateSite( $idSite, $siteName, $urls = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null)
+	public function updateSite( $idSite, $siteName, $urls = null, $ecommerce = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -735,6 +737,10 @@ class Piwik_SitesManager_API
 			&& Piwik::isUserIsSuperUser())
 		{
 			$bind['group'] = trim($group);
+		}
+		if(!is_null($ecommerce))
+		{
+			$bind['ecommerce'] = (int)(bool)$ecommerce;
 		}
 		if(!is_null($startDate))
 		{
@@ -1030,10 +1036,19 @@ class Piwik_SitesManager_API
 
 		$db = Zend_Registry::get('db');
 		$bind = array('%'.$pattern.'%', 'http%'.$pattern.'%');
+		
+		// Also match the idsite
+		$where = '';
+		if(is_numeric($pattern))
+		{
+			$bind[] = $pattern;
+			$where = 'OR  s.idsite = ?';
+		}
 		$sites = $db->fetchAll("SELECT idsite, name, main_url 
 								FROM ".Piwik_Common::prefixTable('site')." s	
 								WHERE (		s.name like ? 
-										OR 	s.main_url like ?) 
+										OR 	s.main_url like ?
+										 $where ) 
 									AND idsite in ($ids_str) 
 								LIMIT ".Piwik::getWebsitesCountToDisplay(), 
 							$bind) ;

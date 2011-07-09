@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: SearchEngines.php 4531 2011-04-21 12:49:06Z vipsoft $
+ * @version $Id: SearchEngines.php 4955 2011-06-26 22:29:59Z vipsoft $
  *
  * @category Piwik
  * @package DataFiles
@@ -64,7 +64,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'1.cz'						=> array('1.cz', 'q', 'index.php?q={k}', 'iso-8859-2'),
 
 		// 123people
-		'www.123people.com'			=> array('123people', '/s\/([^\/]+)/', 's/{k}'),
+		'www.123people.com'			=> array('123people', array('/s\/([^\/]+)/', 'search_term'), 's/{k}'),
 		'123people.{}'				=> array('123people'),
 
 		// 1und1
@@ -91,6 +91,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Alexa
 		'alexa.com'					=> array('Alexa', 'q', 'search?q={k}'),
+		'search.toolbars.alexa.com'	=> array('Alexa'),
 
 		// Alice Adsl
 		'rechercher.aliceadsl.fr'	=> array('Alice Adsl', 'qs', 'google.pl?qs={k}'),
@@ -140,6 +141,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'suche.aol.de'				=> array('AOL'),
 		'suche.aolsvc.de'			=> array('AOL'),
 		'aolbusqueda.aol.com.mx'	=> array('AOL'),
+		'alicesuche.aol.de'			=> array('AOL'),
 		'alicesuchet.aol.de'		=> array('AOL'),
 		'suche.aolsvc.de'			=> array('AOL'),
 		'suche.aol.de'				=> array('AOL'),
@@ -161,6 +163,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Arianna (Libero.it)
 		'arianna.libero.it'			=> array('Arianna', 'query', 'search/abin/integrata.cgi?query={k}'),
+		'www.arianna.com'			=> array('Arianna'),
 
 		// Ask (IAC Search & Media)
 		'ask.com'					=> array('Ask', array('ask', 'q', 'searchfor'), 'web?q={k}'),
@@ -168,6 +171,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'int.ask.com'				=> array('Ask'),
 		'mws.ask.com'				=> array('Ask'),
 		'images.ask.com'			=> array('Ask'),
+		'images.{}.ask.com'			=> array('Ask'),
 		'ask.reference.com'			=> array('Ask'),
 		'www.askkids.com'			=> array('Ask'),
 		'iwon.ask.com'				=> array('Ask'),
@@ -186,7 +190,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www1.austronaut.at'		=> array('Austronaut'),
 	
 		// Babylon (Enhanced by Google)
-		'search.babylon.com'		=> array('Babylon', 'q', '?q={k}'),
+		'search.babylon.com'		=> array('Babylon', array('q', '/\/web\/(.*)/'), '?q={k}'),
 
 		// Baidu
 		'www.baidu.com'				=> array('Baidu', array('wd', 'word', 'kw'), 's?wd={k}', 'gb2312'),
@@ -205,6 +209,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Bing
 		'bing.com'					=> array('Bing', array('q', 'Q'), 'search?q={k}'),
 		'{}.bing.com'				=> array('Bing'),
+		'msnbc.msn.com'				=> array('Bing'),
 
 		// Bing Cache
 		'cc.bingj.com'				=> array('Bing'),
@@ -249,6 +254,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Daemon search
 		'daemon-search.com'			=> array('Daemon search', 'q', 'explore/web?q={k}'),
+		'my.daemon-search.com'		=> array('Daemon search'),
 
 		// DasOertliche
 		'www.dasoertliche.de'		=> array('DasOertliche', 'kw'),
@@ -348,7 +354,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.freecause.com'		=> array('FreeCause', 'p', '?p={k}'),
 
 		// Freenet
-		'suche.freenet.de'			=> array('Freenet', 'query', 'suche/?query={k}'),
+		'suche.freenet.de'			=> array('Freenet', array('query', 'Keywords'), 'suche/?query={k}'),
 
 		// FriendFeed
 		'friendfeed.com'			=> array('FriendFeed', 'q', 'search?q={k}'),
@@ -404,6 +410,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search3.incredimail.com'	=> array('Google'),
 		'search4.incredimail.com'	=> array('Google'),
 		'search.sweetim.com'		=> array('Google'),
+		'www.fastweb.it'			=> array('Google'),
 
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
@@ -421,7 +428,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'blogsearch.google.{}'		=> array('Google Blogsearch'),
 
 		// Google Custom Search
-		'www.google.com/cse'		=> array('Google Custom Search', 'q'),
+		'google.com/cse'			=> array('Google Custom Search', array('q', 'query')),
+		'google.{}/cse'				=> array('Google Custom Search'),
+		'google.com/custom'			=> array('Google Custom Search'),
+		'google.{}/custom'			=> array('Google Custom Search'),
 
 		// Google translation
 		'translate.google.com'		=> array('Google Translations', 'q'),
@@ -739,6 +749,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Suchnase
 		'www.suchnase.de'			=> array('Suchnase', 'q'),
 
+		// TalkTalk
+		'www.talktalk.co.uk'		=> array('TalkTalk', 'query', 'search/results.html?query={k}'),
+
 		// Technorati
 		'technorati.com'			=> array('Technorati', 'q', 'search?return=sites&authority=all&q={k}'),
 
@@ -836,20 +849,15 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.x-recherche.com'		=> array('X-Recherche', 'MOTS', 'cgi-bin/websearch?MOTS={k}'),
 
 		// Yahoo
-		'search.yahoo.com'			=> array('Yahoo!', 'p', 'search?p={k}'),
+		'search.yahoo.com'			=> array('Yahoo!', array('p', 'q'), 'search?p={k}'),
+//		'*.search.yahoo.com'		=> array('Yahoo!'), // see built-in helper in Common.php
 		'yahoo.com'					=> array('Yahoo!'),
 		'yahoo.{}'					=> array('Yahoo!'),
-		'{}.search.yahoo.com'		=> array('Yahoo!'),
-		'cade.search.yahoo.com'		=> array('Yahoo!'),
-		'espanol.search.yahoo.com'	=> array('Yahoo!'),
-		'qc.search.yahoo.com'		=> array('Yahoo!'),
 		'{}.yahoo.com'				=> array('Yahoo!'),
 		'cade.yahoo.com'			=> array('Yahoo!'),
 		'espanol.yahoo.com'			=> array('Yahoo!'),
 		'qc.yahoo.com'				=> array('Yahoo!'),
-		'{}.yhs.search.yahoo.com'	=> array('Yahoo!'),
 		'one.cn.yahoo.com'			=> array('Yahoo!'),
-		'siteexplorer.search.yahoo.com'	=> array('Yahoo!'),
 
 		// Powered by Yahoo APIs
 		'www.cercato.it'			=> array('Yahoo!', 'q'),
@@ -861,11 +869,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Yahoo! Images
 		'images.search.yahoo.com'	=> array('Yahoo! Images', 'p', 'search/images?p={k}'),
-		'{}.images.search.yahoo.com'=> array('Yahoo! Images'),
-		'cade.images.search.yahoo.com'=> array('Yahoo! Images'),
-		'espanol.images.search.yahoo.com'=> array('Yahoo! Images'),
-		'qc.images.search.yahoo.com'=> array('Yahoo! Images'),
-		'images.yahoo.com'			=> array('Yahoo! Images'),
+//		'*.images.search.yahoo.com'=> array('Yahoo! Images'), // see built-in helper in Common.php
 		'{}.images.yahoo.com'		=> array('Yahoo! Images'),
 		'cade.images.yahoo.com'		=> array('Yahoo! Images'),
 		'espanol.images.yahoo.com'	=> array('Yahoo! Images'),
@@ -897,6 +901,12 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// YouGoo
 		'www.yougoo.fr'				=> array('YouGoo', 'q', '?cx=search&q={k}'),
+
+		// Zapmeta
+		'www.zapmeta.com'			=> array('Zapmeta', 'q', '?q={k}'),
+		'www.zapmeta.nl'			=> array('Zapmeta'),
+		'www.zapmeta.de'			=> array('Zapmeta'),
+		'uk.zapmeta.com'			=> array('Zapmeta'),
 
 		// Zoek
 		'www3.zoek.nl'				=> array('Zoek', 'q'),

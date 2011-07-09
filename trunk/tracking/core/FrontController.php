@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: FrontController.php 4553 2011-04-26 04:46:03Z matt $
+ * @version $Id: FrontController.php 4956 2011-06-28 10:44:54Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -67,23 +67,32 @@ class Piwik_FrontController
 	 */
 	function dispatch( $module = null, $action = null, $parameters = null)
 	{
+		static $sessionStarted = false;
+
 		if( self::$enableDispatch === false)
 		{
 			return;
 		}
 
-		
 		if(is_null($module))
 		{
 			$defaultModule = 'CoreHome';
 			$module = Piwik_Common::getRequestVar('module', $defaultModule, 'string');
 		}
-		
+
 		if(is_null($action))
 		{
 			$action = Piwik_Common::getRequestVar('action', false);
 		}
-		
+
+		if(($module !== 'API' || ($action && $action !== 'index'))
+			&& !$sessionStarted
+			&& (!defined('PIWIK_ENABLE_SESSION_START') || PIWIK_ENABLE_SESSION_START))
+		{
+			Piwik_Session::start();
+			$sessionStarted = true;
+		}
+
 		if(is_null($parameters))
 		{
 			$parameters = array();
@@ -98,7 +107,7 @@ class Piwik_FrontController
 		{
 			throw new Piwik_FrontController_PluginDeactivatedException($module);
 		}
-				
+
 		$controllerClassName = 'Piwik_'.$module.'_Controller';
 
 		// FrontController's autoloader
@@ -208,7 +217,8 @@ class Piwik_FrontController
 				$exceptionToThrow = $e;
 			}
 
-			if(Zend_Registry::get('config')->General->maintenance_mode == 1)
+			if(Zend_Registry::get('config')->General->maintenance_mode == 1
+				&& !Piwik_Common::isPhpCliMode())
 			{
 				throw new Exception("Piwik is in scheduled maintenance. Please come back later.");
 			}
@@ -258,6 +268,7 @@ class Piwik_FrontController
 			Piwik_Translate::getInstance()->reloadLanguage();
 
 			Piwik::raiseMemoryLimitIfNecessary();
+
 			$pluginsManager->postLoadPlugins();
 			
 			Piwik_PostEvent('FrontController.checkForUpdates');

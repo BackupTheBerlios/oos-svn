@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: IndexedByDate.php 4051 2011-03-09 21:56:54Z JulienM $
+ * @version $Id: IndexedByDate.php 4709 2011-05-16 22:37:02Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -70,7 +70,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	 */
 	public function getDataTableFromNumeric( $fields )
 	{
-		$inNames = $this->getSqlStringFieldsArray($fields);
+		$inNames = Piwik_Common::getSqlStringFieldsArray($fields);
 		
 		// we select in different shots
 		// one per distinct table (case we select last 300 days, maybe we will  select from 10 different tables)
@@ -114,7 +114,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 			foreach($values as $value)
 			{
 				$timestamp = Piwik_Date::factory($value['startDate'])->getTimestamp();
-				$arrayValues[$timestamp][$value['name']] = (float)$value['value'];
+				$arrayValues[$timestamp][$value['name']] = round((float)$value['value'],2);
 			}			
 		}
 		

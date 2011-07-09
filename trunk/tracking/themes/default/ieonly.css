@@ -1,35 +1,34 @@
-/**
- * Implementation of CSS3PIE for Internet Explorer
- */
-
-select,
-.ui-datepicker, .ui-datepicker-header,
-.ajaxError, .ajaxSuccess,
-.sites_autocomplete .custom_select,
-.sites_selection .custom_select, .sites_selection #sitesSelection,
-#header_message, #periodString,
-.nav li, .nav_sep, 
-.dialog, .dialog input,
-ol#menuList li, ul#widgetList li .button,
-#addWidget, #mt thead,
-#tablist li a,
-.ui-corner-all
-{
-	behavior: url("index.php?module=Proxy&action=getPieHtc");
-}
-
-.widget, 
-.widgetTop {
-	position: relative;
-	behavior: url("index.php?module=Proxy&action=getPieHtc");
-}
-.ui-widget-content {
+.ui-dialog.ui-widget-content {
 	z-index: 1003!important;
+}
+
+.ui-widget-overlay {
+    z-index: 1002!important;
 }
 
 .widgetContent {
 	width: 99.8%;
 	overflow: hidden;
+}
+
+#topBars {
+    z-index: 300!important;
+}
+
+.sites_autocomplete, .sites_autocomplete .custom_select {
+    z-index: 200!important;
+}
+
+.custom_select_block{ visibility: hidden; }
+.custom_select_block_show{ visibility:visible; }
+
+.submit {
+    height: 30px;
+}
+
+input[type=checkbox], input[type=radio] {
+    border: none;
+    background: transparent none;
 }
 
 /**
@@ -42,5 +41,13 @@ ol#menuList li, ul#widgetList li .button,
 }
 *+html .nav_sep {
 	margin-top: 0!important;
+}
+
+*+html .ui-confirm.ui-widget-content {
+    padding-top: 0px;
+}
+
+* html .ui-autocomplete {
+    height: 400px;
 }
 

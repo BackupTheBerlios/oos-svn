@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ArchiveProcessing.php 4587 2011-04-28 06:24:46Z matt $
+ * @version $Id: ArchiveProcessing.php 4705 2011-05-16 06:25:54Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -653,6 +653,7 @@ abstract class Piwik_ArchiveProcessing
 	 */
 	public function insertNumericRecord($name, $value)
 	{
+		$value = round($value, 2);
 		return $this->insertRecord($name, $value);
 	}
 	

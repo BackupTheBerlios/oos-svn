@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Mysql.php 4294 2011-04-03 03:47:59Z vipsoft $
+ * @version $Id: Mysql.php 4765 2011-05-22 18:52:37Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -19,7 +19,10 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 	public function __construct($config)
 	{
 		// Enable LOAD DATA INFILE
-		$config['driver_options'][PDO::MYSQL_ATTR_LOCAL_INFILE] = true; 
+		if(defined('PDO::MYSQL_ATTR_LOCAL_INFILE'))
+		{
+			$config['driver_options'][PDO::MYSQL_ATTR_LOCAL_INFILE] = true;
+		} 
 		parent::__construct($config);
 	}
 
@@ -120,6 +123,16 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 	}
 
 	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader()
+	{
+		return true;
+	}
+
+	/**
 	 * Test error number
 	 *
 	 * @param Exception $e
@@ -179,6 +192,11 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 	 */
 	public function query($sql, $bind = array())
 	{
+		if(!is_string($sql))
+		{
+			return parent::query($sql, $bind);
+		}
+
 		if(isset($this->cachePreparedStatement[$sql]))
 		{
 			if (!is_array($bind)) {

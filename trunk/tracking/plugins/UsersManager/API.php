@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 4454 2011-04-14 20:41:16Z matt $
+ * @version $Id: API.php 4643 2011-05-05 21:26:21Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
@@ -101,7 +101,7 @@ class Piwik_UsersManager_API
 		if(!empty($userLogins))
 		{
 			$userLogins = explode(',', $userLogins);
-			$where = 'WHERE login IN (? '.str_repeat(',?', count($userLogins)-1).')';
+			$where = 'WHERE login IN ('. Piwik_Common::getSqlStringFieldsArray($userLogins).')';
 			$bind = $userLogins;
 		}
 		$db = Zend_Registry::get('db');

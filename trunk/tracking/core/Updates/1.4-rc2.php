@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: 1.4-rc2.php 4535 2011-04-22 23:36:26Z vipsoft $
+ * @version $Id: 1.4-rc2.php 4615 2011-04-30 14:53:29Z vipsoft $
  *
  * @category Piwik
  * @package Updates
@@ -18,6 +18,7 @@ class Piwik_Updates_1_4_rc2 extends Piwik_Updates
 	static function getSql($schema = 'Myisam')
 	{
 		return array(
+			"SET sql_mode=''" => false,
 			// this converts the 32-bit UNSIGNED INT column to a 16 byte VARBINARY;
 			// _but_ MySQL does string conversion! (e.g., integer 1 is converted to 49 -- the ASCII code for "1")
 			'ALTER TABLE '. Piwik_Common::prefixTable('log_visit') .'

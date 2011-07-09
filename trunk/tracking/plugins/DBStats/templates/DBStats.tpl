@@ -7,14 +7,22 @@
 {assign var=totalSize value=$tablesStatus.Total.Total_length}
 <p>{'DBStats_MainDescription'|translate:$totalSize}
 <br />
-{'DBStats_LearnMore'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>"}</p>
+{'DBStats_LearnMore'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>"}
+<br />
+{'PrivacyManager_DeleteLogSettings'|translate}:	<a href='{url module="PrivacyManager" action="privacySettings"}#deleteLogsAnchor'>
+{capture assign=clickDeleteLogSettings}{'PrivacyManager_DeleteLogSettings'|translate}{/capture}
+		{'PrivacyManager_ClickHereSettings'|translate:"'$clickDeleteLogSettings'"}
+	</a>
+	
 <table class="dataTable entityTable">
 	<thead>
-		<th>{'DBStats_Table'|translate}</th>
-		<th>{'DBStats_RowCount'|translate}</th>
-		<th>{'DBStats_DataSize'|translate}</th>
-		<th>{'DBStats_IndexSize'|translate}</th>
-		<th>{'DBStats_TotalSize'|translate}</th>
+		<tr>
+			<th>{'DBStats_Table'|translate}</th>
+			<th>{'DBStats_RowCount'|translate}</th>
+			<th>{'DBStats_DataSize'|translate}</th>
+			<th>{'DBStats_IndexSize'|translate}</th>
+			<th>{'DBStats_TotalSize'|translate}</th>
+		</tr>
 	</thead>
 	<tbody id="tables">
 		{foreach from=$tablesStatus key=index item=table}

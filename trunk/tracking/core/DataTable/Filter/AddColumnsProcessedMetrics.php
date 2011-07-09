@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: AddColumnsProcessedMetrics.php 4525 2011-04-20 08:28:42Z matt $
+ * @version $Id: AddColumnsProcessedMetrics.php 4835 2011-05-29 23:50:01Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -25,8 +25,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 	 * @param bool $enable Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
 	 * @return void
 	 */
-	public function __construct( $table, $enable = true )
+	public function __construct( $table, $deleteRowsWithNoVisit = true )
 	{
+		$this->deleteRowsWithNoVisit = $deleteRowsWithNoVisit;
 		parent::__construct($table);
 	}
 	

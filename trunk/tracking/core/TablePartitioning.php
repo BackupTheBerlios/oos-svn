@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: TablePartitioning.php 3672 2011-01-08 23:26:57Z matt $
+ * @version $Id: TablePartitioning.php 4968 2011-07-02 22:29:01Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -81,7 +81,16 @@ abstract class Piwik_TablePartitioning
 			$config = Zend_Registry::get('config');
 			$prefixTables = $config->database->tables_prefix;
 			$sql = str_replace( $prefixTables . $this->tableName, $this->generatedTableName, $sql);
-			$db->query( $sql );
+			try {
+				$db->query( $sql );
+			} catch(Exception $e) {
+				// mysql error 1050: table already exists
+				if(! $db->isErrNo($e, '1050'))
+				{
+					// failed for some other reason
+					throw $e;
+				}
+			}
 			
 			self::$tablesAlreadyInstalled[] = $this->generatedTableName;
 		}

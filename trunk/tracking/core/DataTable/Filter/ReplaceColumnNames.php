@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ReplaceColumnNames.php 4169 2011-03-23 01:59:57Z matt $
+ * @version $Id: ReplaceColumnNames.php 4691 2011-05-15 22:14:48Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -71,9 +71,18 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
 					$newSubColumns = array();
 					foreach($columnValue as $idGoal => $goalValues)
 					{
+						$mapping = Piwik_Archive::$mappingFromIdToNameGoal;
+						if($idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART)
+						{
+							$idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
+						}
+						elseif($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER)
+						{
+							$idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
+						}
 						foreach($goalValues as $id => $goalValue)
 						{
-							$subColumnName = Piwik_Archive::$mappingFromIdToNameGoal[$id];
+							$subColumnName = $mapping[$id];
 							$newSubColumns['idgoal='.$idGoal][$subColumnName] = $goalValue;
 						}
 					}

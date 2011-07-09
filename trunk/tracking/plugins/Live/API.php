@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 4499 2011-04-18 03:05:07Z matt $
+ * @version $Id: API.php 4952 2011-06-26 21:05:56Z vipsoft $
  *
  * @category Piwik_Plugins
  * @package Piwik_Live
@@ -17,7 +17,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 
 /**
  * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>, 
- * you will be able to requests visits filtered by any criteria. 
+ * you will be able to request visits filtered by any criteria.
  * 
  * The method "getLastVisitsDetails" will return extensive data for each visit, which includes: server time, visitId, visitorId, 
  * visitorType (new or returning), number of pages, list of all pages (and events, file downloaded and outlinks clicked), 
@@ -73,7 +73,7 @@ class Piwik_Live_API
 				count(*) as visits,
 				SUM(visit_total_actions) as actions,
 				SUM(visit_goal_converted) as visitsConverted
-		FROM ". Piwik_Common::prefixTable('log_visit') ." 
+		FROM ". Piwik_Common::prefixTable('log_visit') ."  AS log_visit
 		WHERE idsite = ?
 			AND visit_last_action_time >= ?
 			$sqlSegment
@@ -149,6 +149,7 @@ class Piwik_Live_API
 
 		$site = new Piwik_Site($idSite);
 		$timezone = $site->getTimezone();
+		$currencies = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
 		foreach($visitorDetails as $visitorDetail)
 		{
 			$this->cleanVisitorDetails($visitorDetail, $idSite);
@@ -156,6 +157,7 @@ class Piwik_Live_API
 			$visitorDetailsArray = $visitor->getAllVisitorDetails();
 
 			$visitorDetailsArray['siteCurrency'] = $site->getCurrency();
+			$visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$site->getCurrency()];
 			$visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
 			$dateTimeVisit = Piwik_Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
 			$visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
@@ -167,6 +169,11 @@ class Piwik_Live_API
 			
 			$idvisit = $visitorDetailsArray['idVisit'];
 
+			$sqlCustomVariables = '';
+			for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
+			{
+				$sqlCustomVariables .= ', custom_var_k' . $i . ', custom_var_v' . $i;
+			}
 			// The second join is a LEFT join to allow returning records that don't have a matching page title
 			// eg. Downloads, Outlinks. For these, idaction_name is set to 0
 			$sql = "
@@ -177,6 +184,7 @@ class Piwik_Live_API
 					log_action.idaction AS pageIdAction,
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.server_time as serverTimePretty
+					$sqlCustomVariables
 				FROM " .Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
 					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
@@ -185,6 +193,28 @@ class Piwik_Live_API
 				WHERE log_link_visit_action.idvisit = ?
 				 ";
 			$actionDetails = Piwik_FetchAll($sql, array($idvisit));
+			
+			foreach($actionDetails as &$actionDetail)
+			{
+				$customVariablesPage = array();
+				for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
+				{
+					if(!empty($actionDetail['custom_var_k'.$i])
+						&& !empty($actionDetail['custom_var_v'.$i]))
+					{
+						$customVariablesPage[$i] = array(
+							'customVariableName'.$i => $actionDetail['custom_var_k'.$i],
+							'customVariableValue'.$i => $actionDetail['custom_var_v'.$i],
+						);
+					}
+					unset($actionDetail['custom_var_k'.$i]);
+					unset($actionDetail['custom_var_v'.$i]);
+				}
+				if(!empty($customVariablesPage))
+				{
+					$actionDetail['customVariables'] = $customVariablesPage;
+				}
+			}
 			
 			// If the visitor converted a goal, we shall select all Goals
 			$sql = "
@@ -202,10 +232,51 @@ class Piwik_Live_API
 						goal.idgoal = log_conversion.idgoal)
 					AND goal.deleted = 0
 				WHERE log_conversion.idvisit = ?
+					AND log_conversion.idgoal > 0
 			";
 			$goalDetails = Piwik_FetchAll($sql, array($idvisit));
 
-			$actions = array_merge($actionDetails, $goalDetails);
+			$sql = "SELECT 
+						case idgoal when ".Piwik_Tracker_GoalManager::IDGOAL_CART." then '".Piwik_Archive::LABEL_ECOMMERCE_CART."' else '".Piwik_Archive::LABEL_ECOMMERCE_ORDER."' end as type,
+						idorder as orderId,
+						".Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue')." as revenue,
+						".Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue_subtotal')." as revenueSubTotal,
+						".Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue_tax')." as revenueTax,
+						".Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue_shipping')." as revenueShipping,
+						".Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue_discount')." as revenueDiscount,
+						items as items,
+						
+						log_conversion.server_time as serverTimePretty
+					FROM ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
+					WHERE idvisit = ?
+						AND idgoal <= ".Piwik_Tracker_GoalManager::IDGOAL_ORDER;
+			$ecommerceDetails = Piwik_FetchAll($sql, array($idvisit));
+
+			foreach($ecommerceDetails as &$ecommerceDetail)
+			{
+				if($ecommerceDetail['type'] == Piwik_Archive::LABEL_ECOMMERCE_CART)
+				{
+					unset($ecommerceDetail['orderId']);
+					unset($ecommerceDetail['revenueSubTotal']);
+					unset($ecommerceDetail['revenueTax']);
+					unset($ecommerceDetail['revenueShipping']);
+					unset($ecommerceDetail['revenueDiscount']);
+				}
+			
+				// 25.00 => 25
+				foreach($ecommerceDetail as $column => $value)
+				{
+					if(strpos($column, 'revenue') !== false)
+					{
+						if($value == round($value))
+						{
+							$ecommerceDetail[$column] = round($value);
+						}
+					}
+				}
+			}
+			
+			$actions = array_merge($actionDetails, $goalDetails, $ecommerceDetails);
 			
 			usort($actions, array($this, 'sortByServerTime'));
 			
@@ -216,21 +287,64 @@ class Piwik_Live_API
 				switch($details['type'])
 				{
 					case 'goal':
+						$details['icon'] = 'themes/default/images/goal.png';
+					break;
+					case Piwik_Archive::LABEL_ECOMMERCE_ORDER:
+					case Piwik_Archive::LABEL_ECOMMERCE_CART:
+						$details['icon'] = 'themes/default/images/'.$details['type'].'.gif';
 					break;
 					case Piwik_Tracker_Action_Interface::TYPE_DOWNLOAD:
 						$details['type'] = 'download';
+						$details['icon'] = 'themes/default/images/download.png';
 					break;
 					case Piwik_Tracker_Action_Interface::TYPE_OUTLINK:
 						$details['type'] = 'outlink';
+						$details['icon'] = 'themes/default/images/link.gif';
 					break;
 					default:
 						$details['type'] = 'action';
+						$details['icon'] = null;
 					break;
 				}
 				$dateTimeVisit = Piwik_Date::factory($details['serverTimePretty'], $timezone);
 				$details['serverTimePretty'] = $dateTimeVisit->getLocalized('%shortDay% %day% %shortMonth% %time%'); 
 			}
 			$visitorDetailsArray['goalConversions'] = count($goalDetails);
+			
+			// Enrich ecommerce carts/orders with the list of products 
+			usort($ecommerceDetails, array($this, 'sortByServerTime'));
+			foreach($ecommerceDetails as $key => &$ecommerceConversion)
+			{
+				$sql = "SELECT 
+							log_action_sku.name as itemSKU,
+							log_action_name.name as itemName,
+							log_action_category.name as itemCategory,
+							".Piwik_ArchiveProcessing_Day::getSqlRevenue('price')." as price,
+							quantity as quantity
+						FROM ".Piwik_Common::prefixTable('log_conversion_item')."
+							INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_sku
+							ON  idaction_sku = log_action_sku.idaction
+							LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_name
+							ON  idaction_name = log_action_name.idaction
+							LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_category
+							ON idaction_category = log_action_category.idaction
+						WHERE idvisit = ? 
+							AND idorder = ?
+							AND deleted = 0
+				";
+				$bind = array($idvisit, isset($ecommerceConversion['orderId']) ? $ecommerceConversion['orderId'] : Piwik_Tracker_GoalManager::ITEM_IDORDER_ABANDONED_CART);
+				
+				$itemsDetails = Piwik_FetchAll($sql, $bind);
+			
+				foreach($itemsDetails as &$detail)
+				{
+					if($detail['price'] == round($detail['price']))
+					{
+						$detail['price'] = round($detail['price']);
+					}
+				}
+				$ecommerceConversion['itemDetails'] = $itemsDetails;
+			}
 			
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
@@ -259,7 +373,8 @@ class Piwik_Live_API
 		$where = $whereBind = array();
 		$where[] = "log_visit.idsite = ? ";
 		$whereBind[] = $idSite;
-		
+		$orderBy = "idsite, visit_last_action_time DESC";
+		$orderByParent = "sub.visit_last_action_time DESC";
 		if(!empty($visitorId))
 		{
 			$where[] = "log_visit.idvisitor = ? ";
@@ -270,6 +385,8 @@ class Piwik_Live_API
 		{
 			$where[] = "log_visit.idvisit < ? ";
 			$whereBind[] = $maxIdVisit;
+			$orderBy = "idvisit DESC";
+			$orderByParent = "sub.idvisit DESC";
 		}
 		
 		if(!empty($minTimestamp))
@@ -305,7 +422,13 @@ class Piwik_Live_API
 			}
 			else
 			{
-				$processedDate = Piwik_Date::factory($date)->subDay(1);
+				$processedDate = Piwik_Date::factory($date);
+				if($date == 'today'
+					|| $date == 'now'
+					|| $processedDate->toString() == Piwik_Date::factory('now', $currentTimezone)->toString())
+				{
+					$processedDate = $processedDate->subDay(1);
+				}
 				$processedPeriod = Piwik_Period::factory($period, $processedDate); 
 			}
 			$dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
@@ -315,7 +438,7 @@ class Piwik_Live_API
 			if(!in_array($date, array('now', 'today', 'yesterdaySameTime'))
 				&& strpos($date, 'last') === false
 				&& strpos($date, 'previous') === false
-				&& Piwik_Date::factory($dateString)->toString('Y-m-d') != date('Y-m-d'))
+				&& Piwik_Date::factory($dateString)->toString('Y-m-d') != Piwik_Date::factory('now', $currentTimezone)->toString())
 			{
 				$dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
 				$where[] = " log_visit.visit_last_action_time <= ?";
@@ -347,11 +470,11 @@ class Piwik_Live_API
 					FROM " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
 					$sqlWhere
 					$sqlSegment
-					ORDER BY idsite, visit_last_action_time DESC
+					ORDER BY $orderBy
 					LIMIT ".(int)$filter_limit."
 				) AS sub
 				GROUP BY sub.idvisit
-				ORDER BY sub.visit_last_action_time DESC
+				ORDER BY $orderByParent
 			"; 
 		try {
 			$data = Piwik_FetchAll($sql, $whereBind);

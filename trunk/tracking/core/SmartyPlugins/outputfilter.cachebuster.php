@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: outputfilter.cachebuster.php 4299 2011-04-03 20:32:34Z vipsoft $
+ * @version $Id: outputfilter.cachebuster.php 4688 2011-05-14 13:14:21Z vipsoft $
  * 
  * @category Piwik
  * @package SmartyPlugins
@@ -30,12 +30,7 @@
  */
 function smarty_outputfilter_cachebuster($source, &$smarty)
 {
-	static $cachebuster = null;
-	if(is_null($cachebuster))
-	{
-		$cachebuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
-	}
-	$tag = 'cb=' . $cachebuster;
+	$tag = 'cb=' . $smarty->get_template_vars('cacheBuster');
 
 	$pattern = array(
 		'~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
@@ -48,7 +43,7 @@ function smarty_outputfilter_cachebuster($source, &$smarty)
 		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<script type="text/javascript" src="$1?'. $tag .'">',
 		'<link rel="stylesheet" type="text/css" href="$1?'. $tag .'" />',
-		'$1="index.php?module=$2&action=$3&cb=',
+		'$1="index.php?module=$2&amp;action=$3&amp;cb=',
 	);
 
 	return preg_replace($pattern, $replace, $source);

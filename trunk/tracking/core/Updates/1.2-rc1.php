@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: 1.2-rc1.php 4187 2011-03-26 03:26:15Z vipsoft $
+ * @version $Id: 1.2-rc1.php 4731 2011-05-20 05:36:08Z matt $
  *
  * @category Piwik
  * @package Updates
@@ -33,16 +33,16 @@ class Piwik_Updates_1_2_rc1 extends Piwik_Updates
 			    ADD visitor_days_since_last SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD `config_id` BINARY(8) NOT NULL AFTER `config_md5config`,
-			    ADD custom_var_k1 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v1 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_k2 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v2 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_k3 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v3 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_k4 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v4 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_k5 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v5 VARCHAR(50) DEFAULT NULL
+			    ADD custom_var_k1 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v1 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k2 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v2 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k3 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v3 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k4 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v4 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k5 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v5 VARCHAR(100) DEFAULT NULL
 			   ' => false,
 		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_link_visit_action') .'` 
 				ADD `idsite` INT( 10 ) UNSIGNED NOT NULL AFTER `idlink_va` , 
@@ -57,16 +57,16 @@ class Piwik_Updates_1_2_rc1 extends Piwik_Updates
 			    ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
 			    ADD visitor_count_visits SMALLINT(5) UNSIGNED NOT NULL,
 			    ADD visitor_days_since_first SMALLINT(5) UNSIGNED NOT NULL,
-			    ADD custom_var_k1 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v1 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_k2 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v2 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_k3 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v3 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_k4 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v4 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_k5 VARCHAR(50) DEFAULT NULL,
-    			ADD custom_var_v5 VARCHAR(50) DEFAULT NULL
+			    ADD custom_var_k1 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v1 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k2 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v2 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k3 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v3 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k4 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v4 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_k5 VARCHAR(100) DEFAULT NULL,
+    			ADD custom_var_v5 VARCHAR(100) DEFAULT NULL
 			   ' => false,
 		
 			// Migrate 128bits IDs inefficiently stored as 8bytes (256 bits) into 64bits

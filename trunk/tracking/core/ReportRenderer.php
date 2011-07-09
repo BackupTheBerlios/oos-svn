@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ReportRenderer.php 4577 2011-04-27 13:09:13Z JulienM $
+ * @version $Id: ReportRenderer.php 4879 2011-06-05 22:59:00Z JulienM $
  * 
  * @category Piwik
  * @package Piwik
@@ -127,5 +127,38 @@ abstract class Piwik_ReportRenderer
 		@chmod($outputFilename, 0600);
 		@unlink($outputFilename);
 		return $outputFilename;
+	}
+
+	/**
+	 * Convert a dimension-less report to a multi-row two-column data table
+	 *
+	 * @static
+	 * @param  $reportMetadata array
+	 * @param  $report Piwik_DataTable
+	 * @param  $reportColumns array
+	 * @return array Piwik_DataTable $report & array $columns
+	 */
+	protected static function processTableFormat($reportMetadata, $report, $reportColumns)
+	{
+		if(!isset($reportMetadata['dimension']))
+		{
+			$simpleReportMetrics = $report->getFirstRow();
+			$report = new Piwik_DataTable_Simple();
+			foreach($simpleReportMetrics->getColumns() as $metricId => $metric)
+			{
+				$newRow = new Piwik_DataTable_Row();
+				$report->addRow($newRow);
+				$newRow->addColumn("label",$reportColumns[$metricId]);
+				$newRow->addColumn("value",$metric);
+			}
+
+			$reportColumns = array('label' => Piwik_Translate('General_Name'),
+										 'value' => Piwik_Translate('General_Value'),);
+		}
+
+		return array(
+				$report,
+				$reportColumns
+			);
 	}
 }

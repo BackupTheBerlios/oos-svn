@@ -23,13 +23,13 @@ function getUpdateUserAJAX( row )
 	var parameters = {};
 	parameters.module = 'API';
 	parameters.format = 'json';
- 	parameters.method =  'UsersManager.updateUser';
- 	parameters.userLogin = $(row).children('#userLogin').html();
- 	var password =  $(row).find('input#password').val();
- 	if(password != '-') parameters.password = password;
- 	parameters.email = $(row).find('input#email').val();
- 	parameters.alias = $(row).find('input#alias').val();
- 	parameters.token_auth = piwik.token_auth;
+	parameters.method =  'UsersManager.updateUser';
+	parameters.userLogin = $(row).children('#userLogin').html();
+	var password =  $(row).find('input#password').val();
+	if(password != '-') parameters.password = password;
+	parameters.email = $(row).find('input#email').val();
+	parameters.alias = $(row).find('input#alias').val();
+	parameters.token_auth = piwik.token_auth;
 	
 	ajaxRequest.data = parameters;
 	
@@ -157,17 +157,17 @@ function bindUpdateAccess()
 	var idSite = getIdSites();
 	if(idSite == 'all')
 	{
-		var target = this;       
+		var target = this;
 		
 		//ask confirmation
-		var userLogin = $(this).parent().parent().find('#login').html();
-		$('.dialog#confirm #login').text( userLogin ); // if changed here change also the launchAjaxRequest
+		var userLogin = $(this).parent().parent().find('#login').text();
+		$('#confirm').find('#login').text( userLogin ); // if changed here change also the launchAjaxRequest
 
 		function onValidate()
 		{			
 			launchAjaxRequest(target, successCallback);	
 		}
-		piwikHelper.windowModal( '.dialog#confirm', onValidate)
+		piwikHelper.windowModal( '#confirm', onValidate)
 	}
 	else
 	{
@@ -203,7 +203,16 @@ $(document).ready( function() {
 				.toggle()
 				.parent()
 				.prepend( $('<input type="submit" class="submit updateuser"  value="'+_pk_translate('General_Save_js')+'" />')
-				.click( function(){ $.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); } ) 
+				.click( function(){ 
+					var onValidate = function() {
+						$.ajax( getUpdateUserAJAX( $('tr#'+idRow) ) ); 
+					};
+					if($('tr#'+idRow).find('input#password').val() != '-') {
+						piwikHelper.windowModal( '#confirmPasswordChange', onValidate);
+					} else {
+						onValidate();
+					}
+				} ) 
 			);
 		});
 		
@@ -218,10 +227,8 @@ $(document).ready( function() {
 			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
 			var loginToDelete = $(this).parent().parent().find('#userLogin').html();
-			if( confirm(sprintf(_pk_translate('UsersManager_DeleteConfirm_js'),'"'+loginToDelete+'"')) )
-			{
-				$.ajax( getDeleteUserAJAX( loginToDelete ) );
-			}
+			$('#confirmUserRemove h2').text(sprintf(_pk_translate('UsersManager_DeleteConfirm_js'),'"'+loginToDelete+'"'));
+			piwikHelper.windowModal( '#confirmUserRemove', function(){ $.ajax( getDeleteUserAJAX( loginToDelete ) ); });
 		}
 	);
 	
@@ -251,4 +258,4 @@ $(document).ready( function() {
 
 	$('.updateAccess')
 		.click( bindUpdateAccess );
-});	
+});

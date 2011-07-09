@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: index.php 4151 2011-03-20 11:51:09Z vipsoft $
+ * @version $Id: index.php 4642 2011-05-05 21:23:12Z matt $
  */
 
 /**
@@ -29,6 +29,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 
 $file = '../piwik.js';
 
-Piwik::serveStaticFile($file, "application/javascript; charset=UTF-8");
+// There is no cache buster parameter so we don't set Expires: header 
+$expireFarFuture = false;
+Piwik::serveStaticFile($file, "application/javascript; charset=UTF-8", $expireFarFuture);
 
 exit;

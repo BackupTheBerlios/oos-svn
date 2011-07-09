@@ -5,7 +5,7 @@
  *
  * @link http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version $Id: UserAgentParser.php 4485 2011-04-16 19:53:31Z vipsoft $
+ * @version $Id: UserAgentParser.php 4948 2011-06-25 02:51:10Z vipsoft $
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -72,7 +72,11 @@ class UserAgentParser
 			'android'						=> 'AN',
 			'arora'							=> 'AR',
 			'beonex'						=> 'BE',
-			'blackberry'					=> 'BB',
+
+			// BlackBerry smartphones and tablets
+			'blackberry'					=> 'BB', // BlackBerry 6 and PlayBook adopted webkit
+			'playbook'						=> 'BP',
+
 			'browsex'						=> 'BX',
 
 			// Camino (and earlier incarnation)
@@ -163,7 +167,7 @@ class UserAgentParser
 			'ie'	 => array('IE'),
 			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AN', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP'),
 			'opera'  => array('OP'),
 		);
 
@@ -260,12 +264,13 @@ class UserAgentParser
 			'Palm OS'				=> 'POS',
 
 			'BlackBerry'			=> 'BLB',
+			'RIM Tablet OS'			=> 'QNX',
+			'QNX'					=> 'QNX',
 
 			'SymbOS'				=> 'SYM',
 			'Symbian OS'			=> 'SYM',
 			'SymbianOS'				=> 'SYM',
 
-			'Bada'					=> 'SBA',
 			'bada'					=> 'SBA',
 
 			'SunOS'					=> 'SOS',
@@ -301,7 +306,10 @@ class UserAgentParser
 	static private $init = false;
 	
 	/**
-	 * Returns a 3 letters ID for the operating system part, given a user agent string.
+	 * Returns an array of the OS for the submitted user agent 
+	 *		'id' => '',
+	 *		'name' => '',
+	 *		'short_name' => '',
 	 * 
 	 * @param string $userAgent
 	 * @return string false if OS couldn't be identified, or 3 letters ID (eg. WXP)
@@ -316,7 +324,7 @@ class UserAgentParser
 			'short_name' => '',
 		);
 		foreach(self::$operatingSystems as $key => $value) {
-			if (strstr($userAgent, $key) !== false) {
+			if (stristr($userAgent, $key) !== false) {
 				$info['id'] = $value;
 				break;
 			}
@@ -371,6 +379,9 @@ class UserAgentParser
 		// Misbehaving IE add-ons
 		$userAgent = preg_replace('/[; ]Mozilla\/[0-9.]+ \([^)]+\)/', '', $userAgent);
 
+		// Clean-up BlackBerry device UAs
+		$userAgent = preg_replace('~^BlackBerry\d+/~', 'BlackBerry/', $userAgent);
+
 		if (preg_match_all("/($browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| (strpos($userAgent, 'Shiira') === false && preg_match_all("/(firefox|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
 			|| preg_match_all("/(applewebkit)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
@@ -390,10 +401,19 @@ class UserAgentParser
 
 			// Netscape fix
 			if($info['id'] == 'MO' && $count == 0) {
-				if(strpos($userAgent, 'PlayStation Portable') !== false)  return false;
+				if(stripos($userAgent, 'PlayStation') !== false) {
+					return false;
+				}
 				if(count($results) == 4) {
 				 	$info['id'] = 'NS';
 				}
+			}
+			// BlackBerry devices
+			else if(strpos($userAgent, 'BlackBerry') !== false) {
+				$info['id'] = 'BB';
+			}
+			else if(strpos($userAgent, 'RIM Tablet OS') !== false) {
+				$info['id'] = 'BP';
 			}
 
 			// Version/X.Y.Z override
@@ -474,6 +494,7 @@ class UserAgentParser
 		self::$browserIdToName['AV'] = 'AmigaVoyager';
 		self::$browserIdToName['AW'] = 'Amiga AWeb';
 		self::$browserIdToName['BB'] = 'BlackBerry';
+		self::$browserIdToName['BP'] = 'PlayBook';
 		self::$browserIdToName['BX'] = 'BrowseX';
 		self::$browserIdToName['CO'] = 'CometBird';
 		self::$browserIdToName['EL'] = 'ELinks';
@@ -494,6 +515,7 @@ class UserAgentParser
 		self::$browserIdToShortName['FB'] = 'Firebird';
 		self::$browserIdToShortName['IE'] = 'IE';
 		self::$browserIdToShortName['MC'] = 'Mosaic';
+		self::$browserIdToShortName['BP'] = 'PlayBook';
 		self::$browserIdToShortName['WO'] = 'webOS';
 		
 		// init OS names and short names

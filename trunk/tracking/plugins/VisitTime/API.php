@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 4583 2011-04-28 00:43:20Z matt $
+ * @version $Id: API.php 4835 2011-05-29 23:50:01Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
@@ -46,7 +46,6 @@ class Piwik_VisitTime_API
 	public function getVisitInformationPerServerTime( $idSite, $period, $date, $segment = false, $hideFutureHoursWhenToday = false )
 	{
 		$table = $this->getDataTable('VisitTime_serverTime', $idSite, $period, $date, $segment );
-		
 		if($hideFutureHoursWhenToday)
 		{
 			$table = $this->removeHoursInFuture($table, $idSite, $period, $date);

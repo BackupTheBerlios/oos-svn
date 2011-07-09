@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: IndexedBySite.php 3870 2011-02-12 13:34:53Z matt $
+ * @version $Id: IndexedBySite.php 4643 2011-05-05 21:26:21Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -95,7 +95,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	
 	private function loadValuesFromDB($fields)
 	{
-		$inNames = $this->getSqlStringFieldsArray($fields);
+		$inNames = Piwik_Common::getSqlStringFieldsArray($fields);
 		$archiveIds = $this->getArchiveIds();
 		if(empty($archiveIds))
 		{

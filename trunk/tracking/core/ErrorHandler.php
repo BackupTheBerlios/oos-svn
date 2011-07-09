@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ErrorHandler.php 2968 2010-08-20 15:26:33Z vipsoft $
+ * @version $Id: ErrorHandler.php 4949 2011-06-25 12:25:12Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -25,11 +25,32 @@ function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
 	{
 		return;
 	}
-	
-	ob_start();
-	debug_print_backtrace();
-	$backtrace = ob_get_contents();
-	ob_end_clean();
+
+	if(function_exists('debug_backtrace'))
+	{
+		$backtrace = '';
+		$bt = @debug_backtrace();
+		if($bt !== null && isset($bt[0]))
+		{
+			foreach($bt as $i => $debug)
+			{
+				$backtrace .= "#$i  "
+					.(isset($debug['class']) ? $debug['class'] : '')
+					.(isset($debug['type']) ? $debug['type'] : '')
+					.(isset($debug['function']) ? $debug['function'] : '')
+					.'(...) called at ['
+					.(isset($debug['file']) ? $debug['file'] : '').':'
+					.(isset($debug['line']) ? $debug['line'] : '').']'."\n";
+			}
+		}
+	}
+	else
+	{
+	 	ob_start();
+ 		@debug_print_backtrace();
+ 		$backtrace = ob_get_contents();
+ 		ob_end_clean();
+	}
 
 	try {
 		Zend_Registry::get('logger_error')->logEvent($errno, $errstr, $errfile, $errline, $backtrace);

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Range.php 4488 2011-04-17 00:18:14Z matt $
+ * @version $Id: Range.php 4855 2011-06-02 04:05:12Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -61,7 +61,7 @@ class Piwik_Period_Range extends Piwik_Period
 	
 	public function getPrettyString()
 	{
-		$out = "From ". $this->getDateStart()->toString() . " to " . $this->getDateEnd()->toString();
+		$out = Piwik_Translate('General_DateRangeFromTo', array($this->getDateStart()->toString(), $this->getDateEnd()->toString()));
 		return $out;
 	}
 

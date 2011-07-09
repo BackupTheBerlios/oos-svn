@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4533 2011-04-22 22:05:46Z vipsoft $
+ * @version $Id: Controller.php 4741 2011-05-21 05:41:22Z matt $
  *
  * @category Piwik_Plugins
  * @package Piwik_Installation
@@ -442,12 +442,13 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			$name = urlencode($form->getSubmitValue('siteName'));
 			$url = urlencode($form->getSubmitValue('url'));
-
+			$ecommerce = (int)$form->getSubmitValue('ecommerce');
 
 			$request = new Piwik_API_Request("
 							method=SitesManager.addSite
 							&siteName=$name
 							&urls=$url
+							&ecommerce=$ecommerce
 							&format=original
 						");
 
@@ -812,10 +813,10 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$infos['memoryMinimum'] = $minimumMemoryLimit;
 
 		$infos['memory_ok'] = true;
-		$infos['memoryCurrent'] = '-1';
+		$infos['memoryCurrent'] = '';
 
 		$raised = Piwik::raiseMemoryLimitIfNecessary();
-		if( $memoryValue = Piwik::getMemoryLimitValue() )
+		if(($memoryValue = Piwik::getMemoryLimitValue()) > 0)
 		{
 			$infos['memoryCurrent'] = $memoryValue.'M';
 			$infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;

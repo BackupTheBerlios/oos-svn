@@ -109,6 +109,9 @@ if(!defined('E_USER_DEPRECATED')) {   define('E_USER_DEPRECATED', 16384); }
 if (!function_exists("json_encode")) {
    function json_encode($var, /*emu_args*/$obj=FALSE) {
    
+      #-- handle locale differences
+      $locale = localeconv();
+
       #-- prepare JSON string
       $json = "";
       
@@ -128,7 +131,7 @@ if (!function_exists("json_encode")) {
 
          #-- concat invidual entries
          foreach ((array)$var as $i=>$v) {
-            $json .= ($json ? "," : "")    // comma separators
+            $json .= ($json !== '' ? "," : "")    // comma separators
                    . ($obj ? ("\"$i\":") : "")   // assoc prefix
                    . (json_encode($v));    // value
          }
@@ -154,8 +157,15 @@ if (!function_exists("json_encode")) {
       elseif ($var === NULL) {
          $json = "null";
       }
-      elseif (is_int($var) || is_float($var)) {
+      elseif (is_int($var)) {
          $json = "$var";
+      }
+      elseif (is_float($var)) {
+         $json = str_replace(
+            array($locale['mon_thousands_sep'], $locale['mon_decimal_point']),
+            array('', '.'),
+            $var
+         );
       }
 
       #-- something went wrong

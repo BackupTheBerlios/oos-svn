@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 4448 2011-04-14 08:20:49Z matt $
+ * @version $Id: API.php 4691 2011-05-15 22:14:48Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
@@ -97,26 +97,41 @@ class Piwik_VisitFrequency_API
 		return $dataTable;		
 	}
 
+	/**
+	 * @ignore
+	 */
 	public function getVisitsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_returning');
 	}
 	
+	/**
+	 * @ignore
+	 */
 	public function getActionsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_actions_returning');
 	}
 	
+	/**
+	 * @ignore
+	 */
 	public function getSumVisitsLengthReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'sum_visit_length_returning');
 	}
 	
+	/**
+	 * @ignore
+	 */
 	public function getBounceCountReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'bounce_count_returning');
 	}
 	
+	/**
+	 * @ignore
+	 */
 	public function getConvertedVisitsReturning( $idSite, $period, $date )
 	{
 		return $this->getNumeric( $idSite, $period, $date, 'nb_visits_converted_returning');

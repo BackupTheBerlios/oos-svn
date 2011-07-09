@@ -2,12 +2,12 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	</head>
-	<body style="font-family: {$reportFont}; color: rgb({$reportTextColor});">
+	<body style="color: rgb({$reportTextColor});">
 
 	<a name="reportTop"/>
-	<a target="_blank" href="{$currentPath}"><img title="{'General_GoTo'|translate:"Piwik"}" border="0" src='{$currentPath}themes/default/images/logo-header.png'/></a>
+	<a target="_blank" href="{$currentPath}"><img title="{'General_GoTo'|translate:"Piwik"}" border="0" alt="Piwik" src='{$logoHeader}' /></a>
 
-	<h1 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}px;">
+	<h1 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}pt;">
 		{'General_Website'|translate} {$websiteName}
 	</h1>
 
@@ -17,7 +17,7 @@
 
 	{if sizeof($reportMetadata) > 1}
 
-		<h2 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}px;">
+		<h2 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}pt;">
 			{'PDFReports_TableOfContent'|translate}
 		</h2>
 

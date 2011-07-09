@@ -228,7 +228,6 @@ dashboard.prototype =
 		self.widgetDialog.before('<div id="placeholder"> </div>');
 		self.widgetDialog.dialog({
 			title: '',
-			bgiframe: true,
 			modal: true,
 			width: 'auto',
 			position: ['center', 'center'],
@@ -240,8 +239,10 @@ dashboard.prototype =
 				$('#placeholder').replaceWith(self.widgetDialog);
 				self.widgetDialog.removeAttr('style');
 				self.saveLayout();
+				self.widgetDialog.find('div.piwik-graph').trigger('piwikResizeGraph');
 			}
 		});
+		self.widgetDialog.find('div.piwik-graph').trigger('piwikResizeGraph');
         $('body').click(function(ev) {
             if(ev.target.className == "ui-widget-overlay") {
                 self.widgetDialog.dialog("close");
@@ -264,7 +265,7 @@ dashboard.prototype =
 				self.makeSortable();
 			});
 		}
-		piwikHelper.windowModal( '.dialog#confirm', onDelete)
+		piwikHelper.windowModal('#confirm', onDelete)
 	},
 	
 	// Called by DataTables when the View type changes.

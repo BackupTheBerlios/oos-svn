@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: CustomVariables.php 4392 2011-04-11 00:55:30Z matt $
- * 
+ * @version $Id: CustomVariables.php 4717 2011-05-17 23:18:17Z matt $
+ *
  * @category Piwik_Plugins
  * @package Piwik_CustomVariables
  */
@@ -14,7 +14,7 @@
  * @package Piwik_CustomVariables
  */
 class Piwik_CustomVariables extends Piwik_Plugin
-{	
+{
 	public $archiveProcessing;
 	protected $columnToSortByBeforeTruncation;
 	protected $maximumRowsInDataTableLevelZero;
@@ -44,7 +44,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
-	}	
+	}
 
 	function addWidgets()
 	{
@@ -53,10 +53,10 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	
 	function addMenus()
 	{
-	    Piwik_AddMenu('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'getCustomVariables'), $display = true, $order = 50);
+	    Piwik_AddMenu('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'index'), $display = true, $order = 50);
 	}
 	
-	public function getReportMetadata($notification) 
+	public function getReportMetadata($notification)
 	{
 		$reports = &$notification->getNotificationObject();
 		$reports = array_merge($reports, array(
@@ -66,6 +66,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
         			'module' => 'CustomVariables',
         			'action' => 'getCustomVariables',
         			'dimension' => Piwik_Translate('CustomVariables_ColumnCustomVariableName'),
+        			'documentation' => Piwik_Translate('CustomVariables_CustomVariablesReportDocumentation', array('<br />', '<a href="http://piwik.org/docs/custom-variables/" target="_blank">', '</a>')),
         			'order' => 10
         		),
     	));
@@ -119,7 +120,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	
 	/**
 	 * Hooks on daily archive to trigger various log processing
-	 * 
+	 *
 	 * @param Piwik_Event_Notification $notification
 	 * @return void
 	 */
@@ -128,7 +129,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		$this->interestByCustomVariables = $this->interestByCustomVariablesAndValue = array();
 		
 		/**
-		 * @var Piwik_ArchiveProcessing_Day 
+		 * @var Piwik_ArchiveProcessing_Day
 		 */
 		$this->archiveProcessing = $notification->getNotificationObject();
 		
@@ -141,44 +142,60 @@ class Piwik_CustomVariables extends Piwik_Plugin
 	}
 	
 	/**
-	 * @param Piwik_ArchiveProcessing $archiveProcessing
+	 * @param Piwik_ArchiveProcessing_Day $archiveProcessing
 	 * @return void
 	 */
-	protected function archiveDayAggregate(Piwik_ArchiveProcessing $archiveProcessing)
+	protected function archiveDayAggregate(Piwik_ArchiveProcessing_Day $archiveProcessing)
 	{
 	    for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++ )
 	    {
-	        $keyField = "custom_var_k".$i; 
+	        $keyField = "custom_var_k".$i;
 	        $valueField = "custom_var_v".$i;
 	        $dimensions = array($keyField, $valueField);
-	        $where = "$keyField != '' AND $valueField != ''";
+	        $where = "%s.$keyField != '' AND %s.$valueField != ''";
 	        
 	        // Custom Vars names and values metrics for visits
 	        $query = $archiveProcessing->queryVisitsByDimension($dimensions, $where);
+	        
         	while($row = $query->fetch() )
         	{
         	   if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow();
         	   if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]] = $archiveProcessing->getNewInterestRow();
-        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]]);  
-        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]]);  
+        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]]);
+        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]]);
+        	}
+        	
+	        // Custom Vars names and values metrics for page views
+	        $query = $archiveProcessing->queryActionsByDimension($dimensions, $where);
+	        $onlyMetricsAvailableInActionsTable = true;
+        	while($row = $query->fetch() )
+        	{
+        	   if(!isset($this->interestByCustomVariables[$row[$keyField]])) $this->interestByCustomVariables[$row[$keyField]]= $archiveProcessing->getNewInterestRow($onlyMetricsAvailableInActionsTable);
+        	   if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]] = $archiveProcessing->getNewInterestRow($onlyMetricsAvailableInActionsTable);
+        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariables[$row[$keyField]], $onlyMetricsAvailableInActionsTable);
+        	   $archiveProcessing->updateInterestStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]], $onlyMetricsAvailableInActionsTable);
         	}
         	
         	// Custom Vars names and values metrics for Goals
         	$query = $archiveProcessing->queryConversionsByDimension($dimensions, $where);
 
-        	if($query !== false) 
+        	if($query !== false)
         	{
         		while($row = $query->fetch() )
         		{
-    				if(!isset($this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
-    				if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow();
+    				if(!isset($this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
+    				if(!isset($this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
     				
     				$archiveProcessing->updateGoalStats( $row, $this->interestByCustomVariables[$row[$keyField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
     				$archiveProcessing->updateGoalStats( $row, $this->interestByCustomVariablesAndValue[$row[$keyField]][$row[$valueField]][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
         		}
         	}
-    		$archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->interestByCustomVariablesAndValue);
 	    }
+		$archiveProcessing->enrichConversionsByLabelArray($this->interestByCustomVariables);
+    	$archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->interestByCustomVariablesAndValue);
+    	
+//    	var_dump($this->interestByCustomVariables);
+//    	var_dump($this->interestByCustomVariablesAndValue);
 	}
 	
 	/**

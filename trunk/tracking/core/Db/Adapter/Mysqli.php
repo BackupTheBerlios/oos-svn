@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Mysqli.php 4294 2011-04-03 03:47:59Z vipsoft $
+ * @version $Id: Mysqli.php 4690 2011-05-15 21:02:40Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -86,6 +86,16 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
 	 * @return bool
 	 */
 	public function hasBlobDataType()
+	{
+		return true;
+	}
+
+	/**
+	 * Returns true if this adapter supports bulk loading
+	 *
+	 * @return bool
+	 */
+	public function hasBulkLoader()
 	{
 		return true;
 	}

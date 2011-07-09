@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Sort.php 4169 2011-03-23 01:59:57Z matt $
+ * @version $Id: Sort.php 4701 2011-05-16 05:17:39Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -50,21 +50,27 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 	
 	function sort($a, $b)
 	{
-		return 	(!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+		return !isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
 						&&  !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-					)
+					
 					? 0 
 					: (
 						!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
 						? 1
-						:(
-						 	!isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+						: (
+							!isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
 							? -1
-							: $this->sign * ( 
-								$a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
-									< $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
-								? -1 
-								: 1
+							: ( ($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] != $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
+								|| !isset($a->c[Piwik_DataTable_Row::COLUMNS]['label']))
+								? ( $this->sign * ( 
+										$a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] 
+											< $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
+										? -1
+										: 1)
+								)
+								: -1 * $this->sign * strnatcasecmp( 
+										$a->c[Piwik_DataTable_Row::COLUMNS]['label'], 
+										$b->c[Piwik_DataTable_Row::COLUMNS]['label'])
 							)
 						)
 					)

@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: AssetManager.php 4302 2011-04-04 00:24:06Z vipsoft $
+ * @version $Id: AssetManager.php 4838 2011-05-30 19:00:07Z matt $
  *
  * @category Piwik
  * @package Piwik
@@ -132,7 +132,7 @@ class Piwik_AssetManager
 
 		// Tries to open the new file
 		$newFilePath = self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
-		$newFile = fopen($newFilePath, "w");
+		$newFile = @fopen($newFilePath, "w");
 
 		if (!$newFile) {
 			throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
@@ -241,7 +241,7 @@ class Piwik_AssetManager
 
 		// Tries to open the new file
 		$newFilePath = self::getAbsoluteMergedFileLocation(self::MERGED_JS_FILE);
-		$newFile = fopen($newFilePath, "w");
+		$newFile = @fopen($newFilePath, "w");
 
 		if (!$newFile) {
 			throw new Exception ("The file : " . $newFile . " can not be opened in write mode.");
@@ -292,8 +292,6 @@ class Piwik_AssetManager
 	{
 		$priorityJsOrdered = array(
 			'libs/jquery/jquery.js',
-			'libs/jquery/jquery.bgiframe.js',
-			'libs/jquery/jquery.blockUI.js',
 			'libs/jquery/jquery-ui.js',
 			'libs/',
 			'themes/default/common.js',

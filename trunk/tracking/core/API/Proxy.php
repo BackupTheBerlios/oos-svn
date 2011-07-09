@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Proxy.php 4580 2011-04-28 00:15:02Z matt $
+ * @version $Id: Proxy.php 4819 2011-05-27 02:14:45Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -35,6 +35,7 @@ class Piwik_API_Proxy
 	protected $alreadyRegistered = array();
 	
 	private $metadataArray = array();
+	public $hideIgnoredFunctions = true;
 	
 	// when a parameter doesn't have a default value we use this
 	private $noDefaultValue;
@@ -150,15 +151,15 @@ class Piwik_API_Proxy
 	{
 		$returnedValue = null;
 		
+		// Temporarily sets the Request array to this API call context
+		$saveGET = $_GET;
+		foreach($parametersRequest as $param => $value) {
+			$_GET[$param] = $value;
+		}
+		
 		try {
 			$this->registerClass($className);
 
-			// Temporarily sets the Request array to this API call context
-			$saveGET = $_GET;
-			foreach($parametersRequest as $param => $value) {
-				$_GET[$param] = $value;
-			}
-			
 			// instanciate the object
 			$object = call_user_func(array($className, "getInstance"));
 			
@@ -193,7 +194,8 @@ class Piwik_API_Proxy
 			} catch (Exception $e) {
 				// logger can fail (eg. Tracker request)
 			}
-		} catch(Piwik_Access_NoAccessException $e) {
+		} catch (Exception $e) {
+			$_GET = $saveGET;
 			throw $e;
 		}
 
@@ -295,7 +297,7 @@ class Piwik_API_Proxy
 			&& !$method->isConstructor()
 			&& $method->getName() != 'getInstance'
 			&& false === strstr($method->getDocComment(), '@deprecated')
-			&& false === strstr($method->getDocComment(), '@ignore')
+			&& (!$this->hideIgnoredFunctions || false === strstr($method->getDocComment(), '@ignore'))
 			 )
 		{
 			$name = $method->getName();

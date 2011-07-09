@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 4581 2011-04-28 00:31:40Z matt $
+ * @version $Id: Controller.php 4904 2011-06-12 14:16:39Z SteveG $
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
@@ -116,14 +116,4 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		$jsMergedFile = Piwik_AssetManager::getMergedJsFileLocation();
 		Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
 	}
-
-	/*
-	 * Returns the CSS3PIE PIE.htc file
-	 *
-	 * @see /libs/CSS3PIE
-	 */
-	public function getPieHtc ()
-	{
-		Piwik::serveStaticFile(PIWIK_INCLUDE_PATH ."/libs/CSS3PIE/PIE.htc", "text/x-component");
-	}	
 }

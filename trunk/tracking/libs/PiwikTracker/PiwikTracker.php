@@ -2,16 +2,16 @@
 /**
  * Piwik - Open source web analytics
  * 
- * Client to record visits, page views, Goals, in a Piwik server.
+ * Client to record visits, page views, Goals, Ecommerce activity (product views, add to carts, Ecommerce orders) in a Piwik server.
  * This is a PHP Version of the piwik.js standard Tracking API.
  * For more information, see http://piwik.org/docs/tracking-api/
  * 
  * This class requires: 
  *  - json extension (json_decode, json_encode) 
- *  - CURL or STREAM extensions (to issue the request to Piwik)
+ *  - CURL or STREAM extensions (to issue the http request to Piwik)
  *  
  * @license released under BSD License http://www.opensource.org/licenses/bsd-license.php
- * @version $Id: PiwikTracker.php 4508 2011-04-19 03:26:04Z matt $
+ * @version $Id: PiwikTracker.php 4787 2011-05-23 11:09:58Z matt $
  * @link http://piwik.org/docs/tracking-api/
  *
  * @category Piwik
@@ -63,7 +63,6 @@ class PiwikTracker
     function __construct( $idSite, $apiUrl = false )
     {
     	$this->cookieSupport = true;
-    	
     	$this->userAgent = false;
     	$this->localHour = false;
     	$this->localMinute = false;
@@ -71,10 +70,13 @@ class PiwikTracker
     	$this->hasCookies = false;
     	$this->plugins = false;
     	$this->visitorCustomVar = false;
+    	$this->pageCustomVar = false;
     	$this->customData = false;
     	$this->forcedDatetime = false;
     	$this->token_auth = false;
     	$this->attributionInfo = false;
+    	$this->ecommerceLastOrderTimestamp = false;
+    	$this->ecommerceItems = array();
 
     	$this->requestCookie = '';
     	$this->idSite = $idSite;
@@ -145,14 +147,26 @@ class PiwikTracker
      * @param int Custom variable slot ID from 1-5
      * @param string Custom variable name
      * @param string Custom variable value
+     * @param string Custom variable scope. Possible values: visit, page
      */
-    public function setCustomVariable($id, $name, $value)
+    public function setCustomVariable($id, $name, $value, $scope = 'visit')
     {
     	if(!is_int($id))
     	{
     		throw new Exception("Parameter id to setCustomVariable should be an integer");
     	}
-        $this->visitorCustomVar[$id] = array($name, $value);
+    	if($scope == 'page')
+    	{
+    		$this->pageCustomVar[$id] = array($name, $value);
+    	}
+    	elseif($scope == 'visit')
+    	{
+    		$this->visitorCustomVar[$id] = array($name, $value);
+    	}
+    	else
+    	{
+    		throw new Exception("Invalid 'scope' parameter value");
+    	}
     }
     
     /**
@@ -162,11 +176,21 @@ class PiwikTracker
      * can be read by PHP from the $_COOKIE array.
      * 
      * @param int Custom Variable integer index to fetch from cookie. Should be a value from 1 to 5
-     * @return array An array with this format: array( 0 => CustomVariableName, 1 => CustomVariableValue )
+     * @param string Custom variable scope. Possible values: visit, page
+     * 
+     * @return array|false An array with this format: array( 0 => CustomVariableName, 1 => CustomVariableValue )
      * @see Piwik.js getCustomVariable()
      */
-    public function getCustomVariable($id)
+    public function getCustomVariable($id, $scope = 'visit')
     {
+    	if($scope == 'page')
+    	{
+    		return isset($this->pageCustomVar[$id]) ? $this->pageCustomVar[$id] : false;
+    	}
+    	else if($scope != 'visit')
+    	{
+    		throw new Exception("Invalid 'scope' parameter value");
+    	}
     	if(!empty($this->visitorCustomVar[$id]))
     	{
     		return $this->visitorCustomVar[$id];
@@ -191,6 +215,9 @@ class PiwikTracker
     	}
     	return $cookieDecoded[$id];
     }
+    
+    
+    
     
     /**
      * Sets the Browser language. Used to guess visitor countries when GeoIP is not enabled
@@ -251,6 +278,174 @@ class PiwikTracker
         // Referrer could be udpated to be the current URL temporarily (to mimic JS behavior)
     	$url = $this->getUrlTrackAction($actionUrl, $actionType);
     	return $this->sendRequest($url); 
+    }
+
+    /**
+     * Adds an item in the Ecommerce order.
+     * 
+     * This should be called before doTrackEcommerceOrder(), or before doTrackEcommerceCartUpdate().
+     * This function can be called for all individual products in the cart (or order).
+     * SKU parameter is mandatory. Other parameters are optional (set to false if value not known).
+     * Ecommerce items added via this function are automatically cleared when doTrackEcommerceOrder() or getUrlTrackEcommerceOrder() is called.
+     * 
+     * @param string $sku (required) SKU, Product identifier 
+     * @param string $name (optional) Product name
+     * @param string $category (optional) Product category
+     * @param float|int $price (optional) Individual product price (supports integer and decimal prices)
+     * @param int $quantity (optional) Product quantity. If not specified, will default to 1 in the Reports 
+     */
+    public function addEcommerceItem($sku, $name = false, $category = false, $price = false, $quantity = false)
+    {
+    	if(empty($sku))
+    	{
+    		throw new Exception("You must specify a SKU for the Ecommerce item");
+    	}
+    	$this->ecommerceItems[$sku] = array( $sku, $name, $category, $price, $quantity );
+    }
+    
+    /**
+	 * Tracks a Cart Update (add item, remove item, update item).
+	 * 
+	 * On every Cart update, you must call addEcommerceItem() for each item (product) in the cart, 
+	 * including the items that haven't been updated since the last cart update.
+	 * Items which were in the previous cart and are not sent in later Cart updates will be deleted from the cart (in the database).
+	 * 
+	 * @param float $grandTotal Cart grandTotal (typically the sum of all items' prices)
+	 */ 
+    public function doTrackEcommerceCartUpdate($grandTotal)
+    {
+    	$url = $this->getUrlTrackEcommerceCartUpdate($grandTotal);
+    	return $this->sendRequest($url); 
+    }
+    
+    /**
+	 * Tracks an Ecommerce order.
+	 * 
+	 * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
+	 * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
+	 * Only the parameters $orderId and $grandTotal are required. 
+	 * 
+	 * @param string|int $orderId (required) Unique Order ID. 
+	 * 				This will be used to count this order only once in the event the order page is reloaded several times.
+	 * 				orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Piwik.
+	 * @param float $grandTotal (required) Grand Total revenue of the transaction (including tax, shipping, etc.)
+	 * @param float $subTotal (optional) Sub total amount, typically the sum of items prices for all items in this order (before Tax and Shipping costs are applied) 
+	 * @param float $tax (optional) Tax amount for this order
+	 * @param float $shipping (optional) Shipping amount for this order
+	 * @param float $discount (optional) Discounted amount in this order
+     */
+    public function doTrackEcommerceOrder($orderId, $grandTotal, $subTotal = false, $tax = false, $shipping = false, $discount = false)
+    {
+    	$url = $this->getUrlTrackEcommerceOrder($orderId, $grandTotal, $subTotal, $tax, $shipping, $discount);
+    	return $this->sendRequest($url); 
+    }
+    
+    /**
+     * Sets the current page view as an item (product) page view, or an Ecommerce Category page view.
+     * 
+     * This must be called before doTrackPageView() on this product/category page. 
+     * It will set 3 custom variables of scope "page" with the SKU, Name and Category for this page view.
+     * Note: Custom Variables of scope "page" slots 3, 4 and 5 will be used.
+     *  
+     * On a category page, you may set the parameter $category only and set the other parameters to false.
+     * 
+     * Tracking Product/Category page views will allow Piwik to report on Product & Categories 
+     * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
+     * 
+     * @param string $sku Product SKU being viewed
+     * @param string $name Product Name being viewed
+     * @param string $category Category being viewed. On a Product page, this is the product's category
+     */
+    public function setEcommerceView($sku = false, $name = false, $category = false)
+    {
+    	if(!empty($sku)) {
+    		$this->pageCustomVar[3] = array('_pks', $sku);
+    	}
+    	if(!empty($name)) {
+    		$this->pageCustomVar[4] = array('_pkn', $name);
+    	}
+    	if(!empty($category)) {
+    		$this->pageCustomVar[5] = array('_pkc', $category);
+    	}
+    }
+    
+    /**
+     * Returns URL used to track Ecommerce Cart updates
+     * Calling this function will reinitializes the property ecommerceItems to empty array 
+     * so items will have to be added again via addEcommerceItem()  
+     * @ignore
+     */
+    public function getUrlTrackEcommerceCartUpdate($grandTotal)
+    {
+    	$url = $this->getUrlTrackEcommerce($grandTotal);
+    	return $url;
+    }
+    
+    /**
+     * Returns URL used to track Ecommerce Orders
+     * Calling this function will reinitializes the property ecommerceItems to empty array 
+     * so items will have to be added again via addEcommerceItem()  
+     * @ignore
+     */
+    public function getUrlTrackEcommerceOrder($orderId, $grandTotal, $subTotal = false, $tax = false, $shipping = false, $discount = false)
+    {
+    	if(empty($orderId))
+    	{
+    		throw new Exception("You must specifiy an orderId for the Ecommerce order");
+    	}
+    	$url = $this->getUrlTrackEcommerce($grandTotal, $subTotal, $tax, $shipping, $discount);
+    	$url .= '&ec_id=' . urlencode($orderId);
+    	$this->ecommerceLastOrderTimestamp = $this->getTimestamp();
+    	return $url;
+    }
+    
+    /**
+     * Returns URL used to track Ecommerce orders
+     * Calling this function will reinitializes the property ecommerceItems to empty array 
+     * so items will have to be added again via addEcommerceItem()  
+     * @ignore
+     */
+    protected function getUrlTrackEcommerce($grandTotal, $subTotal = false, $tax = false, $shipping = false, $discount = false)
+    {
+    	if(!is_numeric($grandTotal))
+    	{
+    		throw new Exception("You must specifiy a grandTotal for the Ecommerce order (or Cart update)");
+    	}
+    	
+    	$url = $this->getRequest( $this->idSite );
+    	$url .= '&idgoal=0';
+    	if(!empty($grandTotal))
+    	{
+    		$url .= '&revenue='.$grandTotal;
+    	}
+    	if(!empty($subTotal))
+    	{
+    		$url .= '&ec_st='.$subTotal;
+    	}
+    	if(!empty($tax))
+    	{
+    		$url .= '&ec_tx='.$tax;
+    	}
+    	if(!empty($shipping))
+    	{
+    		$url .= '&ec_sh='.$shipping;
+    	}
+    	if(!empty($discount))
+    	{
+    		$url .= '&ec_dt='.$discount;
+    	}
+    	if(!empty($this->ecommerceItems))
+    	{
+    		// Removing the SKU index in the array before JSON encoding
+    		$items = array();
+    		foreach($this->ecommerceItems as $item)
+    		{
+    			$items[] = $item;
+    		}
+    		$url .= '&ec_items='. urlencode(json_encode($items));
+    	}
+    	$this->ecommerceItems = array();
+    	return $url;
     }
     
     /**
@@ -444,6 +639,15 @@ class PiwikTracker
     }
     
     /**
+     * Will append a custom string at the end of the Tracking request. 
+     * @param string $string
+     */
+    public function setDebugStringAppend( $string )
+    {
+    	$this->DEBUG_APPEND_URL = $string;
+    }
+    
+    /**
      * Sets visitor browser supported plugins 
      *
      * @param bool $flash
@@ -556,6 +760,17 @@ class PiwikTracker
     }
     
     /**
+     * Returns current timestamp, or forced timestamp/datetime if it was set
+     * @return string|int
+     */
+    protected function getTimestamp()
+    {
+    	return !empty($this->forcedDatetime) 
+    		? strtotime($this->forcedDatetime) 
+    		: time();
+    }
+    
+    /**
      * @ignore
      */
     protected function getRequest( $idSite )
@@ -569,6 +784,7 @@ class PiwikTracker
     	{
     		self::$URL .= '/piwik.php';
     	}
+    	
     	$url = self::$URL .
 	 		'?idsite=' . $idSite .
 			'&rec=1' .
@@ -590,8 +806,12 @@ class PiwikTracker
 			(($this->localHour !== false && $this->localMinute !== false && $this->localSecond !== false) ? '&h=' . $this->localHour . '&m=' . $this->localMinute  . '&s=' . $this->localSecond : '' ).
 	        (!empty($this->width) && !empty($this->height) ? '&res=' . $this->width . 'x' . $this->height : '') .
 	        (!empty($this->hasCookies) ? '&cookie=' . $this->hasCookies : '') .
+	        (!empty($this->ecommerceLastOrderTimestamp) ? '&_ects=' . urlencode($this->ecommerceLastOrderTimestamp) : '') .
+	        
+	        // Various important attributes
 	        (!empty($this->customData) ? '&data=' . $this->customData : '') . 
 	        (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '') .
+	        (!empty($this->pageCustomVar) ? '&cvar=' . urlencode(json_encode($this->pageCustomVar)) : '') .
 	        
 	        // URL parameters
 	        '&url=' . urlencode($this->pageUrl) .
@@ -610,6 +830,9 @@ class PiwikTracker
     		// DEBUG 
 	        $this->DEBUG_APPEND_URL
         ;
+    	// Reset page level custom variables after this page view
+    	$this->pageCustomVar = false;
+    	
     	return $url;
     }
     
@@ -635,7 +858,6 @@ class PiwikTracker
     	}
     	return false;
     }
-    
 
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
@@ -666,7 +888,6 @@ class PiwikTracker
 		}
 		return $url;
 	}
-
 
 	/**
 	 * If the current URL is 'http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
@@ -732,7 +953,6 @@ class PiwikTracker
 			. self::getCurrentQueryString();
 	}
 }
-
 
 function Piwik_getUrlTrackPageView( $idSite, $documentTitle = false )
 {

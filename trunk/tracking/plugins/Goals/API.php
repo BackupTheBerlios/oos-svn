@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 4454 2011-04-14 20:41:16Z matt $
+ * @version $Id: API.php 4819 2011-05-27 02:14:45Z matt $
  * 
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -14,8 +14,20 @@
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal", 
  * or list existing Goals for one or several websites via "getGoals" 
  * 
- * It also lets you request overall Goal metrics via the method "get" and the additional helpers "getConversions", "getRevenue", etc.
+ * If you are <a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
+ * will return the list of products purchased on your site, either grouped by Product SKU, Product Name or Product Category. For each name, SKU or category, the following
+ * metrics are returned: Total revenue, Total quantity, average price, average quantity, number of orders (or abandoned carts) containing this product, number of visits on the Product page,
+ * Conversion rate.
+ * 
+ * By default, these functions return the 'Products purchased'. These functions also accept an optional parameter &abandonedCarts=1.
+ * If the parameter is set, it will instead return the metrics for products that were left in an abandoned cart therefore not purchased. 
+ * 
+ * The API also lets you request overall Goal metrics via the method "get": Conversions, Visits with at least one conversion, Conversion rate and Revenue.
+ * If you wish to request specific metrics about Ecommerce goals, you can set the parameter &idGoal=ecommerceAbandonedCart to get metrics about abandoned carts (including Lost revenue, and number of items left in the cart) 
+ * or &idGoal=ecommerceOrder to get metrics about Ecommerce orders (number of orders, visits with an order, subtotal, tax, shipping, discount, revenue, items ordered)
+ * 
  * See also the documentation about <a href='http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>Tracking Goals</a> in Piwik.
+ * 
  * @package Piwik_Goals
  */
 class Piwik_Goals_API 
@@ -178,6 +190,73 @@ class Piwik_Goals_API
 	}
 	
 	/**
+	 * Returns a datatable of Items SKU/name or categories and their metrics
+	 * If $abandonedCarts set to 1, will return items abandoned in carts. If set to 0, will return items ordered
+	 */
+	protected function getItems($recordName, $idSite, $period, $date, $abandonedCarts )
+	{
+		Piwik::checkUserHasViewAccess( $idSite );
+		$recordNameFinal = $recordName;
+		if($abandonedCarts)
+		{
+			$recordNameFinal = Piwik_Goals::getItemRecordNameAbandonedCart($recordName);
+		}
+		$archive = Piwik_Archive::build($idSite, $period, $date );
+		$dataTable = $archive->getDataTable($recordNameFinal);
+		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE));
+		$dataTable->queueFilter('ReplaceColumnNames');
+		
+		$ordersColumn = 'orders';
+		if($abandonedCarts)
+		{
+			$ordersColumn = 'abandoned_carts';
+			$dataTable->renameColumn(Piwik_Archive::INDEX_ECOMMERCE_ORDERS, $ordersColumn);
+		}
+		// Average price = sum product revenue / quantity
+		$dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_price', 'price', $ordersColumn, Piwik_Tracker_GoalManager::REVENUE_PRECISION));
+
+		// Average quantity = sum product quantity / abandoned carts 
+		$dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_quantity', 'quantity', $ordersColumn, $precision = 1));
+		$dataTable->queueFilter('ColumnDelete', array('price'));
+		
+		// Enrich the datatable with Product/Categories views, and conversion rates
+		$mapping = array(
+			'Goals_ItemsSku' => '_pks',
+			'Goals_ItemsName' => '_pkn',
+			'Goals_ItemsCategory' => '_pkc',
+		);
+		$customVariables = Piwik_CustomVariables_API::getInstance()->getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = true);
+		if($customVariables instanceof Piwik_DataTable
+			&& $row = $customVariables->getRowFromLabel($mapping[$recordName]))
+		{
+			// Request views for all products/categories
+			$idSubtable = $row->getIdSubDataTable();
+			$ecommerceViews = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable);
+			
+			$dataTable->addDataTable($ecommerceViews);
+			// Product conversion rate = orders / visits 
+			$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', Piwik_Tracker_GoalManager::REVENUE_PRECISION));
+		}
+		
+		return $dataTable;
+	}
+	
+	public function getItemsSku($idSite, $period, $date, $abandonedCarts = false )
+	{
+		return $this->getItems('Goals_ItemsSku', $idSite, $period, $date, $abandonedCarts);
+	}
+	
+	public function getItemsName($idSite, $period, $date, $abandonedCarts = false )
+	{
+		return $this->getItems('Goals_ItemsName', $idSite, $period, $date, $abandonedCarts);
+	}
+	
+	public function getItemsCategory($idSite, $period, $date, $abandonedCarts = false )
+	{
+		return $this->getItems('Goals_ItemsCategory', $idSite, $period, $date, $abandonedCarts);
+	}
+	
+	/**
 	 * Returns Goals data
 	 * 
 	 * @param int $idSite
@@ -193,14 +272,27 @@ class Piwik_Goals_API
 		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		$columns = Piwik::getArrayFromApiParameter($columns);
 		
+		// Mapping string idGoal to internal ID
+		$idGoal = ($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER) 
+						? Piwik_Tracker_GoalManager::IDGOAL_ORDER
+						: ($idGoal == Piwik_Archive::LABEL_ECOMMERCE_CART
+							? Piwik_Tracker_GoalManager::IDGOAL_CART
+							: $idGoal);
+							
 		if(empty($columns))
 		{
-			$columns = array(
-						'nb_conversions',
-						'nb_visits_converted',
-						'conversion_rate', 
-						'revenue',
-			);
+			$columns = Piwik_Goals::getGoalColumns($idGoal);
+			if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
+			{
+				$columns[] = 'avg_order_revenue';
+			}
+		}
+		if(in_array('avg_order_revenue', $columns)
+			&& $idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
+		{
+			$columns[] = 'nb_conversions';
+			$columns[] = 'revenue';
+			$columns = array_unique($columns);
 		}
 		$columnsToSelect = array();
 		foreach($columns as &$columnName)
@@ -214,7 +306,39 @@ class Piwik_Goals_API
 		{
 			$dataTable->renameColumn($oldName, $columns[$id]);
 		}
+		if($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER)
+		{
+			if($dataTable instanceof Piwik_DataTable_Array)
+			{
+				foreach($dataTable->getArray() as $row)
+				{
+					$this->enrichTable($row);
+				}
+			}
+			else
+			{
+				$this->enrichTable($dataTable);
+			}
+		}
 		return $dataTable;
+	}
+	
+	protected function enrichTable($table)
+	{
+		$row = $table->getFirstRow();
+		if(!$row)
+		{
+			return;
+		}
+		// AVG order per visit
+		if(false !== $table->getColumn('avg_order_revenue'))
+		{
+			$conversions = $row->getColumn('nb_conversions');
+			if($conversions)
+			{
+				$row->setColumn('avg_order_revenue', round($row->getColumn('revenue') / $conversions, 2));
+			}
+		}
 	}
 	
 	protected function getNumeric( $idSite, $period, $date, $segment, $toFetch )
@@ -225,21 +349,33 @@ class Piwik_Goals_API
 		return $dataTable;		
 	}
 
+	/**
+	 * @ignore 
+	 */
 	public function getConversions( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
 		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
 	}
 	
+	/**
+	 * @ignore 
+	 */
 	public function getNbVisitsConverted( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
 		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('nb_visits_converted', $idGoal));
 	}
 	
+	/**
+	 * @ignore 
+	 */
 	public function getConversionRate( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
 		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
 	}
 	
+	/**
+	 * @ignore 
+	 */
 	public function getRevenue( $idSite, $period, $date, $segment = false, $idGoal = false )
 	{
 		return $this->getNumeric( $idSite, $period, $date, $segment, Piwik_Goals::getRecordName('revenue', $idGoal));

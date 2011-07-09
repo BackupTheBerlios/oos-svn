@@ -4,14 +4,14 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: API.php 4597 2011-04-29 06:53:03Z matt $
+ * @version $Id: API.php 4879 2011-06-05 22:59:00Z JulienM $
  * 
  * @category Piwik_Plugins
  * @package Piwik_PDFReports
  */
 
 /**
- * The PDFReports API lets you manage Scheduled Email reports, as well generate, download or email any existing report.
+ * The PDFReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
  * 
  * "generateReport" will generate the requested report (for a specific date range, website and in the requested language).
  * "sendEmailReport" will send the report by email to the recipients specified for this report. 
@@ -60,7 +60,11 @@ class Piwik_PDFReports_API
 		$this->checkPeriod($period);
 		$this->checkFormat($reportFormat);
 		$description = $this->checkDescription($description);
+		$currentUser = Piwik::getCurrentUserLogin();
 		$emailMe = (int)$emailMe;
+		
+		$this->ensureLanguageSetForUser($currentUser);
+
 		$additionalEmails = $this->checkAdditionalEmails($additionalEmails);
 		$reports = $this->checkAvailableReports($idSite, $reports);
 		
@@ -75,7 +79,7 @@ class Piwik_PDFReports_API
 					array( 
 						'idreport' => $idReport,
 						'idsite' => $idSite,
-						'login' => Piwik::getCurrentUserLogin(),
+						'login' => $currentUser,
 						'description' => $description,
 						'period' => $period,
 						'format' => $reportFormat,
@@ -87,6 +91,15 @@ class Piwik_PDFReports_API
 					));
 		return $idReport;
 	} 
+	
+	private function ensureLanguageSetForUser($currentUser)
+	{
+		$lang = Piwik_LanguagesManager_API::getInstance()->getLanguageForUser( $currentUser );
+		if(empty($lang))
+		{
+			Piwik_LanguagesManager_API::getInstance()->setLanguageForUser( $currentUser, Piwik_LanguagesManager::getLanguageCodeForCurrentUser() );
+		}
+	}
 	
 	/**
 	 * Updates an existing report.
@@ -103,7 +116,11 @@ class Piwik_PDFReports_API
 		$this->checkPeriod($period);
 		$this->checkFormat($reportFormat);
 		$description = $this->checkDescription($description);
+		$currentUser = Piwik::getCurrentUserLogin();
 		$emailMe = (int)$emailMe;
+		
+		$this->ensureLanguageSetForUser($currentUser);
+		
 		$additionalEmails = $this->checkAdditionalEmails($additionalEmails);
 		
 		$reports = $this->checkAvailableReports($idSite, $reports);
@@ -307,7 +324,7 @@ class Piwik_PDFReports_API
         	{
         		$apiParameters = $action['parameters'];
         	}
-        	$report = Piwik_API_API::getInstance()->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters, $language);
+        	$report = Piwik_API_API::getInstance()->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false, $apiParameters, $idGoal = false, $language);
         	$websiteName = $report['website'];
         	$prettyDate = $report['prettyDate'];
         	$processedReports[] = $report;
@@ -354,7 +371,6 @@ class Piwik_PDFReports_API
 	{
 		$reports = $this->getReports($idSite, $period = false, $idReport);
 		$report = reset($reports);
-		
 		if($report['period'] == 'never')
 		{
 			$report['period'] = 'day';

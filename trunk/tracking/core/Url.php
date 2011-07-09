@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Url.php 4539 2011-04-23 05:56:56Z vipsoft $
+ * @version $Id: Url.php 4759 2011-05-22 14:46:40Z vipsoft $
  *
  * @category Piwik
  * @package Piwik
@@ -323,44 +323,34 @@ class Piwik_Url
 	}
 
 	/**
-	 * Is the URL on the same host and in the same script path?
+	 * Is the URL on the same host?
 	 *
 	 * @param string $url
 	 * @return bool True if local; false otherwise.
 	 */
 	static public function isLocalUrl($url)
 	{
-		// handle case-sensitivity differences
-		$pathContains = Piwik_Common::isWindows() ? 'stripos' : 'strpos';
-
-		// test the scheme/protocol portion of the reconstructed "current" URL
-		if(!strncasecmp($url, 'http://', 7) || !strncasecmp($url, 'https://', 8))
+		if(empty($url))
 		{
-			// determine the offset to begin the comparison
-			$offset = strpos($url, '://');
-			$current = strstr(self::getCurrentUrlWithoutFileName(), '://');
-			if($pathContains($url, $current, $offset) === $offset)
-			{
-				return true;
-			}
+			return true;
 		}
 
-		return false;
-	}
-
-	/**
-	 * Get local referrer, i.e., on the same host and in the same script path.
-	 *
-	 * @return string|false
-	 */
-	static public function getLocalReferer()
-	{
-		// verify that the referrer contains the current URL (minus the filename & query parameters), http://example.org/dir1/dir2/
-		$referrer = self::getReferer();
-		if($referrer !== false && self::isLocalUrl($referrer)) {
-			return $referrer;
+		// handle host name mangling
+		$requestUri = isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : '';
+		$parseRequest = @parse_url($requestUri);
+		$hosts = array(	$_SERVER['HTTP_HOST'], self::getCurrentHost() );
+		if(isset($parseRequest['host']))
+		{
+			$hosts[] = $parseRequest['host'];
 		}
 
-		return false;
+		// drop port numbers from hostnames and IP addresses
+		$hosts = array_map(array('Piwik_IP', 'sanitizeIp'), $hosts);
+
+		// compare scheme and host
+		$parsedUrl = @parse_url($url);
+		$scheme = $parsedUrl['scheme'];
+		$host = Piwik_IP::sanitizeIp($parsedUrl['host']);
+		return (in_array($scheme, array('http', 'https')) && in_array($host, $hosts));
 	}
 }

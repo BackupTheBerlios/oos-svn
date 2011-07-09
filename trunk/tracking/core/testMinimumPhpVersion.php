@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: testMinimumPhpVersion.php 4524 2011-04-20 06:43:31Z vipsoft $
+ * @version $Id: testMinimumPhpVersion.php 4765 2011-05-22 18:52:37Z vipsoft $
  * 
  * @category Piwik
  * @package Piwik
@@ -43,15 +43,22 @@ else
 	if(!class_exists('ArrayObject'))
 	{
 		$piwik_errorMessage .= "<p><b>Piwik and Zend Framework require the SPL extension</b></p> 
-					<p>It appears your PHP was compiled with --disable-spl.
+					<p>It appears your PHP was compiled with <pre>--disable-spl</pre>.
 					To enjoy Piwik, you need PHP compiled without that configure option.</p>";
 	}
 
-	if(!function_exists('session_cache_limiter'))
+	if(!extension_loaded('session'))
 	{
 		$piwik_errorMessage .= "<p><b>Piwik and Zend_Session require the session extension</b></p> 
-					<p>It appears your PHP was compiled with --disable-session.
+					<p>It appears your PHP was compiled with <pre>--disable-session</pre>.
 					To enjoy Piwik, you need PHP compiled without that configure option.</p>";
+	}
+
+	if(!function_exists('ini_set'))
+	{
+		$piwik_errorMessage .= "<p><b>Piwik and Zend_Session require the <code>ini_set()</code> function</b></p> 
+					<p>It appears your PHP has disabled this function.
+					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini.</p>";
 	}
 }
 

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Segment.php 4441 2011-04-14 01:04:49Z matt $
+ * @version $Id: Segment.php 4717 2011-05-17 23:18:17Z matt $
  * 
  * @category Piwik
  * @package Piwik
@@ -128,7 +128,7 @@ class Piwik_Segment
         {
             throw new Exception("Segment '$name' is not a supported segment.");
         }
-        return array( $sqlName, $expression[1], $value );
+        return array( $sqlName, $matchType, $value );
     }
     
     public function getString()
@@ -145,16 +145,39 @@ class Piwik_Segment
         return md5(serialize($this->getSql()));
     }
     
-    
-    public function getSql()
+    public function getSql( $fieldsAvailableInTable = array(), $joinedTableName = false)
     {
     	if($this->isEmpty())
     	{
-    		return array('sql' => '', 'bind' => array());
+    		return array('sql' => '', 'bind' => array(), 'sql_join_visits' => '');
     	}
-        $this->segment->parseSubExpressionsIntoSqlExpressions();
+        $this->segment->parseSubExpressionsIntoSqlExpressions($fieldsAvailableInTable, $joinedTableName);
         
-        return $this->segment->getSql();
+        $return = $this->segment->getSql();
+        
+        $return['sql_join_visits'] = '';
+        if(!empty($fieldsAvailableInTable))
+        {
+        	if(!$this->isSegmentAvailable($fieldsAvailableInTable))
+        	{
+        		$return['sql_join_visits'] = "LEFT JOIN ".Piwik_Common::prefixTable('log_visit')." AS log_visit USING(idvisit)";
+        	}
+        }
+        return $return;
     }
+    
+	protected function isSegmentAvailable($allowedSegments)
+	{
+	    $segments = $this->getUniqueSqlFields();
+	    foreach($segments as $segment)
+	    {
+	        if(array_search($segment, $allowedSegments) === false)
+	        {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
 }
 

@@ -4,7 +4,7 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: ResponseBuilder.php 4311 2011-04-04 18:49:55Z vipsoft $
+ * @version $Id: ResponseBuilder.php 4900 2011-06-09 22:28:36Z JulienM $
  * 
  * @category Piwik
  * @package Piwik
@@ -296,25 +296,25 @@ class Piwik_API_ResponseBuilder
 		return $this->getRenderedDataTable($dataTable);
 	}
 	
-    /**
-     * Is this a multi dimensional array? 
+	/**
+	 * Is this a multi dimensional array? 
 	 * Multi dim arrays are not supported by the Datatable renderer.
-     * We manually render these.
-     * 
-     * array(
-     * 		array(
-     * 			1,
-     * 			2 => array( 1,
-     * 						2
-     * 			)
-     *		), 
-     *		array( 2,
-     *			   3
-     *		)
-     *	);
-     * 
-     * @return String or false if it isn't a multidim array
-     */ 
+	 * We manually render these.
+	 * 
+	 * array(
+	 * 		array(
+	 * 			1,
+	 * 			2 => array( 1,
+	 * 						2
+	 * 			)
+	 *		), 
+	 *		array( 2,
+	 *			   3
+	 *		)
+	 *	);
+	 * 
+	 * @return String or false if it isn't a multidim array
+	 */ 
 	protected function handleMultiDimensionalArray($array)
 	{
 		$first = reset($array);
@@ -322,70 +322,198 @@ class Piwik_API_ResponseBuilder
 		{
 			if(is_array($first))
 			{
-    			foreach($first as $key => $value)
-    			{
-    				// Yes, this is a multi dim array
-    				if(is_array($value))
-    				{
-    					switch($this->outputFormat)
-    					{
-    						case 'json':
-    							@header( "Content-Type: application/json" );
-    							return json_encode($array);
-    						break;
-    						
-    						case 'php':
-            					if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
-                    			{
-                    				return serialize($array);
-                    			}
-                    			return $array;
-                    			
-    						case 'xml':
-    							@header("Content-Type: text/xml;charset=utf-8");
-                				$xml = 
-                					"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
-                					"<result>\n".
-    										$this->convertMultiDimensionalArrayToXml($array).
+				foreach($first as $key => $value)
+				{
+					// Yes, this is a multi dim array
+					if(is_array($value))
+					{
+						switch($this->outputFormat)
+						{
+							case 'json':
+								@header( "Content-Type: application/json" );
+								return self::convertMultiDimensionalArrayToJson($array);
+							break;
+							
+							case 'php':
+								if($this->caseRendererPHPSerialize( $defaultSerialize = 0))
+								{
+									return serialize($array);
+								}
+								return $array;
+								
+							case 'xml':
+								@header("Content-Type: text/xml;charset=utf-8");
+								$xml = 
+									"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
+									"<result>\n".
+											self::convertMultiDimensionalArrayToXml($array).
 									"\n</result>";
-                				return $xml;
-    						default:
-    						break;
-    					}
-    				}
-    			}
+								return $xml;
+							default:
+							break;
+						}
+					}
+				}
 			}
 		}
 		return false;
 	}
-	
-    protected function convertMultiDimensionalArrayToXml($array, $level = 0) 
-    { 
-        $xml=""; 
-        foreach ($array as $key=>$value) { 
-        	if(is_numeric($key)){
-        		$key = 'row';
-        	}
-        	$key = str_replace(' ', '_', $key);
-        	$marginLeft = str_repeat("\t", $level + 1);
-            if (is_array($value)) { 
-            	if(empty($value))
-            	{
-            		$xml .= $marginLeft . "<$key/>\n";
-            	}
-            	else
-            	{
-                    $xml.=	$marginLeft .
-                		"<$key>\n". 
-                    		$this->convertMultiDimensionalArrayToXml($value, $level + 1).
-                			"\n". $marginLeft .
-                		"</$key>\n";
-            	} 
-            } else { 
-                $xml.= $marginLeft . 
-                		"<$key>".Piwik_DataTable_Renderer::formatValueXml($value)."</$key>\n"; 
-            } 
-        } 
-        return $xml; 
-    } 
+
+	/**
+	 * Render a multidimensional array to XML
+	 *
+	 * @static
+	 * @param $array can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
+	 * @param int $level
+	 * @return string
+	 */
+	public static function convertMultiDimensionalArrayToXml($array, $level = 0)
+	{ 
+		$xml=""; 
+		foreach ($array as $key=>$value)
+		{
+			if(is_numeric($key))
+			{
+				$key = "row";
+			}
+
+			$key = str_replace(' ', '_', $key);
+			$marginLeft = str_repeat("\t", $level + 1);
+
+			switch(true)
+			{
+				// Case dimension is a PHP array
+				case (is_array($value)):
+
+					if(empty($value))
+					{
+						$xml .= $marginLeft . "<$key/>\n";
+					}
+					else
+					{
+						$xml.=	$marginLeft .
+							"<$key>\n".
+								self::convertMultiDimensionalArrayToXml($value, $level + 1).
+								"\n". $marginLeft .
+							"</$key>\n";
+					}
+					break;
+
+				// Case dimension is a Piwik_DataTable_Array or a Piwik_DataTable
+				case ($value instanceof Piwik_DataTable_Array || $value instanceof Piwik_DataTable):
+
+					if($value->getRowsCount() == 0)
+					{
+						$xml .= $marginLeft . "<$key/>\n";
+					}
+					else
+					{
+						$XMLRenderer = new Piwik_DataTable_Renderer_Xml();
+						$XMLRenderer->setTable($value);
+						$renderedReport = $XMLRenderer->render();
+
+						$renderedReport = preg_replace("/<\?xml.*\?>\n/", "", $renderedReport);
+						$markupToRemove = $value instanceof Piwik_DataTable_Array ? "results" : "result";
+						$renderedReport = preg_replace("/\n?<\/?". $markupToRemove .">\n?/", "", $renderedReport);
+
+						// Add one level of margin to each line
+						$renderedReport = $marginLeft . preg_replace("/\n/", "\n" . $marginLeft, $renderedReport);
+
+						$xml.=	$marginLeft . "<$key>\n";
+						$xml.=	$renderedReport;
+						$xml.=	"\n" . $marginLeft . "</$key>\n";
+					}
+
+					break;
+
+				// Case scalar
+				default:
+
+					$xml.= $marginLeft . "<$key>".Piwik_DataTable_Renderer::formatValueXml($value)."</$key>\n";
+					break;
+			}
+		} 
+		return $xml; 
+	}
+
+	/**
+	 * Render a multidimensional array to Json
+	 * Handle Piwik_DataTable|Piwik_DataTable_Array elements in the first dimension only, following case does not work:
+	 * array(
+	 * 		array(
+	 * 			Piwik_DataTable,
+	 * 			2 => array(
+	 * 				1,
+	 * 				2
+	 * 			),
+	 *		),
+	 *	);
+	 *
+	 * @static
+	 * @param $array can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
+	 * @param int $level
+	 * @return string
+	 */
+	public static function convertMultiDimensionalArrayToJson($array)
+	{
+		// Naive but works for our current use cases
+		$arrayKeys = array_keys($array);
+		$isAssociative = !is_numeric($arrayKeys[0]);
+
+		if($isAssociative)
+		{
+			$json = "{";
+		}
+		else
+		{
+			$json = "[";
+		}
+
+		foreach ($array as $key=>$value)
+		{
+			if($isAssociative)
+			{
+				$json .= "\"".$key."\":";
+			}
+
+			switch(true)
+			{
+				// Case dimension is a PHP array
+				case (is_array($value)):
+
+					$json .= json_encode($value);
+					break;
+
+				// Case dimension is a Piwik_DataTable_Array or a Piwik_DataTable
+				case ($value instanceof Piwik_DataTable_Array || $value instanceof Piwik_DataTable):
+
+					$XMLRenderer = new Piwik_DataTable_Renderer_Json();
+					$XMLRenderer->setTable($value);
+					$renderedReport = $XMLRenderer->render();
+					$json .= $renderedReport;
+					break;
+
+				// Case scalar
+				default:
+
+					$json .= json_encode($value);
+					break;
+			}
+
+			$json .= ",";
+		}
+
+		// Remove trailing ","
+		$json = substr ($json, 0, strlen($json) - 1);
+
+		if($isAssociative)
+		{
+			$json .= "}";
+		}
+		else
+		{
+			$json .= "]";
+		}
+		return $json;
+	}
 }

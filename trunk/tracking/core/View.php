@@ -1,11 +1,11 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: View.php 4591 2011-04-28 11:11:21Z matt $
- * 
+ * @version $Id: View.php 4811 2011-05-26 02:17:08Z matt $
+ *
  * @category Piwik
  * @package Piwik
  */
@@ -45,6 +45,7 @@ class Piwik_View implements Piwik_iView
 		$this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
 		$this->currentUrlWithoutFilename = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
 		$this->piwik_version = Piwik_Version::VERSION;
+		$this->cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
 	}
 	
 	/**
@@ -73,7 +74,7 @@ class Piwik_View implements Piwik_iView
 
 	/**
 	 * Renders the current view.
-	 * 
+	 *
 	 * @return string Generated template
 	 */
 	public function render()
@@ -95,6 +96,7 @@ class Piwik_View implements Piwik_iView
 			$this->userIsSuperUser = Piwik::isUserIsSuperUser();
 			$this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
 			$this->disableLink = Piwik_Common::getRequestVar('disableLink', 0, 'int');
+			$this->isWidget = Piwik_Common::getRequestVar('widget', 0, 'int');
 			if(Zend_Registry::get('config')->General->autocomplete_min_sites <= count($sites))
 			{
 				$this->show_autocompleter = true;
@@ -111,7 +113,7 @@ class Piwik_View implements Piwik_iView
 			$this->userAlias = $user['alias'];
 			
 		} catch(Exception $e) {
-			// can fail, for example at installation (no plugin loaded yet)		
+			// can fail, for example at installation (no plugin loaded yet)
 		}
 		
 		$this->totalTimeGeneration = Zend_Registry::get('timer')->getTime();
@@ -176,7 +178,7 @@ class Piwik_View implements Piwik_iView
 				$registered = true;
 			}
 
-			// Create the renderer object	
+			// Create the renderer object
 			$renderer = HTML_QuickForm2_Renderer::factory('smarty');
 			$renderer->setOption('group_errors', true);
 
@@ -211,7 +213,7 @@ class Piwik_View implements Piwik_iView
 	}
 
 	/**
-	 * Clear compiled Smarty templates 
+	 * Clear compiled Smarty templates
 	 */
 	static public function clearCompiledTemplates()
 	{
@@ -233,6 +235,22 @@ class Piwik_View implements Piwik_iView
 		$this->smarty->caching = $caching;
 	}
 */
+	
+	/**
+	 * Render the single report template
+	 */
+	static public function singleReport($title, $reportHtml, $fetch = false)
+	{
+		$view = new Piwik_View('CoreHome/templates/single_report.tpl');
+		$view->title = $title;
+		$view->report = $reportHtml;
+		
+		if ($fetch)
+		{
+			return $view->render();
+		}
+		echo $view->render();
+	}
 
 	/**
 	 * View factory method
@@ -292,7 +310,7 @@ class Piwik_View implements Piwik_iView
 		}
 		
 		// Specified template not found
-		// We allow for no specified template 
+		// We allow for no specified template
 		if(!empty($templateName)
 			&& !file_exists($templateFile))
 		{

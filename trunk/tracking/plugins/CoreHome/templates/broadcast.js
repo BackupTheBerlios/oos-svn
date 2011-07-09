@@ -92,7 +92,8 @@ broadcast.propagateAjax = function (ajaxUrl)
 
 	// if the module is not 'Goals', we specifically unset the 'idGoal' parameter
 	// this is to ensure that the URLs are clean (and that clicks on graphs work as expected - they are broken with the extra parameter)
-    if(broadcast.getParamValue('action', currentHashStr) != 'goalReport')
+    var action = broadcast.getParamValue('action', currentHashStr);
+    if( action != 'goalReport' && action != 'ecommerceReport')
     {
     	currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
     }
@@ -197,11 +198,6 @@ broadcast.loadAjaxContent = function(urlAjax)
 
     function sectionLoaded(content)
     {
-		if(content.substring(0, 14) == '<!DOCTYPE html') {
-			window.location.reload();
-			return;
-		}
-
         if(urlAjax == broadcast.lastUrlRequested) {
 		    $('#content').html( content ).show();
 			piwikHelper.hideAjaxLoading();
